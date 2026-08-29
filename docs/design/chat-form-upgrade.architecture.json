@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "洛天依桌面角色 · 聊天形态升级架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "chat-main-path",
+        "label": "聊天主链路",
+        "focus": [
+          "user",
+          "chat-panel",
+          "ws-bridge",
+          "core-router",
+          "session-manager",
+          "sqlite"
+        ],
+        "note": "一次发言如何带会话标识落库并回复。"
+      },
+      {
+        "id": "session-and-history",
+        "label": "会话与历史",
+        "focus": [
+          "session-drawer",
+          "ws-bridge",
+          "core-router",
+          "session-manager",
+          "sqlite"
+        ],
+        "note": "切换会话与回载历史的新增协议。"
+      },
+      {
+        "id": "reply-and-stage",
+        "label": "回复与角色",
+        "focus": [
+          "core-router",
+          "harness",
+          "provider",
+          "avatar-stage",
+          "chat-panel"
+        ],
+        "note": "Harness 契约与 3D 舞台保持不变。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "用户",
+      "sublabel": "键鼠 / 麦克风",
+      "pos": [
+        40,
+        206
+      ],
+      "size": [
+        120,
+        60
+      ]
+    },
+    {
+      "id": "session-drawer",
+      "type": "frontend",
+      "label": "会话抽屉",
+      "sublabel": "新对话 / 切换会话",
+      "pos": [
+        230,
+        56
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "新增"
+    },
+    {
+      "id": "chat-panel",
+      "type": "frontend",
+      "label": "聊天侧栏面板",
+      "sublabel": "可滚动气泡 + 输入行",
+      "pos": [
+        230,
+        196
+      ],
+      "size": [
+        150,
+        80
+      ],
+      "tag": "重做"
+    },
+    {
+      "id": "avatar-stage",
+      "type": "frontend",
+      "label": "3D 角色舞台",
+      "sublabel": "镜头左移半屏",
+      "pos": [
+        230,
+        330
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "保留"
+    },
+    {
+      "id": "ws-bridge",
+      "type": "messagebus",
+      "label": "WebSocket 桥",
+      "sublabel": "ws://127.0.0.1:8765/ws",
+      "pos": [
+        460,
+        200
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "core-router",
+      "type": "backend",
+      "label": "Core 路由",
+      "sublabel": "FastAPI 事件分发",
+      "pos": [
+        660,
+        198
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "session-manager",
+      "type": "backend",
+      "label": "会话管理",
+      "sublabel": "conversation_id 生命周期",
+      "pos": [
+        660,
+        56
+      ],
+      "size": [
+        140,
+        64
+      ],
+      "tag": "新增"
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "sessions + messages",
+      "pos": [
+        880,
+        56
+      ],
+      "size": [
+        130,
+        64
+      ],
+      "tag": "加列迁移"
+    },
+    {
+      "id": "harness",
+      "type": "backend",
+      "label": "角色 Harness",
+      "sublabel": "洛天依人设 + JSON 契约",
+      "pos": [
+        660,
+        326
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "provider",
+      "type": "external",
+      "label": "GLM 5.3 Flash",
+      "sublabel": "Coding /chat/completions",
+      "pos": [
+        880,
+        330
+      ],
+      "size": [
+        130,
+        60
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Godot 透明窗口（560 ↔ 1120 宽）",
+      "wraps": [
+        "avatar-stage",
+        "chat-panel",
+        "session-drawer"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Agent Core (Python)",
+      "wraps": [
+        "core-router",
+        "session-manager",
+        "harness",
+        "sqlite"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "user-to-panel",
+      "from": "user",
+      "to": "chat-panel",
+      "label": "文字 / 语音 / 滚动",
+      "variant": "emphasis",
+      "labelAt": [
+        195,
+        303
+      ]
+    },
+    {
+      "id": "drawer-to-bridge",
+      "from": "session-drawer",
+      "to": "ws-bridge",
+      "label": "session.list · chat.history.request",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "panel-to-bridge",
+      "from": "chat-panel",
+      "to": "ws-bridge",
+      "label": "chat.message + conversationId",
+      "labelAt": [
+        420,
+        300
+      ]
+    },
+    {
+      "id": "stage-to-bridge",
+      "from": "avatar-stage",
+      "to": "ws-bridge",
+      "label": "菜单 / 语音事件",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "bottom"
+    },
+    {
+      "id": "bridge-to-router",
+      "from": "ws-bridge",
+      "to": "core-router",
+      "label": "JSON 事件上行 / 下行",
+      "labelAt": [
+        625,
+        292
+      ]
+    },
+    {
+      "id": "router-to-session",
+      "from": "core-router",
+      "to": "session-manager",
+      "label": "读写当前会话",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "session-to-db",
+      "from": "session-manager",
+      "to": "sqlite",
+      "label": "sessions · messages(conversation_id)",
+      "labelAt": [
+        840,
+        150
+      ]
+    },
+    {
+      "id": "router-to-harness",
+      "from": "core-router",
+      "to": "harness",
+      "label": "本会话最近 20 条",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        730,
+        294
+      ]
+    },
+    {
+      "id": "harness-to-provider",
+      "from": "harness",
+      "to": "provider",
+      "label": "JSON 契约请求"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "本次新增",
+      "items": [
+        "sessions 表 + messages.conversation_id 迁移",
+        "session/history 协议 + 侧栏聊天面板"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "聊天体验",
+      "items": [
+        "气泡滚动历史 + 多会话切换",
+        "语音转写回填输入框保持不变"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "洛天依主题",
+      "items": [
+        "天依蓝 #66CCFF + 碧玉绿点缀",
+        "深蓝面板 + 音符/发辫克制点缀"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "保持不变",
+      "items": [
+        "Harness 契约与 GLM Provider",
+        "桥接角色路由与 3D 舞台"
+      ]
+    }
+  ]
+}
