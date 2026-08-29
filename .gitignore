@@ -10,6 +10,7 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+*.egg-info/
 .pytest_cache/
 
 # Node / Tauri
@@ -17,14 +18,25 @@ node_modules/
 dist/
 .vite/
 target/
+apps/desktop/src-tauri/gen/
+apps/desktop/src-tauri/icons/android/
+apps/desktop/src-tauri/icons/ios/
+
+# Licensed local avatar assets and generated previews
+apps/avatar-runtime/assets/*
+!apps/avatar-runtime/assets/README.md
+apps/avatar-runtime/*.png
+apps/avatar-runtime/*.png.import
+apps/avatar-runtime/.godot/
+apps/avatar-runtime/*.uid
 
 # Local data
 *.db
 *.sqlite
 *.sqlite3
-logs/
-data/
-memory/
+/logs/
+/data/
+/memory/
 
 # OS / IDE
 .DS_Store

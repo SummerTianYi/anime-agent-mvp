@@ -1,0 +1,14 @@
+{
+  "name": "anime-agent-mvp",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "dev:desktop": "pnpm --filter @anime-agent/desktop dev",
+    "build:desktop": "pnpm --filter @anime-agent/desktop build",
+    "tauri:dev": "pnpm --filter @anime-agent/desktop tauri dev",
+    "tauri:build": "pnpm --filter @anime-agent/desktop tauri build",
+    "core:dev": "powershell -ExecutionPolicy Bypass -File scripts/run-core.ps1",
+    "avatar:dev": "powershell -ExecutionPolicy Bypass -File scripts/run-avatar-runtime.ps1"
+  }
+}
