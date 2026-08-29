@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: services/agent-core/pyproject.toml
+      - name: Install Core
+        run: python -m pip install -e services/agent-core
+      - name: Test Core
+        working-directory: services/agent-core
+        run: python -m unittest discover -s tests -v
+
+  desktop:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Enable pnpm
+        run: npm install --global pnpm@11.19.0
+      - name: Install workspace
+        run: pnpm install --frozen-lockfile
+      - name: Build desktop shell
+        run: pnpm build:desktop

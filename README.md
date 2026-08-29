@@ -1,50 +1,45 @@
 # Anime Agent MVP
 
-一个 **Windows 本地优先、开机即在线** 的二次元桌面 Agent MVP。
+这是一个 Windows 本地优先的 3D 二次元桌面角色 MVP，产品形态是类似 VTuber 的独立桌面角色，而不是 Codex、Claude 或传统聊天窗口的复制品。当前角色由 Godot 渲染，点击角色可打开“聊天 / 互动”菜单，文字或语音输入由本地 Python Agent Core 处理，默认调用 GLM 5.3 Flash，回复中的情绪和动作元数据会驱动模型表情与骨骼动作；Codex、Claude 等 Agent 只用于开发，不是生产运行时依赖。
 
-## 核心定位
+## 当前结论
 
-- **Codex**：主要开发工具，不作为最终运行时载体。
-- **Spark**：目标 Agent 内核 / 长任务与 Skills 编排层；通过适配器接入，避免项目与单一平台强绑定。
-- **Gemini Flash API**：日常聊天、意图判断、简单推理等高频任务接口。
-- **本地后台服务**：负责开机自启、事件监听、记忆、权限与桌面壳通信，保证无需手动打开 Codex 即可运行。
+| 范围 | 状态 | 说明 |
+|---|---|---|
+| 3D 桌面角色 | 已完成基础闭环 | 透明、无边框、置顶、拖动、转身、缩放、窗口位置保存 |
+| 角色菜单 | 已完成 | 点击角色打开聊天或互动菜单 |
+| 文字聊天 | 已完成并真实验证 | Godot → WebSocket → Core → GLM 5.3 Flash → Godot |
+| 角色 Harness | 已完成第一版 | 洛天依身份、自我认知、结构化回复、表情与动作映射 |
+| 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
+| 表情与动作 | 已完成基础版 | 48 个形变槽、8 个动作骨骼、2 个长辫子根骨、程序化动作 |
+| 本地记忆 | 已完成基础版 | SQLite 保存消息、事件和待确认记忆候选；聊天仅回载最近 20 条 |
+| 语音转文字 | 管线已接通，稳定性待验收 | sounddevice + faster-whisper，当前仍可能出现无有效声音或无清晰文本 |
+| 一键启动 | 已完成开发机版本 | 根目录双击 `start-anime-agent.cmd`，Core 隐藏运行、Avatar 独立出现 |
+| Windows 登录自启、守护 | 未完成 | 尚未做安装器、登录任务和崩溃恢复 |
+| Startup/Idle 主动触发 | 未完成 | 仍是严格 MVP 闭环的主要缺口 |
+| TTS、Spark、权限层 | 未完成 | 属于后续阶段，不应阻塞当前桌面聊天闭环 |
 
-## MVP 一句话目标
+## 零上下文接手
 
-> Windows 登录后，二次元角色自动出现；后台 Agent 已经在线；用户可直接文字交互；Agent 可调用 Gemini 处理一般任务，并对开机/空闲等本地事件做有限主动响应。
+新 Agent 不应根据旧聊天记录猜测项目状态；请先读 [`AGENTS.md`](AGENTS.md) 和 [`docs/HANDOFF.md`](docs/HANDOFF.md)，再按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/TESTING.md`](docs/TESTING.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和中间文件位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。
 
-详细方案见 [`docs/MVP.md`](docs/MVP.md)。
+## 一键启动
 
-## 建议技术栈
+首次准备请复制 `.env.example` 为 `.env` 并填写所选 Provider 的 Key，然后在仓库根目录双击 `start-anime-agent.cmd`，或执行 `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-mvp.ps1`。启动器不依赖 pnpm，但依赖已安装的 `services/agent-core/.venv`、Godot 4.7.2 和本地模型 `apps/avatar-runtime/assets/luotianyi_v4.glb`；完整安装和验证命令见 [`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)。
 
-- Desktop：Tauri + React + TypeScript
-- Agent Core：Python 3.12 + FastAPI/WebSocket
-- Memory：SQLite
-- LLM：Gemini Flash API
-- Agent Kernel：Spark Adapter（先验证可用接入路径）
-- Packaging：Windows 安装包 + 登录自启
+## 技术栈
 
-## 初始目录
+| 层 | 技术 |
+|---|---|
+| Avatar Runtime | Godot 4.7.2 + GDScript + GLB |
+| Agent Core | Python 3.12 + FastAPI + Uvicorn + WebSocket |
+| LLM | GLM 5.3 Flash Coding API；DeepSeek 可切换；Mock 可离线调试 |
+| Harness | 角色系统提示词 + JSON 输出契约 + 本地原创曲检索 |
+| Voice | sounddevice + faster-whisper |
+| Persistence | SQLite WAL，默认 `%LOCALAPPDATA%\AnimeAgent\data` |
+| Optional Desktop Shell | Tauri 2 + React 19 + TypeScript 5.9 + Vite 7 |
+| Model Pipeline | Blender 5.2.1 LTS + MMD Tools 4.5.13 + VRM 4.5.0 |
 
-```text
-anime-agent-mvp/
-├─ apps/desktop/          # 二次元桌面壳
-├─ services/agent-core/   # 本地常驻 Agent 服务
-├─ packages/shared/       # 公共类型/协议
-├─ config/                # 本地配置模板
-├─ scripts/               # 安装、自启、开发脚本
-├─ docs/MVP.md            # MVP 方案
-└─ AGENTS.md              # Codex 开发约束
-```
+## 仓库边界
 
-## 当前状态
-
-- [x] MVP 方案
-- [x] 初始架构决策
-- [ ] Spark 接入可行性验证
-- [ ] Desktop Shell
-- [ ] Agent Core
-- [ ] Gemini API
-- [ ] 开机自启
-- [ ] Idle Trigger
-- [ ] MVP 联调
+`.env`、API Key、SQLite、日志、用户记忆、模型、纹理、PMX/VRM/Blend、中间渲染、依赖目录和下载凭据均不得进入 Git。洛天依运行模型因文件大小和再分发授权边界只保存在本地；仓库提供确定的路径、哈希、处理脚本和检查方法，使同一开发机上的其他 Agent 能直接继续，同时避免把受限资产写入公开历史。
