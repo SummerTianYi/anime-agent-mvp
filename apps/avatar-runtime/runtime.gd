@@ -8,6 +8,11 @@ const PIGTAIL_TILT_ANGLE := 0.0
 const PIGTAIL_INWARD_ANGLE := -30.0
 const PIGTAIL_DEPTH_ANGLE := 0.0
 const PIGTAIL_SWAY_AMPLITUDE := 1.6
+const PIGTAIL_CHAIN_SWAY_AMPLITUDE := 0.32
+const PIGTAIL_CHAIN_PHASE_DELAY := 0.16
+const MOTION_LAYER_FULL_BODY := "full_body"
+const MOTION_LAYER_UPPER_BODY := "upper_body"
+const MOTION_LAYER_LOWER_BODY := "lower_body"
 const WINDOW_SETTINGS_PATH := "user://avatar_window.cfg"
 const DEFAULT_CORE_WS_URL := "ws://127.0.0.1:8765/ws"
 const CORE_RECONNECT_DELAY := 2.0
@@ -45,8 +50,10 @@ var bone_ids: Dictionary = {}
 var base_bone_rotations: Dictionary = {}
 var rest_bone_rotations: Dictionary = {}
 var pigtail_root_ids: Array[int] = []
+var pigtail_chains: Array = []
 var pigtail_base_rotations: Dictionary = {}
 var pigtail_rest_rotations: Dictionary = {}
+var motion_layer_bones: Dictionary = {}
 
 var face_mesh: MeshInstance3D
 var expression_ids: Dictionary = {}
@@ -101,6 +108,8 @@ func _ready() -> void:
 		"skeleton": skeleton != null,
 		"cached_bones": bone_ids.size(),
 		"pigtail_roots": pigtail_root_ids.size(),
+		"pigtail_chain_lengths": pigtail_chains.map(func(chain: Array) -> int: return chain.size()),
+		"motion_layers": _motion_layer_sizes(),
 		"expressions": expression_ids.size(),
 		"authored_motions": authored_motion_clips.keys(),
 		"desktop_overlay": DisplayServer.get_name() != "headless",
@@ -231,7 +240,8 @@ func _load_authored_motion_clip(
 		return 0
 	var source_animation := source_player.get_animation(playable_names[0])
 	var retargeted_animation := source_animation.duplicate(true) as Animation
-	var remapped_tracks := _remap_animation_tracks(retargeted_animation)
+	var bone_layer := str(clip_data.get("bone_layer", MOTION_LAYER_FULL_BODY))
+	var remapped_tracks := _remap_animation_tracks(retargeted_animation, bone_layer)
 	if remapped_tracks > 0:
 		retargeted_animation.loop_mode = (
 			Animation.LOOP_LINEAR if bool(clip_data.get("loop", false)) else Animation.LOOP_NONE
@@ -239,13 +249,13 @@ func _load_authored_motion_clip(
 		motion_library.add_animation(clip_id, retargeted_animation)
 	if not motion_library.has_animation(&"__RESET") and source_player.has_animation(&"RESET"):
 		var reset_animation := source_player.get_animation(&"RESET").duplicate(true) as Animation
-		_remap_animation_tracks(reset_animation)
+		_remap_animation_tracks(reset_animation, MOTION_LAYER_FULL_BODY)
 		motion_library.add_animation(&"__RESET", reset_animation)
 	motion_source.free()
 	return remapped_tracks
 
 
-func _remap_animation_tracks(animation: Animation) -> int:
+func _remap_animation_tracks(animation: Animation, bone_layer: String = MOTION_LAYER_FULL_BODY) -> int:
 	var skeleton_path := get_path_to(skeleton)
 	var tracks_to_remove: Array[int] = []
 	var remapped_tracks := 0
@@ -255,7 +265,8 @@ func _remap_animation_tracks(animation: Animation) -> int:
 			tracks_to_remove.append(track_index)
 			continue
 		var bone_name := String(source_path.get_subname(source_path.get_subname_count() - 1))
-		if skeleton.find_bone(bone_name) < 0:
+		var bone_index := skeleton.find_bone(bone_name)
+		if bone_index < 0 or not _bone_in_motion_layer(bone_index, bone_layer):
 			tracks_to_remove.append(track_index)
 			continue
 		animation.track_set_path(track_index, NodePath("%s:%s" % [skeleton_path, bone_name]))
@@ -264,6 +275,22 @@ func _remap_animation_tracks(animation: Animation) -> int:
 	for track_index in tracks_to_remove:
 		animation.remove_track(track_index)
 	return remapped_tracks
+
+
+func _bone_in_motion_layer(bone_index: int, bone_layer: String) -> bool:
+	if bone_layer == MOTION_LAYER_FULL_BODY:
+		return bone_index >= 0 and bone_index < skeleton.get_bone_count()
+	if not motion_layer_bones.has(bone_layer):
+		push_warning("Unknown motion bone layer '%s'; rejecting track" % bone_layer)
+		return false
+	return (motion_layer_bones[bone_layer] as Dictionary).has(bone_index)
+
+
+func _motion_layer_sizes() -> Dictionary:
+	var sizes := {}
+	for layer_name in motion_layer_bones:
+		sizes[layer_name] = (motion_layer_bones[layer_name] as Dictionary).size()
+	return sizes
 
 
 func _environment_flag(name: String, default_value: bool) -> bool:
@@ -735,16 +762,27 @@ func _apply_action_pose() -> void:
 func _apply_pigtail_pose() -> void:
 	if skeleton == null:
 		return
-	for position in range(pigtail_root_ids.size()):
-		var bone_index: int = pigtail_root_ids[position]
-		var side_sign := -1.0 if position == 0 else 1.0
-		var phase := float(position) * PI
-		var sway := sin(elapsed * 1.1 + phase) * deg_to_rad(PIGTAIL_SWAY_AMPLITUDE)
-		var settle := cos(elapsed * 0.8 + phase) * deg_to_rad(0.6)
-		var offset := Quaternion(Vector3.RIGHT, deg_to_rad(PIGTAIL_TILT_ANGLE) + sway) \
-			* Quaternion(Vector3.UP, deg_to_rad(PIGTAIL_INWARD_ANGLE * side_sign)) \
-			* Quaternion(Vector3.FORWARD, deg_to_rad(PIGTAIL_DEPTH_ANGLE * side_sign) + settle)
-		skeleton.set_bone_pose_rotation(bone_index, pigtail_base_rotations[bone_index] * offset)
+	for chain_position in range(pigtail_chains.size()):
+		var chain: Array = pigtail_chains[chain_position]
+		var side_sign := -1.0 if chain_position == 0 else 1.0
+		var side_phase := float(chain_position) * PI
+		for segment_position in range(chain.size()):
+			var bone_index: int = chain[segment_position]
+			var chain_progress := float(segment_position) / maxf(float(chain.size() - 1), 1.0)
+			var delayed_phase := elapsed * 1.1 + side_phase - float(segment_position) * PIGTAIL_CHAIN_PHASE_DELAY
+			var sway_amplitude := (
+				PIGTAIL_SWAY_AMPLITUDE if segment_position == 0
+				else PIGTAIL_CHAIN_SWAY_AMPLITUDE * (0.35 + chain_progress * 0.65)
+			)
+			var sway := sin(delayed_phase) * deg_to_rad(sway_amplitude)
+			var settle := cos(elapsed * 0.8 + side_phase - float(segment_position) * 0.08) \
+				* deg_to_rad(0.6 if segment_position == 0 else 0.12 * chain_progress)
+			var inward_angle := PIGTAIL_INWARD_ANGLE * side_sign if segment_position == 0 else 0.0
+			var depth_angle := PIGTAIL_DEPTH_ANGLE * side_sign if segment_position == 0 else 0.0
+			var offset := Quaternion(Vector3.RIGHT, sway) \
+				* Quaternion(Vector3.UP, deg_to_rad(inward_angle)) \
+				* Quaternion(Vector3.FORWARD, deg_to_rad(depth_angle) + settle)
+			skeleton.set_bone_pose_rotation(bone_index, pigtail_base_rotations[bone_index] * offset)
 
 
 func _set_bone_offset(bone_name: String, offset: Quaternion) -> void:
@@ -796,20 +834,63 @@ func _cache_bones() -> void:
 				rest_offset = Quaternion(Vector3.RIGHT, deg_to_rad(48.0))
 			rest_bone_rotations[bone_index] = base_bone_rotations[bone_index] * rest_offset
 
-	for pigtail_name in ["MaWei_R_0_1", "MaWei_L_0_1"]:
-		var pigtail_index := skeleton.find_bone(pigtail_name)
-		if pigtail_index >= 0:
-			pigtail_root_ids.append(pigtail_index)
+
+	for pigtail_side in ["R", "L"]:
+		var chain: Array[int] = []
+		for segment_position in range(17):
+			var pigtail_name := "MaWei_%s_%d_1" % [pigtail_side, segment_position]
+			var pigtail_index := skeleton.find_bone(pigtail_name)
+			if pigtail_index < 0:
+				break
+			chain.append(pigtail_index)
 			var pigtail_base := skeleton.get_bone_pose_rotation(pigtail_index)
 			base_bone_rotations[pigtail_index] = pigtail_base
 			pigtail_base_rotations[pigtail_index] = pigtail_base
-			var side_sign := -1.0 if pigtail_name == "MaWei_R_0_1" else 1.0
-			var pigtail_rest_offset := Quaternion(Vector3.RIGHT, deg_to_rad(PIGTAIL_TILT_ANGLE)) \
-				* Quaternion(Vector3.UP, deg_to_rad(PIGTAIL_INWARD_ANGLE * side_sign)) \
-				* Quaternion(Vector3.FORWARD, deg_to_rad(PIGTAIL_DEPTH_ANGLE * side_sign))
+			var side_sign := -1.0 if pigtail_side == "R" else 1.0
+			var pigtail_rest_offset := Quaternion.IDENTITY
+			if segment_position == 0:
+				pigtail_rest_offset = Quaternion(Vector3.RIGHT, deg_to_rad(PIGTAIL_TILT_ANGLE)) \
+					* Quaternion(Vector3.UP, deg_to_rad(PIGTAIL_INWARD_ANGLE * side_sign)) \
+					* Quaternion(Vector3.FORWARD, deg_to_rad(PIGTAIL_DEPTH_ANGLE * side_sign))
 			var pigtail_rest := pigtail_base * pigtail_rest_offset
 			pigtail_rest_rotations[pigtail_index] = pigtail_rest
 			rest_bone_rotations[pigtail_index] = pigtail_rest
+		if not chain.is_empty():
+			pigtail_chains.append(chain)
+			pigtail_root_ids.append(chain[0])
+
+	_cache_motion_layers()
+
+
+func _cache_motion_layers() -> void:
+	var upper_bones := {}
+	var lower_bones := {}
+	_collect_bone_descendants("上半身", upper_bones)
+	for chain in pigtail_chains:
+		for bone_index in chain:
+			upper_bones[bone_index] = true
+	for root_name in ["全ての親", "センター", "グルーブ", "腰"]:
+		var root_index := skeleton.find_bone(root_name)
+		if root_index >= 0:
+			lower_bones[root_index] = true
+	for lower_root in ["下半身", "足IK親.R", "足IK親.L"]:
+		_collect_bone_descendants(lower_root, lower_bones)
+	motion_layer_bones[MOTION_LAYER_UPPER_BODY] = upper_bones
+	motion_layer_bones[MOTION_LAYER_LOWER_BODY] = lower_bones
+
+
+func _collect_bone_descendants(root_name: String, target: Dictionary) -> void:
+	var root_index := skeleton.find_bone(root_name)
+	if root_index < 0:
+		return
+	var pending: Array[int] = [root_index]
+	while not pending.is_empty():
+		var bone_index: int = pending.pop_back()
+		if target.has(bone_index):
+			continue
+		target[bone_index] = true
+		for child_index in skeleton.get_bone_children(bone_index):
+			pending.append(child_index)
 
 
 func _find_mesh_instance(node: Node) -> MeshInstance3D:

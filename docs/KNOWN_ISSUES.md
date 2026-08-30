@@ -5,8 +5,8 @@
 | KI-001 | P0 | STT sometimes reports no valid audio or no clear speech | Add device diagnostics, minimum duration/level feedback and repeatable Mandarin acceptance tests |
 | KI-002 | P0 | One-click startup is a developer launcher, not Windows login autostart | Add install/uninstall commands, duplicate prevention, log paths and restart-safe supervision |
 | KI-003 | P0 | Startup and Idle events are absent | Add Windows event source, debounce/quiet hours and explicit `IGNORE` result |
-| KI-004 | P0 | Motion registry and authored idle/pirouette are verified, but thinking/speaking/greeting remain procedural and transitions use simple cross-fades | Complete the small character motion set, then evaluate AnimationTree/state blending and test front/back views, foot contact and hair/body clipping per clip |
-| KI-005 | P1 | Long pigtail offsets are runtime bone rotations without collision physics | Preserve `MaWei_R_0_1`/`MaWei_L_0_1` distinction and validate natural front drape before changing rear hair |
+| KI-004 | P0 | Motion registry, semantic upper/lower masks and authored idle/pirouette are verified, but thinking/speaking/greeting remain procedural and transitions use simple cross-fades | Complete the small character motion set, then evaluate AnimationTree/state blending and test front/back views, foot contact and hair/body clipping per clip |
+| KI-005 | P1 | Both long pigtail chains are fully skinned and classified as upper body, with subtle procedural secondary sway but no collision-aware spring physics | Tune spring-bone/collision behavior after thinking/speaking clips; preserve `MaWei_R_0_1`/`MaWei_L_0_1` and the full 17-bone chains, without changing rear hair |
 | KI-006 | P1 | `memory_candidate` is only stored as a pending event | Design review/promotion/deletion and selective prompt injection before claiming long-term memory |
 | KI-007 | P1 | Core returns complete responses only | Add streaming/cancellation only if it measurably improves the character experience |
 | KI-008 | P1 | Godot and Tauri have separate handwritten event clients | Add protocol versioning/shared schema before broadening the event surface |
