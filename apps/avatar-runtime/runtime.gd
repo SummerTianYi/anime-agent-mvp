@@ -202,11 +202,22 @@ func _handle_core_event(payload: Dictionary) -> void:
 			_update_hud()
 		"client.ready":
 			print("GODOT_AVATAR_CORE_READY", payload)
+			request_session_list()
+			request_chat_history(-1)
 		"agent.state":
 			_set_agent_state(str(payload.get("state", "idle")))
 		"chat.response":
 			if interaction_ui != null:
-				interaction_ui.add_message("洛天依", str(payload.get("text", "")))
+				interaction_ui.add_message("洛天依", str(payload.get("text", "")), int(payload.get("conversationId", -1)))
+		"session.switched":
+			if interaction_ui != null:
+				interaction_ui.on_session_switched(int(payload.get("conversationId", -1)), str(payload.get("title", "新对话")))
+		"session.list.response":
+			if interaction_ui != null and payload.get("sessions") is Array:
+				interaction_ui.on_session_list(payload.get("sessions", []))
+		"chat.history.response":
+			if interaction_ui != null and payload.get("messages") is Array:
+				interaction_ui.on_chat_history(int(payload.get("conversationId", -1)), payload.get("messages", []))
 		"voice.state":
 			if interaction_ui != null:
 				interaction_ui.on_voice_state(str(payload.get("state", "idle")))
@@ -288,14 +299,20 @@ func _input(event: InputEvent) -> void:
 				left_dragging = false
 			get_viewport().set_input_as_handled()
 		elif mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+			if interaction_ui != null and interaction_ui.is_pointer_over_ui(mouse_event.position):
+				return
 			rotation_dragging = mouse_event.pressed
 			last_pointer = mouse_event.position
 			get_viewport().set_input_as_handled()
 		elif mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			if interaction_ui != null and interaction_ui.is_pointer_over_ui(mouse_event.position):
+				return
 			target_distance = max(MIN_CAMERA_DISTANCE, target_distance - 0.25)
 			_update_hud()
 			get_viewport().set_input_as_handled()
 		elif mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if interaction_ui != null and interaction_ui.is_pointer_over_ui(mouse_event.position):
+				return
 			target_distance = min(MAX_CAMERA_DISTANCE, target_distance + 0.25)
 			_update_hud()
 			get_viewport().set_input_as_handled()
@@ -428,12 +445,46 @@ func send_chat_message(text: String) -> void:
 			interaction_ui.show_error("Core 尚未连接，消息暂时没有发送。")
 		return
 	var request_id := "avatar-chat-%d" % Time.get_ticks_msec()
-	core_socket.send_text(JSON.stringify({
+	var chat_payload := {
 		"type": "chat.message",
 		"text": normalized_text,
 		"messageId": request_id,
-	}))
+	}
+	var conversation_id: int = interaction_ui.get_current_conversation_id() if interaction_ui != null else -1
+	if conversation_id > 0:
+		chat_payload["conversationId"] = conversation_id
+	core_socket.send_text(JSON.stringify(chat_payload))
 	_set_agent_state("thinking")
+
+
+func request_session_list() -> void:
+	if not _core_connected():
+		return
+	core_socket.send_text(JSON.stringify({"type": "session.list.request"}))
+
+
+func request_chat_history(conversation_id: int) -> void:
+	if not _core_connected():
+		return
+	if conversation_id > 0:
+		core_socket.send_text(JSON.stringify({
+			"type": "chat.history.request",
+			"conversationId": conversation_id,
+		}))
+	else:
+		core_socket.send_text(JSON.stringify({"type": "chat.history.request"}))
+
+
+func request_new_session() -> void:
+	if not _core_connected():
+		if interaction_ui != null:
+			interaction_ui.show_error("Core 尚未连接，无法新建会话。")
+		return
+	core_socket.send_text(JSON.stringify({"type": "session.new"}))
+
+
+func _core_connected() -> bool:
+	return core_socket != null and core_socket.get_ready_state() == WebSocketPeer.STATE_OPEN
 
 
 func start_voice_recording() -> void:

@@ -2,17 +2,37 @@ extends CanvasLayer
 
 
 const VIEWPORT_SIZE := Vector2(560.0, 760.0)
+const AVATAR_TEXTURE_PATH := "res://assets/luotianyi_avatar.jpg"
+const MAX_BUBBLE_WIDTH := 330.0
+const HISTORY_SCROLL_STICK_RANGE := 60.0
+
+# 洛天依主题（docs/design/chat-form-upgrade.md）
+const COLOR_PANEL := Color(0.039, 0.063, 0.11, 0.94)
+const COLOR_PANEL_LINE := Color(0.4, 0.8, 1.0, 0.16)
+const COLOR_TIANI_BLUE := Color(0.4, 0.8, 1.0)
+const COLOR_BUBBLE_YI := Color(0.949, 0.961, 0.98)
+const COLOR_BUBBLE_YI_TEXT := Color(0.165, 0.192, 0.251)
+const COLOR_BUBBLE_USER_TEXT := Color(0.039, 0.141, 0.204)
+const COLOR_JADE := Color(0.498, 0.831, 0.659)
+const COLOR_TEXT := Color(0.91, 0.925, 0.957)
+const COLOR_TEXT_DIM := Color(0.541, 0.576, 0.659)
 
 var avatar: Node
 var backdrop: ColorRect
 var menu_panel: PanelContainer
 var chat_panel: PanelContainer
 var interaction_panel: PanelContainer
-var chat_history: Label
+var bubbles_scroll: ScrollContainer
+var bubbles_box: VBoxContainer
+var empty_hint: Label
+var session_option: OptionButton
 var chat_input: LineEdit
 var chat_status: Label
 var voice_button: Button
-var history_lines: Array[String] = []
+var avatar_texture: Texture2D
+
+var sessions: Array = []
+var current_conversation_id := -1
 
 var menu_visible := false
 var chat_visible := false
@@ -25,13 +45,110 @@ func _init(avatar_node: Node) -> void:
 
 func _ready() -> void:
 	layer = 20
+	avatar_texture = _make_avatar_texture(AVATAR_TEXTURE_PATH)
 	_build_backdrop()
 	_build_menu()
 	_build_chat()
 	_build_interaction()
 	hide_all()
-	add_message("洛天依", "你好呀。点击我可以打开聊天或互动菜单。")
 
+
+# ---------------------------------------------------------------- 会话与消息
+
+func on_session_list(items: Array) -> void:
+	sessions = []
+	for item in items:
+		if item is Dictionary:
+			sessions.append({
+				"id": int(item.get("conversationId", 0)),
+				"title": str(item.get("title", "会话")),
+			})
+	if current_conversation_id < 0 and not sessions.is_empty():
+		current_conversation_id = int(sessions[0]["id"])
+		avatar.request_chat_history(current_conversation_id)
+	_sync_session_options()
+
+
+func on_session_switched(conversation_id: int, title: String) -> void:
+	current_conversation_id = conversation_id
+	_upsert_session(conversation_id, title)
+	_sync_session_options()
+	_clear_bubbles()
+	if chat_visible:
+		chat_status.text = "已切换到「%s」" % title
+
+
+func on_chat_history(conversation_id: int, messages: Array) -> void:
+	if current_conversation_id > 0 and conversation_id != current_conversation_id:
+		return
+	_clear_bubbles()
+	for item in messages:
+		if not (item is Dictionary):
+			continue
+		var role := "你" if str(item.get("role", "")) == "user" else "洛天依"
+		_append_bubble(role, str(item.get("text", "")), _short_time(str(item.get("createdAt", ""))))
+	_scroll_to_bottom()
+
+
+func add_message(role: String, text: String, conversation_id: int = -1) -> void:
+	var safe_text := text.strip_edges()
+	if safe_text.is_empty():
+		return
+	if conversation_id > 0 and current_conversation_id > 0 and conversation_id != current_conversation_id:
+		return
+	var time_text := Time.get_time_string_from_system().substr(0, 5)
+	_append_bubble(role, safe_text, time_text)
+	_scroll_to_bottom()
+
+
+func show_error(message: String) -> void:
+	add_message("系统", message)
+	chat_status.text = message
+
+
+func get_current_conversation_id() -> int:
+	return current_conversation_id
+
+
+func _upsert_session(conversation_id: int, title: String) -> void:
+	for item in sessions:
+		if int(item["id"]) == conversation_id:
+			item["title"] = title
+			return
+	sessions.push_front({"id": conversation_id, "title": title})
+
+
+func _sync_session_options() -> void:
+	if session_option == null:
+		return
+	session_option.clear()
+	var selected := 0
+	for index in range(sessions.size()):
+		var item: Dictionary = sessions[index]
+		session_option.add_item(str(item["title"]))
+		if int(item["id"]) == current_conversation_id:
+			selected = index
+	if not sessions.is_empty():
+		session_option.select(selected)
+
+
+func _on_session_selected(index: int) -> void:
+	if index < 0 or index >= sessions.size():
+		return
+	var conversation_id := int(sessions[index]["id"])
+	if conversation_id == current_conversation_id:
+		return
+	current_conversation_id = conversation_id
+	_clear_bubbles()
+	chat_status.text = "正在载入历史……"
+	avatar.request_chat_history(conversation_id)
+
+
+func _on_new_session_pressed() -> void:
+	avatar.request_new_session()
+
+
+# ---------------------------------------------------------------- 界面构建
 
 func _build_backdrop() -> void:
 	backdrop = ColorRect.new()
@@ -49,40 +166,75 @@ func _build_menu() -> void:
 	box.add_theme_constant_override("separation", 8)
 	menu_panel.add_child(box)
 
-	var title := _make_label("和洛天依做什么？", 16, Color(0.96, 0.96, 1.0))
+	var title := _make_label("和洛天依做什么？", 16, COLOR_TEXT)
 	box.add_child(title)
 	box.add_child(_make_button("聊天", _open_chat))
 	box.add_child(_make_button("互动", _open_interaction))
-	var hint := _make_label("点击空白处收起", 11, Color(0.64, 0.66, 0.76))
+	var hint := _make_label("点击空白处收起", 11, COLOR_TEXT_DIM)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(hint)
 	add_child(menu_panel)
 
 
 func _build_chat() -> void:
-	chat_panel = _make_panel(Vector2(20.0, 105.0), Vector2(520.0, 310.0))
+	chat_panel = _make_panel(Vector2(10.0, 330.0), Vector2(540.0, 420.0), COLOR_PANEL, COLOR_PANEL_LINE)
+	var margin := MarginContainer.new()
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, 12)
+	chat_panel.add_child(margin)
+
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 9)
-	chat_panel.add_child(box)
+	box.add_theme_constant_override("separation", 8)
+	margin.add_child(box)
+	box.add_child(_build_chat_header())
 
-	var title_row := HBoxContainer.new()
-	var title := _make_label("和洛天依聊天", 17, Color(0.96, 0.96, 1.0))
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title_row.add_child(title)
-	var close_button := _make_button("×", _close_overlay)
-	close_button.custom_minimum_size = Vector2(34.0, 30.0)
-	title_row.add_child(close_button)
-	box.add_child(title_row)
+	bubbles_scroll = ScrollContainer.new()
+	bubbles_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	bubbles_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	bubbles_box = VBoxContainer.new()
+	bubbles_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bubbles_box.add_theme_constant_override("separation", 10)
+	bubbles_scroll.add_child(bubbles_box)
+	box.add_child(bubbles_scroll)
 
-	chat_history = _make_label("", 13, Color(0.86, 0.87, 0.94))
-	chat_history.custom_minimum_size = Vector2(0.0, 176.0)
-	chat_history.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	chat_history.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	chat_history.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	box.add_child(chat_history)
+	chat_status = _make_label("按住「语音」说话，松开后转写回输入框", 10, COLOR_TEXT_DIM)
+	box.add_child(chat_status)
+	box.add_child(_build_composer())
+	add_child(chat_panel)
+	_show_empty_hint()
 
+
+func _build_chat_header() -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+
+	if avatar_texture != null:
+		var badge := TextureRect.new()
+		badge.texture = avatar_texture
+		badge.custom_minimum_size = Vector2(22.0, 22.0)
+		badge.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		badge.stretch_mode = TextureRect.STRETCH_SCALE
+		row.add_child(badge)
+	row.add_child(_make_label("洛天依", 14, COLOR_TIANI_BLUE))
+
+	session_option = OptionButton.new()
+	session_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	session_option.focus_mode = Control.FOCUS_NONE
+	session_option.add_theme_font_size_override("font_size", 12)
+	session_option.tooltip_text = "切换会话"
+	session_option.item_selected.connect(_on_session_selected)
+	row.add_child(session_option)
+
+	var new_button := _make_accent_button("＋ 新对话", _on_new_session_pressed)
+	new_button.custom_minimum_size = Vector2(88.0, 30.0)
+	row.add_child(new_button)
+	return row
+
+
+func _build_composer() -> Control:
 	var composer := HBoxContainer.new()
 	composer.add_theme_constant_override("separation", 7)
+
 	chat_input = LineEdit.new()
 	chat_input.placeholder_text = "输入消息，按 Enter 发送"
 	chat_input.custom_minimum_size = Vector2(0.0, 38.0)
@@ -98,12 +250,11 @@ func _build_chat() -> void:
 	voice_button.button_up.connect(_on_voice_up)
 	voice_button.tooltip_text = "按住说话，松开后转成文字"
 	composer.add_child(voice_button)
-	composer.add_child(_make_button("发送", _send_current_message))
-	box.add_child(composer)
 
-	chat_status = _make_label("当前优先接入 GLM 5.3 Flash", 10, Color(0.64, 0.66, 0.76))
-	box.add_child(chat_status)
-	add_child(chat_panel)
+	var send_button := _make_accent_button("发送", _send_current_message)
+	send_button.custom_minimum_size = Vector2(64.0, 38.0)
+	composer.add_child(send_button)
+	return composer
 
 
 func _build_interaction() -> void:
@@ -113,7 +264,7 @@ func _build_interaction() -> void:
 	interaction_panel.add_child(box)
 
 	var title_row := HBoxContainer.new()
-	var title := _make_label("互动", 17, Color(0.96, 0.96, 1.0))
+	var title := _make_label("互动", 17, COLOR_TEXT)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_row.add_child(title)
 	var close_button := _make_button("×", _close_overlay)
@@ -137,20 +288,197 @@ func _build_interaction() -> void:
 		action_button.custom_minimum_size = Vector2(0.0, 29.0)
 		box.add_child(action_button)
 
-	var hint := _make_label("动作会立即在角色身上执行", 10, Color(0.64, 0.66, 0.76))
+	var hint := _make_label("动作会立即在角色身上执行", 10, COLOR_TEXT_DIM)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(hint)
 	add_child(interaction_panel)
 
 
-func _make_panel(panel_position: Vector2, panel_size: Vector2) -> PanelContainer:
+# ---------------------------------------------------------------- 气泡
+
+func _append_bubble(role: String, text: String, time_text: String) -> void:
+	_remove_empty_hint()
+	var is_user := role == "你"
+
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 8)
+
+	var bubble := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.set_corner_radius_all(14)
+	style.content_margin_left = 10.0
+	style.content_margin_right = 10.0
+	style.content_margin_top = 7.0
+	style.content_margin_bottom = 7.0
+	if is_user:
+		style.bg_color = COLOR_TIANI_BLUE
+		style.corner_radius_top_right = 4
+	else:
+		style.bg_color = COLOR_BUBBLE_YI
+		style.corner_radius_top_left = 4
+	bubble.add_theme_stylebox_override("panel", style)
+
+	var bubble_box := VBoxContainer.new()
+	bubble_box.add_theme_constant_override("separation", 2)
+	var label := Label.new()
+	label.text = text
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override(
+		"font_color",
+		COLOR_BUBBLE_USER_TEXT if is_user else COLOR_BUBBLE_YI_TEXT
+	)
+	var font := ThemeDB.fallback_font
+	var text_width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	var label_min_width := maxf(44.0, minf(text_width, MAX_BUBBLE_WIDTH - 20.0))
+	label.custom_minimum_size = Vector2(label_min_width, 0.0)
+	bubble_box.add_child(label)
+	if time_text != "":
+		var time_label := _make_label(
+			time_text, 9,
+			COLOR_BUBBLE_USER_TEXT if is_user else COLOR_TEXT_DIM
+		)
+		time_label.horizontal_alignment = (
+			HORIZONTAL_ALIGNMENT_RIGHT if is_user else HORIZONTAL_ALIGNMENT_LEFT
+		)
+		bubble_box.add_child(time_label)
+	bubble.add_child(bubble_box)
+
+	if is_user:
+		row.alignment = BoxContainer.ALIGNMENT_END
+		row.add_child(bubble)
+		row.add_child(_make_user_dot())
+	else:
+		row.alignment = BoxContainer.ALIGNMENT_BEGIN
+		row.add_child(_make_yi_dot())
+		row.add_child(bubble)
+	bubbles_box.add_child(row)
+	_stick_scroll_if_needed()
+
+
+func _make_yi_dot() -> Control:
+	if avatar_texture != null:
+		var dot := TextureRect.new()
+		dot.texture = avatar_texture
+		dot.custom_minimum_size = Vector2(26.0, 26.0)
+		dot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		dot.stretch_mode = TextureRect.STRETCH_SCALE
+		dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		return dot
+	var label := _make_label("♪", 14, COLOR_TIANI_BLUE)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.custom_minimum_size = Vector2(26.0, 26.0)
+	return label
+
+
+func _make_user_dot() -> Control:
+	var dot := PanelContainer.new()
+	dot.custom_minimum_size = Vector2(26.0, 26.0)
+	dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(COLOR_JADE.r, COLOR_JADE.g, COLOR_JADE.b, 0.25)
+	style.border_color = Color(COLOR_JADE.r, COLOR_JADE.g, COLOR_JADE.b, 0.7)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(13)
+	dot.add_theme_stylebox_override("panel", style)
+	var label := _make_label("我", 11, COLOR_JADE)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	dot.add_child(label)
+	return dot
+
+
+func _show_empty_hint() -> void:
+	if empty_hint != null or bubbles_box == null:
+		return
+	empty_hint = _make_label("♪ 开始和天依聊天吧", 12, COLOR_TEXT_DIM)
+	empty_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	empty_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bubbles_box.add_child(empty_hint)
+
+
+func _remove_empty_hint() -> void:
+	if empty_hint == null:
+		return
+	if empty_hint.get_parent() != null:
+		empty_hint.get_parent().remove_child(empty_hint)
+	empty_hint.queue_free()
+	empty_hint = null
+
+
+func _clear_bubbles() -> void:
+	if bubbles_box == null:
+		return
+	for child in bubbles_box.get_children():
+		child.queue_free()
+	empty_hint = null
+	_show_empty_hint()
+
+
+func _stick_scroll_if_needed() -> void:
+	if bubbles_scroll == null:
+		return
+	var bar := bubbles_scroll.get_v_scroll_bar()
+	if bar.value >= bar.max_value - HISTORY_SCROLL_STICK_RANGE:
+		_scroll_to_bottom()
+
+
+func _scroll_to_bottom() -> void:
+	await get_tree().process_frame
+	if bubbles_scroll == null:
+		return
+	var bar := bubbles_scroll.get_v_scroll_bar()
+	bubbles_scroll.scroll_vertical = int(bar.max_value)
+
+
+func _short_time(created_at: String) -> String:
+	# SQLite CURRENT_TIMESTAMP 形如 2026-08-29 18:08:38，取时分即可
+	if created_at.length() >= 16:
+		return created_at.substr(11, 5)
+	return ""
+
+
+# ---------------------------------------------------------------- 头像
+
+func _make_avatar_texture(path: String) -> Texture2D:
+	var image := Image.load_from_file(ProjectSettings.globalize_path(path))
+	if image == null:
+		push_warning("Avatar texture not found: %s" % path)
+		return null
+	image.convert(Image.FORMAT_RGBA8)
+	var texture_size := image.get_width()
+	var radius := texture_size * 0.5
+	var center := Vector2(radius, radius)
+	for y in range(texture_size):
+		for x in range(texture_size):
+			var distance := Vector2(x + 0.5, y + 0.5).distance_to(center)
+			var alpha := clampf((radius - distance) / 1.5, 0.0, 1.0)
+			if alpha <= 0.0:
+				image.set_pixel(x, y, Color(0.0, 0.0, 0.0, 0.0))
+			elif alpha < 1.0:
+				var pixel := image.get_pixel(x, y)
+				pixel.a *= alpha
+				image.set_pixel(x, y, pixel)
+	return ImageTexture.create_from_image(image)
+
+
+# ---------------------------------------------------------------- 通用控件
+
+func _make_panel(
+	panel_position: Vector2,
+	panel_size: Vector2,
+	bg_color: Color = Color(0.055, 0.065, 0.12, 0.95),
+	border_color: Color = Color(0.38, 0.42, 0.68, 0.9)
+) -> PanelContainer:
 	var panel := PanelContainer.new()
 	panel.position = panel_position
 	panel.size = panel_size
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.055, 0.065, 0.12, 0.95)
-	style.border_color = Color(0.38, 0.42, 0.68, 0.9)
+	style.bg_color = bg_color
+	style.border_color = border_color
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(16)
 	style.shadow_color = Color(0.0, 0.0, 0.0, 0.35)
@@ -177,6 +505,27 @@ func _make_button(text: String, callback: Callable) -> Button:
 	return button
 
 
+func _make_accent_button(text: String, callback: Callable) -> Button:
+	var button := _make_button(text, callback)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = COLOR_TIANI_BLUE
+	normal.set_corner_radius_all(8)
+	var hover := normal.duplicate()
+	hover.bg_color = Color(0.49, 0.85, 1.0)
+	var pressed := normal.duplicate()
+	pressed.bg_color = Color(0.32, 0.68, 0.88)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	button.add_theme_color_override("font_color", COLOR_BUBBLE_USER_TEXT)
+	button.add_theme_color_override("font_hover_color", COLOR_BUBBLE_USER_TEXT)
+	button.add_theme_color_override("font_pressed_color", COLOR_BUBBLE_USER_TEXT)
+	return button
+
+
+# ---------------------------------------------------------------- 开合与输入
+
 func _open_chat() -> void:
 	menu_visible = false
 	interaction_visible = false
@@ -187,6 +536,7 @@ func _open_chat() -> void:
 	backdrop.visible = true
 	_set_passthrough(false)
 	chat_input.grab_focus()
+	_scroll_to_bottom()
 
 
 func _open_interaction() -> void:
@@ -292,7 +642,7 @@ func on_voice_state(next_state: String) -> void:
 		"transcribing":
 			chat_status.text = "正在识别语音……"
 		_:
-			chat_status.text = "当前优先接入 GLM 5.3 Flash"
+			chat_status.text = "按住「语音」说话，松开后转写回输入框"
 
 
 func on_voice_transcript(text: String) -> void:
@@ -301,22 +651,6 @@ func on_voice_transcript(text: String) -> void:
 	chat_input.text = text
 	chat_input.grab_focus()
 	chat_status.text = "请确认转写内容后发送"
-
-
-func add_message(role: String, text: String) -> void:
-	var safe_text := text.replace("\n", " ").strip_edges()
-	if safe_text.is_empty():
-		return
-	history_lines.append("%s：%s" % [role, safe_text])
-	if history_lines.size() > 6:
-		history_lines.pop_front()
-	if chat_history != null:
-		chat_history.text = "\n\n".join(history_lines)
-
-
-func show_error(message: String) -> void:
-	add_message("系统", message)
-	chat_status.text = message
 
 
 func _set_passthrough(enabled: bool) -> void:
