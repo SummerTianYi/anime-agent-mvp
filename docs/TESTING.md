@@ -4,7 +4,7 @@ Run checks from the repository root unless the table says otherwise. The baselin
 
 | Gate | Command | Pass condition |
 |---|---|---|
-| Python unit tests | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v; Set-Location ..\..` | 11 tests pass; catalog, prompt normalization, response parsing and safe Provider error detail are covered |
+| Python unit tests | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v; Set-Location ..\..` | 19 tests pass; catalog, prompt normalization, response parsing, safe Provider error detail and session storage/migration are covered |
 | Frontend type/build | `pnpm build:desktop` | TypeScript and Vite build succeed; generated `dist` remains ignored |
 | Asset contract | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-local-assets.ps1` | Accepted path, size and SHA-256 print |
 | Godot input/scene guard | `& '..\tools\godot-4.7.2\Godot_v4.7.2-stable_win64_console.exe' --headless --path apps\avatar-runtime --script res://verify_text_input.gd` | Prints `GODOT_AVATAR_INTERACTION_READY` and `GODOT_CHAT_SHORTCUT_GUARD_OK` with 48 expressions and two pigtail roots |
@@ -24,5 +24,7 @@ Run checks from the repository root unless the table says otherwise. The baselin
 | Character behavior | Ask identity, limitations and an original-song question | It speaks as Luo Tianyi, does not claim to be a generic assistant, respects unavailable senses/actions, and uses matching catalog facts without claiming Producer credit |
 | Voice/STT | Hold Voice for 3–10 seconds of normal Mandarin, release and repeat across several trials | Transcript reliably fills the editable input; no crash/hang; failures explain device/audio cause rather than silently doing nothing |
 | Persistence | Send messages, stop/restart Core, inspect behavior without exposing DB content | Recent conversation reloads and DB remains under LocalAppData |
+| Sessions | Open chat, tap ＋新对话, send messages, then switch back to the old session from the dropdown | Bubbles clear on switch, each session reloads its own history, and the dropdown sorts by recent activity |
+| Chat overlay input priority | Open chat, wheel over the bubble area, then wheel outside the panel, then right-drag on the panel | Bubble area scrolls history, wheel outside the panel still zooms the character, and right-drag on the panel never rotates |
 
-The current handoff passes all local automated baseline checks; `.github/workflows/ci.yml` repeats Core tests and the desktop build on Windows without requiring the local model. Text chat and real GLM were manually exercised, while voice/STT remains unaccepted. For a bug fix, add or strengthen the narrowest regression test before claiming completion.
+The current handoff passes all local automated baseline checks; `.github/workflows/ci.yml` repeats Core tests and the desktop build on Windows without requiring the local model. Text chat, sessions and real GLM were manually exercised. Voice/STT was previously blocked by a Realtek microphone-array driver wedge (the device keeps delivering digital zeros until an external event such as the Windows mic test resets it); it passed one manual round after reset, but self-healing hardening in `voice.py` is still pending. For a bug fix, add or strengthen the narrowest regression test before claiming completion.
