@@ -4,6 +4,15 @@ extends Node3D
 const MIN_CAMERA_DISTANCE := 2.7
 const MAX_CAMERA_DISTANCE := 5.2
 const CAMERA_FOCUS := Vector3(0.0, 0.88, 0.0)
+const BASE_VIEWPORT_SIZE := Vector2(560.0, 760.0)
+const BASE_AVATAR_CENTER := BASE_VIEWPORT_SIZE * 0.5
+const BASE_CAMERA_DISTANCE := 3.8
+const BASE_CAMERA_FOV := 35.0
+const AVATAR_COMPOSITE_SIZE := Vector2(760.0, 920.0)
+const AVATAR_RENDER_SCALE := 2.0
+const CANVAS_MODE_ENV := "ANIME_AGENT_CANVAS_MODE"
+const CANVAS_MODE_DESKTOP := "desktop"
+const CANVAS_MODE_COMPACT := "compact"
 const PIGTAIL_TILT_ANGLE := 0.0
 const PIGTAIL_INWARD_ANGLE := -30.0
 const PIGTAIL_DEPTH_ANGLE := 0.0
@@ -42,6 +51,21 @@ var left_pressing := false
 var left_dragging := false
 var left_press_position := Vector2.ZERO
 var interaction_ui: Node
+var canvas_mode := CANVAS_MODE_DESKTOP
+var avatar_screen_center := BASE_AVATAR_CENTER
+var ui_overlay_active := false
+var desktop_screen_index := 0
+var last_passthrough_signature := ""
+var avatar_render_viewport: SubViewport
+var avatar_render_canvas: CanvasLayer
+var avatar_texture_rect: TextureRect
+var avatar_interaction_region := PackedVector2Array([
+	Vector2(232.0, 138.0), Vector2(328.0, 138.0), Vector2(352.0, 232.0),
+	Vector2(438.0, 330.0), Vector2(430.0, 402.0), Vector2(356.0, 358.0),
+	Vector2(354.0, 650.0), Vector2(314.0, 690.0), Vector2(246.0, 690.0),
+	Vector2(206.0, 650.0), Vector2(204.0, 358.0), Vector2(130.0, 402.0),
+	Vector2(122.0, 330.0), Vector2(208.0, 232.0),
+])
 
 var base_model_rotation := Vector3.ZERO
 var base_model_position := Vector3.ZERO
@@ -89,6 +113,7 @@ func _ready() -> void:
 	if not configured_core_url.is_empty():
 		core_ws_url = configured_core_url
 	_configure_desktop_window()
+	_configure_avatar_render_surface()
 	base_model_rotation = model.rotation
 	base_model_position = model.position
 	camera.position = Vector3(0.0, CAMERA_FOCUS.y, current_distance)
@@ -144,12 +169,19 @@ func _process(delta: float) -> void:
 	_process_core_bridge(delta)
 	current_yaw = lerp_angle(current_yaw, target_yaw, 1.0 - exp(-delta * 8.0))
 	current_distance = lerp(current_distance, target_distance, 1.0 - exp(-delta * 8.0))
+	if canvas_mode == CANVAS_MODE_DESKTOP:
+		var center_before_clamp := avatar_screen_center
+		_clamp_avatar_screen_center()
+		if not avatar_screen_center.is_equal_approx(center_before_clamp):
+			_sync_avatar_texture_rect()
+			_sync_interaction_ui_origin()
 
 	model.rotation = base_model_rotation + Vector3(0.0, current_yaw, 0.0)
 	var procedural_bob := 0.0 if authored_motion_active else sin(elapsed * 1.6) * 0.004
 	model.position = base_model_position + Vector3(0.0, procedural_bob, 0.0)
 	camera.position = Vector3(0.0, CAMERA_FOCUS.y, current_distance)
 	camera.look_at(CAMERA_FOCUS, Vector3.UP)
+	_update_mouse_passthrough()
 
 	if not authored_motion_active and action_name != "idle":
 		action_elapsed += delta
@@ -409,6 +441,7 @@ func _create_interaction_ui() -> void:
 	var interaction_script = preload("res://interaction_ui.gd")
 	interaction_ui = interaction_script.new(self)
 	add_child(interaction_ui)
+	_sync_interaction_ui_origin()
 
 
 func _handle_core_event(payload: Dictionary) -> void:
@@ -435,9 +468,15 @@ func _handle_core_event(payload: Dictionary) -> void:
 		"chat.history.response":
 			if interaction_ui != null and payload.get("messages") is Array:
 				interaction_ui.on_chat_history(int(payload.get("conversationId", -1)), payload.get("messages", []))
+		"wake.triggered":
+			if interaction_ui != null:
+				interaction_ui.on_wake_triggered()
 		"voice.state":
 			if interaction_ui != null:
 				interaction_ui.on_voice_state(str(payload.get("state", "idle")))
+		"session.deleted":
+			if interaction_ui != null:
+				interaction_ui.on_session_deleted(int(payload.get("conversationId", -1)))
 		"voice.transcript":
 			if interaction_ui != null:
 				interaction_ui.on_voice_transcript(str(payload.get("text", "")))
@@ -535,13 +574,20 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		return
 
-	if event is InputEventMouseMotion and left_pressing and not left_dragging:
+	if event is InputEventMouseMotion and left_pressing:
 		var move_event := event as InputEventMouseMotion
-		if move_event.position.distance_to(left_press_position) >= 8.0:
+		if not left_dragging and move_event.position.distance_to(left_press_position) >= 8.0:
 			left_dragging = true
 			if interaction_ui != null:
 				interaction_ui.hide_all()
-			DisplayServer.window_start_drag()
+			if canvas_mode == CANVAS_MODE_COMPACT and DisplayServer.get_name() != "headless":
+				DisplayServer.window_start_drag()
+		if left_dragging and canvas_mode == CANVAS_MODE_DESKTOP:
+			avatar_screen_center += move_event.relative
+			_clamp_avatar_screen_center()
+			_sync_avatar_texture_rect()
+			_sync_interaction_ui_origin()
+			_update_mouse_passthrough(true)
 			get_viewport().set_input_as_handled()
 		return
 
@@ -708,6 +754,17 @@ func request_new_session() -> void:
 			interaction_ui.show_error("Core 尚未连接，无法新建会话。")
 		return
 	core_socket.send_text(JSON.stringify({"type": "session.new"}))
+
+
+func request_delete_session(conversation_id: int) -> void:
+	if not _core_connected():
+		if interaction_ui != null:
+			interaction_ui.show_error("Core 尚未连接，无法删除会话。")
+		return
+	core_socket.send_text(JSON.stringify({
+		"type": "session.delete",
+		"conversationId": conversation_id,
+	}))
 
 
 func _core_connected() -> bool:
@@ -981,34 +1038,94 @@ func _expressions_are_neutral() -> bool:
 
 func _configure_desktop_window() -> void:
 	get_viewport().transparent_bg = true
+	var requested_mode := OS.get_environment(CANVAS_MODE_ENV).strip_edges().to_lower()
+	canvas_mode = CANVAS_MODE_COMPACT if requested_mode == CANVAS_MODE_COMPACT else CANVAS_MODE_DESKTOP
 	if DisplayServer.get_name() == "headless":
 		return
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_ALWAYS_ON_TOP, true)
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
-	var interaction_region := PackedVector2Array([
-		Vector2(232.0, 138.0),
-		Vector2(328.0, 138.0),
-		Vector2(352.0, 232.0),
-		Vector2(438.0, 330.0),
-		Vector2(430.0, 402.0),
-		Vector2(356.0, 358.0),
-		Vector2(354.0, 650.0),
-		Vector2(314.0, 690.0),
-		Vector2(246.0, 690.0),
-		Vector2(206.0, 650.0),
-		Vector2(204.0, 358.0),
-		Vector2(130.0, 402.0),
-		Vector2(122.0, 330.0),
-		Vector2(208.0, 232.0),
-	])
-	DisplayServer.window_set_mouse_passthrough(interaction_region)
+	desktop_screen_index = DisplayServer.window_get_current_screen()
+	if canvas_mode == CANVAS_MODE_DESKTOP:
+		_apply_desktop_canvas(desktop_screen_index)
+	else:
+		avatar_screen_center = BASE_AVATAR_CENTER
+	_update_mouse_passthrough(true)
 	call_deferred("_restore_window_position")
+
+
+func _configure_avatar_render_surface() -> void:
+	camera.fov = BASE_CAMERA_FOV
+	if canvas_mode != CANVAS_MODE_DESKTOP:
+		return
+	avatar_render_viewport = SubViewport.new()
+	avatar_render_viewport.name = "AvatarRenderViewport"
+	avatar_render_viewport.size = Vector2i(AVATAR_COMPOSITE_SIZE * AVATAR_RENDER_SCALE)
+	avatar_render_viewport.transparent_bg = true
+	avatar_render_viewport.own_world_3d = true
+	avatar_render_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ALWAYS
+	avatar_render_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	avatar_render_viewport.msaa_3d = Viewport.MSAA_4X
+	add_child(avatar_render_viewport)
+
+	var render_world := Node3D.new()
+	render_world.name = "AvatarRenderWorld"
+	avatar_render_viewport.add_child(render_world)
+	for render_node in [model, camera, get_node_or_null("Environment"), get_node_or_null("KeyLight"), get_node_or_null("FillLight")]:
+		if render_node != null:
+			render_node.reparent(render_world, true)
+	camera.fov = _avatar_composite_fov()
+
+	avatar_render_canvas = CanvasLayer.new()
+	avatar_render_canvas.name = "AvatarCompositeCanvas"
+	avatar_render_canvas.layer = -10
+	add_child(avatar_render_canvas)
+	avatar_texture_rect = TextureRect.new()
+	avatar_texture_rect.name = "AvatarCompositeTexture"
+	avatar_texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	avatar_texture_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	avatar_texture_rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	avatar_texture_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	avatar_texture_rect.texture = avatar_render_viewport.get_texture()
+	avatar_render_canvas.add_child(avatar_texture_rect)
+	avatar_texture_rect.size = AVATAR_COMPOSITE_SIZE
+	_sync_avatar_texture_rect()
+
+
+func _avatar_composite_fov() -> float:
+	var vertical_scale := AVATAR_COMPOSITE_SIZE.y / BASE_VIEWPORT_SIZE.y
+	return rad_to_deg(2.0 * atan(vertical_scale * tan(deg_to_rad(BASE_CAMERA_FOV) * 0.5)))
 
 
 func _restore_window_position() -> void:
 	var config := ConfigFile.new()
-	if config.load(WINDOW_SETTINGS_PATH) != OK:
+	var has_config := config.load(WINDOW_SETTINGS_PATH) == OK
+	if canvas_mode == CANVAS_MODE_DESKTOP:
+		var screen_count := DisplayServer.get_screen_count()
+		var saved_screen := int(config.get_value("window", "screen", desktop_screen_index)) if has_config else desktop_screen_index
+		desktop_screen_index = clampi(saved_screen, 0, maxi(screen_count - 1, 0))
+		_apply_desktop_canvas(desktop_screen_index)
+		var viewport_size := get_viewport().get_visible_rect().size
+		var saved_ratio: Variant = null
+		if has_config and config.has_section_key("desktop_canvas", "avatar_center_ratio"):
+			saved_ratio = config.get_value("desktop_canvas", "avatar_center_ratio")
+		if saved_ratio is Vector2:
+			avatar_screen_center = Vector2(saved_ratio) * viewport_size
+		elif has_config:
+			var legacy_position: Variant = config.get_value("window", "position", null)
+			if legacy_position is Vector2i:
+				var usable_rect := DisplayServer.screen_get_usable_rect(desktop_screen_index)
+				avatar_screen_center = Vector2(legacy_position - usable_rect.position) + BASE_AVATAR_CENTER
+			else:
+				avatar_screen_center = viewport_size * 0.5
+		else:
+			avatar_screen_center = viewport_size * 0.5
+		_clamp_avatar_screen_center()
+		_sync_avatar_texture_rect()
+		_sync_interaction_ui_origin()
+		_update_mouse_passthrough(true)
+		return
+	if not has_config:
 		return
 	var saved_position: Variant = config.get_value("window", "position", null)
 	if saved_position is not Vector2i:
@@ -1036,11 +1153,99 @@ func _save_window_position() -> void:
 	if DisplayServer.get_name() == "headless":
 		return
 	var config := ConfigFile.new()
-	config.set_value("window", "position", DisplayServer.window_get_position())
-	config.set_value("window", "screen", DisplayServer.window_get_current_screen())
+	config.load(WINDOW_SETTINGS_PATH)
+	if canvas_mode == CANVAS_MODE_DESKTOP:
+		var viewport_size := get_viewport().get_visible_rect().size
+		var safe_size := Vector2(maxf(viewport_size.x, 1.0), maxf(viewport_size.y, 1.0))
+		config.set_value("desktop_canvas", "avatar_center_ratio", avatar_screen_center / safe_size)
+		config.set_value("window", "screen", desktop_screen_index)
+	else:
+		config.set_value("window", "position", DisplayServer.window_get_position())
+		config.set_value("window", "screen", DisplayServer.window_get_current_screen())
 	var save_error := config.save(WINDOW_SETTINGS_PATH)
 	if save_error != OK:
 		push_warning("Unable to save avatar window position: %s" % error_string(save_error))
+
+
+func _apply_desktop_canvas(screen_index: int) -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	var usable_rect := DisplayServer.screen_get_usable_rect(screen_index)
+	DisplayServer.window_set_current_screen(screen_index)
+	DisplayServer.window_set_position(usable_rect.position)
+	DisplayServer.window_set_size(usable_rect.size)
+	avatar_screen_center = Vector2(usable_rect.size) * 0.5
+	_sync_avatar_texture_rect()
+
+
+func _clamp_avatar_screen_center() -> void:
+	var viewport_size := get_viewport().get_visible_rect().size
+	var interaction_scale := BASE_CAMERA_DISTANCE / maxf(current_distance, 0.1)
+	var minimum := Vector2(
+		(BASE_AVATAR_CENTER.x - 122.0) * interaction_scale + 8.0,
+		(BASE_AVATAR_CENTER.y - 138.0) * interaction_scale + 8.0
+	)
+	var maximum := viewport_size - Vector2(
+		(438.0 - BASE_AVATAR_CENTER.x) * interaction_scale + 8.0,
+		(690.0 - BASE_AVATAR_CENTER.y) * interaction_scale + 8.0
+	)
+	minimum.x = minf(minimum.x, viewport_size.x * 0.5)
+	minimum.y = minf(minimum.y, viewport_size.y * 0.5)
+	maximum.x = maxf(maximum.x, viewport_size.x * 0.5)
+	maximum.y = maxf(maximum.y, viewport_size.y * 0.5)
+	avatar_screen_center = avatar_screen_center.clamp(minimum, maximum)
+
+
+func _sync_interaction_ui_origin() -> void:
+	if interaction_ui == null or not interaction_ui.has_method("set_canvas_origin"):
+		return
+	var viewport_size := get_viewport().get_visible_rect().size
+	var desired_origin := avatar_screen_center - BASE_AVATAR_CENTER
+	var maximum_origin := Vector2(
+		maxf(viewport_size.x - BASE_VIEWPORT_SIZE.x, 0.0),
+		maxf(viewport_size.y - BASE_VIEWPORT_SIZE.y, 0.0)
+	)
+	interaction_ui.set_canvas_origin(desired_origin.clamp(Vector2.ZERO, maximum_origin))
+
+
+func _sync_avatar_texture_rect() -> void:
+	if avatar_texture_rect == null:
+		return
+	avatar_texture_rect.position = avatar_screen_center - AVATAR_COMPOSITE_SIZE * 0.5
+
+
+func set_ui_overlay_active(active: bool) -> void:
+	ui_overlay_active = active
+	_update_mouse_passthrough(true)
+
+
+func _avatar_interaction_polygon() -> PackedVector2Array:
+	var scale := BASE_CAMERA_DISTANCE / maxf(current_distance, 0.1)
+	var transformed := PackedVector2Array()
+	for point in avatar_interaction_region:
+		transformed.append(avatar_screen_center + (point - BASE_AVATAR_CENTER) * scale)
+	return transformed
+
+
+func _update_mouse_passthrough(force: bool = false) -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	var region := _avatar_interaction_polygon()
+	if ui_overlay_active and interaction_ui != null and interaction_ui.has_method("get_visible_interaction_rect"):
+		var ui_rect: Rect2 = interaction_ui.get_visible_interaction_rect()
+		if ui_rect.size.x > 0.0 and ui_rect.size.y > 0.0:
+			region.append(ui_rect.position)
+			region.append(ui_rect.position + Vector2(ui_rect.size.x, 0.0))
+			region.append(ui_rect.end)
+			region.append(ui_rect.position + Vector2(0.0, ui_rect.size.y))
+			region = Geometry2D.convex_hull(region)
+	var signature_parts: PackedStringArray = []
+	for point in region:
+		signature_parts.append("%d,%d" % [roundi(point.x), roundi(point.y)])
+	var signature := ";".join(signature_parts)
+	if force or signature != last_passthrough_signature:
+		last_passthrough_signature = signature
+		DisplayServer.window_set_mouse_passthrough(region)
 
 
 func _set_hud_visible(next_visible: bool) -> void:

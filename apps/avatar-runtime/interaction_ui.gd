@@ -33,10 +33,12 @@ var avatar_texture: Texture2D
 
 var sessions: Array = []
 var current_conversation_id := -1
+var delete_confirm_until_ms := 0
 
 var menu_visible := false
 var chat_visible := false
 var interaction_visible := false
+var canvas_origin := Vector2.ZERO
 
 
 func _init(avatar_node: Node) -> void:
@@ -51,6 +53,11 @@ func _ready() -> void:
 	_build_chat()
 	_build_interaction()
 	hide_all()
+
+
+func set_canvas_origin(next_origin: Vector2) -> void:
+	canvas_origin = next_origin
+	offset = canvas_origin
 
 
 # ---------------------------------------------------------------- 会话与消息
@@ -148,6 +155,43 @@ func _on_new_session_pressed() -> void:
 	avatar.request_new_session()
 
 
+func _on_delete_session_pressed() -> void:
+	var now := Time.get_ticks_msec()
+	if now >= delete_confirm_until_ms:
+		chat_status.text = "再按一次删除「%s」（3 秒内）" % _current_session_title()
+		delete_confirm_until_ms = now + 3000
+		return
+	delete_confirm_until_ms = 0
+	if current_conversation_id <= 0:
+		chat_status.text = "当前没有可删除的会话"
+		return
+	avatar.request_delete_session(current_conversation_id)
+
+
+func _current_session_title() -> String:
+	for item in sessions:
+		if int(item["id"]) == current_conversation_id:
+			return str(item["title"])
+	return "当前会话"
+
+
+func on_session_deleted(conversation_id: int) -> void:
+	var kept: Array = []
+	for item in sessions:
+		if int(item["id"]) != conversation_id:
+			kept.append(item)
+	sessions = kept
+	if current_conversation_id == conversation_id:
+		current_conversation_id = -1
+	_sync_session_options()
+	chat_status.text = "已删除会话"
+
+
+func on_wake_triggered() -> void:
+	_open_chat()
+	chat_status.text = "嗨～我在听，请讲"
+
+
 # ---------------------------------------------------------------- 界面构建
 
 func _build_backdrop() -> void:
@@ -228,6 +272,11 @@ func _build_chat_header() -> Control:
 	var new_button := _make_accent_button("＋ 新对话", _on_new_session_pressed)
 	new_button.custom_minimum_size = Vector2(88.0, 30.0)
 	row.add_child(new_button)
+
+	var delete_button := _make_button("删除", _on_delete_session_pressed)
+	delete_button.custom_minimum_size = Vector2(56.0, 30.0)
+	delete_button.tooltip_text = "删除当前会话"
+	row.add_child(delete_button)
 	return row
 
 
@@ -587,17 +636,25 @@ func _close_overlay() -> void:
 
 
 func is_pointer_over_ui(pointer: Vector2) -> bool:
+	var local_pointer := pointer - canvas_origin
 	for panel in [menu_panel, chat_panel, interaction_panel]:
-		if panel != null and panel.visible and Rect2(panel.position, panel.size).has_point(pointer):
+		if panel != null and panel.visible and Rect2(panel.position, panel.size).has_point(local_pointer):
 			return true
 	return false
+
+
+func get_visible_interaction_rect() -> Rect2:
+	for panel in [menu_panel, chat_panel, interaction_panel]:
+		if panel != null and panel.visible:
+			return Rect2(panel.position + canvas_origin, panel.size)
+	return Rect2()
 
 
 func _on_backdrop_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and not mouse_event.pressed:
-			if not is_pointer_over_ui(mouse_event.position):
+			if not is_pointer_over_ui(mouse_event.position + canvas_origin):
 				hide_all()
 
 
@@ -655,16 +712,5 @@ func on_voice_transcript(text: String) -> void:
 
 
 func _set_passthrough(enabled: bool) -> void:
-	if DisplayServer.get_name() == "headless":
-		return
-	if enabled:
-		var interaction_region := PackedVector2Array([
-			Vector2(232.0, 138.0), Vector2(328.0, 138.0), Vector2(352.0, 232.0),
-			Vector2(438.0, 330.0), Vector2(430.0, 402.0), Vector2(356.0, 358.0),
-			Vector2(354.0, 650.0), Vector2(314.0, 690.0), Vector2(246.0, 690.0),
-			Vector2(206.0, 650.0), Vector2(204.0, 358.0), Vector2(130.0, 402.0),
-			Vector2(122.0, 330.0), Vector2(208.0, 232.0),
-		])
-		DisplayServer.window_set_mouse_passthrough(interaction_region)
-	else:
-		DisplayServer.window_set_mouse_passthrough(PackedVector2Array())
+	if avatar != null and avatar.has_method("set_ui_overlay_active"):
+		avatar.set_ui_overlay_active(not enabled)

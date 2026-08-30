@@ -40,6 +40,7 @@ Place the independently obtained and processed runtime file at `apps/avatar-runt
 | Complete local MVP | Double-click `start-anime-agent.cmd` or run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-mvp.ps1` | Reuses a healthy Core, prevents duplicate Avatar, validates selected Provider and starts Core hidden |
 | Core only | `pnpm core:dev` | Foreground diagnostics; direct Python alternative is `.\services\agent-core\.venv\Scripts\python.exe -m agent_core.main` from `services/agent-core` |
 | Avatar only | `pnpm avatar:dev` | Requires local GLB and a Godot candidate path recognized by the script |
+| Avatar compact fallback | `$env:ANIME_AGENT_CANVAS_MODE='compact'; pnpm avatar:dev` | Restores the legacy 560×760 movable OS window for diagnostics; normal product runs should leave this variable unset |
 | Browser debug shell | `pnpm dev:desktop` | Vite at `127.0.0.1:1420` |
 | Tauri debug shell | `pnpm tauri:dev` | Optional; not the primary visible product |
 
@@ -50,7 +51,7 @@ Core health is `http://127.0.0.1:8765/health` and WebSocket is `ws://127.0.0.1:8
 | Input | Behavior |
 |---|---|
 | Left click | Open/close character menu |
-| Left drag | Move Avatar window and save position |
+| Left drag | Move the character within the desktop transparent canvas and save its normalized screen position |
 | Right drag | Continuous yaw/turn |
 | Mouse wheel | Zoom |
 | Arrow/A/D, R | Turn or reset front |

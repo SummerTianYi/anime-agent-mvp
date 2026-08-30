@@ -17,6 +17,8 @@ Optional React/Tauri shell ── localhost WebSocket ───┘
 
 The Core is the only component that talks to LLM Providers or opens the microphone; the Avatar owns visible character interaction and rendering; Tauri is an optional diagnostics/settings surface and must not displace the Avatar. Default network exposure is loopback only. `AGENT_CORE_PORT` selects the Core port, `AGENT_CORE_WS_URL` is passed to Godot, and `VITE_AGENT_CORE_WS_URL` can override the optional web shell URL.
 
+The desktop Avatar does not move the 3D model away from the camera optical axis. Godot renders the model, camera, environment and lights into a fixed-aspect 1520×1840 SubViewport, downsamples it to a 760×920 transparent composite, and moves only that 2D composite across the full working-area canvas. This preserves the accepted 3.8-unit camera perspective while leaving enough transparent margin for maximum zoom; click-through remains driven by the smaller dynamic character/menu hull rather than the composite rectangle.
+
 ## Component contracts
 
 | Component | Inputs | Outputs | Persistent state |

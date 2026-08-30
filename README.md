@@ -6,7 +6,7 @@
 
 | 范围 | 状态 | 说明 |
 |---|---|---|
-| 3D 桌面角色 | 已完成基础闭环 | 透明、无边框、置顶、拖动、转身、缩放、窗口位置保存 |
+| 3D 桌面角色 | 已完成基础闭环 | 默认使用当前屏幕工作区大小的透明穿透画布；角色在固定光轴的 2× SubViewport 中渲染，再作为二维透明层拖动，避免离轴“压扁”和旧 560×760 窗口裁切；支持转身、缩放、位置保存与 `compact` 回退模式 |
 | 角色菜单 | 已完成 | 点击角色打开聊天或互动菜单 |
 | 聊天界面 | 已完成并真实验证 | 底部半透明浮层，洛天依主题、气泡可滚动，支持新开/切换会话与历史回载 |
 | 文字聊天 | 已完成并真实验证 | 多会话；Godot → WebSocket → Core → GLM 5.3 Flash → Godot |
@@ -22,7 +22,7 @@
 
 ## 零上下文接手
 
-新 Agent 不应根据旧聊天记录猜测项目状态；请先读 [`AGENTS.md`](AGENTS.md) 和 [`docs/HANDOFF.md`](docs/HANDOFF.md)，再按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md)、[`docs/TESTING.md`](docs/TESTING.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和中间文件位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。
+新 Agent 不应根据旧聊天记录猜测项目状态；请先读 [`AGENTS.md`](AGENTS.md)、[`docs/HANDOFF.md`](docs/HANDOFF.md) 和 [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md)，再按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md)、[`docs/MODEL_OPTIMIZATION.md`](docs/MODEL_OPTIMIZATION.md)、[`docs/TESTING.md`](docs/TESTING.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和中间文件位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。
 
 ## 一键启动
 
