@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Anime Agent model version manifest",
+  "type": "object",
+  "required": ["schemaVersion", "version", "status", "baseVersion", "displayName", "acceptedAt", "source", "runtime", "artifacts", "structure", "optimization", "visualEvidence", "verification", "rollback"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+$" },
+    "status": { "enum": ["accepted", "current", "deprecated"] },
+    "baseVersion": { "type": ["string", "null"] },
+    "displayName": { "type": "string", "minLength": 1 },
+    "acceptedAt": { "type": "string", "minLength": 10 },
+    "source": { "type": "object" },
+    "runtime": { "type": "object", "required": ["commit", "modelBinaryChangedFromBase"] },
+    "artifacts": { "type": "object", "required": ["archiveDirectory", "editableBlend", "runtimeGlb"] },
+    "structure": { "type": "object" },
+    "optimization": { "type": "object", "required": ["goal", "plan", "changes", "explicitlyUnchanged", "knownIssues"] },
+    "visualEvidence": { "type": "object", "required": ["localDirectory", "requiredViews", "captured"] },
+    "verification": { "type": "array" },
+    "rollback": { "type": "object", "required": ["assetCommand", "exactRuntimeCommand"] }
+  },
+  "additionalProperties": true
+}

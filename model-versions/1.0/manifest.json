@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0",
+  "status": "accepted",
+  "baseVersion": null,
+  "displayName": "官模运行基线",
+  "acceptedAt": "2026-08-31T01:40:40+08:00",
+  "source": {
+    "name": "洛天依 V4 公式服 ver2.0",
+    "pmxFile": "luotianyi_v4_ver2.0.pmx",
+    "pmxBytes": 7634318,
+    "pmxSha256": "6C292DEEE948B3769AA7BDFC2301814431DF1EB102DA92A39656DA0236A115E7",
+    "redistribution": "local-only; public redistribution is not established"
+  },
+  "runtime": {
+    "commit": "b192291c7a26615c67dae7e4e003ee2d5fa50adb",
+    "modelBinaryChangedFromBase": null,
+    "godot": "4.7.2",
+    "blender": "5.2.1 LTS",
+    "mmdTools": "4.5.13",
+    "vrmAddon": "4.5.0"
+  },
+  "artifacts": {
+    "archiveDirectory": "1.0/artifacts",
+    "editableBlend": {
+      "file": "luotianyi_v4_prepared.blend",
+      "bytes": 47623610,
+      "sha256": "886B61339707C289157F7D762A9B44DF26E9CFDFA92BD1D5AC518D7116B7672D"
+    },
+    "runtimeGlb": {
+      "file": "luotianyi_v4.glb",
+      "bytes": 128621144,
+      "sha256": "DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    }
+  },
+  "structure": {
+    "skeletons": 1,
+    "bones": 751,
+    "expressions": 48,
+    "pigtailChainLengths": [17, 17],
+    "meshTopologyChanged": false,
+    "uvChanged": false,
+    "skinWeightsChanged": false
+  },
+  "optimization": {
+    "goal": "建立优化前正常比例、可运行且可回退的官方模型基线",
+    "plan": ["保留官模网格、材质、骨架、蒙皮、UV 与表情", "以旧 560×760 透明窗口验证桌面运行"],
+    "changes": ["PMX 导入并生成 VRM/GLB 运行资产", "识别 48 个表情和两条各 17 骨骼的长马尾链", "动作资产与静态视觉模型分离"],
+    "explicitlyUnchanged": ["官方角色设计", "网格拓扑", "UV", "蒙皮权重", "形态键基值"],
+    "knownIssues": ["旧窗口最大缩放会裁切角色", "低分辨率录屏和截图清晰度有限"]
+  },
+  "visualEvidence": {
+    "localDirectory": "1.0/previews",
+    "requiredViews": ["front", "left", "right", "back", "max-zoom", "neutral-face", "expression-extremes"],
+    "captured": []
+  },
+  "verification": [
+    { "name": "asset-contract", "result": "passed", "evidence": "128621144 bytes; SHA-256 DF55806D...DC6E4A" },
+    { "name": "structure", "result": "passed", "evidence": "751 bones; 48 expressions; pigtails 17+17" }
+  ],
+  "rollback": {
+    "assetCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\switch-model-version.ps1 -Version 1.0",
+    "exactRuntimeCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\open-model-version.ps1 -Version 1.0 -Launch"
+  }
+}

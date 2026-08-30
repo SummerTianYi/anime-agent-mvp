@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "version": "1.1",
+  "status": "accepted",
+  "baseVersion": "1.0",
+  "displayName": "固定光轴高清桌面版",
+  "acceptedAt": "2026-08-31T03:35:04+08:00",
+  "source": {
+    "name": "洛天依 V4 公式服 ver2.0",
+    "pmxFile": "luotianyi_v4_ver2.0.pmx",
+    "pmxBytes": 7634318,
+    "pmxSha256": "6C292DEEE948B3769AA7BDFC2301814431DF1EB102DA92A39656DA0236A115E7",
+    "redistribution": "local-only; public redistribution is not established"
+  },
+  "runtime": {
+    "commit": "0b4f1d061cf19d20aedf59da68ee2a80cf6797a8",
+    "modelBinaryChangedFromBase": false,
+    "godot": "4.7.2",
+    "blender": "5.2.1 LTS",
+    "mmdTools": "4.5.13",
+    "vrmAddon": "4.5.0"
+  },
+  "artifacts": {
+    "archiveDirectory": "1.1/artifacts",
+    "editableBlend": {
+      "file": "luotianyi_v4_prepared.blend",
+      "bytes": 47623610,
+      "sha256": "886B61339707C289157F7D762A9B44DF26E9CFDFA92BD1D5AC518D7116B7672D"
+    },
+    "runtimeGlb": {
+      "file": "luotianyi_v4.glb",
+      "bytes": 128621144,
+      "sha256": "DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    }
+  },
+  "structure": {
+    "skeletons": 1,
+    "bones": 751,
+    "expressions": 48,
+    "pigtailChainLengths": [17, 17],
+    "meshTopologyChanged": false,
+    "uvChanged": false,
+    "skinWeightsChanged": false
+  },
+  "optimization": {
+    "goal": "在不改写官模结构的前提下提高清晰度、避免最大缩放裁切并保持正常透视比例",
+    "plan": ["3D 模型固定相机光轴", "以 2× SubViewport 超采样后合成透明二维角色层", "启用 4× MSAA 与高 DPI", "降低过曝并验证最大缩放"],
+    "changes": ["工作区大小透明穿透画布", "1520×1840 SubViewport 下采样为 760×920", "桌面拖动只移动二维合成层", "主光、补光和环境能量重新标定", "增加模型哈希、相机距离和防裁切回归"],
+    "explicitlyUnchanged": ["运行 GLB 字节", "官方网格与拓扑", "骨架与蒙皮权重", "UV 与纹理", "48 个表情", "两条长马尾骨骼链"],
+    "knownIssues": ["尚未建立外部 Toon 材质 A/B", "近景纹理仍受原始贴图分辨率限制"]
+  },
+  "visualEvidence": {
+    "localDirectory": "1.1/previews",
+    "requiredViews": ["front", "left", "right", "back", "max-zoom", "neutral-face", "expression-extremes"],
+    "captured": []
+  },
+  "verification": [
+    { "name": "desktop-canvas", "result": "passed", "evidence": "fixed optical axis; 1520x1840 -> 760x920; maximum zoom not cropped" },
+    { "name": "asset-contract", "result": "passed", "evidence": "128621144 bytes; SHA-256 DF55806D...DC6E4A" },
+    { "name": "visual-prototype", "result": "passed", "evidence": "silhouette ratio delta 0.196%; mask overlap 98.36%; average 7.99 ms/frame" },
+    { "name": "structure", "result": "passed", "evidence": "751 bones; 48 expressions; pigtails 17+17" }
+  ],
+  "rollback": {
+    "assetCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\switch-model-version.ps1 -Version 1.1",
+    "exactRuntimeCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\open-model-version.ps1 -Version 1.1 -Launch"
+  }
+}

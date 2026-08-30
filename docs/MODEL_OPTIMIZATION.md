@@ -49,3 +49,7 @@ SubViewport 作为独立渲染目标并通过 ViewportTexture 合成、以及每
 | 性能 | 日常档目标 ≤16.7 ms/帧；超限时降低派生效果或渲染倍率，不破坏模型 |
 
 推荐下一步先做 P1 的“外部 toon 材质试验场”，只选脸、头发和白色服装三个材质槽，在独立开关下进行 A/B 截图；通过后再扩展到全身。该路径视觉收益最大，也最容易证明没有修改官模。
+
+## 版本冻结与对比
+
+正式模型版本由 `model-versions/index.json` 管理，受限的 Blend/GLB 保存在仓库同级 `model-archive/<version>`。当前 `1.0` 是优化前正常比例基线，`1.1` 是固定光轴高清版；两者模型二进制相同，视觉差异来自 Git 运行时提交，因此完整对比必须使用 `open-model-version.ps1` 创建隔离 worktree。下一轮优化开始前先运行版本校验，验收通过后使用 `snapshot-model-version.ps1` 分配 `1.2`；失败或未验收实验不得覆盖快照、不得占正式版本号。字段、截图要求和切换命令见 [`model-versions/README.md`](../model-versions/README.md)。

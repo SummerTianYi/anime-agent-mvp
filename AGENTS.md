@@ -2,7 +2,7 @@
 
 ## Mission and mandatory reading
 
-Build a Windows-first, local-first 3D anime desktop companion whose visible product is an independent VTuber-like character, not another Codex/Claude/chat application window. Before changing code, read `docs/HANDOFF.md` and `docs/CONTRIBUTIONS.md`; then use `docs/ARCHITECTURE.md`, `docs/LOCAL_DEV.md`, `docs/TESTING.md`, `docs/KNOWN_ISSUES.md`, `docs/ASSET_PIPELINE.md`, and `docs/MODEL_OPTIMIZATION.md` as the source of truth for the relevant surface. Do not infer current progress from the historical milestone list or from prior conversations.
+Build a Windows-first, local-first 3D anime desktop companion whose visible product is an independent VTuber-like character, not another Codex/Claude/chat application window. Before changing code, read `docs/HANDOFF.md` and `docs/CONTRIBUTIONS.md`; then use `docs/ARCHITECTURE.md`, `docs/LOCAL_DEV.md`, `docs/TESTING.md`, `docs/KNOWN_ISSUES.md`, `docs/ASSET_PIPELINE.md`, `docs/MODEL_OPTIMIZATION.md`, and `model-versions/README.md` as the source of truth for the relevant surface. Do not infer current progress from the historical milestone list or from prior conversations.
 
 ## Product and architecture decisions
 
@@ -32,6 +32,7 @@ The text-chat loop, GLM connection, character Harness, 20-song original catalog,
 6. Preserve WebSocket event compatibility and update `docs/AVATAR_BRIDGE.md` plus tests when the event contract changes.
 7. Do not claim voice, login autostart, proactive triggers or long-term memory are complete until the acceptance checks in `docs/TESTING.md` pass.
 8. Use compact prose and tables in documentation; avoid sentence-per-paragraph formatting and duplicated status lists.
+9. Model versions are immutable. Before an accepted model/render optimization, verify the current snapshot; after acceptance, allocate the next `major.minor` version, preserve Blend/GLB locally, record hashes/evidence in `model-versions/`, and never reuse a rejected experiment as a formal version.
 
 ## Required verification
 
