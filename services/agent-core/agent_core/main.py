@@ -207,7 +207,6 @@ chat_lock = asyncio.Lock()
 voice_recorder = VoiceRecorder()
 memory = MemoryStore()
 harness = CharacterHarness()
-conversation_history: list[dict[str, str]] = memory.load_messages(MAX_HISTORY_MESSAGES)
 
 
 class ConnectionHub:
@@ -285,21 +284,16 @@ async def broadcast_behavior(reply: AgentReply) -> None:
         )
 
 
-async def handle_chat(text: str, request_id: str) -> None:
-    global conversation_history
+async def handle_chat(text: str, request_id: str, conversation_id: int | None = None) -> None:
 
     async with chat_lock:
         await broadcast_state("thinking", request_id)
-        conversation_history.append({"role": "user", "content": text})
-        memory.add_message("user", text, request_id)
-        messages = harness.build_messages(
-            conversation_history[-MAX_HISTORY_MESSAGES:],
-            text,
-        )
+        session_id = memory.add_message("user", text, request_id, conversation_id)
+        conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
+        messages = harness.build_messages(conversation_history, text)
         try:
             raw_reply = await provider.complete(messages)
         except ProviderError as exc:
-            conversation_history.pop()
             memory.add_event("core.error", {"message": str(exc), "request_id": request_id})
             await hub.send_roles(
                 {"avatar", "ui"},
@@ -311,8 +305,7 @@ async def handle_chat(text: str, request_id: str) -> None:
             return
 
         agent_reply = harness.parse_reply(raw_reply)
-        conversation_history.append({"role": "assistant", "content": agent_reply.reply})
-        memory.add_message("assistant", agent_reply.reply, request_id)
+        memory.add_message("assistant", agent_reply.reply, request_id, session_id)
         if agent_reply.memory_candidate:
             memory.add_event(
                 "memory.candidate",
@@ -322,11 +315,11 @@ async def handle_chat(text: str, request_id: str) -> None:
                     "status": "pending",
                 },
             )
-        conversation_history = conversation_history[-MAX_HISTORY_MESSAGES:]
         await hub.send_roles(
             {"avatar", "ui"},
             event(
                 "chat.response",
+                conversationId=session_id,
                 text=agent_reply.reply,
                 emotion=agent_reply.emotion,
                 emotion_intensity=agent_reply.emotion_intensity,
@@ -429,6 +422,52 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
                 continue
 
+            if event_type == "session.new":
+                session = memory.create_session()
+                await hub.send_roles(
+                    {"avatar", "ui"},
+                    event("session.switched", conversationId=session["id"], title=session["title"]),
+                )
+                continue
+
+            if event_type == "session.list.request":
+                sessions = memory.list_sessions()
+                await hub.send(
+                    websocket,
+                    event(
+                        "session.list.response",
+                        sessions=[
+                            {
+                                "conversationId": item["id"],
+                                "title": item["title"],
+                                "updatedAt": item["updated_at"],
+                            }
+                            for item in sessions
+                        ],
+                    ),
+                )
+                continue
+
+            if event_type == "chat.history.request":
+                raw = payload.get("conversationId")
+                session_id = None
+                if raw is not None:
+                    try:
+                        session_id = int(raw)
+                    except (TypeError, ValueError):
+                        session_id = None
+                history_session = session_id if session_id is not None else memory.latest_session_id()
+                history = memory.load_history(conversation_id=history_session) if history_session else []
+                await hub.send(
+                    websocket,
+                    event(
+                        "chat.history.response",
+                        conversationId=history_session,
+                        messages=history,
+                    ),
+                )
+                continue
+
             if event_type == "avatar.command":
                 command = str(payload.get("event", "")).strip()
                 command_payload = payload.get("payload", {})
@@ -452,7 +491,15 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 await hub.send(websocket, event("core.error", message="消息长度不能超过 4000 字"))
                 continue
             request_id = str(payload.get("messageId", "")).strip() or f"chat-{int(datetime.now().timestamp() * 1000)}"
-            asyncio.create_task(handle_chat(text, request_id))
+            conversation_id = None
+            raw_conversation_id = payload.get("conversationId")
+            if raw_conversation_id is not None:
+                try:
+                    conversation_id = int(raw_conversation_id)
+                except (TypeError, ValueError):
+                    await hub.send(websocket, event("core.error", message="Invalid conversationId"))
+                    continue
+            asyncio.create_task(handle_chat(text, request_id, conversation_id))
     except WebSocketDisconnect:
         pass
     finally:
