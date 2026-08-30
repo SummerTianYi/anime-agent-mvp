@@ -12,7 +12,7 @@
 | 文字聊天 | 已完成并真实验证 | 多会话；Godot → WebSocket → Core → GLM 5.3 Flash → Godot |
 | 角色 Harness | 已完成第一版 | 洛天依身份、自我认知、结构化回复、表情与动作映射 |
 | 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
-| 表情与动作 | 已完成基础版 | 48 个形变槽、8 个动作骨骼、2 个长辫子根骨、程序化动作 |
+| 表情与动作 | 已完成动作注册表与首个待机 | 48 个形变槽；8.03 秒呼吸/视线待机自动循环，旋转样片可按 `P` 打断并在结束后自动回待机，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
 | 本地记忆 | 已完成基础版 | SQLite 按会话保存消息（sessions 表 + conversation_id，启动自动迁移），另有事件与待确认记忆候选；提示词取会话内最近 20 条，界面回载最近 50 条 |
 | 语音转文字 | 管线可用，驱动假死自愈待加固 | sounddevice + faster-whisper；已定位 Realtek 麦克风阵列驱动假死根因（设备持续输出静音数据，需外部事件复位），`voice.py` 自愈加固未做 |
 | 一键启动 | 已完成开发机版本 | 根目录双击 `start-anime-agent.cmd`，Core 隐藏运行、Avatar 独立出现 |
@@ -22,7 +22,7 @@
 
 ## 零上下文接手
 
-新 Agent 不应根据旧聊天记录猜测项目状态；请先读 [`AGENTS.md`](AGENTS.md) 和 [`docs/HANDOFF.md`](docs/HANDOFF.md)，再按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/TESTING.md`](docs/TESTING.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和中间文件位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。
+新 Agent 不应根据旧聊天记录猜测项目状态；请先读 [`AGENTS.md`](AGENTS.md) 和 [`docs/HANDOFF.md`](docs/HANDOFF.md)，再按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md)、[`docs/TESTING.md`](docs/TESTING.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和中间文件位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。
 
 ## 一键启动
 

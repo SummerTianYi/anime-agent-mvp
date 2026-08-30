@@ -5,7 +5,7 @@
 | KI-001 | P0 | STT sometimes reports no valid audio or no clear speech | Add device diagnostics, minimum duration/level feedback and repeatable Mandarin acceptance tests |
 | KI-002 | P0 | One-click startup is a developer launcher, not Windows login autostart | Add install/uninstall commands, duplicate prevention, log paths and restart-safe supervision |
 | KI-003 | P0 | Startup and Idle events are absent | Add Windows event source, debounce/quiet hours and explicit `IGNORE` result |
-| KI-004 | P1 | Model action poses are procedural and visually rough | Tune or replace actions one by one; test front/back views and hair/body clipping |
+| KI-004 | P0 | Motion registry and authored idle/pirouette are verified, but thinking/speaking/greeting remain procedural and transitions use simple cross-fades | Complete the small character motion set, then evaluate AnimationTree/state blending and test front/back views, foot contact and hair/body clipping per clip |
 | KI-005 | P1 | Long pigtail offsets are runtime bone rotations without collision physics | Preserve `MaWei_R_0_1`/`MaWei_L_0_1` distinction and validate natural front drape before changing rear hair |
 | KI-006 | P1 | `memory_candidate` is only stored as a pending event | Design review/promotion/deletion and selective prompt injection before claiming long-term memory |
 | KI-007 | P1 | Core returns complete responses only | Add streaming/cancellation only if it measurably improves the character experience |
@@ -16,4 +16,4 @@
 | KI-012 | P2 | Permission layer, tools and Spark Adapter are placeholders | Keep destructive/external actions disabled until explicit confirmation and audit contracts exist |
 | KI-013 | Policy | Repository has no explicit source license and model redistribution rights are unresolved | Do not invent a license or upload model assets; owner must make the legal/publishing decision |
 
-Resolved pitfalls that should remain regression-tested include the Godot input focus guard, localhost proxy bypass in health/bridge checks, GLM Coding endpoint selection, provider-aware startup validation, static song data tracking and configurable Core WebSocket URL.
+Resolved pitfalls that should remain regression-tested include the Godot input focus guard, localhost proxy bypass in health/bridge checks, GLM Coding endpoint selection, provider-aware startup validation, static song data tracking, configurable Core WebSocket URL, foot-ground correction during BVH retarget and animation-only rebinding that preserves the accepted Godot materials.

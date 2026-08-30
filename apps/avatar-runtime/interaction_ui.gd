@@ -258,7 +258,7 @@ func _build_composer() -> Control:
 
 
 func _build_interaction() -> void:
-	interaction_panel = _make_panel(Vector2(315.0, 175.0), Vector2(225.0, 405.0))
+	interaction_panel = _make_panel(Vector2(315.0, 140.0), Vector2(225.0, 440.0))
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 6)
 	interaction_panel.add_child(box)
@@ -273,6 +273,7 @@ func _build_interaction() -> void:
 	box.add_child(title_row)
 
 	for action in [
+		["旋转动作（样片）", "avatar.pirouette"],
 		["挥手", "avatar.wave"],
 		["点头", "avatar.nod"],
 		["打招呼", "avatar.greet"],

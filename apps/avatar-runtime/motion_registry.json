@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "default_idle": "idle",
+  "clips": [
+    {
+      "id": "idle",
+      "path": "res://assets/motions/luotianyi_idle.glb",
+      "role": "idle",
+      "loop": true,
+      "blend_seconds": 0.35,
+      "minimum_duration": 7.9,
+      "sample_seconds": 2.0
+    },
+    {
+      "id": "pirouette",
+      "path": "res://assets/motions/luotianyi_pirouette.glb",
+      "role": "interaction",
+      "loop": false,
+      "blend_seconds": 0.18,
+      "minimum_duration": 4.8,
+      "sample_seconds": 1.0
+    }
+  ]
+}

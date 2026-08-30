@@ -10,5 +10,6 @@ This directory intentionally keeps the licensed or third-party character asset o
 | Pigtail roots | `MaWei_R_0_1`, `MaWei_L_0_1` |
 | Expression slots | 48 |
 | Godot | 4.7.2 stable, GL Compatibility renderer |
+| Optional authored motions | `res://assets/motions/luotianyi_idle.glb` and `luotianyi_pirouette.glb`; ignored; registry skips missing clips and runtime falls back cleanly; see `docs/MOTION_PIPELINE.md` |
 
-Run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-local-assets.ps1` from the repository root before starting the avatar. A different machine must obtain the source model independently and follow `docs/ASSET_PIPELINE.md`; code-only Core and Tauri work can continue without this asset, but Godot scene loading cannot.
+Run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-local-assets.ps1` from the repository root before starting the avatar. A different machine must obtain the source model independently and follow `docs/ASSET_PIPELINE.md`; code-only Core and Tauri work can continue without this asset, but Godot scene loading cannot. The motion GLB is not a replacement visual model: `runtime.gd` extracts and remaps its animation tracks onto the accepted runtime GLB so the original materials remain intact.

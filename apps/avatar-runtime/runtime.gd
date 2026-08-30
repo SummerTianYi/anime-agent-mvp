@@ -12,9 +12,19 @@ const WINDOW_SETTINGS_PATH := "user://avatar_window.cfg"
 const DEFAULT_CORE_WS_URL := "ws://127.0.0.1:8765/ws"
 const CORE_RECONNECT_DELAY := 2.0
 const SPEAKING_MOUTHS := ["あ", "い", "う", "え", "お"]
+const AUTHORED_MOTION_REGISTRY_PATH := "res://motion_registry.json"
+const AUTHORED_MOTION_ENV := "ANIME_AGENT_USE_AUTHORED_MOTION"
+const AUTHORED_MOTION_AUTOPLAY_ENV := "ANIME_AGENT_AUTOPLAY_MOTION"
 
 @onready var model: Node3D = $LuoTianyi
 @onready var camera: Camera3D = $Camera3D
+
+var authored_motion_player: AnimationPlayer
+var authored_motion_name: StringName = &""
+var authored_motion_clips: Dictionary = {}
+var default_idle_motion: StringName = &""
+var authored_motion_active := false
+var model_uses_authored_motion := false
 
 var elapsed := 0.0
 var target_yaw := 0.0
@@ -81,6 +91,7 @@ func _ready() -> void:
 	_cache_bones()
 	_cache_expressions()
 	_restore_bone_poses()
+	_prepare_authored_motions()
 	_create_hud()
 	_create_interaction_ui()
 	_set_hud_visible(false)
@@ -91,10 +102,19 @@ func _ready() -> void:
 		"cached_bones": bone_ids.size(),
 		"pigtail_roots": pigtail_root_ids.size(),
 		"expressions": expression_ids.size(),
+		"authored_motions": authored_motion_clips.keys(),
 		"desktop_overlay": DisplayServer.get_name() != "headless",
 		"core_url": core_ws_url,
-		"controls": "left-drag=move right-drag=turn wheel=zoom F1=hud arrows=turn R=reset N=nod W=wave Space=greet B=blink S=smile O=surprised X=angry L=wink T=tears",
+		"controls": "left-drag=move right-drag=turn wheel=zoom F1=hud arrows=turn R=reset N=nod W=wave P=authored-motion Space=greet B=blink S=smile O=surprised X=angry L=wink T=tears",
 	})
+	if model_uses_authored_motion:
+		var requested_motion := OS.get_environment(AUTHORED_MOTION_AUTOPLAY_ENV).strip_edges()
+		if requested_motion.is_empty():
+			call_deferred("_play_default_idle_motion")
+		elif requested_motion.to_lower() in ["1", "true", "yes", "on"]:
+			call_deferred("_play_authored_motion", &"pirouette")
+		else:
+			call_deferred("_play_authored_motion", StringName(requested_motion))
 
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -117,21 +137,191 @@ func _process(delta: float) -> void:
 	current_distance = lerp(current_distance, target_distance, 1.0 - exp(-delta * 8.0))
 
 	model.rotation = base_model_rotation + Vector3(0.0, current_yaw, 0.0)
-	model.position = base_model_position + Vector3(0.0, sin(elapsed * 1.6) * 0.004, 0.0)
+	var procedural_bob := 0.0 if authored_motion_active else sin(elapsed * 1.6) * 0.004
+	model.position = base_model_position + Vector3(0.0, procedural_bob, 0.0)
 	camera.position = Vector3(0.0, CAMERA_FOCUS.y, current_distance)
 	camera.look_at(CAMERA_FOCUS, Vector3.UP)
 
-	if action_name != "idle":
+	if not authored_motion_active and action_name != "idle":
 		action_elapsed += delta
 		if action_elapsed >= action_duration:
 			action_name = "idle"
 			action_elapsed = 0.0
 			_restore_bone_poses()
 			_update_hud()
-	_apply_action_pose()
+			_play_default_idle_motion()
+	if not authored_motion_active:
+		_apply_action_pose()
 	_apply_pigtail_pose()
 	_process_speaking_mouth(delta)
 	_process_expressions(delta)
+
+
+func _prepare_authored_motions() -> void:
+	if not _environment_flag(AUTHORED_MOTION_ENV, true):
+		return
+	if skeleton == null or not FileAccess.file_exists(AUTHORED_MOTION_REGISTRY_PATH):
+		return
+	var registry_data: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string(AUTHORED_MOTION_REGISTRY_PATH)
+	)
+	if registry_data is not Dictionary or registry_data.get("clips", null) is not Array:
+		push_warning("Invalid authored motion registry: %s" % AUTHORED_MOTION_REGISTRY_PATH)
+		return
+
+	authored_motion_player = AnimationPlayer.new()
+	authored_motion_player.name = "AuthoredMotionPlayer"
+	authored_motion_player.root_node = NodePath("..")
+	add_child(authored_motion_player)
+	var motion_library := AnimationLibrary.new()
+	var remapped_tracks := 0
+	default_idle_motion = StringName(str(registry_data.get("default_idle", "")))
+	for clip_data in registry_data.get("clips", []):
+		if clip_data is not Dictionary:
+			continue
+		var clip_id := StringName(str(clip_data.get("id", "")))
+		var clip_path := str(clip_data.get("path", ""))
+		if clip_id.is_empty() or clip_path.is_empty() or not ResourceLoader.exists(clip_path):
+			continue
+		var track_count := _load_authored_motion_clip(clip_id, clip_path, clip_data, motion_library)
+		if track_count <= 0:
+			continue
+		remapped_tracks += track_count
+		authored_motion_clips[String(clip_id)] = clip_data.duplicate(true)
+	authored_motion_player.add_animation_library(&"", motion_library)
+	if authored_motion_clips.is_empty():
+		push_warning("Authored motion had no tracks matching the runtime skeleton")
+		authored_motion_player.queue_free()
+		authored_motion_player = null
+		default_idle_motion = &""
+		return
+	authored_motion_player.animation_finished.connect(_on_authored_motion_finished)
+	model_uses_authored_motion = true
+	print("GODOT_AUTHORED_MOTIONS_READY", {
+		"registry": AUTHORED_MOTION_REGISTRY_PATH,
+		"clips": authored_motion_clips.keys(),
+		"default_idle": default_idle_motion,
+		"remapped_tracks": remapped_tracks,
+	})
+
+
+func _load_authored_motion_clip(
+	clip_id: StringName,
+	clip_path: String,
+	clip_data: Dictionary,
+	motion_library: AnimationLibrary,
+) -> int:
+	var packed_scene := load(clip_path) as PackedScene
+	if packed_scene == null:
+		return 0
+	var motion_source := packed_scene.instantiate() as Node3D
+	if motion_source == null:
+		return 0
+	var source_player := _find_animation_player(motion_source)
+	if source_player == null:
+		motion_source.free()
+		return 0
+	var playable_names: Array[StringName] = []
+	for candidate in source_player.get_animation_list():
+		if candidate != &"RESET":
+			playable_names.append(candidate)
+	if playable_names.size() != 1:
+		push_warning("Motion clip %s must contain exactly one playable animation" % clip_id)
+		motion_source.free()
+		return 0
+	var source_animation := source_player.get_animation(playable_names[0])
+	var retargeted_animation := source_animation.duplicate(true) as Animation
+	var remapped_tracks := _remap_animation_tracks(retargeted_animation)
+	if remapped_tracks > 0:
+		retargeted_animation.loop_mode = (
+			Animation.LOOP_LINEAR if bool(clip_data.get("loop", false)) else Animation.LOOP_NONE
+		)
+		motion_library.add_animation(clip_id, retargeted_animation)
+	if not motion_library.has_animation(&"__RESET") and source_player.has_animation(&"RESET"):
+		var reset_animation := source_player.get_animation(&"RESET").duplicate(true) as Animation
+		_remap_animation_tracks(reset_animation)
+		motion_library.add_animation(&"__RESET", reset_animation)
+	motion_source.free()
+	return remapped_tracks
+
+
+func _remap_animation_tracks(animation: Animation) -> int:
+	var skeleton_path := get_path_to(skeleton)
+	var tracks_to_remove: Array[int] = []
+	var remapped_tracks := 0
+	for track_index in range(animation.get_track_count()):
+		var source_path := animation.track_get_path(track_index)
+		if source_path.get_subname_count() == 0:
+			tracks_to_remove.append(track_index)
+			continue
+		var bone_name := String(source_path.get_subname(source_path.get_subname_count() - 1))
+		if skeleton.find_bone(bone_name) < 0:
+			tracks_to_remove.append(track_index)
+			continue
+		animation.track_set_path(track_index, NodePath("%s:%s" % [skeleton_path, bone_name]))
+		remapped_tracks += 1
+	tracks_to_remove.reverse()
+	for track_index in tracks_to_remove:
+		animation.remove_track(track_index)
+	return remapped_tracks
+
+
+func _environment_flag(name: String, default_value: bool) -> bool:
+	var raw_value := OS.get_environment(name).strip_edges().to_lower()
+	if raw_value.is_empty():
+		return default_value
+	return raw_value not in ["0", "false", "no", "off"]
+
+
+func _play_authored_motion(clip_id: StringName = &"pirouette") -> void:
+	if authored_motion_player == null or not authored_motion_clips.has(String(clip_id)):
+		print("GODOT_AUTHORED_MOTION_UNAVAILABLE", clip_id)
+		return
+	if authored_motion_active:
+		_cancel_authored_motion(false)
+	_restore_bone_poses()
+	authored_motion_name = clip_id
+	action_name = String(clip_id)
+	action_elapsed = 0.0
+	action_duration = authored_motion_player.get_animation(clip_id).length
+	authored_motion_active = true
+	var clip_data: Dictionary = authored_motion_clips[String(clip_id)]
+	authored_motion_player.play(clip_id, float(clip_data.get("blend_seconds", 0.0)))
+	_update_hud()
+	print("GODOT_AUTHORED_MOTION_STARTED", clip_id)
+
+
+func _play_default_idle_motion() -> void:
+	if default_idle_motion.is_empty() or authored_motion_active:
+		return
+	_play_authored_motion(default_idle_motion)
+
+
+func _cancel_authored_motion(return_to_idle: bool = false) -> void:
+	if authored_motion_player == null or not authored_motion_active:
+		return
+	authored_motion_active = false
+	authored_motion_name = &""
+	if authored_motion_player.has_animation(&"__RESET"):
+		authored_motion_player.play(&"__RESET")
+		authored_motion_player.advance(0.0)
+		authored_motion_player.stop(true)
+	else:
+		authored_motion_player.stop()
+	action_name = "idle"
+	action_elapsed = 0.0
+	_restore_bone_poses()
+	_update_hud()
+	if return_to_idle:
+		_play_default_idle_motion()
+
+
+func _on_authored_motion_finished(animation_name: StringName) -> void:
+	if animation_name != authored_motion_name:
+		return
+	var should_return_to_idle := animation_name != default_idle_motion
+	_cancel_authored_motion(should_return_to_idle)
+	print("GODOT_AUTHORED_MOTION_FINISHED", animation_name)
 
 
 func _connect_core() -> void:
@@ -355,6 +545,8 @@ func _input(event: InputEvent) -> void:
 				handle_agent_event("avatar.nod")
 			KEY_W:
 				handle_agent_event("avatar.wave")
+			KEY_P:
+				handle_agent_event("avatar.pirouette")
 			KEY_SPACE:
 				handle_agent_event("avatar.greet")
 			KEY_B:
@@ -382,19 +574,25 @@ func _input(event: InputEvent) -> void:
 func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 	match event_type:
 		"avatar.turn_left":
+			_cancel_authored_motion()
 			target_yaw -= deg_to_rad(float(payload.get("degrees", 30.0)))
 			action_name = "idle"
 			_restore_bone_poses()
+			_play_default_idle_motion()
 		"avatar.turn_right":
+			_cancel_authored_motion()
 			target_yaw += deg_to_rad(float(payload.get("degrees", 30.0)))
 			action_name = "idle"
 			_restore_bone_poses()
+			_play_default_idle_motion()
 		"avatar.reset":
+			_cancel_authored_motion()
 			target_yaw = 0.0
 			action_name = "idle"
 			_restore_bone_poses()
 			_clear_emotions()
 			expression_name = "自然"
+			_play_default_idle_motion()
 		"avatar.nod":
 			_start_action("nod", 1.35)
 		"avatar.wave":
@@ -403,6 +601,8 @@ func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 			_start_action("greet", 2.35)
 			_show_emotion("笑い", "微笑", 0.78, 2.35)
 			_set_expression("ウィンク", 0.72, 1.1)
+		"avatar.pirouette":
+			_play_authored_motion()
 		"avatar.blink":
 			_trigger_blink()
 		"avatar.smile":
@@ -502,6 +702,7 @@ func stop_voice_recording() -> void:
 
 
 func _start_action(next_action: String, duration: float) -> void:
+	_cancel_authored_motion()
 	action_name = next_action
 	action_elapsed = 0.0
 	action_duration = duration
@@ -566,6 +767,16 @@ func _find_skeleton(node: Node) -> Skeleton3D:
 	for child in node.get_children():
 		var found := _find_skeleton(child)
 		if found:
+			return found
+	return null
+
+
+func _find_animation_player(node: Node) -> AnimationPlayer:
+	if node is AnimationPlayer:
+		return node as AnimationPlayer
+	for child in node.get_children():
+		var found := _find_animation_player(child)
+		if found != null:
 			return found
 	return null
 
@@ -808,7 +1019,7 @@ func _create_hud() -> void:
 
 	var footer := Label.new()
 	footer.position = Vector2(22.0, 684.0)
-	footer.text = "左键拖动人物位置 · 右键拖拽转身 · 滚轮缩放 · F1 调试信息\n←/→ 转身 · R 回正 · N 点头 · W 挥手 · Space 打招呼 · Esc 退出"
+	footer.text = "左键拖动人物位置 · 右键拖拽转身 · 滚轮缩放 · F1 调试信息\n←/→ 转身 · R 回正 · N 点头 · W 挥手 · P 动作样片 · Space 打招呼 · Esc 退出"
 	footer.add_theme_color_override("font_color", Color(0.78, 0.78, 0.86))
 	footer.add_theme_font_size_override("font_size", 13)
 	footer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -823,6 +1034,7 @@ func _update_hud() -> void:
 		"nod": "状态：点头",
 		"wave": "状态：挥手",
 		"greet": "状态：打招呼",
+		"pirouette": "状态：动捕旋转样片",
 	}.get(action_name, "状态：互动"))
 	action_label.text = action_text
 	camera_label.text = "朝向：%d°    距离：%.1f" % [roundi(rad_to_deg(current_yaw)), current_distance]

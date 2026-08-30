@@ -20,6 +20,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Render a neutral model inspection preview")
     parser.add_argument("--input", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--frame", type=int, default=None)
     args = parser.parse_args(blender_arguments())
     input_path = Path(args.input).expanduser().resolve()
     output_path = Path(args.output).expanduser().resolve()
@@ -29,7 +30,9 @@ def main() -> None:
 
     bpy.ops.wm.open_mainfile(filepath=str(input_path))
     scene = bpy.context.scene
-    scene.render.engine = "BLENDER_EEVEE_NEXT"
+    if args.frame is not None:
+        scene.frame_set(args.frame)
+    scene.render.engine = "BLENDER_EEVEE"
     scene.render.resolution_x = 700
     scene.render.resolution_y = 900
     scene.render.resolution_percentage = 100
@@ -40,7 +43,12 @@ def main() -> None:
         if obj.type in {"CAMERA", "LIGHT"}:
             bpy.data.objects.remove(obj, do_unlink=True)
 
-    points = [obj.matrix_world @ Vector(corner) for obj in scene.objects if obj.type == "MESH" for corner in obj.bound_box]
+    points = [
+        obj.matrix_world @ Vector(corner)
+        for obj in scene.objects
+        if obj.type == "MESH" and not obj.hide_render
+        for corner in obj.bound_box
+    ]
     if not points:
         raise RuntimeError("No mesh objects found")
     minimum = Vector((min(v.x for v in points), min(v.y for v in points), min(v.z for v in points)))
