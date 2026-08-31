@@ -43,6 +43,7 @@ The last verified local runtime (2026-08-30) reported Core `status=ok`, one conn
 | `scripts/start-mvp.ps1` | Provider-aware one-click Core and Avatar startup | Changing startup checks or process launch |
 | `docs/AVATAR_BRIDGE.md` | WebSocket protocol contract | Adding or changing events |
 | `docs/MOTION_PIPELINE.md` | BVH retarget command, local artifacts, semantic bone masks, Godot animation bridge, acceptance gates and motion limitations | Adding or replacing authored animation clips |
+| `docs/plans/` | Direction-level follow-up plans kept by parallel agents (model optimization by Codex, agent roadmap by Claude) | Planning the next direction beyond the current handoff priorities |
 | `scripts/model-pipeline/retarget_bvh.py` | Parameterized BVH→Luo Tianyi retarget, resampling, root policy, foot lock and one-action GLB export | Building the next skeletal motion asset |
 
 ## Fast resume procedure

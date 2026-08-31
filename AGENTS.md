@@ -2,7 +2,7 @@
 
 ## Mission and mandatory reading
 
-Build a Windows-first, local-first 3D anime desktop companion whose visible product is an independent VTuber-like character, not another Codex/Claude/chat application window. Before changing code, read `docs/HANDOFF.md` and `docs/CONTRIBUTIONS.md`; then use `docs/ARCHITECTURE.md`, `docs/LOCAL_DEV.md`, `docs/TESTING.md`, `docs/KNOWN_ISSUES.md`, `docs/ASSET_PIPELINE.md`, `docs/MODEL_OPTIMIZATION.md`, and `model-versions/README.md` as the source of truth for the relevant surface. Do not infer current progress from the historical milestone list or from prior conversations.
+Build a Windows-first, local-first 3D anime desktop companion whose visible product is an independent VTuber-like character, not another Codex/Claude/chat application window. Before changing code, read `docs/HANDOFF.md` and `docs/CONTRIBUTIONS.md`; then use `docs/ARCHITECTURE.md`, `docs/LOCAL_DEV.md`, `docs/TESTING.md`, `docs/KNOWN_ISSUES.md`, `docs/ASSET_PIPELINE.md`, `docs/plans/MODEL_OPTIMIZATION.md`, and `model-versions/README.md` as the source of truth for the relevant surface. Do not infer current progress from the historical milestone list or from prior conversations.
 
 ## Product and architecture decisions
 

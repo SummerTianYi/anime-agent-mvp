@@ -22,7 +22,7 @@
 
 ## 零上下文接手
 
-新 Agent 不应根据旧聊天记录猜测项目状态；请先读 [`AGENTS.md`](AGENTS.md)、[`docs/HANDOFF.md`](docs/HANDOFF.md) 和 [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md)，再按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md)、[`docs/MODEL_OPTIMIZATION.md`](docs/MODEL_OPTIMIZATION.md)、[`model-versions/README.md`](model-versions/README.md)、[`docs/TESTING.md`](docs/TESTING.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和中间文件位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。
+新 Agent 不应根据旧聊天记录猜测项目状态；请先读 [`AGENTS.md`](AGENTS.md)、[`docs/HANDOFF.md`](docs/HANDOFF.md) 和 [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md)，再按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md)、([`docs/plans/MODEL_OPTIMIZATION.md`](docs/plans/MODEL_OPTIMIZATION.md)、[`docs/plans/AGENT_ROADMAP.md`](docs/plans/AGENT_ROADMAP.md))、[`model-versions/README.md`](model-versions/README.md)、[`docs/TESTING.md`](docs/TESTING.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和中间文件位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。
 
 ## 一键启动
 
