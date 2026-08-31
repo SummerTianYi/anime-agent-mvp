@@ -51,21 +51,22 @@ SubViewport 作为独立渲染目标并通过 ViewportTexture 合成、以及每
 
 推荐下一步先做 P1 的“外部 toon 材质试验场”，只选脸、头发和白色服装三个材质槽，在独立开关下进行 A/B 截图；通过后再扩展到全身。该路径视觉收益最大，也最容易证明没有修改官模。
 
-## 1.2-preview 当前候选（Codex，未冻结）
+## 1.2 外部调色与立体感版（Codex，已验收）
 
-Godot 实际导入结果解释了 1.1 “清晰但偏亮、偏平”的根因：23 个表面均为 `StandardMaterial3D`，颜色纹理挂在 `emission_texture`，基础色为黑且自发光倍率为 1，因此场景主光和补光很难形成体积。当前候选不编辑官模或纹理，而是在运行时复制 10 个目标表面，用同一张官方纹理同时驱动低权重 Toon 漫反射与保底自发光；脸、身体、手、腿作为连续肤色整体处理，前发、后发、两条长马尾整体处理，主服装、辅服装和裙装整体处理，眼睛、表情叠片、饰品和透明翼保持原材质。`ANIME_AGENT_MODEL_LOOK=1.1`、`baseline`、`off` 或 `false` 可关闭候选并精确恢复 1.1，默认值在本地开发工作树中为 `1.2-preview`，但这不代表版本已发布。
+Godot 实际导入结果解释了 1.1 “清晰但偏亮、偏平”的根因：23 个表面均为 `StandardMaterial3D`，颜色纹理挂在 `emission_texture`，基础色为黑且自发光倍率为 1，因此场景主光和补光很难形成体积。1.2 不编辑官模或纹理，而是在运行时复制 10 个目标表面，用同一张官方纹理同时驱动低权重 Toon 漫反射与保底自发光；脸、身体、手、腿作为连续肤色整体处理，前发、后发、两条长马尾整体处理，主服装、辅服装和裙装整体处理，眼睛、表情叠片、饰品和透明翼保持原材质。`ANIME_AGENT_MODEL_LOOK=1.1`、`baseline`、`off` 或 `false` 可精确恢复 1.1；`1.2`、旧别名 `1.2-preview` 或留空均启用当前正式效果。
 
 | 门禁 | 2026-08-31 本机结果 |
 |---|---|
 | 官模完整性 | GLB SHA-256 仍为 `DF55806D…DC6E4A`；Godot 运行资产保持 23 表面、48 表情、703 根导出骨骼；Blender 源场景仍为 751 根骨骼 |
-| 同帧 A/B | 平均亮度 `0.6550 → 0.5624`，高光溢出像素比例 `26.82% → 0.21%`，Alpha 轮廓差异 `0` |
+| 几何与比例 | 1.1/1.2 的 GLB 与 Blend 分别逐字节同哈希；Blender 门禁确认 97,685 顶点主网格、147,386 面、48 表情形变、751 骨骼静置结构、对象变换和世界边界完全一致；Godot 前/左/右/后四视角 Alpha 差异均为 `0`，模型/相机 Transform、FOV 与运行网格 AABB 不变 |
+| 同帧 A/B | 平均亮度 `0.6550 → 0.5624`，高光溢出像素比例 `26.82% → 0.21%`，Alpha 轮廓差异 `0`；1.2 的暗部与亮部分区更明显，亮部面积缩小会产生“看起来更窄/更扁”的视觉错觉，但不属于比例变化 |
 | 一键回滚 | 关闭预览后的 1.1 图像与切换前基线像素差异 `0` |
-| 性能 | 同一 1920×2320 渲染目标下，基线 `14.34 ms/帧`，候选 `12.25 ms/帧`；未触发 18.5 ms 自动门禁 |
+| 性能 | 同一 1920×2320 渲染目标下，基线 `14.34 ms/帧`，1.2 为 `12.25 ms/帧`；未触发 18.5 ms 自动门禁 |
 | 视图与动作 | 正面、左右、背面、最大缩放、中性脸、极端表情均未触边；OpenGL 与 Vulkan 各对 wave/greet/pirouette/listen 扫描 25 帧，通过连续 Alpha、D 变形腿同步和菜单隔离门禁 |
-| 视觉证据 | 本机路径 `C:\Users\26052\AppData\Roaming\Godot\app_userdata\Luo Tianyi Desktop Avatar MVP\model-look-1.2-preview`；`ab-front.png` 左侧为 1.1，右侧为候选 |
+| 视觉证据 | 本机工作目录 `C:\Users\26052\AppData\Roaming\Godot\app_userdata\Luo Tianyi Desktop Avatar MVP\model-look-1.2-preview`；正式只读副本位于仓库同级 `model-archive/1.2/previews`；`ab-front.png` 左侧为 1.1，右侧为 1.2 |
 
-当前候选仅进入项目所有者视觉验收，不创建 `model-versions/1.2.json`、不复制受限资产、不占用正式版本号。若观感不通过，继续在该预览名下调整或删除候选；只有明确验收后才运行 `snapshot-model-version.ps1` 冻结正式 1.2。
+项目所有者于 2026-09-01 完成视觉验收；正式清单为 `model-versions/1.2/manifest.json`，受限 Blend/GLB 与七视图保存在本地只读 `model-archive/1.2`。后续实验从 1.2 派生，不能覆盖该目录或改写其运行时提交。
 
 ## 版本冻结与对比
 
-正式模型版本由 `model-versions/index.json` 管理，受限的 Blend/GLB 保存在仓库同级 `model-archive/<version>`。当前 `1.0` 是优化前正常比例基线，`1.1` 是固定光轴高清版；两者模型二进制相同，视觉差异来自 Git 运行时提交，因此完整对比必须使用 `open-model-version.ps1` 创建隔离 worktree。下一轮优化开始前先运行版本校验，验收通过后使用 `snapshot-model-version.ps1` 分配 `1.2`；失败或未验收实验不得覆盖快照、不得占正式版本号。字段、截图要求和切换命令见 [`model-versions/README.md`](../../model-versions/README.md)。
+正式模型版本由 `model-versions/index.json` 管理，受限的 Blend/GLB 保存在仓库同级 `model-archive/<version>`。当前 `1.0` 是优化前正常比例基线，`1.1` 是固定光轴高清版，`1.2` 是外部 Toon 调色与立体感版；三者模型二进制相同，视觉差异来自 Git 运行时提交，因此完整对比必须使用 `open-model-version.ps1` 创建隔离 worktree。下一轮优化开始前先运行版本校验，验收通过后使用 `snapshot-model-version.ps1` 连续分配 `1.3`；失败或未验收实验不得覆盖快照、不得占正式版本号。字段、截图要求和切换命令见 [`model-versions/README.md`](../../model-versions/README.md)。

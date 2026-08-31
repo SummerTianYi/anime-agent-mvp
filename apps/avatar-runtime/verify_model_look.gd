@@ -36,6 +36,10 @@ func _run() -> void:
 	runtime.set_process(false)
 	if not _verify_structure(runtime):
 		return
+	var invariant_model_transform: Transform3D = runtime.model.transform
+	var invariant_camera_transform: Transform3D = runtime.camera.transform
+	var invariant_camera_fov: float = runtime.camera.fov
+	var invariant_mesh_aabb: AABB = runtime.face_mesh.get_aabb()
 
 	runtime.set_model_look_preview(false)
 	await process_frame
@@ -72,7 +76,12 @@ func _run() -> void:
 	preview.save_png(PREVIEW_DIR + "/1.2-preview-front.png")
 	var contact := _make_contact_sheet(baseline, preview)
 	contact.save_png(PREVIEW_DIR + "/ab-front.png")
+	var projection_parity: Dictionary = await _verify_projection_parity(runtime)
+	if projection_parity.is_empty():
+		return
 	var review_views: Dictionary = await _save_review_views(runtime)
+	if review_views.is_empty():
+		return
 	var baseline_frame_ms: float = await _benchmark_frame_time(runtime, false)
 	var preview_frame_ms: float = await _benchmark_frame_time(runtime, true)
 	if preview_frame_ms > MAX_FRAME_TIME_MS:
@@ -91,6 +100,18 @@ func _run() -> void:
 		_fail("Disabling the preview did not restore the exact 1.1 render")
 		return
 	runtime.set_model_look_preview(true)
+	if not runtime.model.transform.is_equal_approx(invariant_model_transform):
+		_fail("The look profile changed the model transform")
+		return
+	if not runtime.camera.transform.is_equal_approx(invariant_camera_transform) \
+			or not is_equal_approx(runtime.camera.fov, invariant_camera_fov):
+		_fail("The look profile changed the camera projection")
+		return
+	var final_aabb: AABB = runtime.face_mesh.get_aabb()
+	if not final_aabb.position.is_equal_approx(invariant_mesh_aabb.position) \
+			or not final_aabb.size.is_equal_approx(invariant_mesh_aabb.size):
+		_fail("The look profile changed the mesh bounds")
+		return
 
 	print("GODOT_MODEL_LOOK_PREVIEW_OK", {
 		"official_model_sha256": FileAccess.get_sha256(OFFICIAL_MODEL_PATH),
@@ -101,6 +122,11 @@ func _run() -> void:
 		"baseline": baseline_metrics,
 		"preview": preview_metrics,
 		"alpha_difference_ratio": alpha_difference,
+		"projection_parity": projection_parity,
+		"mesh_aabb": invariant_mesh_aabb,
+		"model_transform": invariant_model_transform,
+		"camera_transform": invariant_camera_transform,
+		"camera_fov": invariant_camera_fov,
 		"rollback_difference_ratio": rollback_difference,
 		"baseline_frame_ms": baseline_frame_ms,
 		"preview_frame_ms": preview_frame_ms,
@@ -186,6 +212,56 @@ func _rgba_difference_ratio(left_source: Image, right_source: Image) -> float:
 			if not left_pixel.is_equal_approx(right_pixel):
 				differing += 1
 	return float(differing) / float(left.get_width() * left.get_height())
+
+
+func _verify_projection_parity(runtime: Node) -> Dictionary:
+	var base_rotation: Vector3 = runtime.base_model_rotation
+	var base_distance: float = runtime.BASE_CAMERA_DISTANCE
+	var cases := [
+		{"id": "front", "yaw": 0.0},
+		{"id": "left", "yaw": PI * 0.5},
+		{"id": "right", "yaw": -PI * 0.5},
+		{"id": "back", "yaw": PI},
+	]
+	var output := {}
+	for view_case in cases:
+		runtime.model.rotation = base_rotation + Vector3(0.0, float(view_case["yaw"]), 0.0)
+		runtime.camera.position = Vector3(0.0, runtime.CAMERA_FOCUS.y, base_distance)
+		runtime.camera.look_at(runtime.CAMERA_FOCUS, Vector3.UP)
+		runtime.set_model_look_preview(false)
+		await process_frame
+		await process_frame
+		var baseline: Image = runtime.avatar_render_viewport.get_texture().get_image()
+		runtime.set_model_look_preview(true)
+		await process_frame
+		await process_frame
+		var preview: Image = runtime.avatar_render_viewport.get_texture().get_image()
+		if baseline.is_empty() or preview.is_empty() or baseline.get_size() != preview.get_size():
+			_fail("Projection parity capture failed: %s" % view_case["id"])
+			return {}
+		var alpha_difference := _alpha_difference_ratio(baseline, preview)
+		var baseline_rect := baseline.get_used_rect()
+		var preview_rect := preview.get_used_rect()
+		if alpha_difference > 0.0001 or baseline_rect != preview_rect:
+			_fail(
+				"Look profile changed the %s silhouette: alpha %.6f, %s -> %s"
+				% [view_case["id"], alpha_difference, baseline_rect, preview_rect]
+			)
+			return {}
+		var relative_path := PREVIEW_DIR + "/ab-%s.png" % view_case["id"]
+		_make_contact_sheet(baseline, preview).save_png(relative_path)
+		output[str(view_case["id"])] = {
+			"alpha_difference_ratio": alpha_difference,
+			"used_rect": baseline_rect,
+			"contact_sheet": ProjectSettings.globalize_path(relative_path),
+		}
+	runtime.model.rotation = base_rotation
+	runtime.camera.position = Vector3(0.0, runtime.CAMERA_FOCUS.y, base_distance)
+	runtime.camera.look_at(runtime.CAMERA_FOCUS, Vector3.UP)
+	runtime.set_model_look_preview(true)
+	await process_frame
+	await process_frame
+	return output
 
 
 func _save_review_views(runtime: Node) -> Dictionary:

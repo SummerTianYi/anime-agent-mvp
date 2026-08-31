@@ -7,9 +7,10 @@
 | 版本 | 状态 | 模型文件 | 运行时提交 | 说明 |
 |---|---|---|---|---|
 | `1.0` | accepted | 官模运行 GLB `DF55806D…DC6E4A` | `b192291c7a26615c67dae7e4e003ee2d5fa50adb` | 优化前的正常比例基线，旧 560×760 透明窗口 |
-| `1.1` | accepted（当前） | 与 `1.0` 字节一致 | `0b4f1d061cf19d20aedf59da68ee2a80cf6797a8` | 固定光轴、2× SubViewport、4× MSAA、高 DPI 与防裁切清晰版 |
+| `1.1` | accepted | 与 `1.0` 字节一致 | `0b4f1d061cf19d20aedf59da68ee2a80cf6797a8` | 固定光轴、2× SubViewport、4× MSAA、高 DPI 与防裁切清晰版 |
+| `1.2` | accepted（当前） | 与 `1.1` 字节一致 | `0629e02e08309667287c0c53fdbcd837f0694b97` | 外部 Toon 调色与立体感版；高光溢出降低，四视角轮廓和官模比例不变 |
 
-`1.0` 和 `1.1` 的 GLB 与可编辑 Blend 都会分别保存；虽然当前文件哈希相同，仍保留两个独立副本，确保后续流程不会覆盖历史。中间未通过比例验收的实验态不在本档案中。
+`1.0`、`1.1` 和 `1.2` 的 GLB 与可编辑 Blend 都分别保存；虽然当前文件哈希相同，仍保留三个独立副本，确保后续流程不会覆盖历史。中间未通过比例验收的实验态不在本档案中。
 
 ## 本地目录
 
@@ -23,6 +24,8 @@ work/
 │  ├─ 1.0/previews/
 │  ├─ 1.1/artifacts/
 │  ├─ 1.1/previews/
+│  ├─ 1.2/artifacts/
+│  ├─ 1.2/previews/
 │  └─ _recovery/
 └─ model-worktrees/                # 本地：按历史提交创建的隔离运行目录
 ```
@@ -34,7 +37,7 @@ work/
 | 校验全部快照 | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\model-versions\verify-model-versions.ps1` | 校验清单、Git 提交、文件大小和 SHA-256 |
 | 当前目录只换模型资产 | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\model-versions\switch-model-version.ps1 -Version 1.0` | 原子替换运行 GLB；遇到未知文件先放入 `_recovery` |
 | 精确打开历史视觉版本 | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\model-versions\open-model-version.ps1 -Version 1.0 -Launch` | 在独立 worktree 打开对应代码和模型，不覆盖当前开发目录 |
-| 接受下一版 | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\model-versions\snapshot-model-version.ps1 -Version 1.2 -BaseVersion 1.1 -DisplayName 'Toon 材质版' -OptimizationPlan '外部材质 A/B' -OptimizationChanges '脸、头发和白衣使用可关闭的外部材质' -PreviewDirectory '<验收截图目录>'` | 强制连续版本号和七类标准截图；拒绝覆盖已有版本，复制 Blend/GLB/预览、生成哈希与清单 |
+| 接受下一版 | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\model-versions\snapshot-model-version.ps1 -Version 1.3 -BaseVersion 1.2 -DisplayName '<版本名称>' -OptimizationPlan '<优化计划>' -OptimizationChanges '<实际改动>' -PreviewDirectory '<验收截图目录>'` | 强制连续版本号和七类标准截图；拒绝覆盖已有版本，复制 Blend/GLB/预览、生成哈希与清单 |
 
 资产切换只改变当前目录的 GLB；当相机、灯光、材质代码或合成方式也发生变化时，必须使用隔离 worktree 才是完整 A/B 对比。不要在有未提交工作的目录里 checkout 历史提交。
 
@@ -45,6 +48,7 @@ work/
 | 身份与来源 | 版本号、基准版本、状态、时间、源 PMX 哈希、版权/再分发边界 |
 | 模型文件 | 可编辑 Blend 与运行 GLB 的本地相对路径、字节数、SHA-256 |
 | 结构 | 骨架数、骨骼数、表情数、左右马尾链长度、材质/UV/权重是否变化 |
+| 几何比例 | 与基准版本对比网格顶点/面、表情形变、骨架静置结构、对象变换、世界边界，以及 Godot 四视角 Alpha 轮廓；视觉调色版必须全部完全一致 |
 | 优化 | 原目标、计划、实际改动、明确未改内容、被放弃方案、已知问题 |
 | 运行环境 | Blender、Godot、MMD Tools、VRM 插件版本和对应 Git 提交 |
 | 视觉证据 | 正面、左右侧面、背面、最大缩放、中性脸、极端表情；动画版另加关键帧 |

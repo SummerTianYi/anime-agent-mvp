@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "version": "1.2",
+  "status": "accepted",
+  "baseVersion": "1.1",
+  "displayName": "外部 Toon 调色与立体感版",
+  "acceptedAt": "2026-09-01T00:41:51.8379892+08:00",
+  "source": {
+    "name": "洛天依 V4 公式服 ver2.0",
+    "pmxFile": "luotianyi_v4_ver2.0.pmx",
+    "pmxBytes": 7634318,
+    "pmxSha256": "6C292DEEE948B3769AA7BDFC2301814431DF1EB102DA92A39656DA0236A115E7",
+    "redistribution": "local-only; public redistribution is not established"
+  },
+  "runtime": {
+    "commit": "0629e02e08309667287c0c53fdbcd837f0694b97",
+    "modelBinaryChangedFromBase": false,
+    "godot": "4.7.2",
+    "blender": "5.2.1 LTS",
+    "mmdTools": "4.5.13",
+    "vrmAddon": "4.5.0"
+  },
+  "artifacts": {
+    "archiveDirectory": "1.2/artifacts",
+    "editableBlend": {
+      "file": "luotianyi_v4_prepared.blend",
+      "bytes": 47623610,
+      "sha256": "886B61339707C289157F7D762A9B44DF26E9CFDFA92BD1D5AC518D7116B7672D"
+    },
+    "runtimeGlb": {
+      "file": "luotianyi_v4.glb",
+      "bytes": 128621144,
+      "sha256": "DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    }
+  },
+  "structure": {
+    "skeletons": 1,
+    "bones": 751,
+    "expressions": 48,
+    "pigtailChainLengths": [
+      17,
+      17
+    ],
+    "meshTopologyChanged": false,
+    "uvChanged": false,
+    "skinWeightsChanged": false
+  },
+  "optimization": {
+    "goal": "外部 Toon 调色与立体感版",
+    "plan": [
+      "运行时复制官模材质，混合同源纹理 Toon 受光与低强度自发光",
+      "固定同机位 A/B、三视图、最大缩放、中性脸与极端表情证据",
+      "OpenGL/Vulkan 大动作连续性、性能和像素级回滚门禁"
+    ],
+    "changes": [
+      "脸、连续皮肤、前后发、两条长马尾、主服装和裙装共 10 个表面启用可关闭的外部材质覆盖",
+      "平均亮度从 0.6550 调整到 0.5624，高光溢出从 26.82% 降至 0.21%",
+      "ANIME_AGENT_MODEL_LOOK=1.1 可精确恢复 1.1；默认运行正式 1.2 材质参数"
+    ],
+    "explicitlyUnchanged": [
+      "official character design",
+      "body and face proportions",
+      "front/left/right/back silhouettes",
+      "mesh topology",
+      "UV",
+      "skin weights",
+      "official textures",
+      "material slot count",
+      "skeleton and pigtail chains",
+      "expression blend shapes"
+    ],
+    "knownIssues": [
+      "派生高清纹理、透明发片专项优化和 3× 录制模式留待后续版本"
+    ]
+  },
+  "visualEvidence": {
+    "localDirectory": "1.2/previews",
+    "requiredViews": [
+      "front",
+      "left",
+      "right",
+      "back",
+      "max-zoom",
+      "neutral-face",
+      "expression-extremes"
+    ],
+    "captured": [
+      {
+        "view": "front",
+        "file": "front.png",
+        "bytes": 230441,
+        "sha256": "930CAD78399EC864925C6935179091B13AFF91EBD7924D308BFEF2EF25D22624"
+      },
+      {
+        "view": "left",
+        "file": "left.png",
+        "bytes": 185655,
+        "sha256": "0CBBC84B06543D3EE338B8E9BD43CC30BB15359D2AE389E799F5637E586364EA"
+      },
+      {
+        "view": "right",
+        "file": "right.png",
+        "bytes": 186283,
+        "sha256": "47BD02CC44E8896B62727A389A4DCEF6D14C3689373EF7FE0BCE4224EE4F3C1F"
+      },
+      {
+        "view": "back",
+        "file": "back.png",
+        "bytes": 206281,
+        "sha256": "36447C9E19CE4F2D03056AD73E599B9D29DFFC13F525F3F23896B3678750CF6C"
+      },
+      {
+        "view": "max-zoom",
+        "file": "max-zoom.png",
+        "bytes": 366733,
+        "sha256": "F4361ED35F3E27CCCF46AAC46A875B10207DCCD1D0EBCD1356A589A3BB3521EB"
+      },
+      {
+        "view": "neutral-face",
+        "file": "neutral-face.png",
+        "bytes": 366732,
+        "sha256": "978E048A077615490DBE6E37E9FA3E7759FD0C8B8B5CF0C434BA9FAA094FBEAA"
+      },
+      {
+        "view": "expression-extremes",
+        "file": "expression-extremes.png",
+        "bytes": 363788,
+        "sha256": "79BEE0514056FF6EA1AB55E9DF052666A3A58795D6C1B044F75F7D1FB36BB615"
+      }
+    ]
+  },
+  "verification": [
+    {
+      "name": "snapshot-contract",
+      "result": "passed",
+      "evidence": "128621144 bytes; SHA-256 DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    },
+    {
+      "name": "visual-review",
+      "result": "passed",
+      "evidence": "Project owner accepted the seven-view 1.2 result on 2026-09-01; a later flatness concern was resolved by exact GLB/Blend hash parity and zero-difference four-view silhouette checks."
+    },
+    {
+      "name": "model-geometry-parity",
+      "result": "passed",
+      "evidence": "Blender geometry snapshot SHA-256 11C2E8201B99BE7CF3FB0E14E5093204513B9B812080EC3D1A31A06DB08C1621; 97,685-vertex/147,386-polygon main mesh, 48 shape keys, 751-bone rest rig, transforms and world bounds match 1.1 exactly."
+    },
+    {
+      "name": "runtime-projection-parity",
+      "result": "passed",
+      "evidence": "Godot front/left/right/back A/B alpha-difference ratios are all 0; model transform, camera transform/FOV and mesh AABB remain unchanged."
+    }
+  ],
+  "rollback": {
+    "assetCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\switch-model-version.ps1 -Version 1.2",
+    "exactRuntimeCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\open-model-version.ps1 -Version 1.2 -Launch"
+  }
+}

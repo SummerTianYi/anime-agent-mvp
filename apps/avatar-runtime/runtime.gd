@@ -54,7 +54,7 @@ const AUTHORED_MOTION_REGISTRY_PATH := "res://motion_registry.json"
 const AUTHORED_MOTION_ENV := "ANIME_AGENT_USE_AUTHORED_MOTION"
 const AUTHORED_MOTION_AUTOPLAY_ENV := "ANIME_AGENT_AUTOPLAY_MOTION"
 const MODEL_LOOK_ENV := "ANIME_AGENT_MODEL_LOOK"
-const MODEL_LOOK_PREVIEW := "1.2-preview"
+const MODEL_LOOK_V12 := "1.2"
 const MODEL_LOOK_TARGETS := {
 	"face": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
 	"body": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
@@ -191,7 +191,7 @@ func _ready() -> void:
 		"pigtail_chain_lengths": pigtail_chains.map(func(chain: Array) -> int: return chain.size()),
 		"motion_layers": _motion_layer_sizes(),
 		"expressions": expression_ids.size(),
-		"model_look": MODEL_LOOK_PREVIEW if model_look_preview_enabled else "1.1",
+		"model_look": MODEL_LOOK_V12 if model_look_preview_enabled else "1.1",
 		"authored_motions": authored_motion_clips.keys(),
 		"desktop_overlay": DisplayServer.get_name() != "headless",
 		"core_url": core_ws_url,
@@ -1320,7 +1320,7 @@ func _create_model_look_material(
 	surface_name: String
 ) -> StandardMaterial3D:
 	var preview := source.duplicate(true) as StandardMaterial3D
-	preview.resource_name = "%s_%s" % [surface_name, MODEL_LOOK_PREVIEW]
+	preview.resource_name = "%s_%s" % [surface_name, MODEL_LOOK_V12]
 	preview.albedo_texture = source.emission_texture
 	var albedo_strength := float(profile.get("albedo", 0.4))
 	preview.albedo_color = Color(albedo_strength, albedo_strength, albedo_strength, 1.0)

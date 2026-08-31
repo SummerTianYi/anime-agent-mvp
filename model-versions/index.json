@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "currentVersion": "1.1",
+  "currentVersion": "1.2",
   "archiveRoot": "../model-archive",
   "versions": [
     {
@@ -11,9 +11,15 @@
     },
     {
       "version": "1.1",
-      "status": "current",
+      "status": "accepted",
       "manifest": "model-versions/1.1/manifest.json",
       "runtimeCommit": "0b4f1d061cf19d20aedf59da68ee2a80cf6797a8"
+    },
+    {
+      "version": "1.2",
+      "status": "current",
+      "manifest": "model-versions/1.2/manifest.json",
+      "runtimeCommit": "0629e02e08309667287c0c53fdbcd837f0694b97"
     }
   ]
 }
