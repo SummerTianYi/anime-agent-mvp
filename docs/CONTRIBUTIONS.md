@@ -2,7 +2,7 @@
 
 ## 声明口径
 
-本文件是项目所有者授权的工程归属与交接标记，用于让没有聊天上下文的人或 Agent 快速识别建设范围；它不是对 Git 历史作者、著作权或排他所有权的改写。项目所有者明确允许 Codex 将建仓、初始实现、接手前基线及后续主导工作统一标记为 Codex 建设范围，也允许并行 Agent 对有参与或接手的同一模块留下重叠声明。发生重叠时以具体提交、当前工作树和各 Agent 的补充记录判断最新维护责任，不删除彼此声明。
+本文件是项目所有者授权的工程归属与交接标记，用于让没有聊天上下文的人或 Agent 快速识别建设范围；它不是对 Git 历史作者、著作权或排他所有权的改写。项目所有者明确允许 Codex 将建仓、初始实现、接手前基线及后续主导工作统一标记为 Codex 建设范围，同样授权 Claude（Claude Code）按同一口径标记其建设范围，也允许并行 Agent 对有参与或接手的同一模块留下重叠声明。发生重叠时以具体提交、当前工作树和各 Agent 的补充记录判断最新维护责任，不删除彼此声明。
 
 ## Codex 建设范围
 
@@ -23,6 +23,26 @@
 ## 本次推送边界
 
 本次 Codex 提交包含语义动作层与马尾验证、透明桌面画布、固定光轴 SubViewport、画质/防裁切优化、相关回归测试、优化路线及本贡献声明。提交时明确排除另一位并行 Agent 尚未提交的倾听动作增量、唤醒词/Core 增量及其 `.gitignore` 调整；这些文件继续留在本地工作树，由对应 Agent 自行验证、标记和提交。`runtime.gd` 与 `interaction_ui.gd` 同时包含双方未提交行时，Codex 只分块暂存自己的行，不把对方增量夹带进本次提交。
+
+## Claude 建设范围
+
+声明日期：2026-08-31；声明 Agent：Claude（Claude Code / Fable 5）。以下为 Claude 自接手（`4179b23` 之前的工作树）以来建设、主导或纳入维护的全部内容，按项目所有者授权与 Codex 同等口径标记；与 Codex 重叠的共享文件只声明自己的增量。
+
+| 阶段/领域 | Claude 建设、主导或纳入维护的内容 | 代表文件或提交 |
+|---|---|---|
+| 语音链路诊断 | 定位 Realtek 麦克风阵列驱动假死根因（设备持续输出静音数据，需外部事件复位），并写入已知问题与交接陷阱清单，作为后续 STT 与唤醒加固的共同前提 | `docs/KNOWN_ISSUES.md`；`docs/HANDOFF.md` Known traps |
+| 聊天形态设计与文档 | 确立"角色为主体、聊天为底部浮层"的产品方向（不做全窗口网页化、不引入 Tauri）；设计终稿、archify 架构图、交互原型、头像定稿裁切 | `4179b23`；`docs/design/chat-form-upgrade.md`；`docs/design/chat-ui-mockup.html`；`docs/design/assets/*` |
+| Core 多会话系统 | `sessions` 表 + `messages.conversation_id` 与启动自动迁移；按会话取历史替换进程级全局；`session.new` / `session.list` / `chat.history` 协议；会话存储单测 | `364d5d4`；`services/agent-core/agent_core/storage.py`；`agent_core/main.py`；`tests/test_storage.py` |
+| 底部浮层聊天界面 | `interaction_ui.gd` 重写：洛天依主题、可滚动气泡、会话下拉与新开、头像气泡、空态提示；`runtime.gd` 协议接入；滚轮/右键输入优先级守卫（面板上让位 UI） | `6d432aa`；`apps/avatar-runtime/interaction_ui.gd`；`apps/avatar-runtime/runtime.gd` |
+| 交接文档 2026-08-30 | HANDOFF 快照、AVATAR_BRIDGE 会话协议章节、TESTING 会话与输入优先级验收项、README 状态表 | `a094352`；`docs/HANDOFF.md`；`docs/AVATAR_BRIDGE.md`；`docs/TESTING.md`；`README.md` |
+| 倾听动作样片（当前工作树） | 官方视频抽帧与转写参考解析；骨骼轴系叉积推导（修正肘弯/朝向/停顿三类判定）；`create_listen_motion.py`（12 上半身骨 + 20 指骨 + 手捩扭转 + 躯干前倾）；`listen` 注册条目、G 键与菜单触发、资产门扩为三 clip | `scripts/model-pipeline/create_listen_motion.py`；`apps/avatar-runtime/motion_registry.json`；`verify_motion_asset.gd`；`runtime.gd` / `interaction_ui.gd` 增量 |
+| 唤醒词系统（当前工作树） | sherpa-onnx 中文 KWS 集成；"天依"KWS 触发 + whisper 转写同音容错确认（`嗨天依` 停顿免疫的两阶段唤醒流）；滚动音频缓冲；Realtek 假死静音看门狗；`wake.triggered` / `wake.idle` / `chat.user_message` 协议与 `/wake-test` 诊断端点；`ANIME_AGENT_WAKE_WORD` 开关 | `services/agent-core/agent_core/wake_word.py`；`agent_core/data/wake_tianyi.txt`；`agent_core/main.py`；`agent_core/voice.py`（调用点）；`runtime.gd` / `interaction_ui.gd` 增量 |
+| 会话删除（当前工作树） | `delete_session`（末会话自动补建）；`session.delete` / `session.deleted` 协议；聊天头部删除按钮（3 秒双击确认） | `storage.py`；`main.py`；`interaction_ui.gd`；`tests/test_storage.py` |
+| 测试与仓库运维 | 会话/删除单测扩至 22 项（22/22 通过）；本仓库 git 局部代理；`.gitignore` 增补唤醒模型目录；设计文档 Drive 备份惯例 | `tests/test_storage.py`；`.gitignore`；`.git/config`（仅本地） |
+
+### Claude 工作树边界
+
+Claude 当前未提交的增量为：倾听动作（`create_listen_motion.py`、`motion_registry.json`、`verify_motion_asset.gd`、runtime/UI 触发行）、唤醒词（`wake_word.py`、`wake_tianyi.txt`、`main.py`、`voice.py`、`.gitignore`）、会话删除（`storage.py`、`main.py`、`test_storage.py`、runtime/UI 删除行）。`runtime.gd` 与 `interaction_ui.gd` 同时包含 Codex 的画布增量与 Claude 的唤醒/删除增量，提交时按 Codex 同一口径分块暂存自己的行，不夹带对方代码。倾听动作与唤醒词已分别通过离线管线验证与 `/wake-test` 活体链路验证，等待项目所有者真人语音验收后提交。
 
 ## 后续 Agent 更新规则
 
