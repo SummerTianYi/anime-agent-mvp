@@ -8,10 +8,11 @@
 
 | 层 | 实现 | 结果 |
 |---|---|---|
-| 桌面合成 | 工作区大小的透明穿透画布；3D 模型固定在相机光轴，渲染到 1520×1840 SubViewport，再缩放为 760×920 二维透明层 | 保留原透视，解决离轴“压扁”和旧 560×760 裁切 |
+| 桌面合成 | 工作区大小的透明穿透画布；3D 模型固定在相机光轴，渲染到 1920×2320 SubViewport，再缩放为 960×1160 二维透明层 | 保留原透视，在不改变模型显示比例的前提下，为大幅动作提供额外透明安全边界 |
+| 大幅动作稳定性 | 根据官模 rest pose 推导局部动作轴；在 AnimationPlayer 之后统一执行摄像机空间的上肢可读性约束；全身动作把标准腿控制骨的全局增量同步到真正承载蒙皮权重的 D 变形链；交互面板按屏幕余量选择左右侧 | 同时消除“动作修正被同帧动画覆盖”、肢体朝镜头深度方向投影塌缩、MMD 控制/蒙皮腿链脱节三类根因；不改 GLB、拓扑、权重或动作资产 |
 | 清晰度 | SubViewport 2× 超采样、4× MSAA、高 DPI | 原型轮廓比例差 0.196%，遮罩重合度 98.36%，平均 7.99 ms/帧 |
 | 光照 | 外部环境、主光和补光独立于模型文件 | 白色服装过曝降低，官模材质和纹理未改写 |
-| 完整性 | `verify_desktop_canvas.gd`、动作/输入回归和本地资产契约 | 最大缩放无裁切，官模哈希、骨骼、表情和动作桥保持稳定 |
+| 完整性 | `verify_desktop_canvas.gd`、`verify_large_motion_safety.gd`、`verify_large_motion_render.gd`、动作/输入回归和本地资产契约 | wave、greet、pirouette、listen 各扫描 25 帧；双臂/双手和 D 变形腿链像素连续，控制/变形腿骨的全局增量误差受限，菜单开关不改变离屏渲染，官模哈希保持稳定 |
 
 SubViewport 作为独立渲染目标并通过 ViewportTexture 合成、以及每个 Viewport 单独设置 MSAA，都是 Godot 官方支持的路径；材质增强应使用实例或表面级覆盖资源，不应回写模型内材质。参考 [Using Viewports](https://docs.godotengine.org/en/stable/tutorials/rendering/viewports.html)、[SubViewport](https://docs.godotengine.org/en/stable/classes/class_subviewport.html) 和 [Standard Material 3D](https://docs.godotengine.org/en/stable/tutorials/3d/standard_material_3d.html)。
 
@@ -49,6 +50,21 @@ SubViewport 作为独立渲染目标并通过 ViewportTexture 合成、以及每
 | 性能 | 日常档目标 ≤16.7 ms/帧；超限时降低派生效果或渲染倍率，不破坏模型 |
 
 推荐下一步先做 P1 的“外部 toon 材质试验场”，只选脸、头发和白色服装三个材质槽，在独立开关下进行 A/B 截图；通过后再扩展到全身。该路径视觉收益最大，也最容易证明没有修改官模。
+
+## 1.2-preview 当前候选（Codex，未冻结）
+
+Godot 实际导入结果解释了 1.1 “清晰但偏亮、偏平”的根因：23 个表面均为 `StandardMaterial3D`，颜色纹理挂在 `emission_texture`，基础色为黑且自发光倍率为 1，因此场景主光和补光很难形成体积。当前候选不编辑官模或纹理，而是在运行时复制 10 个目标表面，用同一张官方纹理同时驱动低权重 Toon 漫反射与保底自发光；脸、身体、手、腿作为连续肤色整体处理，前发、后发、两条长马尾整体处理，主服装、辅服装和裙装整体处理，眼睛、表情叠片、饰品和透明翼保持原材质。`ANIME_AGENT_MODEL_LOOK=1.1`、`baseline`、`off` 或 `false` 可关闭候选并精确恢复 1.1，默认值在本地开发工作树中为 `1.2-preview`，但这不代表版本已发布。
+
+| 门禁 | 2026-08-31 本机结果 |
+|---|---|
+| 官模完整性 | GLB SHA-256 仍为 `DF55806D…DC6E4A`；Godot 运行资产保持 23 表面、48 表情、703 根导出骨骼；Blender 源场景仍为 751 根骨骼 |
+| 同帧 A/B | 平均亮度 `0.6550 → 0.5624`，高光溢出像素比例 `26.82% → 0.21%`，Alpha 轮廓差异 `0` |
+| 一键回滚 | 关闭预览后的 1.1 图像与切换前基线像素差异 `0` |
+| 性能 | 同一 1920×2320 渲染目标下，基线 `14.34 ms/帧`，候选 `12.25 ms/帧`；未触发 18.5 ms 自动门禁 |
+| 视图与动作 | 正面、左右、背面、最大缩放、中性脸、极端表情均未触边；OpenGL 与 Vulkan 各对 wave/greet/pirouette/listen 扫描 25 帧，通过连续 Alpha、D 变形腿同步和菜单隔离门禁 |
+| 视觉证据 | 本机路径 `C:\Users\26052\AppData\Roaming\Godot\app_userdata\Luo Tianyi Desktop Avatar MVP\model-look-1.2-preview`；`ab-front.png` 左侧为 1.1，右侧为候选 |
+
+当前候选仅进入项目所有者视觉验收，不创建 `model-versions/1.2.json`、不复制受限资产、不占用正式版本号。若观感不通过，继续在该预览名下调整或删除候选；只有明确验收后才运行 `snapshot-model-version.ps1` 冻结正式 1.2。
 
 ## 版本冻结与对比
 

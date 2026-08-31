@@ -5,6 +5,26 @@ $projectPath = Join-Path $repoRoot "apps\avatar-runtime"
 $modelPath = Join-Path $projectPath "assets\luotianyi_v4.glb"
 $envPath = Join-Path $repoRoot ".env"
 
+function Get-LocalEnvValue {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Name
+    )
+
+    if (-not (Test-Path -LiteralPath $envPath)) {
+        return ""
+    }
+    $pattern = "^\s*" + [regex]::Escape($Name) + "\s*=\s*(.*)$"
+    $line = Get-Content -LiteralPath $envPath |
+        Where-Object { $_ -match $pattern } |
+        Select-Object -Last 1
+    if (-not $line) {
+        return ""
+    }
+    $value = [regex]::Match($line, $pattern).Groups[1].Value.Trim()
+    return $value.Trim('"').Trim("'")
+}
+
 if (-not (Test-Path -LiteralPath $modelPath)) {
     throw "Local avatar model asset not found: $modelPath"
 }
@@ -20,6 +40,13 @@ if ([string]::IsNullOrWhiteSpace($env:AGENT_CORE_WS_URL)) {
         }
     }
     $env:AGENT_CORE_WS_URL = "ws://127.0.0.1:$corePort/ws"
+}
+
+if ([string]::IsNullOrWhiteSpace($env:ANIME_AGENT_MODEL_LOOK)) {
+    $configuredModelLook = Get-LocalEnvValue -Name "ANIME_AGENT_MODEL_LOOK"
+    if (-not [string]::IsNullOrWhiteSpace($configuredModelLook)) {
+        $env:ANIME_AGENT_MODEL_LOOK = $configuredModelLook
+    }
 }
 
 $godotCandidates = @(

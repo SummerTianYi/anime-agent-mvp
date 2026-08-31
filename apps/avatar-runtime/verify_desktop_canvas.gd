@@ -30,10 +30,10 @@ func _run() -> void:
 	if runtime.avatar_render_viewport == null or runtime.avatar_texture_rect == null:
 		_fail("Desktop avatar is not rendered through the isolated SubViewport")
 		return
-	if runtime.avatar_render_viewport.size != Vector2i(1520, 1840):
+	if runtime.avatar_render_viewport.size != Vector2i(1920, 2320):
 		_fail("Unexpected supersampled avatar viewport size")
 		return
-	if not runtime.avatar_texture_rect.size.is_equal_approx(Vector2(760.0, 920.0)):
+	if not runtime.avatar_texture_rect.size.is_equal_approx(Vector2(960.0, 1160.0)):
 		_fail("Avatar composite is not downsampled to its intended desktop size")
 		return
 	if not is_equal_approx(runtime.camera.position.z, runtime.BASE_CAMERA_DISTANCE):

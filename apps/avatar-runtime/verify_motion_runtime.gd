@@ -27,8 +27,8 @@ func _run() -> void:
 	if runtime.authored_motion_player == null or runtime.skeleton == null:
 		_fail("Runtime motion registry was not prepared")
 		return
-	if not runtime.authored_motion_clips.has("idle") or not runtime.authored_motion_clips.has("pirouette"):
-		_fail("Runtime motion registry is missing idle or pirouette")
+	if not runtime.authored_motion_clips.has("idle") or not runtime.authored_motion_clips.has("pirouette") or not runtime.authored_motion_clips.has("listen"):
+		_fail("Runtime motion registry is missing idle, pirouette or listen")
 		return
 	var runtime_skeleton := runtime.skeleton as Skeleton3D
 	var motion_player := runtime.authored_motion_player as AnimationPlayer
@@ -100,7 +100,21 @@ func _run() -> void:
 			_fail("Pirouette runtime animation is missing core bone: %s" % bone_name)
 			return
 
-	runtime._cancel_authored_motion(true)
+	runtime._handle_core_event({"type": "voice.state", "state": "recording"})
+	if not runtime.voice_recording_active or runtime.authored_motion_name != &"listen":
+		_fail("Voice recording did not start the listen motion")
+		return
+	var listen_animation := motion_player.get_animation(&"listen") as Animation
+	motion_player.seek(1.0, true)
+	runtime._on_authored_motion_finished(&"listen")
+	if not runtime.authored_motion_active or runtime.authored_motion_name != &"listen":
+		_fail("Listen motion did not hold its final pose while recording")
+		return
+	runtime._handle_core_event({"type": "voice.state", "state": "transcribing"})
+	if runtime.voice_recording_active or runtime.authored_motion_name != &"idle":
+		_fail("Listen motion did not return to idle after recording")
+		return
+
 	if not runtime.authored_motion_active or runtime.authored_motion_name != &"idle":
 		_fail("Runtime did not return to authored idle after interaction motion")
 		return
@@ -114,6 +128,8 @@ func _run() -> void:
 		"pirouette_duration": pirouette_animation.length,
 		"pirouette_tracks": pirouette_animation.get_track_count(),
 		"pirouette_delta_radians": pirouette_delta,
+		"listen_duration": listen_animation.length,
+		"listen_voice_hold": true,
 		"pigtail_chain_lengths": runtime.pigtail_chains.map(func(chain: Array) -> int: return chain.size()),
 		"pigtail_root_delta_radians": pigtail_root_delta,
 		"pigtail_tip_delta_radians": pigtail_tip_delta,

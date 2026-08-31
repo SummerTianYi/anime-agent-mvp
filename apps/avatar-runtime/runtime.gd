@@ -8,7 +8,10 @@ const BASE_VIEWPORT_SIZE := Vector2(560.0, 760.0)
 const BASE_AVATAR_CENTER := BASE_VIEWPORT_SIZE * 0.5
 const BASE_CAMERA_DISTANCE := 3.8
 const BASE_CAMERA_FOV := 35.0
-const AVATAR_COMPOSITE_SIZE := Vector2(760.0, 920.0)
+## The desktop compositor keeps extra transparent room around the avatar. The
+## camera FOV is derived from this size, so the model keeps the same apparent
+## size while large gestures have room to leave the idle silhouette.
+const AVATAR_COMPOSITE_SIZE := Vector2(960.0, 1160.0)
 const AVATAR_RENDER_SCALE := 2.0
 const CANVAS_MODE_ENV := "ANIME_AGENT_CANVAS_MODE"
 const CANVAS_MODE_DESKTOP := "desktop"
@@ -19,6 +22,27 @@ const PIGTAIL_DEPTH_ANGLE := 0.0
 const PIGTAIL_SWAY_AMPLITUDE := 1.6
 const PIGTAIL_CHAIN_SWAY_AMPLITUDE := 0.32
 const PIGTAIL_CHAIN_PHASE_DELAY := 0.16
+const WAVE_UPPER_ARM_ANGLE := 72.0
+const WAVE_ELBOW_BEND_ANGLE := 68.0
+const WAVE_ELBOW_SWAY_ANGLE := 8.0
+const WAVE_WRIST_ROLL_ANGLE := 70.0
+const WAVE_WRIST_SWAY_ANGLE := 14.0
+## Keep animated arm chains readable from the fixed desktop camera. A value of
+## 1.0 means a segment lies in the camera plane; 0.0 means it points directly
+## into the camera and collapses to almost no visible pixels.
+const MIN_LIMB_CAMERA_PLANE_VISIBILITY := 0.72
+const MAX_LIMB_READABILITY_CORRECTION := 60.0
+const READABILITY_ARM_CHAINS := [
+	["腕.R", "ひじ.R", "手首.R", "中指先.R"],
+	["腕.L", "ひじ.L", "手首.L", "中指先.L"],
+]
+## The official MMD mesh is weighted to the D deform-leg chain while imported
+## humanoid clips animate the parallel control chain. Mirror control movement
+## in skeleton space so the vertices follow the authored leg motion.
+const MMD_DEFORM_BONE_MIRRORS := [
+	["足.L", "足D.L"], ["ひざ.L", "ひざD.L"], ["足首.L", "足首D.L"],
+	["足.R", "足D.R"], ["ひざ.R", "ひざD.R"], ["足首.R", "足首D.R"],
+]
 const MOTION_LAYER_FULL_BODY := "full_body"
 const MOTION_LAYER_UPPER_BODY := "upper_body"
 const MOTION_LAYER_LOWER_BODY := "lower_body"
@@ -29,9 +53,26 @@ const SPEAKING_MOUTHS := ["あ", "い", "う", "え", "お"]
 const AUTHORED_MOTION_REGISTRY_PATH := "res://motion_registry.json"
 const AUTHORED_MOTION_ENV := "ANIME_AGENT_USE_AUTHORED_MOTION"
 const AUTHORED_MOTION_AUTOPLAY_ENV := "ANIME_AGENT_AUTOPLAY_MOTION"
+const MODEL_LOOK_ENV := "ANIME_AGENT_MODEL_LOOK"
+const MODEL_LOOK_PREVIEW := "1.2-preview"
+const MODEL_LOOK_TARGETS := {
+	"face": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
+	"body": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
+	"hand": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
+	"leg": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
+	"fronthair": {"albedo": 0.42, "emission": 0.72, "roughness": 0.86, "rim": 0.10},
+	"backhair": {"albedo": 0.42, "emission": 0.72, "roughness": 0.86, "rim": 0.10},
+	"tail": {"albedo": 0.42, "emission": 0.72, "roughness": 0.86, "rim": 0.10},
+	"clothes1": {"albedo": 0.36, "emission": 0.78, "roughness": 0.88, "rim": 0.07},
+	"clothes2": {"albedo": 0.36, "emission": 0.78, "roughness": 0.88, "rim": 0.07},
+	"skirt": {"albedo": 0.36, "emission": 0.78, "roughness": 0.88, "rim": 0.07},
+}
 
 @onready var model: Node3D = $LuoTianyi
 @onready var camera: Camera3D = $Camera3D
+@onready var world_environment: WorldEnvironment = $Environment
+@onready var key_light: DirectionalLight3D = $KeyLight
+@onready var fill_light: DirectionalLight3D = $FillLight
 
 var authored_motion_player: AnimationPlayer
 var authored_motion_name: StringName = &""
@@ -39,6 +80,7 @@ var authored_motion_clips: Dictionary = {}
 var default_idle_motion: StringName = &""
 var authored_motion_active := false
 var model_uses_authored_motion := false
+var voice_recording_active := false
 
 var elapsed := 0.0
 var target_yaw := 0.0
@@ -73,6 +115,9 @@ var skeleton: Skeleton3D
 var bone_ids: Dictionary = {}
 var base_bone_rotations: Dictionary = {}
 var rest_bone_rotations: Dictionary = {}
+var action_axes: Dictionary = {}
+var deform_bone_mirrors: Array = []
+var deform_mirror_base_global_poses: Dictionary = {}
 var pigtail_root_ids: Array[int] = []
 var pigtail_chains: Array = []
 var pigtail_base_rotations: Dictionary = {}
@@ -89,6 +134,9 @@ var expression_name := "自然"
 var agent_state := "idle"
 var speaking_mouth_elapsed := 0.0
 var speaking_mouth_index := -1
+var model_look_preview_enabled := false
+var model_look_original_overrides: Dictionary = {}
+var model_look_preview_materials: Dictionary = {}
 
 var core_socket: WebSocketPeer
 var core_ws_url := DEFAULT_CORE_WS_URL
@@ -109,6 +157,10 @@ var hud_visible := false
 
 
 func _ready() -> void:
+	## AnimationPlayer is a child node. Run this controller after child animation
+	## tracks so camera-readability and pigtail corrections are the final pose
+	## written before rendering, rather than being overwritten in the same frame.
+	process_priority = 100
 	var configured_core_url := OS.get_environment("AGENT_CORE_WS_URL").strip_edges()
 	if not configured_core_url.is_empty():
 		core_ws_url = configured_core_url
@@ -121,8 +173,11 @@ func _ready() -> void:
 
 	skeleton = _find_skeleton(model)
 	_cache_bones()
+	_cache_deform_bone_mirrors()
 	_cache_expressions()
+	_configure_model_look()
 	_restore_bone_poses()
+	_cache_action_axes()
 	_prepare_authored_motions()
 	_create_hud()
 	_create_interaction_ui()
@@ -136,6 +191,7 @@ func _ready() -> void:
 		"pigtail_chain_lengths": pigtail_chains.map(func(chain: Array) -> int: return chain.size()),
 		"motion_layers": _motion_layer_sizes(),
 		"expressions": expression_ids.size(),
+		"model_look": MODEL_LOOK_PREVIEW if model_look_preview_enabled else "1.1",
 		"authored_motions": authored_motion_clips.keys(),
 		"desktop_overlay": DisplayServer.get_name() != "headless",
 		"core_url": core_ws_url,
@@ -193,6 +249,8 @@ func _process(delta: float) -> void:
 			_play_default_idle_motion()
 	if not authored_motion_active:
 		_apply_action_pose()
+	_sync_deform_bone_mirrors()
+	_preserve_limb_readability()
 	_apply_pigtail_pose()
 	_process_speaking_mouth(delta)
 	_process_expressions(delta)
@@ -378,9 +436,30 @@ func _cancel_authored_motion(return_to_idle: bool = false) -> void:
 func _on_authored_motion_finished(animation_name: StringName) -> void:
 	if animation_name != authored_motion_name:
 		return
+	var clip_data: Dictionary = authored_motion_clips.get(String(animation_name), {})
+	if voice_recording_active and bool(clip_data.get("hold_last_while_recording", false)):
+		var animation := authored_motion_player.get_animation(animation_name)
+		authored_motion_player.pause()
+		authored_motion_player.seek(animation.length, true)
+		print("GODOT_AUTHORED_MOTION_HELD", animation_name)
+		return
 	var should_return_to_idle := animation_name != default_idle_motion
 	_cancel_authored_motion(should_return_to_idle)
 	print("GODOT_AUTHORED_MOTION_FINISHED", animation_name)
+
+
+func _set_voice_motion_state(next_state: String) -> void:
+	var was_recording := voice_recording_active
+	voice_recording_active = next_state == "recording"
+	if voice_recording_active:
+		if authored_motion_name != &"listen":
+			handle_agent_event("avatar.listen")
+		return
+	if was_recording and authored_motion_name == &"listen":
+		_cancel_authored_motion(true)
+		_set_expression("まばたき", 0.0)
+		_clear_emotions()
+		expression_name = "自然"
 
 
 func _connect_core() -> void:
@@ -472,8 +551,10 @@ func _handle_core_event(payload: Dictionary) -> void:
 			if interaction_ui != null:
 				interaction_ui.on_wake_triggered()
 		"voice.state":
+			var voice_state := str(payload.get("state", "idle"))
+			_set_voice_motion_state(voice_state)
 			if interaction_ui != null:
-				interaction_ui.on_voice_state(str(payload.get("state", "idle")))
+				interaction_ui.on_voice_state(voice_state)
 		"session.title":
 			if interaction_ui != null:
 				interaction_ui.on_session_title(int(payload.get("conversationId", -1)), str(payload.get("title", "")))
@@ -689,6 +770,8 @@ func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 			_play_authored_motion()
 		"avatar.listen":
 			_play_authored_motion(&"listen")
+			_set_expression("まばたき", 1.0, 2.1)
+			_show_emotion("笑い", "专注倾听", 0.28, 8.5)
 		"avatar.blink":
 			_trigger_blink()
 		"avatar.smile":
@@ -819,14 +902,217 @@ func _apply_action_pose() -> void:
 		_set_bone_offset("頭", Quaternion(Vector3.RIGHT, nod_angle))
 
 	if action_name == "wave" or action_name == "greet":
-		var lift := deg_to_rad(110.0) * fade
-		var wave_angle := sin(action_elapsed * PI * 4.5) * deg_to_rad(22.0) * fade
-		_set_bone_offset("腕.R", Quaternion(Vector3.RIGHT, lift))
-		_set_bone_offset("ひじ.R", Quaternion(Vector3.UP, wave_angle))
-		_set_bone_offset("手首.R", Quaternion(Vector3.FORWARD, wave_angle * 0.7))
+		var wave_phase := sin(action_elapsed * PI * 4.5)
+		var lift := deg_to_rad(WAVE_UPPER_ARM_ANGLE) * fade
+		var elbow_bend := deg_to_rad(WAVE_ELBOW_BEND_ANGLE + wave_phase * WAVE_ELBOW_SWAY_ANGLE) * fade
+		var wrist_roll := deg_to_rad(WAVE_WRIST_ROLL_ANGLE) * fade
+		var wrist_sway := deg_to_rad(WAVE_WRIST_SWAY_ANGLE) * wave_phase * fade
+		_set_bone_offset("腕.R", Quaternion(_action_axis("lift.R", Vector3.FORWARD), lift))
+		_set_bone_offset("ひじ.R", Quaternion(_action_axis("elbow.R", Vector3.FORWARD), elbow_bend))
+		_set_bone_offset(
+			"手首.R",
+			Quaternion(_action_axis("wrist.R", Vector3.UP), wrist_roll)
+				* Quaternion(_action_axis("wrist_wave.R", Vector3.FORWARD), wrist_sway)
+		)
 
 	if action_name == "greet":
 		model.rotation.z = base_model_rotation.z + sin(action_elapsed * PI * 2.0) * deg_to_rad(1.8) * fade
+
+
+func _cache_action_axes() -> void:
+	"""Derive gesture axes from the rest pose instead of assuming world axes.
+
+	MMD armatures contain twist/helper bones and their local bases are generally
+	not aligned with Godot's global XYZ axes. A world-axis quaternion can put a
+	skinned limb edge-on or rotate it through the torso. These axes are cached
+	after the preserved rest offsets are applied, then converted into each bone's
+	local pose space.
+	"""
+	action_axes.clear()
+	if skeleton == null:
+		return
+	for side in ["R", "L"]:
+		var arm_name := "腕.%s" % side
+		var elbow_name := "ひじ.%s" % side
+		var wrist_name := "手首.%s" % side
+		var arm_index: int = bone_ids.get(arm_name, -1)
+		var elbow_index: int = bone_ids.get(elbow_name, -1)
+		var wrist_index: int = bone_ids.get(wrist_name, -1)
+		if arm_index < 0 or elbow_index < 0:
+			continue
+
+		var arm_origin := _bone_pose_origin(arm_index)
+		var elbow_origin := _bone_pose_origin(elbow_index)
+		var upper_direction := elbow_origin - arm_origin
+		if upper_direction.length_squared() < 0.000001:
+			continue
+		upper_direction = upper_direction.normalized()
+		var skeleton_up := skeleton.global_transform.basis.orthonormalized().inverse() * Vector3.UP
+		if skeleton_up.length_squared() < 0.000001:
+			skeleton_up = Vector3.UP
+		skeleton_up = skeleton_up.normalized()
+		var lift_axis := _axis_that_moves_toward(upper_direction, skeleton_up)
+		action_axes["lift.%s" % side] = _to_bone_local_axis(arm_index, lift_axis)
+
+		if wrist_index < 0:
+			continue
+		var wrist_origin := _bone_pose_origin(wrist_index)
+		var forearm_direction := wrist_origin - elbow_origin
+		if forearm_direction.length_squared() < 0.000001:
+			forearm_direction = upper_direction
+		else:
+			forearm_direction = forearm_direction.normalized()
+		var elbow_axis := upper_direction.cross(forearm_direction)
+		if elbow_axis.length_squared() < 0.000001:
+			elbow_axis = lift_axis
+		else:
+			elbow_axis = elbow_axis.normalized()
+		action_axes["elbow.%s" % side] = _to_bone_local_axis(elbow_index, elbow_axis)
+		action_axes["wrist.%s" % side] = _to_bone_local_axis(wrist_index, forearm_direction)
+		var skeleton_forward := skeleton.global_transform.basis.orthonormalized().inverse() * Vector3.FORWARD
+		action_axes["wrist_wave.%s" % side] = _to_bone_local_axis(wrist_index, skeleton_forward)
+
+
+func _bone_pose_origin(bone_index: int) -> Vector3:
+	if skeleton == null or bone_index < 0:
+		return Vector3.ZERO
+	return skeleton.get_bone_global_pose(bone_index).origin
+
+
+func _axis_that_moves_toward(direction: Vector3, target: Vector3) -> Vector3:
+	var candidate := direction.cross(target)
+	if candidate.length_squared() < 0.000001:
+		return Vector3.FORWARD
+	candidate = candidate.normalized()
+	var positive_gain := (Quaternion(candidate, 0.05) * direction).dot(target)
+	var negative_gain := (Quaternion(-candidate, 0.05) * direction).dot(target)
+	return candidate if positive_gain >= negative_gain else -candidate
+
+
+func _to_bone_local_axis(bone_index: int, axis: Vector3) -> Vector3:
+	if skeleton == null or bone_index < 0 or axis.length_squared() < 0.000001:
+		return Vector3.FORWARD
+	var pose_basis := skeleton.get_bone_global_pose(bone_index).basis.orthonormalized()
+	var local_axis := pose_basis.inverse() * axis.normalized()
+	if local_axis.length_squared() < 0.000001:
+		return Vector3.FORWARD
+	return local_axis.normalized()
+
+
+func _action_axis(axis_name: String, fallback: Vector3) -> Vector3:
+	var axis: Variant = action_axes.get(axis_name, fallback)
+	if axis is Vector3 and axis.length_squared() >= 0.000001:
+		return axis.normalized()
+	return fallback.normalized()
+
+
+func _cache_deform_bone_mirrors() -> void:
+	deform_bone_mirrors.clear()
+	deform_mirror_base_global_poses.clear()
+	if skeleton == null:
+		return
+	for mirror_names in MMD_DEFORM_BONE_MIRRORS:
+		var source_index := skeleton.find_bone(str(mirror_names[0]))
+		var target_index := skeleton.find_bone(str(mirror_names[1]))
+		if source_index < 0 or target_index < 0:
+			continue
+		deform_bone_mirrors.append([source_index, target_index])
+		deform_mirror_base_global_poses[source_index] = skeleton.get_bone_global_pose(source_index)
+		deform_mirror_base_global_poses[target_index] = skeleton.get_bone_global_pose(target_index)
+		for bone_index in [source_index, target_index]:
+			var base_rotation := skeleton.get_bone_pose_rotation(bone_index)
+			base_bone_rotations[bone_index] = base_rotation
+			rest_bone_rotations[bone_index] = base_rotation
+
+
+func _sync_deform_bone_mirrors() -> void:
+	if not authored_motion_active or authored_motion_name.is_empty():
+		return
+	var clip_data: Dictionary = authored_motion_clips.get(String(authored_motion_name), {})
+	if str(clip_data.get("bone_layer", MOTION_LAYER_FULL_BODY)) != MOTION_LAYER_FULL_BODY:
+		return
+	if not bool(clip_data.get("sync_mmd_deform_bones", true)):
+		return
+	for mirror in deform_bone_mirrors:
+		var source_index: int = mirror[0]
+		var target_index: int = mirror[1]
+		var source_base: Transform3D = deform_mirror_base_global_poses[source_index]
+		var target_base: Transform3D = deform_mirror_base_global_poses[target_index]
+		var source_current := skeleton.get_bone_global_pose(source_index)
+		var global_delta := (
+			source_current.basis.orthonormalized()
+			* source_base.basis.orthonormalized().inverse()
+		)
+		var target_pose := target_base
+		target_pose.origin = source_current.origin
+		target_pose.basis = (global_delta * target_base.basis.orthonormalized()).orthonormalized()
+		skeleton.set_bone_global_pose(target_index, target_pose)
+
+
+func _preserve_limb_readability() -> void:
+	## A fixed desktop camera turns depth-aligned limbs into a few pixels even
+	## though the skin is intact. Apply the smallest camera-relative correction
+	## to every animated arm segment, independent of how the action was started.
+	if skeleton == null or action_name in ["idle", "nod"]:
+		return
+	for chain in READABILITY_ARM_CHAINS:
+		for segment_index in range(chain.size() - 1):
+			_constrain_limb_segment(str(chain[segment_index]), str(chain[segment_index + 1]))
+
+
+func _constrain_limb_segment(parent_name: String, child_name: String) -> void:
+	var parent_index := skeleton.find_bone(parent_name)
+	var child_index := skeleton.find_bone(child_name)
+	if parent_index < 0 or child_index < 0:
+		return
+	var parent_pose := skeleton.get_bone_global_pose(parent_index)
+	var child_pose := skeleton.get_bone_global_pose(child_index)
+	var direction := child_pose.origin - parent_pose.origin
+	if direction.length_squared() < 0.000001:
+		return
+	direction = direction.normalized()
+
+	var skeleton_basis := skeleton.global_transform.basis.orthonormalized()
+	var camera_forward: Vector3 = skeleton_basis.inverse() * -camera.global_transform.basis.z.normalized()
+	if camera_forward.length_squared() < 0.000001:
+		return
+	camera_forward = camera_forward.normalized()
+	var depth := direction.dot(camera_forward)
+	var visibility := sqrt(maxf(0.0, 1.0 - depth * depth))
+	if visibility >= MIN_LIMB_CAMERA_PLANE_VISIBILITY:
+		return
+
+	var lateral := direction - camera_forward * depth
+	if lateral.length_squared() < 0.000001:
+		lateral = skeleton_basis.inverse() * camera.global_transform.basis.x.normalized()
+	if lateral.length_squared() < 0.000001:
+		return
+	lateral = lateral.normalized()
+	var depth_sign := signf(depth)
+	if is_zero_approx(depth_sign):
+		depth_sign = 1.0
+	var target_depth := sqrt(maxf(0.0, 1.0 - MIN_LIMB_CAMERA_PLANE_VISIBILITY * MIN_LIMB_CAMERA_PLANE_VISIBILITY))
+	var target_direction := (
+		lateral * MIN_LIMB_CAMERA_PLANE_VISIBILITY
+		+ camera_forward * depth_sign * target_depth
+	).normalized()
+	var correction := Quaternion(direction, target_direction)
+	var correction_angle := minf(correction.get_angle(), deg_to_rad(MAX_LIMB_READABILITY_CORRECTION))
+	if correction_angle < 0.0001:
+		return
+	var global_axis := correction.get_axis()
+	var local_axis := parent_pose.basis.orthonormalized().inverse() * global_axis
+	if local_axis.length_squared() < 0.000001:
+		return
+	local_axis = local_axis.normalized()
+	var current_rotation := skeleton.get_bone_pose_rotation(parent_index)
+	skeleton.set_bone_pose_rotation(
+		parent_index,
+		(current_rotation * Quaternion(local_axis, correction_angle)).normalized()
+	)
+	## Only this subtree is dirty; updating all 703 MMD bones for every corrected
+	## arm segment is unnecessary and the all-bones API is deprecated in Godot.
+	skeleton.force_update_bone_child_transform(parent_index)
 
 
 func _apply_pigtail_pose() -> void:
@@ -984,6 +1270,71 @@ func _cache_expressions() -> void:
 		expression_values[blend_name] = 0.0
 		expression_targets[blend_name] = 0.0
 		expression_timers[blend_name] = 0.0
+
+
+func _configure_model_look() -> void:
+	var requested_look := OS.get_environment(MODEL_LOOK_ENV).strip_edges().to_lower()
+	var preview_requested := requested_look not in ["0", "false", "off", "1.1", "baseline"]
+	set_model_look_preview(preview_requested)
+
+
+func set_model_look_preview(enabled: bool) -> void:
+	if face_mesh == null or face_mesh.mesh == null:
+		model_look_preview_enabled = false
+		return
+	if enabled == model_look_preview_enabled and not model_look_original_overrides.is_empty():
+		return
+	_cache_model_look_materials()
+	for surface_index in model_look_original_overrides.keys():
+		var material: Material = (
+			model_look_preview_materials.get(surface_index)
+			if enabled
+			else model_look_original_overrides.get(surface_index)
+		)
+		face_mesh.set_surface_override_material(int(surface_index), material)
+	model_look_preview_enabled = enabled
+
+
+func _cache_model_look_materials() -> void:
+	if not model_look_original_overrides.is_empty():
+		return
+	var mesh: Mesh = face_mesh.mesh
+	for surface_index in range(mesh.get_surface_count()):
+		var surface_name: String = mesh.surface_get_name(surface_index)
+		if not MODEL_LOOK_TARGETS.has(surface_name):
+			continue
+		var source := mesh.surface_get_material(surface_index) as StandardMaterial3D
+		if source == null or source.emission_texture == null:
+			continue
+		model_look_original_overrides[surface_index] = face_mesh.get_surface_override_material(surface_index)
+		model_look_preview_materials[surface_index] = _create_model_look_material(
+			source,
+			MODEL_LOOK_TARGETS[surface_name],
+			surface_name
+		)
+
+
+func _create_model_look_material(
+	source: StandardMaterial3D,
+	profile: Dictionary,
+	surface_name: String
+) -> StandardMaterial3D:
+	var preview := source.duplicate(true) as StandardMaterial3D
+	preview.resource_name = "%s_%s" % [surface_name, MODEL_LOOK_PREVIEW]
+	preview.albedo_texture = source.emission_texture
+	var albedo_strength := float(profile.get("albedo", 0.4))
+	preview.albedo_color = Color(albedo_strength, albedo_strength, albedo_strength, 1.0)
+	preview.emission = Color.WHITE
+	preview.emission_energy_multiplier = float(profile.get("emission", 0.5))
+	preview.diffuse_mode = BaseMaterial3D.DIFFUSE_TOON
+	preview.specular_mode = BaseMaterial3D.SPECULAR_TOON
+	preview.metallic = 0.0
+	preview.metallic_specular = 0.18
+	preview.roughness = float(profile.get("roughness", 0.9))
+	preview.rim_enabled = true
+	preview.rim = float(profile.get("rim", 0.08))
+	preview.rim_tint = 0.30
+	return preview
 
 
 func _set_expression(name: String, value: float, duration: float = 0.0) -> void:
@@ -1218,7 +1569,15 @@ func _sync_interaction_ui_origin() -> void:
 		maxf(viewport_size.x - BASE_VIEWPORT_SIZE.x, 0.0),
 		maxf(viewport_size.y - BASE_VIEWPORT_SIZE.y, 0.0)
 	)
-	interaction_ui.set_canvas_origin(desired_origin.clamp(Vector2.ZERO, maximum_origin))
+	var canvas_origin := desired_origin.clamp(Vector2.ZERO, maximum_origin)
+	interaction_ui.set_canvas_origin(canvas_origin)
+	if interaction_ui.has_method("set_side_panel_direction"):
+		var right_panel_end := canvas_origin.x + 438.0 + 24.0 + 225.0
+		var left_panel_start := canvas_origin.x + 122.0 - 24.0 - 225.0
+		var place_right := right_panel_end <= viewport_size.x - 8.0
+		if not place_right and left_panel_start < 8.0:
+			place_right = avatar_screen_center.x <= viewport_size.x * 0.5
+		interaction_ui.set_side_panel_direction(1 if place_right else -1)
 
 
 func _sync_avatar_texture_rect() -> void:

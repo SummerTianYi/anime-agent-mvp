@@ -41,6 +41,7 @@ Place the independently obtained and processed runtime file at `apps/avatar-runt
 | Core only | `pnpm core:dev` | Foreground diagnostics; direct Python alternative is `.\services\agent-core\.venv\Scripts\python.exe -m agent_core.main` from `services/agent-core` |
 | Avatar only | `pnpm avatar:dev` | Requires local GLB and a Godot candidate path recognized by the script |
 | Avatar compact fallback | `$env:ANIME_AGENT_CANVAS_MODE='compact'; pnpm avatar:dev` | Restores the legacy 560×760 movable OS window for diagnostics; normal product runs should leave this variable unset |
+| Model-look rollback | Set `ANIME_AGENT_MODEL_LOOK=1.1` in `.env`, then restart the Avatar | The one-click launcher restores the accepted 1.1 pixels; use `1.2-preview` or remove the value to review the current unaccepted candidate |
 | Browser debug shell | `pnpm dev:desktop` | Vite at `127.0.0.1:1420` |
 | Tauri debug shell | `pnpm tauri:dev` | Optional; not the primary visible product |
 

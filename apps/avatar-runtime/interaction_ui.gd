@@ -5,6 +5,9 @@ const VIEWPORT_SIZE := Vector2(560.0, 760.0)
 const AVATAR_TEXTURE_PATH := "res://assets/luotianyi_avatar.jpg"
 const MAX_BUBBLE_WIDTH := 330.0
 const HISTORY_SCROLL_STICK_RANGE := 60.0
+const AVATAR_BODY_LEFT := 122.0
+const AVATAR_BODY_RIGHT := 438.0
+const SIDE_PANEL_GAP := 24.0
 
 # 洛天依主题（docs/design/chat-form-upgrade.md）
 const COLOR_PANEL := Color(0.039, 0.063, 0.11, 0.94)
@@ -58,6 +61,20 @@ func _ready() -> void:
 func set_canvas_origin(next_origin: Vector2) -> void:
 	canvas_origin = next_origin
 	offset = canvas_origin
+
+
+func set_side_panel_direction(direction: int) -> void:
+	var place_right := direction >= 0
+	if menu_panel != null:
+		menu_panel.position.x = (
+			AVATAR_BODY_RIGHT + SIDE_PANEL_GAP if place_right
+			else AVATAR_BODY_LEFT - SIDE_PANEL_GAP - menu_panel.size.x
+		)
+	if interaction_panel != null:
+		interaction_panel.position.x = (
+			AVATAR_BODY_RIGHT + SIDE_PANEL_GAP if place_right
+			else AVATAR_BODY_LEFT - SIDE_PANEL_GAP - interaction_panel.size.x
+		)
 
 
 # ---------------------------------------------------------------- 会话与消息
