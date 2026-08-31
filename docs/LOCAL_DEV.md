@@ -16,12 +16,12 @@ The primary runnable path is Godot Avatar plus Python Agent Core; React/Tauri is
 
 ## Fresh-clone setup
 
-Run these commands from the repository root in PowerShell. Core installation without `[voice]` is enough for text-only work; install the voice extra for the confirmed product scope.
+Run these commands from the repository root in PowerShell. Core installation without `[voice]` is enough for text-only runtime work; install the `test` extra for the full test suite and the voice extra for the confirmed product scope.
 
 ```powershell
 Set-Location services\agent-core
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[voice]"
+.\.venv\Scripts\python.exe -m pip install -e ".[voice,test]"
 Set-Location ..\..
 pnpm install
 Copy-Item .env.example .env

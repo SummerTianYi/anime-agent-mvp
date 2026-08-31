@@ -1,6 +1,6 @@
 # Verification and acceptance
 
-Run checks from the repository root unless the table says otherwise. The baseline checks are local and do not send paid Provider requests; the Bridge check does send chat through whichever Provider the running Core has configured, so use explicit Mock when an external request is not intended.
+Run checks from the repository root unless the table says otherwise. Install Core with `pip install -e ".[test]"` (or `.[voice,test]`) before running its tests; Starlette 1.x uses `httpx2` for `TestClient`, which is intentionally a test-only dependency. The baseline checks are local and do not send paid Provider requests; the Bridge check does send chat through whichever Provider the running Core has configured, so use explicit Mock when an external request is not intended.
 
 | Gate | Command | Pass condition |
 |---|---|---|
