@@ -89,6 +89,39 @@ class MemoryStore:
         self.connection.commit()
         return self.get_session(cursor.lastrowid)
 
+    def delete_session(self, session_id: int) -> bool:
+        row = self.connection.execute(
+            "SELECT 1 FROM sessions WHERE id = ?", (session_id,)
+        ).fetchone()
+        if row is None:
+            return False
+        self.connection.execute(
+            "DELETE FROM messages WHERE conversation_id = ?", (session_id,)
+        )
+        self.connection.execute(
+            "DELETE FROM sessions WHERE id = ?", (session_id,)
+        )
+        self.connection.commit()
+        if self.latest_session_id() is None:
+            self.create_session()
+        return True
+
+    def rename_session(self, session_id: int, title: str) -> bool:
+        clean = " ".join(str(title or "").split())
+        if not clean:
+            return False
+        row = self.connection.execute(
+            "SELECT 1 FROM sessions WHERE id = ?", (session_id,)
+        ).fetchone()
+        if row is None:
+            return False
+        self.connection.execute(
+            "UPDATE sessions SET title = ?, updated_at = strftime('%Y-%m-%d %H:%M:%f', 'now') WHERE id = ?",
+            (clean[:24], session_id),
+        )
+        self.connection.commit()
+        return True
+
     def list_sessions(self) -> list[dict[str, Any]]:
         rows = self.connection.execute(
             "SELECT id, title, created_at, updated_at FROM sessions ORDER BY updated_at DESC, id DESC"

@@ -68,6 +68,19 @@ emotion_intensity 必须在 0 到 1 之间。动作应克制，大多数普通�
 memory_candidate 仅在用户明确表达稳定偏好、称呼或长期事实时填写一句简短事实，否则为 null。
 """.strip()
 
+TOOL_GUIDANCE = """
+【工具使用】
+你可以调用提供的只读工具获取真实信息（时间、文件内容、目录列表、屏幕截图文件、前台窗口标题、剪贴板文本）。
+需要事实依据时先调用工具，再基于返回结果回答；不要编造工具结果，也不要声称执行了只读工具之外的操作。
+工具只用于获取信息；拿到结果或确认无需工具后，仍按【输出契约】给出最终 JSON 回复。""".strip()
+
+SESSION_TITLE_GUIDANCE = (
+    "\n\n【会话标题】这是这个对话窗口的第一轮。请在输出 JSON 中额外增加一个"
+    " session_title 字段：根据用户的第一个问题给这个对话起一个 4 到 12 字的简洁标题，"
+    "概括话题即可，不加引号、书名号、句号或任何前缀。"
+)
+MAX_SESSION_TITLE_CHARS = 24
+
 
 @dataclass(frozen=True, slots=True)
 class AgentReply:
@@ -76,6 +89,23 @@ class AgentReply:
     emotion_intensity: float = 0.35
     gesture: str = "none"
     memory_candidate: str | None = None
+    session_title: str | None = None
+
+
+def sanitize_session_title(value: object) -> str:
+    text = " ".join(str(value or "").split())
+    for quote in ("「", "”", "\"", "'", "《", "》", "」", "“"):
+        text = text.replace(quote, "")
+    text = text.strip("。.!！?？，, 	")
+    return text[:MAX_SESSION_TITLE_CHARS]
+
+
+def default_title(text: str) -> str:
+    """Last-resort title when the model omits session_title on the first turn."""
+    clean = sanitize_session_title(text)
+    if not clean:
+        return ""
+    return clean[:12]
 
 
 class CharacterHarness:
@@ -86,9 +116,15 @@ class CharacterHarness:
         self,
         history: list[dict[str, str]],
         user_text: str,
+        extra_system: str = "",
+        request_session_title: bool = False,
     ) -> list[dict[str, str]]:
         song_context = self.catalog.format_context(self.catalog.search(user_text))
         system_prompt = BASE_SYSTEM_PROMPT
+        if extra_system:
+            system_prompt = f"{system_prompt}\n\n{extra_system}"
+        if request_session_title:
+            system_prompt = f"{system_prompt}{SESSION_TITLE_GUIDANCE}"
         if song_context:
             system_prompt = f"{system_prompt}\n\n【本轮歌曲资料】\n{song_context}"
         normalized_history: list[dict[str, str]] = []
@@ -119,7 +155,10 @@ class CharacterHarness:
         try:
             payload = json.loads(candidate)
         except (TypeError, json.JSONDecodeError):
-            return AgentReply(reply=raw.strip())
+            recovered = CharacterHarness._recover_trailing_json(candidate)
+            if recovered is None:
+                return AgentReply(reply=raw.strip())
+            candidate, payload = recovered
 
         if not isinstance(payload, dict):
             return AgentReply(reply=raw.strip())
@@ -147,13 +186,45 @@ class CharacterHarness:
         if isinstance(memory_value, str) and memory_value.strip():
             memory_candidate = memory_value.strip()[:200]
 
+        title_value = payload.get("session_title")
+        session_title = None
+        if isinstance(title_value, str) and title_value.strip():
+            session_title = sanitize_session_title(title_value)
+
         return AgentReply(
             reply=reply,
             emotion=emotion,
             emotion_intensity=intensity,
             gesture=gesture,
             memory_candidate=memory_candidate,
+            session_title=session_title,
         )
+
+    @staticmethod
+    def _recover_trailing_json(text: str) -> tuple[str, dict] | None:
+        """Recover a JSON object appended after natural-language prose.
+
+        Some models answer conversationally first and emit the contract JSON
+        afterwards; scanning back from the last closing brace finds the last
+        balanced object without failing on braces inside the prose.
+        """
+        end = text.rfind("}")
+        depth = 0
+        for index in range(end, -1, -1):
+            char = text[index]
+            if char == "}":
+                depth += 1
+            elif char == "{":
+                depth -= 1
+                if depth == 0:
+                    snippet = text[index : end + 1]
+                    try:
+                        payload = json.loads(snippet)
+                    except json.JSONDecodeError:
+                        continue
+                    if isinstance(payload, dict):
+                        return snippet, payload
+        return None
 
 
 EMOTION_EVENTS = {

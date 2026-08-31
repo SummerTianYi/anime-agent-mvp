@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import io
 import json
 import os
 import urllib.error
@@ -10,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal, Protocol
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 
 try:
     from dotenv import load_dotenv
@@ -19,9 +20,18 @@ try:
 except ImportError:
     pass
 
-from .harness import AgentReply, CharacterHarness, behavior_events
+from .agent_loop import AgentStep, ToolsUnsupportedError, run_agent_loop
+from .harness import (
+    TOOL_GUIDANCE,
+    AgentReply,
+    CharacterHarness,
+    behavior_events,
+    default_title,
+)
 from .storage import MemoryStore
+from .tools import build_tool_registry, execute_tool, openai_tools_schema
 from .voice import VoiceError, VoiceRecorder, transcribe_wav
+from .wake_word import WakeWordListener, capture_utterance, encode_wav, is_wake_phrase
 
 AgentState = Literal["idle", "thinking", "speaking", "working", "error"]
 
@@ -30,6 +40,7 @@ PORT = int(os.getenv("AGENT_CORE_PORT", "8765"))
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "glm").strip().lower()
 LLM_TIMEOUT_SECONDS = float(os.getenv("LLM_TIMEOUT_SECONDS", "45"))
 MAX_HISTORY_MESSAGES = 20
+TOOLS_ENABLED = os.getenv("ANIME_AGENT_TOOLS", "1").strip().lower() not in {"0", "false", "off"}
 
 app = FastAPI(title="Anime Agent Core", version="0.2.0")
 
@@ -153,6 +164,86 @@ class OpenAICompatibleProvider:
             raise ProviderError(f"{self.name} API 返回空回复")
         return text
 
+    async def complete_with_tools(self, messages: list[dict[str, str]], tools: list[dict]) -> dict:
+        """One tool-capable turn; returns content/tool_calls plus the raw assistant message."""
+        if not self.api_key:
+            raise ProviderError(f"{self.name} API Key 未配置")
+
+        request_body = json.dumps(
+            {
+                "model": self.model,
+                "messages": messages,
+                "stream": False,
+                "tools": tools,
+                "tool_choice": "auto",
+            },
+            ensure_ascii=False,
+        ).encode("utf-8")
+        request = urllib.request.Request(
+            self.completion_url,
+            data=request_body,
+            headers={
+                "Accept": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+
+        try:
+            response_bytes = await asyncio.to_thread(self._request, request)
+        except urllib.error.HTTPError as exc:
+            if exc.code in {400, 404, 422}:
+                raise ToolsUnsupportedError(
+                    f"{self.name} rejected the tools payload (HTTP {exc.code})"
+                ) from exc
+            detail = self._http_error_detail(exc)
+            suffix = f"：{detail}" if detail else ""
+            raise ProviderError(
+                f"{self.name} API 返回 HTTP {exc.code}{suffix}"
+            ) from exc
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            raise ProviderError(f"无法连接 {self.name} API") from exc
+
+        try:
+            payload = json.loads(response_bytes.decode("utf-8"))
+            message = payload["choices"][0]["message"]
+        except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
+            raise ProviderError(f"{self.name} API 响应格式无法识别") from exc
+
+        content = message.get("content")
+        if isinstance(content, list):
+            content = "".join(
+                str(part.get("text", ""))
+                for part in content
+                if isinstance(part, dict)
+            )
+        text = str(content).strip() if content else ""
+
+        tool_calls: list[dict] = []
+        for index, call in enumerate(message.get("tool_calls") or []):
+            function = call.get("function") or {}
+            raw_arguments = function.get("arguments")
+            if isinstance(raw_arguments, str):
+                try:
+                    arguments = json.loads(raw_arguments)
+                except json.JSONDecodeError:
+                    arguments = {}
+            elif isinstance(raw_arguments, dict):
+                arguments = raw_arguments
+            else:
+                arguments = {}
+            if not isinstance(arguments, dict):
+                arguments = {}
+            tool_calls.append(
+                {
+                    "id": str(call.get("id") or f"call_{index}"),
+                    "name": str(function.get("name", "")).strip(),
+                    "arguments": arguments,
+                }
+            )
+        return {"content": text, "tool_calls": tool_calls, "raw": message}
+
     @staticmethod
     def _http_error_detail(exc: urllib.error.HTTPError) -> str:
         try:
@@ -205,8 +296,12 @@ def build_provider() -> ChatProvider:
 provider = build_provider()
 chat_lock = asyncio.Lock()
 voice_recorder = VoiceRecorder()
+wake_listener: WakeWordListener | None = None
+_wake_busy = False
 memory = MemoryStore()
 harness = CharacterHarness()
+tool_registry = build_tool_registry()
+tools_schema = openai_tools_schema(tool_registry) if TOOLS_ENABLED else []
 
 
 class ConnectionHub:
@@ -284,15 +379,59 @@ async def broadcast_behavior(reply: AgentReply) -> None:
         )
 
 
+async def run_tool(name: str, arguments: dict) -> dict:
+    return await execute_tool(tool_registry, name, arguments)
+
+
+async def broadcast_tool_step(step: AgentStep, request_id: str) -> None:
+    await hub.send_roles(
+        {"avatar", "ui"},
+        event(
+            "agent.tool",
+            tool=step.tool,
+            ok=step.ok,
+            summary=step.summary,
+            request_id=request_id,
+        ),
+    )
+    await broadcast_state("working", request_id)
+
+
 async def handle_chat(text: str, request_id: str, conversation_id: int | None = None) -> None:
 
     async with chat_lock:
         await broadcast_state("thinking", request_id)
+        probe = conversation_id if conversation_id is not None else memory.latest_session_id()
+        is_first_exchange = probe is None or not memory.load_messages(1, probe)
         session_id = memory.add_message("user", text, request_id, conversation_id)
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
-        messages = harness.build_messages(conversation_history, text)
+        guided = TOOL_GUIDANCE if tools_schema else ""
+        messages = harness.build_messages(
+            conversation_history, text, extra_system=guided, request_session_title=is_first_exchange
+        )
         try:
-            raw_reply = await provider.complete(messages)
+            if tools_schema:
+                loop_result = await run_agent_loop(
+                    provider,
+                    messages,
+                    tools_schema,
+                    run_tool,
+                    on_step=lambda step: broadcast_tool_step(step, request_id),
+                )
+                if loop_result.degraded and hasattr(provider, "complete_with_tools"):
+                    memory.add_event("agent.tools.unsupported", {"request_id": request_id})
+                if loop_result.steps:
+                    memory.add_event(
+                        "agent.tools",
+                        {
+                            "request_id": request_id,
+                            "tools": [step.tool for step in loop_result.steps],
+                            "ok": [step.ok for step in loop_result.steps],
+                        },
+                    )
+                raw_reply = loop_result.text
+            else:
+                raw_reply = await provider.complete(messages)
         except ProviderError as exc:
             memory.add_event("core.error", {"message": str(exc), "request_id": request_id})
             await hub.send_roles(
@@ -306,6 +445,13 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
 
         agent_reply = harness.parse_reply(raw_reply)
         memory.add_message("assistant", agent_reply.reply, request_id, session_id)
+        if is_first_exchange:
+            title = agent_reply.session_title or default_title(text)
+            if title and memory.rename_session(session_id, title):
+                await hub.send_roles(
+                    {"avatar", "ui"},
+                    event("session.title", conversationId=session_id, title=title),
+                )
         if agent_reply.memory_candidate:
             memory.add_event(
                 "memory.candidate",
@@ -345,6 +491,103 @@ async def handle_voice_transcription(audio_bytes: bytes) -> None:
     await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
 
 
+async def handle_wake_word(buffered_audio) -> None:
+    global _wake_busy
+    if _wake_busy or voice_recorder.recording:
+        return
+    _wake_busy = True
+    if wake_listener is not None:
+        wake_listener.pause()
+    try:
+        if buffered_audio is None:
+            return
+        await hub.send_roles({"avatar", "ui"}, event("voice.state", state="transcribing"))
+        try:
+            wake_text = await asyncio.to_thread(transcribe_wav, encode_wav(buffered_audio))
+        except VoiceError as exc:
+            await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
+            await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc)))
+            return
+        await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
+        if not is_wake_phrase(wake_text):
+            memory.add_event("wake.rejected", {"text": wake_text})
+            return
+        session = memory.create_session()
+        await hub.send_roles({"avatar", "ui"}, event("session.switched", conversationId=session["id"], title=session["title"]))
+        await hub.send_roles({"avatar", "ui"}, event("wake.triggered", conversationId=session["id"]))
+        await hub.send_roles({"avatar", "ui"}, event("voice.state", state="recording"))
+        try:
+            command_bytes = await asyncio.to_thread(capture_utterance)
+        except VoiceError as exc:
+            await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc)))
+            await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
+            return
+        if command_bytes is not None:
+            await hub.send_roles({"avatar", "ui"}, event("voice.state", state="transcribing"))
+            try:
+                command_text = await asyncio.to_thread(transcribe_wav, command_bytes)
+            except VoiceError:
+                command_text = ""
+            await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
+            if command_text.strip():
+                request_id = "wake-" + str(int(datetime.now().timestamp() * 1000))
+                await hub.send_roles({"avatar", "ui"}, event("chat.user_message", conversationId=session["id"], text=command_text))
+                asyncio.create_task(handle_chat(command_text, request_id, conversation_id=session["id"]))
+                return
+        await hub.send_roles({"avatar", "ui"}, event("wake.idle"))
+    finally:
+        _wake_busy = False
+        if wake_listener is not None:
+            wake_listener.resume()
+
+
+@app.on_event("startup")
+async def start_wake_word_listener() -> None:
+    global wake_listener
+    if os.getenv("ANIME_AGENT_WAKE_WORD", "1").strip().lower() in {"0", "false", "off"}:
+        return
+    loop = asyncio.get_running_loop()
+
+    def on_detected(buffered_audio) -> None:
+        asyncio.run_coroutine_threadsafe(handle_wake_word(buffered_audio), loop)
+
+    def on_note(note: str) -> None:
+        memory.add_event("wake.note", {"note": note})
+
+    try:
+        listener = WakeWordListener(on_detected=on_detected, on_note=on_note)
+    except VoiceError as exc:
+        memory.add_event("wake.disabled", {"reason": str(exc)})
+        return
+    listener.start()
+    wake_listener = listener
+    memory.add_event("wake.enabled", {"keyword": "嗨天依"})
+
+
+@app.post("/wake-test")
+async def wake_test(request: Request) -> dict[str, object]:
+    """Diagnostic: feed a WAV body through the live wake pipeline."""
+    import numpy as _np
+    import wave as _wave
+    body = await request.body()
+    if not body:
+        return {"ok": False, "reason": "empty body"}
+    reader = _wave.open(io.BytesIO(body), "rb")
+    rate = reader.getframerate()
+    raw = reader.readframes(reader.getnframes())
+    reader.close()
+    samples = _np.frombuffer(raw, dtype=_np.int16).astype(_np.float32) / 32768.0
+    if rate != 16000 and len(samples):
+        count = int(len(samples) * 16000 / rate)
+        samples = _np.interp(
+            _np.linspace(0.0, len(samples) - 1.0, count),
+            _np.arange(len(samples), dtype=_np.float64),
+            samples.astype(_np.float64),
+        ).astype(_np.float32)
+    asyncio.create_task(handle_wake_word(samples))
+    return {"ok": True, "queued": True, "samples": int(len(samples))}
+
+
 @app.get("/health")
 async def health() -> dict[str, object]:
     return {
@@ -364,6 +607,13 @@ async def health() -> dict[str, object]:
             "model": getattr(provider, "model", "mock"),
         },
         "memory": {"path": str(memory.path), "enabled": True},
+        "tools": {"enabled": TOOLS_ENABLED, "count": len(tools_schema)},
+        "wake": {
+            "enabled": wake_listener is not None,
+            "running": bool(wake_listener and wake_listener.running),
+            "paused": bool(wake_listener and wake_listener.paused),
+            "recent_peak": wake_listener.recent_peak if wake_listener else 0.0,
+        },
     }
 
 
@@ -400,6 +650,8 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 continue
 
             if event_type == "voice.start":
+                if wake_listener is not None:
+                    wake_listener.pause()
                 try:
                     voice_recorder.start()
                 except VoiceError as exc:
@@ -415,10 +667,14 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     await hub.send(websocket, event("core.error", message=str(exc)))
                 else:
                     asyncio.create_task(handle_voice_transcription(audio_bytes))
+                if wake_listener is not None:
+                    wake_listener.resume()
                 continue
 
             if event_type == "voice.cancel":
                 voice_recorder.cancel()
+                if wake_listener is not None:
+                    wake_listener.resume()
                 await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
                 continue
 
@@ -466,6 +722,29 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                         messages=history,
                     ),
                 )
+                continue
+
+            if event_type == "session.delete":
+                raw = payload.get("conversationId")
+                try:
+                    session_id = int(raw)
+                except (TypeError, ValueError):
+                    await hub.send(websocket, event("core.error", message="Invalid conversationId"))
+                    continue
+                if not memory.delete_session(session_id):
+                    await hub.send(websocket, event("core.error", message="会话不存在或已删除"))
+                    continue
+                await hub.send_roles(
+                    {"avatar", "ui"},
+                    event("session.deleted", conversationId=session_id),
+                )
+                current = memory.latest_session_id()
+                switched = memory.get_session(current) if current else None
+                if switched is not None:
+                    await hub.send_roles(
+                        {"avatar", "ui"},
+                        event("session.switched", conversationId=switched["id"], title=switched["title"]),
+                    )
                 continue
 
             if event_type == "avatar.command":

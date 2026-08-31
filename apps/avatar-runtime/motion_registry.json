@@ -21,6 +21,16 @@
       "blend_seconds": 0.18,
       "minimum_duration": 4.8,
       "sample_seconds": 1.0
+    },
+    {
+      "id": "listen",
+      "path": "res://assets/motions/luotianyi_listen.glb",
+      "role": "interaction",
+      "bone_layer": "upper_body",
+      "loop": false,
+      "blend_seconds": 0.35,
+      "minimum_duration": 6.5,
+      "sample_seconds": 1.0
     }
   ]
 }

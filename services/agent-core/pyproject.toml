@@ -20,6 +20,10 @@ voice = [
   "numpy>=2.1,<3.0",
   "sounddevice>=0.5,<1.0"
 ]
+tools = [
+  "mss>=9,<11",
+  "pyperclip>=1.9,<2.0"
+]
 
 [project.scripts]
 anime-agent-core = "agent_core.main:run"
@@ -28,4 +32,4 @@ anime-agent-core = "agent_core.main:run"
 where = ["."]
 
 [tool.setuptools.package-data]
-agent_core = ["data/*.json"]
+agent_core = ["data/*.json", "data/*.txt"]

@@ -30,6 +30,9 @@ apps/avatar-runtime/*.png.import
 apps/avatar-runtime/.godot/
 apps/avatar-runtime/*.uid
 
+# Local wake-word model files
+services/agent-core/models/
+
 # Local data
 *.db
 *.sqlite

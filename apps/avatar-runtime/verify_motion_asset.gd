@@ -23,8 +23,8 @@ func _run() -> void:
 		if result.is_empty():
 			return
 		results.append(result)
-	if results.size() != 2:
-		_fail("Expected two motion clips, found %d" % results.size())
+	if results.size() != 3:
+		_fail("Expected three motion clips, found %d" % results.size())
 		return
 	print("GODOT_MOTION_ASSETS_OK", {
 		"registry": REGISTRY_PATH,

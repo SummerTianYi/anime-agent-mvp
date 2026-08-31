@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import unittest
 
-from agent_core.harness import CharacterHarness, behavior_events
+from agent_core.harness import CharacterHarness, behavior_events, default_title
 
 
 class SongCatalogTests(unittest.TestCase):
@@ -78,6 +78,17 @@ class StructuredReplyTests(unittest.TestCase):
             ["avatar.smile", "avatar.nod"],
         )
 
+    def test_prose_with_trailing_json_recovers_contract(self) -> None:
+        raw = (
+            "现在是下午 4 点整，星期一哦～今天过得怎么样？"
+            '{"reply":"现在是下午 4 点整，星期一哦～","emotion":"happy","emotion_intensity":0.4,'
+            '"gesture":"none","memory_candidate":null}'
+        )
+        reply = CharacterHarness.parse_reply(raw)
+        self.assertEqual(reply.reply, "现在是下午 4 点整，星期一哦～")
+        self.assertEqual(reply.emotion, "happy")
+        self.assertEqual(reply.gesture, "none")
+
     def test_invalid_metadata_falls_back_to_safe_values(self) -> None:
         raw = json.dumps(
             {
@@ -98,6 +109,40 @@ class StructuredReplyTests(unittest.TestCase):
         reply = CharacterHarness.parse_reply("这是一条普通回复。")
         self.assertEqual(reply.reply, "这是一条普通回复。")
         self.assertEqual(reply.emotion, "neutral")
+
+
+class SessionTitleTests(unittest.TestCase):
+    def test_parse_reply_extracts_and_sanitizes_session_title(self) -> None:
+        raw = json.dumps(
+            {
+                "reply": "好呀。",
+                "emotion": "happy",
+                "emotion_intensity": 0.5,
+                "gesture": "none",
+                "memory_candidate": None,
+                "session_title": "「天气话题」",
+            },
+            ensure_ascii=False,
+        )
+        reply = CharacterHarness.parse_reply(raw)
+        self.assertEqual(reply.session_title, "天气话题")
+
+    def test_parse_reply_without_title_field_yields_none(self) -> None:
+        reply = CharacterHarness.parse_reply('{"reply":"你好呀","emotion":"neutral"}')
+        self.assertIsNone(reply.session_title)
+
+    def test_build_messages_adds_title_instruction_only_when_requested(self) -> None:
+        harness = CharacterHarness()
+        history = [{"role": "user", "content": "你好呀"}]
+        with_title = harness.build_messages(history, "你好呀", request_session_title=True)
+        without_title = harness.build_messages(history, "你好呀")
+        self.assertIn("【会话标题】", with_title[0]["content"])
+        self.assertIn("session_title", with_title[0]["content"])
+        self.assertNotIn("【会话标题】", without_title[0]["content"])
+
+    def test_default_title_truncates_user_text(self) -> None:
+        self.assertEqual(len(default_title("帮我" * 40)), 12)
+        self.assertEqual(default_title("   "), "")
 
 
 if __name__ == "__main__":

@@ -33,7 +33,7 @@ var avatar_texture: Texture2D
 
 var sessions: Array = []
 var current_conversation_id := -1
-var delete_confirm_until_ms := 0
+var delete_overlay: ColorRect
 
 var menu_visible := false
 var chat_visible := false
@@ -156,16 +156,82 @@ func _on_new_session_pressed() -> void:
 
 
 func _on_delete_session_pressed() -> void:
-	var now := Time.get_ticks_msec()
-	if now >= delete_confirm_until_ms:
-		chat_status.text = "再按一次删除「%s」（3 秒内）" % _current_session_title()
-		delete_confirm_until_ms = now + 3000
-		return
-	delete_confirm_until_ms = 0
 	if current_conversation_id <= 0:
 		chat_status.text = "当前没有可删除的会话"
 		return
-	avatar.request_delete_session(current_conversation_id)
+	_show_delete_dialog()
+
+
+func _show_delete_dialog() -> void:
+	if delete_overlay != null:
+		return
+	delete_overlay = ColorRect.new()
+	delete_overlay.size = VIEWPORT_SIZE
+	delete_overlay.color = Color(0.0, 0.0, 0.0, 0.45)
+	delete_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	delete_overlay.gui_input.connect(_on_delete_overlay_input)
+	var center := CenterContainer.new()
+	center.size = VIEWPORT_SIZE
+	center.mouse_filter = Control.MOUSE_FILTER_PASS
+	var panel := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = COLOR_PANEL
+	style.border_color = COLOR_PANEL_LINE
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(12)
+	style.content_margin_left = 18.0
+	style.content_margin_right = 18.0
+	style.content_margin_top = 14.0
+	style.content_margin_bottom = 14.0
+	panel.add_theme_stylebox_override("panel", style)
+	panel.custom_minimum_size = Vector2(300.0, 0.0)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 10)
+	box.add_child(_make_label("删除对话", 15, COLOR_TEXT))
+	var body := _make_label(
+		"确定删除「%s」吗？删除后无法恢复。" % _current_session_title(), 12, COLOR_TEXT_DIM
+	)
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.custom_minimum_size = Vector2(264.0, 0.0)
+	box.add_child(body)
+	var buttons := HBoxContainer.new()
+	buttons.alignment = BoxContainer.ALIGNMENT_END
+	buttons.add_theme_constant_override("separation", 8)
+	var cancel_button := _make_button("取消", _hide_delete_dialog)
+	cancel_button.custom_minimum_size = Vector2(64.0, 30.0)
+	buttons.add_child(cancel_button)
+	var confirm_button := _make_accent_button("删除", _on_delete_confirmed)
+	confirm_button.custom_minimum_size = Vector2(64.0, 30.0)
+	buttons.add_child(confirm_button)
+	box.add_child(buttons)
+	panel.add_child(box)
+	center.add_child(panel)
+	delete_overlay.add_child(center)
+	add_child(delete_overlay)
+
+
+func _hide_delete_dialog() -> void:
+	if delete_overlay != null:
+		delete_overlay.queue_free()
+		delete_overlay = null
+
+
+func _on_delete_overlay_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		_hide_delete_dialog()
+
+
+func _on_delete_confirmed() -> void:
+	_hide_delete_dialog()
+	if current_conversation_id > 0:
+		avatar.request_delete_session(current_conversation_id)
+
+
+func on_session_title(conversation_id: int, title: String) -> void:
+	if title.strip_edges().is_empty():
+		return
+	_upsert_session(conversation_id, title)
+	_sync_session_options()
 
 
 func _current_session_title() -> String:
@@ -190,6 +256,14 @@ func on_session_deleted(conversation_id: int) -> void:
 func on_wake_triggered() -> void:
 	_open_chat()
 	chat_status.text = "嗨～我在听，请讲"
+
+
+func on_wake_idle() -> void:
+	chat_status.text = "我在呢，想说什么随时再喊我哦"
+
+
+func on_agent_tool(tool: String, ok: bool) -> void:
+	chat_status.text = ("已使用工具：" + tool) if ok else ("工具失败：" + tool)
 
 
 # ---------------------------------------------------------------- 界面构建
@@ -322,6 +396,7 @@ func _build_interaction() -> void:
 	box.add_child(title_row)
 
 	for action in [
+		["倾听动作（样片）", "avatar.listen"],
 		["旋转动作（样片）", "avatar.pirouette"],
 		["挥手", "avatar.wave"],
 		["点头", "avatar.nod"],

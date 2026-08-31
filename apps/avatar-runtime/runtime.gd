@@ -139,7 +139,7 @@ func _ready() -> void:
 		"authored_motions": authored_motion_clips.keys(),
 		"desktop_overlay": DisplayServer.get_name() != "headless",
 		"core_url": core_ws_url,
-		"controls": "left-drag=move right-drag=turn wheel=zoom F1=hud arrows=turn R=reset N=nod W=wave P=authored-motion Space=greet B=blink S=smile O=surprised X=angry L=wink T=tears",
+		"controls": "left-drag=move right-drag=turn wheel=zoom F1=hud arrows=turn R=reset N=nod W=wave P=authored-motion G=listen Space=greet B=blink S=smile O=surprised X=angry L=wink T=tears",
 	})
 	if model_uses_authored_motion:
 		var requested_motion := OS.get_environment(AUTHORED_MOTION_AUTOPLAY_ENV).strip_edges()
@@ -474,9 +474,18 @@ func _handle_core_event(payload: Dictionary) -> void:
 		"voice.state":
 			if interaction_ui != null:
 				interaction_ui.on_voice_state(str(payload.get("state", "idle")))
+		"session.title":
+			if interaction_ui != null:
+				interaction_ui.on_session_title(int(payload.get("conversationId", -1)), str(payload.get("title", "")))
 		"session.deleted":
 			if interaction_ui != null:
 				interaction_ui.on_session_deleted(int(payload.get("conversationId", -1)))
+		"wake.idle":
+			if interaction_ui != null:
+				interaction_ui.on_wake_idle()
+		"agent.tool":
+			if interaction_ui != null:
+				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)))
 		"voice.transcript":
 			if interaction_ui != null:
 				interaction_ui.on_voice_transcript(str(payload.get("text", "")))
@@ -620,6 +629,8 @@ func _input(event: InputEvent) -> void:
 				handle_agent_event("avatar.wave")
 			KEY_P:
 				handle_agent_event("avatar.pirouette")
+			KEY_G:
+				handle_agent_event("avatar.listen")
 			KEY_SPACE:
 				handle_agent_event("avatar.greet")
 			KEY_B:
@@ -676,6 +687,8 @@ func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 			_set_expression("ウィンク", 0.72, 1.1)
 		"avatar.pirouette":
 			_play_authored_motion()
+		"avatar.listen":
+			_play_authored_motion(&"listen")
 		"avatar.blink":
 			_trigger_blink()
 		"avatar.smile":

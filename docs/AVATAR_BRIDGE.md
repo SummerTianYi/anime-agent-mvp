@@ -22,6 +22,16 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 
 当前支持 `idle`、`thinking`、`speaking`、`working`、`error`。Godot 目前只做轻量映射：思考/工作使用轻表情，说话时循环元音口型，空闲恢复自然，错误显示困惑表情。
 
+## Agent 工具事件
+
+`ANIME_AGENT_TOOLS` 开启时（默认开启），Core 在聊天回合内以工具调用循环驱动 Provider；每次只读工具执行完毕后向 `avatar` 与 `ui` 广播：
+
+```json
+{"type":"agent.tool","tool":"get_time","ok":true,"summary":"{\"ok\": true}","request_id":"..."}
+```
+
+`ok=false` 表示工具执行失败，失败结果同样已回填给模型。Godot 将该事件显示在聊天状态行（“已使用工具：…”）。`ANIME_AGENT_TOOLS=0` 可整体停用；端点拒绝 tools 参数（HTTP 400/404/422）时 Core 自动降级为无工具直答并记录 `agent.tools.unsupported` 事件。当前工具集全部只读：`get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`；路径类工具受 `ANIME_AGENT_TOOLS_ROOTS`（os.pathsep 分隔，`*` 解除限制）白名单约束，循环步数上限 5，单工具超时 15 秒。
+
 ## 角色点击与菜单
 
 角色点击后，Avatar 可以发送：
@@ -47,7 +57,9 @@ Core 会把它定向路由为 `ui.menu.toggle`。角色内置菜单目前直接�
 {"type":"session.switched","conversationId":2,"title":"新对话"}
 ```
 
-“新对话”收到首条用户消息时，Core 自动用前 12 个字改名。
+“新对话”收到首条用户消息时，Core 自动用前 12 个字改名作为即时标题；LLM 回复到达后，模型按提示词在输出 JSON 的 `session_title` 字段给出 4-12 字标题（概括用户的第一个问题），未提供时回退为用户文本前 12 字。标题更新广播：\n\n```json
+{"type":"session.title","conversationId":1,"title":"天气与问候"}
+```
 
 请求会话列表：Avatar 发送 `session.list.request`，Core 单播返回（按最近活跃倒序）：
 
@@ -64,6 +76,12 @@ Core 会把它定向路由为 `ui.menu.toggle`。角色内置菜单目前直接�
 ```
 
 `chat.message` 可携带可选 `conversationId` 指定落库会话，缺省落最近活跃会话；`chat.response` 原样携带 `conversationId`。客户端切换会话时自行清空气泡并按需拉取历史。
+
+删除会话：Avatar 单击删除并确认后发送 `session.delete`；Core 级联删除该会话的消息与记录并广播 `session.deleted`，随后广播最近活跃会话的 `session.switched`（最后一条会话删除后自动补建新会话）：\n\n```json
+{"type":"session.delete","conversationId":2}
+{"type":"session.deleted","conversationId":2}
+{"type":"session.switched","conversationId":3,"title":"新对话"}
+```
 
 ## Avatar 命令
 

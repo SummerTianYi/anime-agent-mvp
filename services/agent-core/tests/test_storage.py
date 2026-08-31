@@ -129,5 +129,63 @@ class LegacyMigrationTests(StorageTestCase):
         self.assertEqual(len(reopened.load_messages(limit=20)), 1)
 
 
+class SessionDeletionTests(StorageTestCase):
+    def test_delete_session_removes_messages_and_row(self) -> None:
+        store = self.make_store()
+        first = store.latest_session_id()
+        second = store.create_session()["id"]
+        store.add_message("user", "old", conversation_id=first)
+        store.add_message("user", "new", conversation_id=second)
+        self.assertTrue(store.delete_session(first))
+        sessions = store.list_sessions()
+        self.assertEqual([s["id"] for s in sessions], [second])
+        self.assertEqual(store.load_messages(conversation_id=first), [])
+        self.assertEqual([m["content"] for m in store.load_messages(conversation_id=second)], ["new"])
+
+    def test_delete_unknown_session_returns_false(self) -> None:
+        store = self.make_store()
+        self.assertFalse(store.delete_session(999))
+
+    def test_delete_last_session_creates_fresh_default(self) -> None:
+        store = self.make_store()
+        store.add_message("user", "only")
+        only = store.latest_session_id()
+        self.assertTrue(store.delete_session(only))
+        fresh = store.latest_session_id()
+        self.assertIsNotNone(fresh)
+        self.assertNotEqual(fresh, only)
+        self.assertEqual(store.list_sessions()[0]["title"], "新对话")
+        store.add_message("user", "after")
+        self.assertEqual(store.load_messages(conversation_id=fresh), [{"role": "user", "content": "after"}])
+
+
+class SessionRenameTests(StorageTestCase):
+    def test_rename_updates_title_and_bumps_order(self) -> None:
+        store = self.make_store()
+        session_id = store.create_session()["id"]
+        other = store.create_session()["id"]
+        time.sleep(0.03)
+        self.assertTrue(store.rename_session(session_id, "晚风与合唱"))
+        sessions = {s["id"]: s for s in store.list_sessions()}
+        self.assertEqual(sessions[session_id]["title"], "晚风与合唱")
+        self.assertEqual(sessions[other]["title"], "新对话")
+        ids = [s["id"] for s in store.list_sessions()]
+        self.assertEqual(ids[0], session_id)
+
+    def test_rename_caps_length_and_strips_decorations(self) -> None:
+        store = self.make_store()
+        session_id = store.create_session()["id"]
+        self.assertTrue(store.rename_session(session_id, "x" * 40 + "《》"))
+        title = store.get_session(session_id)["title"]
+        self.assertLessEqual(len(title), 24)
+        self.assertNotIn("《", title)
+
+    def test_rename_unknown_or_empty_is_false(self) -> None:
+        store = self.make_store()
+        self.assertFalse(store.rename_session(999, "随便"))
+        session_id = store.create_session()["id"]
+        self.assertFalse(store.rename_session(session_id, "   "))
+
+
 if __name__ == "__main__":
     unittest.main()
