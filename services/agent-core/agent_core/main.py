@@ -9,14 +9,16 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Literal, Protocol
+from typing import Callable, Literal, Protocol
 
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
+
+ENV_PATH = Path(__file__).resolve().parents[3] / ".env"
 
 try:
     from dotenv import load_dotenv
 
-    load_dotenv(Path(__file__).resolve().parents[3] / ".env")
+    load_dotenv(ENV_PATH)
 except ImportError:
     pass
 
@@ -104,6 +106,7 @@ class OpenAICompatibleProvider:
         model: str,
         api_key: str,
         timeout_seconds: float,
+        reload_config: Callable[[], tuple[str, str, str] | None] | None = None,
     ) -> None:
         self.name = name
         self.base_url = base_url.rstrip("/")
@@ -111,12 +114,50 @@ class OpenAICompatibleProvider:
         self.api_key = api_key
         self.timeout_seconds = timeout_seconds
         self.configured = bool(api_key)
+        self._reload_config = reload_config
 
     @property
     def completion_url(self) -> str:
         if self.base_url.endswith("/chat/completions"):
             return self.base_url
         return f"{self.base_url}/chat/completions"
+
+    def _apply_config(self, base_url: str, model: str, api_key: str) -> None:
+        self.base_url = base_url.rstrip("/")
+        self.model = model
+        self.api_key = api_key
+        self.configured = bool(api_key)
+
+    async def _send_with_config_reload(self, request: urllib.request.Request) -> bytes:
+        """POST the request; on 401/403/429 re-read .env credentials and retry once.
+
+        load_dotenv runs once at startup, so a key swapped into .env reaches the
+        running process only through a fresh file read. The retry reuses the
+        same request with a refreshed Authorization header; base_url or model changes
+        apply from the next request."""
+        for attempt in (0, 1):
+            try:
+                if attempt == 1:
+                    refreshed = f"Bearer {self.api_key}"
+                    request.add_header("Authorization", refreshed)
+                    request.add_unredirected_header("Authorization", refreshed)
+                return await asyncio.to_thread(self._request, request)
+            except urllib.error.HTTPError as exc:
+                if (
+                    attempt == 0
+                    and exc.code in RELOADABLE_HTTP_CODES
+                    and self._reload_config is not None
+                ):
+                    fresh = await asyncio.to_thread(self._reload_config)
+                    if fresh is not None and (
+                        fresh[0].rstrip("/") != self.base_url
+                        or fresh[1] != self.model
+                        or fresh[2] != self.api_key
+                    ):
+                        self._apply_config(fresh[0], fresh[1], fresh[2])
+                        continue
+                raise
+        raise ProviderError(f"{self.name} API request failed")
 
     async def complete(self, messages: list[dict[str, str]]) -> str:
         if not self.api_key:
@@ -142,7 +183,7 @@ class OpenAICompatibleProvider:
         )
 
         try:
-            response_bytes = await asyncio.to_thread(self._request, request)
+            response_bytes = await self._send_with_config_reload(request)
         except urllib.error.HTTPError as exc:
             detail = self._http_error_detail(exc)
             suffix = f"：{detail}" if detail else ""
@@ -196,7 +237,7 @@ class OpenAICompatibleProvider:
         )
 
         try:
-            response_bytes = await asyncio.to_thread(self._request, request)
+            response_bytes = await self._send_with_config_reload(request)
         except urllib.error.HTTPError as exc:
             if exc.code in {400, 404, 422}:
                 raise ToolsUnsupportedError(
@@ -267,6 +308,46 @@ class OpenAICompatibleProvider:
             opener = urllib.request.build_opener()
         with opener.open(request, timeout=self.timeout_seconds) as response:
             return response.read()
+
+
+RELOADABLE_HTTP_CODES = frozenset({401, 403, 429})
+
+
+def _parse_env_file(path: Path) -> dict[str, str]:
+    values: dict[str, str] = {}
+    try:
+        for raw_line in path.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, value = line.partition("=")
+            values[key.strip()] = value.strip().strip('"').strip("'")
+    except OSError:
+        return {}
+    return values
+
+
+def _reload_provider_config(name: str, env_path: Path | None = None) -> tuple[str, str, str] | None:
+    """Re-read provider credentials from the .env file after an auth/quota failure.
+
+    os.environ went stale at startup (load_dotenv runs once), so the file
+    itself is the source of truth for manual key swaps; entries missing from
+    the file fall back to the startup environment. Returns None when no key
+    can be found anywhere.
+    """
+    values = _parse_env_file(env_path if env_path is not None else ENV_PATH)
+    if name == "deepseek":
+        prefix, default_base_url, default_model = "DEEPSEEK", "https://api.deepseek.com", "deepseek-chat"
+    else:
+        prefix, default_base_url, default_model = "GLM", "https://open.bigmodel.cn/api/coding/paas/v4", "glm-5.3-flash"
+
+    def pick(suffix: str) -> str:
+        return values.get(f"{prefix}_{suffix}") or os.getenv(f"{prefix}_{suffix}", "")
+
+    api_key = pick("API_KEY")
+    if not api_key:
+        return None
+    return pick("BASE_URL") or default_base_url, pick("MODEL") or default_model, api_key
 
 
 def _provider_config(name: str) -> tuple[str, str, str]:

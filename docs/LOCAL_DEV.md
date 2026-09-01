@@ -27,7 +27,7 @@ pnpm install
 Copy-Item .env.example .env
 ```
 
-Edit `.env` locally without printing it into logs. `LLM_PROVIDER=glm` requires `GLM_API_KEY` and the Coding base URL ending in `/api/coding/paas/v4`; `LLM_PROVIDER=deepseek` requires `DEEPSEEK_API_KEY`; `LLM_PROVIDER=mock` intentionally starts without a Provider Key. `AGENT_CORE_PORT` controls Core, `AGENT_CORE_WS_URL` controls Godot when explicitly supplied, and `VITE_AGENT_CORE_WS_URL` controls the optional web shell at build/dev time. Speech defaults are `STT_MODEL=small`, `STT_DEVICE=cpu`, and `STT_COMPUTE_TYPE=int8`.
+Edit `.env` locally without printing it into logs. `LLM_PROVIDER=glm` requires `GLM_API_KEY` and the Coding base URL ending in `/api/coding/paas/v4`; `LLM_PROVIDER=deepseek` requires `DEEPSEEK_API_KEY`; `LLM_PROVIDER=mock` intentionally starts without a Provider Key. When a GLM key runs out (HTTP 401/403/429), the Core automatically re-reads `GLM_API_KEY` from `.env` and retries once - swap the key in `.env`, save, and send another message; no restart needed. `AGENT_CORE_PORT` controls Core, `AGENT_CORE_WS_URL` controls Godot when explicitly supplied, and `VITE_AGENT_CORE_WS_URL` controls the optional web shell at build/dev time. Speech defaults are `STT_MODEL=small`, `STT_DEVICE=cpu`, and `STT_COMPUTE_TYPE=int8`.
 
 ## Local model setup
 
