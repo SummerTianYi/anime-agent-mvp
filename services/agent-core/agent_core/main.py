@@ -384,6 +384,7 @@ chat_lock = asyncio.Lock()
 voice_recorder = VoiceRecorder()
 wake_listener: WakeWordListener | None = None
 _wake_busy = False
+_agent_state = "idle"
 memory = MemoryStore()
 harness = CharacterHarness()
 tool_registry = build_tool_registry()
@@ -502,6 +503,8 @@ def event(event_type: str, **payload: object) -> dict[str, object]:
 
 
 async def broadcast_state(state: AgentState, request_id: str = "") -> None:
+    global _agent_state
+    _agent_state = state
     memory.add_event("agent.state", {"state": state, "request_id": request_id})
     await hub.send_roles(
         {"avatar", "ui"},
@@ -640,7 +643,8 @@ async def handle_voice_transcription(audio_bytes: bytes) -> None:
 
 async def handle_wake_word(buffered_audio) -> None:
     global _wake_busy
-    if _wake_busy or voice_recorder.recording:
+    if _wake_busy or voice_recorder.recording or _agent_state != "idle":
+        memory.add_event("wake.busy", {"state": _agent_state})
         return
     _wake_busy = True
     if wake_listener is not None:
@@ -841,6 +845,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 continue
 
             if event_type == "session.new":
+                await speech_manager.interrupt("session-switch")
                 session = memory.create_session()
                 await hub.send_roles(
                     {"avatar", "ui"},
@@ -893,6 +898,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 except (TypeError, ValueError):
                     await hub.send(websocket, event("core.error", message="Invalid conversationId"))
                     continue
+                await speech_manager.interrupt("session-switch")
                 if not memory.delete_session(session_id):
                     await hub.send(websocket, event("core.error", message="会话不存在或已删除"))
                     continue

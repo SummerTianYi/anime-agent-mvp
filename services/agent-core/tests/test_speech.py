@@ -113,7 +113,7 @@ class SpeechManagerTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(events[0][0], "speak")
         self.assertTrue(utt.has_audio and not utt.cancelled)
         self.assertIsNone(mgr.current)
-        self.assertTrue(utt.done.done())
+        self.assertTrue(utt.done.is_set())
 
     async def test_synth_failure_raises_and_clears(self) -> None:
         mgr, events = self._manager(_FakeClient(fail=True))

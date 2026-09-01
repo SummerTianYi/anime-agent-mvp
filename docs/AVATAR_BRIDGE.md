@@ -106,10 +106,10 @@ TTS 由独立 sidecar 承载（GPT-SoVITS v2Pro 天依声线，运行于 tianyi-
 聊天回复产生后，Core 合成语音并广播：
 
 ```json
-{"type":"avatar.speak","utteranceId":"utt-1a2b3c4d5e6f","text":"如果需要我帮忙，就喊我的名字吧。","audioPath":"D:/.../spool/utt_1735689600000.wav","durationMs":4820,"sampleRate":32000,"requestId":"m1"}
+{"type":"avatar.speak","utteranceId":"utt-1a2b3c4d5e6f","text":"如果需要我帮忙，就喊我的名字吧。","audioPath":"D:/.../spool/utt_1735689600000.wav","durationMs":4820,"sampleRate":32000,"requestId":"m1","partIndex":0,"partCount":1}
 ```
 
-Godot 加载 wav 播放，并按既有 `agent.state` 的 `speaking` 状态循环元音口型。
+长回复按句子标点切分、分片流水线合成：Core 每当前一分片播放结束就广播下一分片，全部分片共用同一个 `utteranceId`，`partIndex` 从 0 计数、`partCount` 为总分片数。播放端每播完一个分片照常回报 `speech.finished`，无需感知分片；收到 `avatar.speech.stop` 时直接停止当前播放即可，后续分片由 Core 停止下发。Godot 加载 wav 播放，并按既有 `agent.state` 的 `speaking` 状态循环元音口型。
 
 ### Core → avatar/ui：`avatar.speech.stop`
 

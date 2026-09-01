@@ -19,6 +19,65 @@ import uuid
 from dataclasses import dataclass, field
 
 
+STRONG_PUNCTUATION = "。！？；…!?" + chr(10)
+WEAK_PUNCTUATION = "，、：,:"
+PART_MAX_CHARS = 48
+
+
+def split_reply_into_parts(text: str, max_chars: int = PART_MAX_CHARS) -> list[str]:
+    """Split a reply into speakable parts, strongest punctuation first.
+
+    Sentence ends (。！？；…) always break; chunks longer than max_chars
+    are repacked at weaker punctuation (，、：) and hard-wrapped as a last
+    resort. Punctuation stays attached so each part keeps its natural cadence.
+    """
+    chunks: list[str] = []
+    buffer = ""
+    for char in text:
+        buffer += char
+        if char in STRONG_PUNCTUATION:
+            chunks.append(buffer)
+            buffer = ""
+    if buffer:
+        chunks.append(buffer)
+
+    parts: list[str] = []
+    for chunk in chunks:
+        if len(chunk) <= max_chars:
+            parts.append(chunk)
+            continue
+        current = ""
+        for token in _split_weak(chunk):
+            while len(token) > max_chars:
+                if current:
+                    parts.append(current)
+                    current = ""
+                parts.append(token[:max_chars])
+                token = token[max_chars:]
+            if current and len(current) + len(token) > max_chars:
+                parts.append(current)
+                current = token
+            else:
+                current += token
+        if current:
+            parts.append(current)
+    cleaned = [part.strip() for part in parts]
+    return [part for part in cleaned if part]
+
+
+def _split_weak(chunk: str) -> list[str]:
+    tokens: list[str] = []
+    buffer = ""
+    for char in chunk:
+        buffer += char
+        if char in WEAK_PUNCTUATION:
+            tokens.append(buffer)
+            buffer = ""
+    if buffer:
+        tokens.append(buffer)
+    return tokens
+
+
 class SpeechUnavailable(RuntimeError):
     """The TTS sidecar is unreachable, unhealthy, or refused the synthesis."""
 
@@ -103,7 +162,7 @@ class Utterance:
     request_id: str
     cancelled: bool = False
     has_audio: bool = False
-    done: asyncio.Future = field(default_factory=lambda: asyncio.get_event_loop().create_future())
+    done: asyncio.Event = field(default_factory=asyncio.Event)
 
 
 class SpeechManager:
@@ -140,13 +199,12 @@ class SpeechManager:
         return "utt-" + uuid.uuid4().hex[:12]
 
     async def _finish(self, utterance: Utterance) -> None:
-        if not utterance.done.done():
-            utterance.done.set_result(None)
+        utterance.done.set()
 
     async def interrupt(self, reason: str) -> bool:
         async with self._lock:
             utterance = self._current
-            if utterance is None or utterance.done.done():
+            if utterance is None or utterance.done.is_set():
                 return False
             utterance.cancelled = True
             if utterance.has_audio:
@@ -156,13 +214,21 @@ class SpeechManager:
 
     async def speak(self, text: str, request_id: str = "") -> Utterance:
         """Synthesize and broadcast one utterance; resolves when playback is
-        done (speech.finished), interrupted, or timed out."""
+        done (speech.finished), interrupted, or timed out.
+
+        Long replies are split at sentence punctuation and streamed part by
+        part: each avatar.speak goes out as soon as the previous part's
+        playback finishes, so the first sentence is heard after one short
+        synthesis instead of the full reply's. All parts share one
+        utteranceId; an interrupt stops both playback and further parts.
+        """
         await self.interrupt("superseded")
+        parts = split_reply_into_parts(text) or [text]
         utterance = Utterance(id=self.new_utterance_id(), text=text, request_id=request_id)
         async with self._lock:
             self._current = utterance
         try:
-            audio = await asyncio.to_thread(self.client.synthesize, text, self.speed)
+            audio = await asyncio.to_thread(self.client.synthesize, parts[0], self.speed)
         except SpeechUnavailable:
             async with self._lock:
                 if self._current is utterance:
@@ -173,28 +239,56 @@ class SpeechManager:
             await self._finish(utterance)
             return utterance
         utterance.has_audio = True
-        await self.on_speak(
-            {
-                "utteranceId": utterance.id,
-                "text": text,
-                "audioPath": audio["audioPath"],
-                "durationMs": audio["durationMs"],
-                "sampleRate": audio["sampleRate"],
-                "requestId": request_id,
-            }
-        )
+        index = 0
         try:
-            await asyncio.wait_for(
-                utterance.done,
-                timeout=audio["durationMs"] / 1000.0 + self.completion_grace_seconds,
-            )
-        except asyncio.TimeoutError:
-            pass
+            while True:
+                utterance.done = asyncio.Event()
+                await self.on_speak(
+                    self._part_payload(utterance, parts[index], audio, index, len(parts))
+                )
+                next_audio = None
+                if index + 1 < len(parts):
+                    next_audio = await self._synthesize_followup(parts[index + 1])
+                try:
+                    await asyncio.wait_for(
+                        utterance.done.wait(),
+                        timeout=audio["durationMs"] / 1000.0 + self.completion_grace_seconds,
+                    )
+                except asyncio.TimeoutError:
+                    pass
+                if utterance.cancelled or next_audio is None:
+                    break
+                index += 1
+                audio = next_audio
+            await self._finish(utterance)
         finally:
             async with self._lock:
                 if self._current is utterance:
                     self._current = None
         return utterance
+
+    async def _synthesize_followup(self, text: str) -> dict | None:
+        """Synthesize a later part while the current one plays.
+
+        A failure here degrades gracefully: the utterance simply ends after
+        the last good part instead of failing the whole reply."""
+        try:
+            return await asyncio.to_thread(self.client.synthesize, text, self.speed)
+        except SpeechUnavailable:
+            return None
+
+    @staticmethod
+    def _part_payload(utterance: Utterance, text: str, audio: dict, index: int, count: int) -> dict:
+        return {
+            "utteranceId": utterance.id,
+            "text": text,
+            "audioPath": audio["audioPath"],
+            "durationMs": audio["durationMs"],
+            "sampleRate": audio["sampleRate"],
+            "requestId": utterance.request_id,
+            "partIndex": index,
+            "partCount": count,
+        }
 
     async def notify_finished(self, utterance_id: str) -> bool:
         """Avatar reports playback ended (naturally or via stop)."""
