@@ -71,4 +71,4 @@ The chat input receives normal keyboard events while focused; global Avatar shor
 & 'D:/UserData/Administrator/Documents/Codex/2026-08-28/https-github-com-summertianyi-anime-agent/work/tianyi-tts/venv/Scripts/python.exe' 'D:/UserData/Administrator/Documents/Codex/2026-08-28/https-github-com-summertianyi-anime-agent/work/tianyi-tts/scripts/tts_server.py' --port 8770
 ```
 
-模型常驻约 3.5GB 显存；首次加载约 30-60 秒，就绪标志是日志输出 `TTS_SERVER_READY`，或 `GET http://127.0.0.1:8770/health` 返回 ok。Core 侧 .env 设 `ANIME_AGENT_TTS=1` 启用；侧车不在时聊天自动降级为文字-only。
+模型常驻约 3.5GB 显存；首次加载约 30-60 秒，就绪标志是日志输出 `TTS_SERVER_READY`，或 `GET http://127.0.0.1:8770/health` 返回 ok。Core 侧 .env 设 `ANIME_AGENT_TTS=1` 启用；侧车不在时聊天自动降级为文字-only。 语音语言模式由 `configs/tianyi_voice_v2.json` 的 `language` 字段控制（`mixed`=中英混合：汉字强制中文、拉丁字母走英语词典；`auto` 会误判中日汉字，勿用）。自检回路默认开启（同文件 `self_check` 字段）：每条合成由本地 whisper-small 回环打分（无声调拼音音节级比对），低于阈值自动以更稳温度重录一次并择优，全部本地算力、零 API 消耗；`/health` 的 `selfCheck` 暴露 takes/retries 统计。
