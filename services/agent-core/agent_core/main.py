@@ -4,9 +4,11 @@ import asyncio
 import io
 import json
 import os
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Literal, Protocol
@@ -32,6 +34,7 @@ from .harness import (
 )
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
+from .voice_text import normalize_voice_text
 from .tools import build_tool_registry, execute_tool, openai_tools_schema
 from .voice import VoiceError, VoiceRecorder, transcribe_wav
 from .wake_word import WakeWordListener, capture_utterance, encode_wav, is_wake_phrase
@@ -385,6 +388,8 @@ voice_recorder = VoiceRecorder()
 wake_listener: WakeWordListener | None = None
 _wake_busy = False
 _agent_state = "idle"
+_voice_refractory = {"last_voice_stop": 0.0}
+VOICE_WAKE_REFRACTORY_SECONDS = 5.0
 memory = MemoryStore()
 harness = CharacterHarness()
 tool_registry = build_tool_registry()
@@ -585,6 +590,8 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
             return
 
         agent_reply = harness.parse_reply(raw_reply)
+        if agent_reply.reply:
+            agent_reply = replace(agent_reply, reply=normalize_voice_text(agent_reply.reply))
         memory.add_message("assistant", agent_reply.reply, request_id, session_id)
         if is_first_exchange:
             title = agent_reply.session_title or default_title(text)
@@ -630,21 +637,28 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
 
 
 async def handle_voice_transcription(audio_bytes: bytes) -> None:
-    await hub.send_roles({"avatar", "ui"}, event("voice.state", state="transcribing"))
     try:
-        text = await asyncio.to_thread(transcribe_wav, audio_bytes)
-    except VoiceError as exc:
-        await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc)))
+        await hub.send_roles({"avatar", "ui"}, event("voice.state", state="transcribing"))
+        try:
+            text = await asyncio.to_thread(transcribe_wav, audio_bytes)
+        except VoiceError as exc:
+            await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc)))
+            await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
+            return
+        await hub.send_roles({"avatar", "ui"}, event("voice.transcript", text=text))
         await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
-        return
-    await hub.send_roles({"avatar", "ui"}, event("voice.transcript", text=text))
-    await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
+    finally:
+        # only now is it safe to re-arm the wake listener: its ring buffer may
+        # still hold the sentence the user just spoke into the voice button
+        if wake_listener is not None:
+            wake_listener.resume()
 
 
 async def handle_wake_word(buffered_audio) -> None:
     global _wake_busy
-    if _wake_busy or voice_recorder.recording or _agent_state != "idle":
-        memory.add_event("wake.busy", {"state": _agent_state})
+    recent_voice = time.monotonic() - _voice_refractory["last_voice_stop"] < VOICE_WAKE_REFRACTORY_SECONDS
+    if _wake_busy or voice_recorder.recording or recent_voice or _agent_state != "idle":
+        memory.add_event("wake.busy", {"state": _agent_state, "refractory": recent_voice})
         return
     _wake_busy = True
     if wake_listener is not None:
@@ -821,14 +835,18 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 continue
 
             if event_type == "voice.stop":
+                _voice_refractory["last_voice_stop"] = time.monotonic()
                 try:
                     audio_bytes = voice_recorder.stop()
                 except VoiceError as exc:
                     await hub.send(websocket, event("core.error", message=str(exc)))
+                    if wake_listener is not None:
+                        wake_listener.resume()
                 else:
+                    # wake stays paused until the transcript is dispatched: the
+                    # ring buffer still holds the user's sentence and re-triggering
+                    # on it would duplicate the request through the wake chain
                     asyncio.create_task(handle_voice_transcription(audio_bytes))
-                if wake_listener is not None:
-                    wake_listener.resume()
                 continue
 
             if event_type == "speech.finished":
