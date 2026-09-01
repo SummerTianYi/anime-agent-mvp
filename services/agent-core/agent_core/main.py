@@ -28,6 +28,7 @@ from .harness import (
     behavior_events,
     default_title,
 )
+from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
 from .tools import build_tool_registry, execute_tool, openai_tools_schema
 from .voice import VoiceError, VoiceRecorder, transcribe_wav
@@ -41,6 +42,10 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "glm").strip().lower()
 LLM_TIMEOUT_SECONDS = float(os.getenv("LLM_TIMEOUT_SECONDS", "45"))
 MAX_HISTORY_MESSAGES = 20
 TOOLS_ENABLED = os.getenv("ANIME_AGENT_TOOLS", "1").strip().lower() not in {"0", "false", "off"}
+SPEECH_SETTINGS = speech_settings_from_env()
+TTS_ENABLED = SPEECH_SETTINGS["enabled"]
+TTS_NARRATE = SPEECH_SETTINGS["narrate"]
+NARRATION_LINE = "我看到了，稍等我整理一下~"
 
 app = FastAPI(title="Anime Agent Core", version="0.2.0")
 
@@ -355,6 +360,58 @@ class ConnectionHub:
 hub = ConnectionHub()
 
 
+async def _broadcast_speak(payload: dict[str, object]) -> None:
+    await hub.send_roles({"avatar", "ui"}, event("avatar.speak", **payload))
+    await broadcast_state("speaking", str(payload.get("requestId", "")))
+
+
+async def _broadcast_speech_stop(utterance_id: str, reason: str) -> None:
+    await hub.send_roles(
+        {"avatar", "ui"},
+        event("avatar.speech.stop", utteranceId=utterance_id, reason=reason),
+    )
+    memory.add_event("speech.interrupted", {"utteranceId": utterance_id, "reason": reason})
+
+
+speech_client = SpeechClient(SPEECH_SETTINGS["url"])
+speech_manager = SpeechManager(
+    speech_client,
+    on_speak=_broadcast_speak,
+    on_interrupt=_broadcast_speech_stop,
+)
+
+
+def _make_loop_step_handler(request_id: str):
+    """Broadcast tool steps; narrate on the first tool step when TTS is live."""
+    narrated = {"done": False}
+
+    async def handler(step: AgentStep) -> None:
+        await broadcast_tool_step(step, request_id)
+        if narrated["done"]:
+            return
+        narrated["done"] = True
+        if not (TTS_ENABLED and TTS_NARRATE and hub.role_count("avatar") > 0):
+            return
+        asyncio.create_task(_speak_reply(NARRATION_LINE, request_id, narrating=True))
+
+    return handler
+
+
+async def _speak_reply(text: str, request_id: str, narrating: bool = False) -> None:
+    """Synthesize + broadcast one utterance outside the chat lock, then settle state."""
+    try:
+        utterance = await speech_manager.speak(text, request_id)
+    except SpeechUnavailable:
+        utterance = None
+    if utterance is None or not utterance.has_audio:
+        await broadcast_state("speaking", request_id)
+        await asyncio.sleep(min(1.2, max(0.35, len(text) / 55.0)))
+        await broadcast_state("working" if narrating else "idle", request_id)
+        return
+    if speech_manager.current is None:
+        await broadcast_state("working" if narrating else "idle", request_id)
+
+
 def timestamp() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -416,7 +473,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
                     messages,
                     tools_schema,
                     run_tool,
-                    on_step=lambda step: broadcast_tool_step(step, request_id),
+                    on_step=_make_loop_step_handler(request_id),
                 )
                 if loop_result.degraded and hasattr(provider, "complete_with_tools"):
                     memory.add_event("agent.tools.unsupported", {"request_id": request_id})
@@ -473,6 +530,15 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
                 request_id=request_id,
             ),
         )
+        use_tts = (
+            TTS_ENABLED
+            and hub.role_count("avatar") > 0
+            and await asyncio.to_thread(speech_client.is_healthy)
+        )
+        if use_tts:
+            await broadcast_behavior(agent_reply)
+            asyncio.create_task(_speak_reply(agent_reply.reply, request_id))
+            return
         await broadcast_state("speaking", request_id)
         await broadcast_behavior(agent_reply)
         await asyncio.sleep(min(1.2, max(0.35, len(agent_reply.reply) / 55.0)))
@@ -514,6 +580,7 @@ async def handle_wake_word(buffered_audio) -> None:
             return
         session = memory.create_session()
         await hub.send_roles({"avatar", "ui"}, event("session.switched", conversationId=session["id"], title=session["title"]))
+        await speech_manager.interrupt("wake")
         await hub.send_roles({"avatar", "ui"}, event("wake.triggered", conversationId=session["id"]))
         await hub.send_roles({"avatar", "ui"}, event("voice.state", state="recording"))
         try:
@@ -608,6 +675,12 @@ async def health() -> dict[str, object]:
         },
         "memory": {"path": str(memory.path), "enabled": True},
         "tools": {"enabled": TOOLS_ENABLED, "count": len(tools_schema)},
+        "tts": {
+            "enabled": TTS_ENABLED,
+            "narrate": TTS_NARRATE,
+            "service": SPEECH_SETTINGS["url"],
+            "available": await asyncio.to_thread(speech_client.is_healthy) if TTS_ENABLED else False,
+        },
         "wake": {
             "enabled": wake_listener is not None,
             "running": bool(wake_listener and wake_listener.running),
@@ -650,6 +723,8 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 continue
 
             if event_type == "voice.start":
+                if TTS_ENABLED:
+                    await speech_manager.interrupt("voice")
                 if wake_listener is not None:
                     wake_listener.pause()
                 try:
@@ -669,6 +744,12 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     asyncio.create_task(handle_voice_transcription(audio_bytes))
                 if wake_listener is not None:
                     wake_listener.resume()
+                continue
+
+            if event_type == "speech.finished":
+                utterance_id = str(payload.get("utteranceId", "")).strip()
+                if utterance_id:
+                    await speech_manager.notify_finished(utterance_id)
                 continue
 
             if event_type == "voice.cancel":

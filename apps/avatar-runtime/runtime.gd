@@ -134,6 +134,10 @@ var expression_name := "自然"
 var agent_state := "idle"
 var speaking_mouth_elapsed := 0.0
 var speaking_mouth_index := -1
+
+# E-phase TTS playback state
+var speech_player: AudioStreamPlayer = null
+var current_utterance_id := ""
 var model_look_preview_enabled := false
 var model_look_original_overrides: Dictionary = {}
 var model_look_preview_materials: Dictionary = {}
@@ -738,6 +742,10 @@ func _input(event: InputEvent) -> void:
 
 func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 	match event_type:
+		"avatar.speak":
+			_handle_avatar_speak(payload)
+		"avatar.speech.stop":
+			_handle_speech_stop(payload)
 		"avatar.turn_left":
 			_cancel_authored_motion()
 			target_yaw -= deg_to_rad(float(payload.get("degrees", 30.0)))
@@ -1700,3 +1708,39 @@ func _update_hud() -> void:
 		expression_label.text = "表情：%s" % expression_name
 	if core_label != null:
 		core_label.text = "Core：%s    Agent：%s" % [core_connection_state, agent_state]
+
+
+func _handle_avatar_speak(payload: Dictionary) -> void:
+	if speech_player == null:
+		speech_player = AudioStreamPlayer.new()
+		speech_player.bus = "Master"
+		speech_player.finished.connect(_on_speech_finished)
+		add_child(speech_player)
+	var path := str(payload.get("audioPath", ""))
+	var utterance_id := str(payload.get("utteranceId", ""))
+	if path.is_empty() or not FileAccess.file_exists(path):
+		return
+	var wav := AudioStreamWAV.load_from_file(path)
+	if wav == null:
+		return
+	current_utterance_id = utterance_id
+	speech_player.stream = wav
+	speech_player.play()
+
+
+func _handle_speech_stop(payload: Dictionary) -> void:
+	var utterance_id := str(payload.get("utteranceId", ""))
+		speech_player.stop()
+		_report_speech_finished(true)
+
+
+func _on_speech_finished() -> void:
+	_report_speech_finished(false)
+
+
+func _report_speech_finished(interrupted: bool) -> void:
+	if current_utterance_id == "":
+		return
+	if _core_connected():
+		core_socket.send_text(JSON.stringify({"type": "speech.finished", "utteranceId": current_utterance_id, "interrupted": interrupted}))
+	current_utterance_id = ""

@@ -62,3 +62,13 @@ Core health is `http://127.0.0.1:8765/health` and WebSocket is `ws://127.0.0.1:8
 | Esc | Exit Avatar |
 
 The chat input receives normal keyboard events while focused; global Avatar shortcuts must not consume those events. The voice button records while held and returns editable transcript text rather than auto-sending it.
+
+## TTS sidecar（E 期声线，可选组件）
+
+天依声线由独立 sidecar 进程提供（GPT-SoVITS v2Pro，与 Core 完全隔离、自带 venv）。侧车源码与模型归 tianyi-tts 工作区（anime-agent-tts 私有仓库）管理，不在本仓库内。启动命令：
+
+```powershell
+& 'D:/UserData/Administrator/Documents/Codex/2026-08-28/https-github-com-summertianyi-anime-agent/work/tianyi-tts/venv/Scripts/python.exe' 'D:/UserData/Administrator/Documents/Codex/2026-08-28/https-github-com-summertianyi-anime-agent/work/tianyi-tts/scripts/tts_server.py' --port 8770
+```
+
+模型常驻约 3.5GB 显存；首次加载约 30-60 秒，就绪标志是日志输出 `TTS_SERVER_READY`，或 `GET http://127.0.0.1:8770/health` 返回 ok。Core 侧 .env 设 `ANIME_AGENT_TTS=1` 启用；侧车不在时聊天自动降级为文字-only。

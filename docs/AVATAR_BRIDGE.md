@@ -97,6 +97,40 @@ Core 会把它定向路由为 `ui.menu.toggle`。角色内置菜单目前直接�
 
 Core 验证命令白名单后定向发送给 Avatar。支持的命令由 `AVATAR_EVENTS` 和 Godot 的 `handle_agent_event()` 共同定义。
 
+## TTS 语音输出与打断（E 期）
+
+TTS 由独立 sidecar 承载（GPT-SoVITS v2Pro 天依声线，运行于 tianyi-tts 工作区自己的 venv），Core 通过 HTTP 调用并广播音频文件路径给 Godot 播放。`ANIME_AGENT_TTS=0` 或 sidecar 不可用时，Core 自动回退到文字-only 流程（估时 speaking→idle），协议向后兼容。
+
+### Core → avatar/ui：`avatar.speak`
+
+聊天回复产生后，Core 合成语音并广播：
+
+```json
+{"type":"avatar.speak","utteranceId":"utt-1a2b3c4d5e6f","text":"如果需要我帮忙，就喊我的名字吧。","audioPath":"D:/.../spool/utt_1735689600000.wav","durationMs":4820,"sampleRate":32000,"requestId":"m1"}
+```
+
+Godot 加载 wav 播放，并按既有 `agent.state` 的 `speaking` 状态循环元音口型。
+
+### Core → avatar/ui：`avatar.speech.stop`
+
+用户开始说话（`voice.start`）、唤醒词确认、或新消息顶替旧播报时，Core 中断当前播报：
+
+```json
+{"type":"avatar.speech.stop","utteranceId":"utt-1a2b3c4d5e6f","reason":"voice"}
+```
+
+`reason` 取值：`voice`（用户开始语音输入）、`wake`（唤醒词确认触发新会话）、`superseded`（新一轮回复顶替旧播报）。Godot 停止播放并回报 `speech.finished`（`interrupted=true`）。
+
+### avatar → Core：`speech.finished`
+
+音频播完或被打断后，Godot 回报：
+
+```json
+{"type":"speech.finished","utteranceId":"utt-1a2b3c4d5e6f","interrupted":false}
+```
+
+Core 以此把 `agent.state` 从 `speaking` 归位 `idle`（工作解说场景归位 `working`）；若 Godot 未回报，Core 在 `durationMs + 5s` 后超时归位，协议不依赖客户端上报。未知 `utteranceId` 静默忽略。打断决策记入 events 表（`speech.interrupted`）。
+
 ## 验证
 
 先启动 Agent Core，然后在仓库根目录执行；脚本会自行创建临时的 `avatar` 与 `ui` WebSocket 角色，因此真实 Avatar Runtime 可以不启动：
