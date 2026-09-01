@@ -1730,6 +1730,7 @@ func _handle_avatar_speak(payload: Dictionary) -> void:
 
 func _handle_speech_stop(payload: Dictionary) -> void:
 	var utterance_id := str(payload.get("utteranceId", ""))
+	if speech_player != null and speech_player.playing and (utterance_id == "" or utterance_id == current_utterance_id):
 		speech_player.stop()
 		_report_speech_finished(true)
 
