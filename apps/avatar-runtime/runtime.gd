@@ -530,6 +530,10 @@ func _create_interaction_ui() -> void:
 func _handle_core_event(payload: Dictionary) -> void:
 	var event_type := str(payload.get("type", ""))
 	match event_type:
+		"avatar.speak":
+			_handle_avatar_speak(payload)
+		"avatar.speech.stop":
+			_handle_speech_stop(payload)
 		"core.status":
 			core_connection_state = str(payload.get("status", "online"))
 			_update_hud()
