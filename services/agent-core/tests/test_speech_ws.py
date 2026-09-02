@@ -137,6 +137,25 @@ class SpeechWSTests(unittest.TestCase):
         self.assertTrue(tail)
         self.assertEqual(self.speech_client.synth_count, 1)
 
+    def test_new_chat_message_interrupts_current_playback(self) -> None:
+        _client, ws = self._connect()
+        ws.send_json({"type": "session.new"})
+        switched = _collect_until(ws, "session.switched")[-1]
+        session_id = int(switched["conversationId"])
+
+        ws.send_json({"type": "chat.message", "messageId": "m3", "text": "讲个长故事", "conversationId": session_id})
+        events = _collect_until(ws, "avatar.speak")
+        speak = events[-1]
+
+        # m4 lands while m3 is still playing; playback must stop at once,
+        # before the new reply is even synthesized
+        ws.send_json({"type": "chat.message", "messageId": "m4", "text": "换个话题", "conversationId": session_id})
+        stop = _collect_until(ws, "avatar.speech.stop")[-1]
+        self.assertEqual(stop["utteranceId"], speak["utteranceId"])
+        self.assertEqual(stop["reason"], "new-message")
+        response = _collect_until(ws, "chat.response", match={"request_id": "m4"}, limit=60)[-1]
+        self.assertTrue(response["text"])
+
     def test_speech_finished_unknown_id_is_ignored(self) -> None:
         _client, ws = self._connect()
         ws.send_json({"type": "speech.finished", "utteranceId": "utt-nonexistent"})

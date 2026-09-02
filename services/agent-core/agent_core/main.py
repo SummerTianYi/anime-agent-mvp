@@ -727,9 +727,22 @@ async def handle_voice_transcription(audio_bytes: bytes) -> None:
 async def handle_wake_word(buffered_audio) -> None:
     global _wake_busy
     recent_voice = time.monotonic() - _voice_refractory["last_voice_stop"] < VOICE_WAKE_REFRACTORY_SECONDS
-    if _wake_busy or voice_recorder.recording or recent_voice or _agent_state != "idle":
+    if _wake_busy or voice_recorder.recording or recent_voice:
         memory.add_event("wake.busy", {"state": _agent_state, "refractory": recent_voice})
         return
+    if _agent_state in {"thinking", "working", "error"}:
+        # an LLM/tool turn owns the channel: the supersede machinery, not a
+        # barge-in, resolves overlaps here
+        memory.add_event("wake.busy", {"state": _agent_state, "refractory": recent_voice})
+        return
+    if _agent_state == "speaking":
+        # wake barge-in is allowed mid-playback, unless the trigger source is
+        # plausibly her own voice (the spoken text itself names her)
+        spoken_text = speech_manager.current.text if speech_manager.current is not None else ""
+        if "天依" in spoken_text:
+            memory.add_event("wake.busy", {"reason": "self-echo", "state": "speaking"})
+            return
+        memory.add_event("wake.barge_in", {"state": "speaking"})
     _wake_busy = True
     if wake_listener is not None:
         wake_listener.pause()
@@ -779,7 +792,7 @@ async def handle_wake_word(buffered_audio) -> None:
             if command_text.strip():
                 if (
                     voice_recorder.recording
-                    or _agent_state != "idle"
+                    or _agent_state in {"thinking", "working"}
                     or time.monotonic() - _voice_refractory["last_voice_stop"] < VOICE_WAKE_REFRACTORY_SECONDS
                 ):
                     memory.add_event("wake.busy", {"reason": "voice-key-preempted"})
@@ -1052,6 +1065,9 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 await hub.send(websocket, event("core.error", message="消息长度不能超过 4000 字"))
                 continue
             request_id = str(payload.get("messageId", "")).strip() or f"chat-{int(datetime.now().timestamp() * 1000)}"
+            # typing is a barge-in: silence the current playback at once, the
+            # new reply takes over when it is ready (no-op when she is quiet)
+            await speech_manager.interrupt("new-message")
             conversation_id = None
             raw_conversation_id = payload.get("conversationId")
             if raw_conversation_id is not None:

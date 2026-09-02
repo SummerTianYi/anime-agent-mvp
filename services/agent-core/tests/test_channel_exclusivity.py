@@ -11,6 +11,7 @@ import time
 import unittest
 import unittest.mock
 from pathlib import Path
+from types import SimpleNamespace
 
 os.environ.setdefault("ANIME_AGENT_WAKE_WORD", "0")
 
@@ -274,6 +275,72 @@ class VoiceStartCancelWiringTests(unittest.TestCase):
                 break
             time.sleep(0.05)
         self.assertTrue(calls)
+
+
+class _StubSpeechManager:
+    def __init__(self, text: str | None) -> None:
+        self.current = SimpleNamespace(text=text) if text is not None else None
+
+
+class _StubRecorder:
+    recording = False
+
+
+class WakeBargeInTests(unittest.TestCase):
+    """Mid-playback wake barge-in: allowed for user speech, blocked for her own."""
+
+    def setUp(self) -> None:
+        self.spy_events: list[tuple[str, dict | None]] = []
+
+        class _SpyMemory:
+            def add_event(self, event_type, payload=None):
+                self.owner.spy_events.append((event_type, payload))
+
+        spy = _SpyMemory()
+        spy.owner = self
+        old_memory = core.memory
+        core.memory = spy
+        self.addCleanup(setattr, core, "memory", old_memory)
+        old_state = core._agent_state
+        self.addCleanup(setattr, core, "_agent_state", old_state)
+        old_busy = core._wake_busy
+        core._wake_busy = False
+        self.addCleanup(setattr, core, "_wake_busy", old_busy)
+        old_recorder = core.voice_recorder
+        core.voice_recorder = _StubRecorder()
+        self.addCleanup(setattr, core, "voice_recorder", old_recorder)
+        self._old_refractory = dict(core._voice_refractory)
+        core._voice_refractory["last_voice_stop"] = time.monotonic() - 30
+        self.addCleanup(core._voice_refractory.update, self._old_refractory)
+        old_speech = core.speech_manager
+        self.addCleanup(setattr, core, "speech_manager", old_speech)
+
+    def _set_speech(self, text: str | None) -> None:
+        core.speech_manager = _StubSpeechManager(text)
+
+    def test_wake_barge_in_allowed_while_speaking_other_content(self) -> None:
+        core._agent_state = "speaking"
+        self._set_speech("今天天气真不错，我们去散步吧。")
+        _run(core.handle_wake_word(None))
+        types = [t for t, _ in self.spy_events]
+        self.assertIn("wake.barge_in", types)
+        self.assertNotIn("wake.busy", types)
+
+    def test_wake_dropped_as_self_echo_when_spoken_text_names_her(self) -> None:
+        core._agent_state = "speaking"
+        self._set_speech("大家好，我是天依，今天给大家唱首歌。")
+        _run(core.handle_wake_word(None))
+        types = [t for t, _ in self.spy_events]
+        self.assertNotIn("wake.barge_in", types)
+        busy = [p for t, p in self.spy_events if t == "wake.busy"]
+        self.assertTrue(any(p and p.get("reason") == "self-echo" for p in busy))
+
+    def test_wake_still_dropped_while_thinking(self) -> None:
+        core._agent_state = "thinking"
+        self._set_speech(None)
+        _run(core.handle_wake_word(None))
+        self.assertIn("wake.busy", [t for t, _ in self.spy_events])
+        self.assertNotIn("wake.barge_in", [t for t, _ in self.spy_events])
 
 
 def _recv_json(ws, timeout: float = 5.0):
