@@ -196,6 +196,16 @@ class MemoryStore:
         self.connection.commit()
         return session_id
 
+    def delete_message(self, request_id: str) -> bool:
+        """Remove the user row persisted for a request (superseded turns must
+        not linger in history or feed the next LLM context)."""
+        cursor = self.connection.execute(
+            "DELETE FROM messages WHERE request_id = ? AND role = 'user'",
+            (request_id,),
+        )
+        self.connection.commit()
+        return cursor.rowcount > 0
+
     def add_event(self, event_type: str, payload: dict[str, Any] | None = None) -> None:
         import json
 

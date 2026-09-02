@@ -37,7 +37,15 @@ from .storage import MemoryStore
 from .voice_text import normalize_voice_text
 from .tools import build_tool_registry, execute_tool, openai_tools_schema
 from .voice import VoiceError, VoiceRecorder, transcribe_wav
-from .wake_word import WakeWordListener, capture_utterance, encode_wav, is_wake_phrase
+from .wake_word import (
+    WakeWordListener,
+    begin_capture_scope,
+    cancel_utterance_capture,
+    capture_utterance,
+    encode_wav,
+    end_capture_scope,
+    is_wake_phrase,
+)
 
 AgentState = Literal["idle", "thinking", "speaking", "working", "error"]
 
@@ -390,6 +398,35 @@ _wake_busy = False
 _agent_state = "idle"
 _voice_refractory = {"last_voice_stop": 0.0}
 VOICE_WAKE_REFRACTORY_SECONDS = 5.0
+_inflight_wake_request: str | None = None
+_superseded_requests: set[str] = set()
+
+
+def _register_inflight_wake_request(request_id: str) -> None:
+    global _inflight_wake_request
+    _inflight_wake_request = request_id
+
+
+def _unregister_inflight_wake_request(request_id: str) -> None:
+    global _inflight_wake_request
+    if _inflight_wake_request == request_id:
+        _inflight_wake_request = None
+
+
+async def _withdraw_session_if_empty(session_id: int | None) -> None:
+    """Drop the fresh session a superseded wake chain created: an empty,
+    auto-titled leftover would otherwise linger as latest_session_id."""
+    if session_id is None:
+        return
+    try:
+        if not memory.load_messages(1, session_id):
+            memory.delete_session(session_id)
+            await hub.send_roles(
+                {"avatar", "ui"},
+                event("session.deleted", conversationId=session_id),
+            )
+    except Exception as exc:
+        memory.add_event("core.error", {"message": f"session cleanup failed: {exc}"})
 memory = MemoryStore()
 harness = CharacterHarness()
 tool_registry = build_tool_registry()
@@ -474,7 +511,7 @@ def _make_loop_step_handler(request_id: str):
 
     async def handler(step: AgentStep) -> None:
         await broadcast_tool_step(step, request_id)
-        if narrated["done"]:
+        if narrated["done"] or request_id in _superseded_requests:
             return
         narrated["done"] = True
         if not (TTS_ENABLED and TTS_NARRATE and hub.role_count("avatar") > 0):
@@ -544,8 +581,32 @@ async def broadcast_tool_step(step: AgentStep, request_id: str) -> None:
 
 
 async def handle_chat(text: str, request_id: str, conversation_id: int | None = None) -> None:
+    global _inflight_wake_request
+    if _inflight_wake_request and _inflight_wake_request != request_id:
+        # a newer request supersedes an in-flight wake-chain request: the same
+        # intent arriving twice must never be answered twice
+        _superseded_requests.add(_inflight_wake_request)
+    if request_id.startswith("wake-"):
+        _inflight_wake_request = request_id
+    else:
+        _inflight_wake_request = None
+
+    try:
+        await _handle_chat_locked(text, request_id, conversation_id)
+    finally:
+        if _inflight_wake_request == request_id:
+            _inflight_wake_request = None
+        _superseded_requests.discard(request_id)
+
+
+async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None) -> None:
 
     async with chat_lock:
+        if request_id in _superseded_requests:
+            memory.add_event("chat.superseded", {"request_id": request_id, "stage": "queued"})
+            _superseded_requests.discard(request_id)
+            await _withdraw_session_if_empty(conversation_id)
+            return
         await broadcast_state("thinking", request_id)
         probe = conversation_id if conversation_id is not None else memory.latest_session_id()
         is_first_exchange = probe is None or not memory.load_messages(1, probe)
@@ -592,6 +653,15 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         agent_reply = harness.parse_reply(raw_reply)
         if agent_reply.reply:
             agent_reply = replace(agent_reply, reply=normalize_voice_text(agent_reply.reply))
+        if request_id in _superseded_requests:
+            # the newer request owns this intent: withdraw the user turn so the
+            # session history and the next LLM context stay clean
+            memory.delete_message(request_id)
+            memory.add_event("chat.superseded", {"request_id": request_id, "stage": "post-llm"})
+            _superseded_requests.discard(request_id)
+            await broadcast_state("idle", request_id)
+            await _withdraw_session_if_empty(session_id)
+            return
         memory.add_message("assistant", agent_reply.reply, request_id, session_id)
         if is_first_exchange:
             title = agent_reply.session_title or default_title(text)
@@ -663,6 +733,13 @@ async def handle_wake_word(buffered_audio) -> None:
     _wake_busy = True
     if wake_listener is not None:
         wake_listener.pause()
+    # the wake chain owns its identity from this moment: any manual request
+    # arriving anywhere in the (multi-second) transcribe + capture window
+    # supersedes it, so one spoken intent can never be answered twice
+    capture_token = begin_capture_scope()
+    wake_request_id = "wake-" + str(int(datetime.now().timestamp() * 1000))
+    _register_inflight_wake_request(wake_request_id)
+    dispatched = False
     try:
         if buffered_audio is None:
             return
@@ -677,13 +754,17 @@ async def handle_wake_word(buffered_audio) -> None:
         if not is_wake_phrase(wake_text):
             memory.add_event("wake.rejected", {"text": wake_text})
             return
+        if wake_request_id in _superseded_requests:
+            _superseded_requests.discard(wake_request_id)
+            memory.add_event("wake.busy", {"reason": "superseded-pre-dispatch"})
+            return
         session = memory.create_session()
         await hub.send_roles({"avatar", "ui"}, event("session.switched", conversationId=session["id"], title=session["title"]))
         await speech_manager.interrupt("wake")
         await hub.send_roles({"avatar", "ui"}, event("wake.triggered", conversationId=session["id"]))
         await hub.send_roles({"avatar", "ui"}, event("voice.state", state="recording"))
         try:
-            command_bytes = await asyncio.to_thread(capture_utterance)
+            command_bytes = await asyncio.to_thread(capture_utterance, capture_token)
         except VoiceError as exc:
             await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc)))
             await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
@@ -696,15 +777,26 @@ async def handle_wake_word(buffered_audio) -> None:
                 command_text = ""
             await hub.send_roles({"avatar", "ui"}, event("voice.state", state="idle"))
             if command_text.strip():
-                request_id = "wake-" + str(int(datetime.now().timestamp() * 1000))
+                if (
+                    voice_recorder.recording
+                    or _agent_state != "idle"
+                    or time.monotonic() - _voice_refractory["last_voice_stop"] < VOICE_WAKE_REFRACTORY_SECONDS
+                ):
+                    memory.add_event("wake.busy", {"reason": "voice-key-preempted"})
+                    return
                 await hub.send_roles({"avatar", "ui"}, event("chat.user_message", conversationId=session["id"], text=command_text))
-                asyncio.create_task(handle_chat(command_text, request_id, conversation_id=session["id"]))
+                dispatched = True
+                asyncio.create_task(handle_chat(command_text, wake_request_id, conversation_id=session["id"]))
                 return
         await hub.send_roles({"avatar", "ui"}, event("wake.idle"))
     finally:
         _wake_busy = False
-        if wake_listener is not None:
+        if wake_listener is not None and not voice_recorder.recording:
             wake_listener.resume()
+        end_capture_scope(capture_token)
+        if not dispatched:
+            _unregister_inflight_wake_request(wake_request_id)
+            _superseded_requests.discard(wake_request_id)
 
 
 @app.on_event("startup")
@@ -824,6 +916,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
             if event_type == "voice.start":
                 if TTS_ENABLED:
                     await speech_manager.interrupt("voice")
+                cancel_utterance_capture()
                 if wake_listener is not None:
                     wake_listener.pause()
                 try:
@@ -856,6 +949,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 continue
 
             if event_type == "voice.cancel":
+                cancel_utterance_capture()
                 voice_recorder.cancel()
                 if wake_listener is not None:
                     wake_listener.resume()
@@ -864,6 +958,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
 
             if event_type == "session.new":
                 await speech_manager.interrupt("session-switch")
+                cancel_utterance_capture()
                 session = memory.create_session()
                 await hub.send_roles(
                     {"avatar", "ui"},
@@ -917,6 +1012,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     await hub.send(websocket, event("core.error", message="Invalid conversationId"))
                     continue
                 await speech_manager.interrupt("session-switch")
+                cancel_utterance_capture()
                 if not memory.delete_session(session_id):
                     await hub.send(websocket, event("core.error", message="会话不存在或已删除"))
                     continue

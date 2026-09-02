@@ -15,7 +15,8 @@ _REPLACEMENTS = [
     (re.compile(r"(?<=\d)\s*[kK][mM](?![A-Za-z])"), "千米"),
     (re.compile(r"(?<=\d)\s*[kK][gG](?![A-Za-z])"), "千克"),
     (re.compile(r"(?<=\d)\s*[mM][mM](?![A-Za-z])"), "毫米"),
-    (re.compile(r"(?<=\d)\s*日"), "号"),
+    # 日→号 only for date readings; compounds like 3日内/7日期限/5日报 keep 日
+    (re.compile(r"(?<=\d)\s*日(?![期内报程刊用品本前后以])"), "号"),
 ]
 
 

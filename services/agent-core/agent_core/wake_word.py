@@ -218,13 +218,54 @@ class WakeWordListener:
                 pass
 
 
+_capture_token_lock = threading.Lock()
+_current_capture_token: threading.Event | None = None
+
+
+def begin_capture_scope() -> threading.Event:
+    """Register a fresh cancel token for one wake chain's whole capture window.
+
+    The token must exist BEFORE capture_utterance runs: a cancel that fires
+    while the chain is still transcribing must survive until the recording
+    thread actually starts."""
+    global _current_capture_token
+    token = threading.Event()
+    with _capture_token_lock:
+        _current_capture_token = token
+    return token
+
+
+def end_capture_scope(token: threading.Event) -> None:
+    """Unregister the wake chain's token so later cancels stay no-ops."""
+    global _current_capture_token
+    with _capture_token_lock:
+        if _current_capture_token is token:
+            _current_capture_token = None
+
+
+def cancel_utterance_capture() -> None:
+    """Abort the registered capture window (the voice button preempts wake)."""
+    with _capture_token_lock:
+        token = _current_capture_token
+    if token is not None:
+        token.set()
+
+
 def capture_utterance(
+    cancel_event: threading.Event | None = None,
     max_seconds: float = 8.0,
     min_speech_seconds: float = 0.4,
     end_silence_seconds: float = 1.2,
     speech_level: float = 0.004,
 ) -> bytes | None:
-    """Record one utterance with a silence endpoint; returns WAV bytes or None."""
+    """Record one utterance with a silence endpoint; returns WAV bytes or None.
+
+    Aborts with None as soon as cancel_event is set (pass the token from
+    begin_capture_scope), so a voice-button press can preempt a waiting
+    wake-command recording — including a cancel that arrived before this
+    call started."""
+    if cancel_event is not None and cancel_event.is_set():
+        return None
     np, sd = _import_audio_dependencies()
     collected: list[Any] = []
     state = "waiting"
@@ -233,18 +274,26 @@ def capture_utterance(
     total_seconds = 0.0
     block_seconds = 0.1
     frames = int(capture_rate() * block_seconds)
-    stream = sd.InputStream(
-        samplerate=capture_rate(),
-        channels=1,
-        dtype="float32",
-        blocksize=frames,
-    )
+    stream = None
     try:
+        stream = sd.InputStream(
+            samplerate=capture_rate(),
+            channels=1,
+            dtype="float32",
+            blocksize=frames,
+        )
         stream.start()
     except Exception as exc:
+        if stream is not None:
+            try:
+                stream.close()
+            except Exception:
+                pass
         raise VoiceError("无法打开默认麦克风，请检查 Windows 麦克风权限") from exc
     try:
         while total_seconds < max_seconds:
+            if cancel_event is not None and cancel_event.is_set():
+                return None
             data, _overflow = stream.read(frames)
             chunk = data.reshape(-1)
             collected.append(chunk.copy())

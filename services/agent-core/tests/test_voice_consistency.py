@@ -39,6 +39,15 @@ class NormalizeTests(unittest.TestCase):
     def test_plain_text_untouched(self) -> None:
         self.assertEqual(normalize_voice_text("你好呀，今天天气真好。"), "你好呀，今天天气真好。")
 
+    def test_day_compounds_keep_original_day(self) -> None:
+        """日 after a digit stays 日 when it forms a compound (日内/日期/日报…)."""
+        for text in ("3日内回复", "7日期限", "5日报", "10日程", "3日用品"):
+            self.assertEqual(normalize_voice_text(text), text, text)
+        self.assertEqual(normalize_voice_text("12日之前"), "12号之前")
+
+    def test_day_compound_exclusions_do_not_block_dates(self) -> None:
+        self.assertEqual(normalize_voice_text("7月12日见"), "7月12号见")
+
 
 class ReplyNormalizationWSTests(unittest.TestCase):
     def setUp(self) -> None:
