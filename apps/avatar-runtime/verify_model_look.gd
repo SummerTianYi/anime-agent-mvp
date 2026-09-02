@@ -34,6 +34,15 @@ func _run() -> void:
 	await process_frame
 	runtime._cancel_authored_motion()
 	runtime.set_process(false)
+	## Material A/B parity must compare one immutable pose. Runtime skirt physics
+	## intentionally changes the silhouette between frames, so freeze only this
+	## look-focused test and restore the authored pose before taking either image.
+	if runtime.skirt_simulator != null:
+		runtime.skirt_physics_enabled = false
+		runtime.skirt_simulator.active = false
+		runtime.skeleton.reset_bone_poses()
+		runtime.skeleton.force_update_all_bone_transforms()
+		await process_frame
 	if not _verify_structure(runtime):
 		return
 	var invariant_model_transform: Transform3D = runtime.model.transform
@@ -217,6 +226,9 @@ func _rgba_difference_ratio(left_source: Image, right_source: Image) -> float:
 func _verify_projection_parity(runtime: Node) -> Dictionary:
 	var base_rotation: Vector3 = runtime.base_model_rotation
 	var base_distance: float = runtime.BASE_CAMERA_DISTANCE
+	var original_model_transform: Transform3D = runtime.model.transform
+	var original_camera_transform: Transform3D = runtime.camera.transform
+	var original_camera_fov: float = runtime.camera.fov
 	var cases := [
 		{"id": "front", "yaw": 0.0},
 		{"id": "left", "yaw": PI * 0.5},
@@ -255,9 +267,9 @@ func _verify_projection_parity(runtime: Node) -> Dictionary:
 			"used_rect": baseline_rect,
 			"contact_sheet": ProjectSettings.globalize_path(relative_path),
 		}
-	runtime.model.rotation = base_rotation
-	runtime.camera.position = Vector3(0.0, runtime.CAMERA_FOCUS.y, base_distance)
-	runtime.camera.look_at(runtime.CAMERA_FOCUS, Vector3.UP)
+	runtime.model.transform = original_model_transform
+	runtime.camera.transform = original_camera_transform
+	runtime.camera.fov = original_camera_fov
 	runtime.set_model_look_preview(true)
 	await process_frame
 	await process_frame
@@ -267,6 +279,9 @@ func _verify_projection_parity(runtime: Node) -> Dictionary:
 func _save_review_views(runtime: Node) -> Dictionary:
 	var base_rotation: Vector3 = runtime.base_model_rotation
 	var base_distance: float = runtime.BASE_CAMERA_DISTANCE
+	var original_model_transform: Transform3D = runtime.model.transform
+	var original_camera_transform: Transform3D = runtime.camera.transform
+	var original_camera_fov: float = runtime.camera.fov
 	var cases := [
 		{"id": "left", "yaw": PI * 0.5, "distance": base_distance},
 		{"id": "right", "yaw": -PI * 0.5, "distance": base_distance},
@@ -300,9 +315,9 @@ func _save_review_views(runtime: Node) -> Dictionary:
 			"used_rect": used_rect,
 		}
 	_reset_expression_blend_shapes(runtime)
-	runtime.model.rotation = base_rotation
-	runtime.camera.position = Vector3(0.0, runtime.CAMERA_FOCUS.y, base_distance)
-	runtime.camera.look_at(runtime.CAMERA_FOCUS, Vector3.UP)
+	runtime.model.transform = original_model_transform
+	runtime.camera.transform = original_camera_transform
+	runtime.camera.fov = original_camera_fov
 	await process_frame
 	await process_frame
 	return output

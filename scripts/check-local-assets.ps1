@@ -10,8 +10,8 @@ $motionContracts = @(
     @{
         Name = "Idle"
         Path = Join-Path $repoRoot "apps\avatar-runtime\assets\motions\luotianyi_idle.glb"
-        Size = 23057704
-        Sha256 = "33E3FE13721F0D01929C6CB4AF22A408C3485F20512066975ED102DC693CC21B"
+        Size = 23070740
+        Sha256 = "5CF15A1D3E657CF76E5F58E33C9D3593A14494B89817AD2A910D57CABF9D433A"
     },
     @{
         Name = "Pirouette"

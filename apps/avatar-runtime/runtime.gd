@@ -22,6 +22,34 @@ const PIGTAIL_DEPTH_ANGLE := 0.0
 const PIGTAIL_SWAY_AMPLITUDE := 1.6
 const PIGTAIL_CHAIN_SWAY_AMPLITUDE := 0.32
 const PIGTAIL_CHAIN_PHASE_DELAY := 0.16
+## Codex skirt dynamics: keep the official GLB immutable and reconstruct the
+## MMD garment behavior at runtime from the 16 existing three-bone skirt chains.
+## Godot's native spring solver returns toward the authored pose and its
+## collision nodes follow live bones, so mocap and legacy full-body clips share
+## one contact policy instead of receiving per-action patches.
+const SKIRT_PHYSICS_ENV := "ANIME_AGENT_SKIRT_PHYSICS"
+const SKIRT_CHAIN_COUNT := 16
+const SKIRT_CHAIN_LENGTH := 3
+const SKIRT_JOINT_RADIUS := 0.015
+const SKIRT_STIFFNESS := 12.0
+const SKIRT_DRAG := 0.95
+const SKIRT_GRAVITY := 0.2
+const SKIRT_GRAVITY_DIRECTION := Vector3.DOWN
+const SKIRT_COLLISION_PADDING := 0.002
+const SKIRT_HAND_RADIUS := 0.022
+const SKIRT_FOREARM_RADIUS := 0.025
+const SKIRT_THIGH_RADIUS := 0.028
+const ARM_SKIRT_CLEARANCE := 0.07
+const MAX_ARM_SKIRT_CORRECTION := 35.0
+const SKIRT_CONTACT_PASSES := 10
+const SKIRT_MID_CONTACT_RADIUS := 0.042
+const SKIRT_TIP_CONTACT_RADIUS := 0.03
+const SKIRT_MID_PANEL_RADIUS := 0.042
+const SKIRT_TIP_PANEL_RADIUS := 0.024
+const SKIRT_LARGE_MID_PANEL_RADIUS := 0.058
+const SKIRT_LARGE_TIP_PANEL_RADIUS := 0.034
+const SKIRT_PANEL_SAMPLE_RATIOS := [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]
+const MAX_SKIRT_CONTACT_CORRECTION := 32.0
 const WAVE_UPPER_ARM_ANGLE := 72.0
 const WAVE_ELBOW_BEND_ANGLE := 68.0
 const WAVE_ELBOW_SWAY_ANGLE := 8.0
@@ -122,6 +150,10 @@ var pigtail_root_ids: Array[int] = []
 var pigtail_chains: Array = []
 var pigtail_base_rotations: Dictionary = {}
 var pigtail_rest_rotations: Dictionary = {}
+var skirt_chains: Array = []
+var skirt_simulator: SpringBoneSimulator3D
+var skirt_colliders: Array[SpringBoneCollisionSphere3D] = []
+var skirt_physics_enabled := false
 var motion_layer_bones: Dictionary = {}
 
 var face_mesh: MeshInstance3D
@@ -178,6 +210,7 @@ func _ready() -> void:
 	skeleton = _find_skeleton(model)
 	_cache_bones()
 	_cache_deform_bone_mirrors()
+	_configure_skirt_physics()
 	_cache_expressions()
 	_configure_model_look()
 	_restore_bone_poses()
@@ -193,6 +226,9 @@ func _ready() -> void:
 		"cached_bones": bone_ids.size(),
 		"pigtail_roots": pigtail_root_ids.size(),
 		"pigtail_chain_lengths": pigtail_chains.map(func(chain: Array) -> int: return chain.size()),
+		"skirt_physics": skirt_physics_enabled,
+		"skirt_chain_lengths": skirt_chains.map(func(chain: Array) -> int: return chain.size()),
+		"skirt_colliders": skirt_colliders.size(),
 		"motion_layers": _motion_layer_sizes(),
 		"expressions": expression_ids.size(),
 		"model_look": MODEL_LOOK_V12 if model_look_preview_enabled else "1.1",
@@ -255,6 +291,7 @@ func _process(delta: float) -> void:
 		_apply_action_pose()
 	_sync_deform_bone_mirrors()
 	_preserve_limb_readability()
+	_preserve_arm_skirt_clearance()
 	_apply_pigtail_pose()
 	_process_speaking_mouth(delta)
 	_process_expressions(delta)
@@ -408,6 +445,7 @@ func _play_authored_motion(clip_id: StringName = &"pirouette") -> void:
 	authored_motion_active = true
 	var clip_data: Dictionary = authored_motion_clips[String(clip_id)]
 	authored_motion_player.play(clip_id, float(clip_data.get("blend_seconds", 0.0)))
+	_reset_skirt_physics()
 	_update_hud()
 	print("GODOT_AUTHORED_MOTION_STARTED", clip_id)
 
@@ -432,6 +470,7 @@ func _cancel_authored_motion(return_to_idle: bool = false) -> void:
 	action_name = "idle"
 	action_elapsed = 0.0
 	_restore_bone_poses()
+	_reset_skirt_physics()
 	_update_hud()
 	if return_to_idle:
 		_play_default_idle_motion()
@@ -1127,6 +1166,91 @@ func _constrain_limb_segment(parent_name: String, child_name: String) -> void:
 	skeleton.force_update_bone_child_transform(parent_index)
 
 
+func _preserve_arm_skirt_clearance() -> void:
+	## Dynamic skirt joints can move around hands and legs, but the Skirt_0 waist
+	## ring is fixed by the official rig. When a large authored action drives a
+	## forearm through that fixed ring, move the limb by the smallest outward
+	## elbow correction instead of distorting immutable model geometry.
+	if skeleton == null or action_name == "nod" or skirt_chains.is_empty():
+		return
+	for side in ["L", "R"]:
+		_constrain_forearm_from_skirt("ひじ.%s" % side, "手首.%s" % side)
+
+
+func _constrain_forearm_from_skirt(elbow_name: String, wrist_name: String) -> void:
+	var elbow_index := skeleton.find_bone(elbow_name)
+	var wrist_index := skeleton.find_bone(wrist_name)
+	if elbow_index < 0 or wrist_index < 0:
+		return
+	var elbow_pose := skeleton.get_bone_global_pose(elbow_index)
+	var wrist_pose := skeleton.get_bone_global_pose(wrist_index)
+	var forearm := wrist_pose.origin - elbow_pose.origin
+	var forearm_length := forearm.length()
+	if forearm_length < 0.0001:
+		return
+	var probe := elbow_pose.origin.lerp(wrist_pose.origin, 0.82)
+	var nearest := Vector3.ZERO
+	var nearest_distance := INF
+	## Measure against the ring panels as well as the bones. A forearm can pass
+	## directly between two valid joint spheres and still cross the fixed waist.
+	for probe_ratio in [0.82, 0.96]:
+		var candidate_probe := elbow_pose.origin.lerp(wrist_pose.origin, probe_ratio)
+		for joint_position in [0, 1]:
+			for chain_position in range(skirt_chains.size()):
+				var next_position := (chain_position + 1) % skirt_chains.size()
+				var point_a := skeleton.get_bone_global_pose(
+					int(skirt_chains[chain_position][joint_position])
+				).origin
+				var point_b := skeleton.get_bone_global_pose(
+					int(skirt_chains[next_position][joint_position])
+				).origin
+				var point := _closest_point_on_segment(candidate_probe, point_a, point_b)
+				var distance := candidate_probe.distance_to(point)
+				if distance < nearest_distance:
+					nearest_distance = distance
+					nearest = point
+					probe = candidate_probe
+	if nearest_distance >= ARM_SKIRT_CLEARANCE:
+		return
+	var outward := probe - nearest
+	if outward.length_squared() < 0.000001:
+		var pelvis_index := skeleton.find_bone("下半身")
+		if pelvis_index >= 0:
+			outward = probe - skeleton.get_bone_global_pose(pelvis_index).origin
+	if outward.length_squared() < 0.000001:
+		return
+	outward = outward.normalized()
+	var desired_probe := nearest + outward * ARM_SKIRT_CLEARANCE
+	var target_direction := desired_probe - elbow_pose.origin
+	if target_direction.length_squared() < 0.000001:
+		return
+	target_direction = target_direction.normalized()
+	var current_direction := forearm / forearm_length
+	var correction := Quaternion(current_direction, target_direction)
+	var correction_angle := minf(correction.get_angle(), deg_to_rad(MAX_ARM_SKIRT_CORRECTION))
+	if correction_angle < 0.0001:
+		return
+	var global_axis := correction.get_axis()
+	var local_axis := elbow_pose.basis.orthonormalized().inverse() * global_axis
+	if local_axis.length_squared() < 0.000001:
+		return
+	var current_rotation := skeleton.get_bone_pose_rotation(elbow_index)
+	skeleton.set_bone_pose_rotation(
+		elbow_index,
+		(current_rotation * Quaternion(local_axis.normalized(), correction_angle)).normalized()
+	)
+	skeleton.force_update_bone_child_transform(elbow_index)
+
+
+func _closest_point_on_segment(point: Vector3, start: Vector3, finish: Vector3) -> Vector3:
+	var segment := finish - start
+	var length_squared := segment.length_squared()
+	if length_squared < 0.000001:
+		return start
+	var ratio := clampf((point - start).dot(segment) / length_squared, 0.0, 1.0)
+	return start + segment * ratio
+
+
 func _apply_pigtail_pose() -> void:
 	if skeleton == null:
 		return
@@ -1227,7 +1351,387 @@ func _cache_bones() -> void:
 			pigtail_chains.append(chain)
 			pigtail_root_ids.append(chain[0])
 
+	for chain_position in range(SKIRT_CHAIN_COUNT):
+		var skirt_chain: Array[int] = []
+		for segment_position in range(SKIRT_CHAIN_LENGTH):
+			var skirt_name := "Skirt_%d_%d" % [segment_position, chain_position]
+			var skirt_index := skeleton.find_bone(skirt_name)
+			if skirt_index < 0:
+				break
+			skirt_chain.append(skirt_index)
+		if skirt_chain.size() == SKIRT_CHAIN_LENGTH:
+			skirt_chains.append(skirt_chain)
+
 	_cache_motion_layers()
+
+
+func _configure_skirt_physics() -> void:
+	skirt_physics_enabled = false
+	skirt_colliders.clear()
+	if skeleton == null or not _environment_flag(SKIRT_PHYSICS_ENV, true):
+		return
+	if skirt_chains.size() != SKIRT_CHAIN_COUNT:
+		push_warning(
+			"Skirt physics requires %d complete chains, found %d"
+			% [SKIRT_CHAIN_COUNT, skirt_chains.size()]
+		)
+		return
+
+	skirt_simulator = SpringBoneSimulator3D.new()
+	skirt_simulator.name = "CodexSkirtSpringSimulator"
+	skirt_simulator.mutable_bone_axes = false
+	skeleton.add_child(skirt_simulator)
+	skirt_simulator.set_setting_count(SKIRT_CHAIN_COUNT)
+	var center_bone := skeleton.find_bone("下半身")
+	for chain_position in range(SKIRT_CHAIN_COUNT):
+		var chain: Array = skirt_chains[chain_position]
+		skirt_simulator.set_root_bone(chain_position, int(chain[0]))
+		skirt_simulator.set_end_bone(chain_position, int(chain[-1]))
+		skirt_simulator.set_center_from(
+			chain_position,
+			SpringBoneSimulator3D.CENTER_FROM_BONE
+		)
+		if center_bone >= 0:
+			skirt_simulator.set_center_bone(chain_position, center_bone)
+		skirt_simulator.set_radius(chain_position, SKIRT_JOINT_RADIUS)
+		skirt_simulator.set_stiffness(chain_position, SKIRT_STIFFNESS)
+		skirt_simulator.set_drag(chain_position, SKIRT_DRAG)
+		skirt_simulator.set_gravity(chain_position, SKIRT_GRAVITY)
+		skirt_simulator.set_gravity_direction(chain_position, SKIRT_GRAVITY_DIRECTION)
+
+	## The original MMD skirt only collides with hips/legs. Add palm and distal
+	## forearm proxies because mocap naturally places relaxed hands against the
+	## thigh, which otherwise leaves the hand inside the skirt shell.
+	for side in ["L", "R"]:
+		_add_skirt_segment_colliders(
+			"足D.%s" % side,
+			"ひざD.%s" % side,
+			[0.0, 0.14, 0.28, 0.42],
+			SKIRT_THIGH_RADIUS
+		)
+		_add_skirt_segment_colliders(
+			"ひじ.%s" % side,
+			"手首.%s" % side,
+			[0.82, 0.96],
+			SKIRT_FOREARM_RADIUS
+		)
+		_add_skirt_segment_colliders(
+			"手首.%s" % side,
+			"中指先.%s" % side,
+			[0.0, 0.28, 0.56, 0.84],
+			SKIRT_HAND_RADIUS
+		)
+	## Runtime-created collision children are not serialized into a settings
+	## resource, so explicitly bind their NodePaths. The editor convenience flag
+	## alone leaves get_collision_count() at zero for dynamically-built rigs.
+	for chain_position in range(SKIRT_CHAIN_COUNT):
+		skirt_simulator.set_enable_all_child_collisions(chain_position, false)
+		skirt_simulator.set_collision_count(chain_position, skirt_colliders.size())
+		for collider_index in range(skirt_colliders.size()):
+			skirt_simulator.set_collision_path(
+				chain_position,
+				collider_index,
+				skirt_simulator.get_path_to(skirt_colliders[collider_index])
+			)
+
+	skirt_physics_enabled = skirt_colliders.size() >= 20
+	if not skirt_physics_enabled:
+		push_warning("Skirt physics collider rig is incomplete")
+		skirt_simulator.queue_free()
+		skirt_simulator = null
+		skirt_colliders.clear()
+		return
+	skirt_simulator.modification_processed.connect(_resolve_skirt_contacts)
+	call_deferred("_reset_skirt_physics")
+	print("GODOT_SKIRT_PHYSICS_READY", _skirt_physics_summary())
+
+
+func _add_skirt_segment_colliders(
+	bone_name: String,
+	end_bone_name: String,
+	ratios: Array,
+	radius: float,
+) -> void:
+	var bone_index := skeleton.find_bone(bone_name)
+	var end_bone_index := skeleton.find_bone(end_bone_name)
+	if bone_index < 0 or end_bone_index < 0 or skirt_simulator == null:
+		return
+	var bone_pose := skeleton.get_bone_global_pose(bone_index)
+	var end_origin := skeleton.get_bone_global_pose(end_bone_index).origin
+	var inverse_basis := bone_pose.basis.orthonormalized().inverse()
+	for ratio_value in ratios:
+		var ratio := clampf(float(ratio_value), 0.0, 1.0)
+		var target_origin := bone_pose.origin.lerp(end_origin, ratio)
+		var collider := SpringBoneCollisionSphere3D.new()
+		collider.name = "CodexSkirtCollider_%s_%03d" % [bone_name, skirt_colliders.size()]
+		skirt_simulator.add_child(collider)
+		collider.set_bone(bone_index)
+		collider.position_offset = inverse_basis * (target_origin - bone_pose.origin)
+		collider.radius = radius + SKIRT_COLLISION_PADDING
+		skirt_colliders.append(collider)
+
+
+func _reset_skirt_physics() -> void:
+	if skirt_physics_enabled and is_instance_valid(skirt_simulator):
+		skirt_simulator.reset()
+
+
+func _resolve_skirt_contacts() -> void:
+	## Native spring collisions operate on joint spheres and can miss the cloth
+	## panel between two radial chains during fast mocap. Resolve only the chains
+	## that are actually in contact, preserving the natural motion of the other
+	## panels instead of inflating the entire skirt collider radius.
+	if not skirt_physics_enabled or skeleton == null:
+		return
+	## Gentle idle uses the smaller panel envelope below; large actions widen
+	## only their local contact envelope. Idle resolves arm contact iteratively,
+	## then gives thighs one final local pass so the complete ring is not inflated.
+	var large_motion := action_name != "idle"
+	var contact_samples := _cache_skirt_contact_samples()
+	var main_samples: Array = (
+		contact_samples["all"]
+		if large_motion
+		else contact_samples["arms"]
+	)
+	var mid_panel_radius := (
+		SKIRT_LARGE_MID_PANEL_RADIUS
+		if large_motion
+		else SKIRT_MID_PANEL_RADIUS
+	)
+	var tip_panel_radius := (
+		SKIRT_LARGE_TIP_PANEL_RADIUS
+		if large_motion
+		else SKIRT_TIP_PANEL_RADIUS
+	)
+	for _pass_index in range(SKIRT_CONTACT_PASSES):
+		for chain in skirt_chains:
+			_resolve_skirt_joint_contact(
+				int(chain[0]),
+				int(chain[1]),
+				SKIRT_MID_CONTACT_RADIUS,
+				main_samples
+			)
+			_resolve_skirt_joint_contact(
+				int(chain[1]),
+				int(chain[2]),
+				SKIRT_TIP_CONTACT_RADIUS,
+				main_samples
+			)
+		for chain_position in range(skirt_chains.size()):
+			var next_position := (chain_position + 1) % skirt_chains.size()
+			var chain: Array = skirt_chains[chain_position]
+			var next_chain: Array = skirt_chains[next_position]
+			_resolve_skirt_panel_contact(
+				int(chain[0]), int(chain[1]),
+				int(next_chain[0]), int(next_chain[1]),
+				mid_panel_radius,
+				main_samples
+			)
+			_resolve_skirt_panel_contact(
+				int(chain[1]), int(chain[2]),
+				int(next_chain[1]), int(next_chain[2]),
+				tip_panel_radius,
+				main_samples
+			)
+	if not large_motion:
+		_resolve_idle_thigh_contacts(
+			mid_panel_radius,
+			tip_panel_radius,
+			contact_samples["thighs"]
+		)
+	## The skirt may move after the regular process-stage limb correction; finish
+	## by re-evaluating the forearms against the final constrained cloth ring.
+	_preserve_arm_skirt_clearance()
+
+
+func _resolve_skirt_joint_contact(
+	parent_index: int,
+	child_index: int,
+	contact_radius: float,
+	collider_samples: Array,
+) -> void:
+	var parent_pose := skeleton.get_bone_global_pose(parent_index)
+	var child_pose := skeleton.get_bone_global_pose(child_index)
+	var child_origin := child_pose.origin
+	var best_penetration := 0.0
+	var best_origin := Vector3.ZERO
+	var best_required_distance := 0.0
+	for sample: Vector4 in collider_samples:
+		var collider_origin := Vector3(sample.x, sample.y, sample.z)
+		var required_distance := contact_radius + sample.w
+		var penetration := required_distance - child_origin.distance_to(collider_origin)
+		if penetration > best_penetration:
+			best_penetration = penetration
+			best_origin = collider_origin
+			best_required_distance = required_distance
+	if best_penetration <= 0.0:
+		return
+	var outward := child_origin - best_origin
+	if outward.length_squared() < 0.000001:
+		outward = child_origin - parent_pose.origin
+	if outward.length_squared() < 0.000001:
+		return
+	var desired_child := best_origin + outward.normalized() * best_required_distance
+	_rotate_skirt_child_toward(parent_index, child_index, desired_child)
+
+
+func _resolve_skirt_panel_contact(
+	parent_a: int,
+	child_a: int,
+	parent_b: int,
+	child_b: int,
+	contact_radius: float,
+	collider_samples: Array,
+) -> void:
+	var child_a_origin := skeleton.get_bone_global_pose(child_a).origin
+	var child_b_origin := skeleton.get_bone_global_pose(child_b).origin
+	var best_penetration := 0.0
+	var best_origin := Vector3.ZERO
+	var best_required_distance := 0.0
+	var best_probe := Vector3.ZERO
+	## A panel is controlled by both neighboring radial chains. Its weighted mesh
+	## vertices are not concentrated at the 50% midpoint: the most severe spin
+	## contact occurs close to the 15/0 seam (roughly 65/35 and 98/2 weights).
+	## Sample the full span so a valid endpoint or midpoint cannot hide a nearby
+	## section of the actual cloth shell inside a thigh or hand proxy.
+	for ratio_value in SKIRT_PANEL_SAMPLE_RATIOS:
+		var probe := child_a_origin.lerp(child_b_origin, float(ratio_value))
+		for sample: Vector4 in collider_samples:
+			var collider_origin := Vector3(sample.x, sample.y, sample.z)
+			var required_distance := contact_radius + sample.w
+			var penetration := required_distance - probe.distance_to(collider_origin)
+			if penetration > best_penetration:
+				best_penetration = penetration
+				best_origin = collider_origin
+				best_required_distance = required_distance
+				best_probe = probe
+	if best_penetration <= 0.0:
+		return
+	var outward := best_probe - best_origin
+	if outward.length_squared() < 0.000001:
+		outward = best_probe - (
+			skeleton.get_bone_global_pose(parent_a).origin
+			+ skeleton.get_bone_global_pose(parent_b).origin
+		) * 0.5
+	if outward.length_squared() < 0.000001:
+		return
+	var desired_probe := best_origin + outward.normalized() * best_required_distance
+	var offset := desired_probe - best_probe
+	_rotate_skirt_child_toward(parent_a, child_a, child_a_origin + offset)
+	_rotate_skirt_child_toward(parent_b, child_b, child_b_origin + offset)
+
+
+func _is_thigh_skirt_collider(collider: SpringBoneCollisionSphere3D) -> bool:
+	return skeleton.get_bone_name(collider.get_bone()).begins_with("足D")
+
+
+func _cache_skirt_contact_samples() -> Dictionary:
+	## Limb bones do not change during the skirt-only constraint passes. Cache
+	## their world-space spheres once per frame instead of repeating thousands of
+	## Skeleton3D lookups inside every chain/panel iteration.
+	var arm_samples: Array[Vector4] = []
+	var thigh_samples: Array[Vector4] = []
+	for collider in skirt_colliders:
+		var collider_pose := skeleton.get_bone_global_pose(collider.get_bone())
+		var origin := (
+			collider_pose.origin
+			+ collider_pose.basis.orthonormalized() * collider.position_offset
+		)
+		var sample := Vector4(origin.x, origin.y, origin.z, collider.radius)
+		if _is_thigh_skirt_collider(collider):
+			thigh_samples.append(sample)
+		else:
+			arm_samples.append(sample)
+	var all_samples: Array[Vector4] = arm_samples.duplicate()
+	all_samples.append_array(thigh_samples)
+	return {
+		"all": all_samples,
+		"arms": arm_samples,
+		"thighs": thigh_samples,
+	}
+
+
+func _resolve_idle_thigh_contacts(
+	mid_panel_radius: float,
+	tip_panel_radius: float,
+	thigh_samples: Array,
+) -> void:
+	for chain in skirt_chains:
+		_resolve_skirt_joint_contact(
+			int(chain[0]), int(chain[1]),
+			SKIRT_MID_CONTACT_RADIUS,
+			thigh_samples
+		)
+		_resolve_skirt_joint_contact(
+			int(chain[1]), int(chain[2]),
+			SKIRT_TIP_CONTACT_RADIUS,
+			thigh_samples
+		)
+	for chain_position in range(skirt_chains.size()):
+		var next_position := (chain_position + 1) % skirt_chains.size()
+		var chain: Array = skirt_chains[chain_position]
+		var next_chain: Array = skirt_chains[next_position]
+		_resolve_skirt_panel_contact(
+			int(chain[0]), int(chain[1]),
+			int(next_chain[0]), int(next_chain[1]),
+			mid_panel_radius,
+			thigh_samples
+		)
+		_resolve_skirt_panel_contact(
+			int(chain[1]), int(chain[2]),
+			int(next_chain[1]), int(next_chain[2]),
+			tip_panel_radius,
+			thigh_samples
+		)
+
+
+func _rotate_skirt_child_toward(parent_index: int, child_index: int, desired_child: Vector3) -> void:
+	var parent_pose := skeleton.get_bone_global_pose(parent_index)
+	var child_origin := skeleton.get_bone_global_pose(child_index).origin
+	var current_direction := child_origin - parent_pose.origin
+	var target_direction := desired_child - parent_pose.origin
+	if current_direction.length_squared() < 0.000001 or target_direction.length_squared() < 0.000001:
+		return
+	current_direction = current_direction.normalized()
+	target_direction = target_direction.normalized()
+	var correction := Quaternion(current_direction, target_direction)
+	var correction_angle := minf(
+		correction.get_angle(),
+		deg_to_rad(MAX_SKIRT_CONTACT_CORRECTION)
+	)
+	if correction_angle < 0.0001:
+		return
+	var local_axis := (
+		parent_pose.basis.orthonormalized().inverse()
+		* correction.get_axis()
+	)
+	if local_axis.length_squared() < 0.000001:
+		return
+	var current_rotation := skeleton.get_bone_pose_rotation(parent_index)
+	skeleton.set_bone_pose_rotation(
+		parent_index,
+		(current_rotation * Quaternion(local_axis.normalized(), correction_angle)).normalized()
+	)
+	skeleton.force_update_bone_child_transform(parent_index)
+
+
+func _skirt_physics_summary() -> Dictionary:
+	var collision_counts: Array[int] = []
+	if is_instance_valid(skirt_simulator):
+		for setting_index in range(skirt_simulator.get_setting_count()):
+			collision_counts.append(skirt_simulator.get_collision_count(setting_index))
+	return {
+		"enabled": skirt_physics_enabled,
+		"chains": skirt_chains.size(),
+		"chain_lengths": skirt_chains.map(func(chain: Array) -> int: return chain.size()),
+		"settings": skirt_simulator.get_setting_count() if is_instance_valid(skirt_simulator) else 0,
+		"colliders": skirt_colliders.size(),
+		"collision_counts": collision_counts,
+		"joint_radius": SKIRT_JOINT_RADIUS,
+		"stiffness": SKIRT_STIFFNESS,
+		"drag": SKIRT_DRAG,
+		"gravity": SKIRT_GRAVITY,
+	}
 
 
 func _cache_motion_layers() -> void:

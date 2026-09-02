@@ -20,12 +20,14 @@
 | 角色 Harness | 洛天依身份、自我认知、结构化情绪/动作输出契约、20 首原创曲种子库与按需检索注入，不包含翻唱和歌词 | `services/agent-core/agent_core/harness.py`；`services/agent-core/agent_core/data/luotianyi_original_songs.json` |
 | 聊天、会话与本地记忆 | 洛天依主题聊天浮层、输入优先级、多会话协议、SQLite 历史与迁移、角色状态驱动；按项目所有者授权纳入 Codex 总体建设范围，允许并行 Agent 重叠声明 | `364d5d4`；`6d432aa`；`a094352`；相关 Core/UI 测试 |
 | 动作管线 | BVH/FBX 动作可行性验证、旋转样片、8 秒待机、动作注册表、静态官模与动画容器分离、上/下半身语义层、两条完整马尾归入上半身并保留二级摆动 | `7cc6b74`；`b192291`；`docs/MOTION_PIPELINE.md`；`verify_motion_asset.gd`；`verify_motion_runtime.gd` |
-| 倾听动作参考重建（当前 Codex 工作树） | 直接读取用户 MP4 并提取 0.5 秒时间轴证据；纠正原样片手势顺序为张掌→握拳→张掌，补齐左臂外展、头胸微倾与表情；语音录制自动启动、录制中保持末姿、转写时回待机；增加 Blender 结构/姿态门禁与 Godot 语义链路回归 | `scripts/model-pipeline/extract_video_reference.py`；`create_listen_motion.py`；`verify_listen_motion.py`；`apps/avatar-runtime/motion_registry.json`；`runtime.gd`；`verify_motion_runtime.gd` |
+| 单目动捕待机（Codex，2026-09-01） | 从用户全身视频确定性提取 MediaPipe 姿态，生成保守的 12 骨上半身循环待机；保留下半身、裙摆和官模结构，建立首尾闭环、逐帧有限变换、步进幅度、胸部摆动和转头幅度门禁，并把新 GLB 的大小/哈希纳入本地资产契约 | `scripts/model-pipeline/extract_pose_landmarks.py`；`create_mocap_idle_motion.py`；`verify_mocap_idle_motion.py`；`scripts/check-local-assets.ps1`；本地 `motion-output/mocap-idle-v1` |
+| 通用裙摆动力学与防穿模（Codex，2026-09-01） | 从官模现有 16×3 裙骨在 Godot 运行时重建弹簧链，为双手、前臂和双腿建立 20 个随骨碰撞代理，并对相邻裙骨控制的整片网格执行局部多点接触约束；覆盖动捕待机、旋转压力样片和其他大动作，不改 GLB、网格、蒙皮、骨架或动作文件；以实际蒙皮后的 5,464 个裙摆顶点做 30/60/120 FPS 与 OpenGL/Vulkan 对抗门禁，最坏代理接触不超过 3 mm 数值容差且逐帧视觉证据无可见穿出 | `apps/avatar-runtime/runtime.gd` 的 `SKIRT_*`；`verify_skirt_physics.gd`；`verify_model_look.gd` |
+| 倾听动作参考重建（Codex） | 直接读取用户 MP4 并提取 0.5 秒时间轴证据；纠正原样片手势顺序为张掌→握拳→张掌，补齐左臂外展、头胸微倾与表情；语音录制自动启动、录制中保持末姿、转写时回待机；增加 Blender 结构/姿态门禁与 Godot 语义链路回归 | `scripts/model-pipeline/extract_video_reference.py`；`create_listen_motion.py`；`verify_listen_motion.py`；`apps/avatar-runtime/motion_registry.json`；`runtime.gd`；`verify_motion_runtime.gd` |
 | 测试与零上下文交接 | Python 单元测试、桌面构建、Godot 输入/动作/画布门禁、资产哈希、Bridge 验证、架构/已知问题/机器路径/测试与 HANDOFF 文档 | `38df44c`；`docs/HANDOFF.md`；`docs/TESTING.md`；`.github/workflows/ci.yml` |
 
 ## 本次推送边界
 
-本次 Codex 提交包含语义动作层与马尾验证、透明桌面画布、固定光轴 SubViewport、画质/防裁切优化、相关回归测试、优化路线及本贡献声明。提交时明确排除另一位并行 Agent 尚未提交的倾听动作增量、唤醒词/Core 增量及其 `.gitignore` 调整；这些文件继续留在本地工作树，由对应 Agent 自行验证、标记和提交。`runtime.gd` 与 `interaction_ui.gd` 同时包含双方未提交行时，Codex 只分块暂存自己的行，不把对方增量夹带进本次提交。
+2026-09-01 本次 Codex 推送边界是单目动捕待机工具、通用裙摆动力学、专用穿模回归、模型外观测试的动态骨冻结兼容和对应文档；模型、动作 GLB、Blend、视频、姿态 JSON 与测试截图仍只保留本地。共享 `runtime.gd` 只追加裙摆相关增量，不改写 Claude 已落库的 TTS、倾听、唤醒和会话逻辑。
 
 ## Claude 建设范围
 
