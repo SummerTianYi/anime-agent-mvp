@@ -20,15 +20,18 @@ class StorageTestCase(unittest.TestCase):
         self.addCleanup(store.close)
         return store
 
+    def store_messages(self, store, session_ids):
+        for sid in session_ids:
+            store.add_message("user", f"消息-{sid}", conversation_id=sid)
+
 
 class FreshDatabaseTests(StorageTestCase):
     def test_first_run_creates_default_session(self) -> None:
         store = self.make_store()
         session_id = store.latest_session_id()
         self.assertIsNotNone(session_id)
-        sessions = store.list_sessions()
-        self.assertEqual(len(sessions), 1)
-        self.assertEqual(sessions[0]["title"], "新对话")
+        # GPT-style: default shell exists but stays hidden until first message.
+        self.assertEqual(store.list_sessions(), [])
 
     def test_messages_go_to_default_session(self) -> None:
         store = self.make_store()
@@ -154,7 +157,8 @@ class SessionDeletionTests(StorageTestCase):
         fresh = store.latest_session_id()
         self.assertIsNotNone(fresh)
         self.assertNotEqual(fresh, only)
-        self.assertEqual(store.list_sessions()[0]["title"], "新对话")
+        # hidden until a message lands
+        self.assertEqual(store.list_sessions(), [])
         store.add_message("user", "after")
         self.assertEqual(store.load_messages(conversation_id=fresh), [{"role": "user", "content": "after"}])
 
@@ -164,11 +168,12 @@ class SessionRenameTests(StorageTestCase):
         store = self.make_store()
         session_id = store.create_session()["id"]
         other = store.create_session()["id"]
+        self.store_messages(store, [session_id, other])
         time.sleep(0.03)
         self.assertTrue(store.rename_session(session_id, "晚风与合唱"))
         sessions = {s["id"]: s for s in store.list_sessions()}
         self.assertEqual(sessions[session_id]["title"], "晚风与合唱")
-        self.assertEqual(sessions[other]["title"], "新对话")
+        self.assertEqual(sessions[other]["title"], f"消息-{other}")
         ids = [s["id"] for s in store.list_sessions()]
         self.assertEqual(ids[0], session_id)
 

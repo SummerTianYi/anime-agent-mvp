@@ -124,7 +124,7 @@ class MemoryStore:
 
     def list_sessions(self) -> list[dict[str, Any]]:
         rows = self.connection.execute(
-            "SELECT id, title, created_at, updated_at FROM sessions ORDER BY updated_at DESC, id DESC"
+            "SELECT id, title, created_at, updated_at FROM sessions s WHERE EXISTS (SELECT 1 FROM messages m WHERE m.conversation_id = s.id) ORDER BY updated_at DESC, id DESC"
         ).fetchall()
         return [dict(row) for row in rows]
 
@@ -133,6 +133,21 @@ class MemoryStore:
             "SELECT id FROM sessions ORDER BY updated_at DESC, id DESC LIMIT 1"
         ).fetchone()
         return int(row["id"]) if row else None
+
+
+    def sweep_empty_sessions(self) -> list[int]:
+        """Delete sessions with zero messages; wake and the new-chat button
+        create shells eagerly, so empties must never linger (GPT-style)."""
+        rows = self.connection.execute(
+            "SELECT id FROM sessions WHERE NOT EXISTS (SELECT 1 FROM messages m WHERE m.conversation_id = sessions.id)"
+        ).fetchall()
+        swept = [int(row["id"]) for row in rows]
+        if swept:
+            self.connection.execute(
+                "DELETE FROM sessions WHERE NOT EXISTS (SELECT 1 FROM messages m WHERE m.conversation_id = sessions.id)"
+            )
+            self.connection.commit()
+        return swept
 
     def load_messages(
         self, limit: int = 20, conversation_id: int | None = None

@@ -815,6 +815,9 @@ async def handle_wake_word(buffered_audio) -> None:
 @app.on_event("startup")
 async def start_wake_word_listener() -> None:
     global wake_listener
+    # GPT-style session hygiene: shells that never received a message must
+    # not survive into the next session list the user sees.
+    memory.sweep_empty_sessions()
     if os.getenv("ANIME_AGENT_WAKE_WORD", "1").strip().lower() in {"0", "false", "off"}:
         return
     loop = asyncio.get_running_loop()
