@@ -157,8 +157,16 @@ class CharacterHarness:
         except (TypeError, json.JSONDecodeError):
             recovered = CharacterHarness._recover_trailing_json(candidate)
             if recovered is None:
-                return AgentReply(reply=raw.strip())
-            candidate, payload = recovered
+                repaired = CharacterHarness._repair_unescaped_quotes(candidate)
+                if repaired is None:
+                    return AgentReply(reply=raw.strip())
+                try:
+                    payload = json.loads(repaired)
+                except json.JSONDecodeError:
+                    return AgentReply(reply=raw.strip())
+                candidate = repaired
+            else:
+                candidate, payload = recovered
 
         if not isinstance(payload, dict):
             return AgentReply(reply=raw.strip())
@@ -183,7 +191,11 @@ class CharacterHarness:
 
         memory_value = payload.get("memory_candidate")
         memory_candidate = None
-        if isinstance(memory_value, str) and memory_value.strip():
+        if (
+            isinstance(memory_value, str)
+            and memory_value.strip()
+            and memory_value.strip().lower() not in {"null", "none"}
+        ):
             memory_candidate = memory_value.strip()[:200]
 
         title_value = payload.get("session_title")
@@ -221,10 +233,61 @@ class CharacterHarness:
                     try:
                         payload = json.loads(snippet)
                     except json.JSONDecodeError:
-                        continue
+                        repaired = CharacterHarness._repair_unescaped_quotes(snippet)
+                        if repaired is None:
+                            continue
+                        try:
+                            payload = json.loads(repaired)
+                        except json.JSONDecodeError:
+                            continue
+                        snippet = repaired
                     if isinstance(payload, dict):
                         return snippet, payload
         return None
+
+    @staticmethod
+    def _repair_unescaped_quotes(text: str) -> str | None:
+        """Escape bare double quotes inside JSON string values.
+
+        Models sometimes emit ASCII quotes inside a value (我只会"看") without
+        escaping them, which makes the whole contract object unparseable and
+        would leak raw JSON to the UI and the voice. A quote is treated as a
+        string terminator only when the next non-whitespace character is a
+        structural one (: , } ]); anything else is content and gets escaped.
+        """
+        if not (text.startswith("{") and text.endswith("}")):
+            return None
+        chars: list[str] = []
+        i = 0
+        n = len(text)
+        in_string = False
+        while i < n:
+            ch = text[i]
+            if not in_string:
+                if ch == '"':
+                    in_string = True
+                chars.append(ch)
+                i += 1
+                continue
+            if ch == "\\":
+                chars.append(text[i : i + 2])
+                i += 2
+                continue
+            if ch == '"':
+                j = i + 1
+                while j < n and text[j] in " \t\r\n":
+                    j += 1
+                if j >= n or text[j] in ":,}]":
+                    in_string = False
+                    chars.append(ch)
+                else:
+                    chars.append('\\"')
+                i += 1
+                continue
+            chars.append(ch)
+            i += 1
+        repaired = "".join(chars)
+        return repaired if repaired != text else None
 
 
 EMOTION_EVENTS = {

@@ -147,3 +147,36 @@ class SessionTitleTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InnerQuoteRepairTests(unittest.TestCase):
+    def test_parse_reply_repairs_unescaped_inner_quotes(self) -> None:
+        raw = (
+            '{"reply": "嘿嘿，简单说呀～我只会"看"，不会替你点击或改文件。", '
+            '"emotion":"happy","emotion_intensity":0.5,"gesture":"none",'
+            '"memory_candidate":"null","session_title":"洛天依能做什么"}'
+        )
+        reply = CharacterHarness.parse_reply(raw)
+        self.assertEqual(reply.reply, '嘿嘿，简单说呀～我只会"看"，不会替你点击或改文件。')
+        self.assertEqual(reply.emotion, "happy")
+        self.assertEqual(reply.session_title, "洛天依能做什么")
+
+    def test_trailing_json_recovery_also_repairs_inner_quotes(self) -> None:
+        raw = (
+            '好呀，我来介绍一下自己！\n{"reply": "我只会"看"，不会改。", '
+            '"emotion":"neutral"}'
+        )
+        reply = CharacterHarness.parse_reply(raw)
+        self.assertEqual(reply.reply, '我只会"看"，不会改。')
+
+    def test_already_escaped_quotes_parse_unchanged(self) -> None:
+        raw = '{"reply": "我说\\"看\\"这个字。", "emotion": "happy"}'
+        reply = CharacterHarness.parse_reply(raw)
+        self.assertEqual(reply.reply, '我说"看"这个字。')
+
+    def test_memory_candidate_null_string_is_dropped(self) -> None:
+        raw = '{"reply": "好。", "emotion": "happy", "memory_candidate": "null"}'
+        reply = CharacterHarness.parse_reply(raw)
+        self.assertIsNone(reply.memory_candidate)
+        reply2 = CharacterHarness.parse_reply('{"reply": "好。", "memory_candidate": "None"}')
+        self.assertIsNone(reply2.memory_candidate)
