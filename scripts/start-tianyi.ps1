@@ -16,6 +16,12 @@ function Get-PortFromEnv {
     return 8765
 }
 
+# 0) Kill stale watchers from previous sessions first: an old watcher that
+#    sees its avatar vanish must never murder the NEW session's sidecar.
+Get-CimInstance Win32_Process -Filter "Name like 'powershell%'" -ErrorAction SilentlyContinue |
+    Where-Object { $_.CommandLine -match 'watch-tts-session\.ps1' } |
+    ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+
 # 1) TTS sidecar: hidden, detached, guarded (no-op if already on 8770)
 Start-Process -FilePath "cmd.exe" -ArgumentList "/c", $ttsBat -WindowStyle Hidden
 
