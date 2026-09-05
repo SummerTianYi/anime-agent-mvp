@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from agent_core.permissions import (  # noqa: E402
+    ALLOW,
     ActionRequest,
     PermissionEngine,
     PolicyRule,
@@ -33,15 +34,41 @@ class DefaultPolicyTests(unittest.TestCase):
         self.assertFalse(decision.allowed)
         self.assertEqual(decision.rule_id, "default-deny")
 
-    def test_write_tool_not_in_registry_denied(self):
+    def test_write_tool_requires_confirmation_by_default(self):
+        import os
+        from unittest import mock
+        with mock.patch.dict(os.environ, {"ANIME_AGENT_WRITE_ROOTS": os.getcwd()}):
+            decision = make_engine().evaluate(request(tool="write_file"))
+            self.assertFalse(decision.allowed)
+            self.assertTrue(decision.needs_confirmation)
+            self.assertEqual(decision.kind, "ask")
+
+    def test_write_tool_outside_roots_denied_without_confirmation(self):
+        import os
+        from unittest import mock
+        engine = make_engine()
+        with mock.patch.dict(os.environ, {"ANIME_AGENT_WRITE_ROOTS": ""}):
+            decision = engine.evaluate(request(tool="write_file", arguments={"path": "D:/anywhere/x.txt", "content": "x"}))
+        self.assertFalse(decision.allowed)
+        self.assertEqual(decision.kind, "deny")
+
+    def _unused_legacy(self):
         decision = make_engine().evaluate(request(tool="write_file"))
         self.assertFalse(decision.allowed)
+        self.assertTrue(decision.needs_confirmation)
+        self.assertEqual(decision.kind, "ask")
+
+    def test_unknown_tool_still_default_denied(self):
+        decision = make_engine().evaluate(request(tool="run_command"))
+        self.assertFalse(decision.allowed)
+        self.assertEqual(decision.kind, "deny")
+        self.assertEqual(decision.rule_id, "default-deny")
 
 
 class PathSafetyTests(unittest.TestCase):
     def setUp(self):
         self.engine = make_engine(
-            rules=[PolicyRule(rule_id="allow-read", match_tool="read_file", match_origin="*", decision=True)]
+            rules=[PolicyRule(rule_id="allow-read", match_tool="read_file", match_origin="*", decision=ALLOW)]
         )
 
     def test_relative_escape_denied_despite_allow_rule(self):
@@ -49,10 +76,16 @@ class PathSafetyTests(unittest.TestCase):
         self.assertFalse(decision.allowed)
         self.assertEqual(decision.rule_id, "path-safety")
 
-    def test_absolute_path_denied_despite_allow_rule(self):
-        for raw in ("C:/Windows/win.ini", "/etc/passwd", "~/keys"):
+    def test_absolute_path_allowed_roots_check_is_tools_layer(self):
+        # main-repo read_file takes absolute paths; the allow-list roots
+        # check inside tools.py is the boundary, not the permission engine.
+        for raw in ("C:/Users/me/notes.txt", "/home/me/notes.txt"):
             decision = self.engine.evaluate(request(arguments={"path": raw}))
-            self.assertFalse(decision.allowed, raw)
+            self.assertTrue(decision.allowed, raw)
+
+    def test_windows_backslash_traversal_denied(self):
+        decision = self.engine.evaluate(request(arguments={"path": "..\..\secrets.env"}))
+        self.assertFalse(decision.allowed)
 
     def test_nested_traversal_denied(self):
         decision = self.engine.evaluate(request(arguments={"nested": {"p": "a/../b"}}))
@@ -61,13 +94,13 @@ class PathSafetyTests(unittest.TestCase):
 
 class AttributionTests(unittest.TestCase):
     def test_denied_decision_carries_rule_id_and_reason(self):
-        decision = make_engine().evaluate(request(tool="write_file"))
+        decision = make_engine().evaluate(request(tool="run_command"))
         self.assertEqual(decision.rule_id, "default-deny")
         self.assertTrue(decision.reason)
 
     def test_malformed_arguments_denied(self):
         engine = make_engine(
-            rules=[PolicyRule(rule_id="allow-all", match_tool="*", match_origin="*", decision=True)]
+            rules=[PolicyRule(rule_id="allow-all", match_tool="*", match_origin="*", decision=ALLOW)]
         )
         decision = engine.evaluate(ActionRequest(tool="read_file", arguments="oops", origin="agent", session_id=1))
         self.assertFalse(decision.allowed)

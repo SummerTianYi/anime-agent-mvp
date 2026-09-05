@@ -188,6 +188,69 @@ def clipboard_read() -> dict[str, Any]:
     return {"ok": True, "content": content}
 
 
+# --- write_file (zcode, T1): sandbox-scoped, atomic, UTF-8 no BOM -----------
+
+MAX_WRITE_BYTES = 256 * 1024
+
+
+def _write_roots() -> list[Path]:
+    """Write scope is a SEPARATE, much narrower allow-list than the read
+    roots; empty means writing is disabled entirely."""
+    configured = os.getenv("ANIME_AGENT_WRITE_ROOTS", "").strip()
+    if not configured:
+        return []
+    return [Path(item) for item in (part.strip() for part in configured.split(os.pathsep)) if item]
+
+
+def _resolve_write_path(raw: Any) -> Path:
+    text = str(raw or "").strip().strip('"')
+    if not text:
+        raise ValueError("路径为空")
+    expanded = os.path.expandvars(os.path.expanduser(text))
+    path = Path(expanded)
+    if not path.is_absolute():
+        raise ValueError("必须是绝对路径")
+    roots = _write_roots()
+    if not roots:
+        raise ValueError("写入功能未启用（未配置 ANIME_AGENT_WRITE_ROOTS）")
+    lexical = os.path.normcase(os.path.normpath(str(path)))
+    resolved = os.path.normcase(str(path.resolve()))
+    if not (_inside_allowed_roots(lexical, roots) or _inside_allowed_roots(resolved, roots)):
+        raise ValueError("路径超出允许写入范围")
+    return path.resolve()
+
+
+def write_file(path: Any, content: Any, mode: Any = "overwrite") -> dict[str, Any]:
+    """Atomic sandbox write: temp file in the target directory + os.replace,
+    so an interrupted run can never leave a half-written file behind."""
+    try:
+        path = _resolve_write_path(path)
+    except ValueError as exc:
+        return {"ok": False, "error": str(exc)}
+    mode = str(mode or "overwrite").strip().lower()
+    if mode not in ("overwrite", "append"):
+        return {"ok": False, "error": f"无效 mode：{mode}（仅 overwrite / append）"}
+    if not isinstance(content, str):
+        return {"ok": False, "error": "content 必须是字符串"}
+    data = content.encode("utf-8")
+    if len(data) > MAX_WRITE_BYTES:
+        return {"ok": False, "error": f"内容过大（{len(data)} 字节，上限 {MAX_WRITE_BYTES}）"}
+    try:
+        if mode == "append":
+            existing = path.read_bytes() if path.exists() else b""
+            if existing and not existing.endswith(b"\n") and not content.startswith("\n"):
+                data = existing + b"\n" + data
+            else:
+                data = existing + data
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_name(path.name + f".tmp-{int(time.time() * 1000)}")
+        tmp.write_bytes(data)
+        os.replace(tmp, path)  # atomic on Windows and POSIX
+    except OSError as exc:
+        return {"ok": False, "error": f"写入失败：{exc}"}
+    return {"ok": True, "path": str(path), "mode": mode, "bytes_written": len(data)}
+
+
 REGISTRY: tuple[Tool, ...] = (
     Tool(
         name="get_time",
@@ -235,6 +298,24 @@ REGISTRY: tuple[Tool, ...] = (
         description="读取系统剪贴板中的文本，最多 16000 字符。",
         parameters={"type": "object", "properties": {}, "required": []},
         func=clipboard_read,
+    ),
+    Tool(
+        name="write_file",
+        description=(
+            "把文本写入本地文件（需要用户确认后才会执行）。path 必须是允许写入目录内的绝对路径；"
+            "mode 为 overwrite（整体覆盖）或 append（追加，自动补换行）。内容以 UTF-8 无 BOM 写入，"
+            "超过 256KB 会拒绝。"
+        ),
+        parameters={
+            "type": "object",
+            "properties": {
+                "path": {"type": "string", "description": "目标文件的绝对路径（仅限允许写入目录）"},
+                "content": {"type": "string", "description": "要写入的文本内容"},
+                "mode": {"type": "string", "enum": ["overwrite", "append"], "description": "默认 overwrite"},
+            },
+            "required": ["path", "content"],
+        },
+        func=write_file,
     ),
 )
 

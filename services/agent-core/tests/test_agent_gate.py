@@ -6,7 +6,9 @@ tools, then a final plain answer.
 from __future__ import annotations
 
 import asyncio
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -71,7 +73,7 @@ class GateIntegrationTests(unittest.TestCase):
         self.assertEqual(result.text, "好的，已完成。")
 
     def test_denied_tool_never_reaches_executor_and_reports_back(self):
-        provider = FakeProvider([("write_file", {"path": "C:/Windows/win.ini"})])
+        provider = FakeProvider([("write_file", {"path": "../win.ini"})])
         executed = []
 
         async def executor(name, args):
@@ -83,7 +85,9 @@ class GateIntegrationTests(unittest.TestCase):
         self.assertEqual(executed, [])  # executor never called
         self.assertFalse(result.steps[0].ok)
         self.assertIn("权限拒绝", result.steps[0].summary)
-        self.assertIn("path-safety", result.steps[0].summary)
+        self.assertIn("path-safety", result.steps[0].summary)  # traversal in arguments
+        # absolute path (no traversal) would instead be default-deny: write
+        # tools ship in phase B with explicit rules
         self.assertEqual(result.text, "好的，已完成。")
 
     def test_broken_gate_fails_closed(self):
@@ -101,6 +105,27 @@ class GateIntegrationTests(unittest.TestCase):
                                     SCHEMA, executor, permission_gate=broken_gate))
         self.assertEqual(executed, [])  # fail closed: never execute
         self.assertFalse(result.steps[0].ok)
+
+    def test_ask_decision_parks_call_without_execution(self):
+        import os
+        from unittest import mock
+        tmproot = tempfile.mkdtemp()
+        self.addCleanup(lambda: __import__("shutil").rmtree(tmproot, ignore_errors=True))
+        patcher = mock.patch.dict(os.environ, {"ANIME_AGENT_WRITE_ROOTS": tmproot})
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        provider = FakeProvider([("write_file", {"path": tmproot + "/note.txt", "content": "hi"})])
+        executed = []
+
+        async def executor(name, args):
+            executed.append(name)
+            return {"ok": True}
+
+        result = run(run_agent_loop(provider, [{"role": "user", "content": "写一下"}],
+                                    SCHEMA, executor, permission_gate=gate(PermissionEngine())))
+        self.assertEqual(executed, [])  # ask tier never executes directly
+        self.assertFalse(result.steps[0].ok)
+        self.assertIn("写入工具需用户确认", result.steps[0].summary)
 
     def test_loop_without_gate_keeps_baseline_behavior(self):
         provider = FakeProvider([("get_time", {})])

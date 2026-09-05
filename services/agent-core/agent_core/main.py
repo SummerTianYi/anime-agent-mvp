@@ -33,7 +33,7 @@ from .harness import (
     default_title,
 )
 from .memory_retrieval import retrieve_relevant
-from .permissions import ActionRequest, PermissionEngine
+from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
 from .voice_text import normalize_voice_text
@@ -433,8 +433,19 @@ memory = MemoryStore()
 harness = CharacterHarness()
 tool_registry = build_tool_registry()
 # zcode (phase B 前置): deny-by-default permission engine; read-only tools
-# pre-allowed, everything else rejected until explicit rules ship with it.
+# pre-allowed, write tools require user confirmation ("ask"), everything
+# else rejected until explicit rules ship with it.
 permission_engine = PermissionEngine()
+
+# zcode (T1): pending write confirmations, one per session, TTL-limited.
+# The "ask" tier parks a write here; the user's next chat message either
+# confirms it (executes atomically) or declines it (drops it).
+_pending_writes: dict[int, dict] = {}
+_PENDING_TTL_SECONDS = 600
+_confirmed_write_once: dict[int, bool] = {}
+_ACTIVE_CHAT_SESSION_ID: list[int | None] = [None]
+_CONFIRM_WORDS = ("确认", "可以", "同意", "执行吧", "好的", "去吧", "ok", "yes")
+_DECLINE_WORDS = ("取消", "算了", "不要", "先不", "别写", "拒绝")
 
 # zcode (phase B 记忆接入): preference-style memory candidates auto-confirm;
 # anything else (files, people, locations, commands) stays pending for the
@@ -580,8 +591,9 @@ async def broadcast_behavior(reply: AgentReply) -> None:
 
 
 async def run_tool(name: str, arguments: dict) -> dict:
-    # zcode (phase B 前置): every tool call passes the permission gate first;
-    # denied calls never reach the executor and the rejection is audited.
+    # zcode (phase B 前置 + T1): every tool call passes the permission gate
+    # first; denials never reach the executor, "ask" decisions park the call
+    # as a pending confirmation the user must answer in chat.
     decision = permission_engine.evaluate(
         ActionRequest(
             tool=str(name or ""),
@@ -590,15 +602,42 @@ async def run_tool(name: str, arguments: dict) -> dict:
             session_id=None,
         )
     )
+    # zcode (T1 复盘修复): a user-confirmed write consumes its one-shot
+    # authorization here, so the model's own re-invocation executes instead
+    # of parking again (the confirmation loop found by the T1 exam).
+    if decision.kind == ASK:
+        session = _ACTIVE_CHAT_SESSION_ID[0]
+        if session is not None and _confirmed_write_once.pop(session, None) is True:
+            memory.add_event("permission.authorized", {"tool": name})
+            decision = PolicyDecision(ALLOW, "user-confirmed", "用户已在聊天中确认该写入")
     memory.add_event(
         "permission.decision",
         {
             "tool": name,
+            "kind": decision.kind,
             "allowed": decision.allowed,
             "rule_id": decision.rule_id,
             "reason": decision.reason,
         },
     )
+    if decision.kind == ASK:
+        session_id = _ACTIVE_CHAT_SESSION_ID[0] if _ACTIVE_CHAT_SESSION_ID[0] is not None else None
+        _pending_writes[session_id or 0] = {
+            "tool": name,
+            "arguments": arguments if isinstance(arguments, dict) else {},
+            "request_id": None,
+            "expires": time.time() + _PENDING_TTL_SECONDS,
+        }
+        memory.add_event(
+            "permission.ask",
+            {"tool": name, "session_id": session_id, "arguments": json.dumps(arguments, ensure_ascii=False, default=str)[:300]},
+        )
+        return {
+            "ok": False,
+            "needs_confirmation": True,
+            "error": "该操作需要用户在聊天中明确确认（例如回复“确认”）后才会执行。"
+                     "请向用户说明你想要执行的操作并请求确认，不要重复调用本工具。",
+        }
     if not decision.allowed:
         return {
             "ok": False,
@@ -652,6 +691,34 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         probe = conversation_id if conversation_id is not None else memory.latest_session_id()
         is_first_exchange = probe is None or not memory.load_messages(1, probe)
         session_id = memory.add_message("user", text, request_id, conversation_id)
+        _ACTIVE_CHAT_SESSION_ID[0] = session_id
+        # zcode (T1): a pending write from the previous turn is either
+        # confirmed (executed atomically), declined (dropped), or kept alive.
+        confirm_note = ""
+        pending = _pending_writes.get(session_id)
+        if pending is not None:
+            if time.time() > pending["expires"]:
+                _pending_writes.pop(session_id, None)
+                memory.add_event("permission.pending.expired", {"session_id": session_id})
+            elif any(word in text for word in _CONFIRM_WORDS):
+                result = await execute_tool(tool_registry, pending["tool"], pending["arguments"])
+                _pending_writes.pop(session_id, None)
+                memory.add_event(
+                    "permission.confirmed",
+                    {"session_id": session_id, "tool": pending["tool"],
+                     "ok": bool(result.get("ok")),
+                     "result": json.dumps(result, ensure_ascii=False, default=str)[:300]},
+                )
+                _confirmed_write_once[session_id] = True
+                confirm_note = (
+                    "【系统提示】用户已确认此前请求的写入操作，执行结果："
+                    + json.dumps(result, ensure_ascii=False, default=str)[:300]
+                    + "。请以天依的口吻向用户汇报这个结果。"
+                )
+            elif any(word in text for word in _DECLINE_WORDS):
+                _pending_writes.pop(session_id, None)
+                memory.add_event("permission.declined", {"session_id": session_id, "tool": pending["tool"]})
+                confirm_note = "【系统提示】用户拒绝了此前请求的写入操作。请不要执行，以天依的口吻自然回应即可。"
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
         guided = TOOL_GUIDANCE if tools_schema else ""
         # zcode (phase B 记忆接入): recall confirmed facts relevant to this
@@ -666,7 +733,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     recall_block = "【相关记忆】\n" + "\n".join(f"- {fact}" for fact in recalled)
         except Exception as exc:  # noqa: BLE001
             memory.add_event("memory.recall.error", {"message": str(exc)[:200]})
-        extra_parts = [part for part in (recall_block, guided) if part]
+        extra_parts = [part for part in (confirm_note, recall_block, guided) if part]
         extra_system = "\n\n".join(extra_parts)
         messages = harness.build_messages(
             conversation_history, text, extra_system=extra_system, request_session_title=is_first_exchange
@@ -689,6 +756,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                             "request_id": request_id,
                             "tools": [step.tool for step in loop_result.steps],
                             "ok": [step.ok for step in loop_result.steps],
+                            "errors": [s.summary for s in loop_result.steps if not s.ok],
                         },
                     )
                 raw_reply = loop_result.text

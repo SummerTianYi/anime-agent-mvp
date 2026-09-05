@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import sys
 import tempfile
 import unittest
@@ -19,11 +20,26 @@ from agent_core.tools import (
 )
 
 
+_OLD_ROOTS_ENV = None
+
+
+def setUpModule() -> None:
+    """Pin default roots: other tests import agent_core.main, whose
+    load_dotenv may set ANIME_AGENT_TOOLS_ROOTS to a narrow exam sandbox."""
+    global _OLD_ROOTS_ENV
+    _OLD_ROOTS_ENV = os.environ.pop("ANIME_AGENT_TOOLS_ROOTS", None)
+
+
+def tearDownModule() -> None:
+    if _OLD_ROOTS_ENV is not None:
+        os.environ["ANIME_AGENT_TOOLS_ROOTS"] = _OLD_ROOTS_ENV
+
+
 class ToolRegistryTests(unittest.TestCase):
     def test_schema_is_wellformed(self) -> None:
         registry_map = build_tool_registry()
         schema = openai_tools_schema(registry_map)
-        self.assertEqual(len(schema), 6)
+        self.assertEqual(len(schema), 7)  # 6 read-only + write_file (ask tier)
         for entry in schema:
             self.assertEqual(entry["type"], "function")
             self.assertIn(entry["function"]["name"], registry_map)

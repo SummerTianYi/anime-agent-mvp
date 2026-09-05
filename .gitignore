@@ -46,3 +46,7 @@ services/agent-core/models/
 Thumbs.db
 .vscode/
 .idea/
+
+# zcode: T0 考核沙箱（考卷与快照不入库）
+work/tianyi-exam/
+work/tianyi-exam-t1/
