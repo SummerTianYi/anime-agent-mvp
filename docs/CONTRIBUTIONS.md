@@ -50,6 +50,17 @@
 
 | TTS 语音输出 E 期（Claude，2026-09-01） | `speech.py`（sidecar HTTP 客户端、话语生命周期、打断/顶替策略）；`main.py` 真实时长 speaking、voice/wake/superseded 三路打断、工作解说、`/health` tts 观测；`runtime.gd` 音频播放/停止/`speech.finished` 回报；`avatar.speak`/`avatar.speech.stop` 协议；单测扩至 71 项；TTS sidecar 本体与声线权重归 tianyi-tts 工作区（anime-agent-tts 私有仓库），不在本仓库 | `services/agent-core/agent_core/speech.py`；`agent_core/main.py`；`apps/avatar-runtime/runtime.gd`；`tests/test_speech*.py`；`docs/AVATAR_BRIDGE.md` |
 
+## zcode 建设范围
+
+声明日期：2026-09-06；声明 Agent：zcode（ZCode CLI，GLM）。接手口径：Claude（Claude Code）在 AGENT_ROADMAP.md 中规划的 agent 化剩余期数，其中 harness 人设与训练流程部分经项目所有者授权拆分至 anime-agent-workbench 仓库先行完成（工作台四件套：新剧本 A、记忆检索 B、权限引擎 C、工具注册表 E，均通过工作台 strict 验收），本期将成果并回本仓并继续后续期数。
+
+| 阶段/领域 | zcode 建设、主导或纳入维护的内容 | 代表文件或提交 |
+|---|---|---|
+| 人设新剧本接入（接手 Claude harness 范围） | `ACTIVE_PROMPT_OVERRIDE` 注入 build_messages（新增常量，旧 `BASE_SYSTEM_PROMPT` 原样保留可一键回退，备份 `harness.py.bak-phase1`）；经真实天依 A/B 同窗实测（各 10 问）与工作台全量 DoD 实况评测（解析率 100%、认知 96.8%、双评审 91.0） | `agent_core/harness.py`；anime-agent-workbench 仓库全量证据 |
+| 权限层（B 期前置，zcode） | `permissions.py`：deny-by-default 权限引擎（有序规则 + `default-deny` + `path-safety`/`malformed-request` 两道不可放行硬拒 + rule_id 归因）；只读六工具预放行，写入工具缺位即拒绝；`agent_loop.py` 新增可选 `permission_gate`（拒绝时结果回填、闸门崩溃 fail-closed）；`main.py run_tool` 全量过闸 + `permission.decision` 审计事件 | `agent_core/permissions.py`；`agent_core/agent_loop.py`；`agent_core/main.py`；`tests/test_permissions.py`；`tests/test_agent_gate.py` |
+| 记忆检索与分级落库（B 期记忆接入，zcode） | `memory_retrieval.py`：中文词法检索（字符 n-gram + 平滑 IDF + 属性词扩展，工作台 golden 查准/查全 1.0 同源）；`storage.py` 新增 `facts` 表（迁移式）与 `add_fact`/`set_fact_status`/`recall_facts`/`pending_facts`；`main.py` 对话装配注入【相关记忆】（检索失败不阻塞聊天）；`memory_candidate` 按敏感度分级落库（偏好类自动确认、其余 pending 待 B 期确认 UI） | `agent_core/memory_retrieval.py`；`agent_core/storage.py`；`agent_core/main.py`；`tests/test_memory_retrieval.py` |
+| 回归验证 | 全量单测 139 项三连绿（含 zcode 新增 17 项；首跑 1 例冷启动 TimeoutError 复现 2 次未再现，记录为环境抖动） | `tests/` |
+
 ### Claude 工作树边界
 
 Claude 的全部增量已于 2026-08-31 以提交 fc5a5a4 落库：倾听动作、唤醒词、会话删除（单击确认框改型）、会话标题、Agent 工具循环 A 期及配套测试与文档，提交时按 Codex 同一口径对共享文件做了行级分块暂存，未夹带对方代码。当前工作树剩余未提交内容全部属于 Codex：画布扩容与侧板方向（runtime.gd / interaction_ui.gd 残余行、verify_desktop_canvas.gd、ARCHITECTURE.md、TESTING.md 大动作门禁行）、大动作可读性与 MMD 镜像（runtime.gd 残余行、verify_large_motion_*.gd 两个新脚本）、MODEL_OPTIMIZATION.md 的五条增量。

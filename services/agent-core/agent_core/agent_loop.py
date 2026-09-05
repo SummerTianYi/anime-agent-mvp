@@ -74,6 +74,7 @@ async def run_agent_loop(
     executor: Callable[[str, dict[str, Any]], Awaitable[dict[str, Any]]],
     on_step: Callable[[AgentStep], Awaitable[None]] | None = None,
     max_steps: int = MAX_TOOL_STEPS,
+    permission_gate: Callable[[str, dict[str, Any]], Any] | None = None,
 ) -> AgentLoopResult:
     conversation: list[dict[str, Any]] = [dict(item) for item in messages]
     steps: list[AgentStep] = []
@@ -103,10 +104,27 @@ async def run_agent_loop(
             for index, call in enumerate(calls):
                 name = str(call.get("name", "")).strip()
                 arguments = call.get("arguments") or {}
-                try:
-                    result = await executor(name, arguments)
-                except Exception as exc:  # noqa: BLE001 - a crashing executor must not kill the loop
-                    result = {"ok": False, "error": str(exc)[:300]}
+                allowed = True
+                if permission_gate is not None:
+                    try:
+                        decision = permission_gate(name, arguments)
+                        allowed = bool(getattr(decision, "allowed", True))
+                        rule_id = str(getattr(decision, "rule_id", "default-deny"))
+                        reason = str(getattr(decision, "reason", "未获授权"))
+                    except Exception as exc:  # noqa: BLE001 - a broken gate must fail closed
+                        allowed = False
+                        rule_id = "gate-error"
+                        reason = str(exc)[:200]
+                if allowed:
+                    try:
+                        result = await executor(name, arguments)
+                    except Exception as exc:  # noqa: BLE001 - a crashing executor must not kill the loop
+                        result = {"ok": False, "error": str(exc)[:300]}
+                else:
+                    result = {
+                        "ok": False,
+                        "error": f"权限拒绝（{rule_id}）：{reason}",
+                    }
                 step = AgentStep(
                     tool=name,
                     arguments=arguments,

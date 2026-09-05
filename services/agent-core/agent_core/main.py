@@ -32,6 +32,8 @@ from .harness import (
     behavior_events,
     default_title,
 )
+from .memory_retrieval import retrieve_relevant
+from .permissions import ActionRequest, PermissionEngine
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
 from .voice_text import normalize_voice_text
@@ -430,6 +432,21 @@ async def _withdraw_session_if_empty(session_id: int | None) -> None:
 memory = MemoryStore()
 harness = CharacterHarness()
 tool_registry = build_tool_registry()
+# zcode (phase B 前置): deny-by-default permission engine; read-only tools
+# pre-allowed, everything else rejected until explicit rules ship with it.
+permission_engine = PermissionEngine()
+
+# zcode (phase B 记忆接入): preference-style memory candidates auto-confirm;
+# anything else (files, people, locations, commands) stays pending for the
+# confirmation UI planned in phase B.
+_AUTO_CONFIRM_MEMORY_MARKERS = (
+    "喜欢", "最喜欢", "叫我", "称呼", "名字", "生日", "职业",
+    "上班", "公司", "害怕", "讨厌", "养了", "爱吃", "爱喝",
+)
+
+
+def _auto_confirm_memory(text: str) -> bool:
+    return any(marker in text for marker in _AUTO_CONFIRM_MEMORY_MARKERS)
 tools_schema = openai_tools_schema(tool_registry) if TOOLS_ENABLED else []
 
 
@@ -563,6 +580,30 @@ async def broadcast_behavior(reply: AgentReply) -> None:
 
 
 async def run_tool(name: str, arguments: dict) -> dict:
+    # zcode (phase B 前置): every tool call passes the permission gate first;
+    # denied calls never reach the executor and the rejection is audited.
+    decision = permission_engine.evaluate(
+        ActionRequest(
+            tool=str(name or ""),
+            arguments=arguments if isinstance(arguments, dict) else {},
+            origin="agent",
+            session_id=None,
+        )
+    )
+    memory.add_event(
+        "permission.decision",
+        {
+            "tool": name,
+            "allowed": decision.allowed,
+            "rule_id": decision.rule_id,
+            "reason": decision.reason,
+        },
+    )
+    if not decision.allowed:
+        return {
+            "ok": False,
+            "error": f"权限拒绝（{decision.rule_id}）：{decision.reason}",
+        }
     return await execute_tool(tool_registry, name, arguments)
 
 
@@ -613,8 +654,22 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         session_id = memory.add_message("user", text, request_id, conversation_id)
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
         guided = TOOL_GUIDANCE if tools_schema else ""
+        # zcode (phase B 记忆接入): recall confirmed facts relevant to this
+        # turn and inject them alongside tool guidance. Retrieval failures
+        # must never break the chat itself.
+        recall_block = ""
+        try:
+            facts = memory.recall_facts(session_id)
+            if facts:
+                recalled = retrieve_relevant(text, facts, limit=3)
+                if recalled:
+                    recall_block = "【相关记忆】\n" + "\n".join(f"- {fact}" for fact in recalled)
+        except Exception as exc:  # noqa: BLE001
+            memory.add_event("memory.recall.error", {"message": str(exc)[:200]})
+        extra_parts = [part for part in (recall_block, guided) if part]
+        extra_system = "\n\n".join(extra_parts)
         messages = harness.build_messages(
-            conversation_history, text, extra_system=guided, request_session_title=is_first_exchange
+            conversation_history, text, extra_system=extra_system, request_session_title=is_first_exchange
         )
         try:
             if tools_schema:
@@ -678,6 +733,22 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     "request_id": request_id,
                     "status": "pending",
                 },
+            )
+            # zcode (phase B 记忆接入): sensitivity-tiered storage. Preference-
+            # style facts auto-confirm and become recallable; everything else
+            # stays pending for the upcoming confirmation UI (B 期).
+            candidate_text = str(agent_reply.memory_candidate)
+            status = "confirmed" if _auto_confirm_memory(candidate_text) else "pending"
+            fact_id = memory.add_fact(
+                candidate_text,
+                session_id=session_id,
+                scope="global" if status == "confirmed" else "session",
+                status=status,
+                source_request_id=request_id,
+            )
+            memory.add_event(
+                "memory.fact.stored",
+                {"fact_id": fact_id, "status": status, "request_id": request_id},
             )
         await hub.send_roles(
             {"avatar", "ui"},

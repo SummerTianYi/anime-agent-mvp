@@ -1,0 +1,119 @@
+"""zcode (phase B 前置): agent loop permission-gate integration tests.
+
+Uses a fake provider so the whole loop runs offline: one turn that requests
+tools, then a final plain answer.
+"""
+from __future__ import annotations
+
+import asyncio
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from agent_core.agent_loop import run_agent_loop  # noqa: E402
+from agent_core.permissions import ActionRequest, PermissionEngine  # noqa: E402
+
+SCHEMA = [
+    {"type": "function", "function": {
+        "name": "get_time",
+        "description": "time",
+        "parameters": {"type": "object", "properties": {}, "required": []},
+    }},
+    {"type": "function", "function": {
+        "name": "write_file",
+        "description": "dangerous",
+        "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]},
+    }},
+]
+
+
+class FakeProvider:
+    def __init__(self, calls):
+        self.calls = calls
+        self.round = 0
+
+    async def complete_with_tools(self, messages, tools_schema):
+        self.round += 1
+        if self.round == 1:
+            return {"tool_calls": [{"id": f"c{self.round}", "name": self.calls[0][0],
+                                    "arguments": self.calls[0][1]}], "raw": {"role": "assistant", "content": None}}
+        return {"tool_calls": [], "content": "好的，已完成。"}
+
+    async def complete(self, messages):
+        return "好的，已完成。"
+
+
+def gate(engine):
+    return lambda name, arguments: engine.evaluate(
+        ActionRequest(tool=name, arguments=arguments, origin="agent", session_id=1)
+    )
+
+
+def run(coro):
+    return asyncio.run(coro)
+
+
+class GateIntegrationTests(unittest.TestCase):
+    def test_allowed_tool_executes_and_returns_final_answer(self):
+        provider = FakeProvider([("get_time", {})])
+        executed = []
+
+        async def executor(name, args):
+            executed.append(name)
+            return {"ok": True, "time": "12:00"}
+
+        result = run(run_agent_loop(provider, [{"role": "user", "content": "现在几点"}],
+                                    SCHEMA, executor, permission_gate=gate(PermissionEngine())))
+        self.assertEqual(executed, ["get_time"])
+        self.assertTrue(result.steps[0].ok)
+        self.assertEqual(result.text, "好的，已完成。")
+
+    def test_denied_tool_never_reaches_executor_and_reports_back(self):
+        provider = FakeProvider([("write_file", {"path": "C:/Windows/win.ini"})])
+        executed = []
+
+        async def executor(name, args):
+            executed.append(name)
+            return {"ok": True}
+
+        result = run(run_agent_loop(provider, [{"role": "user", "content": "删了它"}],
+                                    SCHEMA, executor, permission_gate=gate(PermissionEngine())))
+        self.assertEqual(executed, [])  # executor never called
+        self.assertFalse(result.steps[0].ok)
+        self.assertIn("权限拒绝", result.steps[0].summary)
+        self.assertIn("path-safety", result.steps[0].summary)
+        self.assertEqual(result.text, "好的，已完成。")
+
+    def test_broken_gate_fails_closed(self):
+        provider = FakeProvider([("get_time", {})])
+        executed = []
+
+        async def executor(name, args):
+            executed.append(name)
+            return {"ok": True}
+
+        def broken_gate(name, arguments):
+            raise RuntimeError("gate exploded")
+
+        result = run(run_agent_loop(provider, [{"role": "user", "content": "现在几点"}],
+                                    SCHEMA, executor, permission_gate=broken_gate))
+        self.assertEqual(executed, [])  # fail closed: never execute
+        self.assertFalse(result.steps[0].ok)
+
+    def test_loop_without_gate_keeps_baseline_behavior(self):
+        provider = FakeProvider([("get_time", {})])
+        executed = []
+
+        async def executor(name, args):
+            executed.append(name)
+            return {"ok": True}
+
+        result = run(run_agent_loop(provider, [{"role": "user", "content": "现在几点"}],
+                                    SCHEMA, executor))
+        self.assertEqual(executed, ["get_time"])
+
+
+if __name__ == "__main__":
+    unittest.main()

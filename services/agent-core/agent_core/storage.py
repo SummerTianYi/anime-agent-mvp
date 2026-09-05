@@ -52,6 +52,15 @@ class MemoryStore:
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
+            CREATE TABLE IF NOT EXISTS facts (
+                fact_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                session_id INTEGER,
+                scope TEXT NOT NULL DEFAULT 'global',
+                content TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'pending',
+                source_request_id TEXT NOT NULL DEFAULT '',
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
             """
         )
         columns = {row[1] for row in self.connection.execute("PRAGMA table_info(messages)")}
@@ -229,6 +238,50 @@ class MemoryStore:
             (event_type, json.dumps(payload or {}, ensure_ascii=False)),
         )
         self.connection.commit()
+
+    def add_fact(
+        self,
+        content: str,
+        session_id: int | None = None,
+        scope: str = "global",
+        status: str = "pending",
+        source_request_id: str = "",
+    ) -> int:
+        """Persist a memory candidate. Pending facts are never injected into
+        the prompt; only confirmed ones participate in recall."""
+        cursor = self.connection.execute(
+            "INSERT INTO facts (session_id, scope, content, status, source_request_id)"
+            " VALUES (?, ?, ?, ?, ?)",
+            (session_id, scope, content, status, source_request_id),
+        )
+        self.connection.commit()
+        return int(cursor.lastrowid)
+
+    def set_fact_status(self, fact_id: int, status: str) -> bool:
+        cursor = self.connection.execute(
+            "UPDATE facts SET status = ? WHERE fact_id = ?",
+            (status, fact_id),
+        )
+        self.connection.commit()
+        return cursor.rowcount > 0
+
+    def recall_facts(self, session_id: int | None = None) -> list[str]:
+        """Confirmed facts visible to a session: global confirmed facts plus
+        the session's own confirmed facts, newest first."""
+        rows = self.connection.execute(
+            "SELECT content FROM facts WHERE status = 'confirmed'"
+            " AND (scope = 'global' OR session_id = ?)"
+            " ORDER BY fact_id DESC",
+            (session_id,),
+        ).fetchall()
+        return [str(row["content"]) for row in rows]
+
+    def pending_facts(self) -> list[dict[str, Any]]:
+        rows = self.connection.execute(
+            "SELECT fact_id, session_id, scope, content, source_request_id, created_at"
+            " FROM facts WHERE status = 'pending' ORDER BY fact_id DESC"
+        ).fetchall()
+        return [dict(row) for row in rows]
 
     def close(self) -> None:
         self.connection.close()
