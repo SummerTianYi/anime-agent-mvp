@@ -39,7 +39,7 @@ class ToolRegistryTests(unittest.TestCase):
     def test_schema_is_wellformed(self) -> None:
         registry_map = build_tool_registry()
         schema = openai_tools_schema(registry_map)
-        self.assertEqual(len(schema), 7)  # 6 read-only + write_file (ask tier)
+        self.assertEqual(len(schema), 9)  # 6 read-only + write_file + run_command + look_at_screen
         for entry in schema:
             self.assertEqual(entry["type"], "function")
             self.assertIn(entry["function"]["name"], registry_map)

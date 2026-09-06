@@ -32,8 +32,10 @@ from .harness import (
     behavior_events,
     default_title,
 )
+from .mcp_host import McpHost
 from .memory_retrieval import retrieve_relevant
 from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision
+from .proactive import ProactivePolicy
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
 from .voice_text import normalize_voice_text
@@ -61,6 +63,18 @@ SPEECH_SETTINGS = speech_settings_from_env()
 TTS_ENABLED = SPEECH_SETTINGS["enabled"]
 TTS_NARRATE = SPEECH_SETTINGS["narrate"]
 NARRATION_LINE = "我看到了，稍等我整理一下~"
+# zcode (E 期增强): per-tool narration templates — a multi-step task gets one
+# short spoken line per NEW tool type, so she narrates without chattering.
+TOOL_NARRATION_LINES = {
+    "read_file": "我先看看这个文件的内容~",
+    "list_dir": "我来看看这个目录里有什么~",
+    "write_file": "我要动手写入这一段了哦，稍等~",
+    "screenshot": "我截一下屏幕看看~",
+    "run_command": "我来运行这条命令，别担心，会说给你听的~",
+    "get_time": "",
+    "clipboard_read": "我看看剪贴板里有什么~",
+    "active_window": "我瞄一眼你现在开着什么窗口~",
+}
 
 app = FastAPI(title="Anime Agent Core", version="0.2.0")
 
@@ -459,6 +473,20 @@ _AUTO_CONFIRM_MEMORY_MARKERS = (
 def _auto_confirm_memory(text: str) -> bool:
     return any(marker in text for marker in _AUTO_CONFIRM_MEMORY_MARKERS)
 tools_schema = openai_tools_schema(tool_registry) if TOOLS_ENABLED else []
+# zcode (C 期): MCP host — external servers merged into the tool schema
+mcp_host = McpHost()
+# zcode (D 期): proactive policy — startup greeting, quiet hours, cooldown
+proactive_policy = ProactivePolicy(
+    quiet_start=os.getenv("ANIME_AGENT_QUIET_START", "23:00"),
+    quiet_end=os.getenv("ANIME_AGENT_QUIET_END", "08:00"),
+    cooldown_seconds=float(os.getenv("ANIME_AGENT_PROACTIVE_COOLDOWN", "1800")),
+)
+_STARTUP_GREETINGS = (
+    "我上线啦～今天想听歌还是想聊天？",
+    "嗨，我就在桌面上等你呢。有什么需要随时叫我哦～",
+    "开机啦？我也准备好啦，今天也一起加油吧～",
+)
+_proactive_events: dict[str, float] = {}
 
 
 class ConnectionHub:
@@ -488,6 +516,8 @@ class ConnectionHub:
     def set_role(self, websocket: WebSocket, role: str) -> None:
         if websocket in self._clients:
             self._roles[websocket] = role
+            if role == "avatar":
+                asyncio.get_event_loop().create_task(_proactive_greeting("avatar-connect"))
 
     async def send(self, websocket: WebSocket, payload: dict[str, object]) -> None:
         lock = self._send_locks.get(websocket)
@@ -534,17 +564,27 @@ speech_manager = SpeechManager(
 
 
 def _make_loop_step_handler(request_id: str):
-    """Broadcast tool steps; narrate on the first tool step when TTS is live."""
+    """Broadcast tool steps; narrate the first tool step plus each NEW tool
+    type when TTS is live (E 期工作解说: narrate without chattering)."""
     narrated = {"done": False}
+    narrated_tools: set[str] = set()
 
     async def handler(step: AgentStep) -> None:
         await broadcast_tool_step(step, request_id)
-        if narrated["done"] or request_id in _superseded_requests:
+        if request_id in _superseded_requests:
             return
-        narrated["done"] = True
         if not (TTS_ENABLED and TTS_NARRATE and hub.role_count("avatar") > 0):
             return
-        asyncio.create_task(_speak_reply(NARRATION_LINE, request_id, narrating=True))
+        line = None
+        if not narrated["done"]:
+            narrated["done"] = True
+            line = NARRATION_LINE
+            narrated_tools.add(step.tool)
+        elif step.tool not in narrated_tools and step.tool in TOOL_NARRATION_LINES:
+            narrated_tools.add(step.tool)
+            line = TOOL_NARRATION_LINES[step.tool]
+        if line:
+            asyncio.create_task(_speak_reply(line, request_id, narrating=True))
 
     return handler
 
@@ -590,6 +630,22 @@ async def broadcast_behavior(reply: AgentReply) -> None:
         )
 
 
+async def _proactive_greeting(trigger: str) -> None:
+    """D 期主动触发：启动/空闲问候。免打扰时段与冷却期由策略模块把关，
+    防骚扰去抖落在 events 里可查。问候为固定台词，不消耗 LLM 额度。"""
+    allowed, reason = proactive_policy.allow()
+    if not allowed:
+        memory.add_event("proactive.skipped", {"trigger": trigger, "reason": reason})
+        return
+    proactive_policy.mark_spoken()
+    line = _STARTUP_GREETINGS[int(time.time()) % len(_STARTUP_GREETINGS)]
+    memory.add_event("proactive.greeting", {"trigger": trigger, "line": line})
+    try:
+        await _speak_reply(line, f"proactive-{trigger}", narrating=False)
+    except Exception as exc:  # noqa: BLE001
+        memory.add_event("proactive.error", {"message": str(exc)[:200]})
+
+
 async def run_tool(name: str, arguments: dict) -> dict:
     # zcode (phase B 前置 + T1): every tool call passes the permission gate
     # first; denials never reach the executor, "ask" decisions park the call
@@ -608,8 +664,11 @@ async def run_tool(name: str, arguments: dict) -> dict:
     if decision.kind == ASK:
         session = _ACTIVE_CHAT_SESSION_ID[0]
         if session is not None and _confirmed_write_once.pop(session, None) is True:
+            # the pending write already executed when the user confirmed;
+            # a model retry must not duplicate it
             memory.add_event("permission.authorized", {"tool": name})
-            decision = PolicyDecision(ALLOW, "user-confirmed", "用户已在聊天中确认该写入")
+            return {"ok": True, "already_executed": True,
+                    "note": "该写入已在用户确认时执行完成，请直接向用户汇报结果，不要再调用写入工具。"}
     memory.add_event(
         "permission.decision",
         {
@@ -643,6 +702,14 @@ async def run_tool(name: str, arguments: dict) -> dict:
             "ok": False,
             "error": f"权限拒绝（{decision.rule_id}）：{decision.reason}",
         }
+    if str(name).startswith("mcp__"):
+        parts = str(name).split("__")
+        server_name, tool_name = parts[1], parts[2]
+        server = mcp_host.servers.get(server_name)
+        if server is None or not server.started:
+            return {"ok": False, "error": f"MCP server {server_name} 不可用"}
+        result = await server.call(tool_name, arguments if isinstance(arguments, dict) else {})
+        return {"ok": result.get("ok", False), "output": result.get("text", "")}
     return await execute_tool(tool_registry, name, arguments)
 
 
@@ -701,7 +768,18 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 _pending_writes.pop(session_id, None)
                 memory.add_event("permission.pending.expired", {"session_id": session_id})
             elif any(word in text for word in _CONFIRM_WORDS):
-                result = await execute_tool(tool_registry, pending["tool"], pending["arguments"])
+                # zcode (T1 复盘修复): route through the same choke point as
+                # the agent loop so local tools and mcp__ tools both work
+                if str(pending["tool"]).startswith("mcp__"):
+                    parts = str(pending["tool"]).split("__")
+                    server = mcp_host.servers.get(parts[1]) if len(parts) > 2 else None
+                    if server is None or not server.started:
+                        result = {"ok": False, "error": f"MCP server {parts[1] if len(parts) > 1 else ''} 不可用"}
+                    else:
+                        result = await server.call(parts[2], pending["arguments"])
+                        result = {"ok": result.get("ok", False), "output": result.get("text", "")}
+                else:
+                    result = await execute_tool(tool_registry, pending["tool"], pending["arguments"])
                 _pending_writes.pop(session_id, None)
                 memory.add_event(
                     "permission.confirmed",
@@ -720,7 +798,13 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 memory.add_event("permission.declined", {"session_id": session_id, "tool": pending["tool"]})
                 confirm_note = "【系统提示】用户拒绝了此前请求的写入操作。请不要执行，以天依的口吻自然回应即可。"
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
-        guided = TOOL_GUIDANCE if tools_schema else ""
+        effective_tools_schema = list(tools_schema)
+        for qualified, description, input_schema in mcp_host.tool_entries():
+            effective_tools_schema.append({
+                "type": "function",
+                "function": {"name": qualified, "description": description, "parameters": input_schema},
+            })
+        guided = TOOL_GUIDANCE if effective_tools_schema else ""
         # zcode (phase B 记忆接入): recall confirmed facts relevant to this
         # turn and inject them alongside tool guidance. Retrieval failures
         # must never break the chat itself.
@@ -739,11 +823,11 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             conversation_history, text, extra_system=extra_system, request_session_title=is_first_exchange
         )
         try:
-            if tools_schema:
+            if effective_tools_schema:
                 loop_result = await run_agent_loop(
                     provider,
                     messages,
-                    tools_schema,
+                    effective_tools_schema,
                     run_tool,
                     on_step=_make_loop_step_handler(request_id),
                 )
@@ -949,6 +1033,22 @@ async def handle_wake_word(buffered_audio) -> None:
         if not dispatched:
             _unregister_inflight_wake_request(wake_request_id)
             _superseded_requests.discard(wake_request_id)
+
+
+@app.on_event("startup")
+async def _start_mcp_servers() -> None:
+    # zcode (C 期): bring up configured MCP servers before serving traffic
+    try:
+        await mcp_host.start_from_env()
+        if mcp_host.servers:
+            memory.add_event("mcp.started", {"status": mcp_host.status()})
+    except Exception as exc:  # noqa: BLE001
+        memory.add_event("mcp.start.error", {"message": str(exc)[:200]})
+
+
+@app.on_event("shutdown")
+async def _stop_mcp_servers() -> None:
+    await mcp_host.stop_all()
 
 
 @app.on_event("startup")

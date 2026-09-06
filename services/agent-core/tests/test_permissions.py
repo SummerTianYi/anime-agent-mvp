@@ -59,7 +59,7 @@ class DefaultPolicyTests(unittest.TestCase):
         self.assertEqual(decision.kind, "ask")
 
     def test_unknown_tool_still_default_denied(self):
-        decision = make_engine().evaluate(request(tool="run_command"))
+        decision = make_engine().evaluate(request(tool="make_coffee"))
         self.assertFalse(decision.allowed)
         self.assertEqual(decision.kind, "deny")
         self.assertEqual(decision.rule_id, "default-deny")
@@ -94,7 +94,7 @@ class PathSafetyTests(unittest.TestCase):
 
 class AttributionTests(unittest.TestCase):
     def test_denied_decision_carries_rule_id_and_reason(self):
-        decision = make_engine().evaluate(request(tool="run_command"))
+        decision = make_engine().evaluate(request(tool="make_coffee"))
         self.assertEqual(decision.rule_id, "default-deny")
         self.assertTrue(decision.reason)
 

@@ -251,6 +251,113 @@ def write_file(path: Any, content: Any, mode: Any = "overwrite") -> dict[str, An
     return {"ok": True, "path": str(path), "mode": mode, "bytes_written": len(data)}
 
 
+# --- look_at_screen (zcode, D 期): screenshot -> vision provider, ask-tier --
+
+def look_at_screen(question: Any = "用一句话描述屏幕上有什么") -> dict[str, Any]:
+    """截图并送视觉模型描述。ask 档：屏幕内容会发送给云端视觉模型（隐私）。
+    未配置 ANIME_AGENT_VISION_MODEL 时优雅降级为已知边界。"""
+    vision_model = os.getenv("ANIME_AGENT_VISION_MODEL", "").strip()
+    if not vision_model:
+        return {"ok": False, "error": "屏幕视觉未配置（需要设置 ANIME_AGENT_VISION_MODEL 为支持图像的模型）"}
+    shot = screenshot()
+    if not shot.get("ok"):
+        return {"ok": False, "error": f"截图失败：{shot.get('error')}"}
+    import base64
+    import urllib.request
+
+    image_path = Path(str(shot["path"]))
+    try:
+        image_b64 = base64.b64encode(image_path.read_bytes()).decode("ascii")
+    except OSError as exc:
+        return {"ok": False, "error": f"读取截图失败：{exc}"}
+    body = json.dumps({
+        "model": vision_model,
+        "messages": [{
+            "role": "user",
+            "content": [
+                {"type": "image_url", "image_url": {"url": "data:image/png;base64," + image_b64}},
+                {"type": "text", "text": str(question)},
+            ],
+        }],
+        "stream": False,
+    }).encode("utf-8")
+    base_url = os.getenv("ANIME_AGENT_VISION_BASE_URL", os.getenv("GLM_BASE_URL", "")).strip()
+    api_key = os.getenv("ANIME_AGENT_VISION_KEY", os.getenv("GLM_API_KEY", ""))
+    try:
+        request = urllib.request.Request(
+            base_url.rstrip("/") + "/chat/completions", data=body,
+            headers={"Content-Type": "application/json", "Authorization": "Bearer " + api_key})
+        with urllib.request.urlopen(request, timeout=60) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        text = str(payload["choices"][0]["message"]["content"]).strip()
+    except Exception as exc:  # noqa: BLE001
+        return {"ok": False, "error": f"视觉模型调用失败：{str(exc)[:200]}"}
+    return {"ok": True, "description": text[:600]}
+
+
+# --- run_command (zcode, T3): whitelisted commands, no shell, ask-tier ------
+
+MAX_COMMAND_OUTPUT_CHARS = 4000
+COMMAND_TIMEOUT_SECONDS = 30.0
+_SHELL_METACHARS = set("&|;<>`^%\n\r")
+
+
+def allowed_commands() -> list[str]:
+    """Command basenames the user explicitly whitelisted. Empty = disabled."""
+    configured = os.getenv("ANIME_AGENT_ALLOWED_COMMANDS", "").strip()
+    if not configured:
+        return []
+    return [item.strip().lower() for item in configured.split(";") if item.strip()]
+
+
+def _is_safe_command_line(command_line: str, allowed: list[str]) -> tuple[bool, str]:
+    if any(ch in command_line for ch in _SHELL_METACHARS):
+        return False, "命令包含不允许的 shell 特殊字符"
+    parts = command_line.split()
+    if not parts:
+        return False, "空命令"
+    base = os.path.basename(parts[0]).lower().strip('"')
+    if base not in allowed:
+        return False, f"命令 {base} 不在白名单内（ANIME_AGENT_ALLOWED_COMMANDS）"
+    return True, ""
+
+
+def run_command(command_line: Any) -> dict[str, Any]:
+    import shlex
+    import subprocess
+
+    line = str(command_line or "").strip()
+    allowed = allowed_commands()
+    if not allowed:
+        return {"ok": False, "error": "命令执行未启用（未配置 ANIME_AGENT_ALLOWED_COMMANDS）"}
+    ok, reason = _is_safe_command_line(line, allowed)
+    if not ok:
+        return {"ok": False, "error": reason}
+    try:
+        args = shlex.split(line, posix=False)
+    except ValueError as exc:
+        return {"ok": False, "error": f"命令解析失败：{exc}"}
+    args = [a.strip('"') for a in args]
+    try:
+        proc = subprocess.run(
+            args, capture_output=True, text=True,
+            timeout=COMMAND_TIMEOUT_SECONDS, shell=False,
+        )
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "error": f"命令执行超时（{COMMAND_TIMEOUT_SECONDS}s）"}
+    except FileNotFoundError:
+        return {"ok": False, "error": f"找不到可执行文件：{args[0]}"}
+    output = ((proc.stdout or "") + (proc.stderr or "")).strip()
+    if len(output) > MAX_COMMAND_OUTPUT_CHARS:
+        output = output[:MAX_COMMAND_OUTPUT_CHARS] + "…（输出已截断）"
+    return {
+        "ok": proc.returncode == 0,
+        "returncode": proc.returncode,
+        "output": output,
+        "note": "命令已按白名单执行，未经过 shell 管道",
+    }
+
+
 REGISTRY: tuple[Tool, ...] = (
     Tool(
         name="get_time",
@@ -298,6 +405,34 @@ REGISTRY: tuple[Tool, ...] = (
         description="读取系统剪贴板中的文本，最多 16000 字符。",
         parameters={"type": "object", "properties": {}, "required": []},
         func=clipboard_read,
+    ),
+    Tool(
+        name="look_at_screen",
+        description="看一眼你的屏幕并用一句话描述内容（需要用户确认：屏幕截图会发送给视觉模型分析）。",
+        parameters={
+            "type": "object",
+            "properties": {
+                "question": {"type": "string", "description": "想问屏幕的什么，默认整体描述"},
+            },
+            "required": [],
+        },
+        func=look_at_screen,
+    ),
+    Tool(
+        name="run_command",
+        description=(
+            "运行一条白名单内的本地命令（如 python），不经 shell 管道。"
+            "命令的第一个词必须在白名单内，包含特殊字符会被拒绝。"
+            "执行前需要用户确认。"
+        ),
+        parameters={
+            "type": "object",
+            "properties": {
+                "command_line": {"type": "string", "description": "完整命令行，如 python -c \"print(1)\""},
+            },
+            "required": ["command_line"],
+        },
+        func=run_command,
     ),
     Tool(
         name="write_file",
