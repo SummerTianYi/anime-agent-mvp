@@ -10,7 +10,9 @@ Godot Avatar Runtime ── localhost WebSocket ── Python Agent Core ── 
    │          │                                      │
    │          └─ menu, chat, actions                 ├─ Character Harness + song retrieval
    └─ GLB, bones, expressions                        ├─ microphone + faster-whisper
-                                                     └─ SQLite messages/events/settings
+                                                     ├─ tool loop + permission engine + MCP host
+                                                     ├─ SQLite messages/events/facts/settings
+                                                     └─ TTS sidecar (HTTP, GPT-SoVITS, separate venv)
 
 Optional React/Tauri shell ── localhost WebSocket ───┘
 ```
@@ -27,6 +29,8 @@ The desktop Avatar does not move the 3D model away from the camera optical axis.
 | Agent Core | WebSocket JSON, `.env`, Provider HTTP responses, microphone samples | Directed WebSocket events, Provider requests, logs | SQLite under `%LOCALAPPDATA%\AnimeAgent\data` |
 | Character Harness | Recent history, user text, matching song records | Provider messages and parsed `AgentReply` | None; code and static JSON are versioned |
 | Song catalog | User query and tracked song JSON | Up to six ranked factual records | `agent_core/data/luotianyi_original_songs.json` |
+| Permission engine | Tool invocation requests from the agent loop | allow/ask/deny decisions, audit events, parked in-chat confirmations | None; rules from code plus `ANIME_AGENT_*` env |
+| TTS sidecar (separate venv) | Synthesis HTTP requests from Core | wav artifacts, utterance lifecycle | Local spool directory |
 | Tauri shell | Browser input and Core events | `chat.message`, diagnostic display | None in current MVP |
 
 ## Chat and behavior sequence
@@ -41,7 +45,7 @@ The desktop Avatar does not move the 3D model away from the camera optical axis.
 | 6 | Core records assistant text, emits `chat.response`, then `agent.state=speaking`, directed `avatar.command` events and finally `idle` | Core |
 | 7 | Godot updates chat history, expression, mouth shape and procedural action | Godot |
 
-The Provider output contract is `{"reply":"...","emotion":"neutral|happy|thinking|surprised|sad|angry|shy","emotion_intensity":0.0,"gesture":"none|nod|wave|greet|turn_left|turn_right","memory_candidate":null}`. Plain text remains usable as a neutral/no-gesture fallback; invalid emotions or gestures are dropped, and `memory_candidate` is truncated to 200 characters and stored as a pending event.
+The Provider output contract is `{"reply":"...","emotion":"neutral|happy|thinking|surprised|sad|angry|shy","emotion_intensity":0.0,"gesture":"none|nod|wave|greet|turn_left|turn_right","memory_candidate":null}`. Plain text remains usable as a neutral/no-gesture fallback; invalid emotions or gestures are dropped, and `memory_candidate` is truncated to 200 characters and promoted tier-wise into the `facts` table (preference-class auto-confirmed, the rest pending), from which lexical retrieval injects relevant facts into chat prompts.
 
 ## Persistence and trust boundary
 
@@ -54,4 +58,4 @@ The Provider output contract is `{"reply":"...","emotion":"neutral|happy|thinkin
 | Character model | `apps/avatar-runtime/assets/luotianyi_v4.glb` | Ignored | Godot scene dependency |
 | Window location | Godot `user://avatar_window.cfg` | Local-only | Restores desktop position |
 
-There is no implemented external-action permission layer yet; the current WebSocket command whitelist only drives local avatar behavior. Any future file, command, message or network tool must add an explicit permission contract before execution.
+External-action capability is gated by the three-tier permission engine (`agent_core/permissions.py`: allow/ask/deny, deny-by-default, path-safety hard-deny, `permission.decision` audit events in the events table); write/command/privacy tools default to ask and park in the in-chat confirmation flow until the user confirms in chat. Any new tool must register in `tools.py`, declare its tier, and pass the same gate — a tool that bypasses it is a security regression.

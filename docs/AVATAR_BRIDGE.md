@@ -30,7 +30,23 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 {"type":"agent.tool","tool":"get_time","ok":true,"summary":"{\"ok\": true}","request_id":"..."}
 ```
 
-`ok=false` 表示工具执行失败，失败结果同样已回填给模型。Godot 将该事件显示在聊天状态行（“已使用工具：…”）。`ANIME_AGENT_TOOLS=0` 可整体停用；端点拒绝 tools 参数（HTTP 400/404/422）时 Core 自动降级为无工具直答并记录 `agent.tools.unsupported` 事件。当前工具集全部只读：`get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`；路径类工具受 `ANIME_AGENT_TOOLS_ROOTS`（os.pathsep 分隔，`*` 解除限制）白名单约束，循环步数上限 5，单工具超时 15 秒。
+`ok=false` 表示工具执行失败，失败结果同样已回填给模型。Godot 将该事件显示在聊天状态行（“已使用工具：…”）。`ANIME_AGENT_TOOLS=0` 可整体停用；端点拒绝 tools 参数（HTTP 400/404/422）时 Core 自动降级为无工具直答并记录 `agent.tools.unsupported` 事件。
+
+工具集：只读六件套 `get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`（路径类受 `ANIME_AGENT_TOOLS_ROOTS`（os.pathsep 分隔，`*` 解除限制）白名单约束），加写入/命令/隐私三件 `write_file`、`run_command`、`look_at_screen`（见下节权限确认），以及 MCP 合并工具 `mcp__<server>__<tool>`。循环步数上限 5，单工具超时 15 秒（命令 30 秒）。
+
+## 权限与确认（allow/ask/deny）
+
+所有工具调用经 `agent_core/permissions.py` 三档引擎裁决，每次决策落 `permission.decision` 审计事件（events 表，含 rule_id 归因）：
+
+- **allow**：只读六件套等预放行能力直接执行。
+- **ask**：`write_file`、`run_command`、`look_at_screen` 与全部 MCP 工具。Core 挂起执行，先以普通回复向用户说明将做什么，等用户在同一会话内用文字确认；确认后执行（写入为原子写）并以角色化口吻汇报结果；拒绝或超时（600 秒）即丢弃；一次性授权防止确认后重复执行。
+- **deny**：写白名单外路径、命令白名单外命令、path-safety 违规直接拒绝并回填原因。
+
+`write_file` 受独立写白名单 `ANIME_AGENT_WRITE_ROOTS` 约束（原子写：临时文件 + os.replace，256KB 上限，append 自动补换行）；`run_command` 受 `ANIME_AGENT_ALLOWED_COMMANDS` 命令白名单约束且拒绝 shell 管道/元字符。工作解说：每类新工具首次调用前经 `avatar.speak` 播报一句进行时解说（`ANIME_AGENT_TTS=0` 时跳过）。
+
+## 主动问候（D 期·部分）
+
+Avatar 连接（`client.hello` role=avatar）后 Core 可发起一次启动问候，复用 `chat.response` / `avatar.speak` 既有链路播报；受 `ANIME_AGENT_QUIET_START` / `ANIME_AGENT_QUIET_END` 免打扰时段与 `ANIME_AGENT_PROACTIVE_COOLDOWN` 冷却约束，问候决策记录在 events 表。Idle 触发尚未实现。
 
 ## 角色点击与菜单
 

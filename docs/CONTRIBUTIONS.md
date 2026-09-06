@@ -67,6 +67,7 @@
 | D 期主动触发与屏幕视觉（zcode，2026-09-06） | `proactive.py`：免打扰时段（默认 23:00-08:00）+ 冷却期策略（纯逻辑离线单测）；启动问候实测上线（avatar-connect 触发，events 可查）；`tools.py` 新增 `look_at_screen`（截图 → 视觉模型，ask-privacy 隐私确认档），未配置视觉模型时优雅降级为已知边界（实测 ✅） | `agent_core/proactive.py`；`agent_core/main.py`；`agent_core/tools.py`；`tests/test_proactive.py` |
 | 考试系统与错题本（zcode，2026-09-06） | `docs/EXAM_LEDGER.md`：错题本（每题根因归类：zcode 基建 / 模型边界 / 正面样本）+ 考题库（考点 × 载体变体防背题）；判分器进化：关键词匹配 → 行为证据判定（快照对账 + 审计对账） | `docs/EXAM_LEDGER.md`；anime-agent-workbench `exam_t0.py`/`exam_snapshot.py`/`tianyi_remote.py` |
 | 写入工具与三档权限（T1，zcode，2026-09-06） | `permissions.py` 升级 allow/ask/deny 三档（写入工具默认 ask，越界写白名单在确认前直接拒绝）；`tools.py` 新增 `write_file`（原子写：临时文件 + os.replace；独立写白名单 `ANIME_AGENT_WRITE_ROOTS`；UTF-8 无 BOM；256KB 上限；append 自动补换行）；`main.py` 会话内确认流（ask 挂起 → 用户确认 → 原子执行 + 角色化汇报，取消/过期/一次性授权防确认循环）；T1 沙箱写入考核 3/3 通过（替换/追加/越界拒绝），快照对账零附带损伤；单测扩至 151 项 | `agent_core/permissions.py`；`agent_core/tools.py`；`agent_core/main.py`；`tests/test_write_file.py`；`tests/test_agent_gate.py`；`tests/test_permissions.py` |
+| 交接整理与零上下文门禁（zcode，2026-09-07） | `docs/HANDOFF.md` 重写为接手总纲（北极星/当值分派表/三方分工与交接史/冻结区清单/编号对照表/第一天动线/铁律/白纸测试门禁）；刷新 AGENTS/README/KNOWN_ISSUES/ARCHITECTURE/TESTING/VERIFICATION_SPEC/MVP/AVATAR_BRIDGE/.env.example 的过期状态（权限层、TTS、记忆、工具集、门禁数字）；新增 `docs/plans/LONG_TERM.md` 跨仓长期方案看板；AGENT_ROADMAP 回写状态列；清理 `harness.py.bak-phase1` 与 `work/tianyi-notes` 运行时数据出库（留模板）；LOCAL_MACHINE 补录兄弟工作区；白纸测试（零上下文独立实例 × 2 + 行为探针）通过后交接 | 本次提交；`docs/HANDOFF.md` §7 接管模拟记录 |
 
 ### Claude 工作树边界
 
@@ -78,3 +79,4 @@ Claude 的全部增量已于 2026-08-31 以提交 fc5a5a4 落库：倾听动作�
 2. 追加自己的 Agent 名称、日期、模块和提交，不覆盖既有条目；允许按项目所有者授权声明重叠贡献。
 3. 并行开发时优先按文件或补丁块分离提交；共享文件必须检查 staged diff，避免把他人的未完成代码带入。
 4. 贡献声明不替代验证。任何“完成”仍以 `docs/TESTING.md` 的当前门禁和远端提交为准。
+5. 交接或收工前，`docs/HANDOFF.md` §7 的白纸测试门禁（零上下文独立实例通读 + 行为探针）必须通过；状态变化必须回写 HANDOFF §3 与 README 状态表。

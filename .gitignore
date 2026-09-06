@@ -50,3 +50,6 @@ Thumbs.db
 # zcode: T0 考核沙箱（考卷与快照不入库）
 work/tianyi-exam/
 work/tianyi-exam-t1/
+
+# zcode: 天依正式笔记是运行时数据（T2 放权目标），不入库；模板见 notes.template.md
+work/tianyi-notes/notes.md
