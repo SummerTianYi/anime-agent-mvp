@@ -30,7 +30,7 @@
 | P0 | 只读工具集 | get_time、screenshot、read_file、list_dir、active_window、clipboard_read，统一 schema 注册表 | 零风险打通全链路 | 全部只读、路径白名单、注册表单测 | ✅ Claude 实现；zcode T0 考试 6/6 |
 | P0 | 权限层（B 期前置） | `permission.request` 协议事件；Godot 确认卡片做角色化确认；allowlist/ask/deny 三档策略；每次决策落审计 | 高危能力的闸门，也是角色演出机会 | 拒绝路径有测试；确认不阻塞其余事件流 | ✅ zcode：三档引擎 + 会话内文字确认流（未做 Godot 确认卡片）+ `permission.decision` 审计 |
 | P1 | 写入型工具（B 期·双手） | write_file、open_app、run_command（约束与配额）、键鼠控制（确认后单步执行） | 真正接管电脑 | 权限层未验收不合入；键鼠默认 ask | ⚠️ write_file（T1 放权）/run_command（T3）已上线；open_app 未做；键鼠缓行 |
-| P1 | MCP 宿主（C 期·生态） | Core 以 stdio 拉起并管理 MCP server，list_tools 合并进统一注册表 | 社区工具即插即用 | 先接 filesystem 一个 server 验证；进程生命周期与工具名冲突策略另定 | ✅ 收官（2026-09-07）：stdio 宿主 + 真实服务器上线——Playwright 浏览器（24 工具）+ 官方 GitHub（44 工具） |
+| P1 | MCP 宿主（C 期·生态） | Core 以 stdio 拉起并管理 MCP server，list_tools 合并进统一注册表 | 社区工具即插即用 | 先接 filesystem 一个 server 验证；进程生命周期与工具名冲突策略另定 | ✅ 收官（2026-09-07）：stdio 宿主 + 真实服务器上线——Playwright 浏览器（24）+ 官方 GitHub（44）+ Tavily 联网搜索（5） |
 | P1 | TTS 工作解说（E 期·声线） | 与 GPT-SoVITS 声线项目会合，中间步骤语音播报 | 灵魂层：干活时开口说话 | 依赖声线素材到位；打断策略单独验收 | ✅ Claude sidecar 链路 + zcode 每工具类型播报；声线资产归 anime-agent-tts 仓 |
 | P2 | 屏幕视觉（D 期·感官） | 截图送多模态 Provider 或本地 VLM（8GB VRAM 约束内选型） | 看得见屏幕才能操作 GUI | 本地 VLM 选型另行验证；多模态调用计费另计 | ✅ 2026-09-07 上线：GLM-5.3-Flash 原生多模态（coding 端点实测收图），隐私 ask 档全链路真机通过；本地 VLM 仅作隐私/断网备胎（LONG_TERM） |
 | P2 | 主动触发（D 期） | 启动/空闲触发 + IGNORE + 免打扰时段（承接 HANDOFF 既有条目） | 有"活着"的感觉 | 去抖与静音时段生效，防骚扰 | ✅ 收官（2026-09-07）：启动问候 + Idle 触发全部上线（本地轮询+台词库，待机零 GLM 调用） |
