@@ -14,5 +14,5 @@
 | Spark Adapter | anime-agent-mvp | Spike 暂缓，不阻塞本地闭环 | 有官方可调用面时再做 Spike（MVP.md §6 验证清单） |
 | 考试回归自动化 | anime-agent-workbench | T0-T3/C/D 均为一次性脚本，人工跑（KI-017） | 把题库固化为可重跑回归管线，能力变更可廉价复检 |
 | 记忆成熟化 | anime-agent-mvp | facts 分级落库+词法检索已上线；pending 审阅 UI 缺（KI-016）；矛盾记忆更新未考 | T2+ 进阶考试（矛盾记忆、长对话压测）→ 审阅 UI |
-| 常驻生命感（M3） | anime-agent-mvp | 开机自启/守护、Idle 触发未做（KI-002/KI-003） | 主仓当前主战场，见 HANDOFF §3 |
+| 常驻生命感（M3） | anime-agent-mvp | Idle 触发✅（2026-09-07）；仅剩开机自启/守护（KI-002，所有者暂缓） | 与前端 UI 升级（plans/UI_UPGRADE.md）衔接 |
 | 打包分发 | anime-agent-mvp | 未开始 | 自启与守护稳定后再评估安装器形态 |

@@ -67,4 +67,4 @@
 
 - [MODEL_OPTIMIZATION.md](MODEL_OPTIMIZATION.md)（Codex，建模优化）：无直接依赖；其"表情与口型细化""马尾/衣摆二级运动"条目会反哺 agent 演出层。
 - TTS 声线项目（anime-agent-tts 私仓，GPT-SoVITS v2Pro）：E 期依赖已落地；后续声线迭代见 [LONG_TERM.md](LONG_TERM.md)。
-- `docs/HANDOFF.md` 中 P2"Permission layer and tools"已由本方案执行完毕；P0"Startup and Idle triggers"对应 D 期（启动问候已完成，Idle 待做）。
+- `docs/HANDOFF.md` 中 P2"Permission layer and tools"已由本方案执行完毕；P0"Startup and Idle triggers"对应 D 期，已收官（启动问候 + Idle 触发均已上线）。

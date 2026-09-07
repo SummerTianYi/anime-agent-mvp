@@ -21,7 +21,7 @@ Build a Windows-first, local-first 3D anime desktop companion whose visible prod
 
 ## Current implementation boundary
 
-Implemented and frozen (see `docs/HANDOFF.md` §3 for the full list with exam evidence): text-chat loop with sessions, wake word + STT pipeline, TTS sidecar client with interruption, read-only tool loop, persona prompt override, three-tier permission engine with audit, atomic `write_file` with write-roots + in-chat confirmation, `run_command` with command whitelist, per-tool-type narration, MCP stdio host with confirmation routing, proactive startup greeting with quiet hours, screen vision via GLM native multimodality (privacy ask-gate, live-verified 2026-09-07), memory facts table with tiered promotion and lexical recall. Not implemented: Idle trigger, Windows autostart/supervision, STT self-healing, keyboard/mouse control (deferred by design), pending-memory review UI, Spark Adapter. `docs/TESTING.md` (154 tests) is the acceptance baseline.
+Implemented and frozen (see `docs/HANDOFF.md` §3 for the full list with exam evidence): text-chat loop with sessions, wake word + STT pipeline, TTS sidecar client with interruption, read-only tool loop, persona prompt override, three-tier permission engine with audit, atomic `write_file` with write-roots + in-chat confirmation, `run_command` with command whitelist, per-tool-type narration, MCP stdio host with confirmation routing, proactive startup greeting with quiet hours, screen vision via GLM native multimodality (privacy ask-gate, live-verified 2026-09-07), memory facts table with tiered promotion and lexical recall. Idle trigger (local poll + template bank, standby is zero-quota), STT wedge self-heal, and five real MCP servers (browser/GitHub/search/Gmail/Drive, 93 tools) shipped 2026-09-07. Not implemented: Windows autostart/supervision (owner deferred), keyboard/mouse control (deferred by design), pending-memory review UI, Spark Adapter. `docs/TESTING.md` (181 tests) is the acceptance baseline.
 
 ## Engineering rules
 
@@ -43,4 +43,4 @@ Run the Python unit tests (currently 181), TypeScript build/type check, Godot he
 
 ## Next recommended order
 
-Do not start from this file — claim your territory from `docs/HANDOFF.md` §1 (当值分派) and pick from §3 "未开工" list. Default priorities if the owner does not override: Windows autostart + supervision, STT self-healing, Idle trigger, vision model configuration, T2+ exams (contradiction-memory update, long-conversation stress), real MCP server integration.
+Do not start from this file — claim your territory from `docs/HANDOFF.md` §1 (当值分派) and pick from §3 "未开工" list. Default priorities if the owner does not override: the frontend UI upgrade (U0 survey + form-factor decision, `docs/plans/UI_UPGRADE.md`), then prompt training item 2 (poison-content proactive warning) and the memory review UI (KI-016).
