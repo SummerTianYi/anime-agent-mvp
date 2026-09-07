@@ -55,7 +55,7 @@
 | T2 真实目录放权 | `work/tianyi-notes` 读写白名单生效 | zcode T2 考试 3/3，快照对账零附带损伤 |
 | run_command | 命令白名单 + 禁 shell 元字符 + 30s 超时 + ask | zcode T3（破坏性命令双重拒绝） |
 | 工作解说 | 首步播报（Claude）+ 每新工具类型播报一次（zcode） | E 考试 |
-| MCP 宿主 | stdio JSON-RPC 2.0 + schema 合并 + 确认分流；真实服务器：Playwright 浏览器（24 工具）+ 官方 GitHub（44 工具）+ Tavily 联网搜索（5 工具） | zcode C 考试 + T-MCP/T-SEARCH 验收 2026-09-07 |
+| MCP 宿主 | stdio JSON-RPC 2.0 + schema 合并 + 确认分流；真实服务器：Playwright 浏览器（24）+ GitHub（44）+ Tavily 搜索（5）+ Gmail（19） | zcode C 考试 + T-MCP/T-SEARCH/T-GMAIL 验收 2026-09-07 |
 | 主动问候 | 免打扰时段 + 冷却期 | zcode D1 考试 |
 | Idle 触发 | GetLastInputInfo 本地轮询 + 台词模板库（待机零 GLM 调用） | zcode，IdlePolicy 离线单测 + 真机观测 |
 | 屏幕视觉 look_at_screen | GLM-5.3-Flash 原生多模态（coding 端点实测收图）；ask 隐私确认档全链路真机通过 | zcode D2 考试（降级路径）+ 2026-09-07 真机上线（会话 50） |
@@ -67,7 +67,7 @@
 
 ### ❌ 未开工（新领地从这里挑）
 
-Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未做）；键鼠控制（最高危，缓行需新设考试）；Gmail/Drive（等所有者完成 Google OAuth 设置，清单已给）；Spark Adapter。
+Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未做）；键鼠控制（最高危，缓行需新设考试）；Google Drive（OAuth 客户端已就绪，缺 Drive 专用 server 接线）；Spark Adapter。
 
 ## 4. 编号对照表（三套体系别搞混）
 

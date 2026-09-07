@@ -27,6 +27,7 @@ This repository is intentionally local-first. The table records project-related 
 | SQLite | `C:\Users\26052\AppData\Local\AnimeAgent\data\anime-agent.sqlite3` | User conversation/event state; never upload |
 | Core logs | `C:\Users\26052\AppData\Local\AnimeAgent\logs` | Local diagnostics; never upload by default |
 | Download diagnostics | `D:\UserData\Administrator\Documents\Codex\2026-08-28\https-github-com-summertianyi-anime-agent\work\bowlroll-*` | May contain Cookie/header material; do not read, print or upload unless explicitly authorized for acquisition debugging |
+| Gmail MCP secrets | Repo `gcp-oauth.keys.json` (gitignored) + `C:\Users\26052\.gmail-mcp\` (keys copy + OAuth token) | Gmail MCP OAuth credentials; never commit. Tool calls need local proxy `127.0.0.1:7897` (wired via `tools/gmail-mcp.cmd`) |
 | GitHub MCP server binary | Repo-local `tools\github-mcp-server.exe` (v1.12.0, gitignored) | Official binary, spawned by the Core MCP host; token comes from `.env` GITHUB_PERSONAL_ACCESS_TOKEN |
 | Playwright browser profile | `services/agent-core/.playwright-mcp/` (gitignored runtime dir) | Isolated per-session browser profile; uses installed Chrome via `--browser chrome` |
 | Sibling workspace: sandbox/exam repo | `C:\Users\26052\anime-agent-workbench` (GitHub `SummerTianYi/anime-agent-workbench`; a mirror clone also exists under `work\`) | Capability exam packs (T0-T3), acceptance gates and evidence; the venue for future capability exams (HANDOFF §6 rule 2) |
