@@ -53,3 +53,8 @@ work/tianyi-exam-t1/
 
 # zcode: 天依正式笔记是运行时数据（T2 放权目标），不入库；模板见 notes.template.md
 work/tianyi-notes/notes.md
+
+# zcode: third-party MCP server binaries & browser runtime (local only)
+tools/github-mcp-server.exe
+tools/github-mcp-server_Windows_x86_64.zip
+services/agent-core/.playwright-mcp/

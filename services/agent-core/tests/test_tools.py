@@ -214,3 +214,28 @@ class PerToolTimeout(unittest.TestCase):
         self.assertTrue(passed["ok"])
         passed_default = asyncio.run(execute_tool(registry, "quick_default", {}))
         self.assertTrue(passed_default["ok"])
+
+
+# zcode (2026-09-07): Windows spawn resolution — MCP host must resolve bare
+# executables (npx/npm/python) through PATH+PATHEXT or create_subprocess_exec
+# fails with WinError 2 on Windows.
+class McpCommandResolutionTests(unittest.TestCase):
+    def test_bare_npx_resolves_to_absolute_path(self):
+        from agent_core.mcp_host import _resolve_command
+
+        resolved = _resolve_command(["npx", "-y", "some-package"])
+        self.assertNotEqual(resolved[0].lower(), "npx")
+        self.assertIn("npx", resolved[0].lower())
+        self.assertTrue(Path(resolved[0]).is_absolute())
+        self.assertEqual(resolved[1:], ["-y", "some-package"])
+
+    def test_unknown_command_passes_through(self):
+        from agent_core.mcp_host import _resolve_command
+
+        self.assertEqual(_resolve_command(["definitely-not-a-real-exe-xyz", "a"]), ["definitely-not-a-real-exe-xyz", "a"])
+
+    def test_absolute_path_untouched(self):
+        from agent_core.mcp_host import _resolve_command
+
+        exe = sys.executable
+        self.assertEqual(_resolve_command([exe, "-c", "1"]), [exe, "-c", "1"])

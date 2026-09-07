@@ -10,9 +10,24 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import shutil
+from pathlib import Path
 from dataclasses import dataclass, field
 
 PROTOCOL_VERSION = "2024-11-05"
+
+
+def _resolve_command(parts: list[str]) -> list[str]:
+    """Windows-safe spawn resolution: create_subprocess_exec does not do
+    PATHEXT lookup, so bare "npx"/"npm"/"python" must become the absolute
+    path (npx.cmd etc.) or the spawn fails with WinError 2."""
+    if not parts:
+        return parts
+    head = parts[0]
+    if os.path.sep in head or Path(head).is_absolute():
+        return parts
+    found = shutil.which(head)
+    return ([found, *parts[1:]] if found else parts)
 
 
 @dataclass
@@ -47,6 +62,7 @@ class McpServer:
             stdin=asyncio.subprocess.PIPE,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.DEVNULL,
+            limit=1024 * 1024,  # zcode: big schemas (github server) exceed the 64KB default line limit
         )
         reply = await self._roundtrip({
             "jsonrpc": "2.0", "id": self.next_id, "method": "initialize",
@@ -101,7 +117,7 @@ class McpHost:
                 continue
             name, command = entry.split("=", 1)
             name = name.strip()
-            parts = command.strip().split()
+            parts = _resolve_command(command.strip().split())
             if not parts:
                 continue
             server = McpServer(name=name, command=parts)

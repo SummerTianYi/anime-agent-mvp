@@ -458,7 +458,10 @@ permission_engine = PermissionEngine()
 # confirms it (executes atomically) or declines it (drops it).
 _pending_writes: dict[int, dict] = {}
 _PENDING_TTL_SECONDS = 600
-_confirmed_write_once: dict[int, bool] = {}
+# zcode (T-MCP 验收修复 2026-09-07): scoped to the tool NAME — a session-
+# wide flag leaked onto the next unrelated ask-tier tool (get_me got a
+# data-less receipt right after a confirmed browser call).
+_confirmed_write_once: dict[int, str] = {}
 _ACTIVE_CHAT_SESSION_ID: list[int | None] = [None]
 _CONFIRM_WORDS = ("确认", "可以", "同意", "执行吧", "好的", "去吧", "ok", "yes")
 _DECLINE_WORDS = ("取消", "算了", "不要", "先不", "别写", "拒绝")
@@ -753,9 +756,11 @@ async def run_tool(name: str, arguments: dict) -> dict:
     # of parking again (the confirmation loop found by the T1 exam).
     if decision.kind == ASK:
         session = _ACTIVE_CHAT_SESSION_ID[0]
-        if session is not None and _confirmed_write_once.pop(session, None) is True:
-            # the pending write already executed when the user confirmed;
-            # a model retry must not duplicate it
+        if session is not None and _confirmed_write_once.get(session) == name:
+            # the pending action already executed when the user confirmed;
+            # a model retry of THE SAME tool must not duplicate it. Other
+            # ask-tier tools keep their own full ask flow.
+            _confirmed_write_once.pop(session, None)
             memory.add_event("permission.authorized", {"tool": name})
             return {"ok": True, "already_executed": True,
                     "note": "该写入已在用户确认时执行完成，请直接向用户汇报结果，不要再调用写入工具。"}
@@ -877,7 +882,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                      "ok": bool(result.get("ok")),
                      "result": json.dumps(result, ensure_ascii=False, default=str)[:300]},
                 )
-                _confirmed_write_once[session_id] = True
+                _confirmed_write_once[session_id] = pending["tool"]
                 confirm_note = (
                     "【系统提示】用户已确认此前请求的写入操作，执行结果："
                     + json.dumps(result, ensure_ascii=False, default=str)[:300]

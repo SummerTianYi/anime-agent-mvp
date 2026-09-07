@@ -142,3 +142,31 @@ class GateIntegrationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# zcode (2026-09-07, T-MCP 验收考出): the one-shot confirm flag was session-
+# scoped, so after confirming tool A the NEXT unrelated ask-tier tool B got a
+# data-less "already executed" receipt instead of its own ask flow. The flag
+# must be scoped to the tool name.
+class OneShotFlagScopeTests(unittest.TestCase):
+    def setUp(self) -> None:
+        import agent_core.main as core
+
+        self.core = core
+        core._confirmed_write_once.clear()
+        self.addCleanup(core._confirmed_write_once.clear)
+        self._session = core._ACTIVE_CHAT_SESSION_ID[0]
+        core._ACTIVE_CHAT_SESSION_ID[0] = 5
+        self.addCleanup(self.core._ACTIVE_CHAT_SESSION_ID.__setitem__, 0, self._session)
+
+    def test_flag_does_not_leak_to_unrelated_tool(self) -> None:
+        self.core._confirmed_write_once[5] = "write_file"
+        result = run(self.core.run_tool("mcp__github__get_me", {}))
+        self.assertNotIn("already_executed", result)
+        self.assertTrue(result.get("needs_confirmation"))
+
+    def test_flag_consumed_by_same_tool_retry(self) -> None:
+        self.core._confirmed_write_once[5] = "look_at_screen"
+        result = run(self.core.run_tool("look_at_screen", {}))
+        self.assertTrue(result.get("already_executed"))
+        self.assertNotIn(5, self.core._confirmed_write_once)  # consumed exactly once
