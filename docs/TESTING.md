@@ -24,6 +24,7 @@ Run checks from the repository root unless the table says otherwise. Install Cor
 | Core health | `curl.exe --noproxy "*" -sS http://127.0.0.1:8765/health` | JSON contains `status=ok`, expected Provider/runtime/model and current client roles |
 | Bridge routing | `.\services\agent-core\.venv\Scripts\python.exe .\scripts\verify-avatar-bridge.py` | Prints `bridge=ok`, thinking→speaking→idle, chat response, menu routing and Avatar command routing |
 | Repository whitespace | `git diff --check` | No errors |
+| Docs consistency guard | `.\services\agent-core\.venv\Scripts\python.exe .\scripts\check_docs_consistency.py` | Prints `DOCS_CONSISTENCY_OK` and exits 0: test-count claims in status docs match the actual discovered unittest case count, every env var read by agent_core appears in `.env.example`, and every registered tool appears in `docs/AVATAR_BRIDGE.md`; deliberately corrupting a number must turn it red (sabotage drill verified 2026-09-07) |
 | Tracked large files | `git ls-files | ForEach-Object { Get-Item -LiteralPath $_ } | Where-Object Length -gt 50MB` | No output unless explicitly reviewed |
 | Ignored boundaries | `git status --ignored --short` | `.env`, model assets, caches, databases, logs and dependency/build outputs stay ignored; static song JSON and asset README stay trackable |
 

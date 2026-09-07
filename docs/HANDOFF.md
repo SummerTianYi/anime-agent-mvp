@@ -102,7 +102,8 @@ Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek �
 5. **API 配额纪律**：动手前先向所有者重述需求与预计调用数；真实 LLM 调用克制，批量调用必须先获批。
 6. **协议事件变更必须同步 [AVATAR_BRIDGE.md](AVATAR_BRIDGE.md) + 测试**。
 7. **数据边界**：.env/密钥/SQLite/日志/用户记忆/官模资产永不入库；本地模型凭 [LOCAL_MACHINE.md](LOCAL_MACHINE.md) 定位，不做再分发。
-8. **文档保鲜**：改动某能力状态时，同步更新本总纲 §3 与 README 状态表；收工前文档与代码不允许互相矛盾。
+8. **文档保鲜**：改动某能力状态时，同步更新本总纲 §3 与 README 状态表；收工前文档与代码不允许互相矛盾；改过状态声明后必须跑 `scripts/check_docs_consistency.py` 门禁（见 §10）。
+9. **main 禁 force-push；删除必须可指认恢复**：git 历史是灾备基线，任何文件删除前先确认能从历史指认恢复命令；禁止改写已推送历史。
 
 ## 7. 交接门禁：白纸测试
 
@@ -180,6 +181,31 @@ Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek �
 | 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `scripts/start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health` | `status=ok` 与预期 Provider |
 | 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 154 项全绿 |
+
+## 10. 灾备与回滚
+
+### 恢复命令（2026-09-07 全部实际执行验证过，非断言）
+
+| 场景 | 恢复命令 | 已验证凭证 |
+|---|---|---|
+| 找回任何被删除的已跟踪文件 | `git log --oneline -- <path>` 找到删除提交 → `git show <删除提交>^:<path>` 核对内容 → `git checkout <删除提交>^ -- <path>` 恢复 | bak-phase1（12214 字节）、verify_skirt_physics.gd（20068 字节）、notes.md（273 字节）均实际取回核对 |
+| 撤销 2026-09-07 整轮文档整理 | `git revert --no-commit 5324a6a^..2666fd5`（范围已核验恰为 3 个文档提交），确认后提交 | `git log 5324a6a^..2666fd5` 仅含 5324a6a/d7cdf0f/2666fd5 |
+
+### 本地专有资产灾备台账（本地优先的既定代价：以下内容只存在本机）
+
+| 资产 | Git 状态 | 丢失后果与恢复 |
+|---|---|---|
+| `work/tianyi-notes/notes.md`（天依正式笔记） | **未跟踪**（2026-09-07 出库，此前有 GitHub 备份） | 盘坏即失。种子模板 `notes.template.md` 在库；所有者应定期自行备份，或让天依重新口述重建 |
+| `.env`（API key） | 永不入库 | 盘坏需所有者另行保存 key（key 泄露风险 > 丢失风险，故不入 git） |
+| SQLite（`%LOCALAPPDATA%\AnimeAgent\data`） | 永不入库 | 用户数据丢失不可逆；所有者如在意应自行定期拷贝该目录 |
+| 官模 GLB / Blend / 动作资产 | 本地 + 哈希契约 | 可按 `docs/ASSET_PIPELINE.md` 从授权源头重建，哈希可核 |
+| tts 声线权重 | anime-agent-tts 私仓（GitHub 有备份） | 随私仓恢复 |
+
+### 文档腐烂的三层防线（根因修复）
+
+1. **机械层**：`scripts/check_docs_consistency.py` —— 测试数（当前状态文档 vs 实际 unittest 发现数）、环境变量（agent_core 代码 vs .env.example）、工具清单（tools.py 注册表 vs AVATAR_BRIDGE）三方自动对账；故意改坏数字必现红（注入演练已验证），接入 [TESTING.md](TESTING.md) 门禁表。
+2. **行为层**：§7 白纸测试门禁 —— 每次交接/收工由零上下文实例实读验证。
+3. **流程层**：铁律 8（状态变化同趟更新）+ 铁律 9（历史即灾备）。
 
 ## 已知陷阱
 
