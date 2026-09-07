@@ -35,7 +35,8 @@ Implemented and frozen (see `docs/HANDOFF.md` §3 for the full list with exam ev
 8. Do not claim voice, autostart, proactive triggers or long-term memory are complete until the acceptance checks in `docs/TESTING.md` pass.
 9. Model versions are immutable. Before an accepted model/render optimization, verify the current snapshot; after acceptance, allocate the next `major.minor` version, preserve Blend/GLB locally, record hashes/evidence in `model-versions/`, and never reuse a rejected experiment as a formal version.
 10. Declare your work: append your agent name, date, scope and evidence to `docs/CONTRIBUTIONS.md`; tag commits with your agent name. Append-only — never overwrite another agent's declaration.
-11. Keep documentation truthful: when a capability's status changes, update `docs/HANDOFF.md` §3 and the README status table in the same change. The takeover gate in `docs/HANDOFF.md` §7 (zero-context white-paper test) must pass before every handover.
+11. Shell discipline on this machine: use Git Bash for all shell work - never PowerShell heredocs; when a file contains backslashes, regexes or escape sequences (.py regexes, .cmd, JSON paths), create it with the file-writing tool instead of shell heredocs, and pass Windows-style paths to Windows Python processes.
+12. Keep documentation truthful: when a capability's status changes, update `docs/HANDOFF.md` §3 and the README status table in the same change. The takeover gate in `docs/HANDOFF.md` §7 (zero-context white-paper test) must pass before every handover.
 
 ## Required verification
 
