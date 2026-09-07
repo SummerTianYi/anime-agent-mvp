@@ -41,7 +41,6 @@ Run checks from the repository root unless the table says otherwise. Install Cor
 | Persistence | Send messages, stop/restart Core, inspect behavior without exposing DB content | Recent conversation reloads and DB remains under LocalAppData |
 | Sessions | Open chat, tap ＋新对话, send messages, then switch back to the old session from the dropdown | Bubbles clear on switch, each session reloads its own history, and the dropdown sorts by recent activity. A single click on 删除 opens a confirm dialog; confirming removes the session and lands on the newest one. After the first exchange in a fresh session the dropdown title becomes the LLM-generated summary |
 | Chat overlay input priority | Open chat, wheel over the bubble area, then wheel outside the panel, then right-drag on the panel | Bubble area scrolls history, wheel outside the panel still zooms the character, and right-drag on the panel never rotates |
-
 | E 期语音验收 | 需要 sidecar 运行且 `.env` 设 `ANIME_AGENT_TTS=1`：发一条文字消息等回复；回复期间按住语音键或说唤醒词 | 天依开口说出回复（口型同步）、打字气泡与语音同出；说话中开始录音/唤醒时语音立即停止且不卡死，可继续对话；sidecar 停掉后发消息仅回退文字气泡，无报错 |
 | E 期工作解说 | 需要 sidecar：问一个会触发只读工具的问题（如"现在几点"） | 天依先播报一句"我看到了，稍等我整理一下~"再念出最终回复；全程状态机 thinking→working→speaking→idle 流转无卡死 |
 
