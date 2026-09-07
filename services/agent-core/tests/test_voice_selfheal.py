@@ -4,7 +4,12 @@ from __future__ import annotations
 
 import unittest
 
-import numpy as np
+try:
+    import numpy as np
+    _HAS_NUMPY = True
+except ImportError:  # CI installs the test extra only, not the voice extra
+    np = None
+    _HAS_NUMPY = False
 
 from agent_core.voice import (
     _WEDGE_LSB_THRESHOLD,
@@ -39,6 +44,7 @@ class _DummyStream:
         self.closed = True
 
 
+@unittest.skipUnless(_HAS_NUMPY, "numpy not installed")
 class RecorderWedgeTests(unittest.TestCase):
     def _recorder(self, amplitude: float, frames: int = 1600) -> VoiceRecorder:
         recorder = VoiceRecorder()

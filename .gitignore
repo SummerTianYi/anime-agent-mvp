@@ -58,3 +58,10 @@ work/tianyi-notes/notes.md
 tools/github-mcp-server.exe
 tools/github-mcp-server_Windows_x86_64.zip
 services/agent-core/.playwright-mcp/
+
+# zcode: Google OAuth secrets & tokens (local only, never commit)
+gauth.json
+client_secret_*.json
+*-token.json
+token.json
+gcp-oauth.keys.json

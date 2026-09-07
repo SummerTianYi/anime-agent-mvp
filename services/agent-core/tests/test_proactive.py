@@ -68,14 +68,14 @@ class IdlePolicyTests(unittest.TestCase):
     def test_idle_but_on_cooldown(self):
         policy = IdlePolicy(threshold_seconds=600.0, cooldown_seconds=300.0)
         policy.mark_spoken(monotonic=0.0)
-        allowed, reason = policy.decide(idle_seconds=3600.0, monotonic=100.0)
+        allowed, reason = policy.decide(idle_seconds=3600.0, now=day_time(), monotonic=100.0)
         self.assertFalse(allowed)
         self.assertEqual(reason, "cooldown")
 
     def test_idle_allowed_when_all_gates_open(self):
         policy = IdlePolicy(threshold_seconds=600.0, cooldown_seconds=300.0)
         policy.mark_spoken(monotonic=0.0)
-        allowed, reason = policy.decide(idle_seconds=3600.0, monotonic=400.0)
+        allowed, reason = policy.decide(idle_seconds=3600.0, now=day_time(), monotonic=400.0)
         self.assertTrue(allowed)
         self.assertEqual(reason, "")
 

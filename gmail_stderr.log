@@ -1,0 +1,14 @@
+Error loading credentials: Error: ENOENT: no such file or directory, copyfile 'D:\UserData\Administrator\Documents\Codex\2026-08-28\https-github-com-summertianyi-anime-agent\work\anime-agent-mvp\gcp-oauth.keys.json' -> 'C:\Users\26052\.gmail-mcp\gcp-oauth.keys.json'
+    at Object.copyFileSync (node:fs:3177:11)
+    at loadCredentials (file:///C:/Users/26052/AppData/Local/npm-cache/_npx/952459504b2da320/node_modules/@gongrzhe/server-gmail-autoauth-mcp/dist/index.js:68:16)
+    at main (file:///C:/Users/26052/AppData/Local/npm-cache/_npx/952459504b2da320/node_modules/@gongrzhe/server-gmail-autoauth-mcp/dist/index.js:247:11)
+    at file:///C:/Users/26052/AppData/Local/npm-cache/_npx/952459504b2da320/node_modules/@gongrzhe/server-gmail-autoauth-mcp/dist/index.js:1014:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'copyfile',
+  path: 'D:\\UserData\\Administrator\\Documents\\Codex\\2026-08-28\\https-github-com-summertianyi-anime-agent\\work\\anime-agent-mvp\\gcp-oauth.keys.json',
+  dest: 'C:\\Users\\26052\\.gmail-mcp\\gcp-oauth.keys.json'
+}
