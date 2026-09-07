@@ -45,7 +45,7 @@ The desktop Avatar does not move the 3D model away from the camera optical axis.
 | 6 | Core records assistant text, emits `chat.response`, then `agent.state=speaking`, directed `avatar.command` events and finally `idle` | Core |
 | 7 | Godot updates chat history, expression, mouth shape and procedural action | Godot |
 
-The Provider output contract is `{"reply":"...","emotion":"neutral|happy|thinking|surprised|sad|angry|shy","emotion_intensity":0.0,"gesture":"none|nod|wave|greet|turn_left|turn_right","memory_candidate":null}`. Plain text remains usable as a neutral/no-gesture fallback; invalid emotions or gestures are dropped, and `memory_candidate` is truncated to 200 characters and promoted tier-wise into the `facts` table (preference-class auto-confirmed, the rest pending), from which lexical retrieval injects relevant facts into chat prompts.
+The Provider output contract is `{"reply":"...","emotion":"neutral|happy|thinking|surprised|sad|angry|shy","emotion_intensity":0.0,"gesture":"none|nod|wave|greet|turn_left|turn_right","memory_candidate":null}`. Plain text remains usable as a neutral/no-gesture fallback; invalid emotions or gestures are dropped, and `memory_candidate` is truncated to 200 characters and promoted tier-wise into the `facts` table (preference-class auto-confirmed, explicit "记住" forces confirmation, the rest pending), from which lexical retrieval injects relevant facts into chat prompts; a newly confirmed fact supersedes a near-duplicate confirmed one (status superseded), and non-sensitive pending facts are injected tagged （待确认）.
 
 ## Persistence and trust boundary
 

@@ -472,6 +472,19 @@ _AUTO_CONFIRM_MEMORY_MARKERS = (
 
 def _auto_confirm_memory(text: str) -> bool:
     return any(marker in text for marker in _AUTO_CONFIRM_MEMORY_MARKERS)
+
+
+# zcode (2026-09-07): T2+ exam fix — when the user explicitly asks to remember,
+# the fact is confirmed regardless of the preference-centric marker table.
+_EXPLICIT_REMEMBER_MARKERS = ("记住", "记一下", "帮我记")
+
+
+def _fact_promotion_status(candidate_text: str, user_text: str) -> str:
+    if _auto_confirm_memory(candidate_text) or any(
+        marker in (user_text or "") for marker in _EXPLICIT_REMEMBER_MARKERS
+    ):
+        return "confirmed"
+    return "pending"
 tools_schema = openai_tools_schema(tool_registry) if TOOLS_ENABLED else []
 # zcode (C 期): MCP host — external servers merged into the tool schema
 mcp_host = McpHost()
@@ -878,19 +891,20 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     event("session.title", conversationId=session_id, title=title),
                 )
         if agent_reply.memory_candidate:
+            # zcode (phase B 记忆接入): sensitivity-tiered storage. Preference-
+            # style facts auto-confirm and become recallable; explicit "记住"
+            # forces confirmation; everything else stays pending (injected
+            # tagged via recall_facts since the T2+ exam).
+            candidate_text = str(agent_reply.memory_candidate)
+            status = _fact_promotion_status(candidate_text, text)
             memory.add_event(
                 "memory.candidate",
                 {
                     "fact": agent_reply.memory_candidate,
                     "request_id": request_id,
-                    "status": "pending",
+                    "status": status,
                 },
             )
-            # zcode (phase B 记忆接入): sensitivity-tiered storage. Preference-
-            # style facts auto-confirm and become recallable; everything else
-            # stays pending for the upcoming confirmation UI (B 期).
-            candidate_text = str(agent_reply.memory_candidate)
-            status = "confirmed" if _auto_confirm_memory(candidate_text) else "pending"
             fact_id = memory.add_fact(
                 candidate_text,
                 session_id=session_id,

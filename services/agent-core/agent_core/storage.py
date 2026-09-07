@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+
+import re
 import sqlite3
 from pathlib import Path
 from typing import Any
@@ -14,6 +16,31 @@ def default_data_dir() -> Path:
     if local_app_data:
         return Path(local_app_data) / "AnimeAgent" / "data"
     return Path("data")
+
+
+# zcode (2026-09-07): above this bigram-Dice similarity a new confirmed fact
+# is treated as an update of the old one, which then becomes 'superseded'.
+FACT_SUPERSEDE_SIMILARITY = 0.55
+
+# Pending facts are injected tagged so life events stay reachable before the
+# review UI exists — except sensitive ones (the original privacy contract:
+# bank-card style pending facts must never reach the prompt).
+_PENDING_SENSITIVE_MARKERS = ("密码", "银行卡", "卡号", "身份证", "尾号", "验证码")
+_SENSITIVE_DIGIT_RUN = re.compile(r"\d{6,}")
+
+
+def _pending_recallable(content: str) -> bool:
+    if any(marker in content for marker in _PENDING_SENSITIVE_MARKERS):
+        return False
+    return _SENSITIVE_DIGIT_RUN.search(content) is None
+
+
+def _fact_similarity(a: str, b: str) -> float:
+    bigrams_a = {a[i : i + 2] for i in range(len(a) - 1)}
+    bigrams_b = {b[i : i + 2] for i in range(len(b) - 1)}
+    if not bigrams_a or not bigrams_b:
+        return 0.0
+    return 2 * len(bigrams_a & bigrams_b) / (len(bigrams_a) + len(bigrams_b))
 
 
 class MemoryStore:
@@ -248,14 +275,33 @@ class MemoryStore:
         source_request_id: str = "",
     ) -> int:
         """Persist a memory candidate. Pending facts are never injected into
-        the prompt; only confirmed ones participate in recall."""
+        the prompt untagged; only confirmed ones participate in recall
+        verbatim. A newly confirmed fact supersedes an older confirmed fact
+        of the same scope when the two are lexically near-duplicates (the
+        T2+ exam contradiction case: "最喜欢的歌手是A" then "...是B")."""
         cursor = self.connection.execute(
             "INSERT INTO facts (session_id, scope, content, status, source_request_id)"
             " VALUES (?, ?, ?, ?, ?)",
             (session_id, scope, content, status, source_request_id),
         )
+        fact_id = int(cursor.lastrowid)
+        if status == "confirmed":
+            same_scope = (
+                "scope = 'global'" if scope == "global" else "scope = 'session' AND session_id = ?",
+                (session_id,) if scope != "global" else (),
+            )
+            rows = self.connection.execute(
+                f"SELECT fact_id, content FROM facts WHERE fact_id != ? AND status = 'confirmed' AND {same_scope[0]}",
+                (fact_id, *same_scope[1]),
+            ).fetchall()
+            for row in rows:
+                if _fact_similarity(content, str(row["content"])) >= FACT_SUPERSEDE_SIMILARITY:
+                    self.connection.execute(
+                        "UPDATE facts SET status = 'superseded' WHERE fact_id = ?",
+                        (row["fact_id"],),
+                    )
         self.connection.commit()
-        return int(cursor.lastrowid)
+        return fact_id
 
     def set_fact_status(self, fact_id: int, status: str) -> bool:
         cursor = self.connection.execute(
@@ -266,15 +312,23 @@ class MemoryStore:
         return cursor.rowcount > 0
 
     def recall_facts(self, session_id: int | None = None) -> list[str]:
-        """Confirmed facts visible to a session: global confirmed facts plus
-        the session's own confirmed facts, newest first."""
+        """Facts visible to a session: confirmed facts verbatim plus the
+        session's own pending facts tagged （待确认） (T2+ exam fix: life-event
+        facts must stay reachable before the review UI exists). Superseded
+        facts are never returned."""
         rows = self.connection.execute(
-            "SELECT content FROM facts WHERE status = 'confirmed'"
+            "SELECT content, status FROM facts"
+            " WHERE status IN ('confirmed', 'pending')"
             " AND (scope = 'global' OR session_id = ?)"
-            " ORDER BY fact_id DESC",
+            " ORDER BY CASE status WHEN 'confirmed' THEN 0 ELSE 1 END, fact_id DESC",
             (session_id,),
         ).fetchall()
-        return [str(row["content"]) for row in rows]
+        return [
+            str(row["content"]) if row["status"] == "confirmed"
+            else f"{row['content']}（待确认）"
+            for row in rows
+            if row["status"] == "confirmed" or _pending_recallable(str(row["content"]))
+        ]
 
     def pending_facts(self) -> list[dict[str, Any]]:
         rows = self.connection.execute(

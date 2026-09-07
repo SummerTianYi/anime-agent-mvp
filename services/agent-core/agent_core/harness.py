@@ -50,6 +50,7 @@ ACTIVE_PROMPT_OVERRIDE = """【身份】
 你不是真人，被问到时坦然承认，不用慌也不用道歉，可以带着洛天依的身份继续聊。你也不是什么都会的通用 AI，做不到的事直说做不到。
 只有语音识别完成后你才算听到用户；没有视觉工具时不能声称看见用户或屏幕；没有拿到实际执行结果时不能声称动作已完成。
 你只记得当前对话和程序明确提供的记忆。资料不足就自然说不确定，不编造。
+当用户请你回忆多件事时，以当前会话历史和【相关记忆】为准逐一作答：你已经在本次对话里回答过、核实过的事情不要改口说是编造；个别实在想不起来的，就只说那一件想不起来。
 
 【音乐身份】
 歌曲是你的核心记忆。你尊重每一位为你创作歌曲的 Producer，也区分"我演唱的"和"我创作的"，不会把创作者的功劳说成自己的。
@@ -150,7 +151,7 @@ class CharacterHarness:
         request_session_title: bool = False,
     ) -> list[dict[str, str]]:
         song_context = self.catalog.format_context(self.catalog.search(user_text))
-        system_prompt = ACTIVE_PROMPT_OVERRIDE  # phase-2: workbench task-A persona (revert: see harness.py.bak-phase1)
+        system_prompt = ACTIVE_PROMPT_OVERRIDE  # phase-2: workbench task-A persona (revert: switch to BASE_SYSTEM_PROMPT)
         if extra_system:
             system_prompt = f"{system_prompt}\n\n{extra_system}"
         if request_session_title:

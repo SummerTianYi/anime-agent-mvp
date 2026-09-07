@@ -194,3 +194,50 @@ class SessionRenameTests(StorageTestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# zcode (2026-09-07): T2+ exam findings — facts need supersession on
+# contradiction, and pending facts must stay visible (tagged) to recall.
+class FactSupersessionTests(StorageTestCase):
+    def test_confirmed_contradiction_supersedes_old(self) -> None:
+        store = self.make_store()
+        first = store.add_fact("用户最喜欢的歌手是林俊杰", scope="global", status="confirmed")
+        second = store.add_fact("用户最喜欢的歌手是邓紫棋", scope="global", status="confirmed")
+        rows = {r["fact_id"]: r["status"] for r in store.connection.execute("SELECT fact_id, status FROM facts")}
+        self.assertEqual(rows[first], "superseded")
+        self.assertEqual(rows[second], "confirmed")
+        self.assertEqual(store.recall_facts(), ["用户最喜欢的歌手是邓紫棋"])
+
+    def test_unrelated_confirmed_facts_coexist(self) -> None:
+        store = self.make_store()
+        store.add_fact("用户最喜欢的歌手是林俊杰", scope="global", status="confirmed")
+        store.add_fact("用户养了一只猫叫团子", scope="global", status="confirmed")
+        self.assertEqual(len(store.recall_facts()), 2)
+
+    def test_session_facts_do_not_conflict_with_global(self) -> None:
+        store = self.make_store()
+        store.add_fact("用户最喜欢的水果是西瓜", scope="global", status="confirmed")
+        store.add_fact("用户最喜欢的水果是榴莲", scope="session", session_id=3, status="confirmed")
+        rows = {r["fact_id"]: r["status"] for r in store.connection.execute("SELECT fact_id, status FROM facts")}
+        self.assertEqual(sorted(rows.values()), ["confirmed", "confirmed"])  # different scopes never supersede
+        self.assertEqual(store.recall_facts(), ["用户最喜欢的水果是西瓜"])  # global view: global only
+        self.assertEqual(
+            store.recall_facts(3),
+            ["用户最喜欢的水果是榴莲", "用户最喜欢的水果是西瓜"],  # session view: own first (newer), then global
+        )
+
+    def test_pending_facts_recalled_with_tag(self) -> None:
+        store = self.make_store()
+        store.add_fact("用户最喜欢的歌手是林俊杰", scope="global", status="confirmed")
+        store.add_fact("用户下个月要考驾照", scope="session", session_id=7, status="pending")
+        recalled = store.recall_facts(7)
+        self.assertEqual(recalled[0], "用户最喜欢的歌手是林俊杰")
+        self.assertEqual(recalled[1], "用户下个月要考驾照（待确认）")
+
+    def test_sensitive_pending_fact_stays_hidden(self) -> None:
+        store = self.make_store()
+        store.add_fact("用户的银行卡尾号是1234", scope="session", session_id=9, status="pending")
+        store.add_fact("用户的登录密码是abc123456", scope="session", session_id=9, status="pending")
+        store.add_fact("用户下个月要考驾照", scope="session", session_id=9, status="pending")
+        recalled = store.recall_facts(9)
+        self.assertEqual(recalled, ["用户下个月要考驾照（待确认）"])
