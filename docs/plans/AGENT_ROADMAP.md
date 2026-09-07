@@ -2,7 +2,7 @@
 
 声明：本方案由 Claude（Claude Code / Fable 5）起草于 2026-08-31，归入 `docs/plans/` 目录；同目录 [MODEL_OPTIMIZATION.md](MODEL_OPTIMIZATION.md) 是 Codex 负责的建模优化方向，[LONG_TERM.md](LONG_TERM.md) 是后续建立的跨仓长期方案看板。
 
-**执行状态（2026-09-07，zcode 回写）：本蓝图已基本执行完毕**——A/B/E/C 期完成，D 期过半，键鼠按设计缓行。逐期凭证与"蓝图期号 ↔ workbench 任务包 ↔ 考试编号"对照见 [`HANDOFF.md`](../HANDOFF.md) §4；全期考核复盘见 [`../TEST_REPORT_2026-09-06.md`](../TEST_REPORT_2026-09-06.md)。本文保留原始蓝图、约束与验收口径。
+**执行状态（2026-09-07，zcode 回写）：本蓝图已基本执行完毕**——A/B/E/C 期完成，D 期收官（视觉+启动问候上线，Idle 触发除外），键鼠按设计缓行。逐期凭证与"蓝图期号 ↔ workbench 任务包 ↔ 考试编号"对照见 [`HANDOFF.md`](../HANDOFF.md) §4；全期考核复盘见 [`../TEST_REPORT_2026-09-06.md`](../TEST_REPORT_2026-09-06.md)。本文保留原始蓝图、约束与验收口径。
 
 ## 约束与基线
 
@@ -32,7 +32,7 @@
 | P1 | 写入型工具（B 期·双手） | write_file、open_app、run_command（约束与配额）、键鼠控制（确认后单步执行） | 真正接管电脑 | 权限层未验收不合入；键鼠默认 ask | ⚠️ write_file（T1 放权）/run_command（T3）已上线；open_app 未做；键鼠缓行 |
 | P1 | MCP 宿主（C 期·生态） | Core 以 stdio 拉起并管理 MCP server，list_tools 合并进统一注册表 | 社区工具即插即用 | 先接 filesystem 一个 server 验证；进程生命周期与工具名冲突策略另定 | ✅ zcode：stdio 宿主 + schema 合并 + 确认分流（随仓测试 server 验证）；真实第三方 server 待接（KI-018） |
 | P1 | TTS 工作解说（E 期·声线） | 与 GPT-SoVITS 声线项目会合，中间步骤语音播报 | 灵魂层：干活时开口说话 | 依赖声线素材到位；打断策略单独验收 | ✅ Claude sidecar 链路 + zcode 每工具类型播报；声线资产归 anime-agent-tts 仓 |
-| P2 | 屏幕视觉（D 期·感官） | 截图送多模态 Provider 或本地 VLM（8GB VRAM 约束内选型） | 看得见屏幕才能操作 GUI | 本地 VLM 选型另行验证；多模态调用计费另计 | ⚠️ look_at_screen 管道就绪（D2 考试，未配置时优雅降级）；视觉模型未配置（KI-015） |
+| P2 | 屏幕视觉（D 期·感官） | 截图送多模态 Provider 或本地 VLM（8GB VRAM 约束内选型） | 看得见屏幕才能操作 GUI | 本地 VLM 选型另行验证；多模态调用计费另计 | ✅ 2026-09-07 上线：GLM-5.3-Flash 原生多模态（coding 端点实测收图），隐私 ask 档全链路真机通过；本地 VLM 仅作隐私/断网备胎（LONG_TERM） |
 | P2 | 主动触发（D 期） | 启动/空闲触发 + IGNORE + 免打扰时段（承接 HANDOFF 既有条目） | 有"活着"的感觉 | 去抖与静音时段生效，防骚扰 | ⚠️ 启动问候已上线（免打扰+冷却，D1 考试）；Idle 触发未做（KI-003） |
 
 ## 明确不采用

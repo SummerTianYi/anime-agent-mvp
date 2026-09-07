@@ -4,10 +4,13 @@ import asyncio
 import os
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
+from agent_core import tools as tools_mod
 from agent_core.tools import (
+    Tool,
     active_window,
     build_tool_registry,
     clipboard_read,
@@ -174,3 +177,40 @@ class ExecuteToolTests(unittest.IsolatedAsyncioTestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# zcode (2026-09-07): per-tool execution timeout — vision tools need more than
+# the 15s default; the live T-chain showed look_at_screen dying at exactly 15s
+# inside execute_tool while its own HTTP budget is 60s.
+class PerToolTimeout(unittest.TestCase):
+    def _tool(self, name, func, timeout=None):
+        kwargs = {"name": name, "description": "d", "parameters": {"type": "object", "properties": {}}, "func": func}
+        if timeout is not None:
+            kwargs["timeout"] = timeout
+        return Tool(**kwargs)
+
+    def test_look_at_screen_registered_with_extended_timeout(self):
+        registry = build_tool_registry()
+        self.assertGreaterEqual(registry["look_at_screen"].timeout, 60.0)
+        self.assertEqual(registry["get_time"].timeout, tools_mod.TOOL_TIMEOUT_SECONDS)
+
+    def test_execute_tool_respects_per_tool_timeout(self):
+        def slow(**_):
+            time.sleep(0.6)
+            return {"ok": True}
+
+        def quick(**_):
+            return {"ok": True}
+
+        registry = {
+            "slow_small": self._tool("slow_small", slow, timeout=0.1),
+            "slow_big": self._tool("slow_big", slow, timeout=5.0),
+            "quick_default": self._tool("quick_default", quick),
+        }
+        failed = asyncio.run(execute_tool(registry, "slow_small", {}))
+        self.assertFalse(failed["ok"])
+        self.assertIn("超时", failed["error"])
+        passed = asyncio.run(execute_tool(registry, "slow_big", {}))
+        self.assertTrue(passed["ok"])
+        passed_default = asyncio.run(execute_tool(registry, "quick_default", {}))
+        self.assertTrue(passed_default["ok"])

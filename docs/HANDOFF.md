@@ -2,7 +2,7 @@
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-07（zcode）；Python 单测 154 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
+> 最后核验：2026-09-07（zcode）；Python 单测 156 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
 
 ## 0. 最终目标（北极星）
 
@@ -34,7 +34,7 @@
 |---|---|---|---|---|
 | Codex | 2026-08-28 起 | 模型与演出层 | 建仓、产品定义、Godot 运行时/透明画布、官模资产管线、模型版本 1.0→1.2、CI、裙摆物理撤回移交 | `b8ccaa6`→`d09646e`；[plans/MODEL_OPTIMIZATION.md](plans/MODEL_OPTIMIZATION.md) |
 | Claude | 2026-08-31 起 | 交互层与蓝图 | 多会话、底部聊天 UI、唤醒词、倾听动作、会话删除/标题、A 期只读工具循环、E 期 TTS 客户端、起草 AGENT_ROADMAP | `4179b23`→`ff054df`；[plans/AGENT_ROADMAP.md](plans/AGENT_ROADMAP.md) |
-| zcode | 2026-09-05 起 | agent 能力层 | 人设新剧本、权限引擎、记忆落库检索、write_file(T1)、T2 真实放权、run_command(T3)、每工具解说、MCP 宿主、主动问候+视觉管道、考试系统 T0-T3 | `3abcc2e`→`edfc0f1`；[TEST_REPORT_2026-09-06.md](TEST_REPORT_2026-09-06.md) |
+| zcode | 2026-09-05 起 | agent 能力层 | 人设新剧本、权限引擎、记忆落库检索、write_file(T1)、T2 真实放权、run_command(T3)、每工具解说、MCP 宿主、主动问候、屏幕视觉上线（GLM 原生多模态）、考试系统 T0-T3 | `3abcc2e`→`edfc0f1`；[TEST_REPORT_2026-09-06.md](TEST_REPORT_2026-09-06.md)；交接整理 `5324a6a`→本提交 |
 | 所有者本人 | 全程 | 声线训练与验收 | GPT-SoVITS 声线（anime-agent-tts 私仓）、模型视觉验收、逐期授权 | tianyi-tts 工作区 |
 
 三次交接：① Codex 建基础 → Claude 接交互层（2026-08-31）；② Claude 蓝图 B/C/D 期规划完毕未执行，经所有者授权整体移交 zcode 执行（2026-09-05；harness 人设训练部分先拆至 anime-agent-workbench 沙箱训练再并回）；③ zcode 交接整理 + 白纸测试门禁建立（2026-09-07，本次）。归属细则见 [CONTRIBUTIONS.md](CONTRIBUTIONS.md)。
@@ -57,11 +57,11 @@
 | 工作解说 | 首步播报（Claude）+ 每新工具类型播报一次（zcode） | E 考试 |
 | MCP 宿主 | stdio JSON-RPC 2.0 + schema 合并 + 确认分流 | zcode C 考试（随仓交付最小测试 server） |
 | 主动问候 | 免打扰时段 + 冷却期 | zcode D1 考试 |
+| 屏幕视觉 look_at_screen | GLM-5.3-Flash 原生多模态（coding 端点实测收图）；ask 隐私确认档全链路真机通过 | zcode D2 考试（降级路径）+ 2026-09-07 真机上线（会话 50） |
 | 记忆 facts + 词法检索 | 分级落库（偏好自动确认）+ 中文词法注入上下文 | zcode，golden 查准/查全 1.0 |
 
 ### ⚠️ 半成品
 
-- `look_at_screen`：管道就绪，视觉模型未配置 → 优雅降级为已知边界（D2 考试通过的就是降级路径）。
 - 记忆 pending 审阅：偏好类自动确认，其余 pending 落库但无审阅/编辑 UI。
 
 ### ❌ 未开工（新领地从这里挑）
@@ -88,7 +88,7 @@ Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek �
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 154 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 156 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -180,7 +180,7 @@ Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek �
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `scripts/start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health` | `status=ok` 与预期 Provider |
-| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 154 项全绿 |
+| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 156 项全绿 |
 
 ## 10. 灾备与回滚
 

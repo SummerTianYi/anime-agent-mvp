@@ -32,7 +32,7 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 
 `ok=false` 表示工具执行失败，失败结果同样已回填给模型。Godot 将该事件显示在聊天状态行（“已使用工具：…”）。`ANIME_AGENT_TOOLS=0` 可整体停用；端点拒绝 tools 参数（HTTP 400/404/422）时 Core 自动降级为无工具直答并记录 `agent.tools.unsupported` 事件。
 
-工具集：只读六件套 `get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`（路径类受 `ANIME_AGENT_TOOLS_ROOTS`（os.pathsep 分隔，`*` 解除限制）白名单约束），加写入/命令/隐私三件 `write_file`、`run_command`、`look_at_screen`（见下节权限确认），以及 MCP 合并工具 `mcp__<server>__<tool>`。循环步数上限 5，单工具超时 15 秒（命令 30 秒）。
+工具集：只读六件套 `get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`（路径类受 `ANIME_AGENT_TOOLS_ROOTS`（os.pathsep 分隔，`*` 解除限制）白名单约束），加写入/命令/隐私三件 `write_file`、`run_command`、`look_at_screen`（见下节权限确认），以及 MCP 合并工具 `mcp__<server>__<tool>`。循环步数上限 5，单工具超时 15 秒（命令 30 秒；look_at_screen 视觉往返 90 秒，2026-09-07 起 per-tool 超时）。
 
 ## 权限与确认（allow/ask/deny）
 

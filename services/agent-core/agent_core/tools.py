@@ -33,6 +33,7 @@ class Tool:
     description: str
     parameters: dict[str, Any]
     func: Callable[..., dict[str, Any]]
+    timeout: float = TOOL_TIMEOUT_SECONDS  # zcode: per-tool override for slow tools (vision)
 
 
 def _allowed_roots() -> list[Path]:
@@ -417,6 +418,7 @@ REGISTRY: tuple[Tool, ...] = (
             "required": [],
         },
         func=look_at_screen,
+        timeout=90.0,  # zcode: vision round-trip exceeds the 15s default (live-verified)
     ),
     Tool(
         name="run_command",
@@ -484,7 +486,7 @@ async def execute_tool(registry: dict[str, Tool], name: str, arguments: Any) -> 
         return {"ok": False, "error": f"缺少参数：{'、'.join(missing)}"}
     try:
         return await asyncio.wait_for(
-            asyncio.to_thread(tool.func, **arguments), TOOL_TIMEOUT_SECONDS
+            asyncio.to_thread(tool.func, **arguments), tool.timeout
         )
     except asyncio.TimeoutError:
         return {"ok": False, "error": f"工具 {tool.name} 执行超时"}
