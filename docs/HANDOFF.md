@@ -142,9 +142,11 @@ Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未�
 | [AVATAR_BRIDGE.md](AVATAR_BRIDGE.md) | WebSocket 协议契约 |
 | [EXAM_LEDGER.md](EXAM_LEDGER.md) | 考试错题本 + 考题库 |
 | [TEST_REPORT_2026-09-06.md](TEST_REPORT_2026-09-06.md) | agent 化全期测试复盘（归档） |
+| [AGENT_REPORT_2026-09-07.md](AGENT_REPORT_2026-09-07.md) | 能力/训练全景快照（2026-09-07 时点，新 agent 必读第二份） |
 | [plans/AGENT_ROADMAP.md](plans/AGENT_ROADMAP.md) | agent 化蓝图（已加状态列） |
 | [plans/MODEL_OPTIMIZATION.md](plans/MODEL_OPTIMIZATION.md) | 官模非破坏优化路线（Codex） |
 | [plans/LONG_TERM.md](plans/LONG_TERM.md) | 跨仓长期方案（语音/动作/基模等） |
+| [plans/UI_UPGRADE.md](plans/UI_UPGRADE.md) | 前端 UI 升级方案（下一主战场，方案阶段） |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | 架构与契约 |
 | [LOCAL_DEV.md](LOCAL_DEV.md) / [LOCAL_MACHINE.md](LOCAL_MACHINE.md) | 环境搭建 / 本机资产与工作区定位 |
 | [KNOWN_ISSUES.md](KNOWN_ISSUES.md) | 未决问题台账 |

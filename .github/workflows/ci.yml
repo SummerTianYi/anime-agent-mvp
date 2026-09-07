@@ -24,6 +24,18 @@ jobs:
         working-directory: services/agent-core
         run: python -m unittest discover -s tests -v
 
+  docs-guard:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Core (test extra for unittest discovery)
+        run: python -m pip install -e "services/agent-core[test]"
+      - name: Documentation consistency guard
+        run: python scripts/check_docs_consistency.py
+
   desktop:
     runs-on: windows-latest
     steps:
