@@ -46,7 +46,7 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 
 ## 主动问候（D 期·部分）
 
-Avatar 连接（`client.hello` role=avatar）后 Core 可发起一次启动问候，复用 `chat.response` / `avatar.speak` 既有链路播报；受 `ANIME_AGENT_QUIET_START` / `ANIME_AGENT_QUIET_END` 免打扰时段与 `ANIME_AGENT_PROACTIVE_COOLDOWN` 冷却约束，问候决策记录在 events 表。Idle 触发已上线（2026-09-07）：`ANIME_AGENT_IDLE_THRESHOLD` 系统空闲秒数（默认 2700，0 关闭）触发本地台词库播报，`ANIME_AGENT_IDLE_COOLDOWN` 冷却；全程零 GLM 调用，决策落 `proactive.idle` / `proactive.skipped` 事件。
+Avatar 连接（`client.hello` role=avatar）后 Core 可发起一次启动问候，复用 `chat.response` / `avatar.speak` 既有链路播报；受 `ANIME_AGENT_QUIET_START` / `ANIME_AGENT_QUIET_END` 免打扰时段与 `ANIME_AGENT_PROACTIVE_COOLDOWN` 冷却约束，问候决策记录在 events 表。Idle 触发已上线（2026-09-07）：`ANIME_AGENT_IDLE_THRESHOLD` 系统空闲秒数（默认 1200，0 关闭）触发本地台词库播报，`ANIME_AGENT_IDLE_COOLDOWN` 冷却；全程零 GLM 调用，决策落 `proactive.idle` / `proactive.skipped` 事件。
 
 ## 角色点击与菜单
 
