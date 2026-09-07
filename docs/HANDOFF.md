@@ -2,7 +2,7 @@
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-07（zcode）；Python 单测 164 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
+> 最后核验：2026-09-07（zcode）；Python 单测 176 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
 
 ## 0. 最终目标（北极星）
 
@@ -14,7 +14,7 @@
 |---|---|---|
 | M1 会说话的桌面角色 | 3D 形象、聊天、语音、动作表情 | ✅ |
 | M2 有手有眼的 agent | 工具循环、权限层、写入、命令、MCP、视觉、解说 | ✅ 大半（D 期收尾中） |
-| M3 常驻的生命感 | 开机自启+守护、Idle 触发、长期记忆完善 | ← **当前主战场** |
+| M3 常驻的生命感 | 开机自启+守护、Idle 触发✅、长期记忆完善 | ← 当前主战场（仅剩自启/守护 + 记忆审阅 UI） |
 | M4 持续进化 | 声线迭代、动作模组、基模训练 | ⚪ 长期，见 [docs/plans/LONG_TERM.md](plans/LONG_TERM.md) |
 
 ## 1. 当值分派（所有者交接时填写）
@@ -46,7 +46,7 @@
 | 能力 | 组成 | 凭证 |
 |---|---|---|
 | 聊天 / 多会话 / 删除与标题 | Godot 聊天浮层 + sessions 表 + 标题生成 | Claude，单测+真机 |
-| 唤醒词 / STT 管线 | sherpa-onnx KWS + faster-whisper 两阶段确认 | Claude；Realtek 假死自愈仍待加固 |
+| 唤醒词 / STT 管线 | sherpa-onnx KWS + faster-whisper 两阶段确认；Realtek 假死自愈（数字零检测 + 一次自动设备重置 + 可行动报错） | Claude 管线；zcode 自愈 2026-09-07 |
 | TTS 语音输出 | GPT-SoVITS sidecar 客户端、分片合成、三路打断 | Claude E 期 |
 | 只读工具六件套 | get_time/read_file/list_dir/screenshot/active_window/clipboard_read | Claude A 期；zcode T0 考试 6/6 |
 | 人设新剧本 | ACTIVE_PROMPT_OVERRIDE（旧 BASE 保留可回退） | zcode；workbench 全量 DoD + 真机 A/B |
@@ -57,6 +57,7 @@
 | 工作解说 | 首步播报（Claude）+ 每新工具类型播报一次（zcode） | E 考试 |
 | MCP 宿主 | stdio JSON-RPC 2.0 + schema 合并 + 确认分流 | zcode C 考试（随仓交付最小测试 server） |
 | 主动问候 | 免打扰时段 + 冷却期 | zcode D1 考试 |
+| Idle 触发 | GetLastInputInfo 本地轮询 + 台词模板库（待机零 GLM 调用） | zcode，IdlePolicy 离线单测 + 真机观测 |
 | 屏幕视觉 look_at_screen | GLM-5.3-Flash 原生多模态（coding 端点实测收图）；ask 隐私确认档全链路真机通过 | zcode D2 考试（降级路径）+ 2026-09-07 真机上线（会话 50） |
 | 记忆 facts + 词法检索 | 分级落库（偏好自动确认 + 显式"记住"强制确认）+ 中文词法注入 + 矛盾自动取代（superseded 不再注入）+ pending 非敏感带标签注入 | zcode，golden 查准/查全 1.0；T2+ 复测库证 |
 
@@ -66,7 +67,7 @@
 
 ### ❌ 未开工（新领地从这里挑）
 
-Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek 假死自愈；open_app（B 期蓝图项未做）；键鼠控制（最高危，蓝图明确缓行，需新设考试）；真实第三方 MCP server 接入；T2+ 进阶考试（矛盾记忆更新、长对话压测）；Spark Adapter。
+Windows 开机自启+进程守护；open_app（B 期蓝图项未做）；键鼠控制（最高危，蓝图明确缓行，需新设考试）；真实第三方 MCP server 接入（等所有者选型）；Spark Adapter；T2+ 已完成（2026-09-07 三修落库）。
 
 ## 4. 编号对照表（三套体系别搞混）
 
@@ -88,7 +89,7 @@ Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek �
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 164 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 176 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -180,7 +181,7 @@ Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek �
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `scripts/start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health` | `status=ok` 与预期 Provider |
-| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 164 项全绿 |
+| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 176 项全绿 |
 
 ## 10. 灾备与回滚
 

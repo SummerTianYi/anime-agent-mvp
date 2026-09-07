@@ -6,9 +6,8 @@
 
 | ID | Severity | Current behavior | Required outcome |
 |---|---|---|---|
-| KI-001 | P0 | STT sometimes reports no valid audio or no clear speech | Add device diagnostics, minimum duration/level feedback and repeatable Mandarin acceptance tests |
+| KI-001 | P1 | STT wedge self-heal shipped 2026-09-07 (digital-zero detection, one automatic device reopen, actionable error, per-recording level logging); the Realtek wedge's real-world recurrence still needs one confirmed natural occurrence to prove the recovery path end to end | Repeatable Mandarin acceptance + one real wedge survived by the self-heal |
 | KI-002 | P0 | One-click startup is a developer launcher, not Windows login autostart | Add install/uninstall commands, duplicate prevention, log paths and restart-safe supervision |
-| KI-003 | P0 | Idle trigger and a general Windows event source are absent (startup greeting already shipped with quiet hours + cooldown) | Idle events reach Core, may yield a useful action or explicit `IGNORE`, obeying debounce/quiet hours |
 | KI-004 | P0 | Motion registry, semantic upper/lower masks and authored idle/pirouette are verified, but thinking/speaking/greeting remain procedural and transitions use simple cross-fades | Complete the small character motion set, then evaluate AnimationTree/state blending and test front/back views, foot contact and hair/body clipping per clip |
 | KI-005 | P1 | Both long pigtail chains are fully skinned and classified as upper body, with subtle procedural secondary sway but no collision-aware spring physics | Tune spring-bone/collision behavior after thinking/speaking clips; preserve `MaWei_R_0_1`/`MaWei_L_0_1` and the full 17-bone chains, without changing rear hair |
 | KI-007 | P1 | Core returns complete responses only | Add streaming/cancellation only if it measurably improves the character experience |
@@ -28,6 +27,7 @@
 | KI-006（2026-09-06） | `memory_candidate` 仅存为挂起事件 | facts 表迁移 + 分级落库（偏好自动确认）+ `memory_retrieval` 词法注入；剩余审阅 UI 拆为 KI-016 |
 | KI-011（2026-09-01/06） | TTS 缺失 | Claude E 期 sidecar 客户端 + 真实声线上线；工作解说由 zcode 扩展为每工具类型播报 |
 | KI-012（2026-09-06） | 权限层/工具为占位符 | allow/ask/deny 引擎 + write_file/run_command/look_at_screen + MCP 宿主（T0-T3/C/D 考试凭证）；剩余仅 Spark Adapter |
+| KI-003（2026-09-07） | Idle 触发缺失 | GetLastInputInfo 本地轮询（30s）+ IdlePolicy（阈值/免打扰/冷却，纯逻辑离线测试）+ 本地台词库；全程零 GLM 调用（待机零额度门禁） |
 | KI-015（2026-09-07） | 视觉模型未配置 | GLM-5.3-Flash 原生多模态，coding 端点实测收图；`.env` 仅需 `ANIME_AGENT_VISION_MODEL`；隐私 ask 档全链路真机通过（附带修复确认流 15s 超时 bug） |
 
 Resolved pitfalls that should remain regression-tested include the Godot input focus guard, localhost proxy bypass in health/bridge checks, GLM Coding endpoint selection, provider-aware startup validation, static song data tracking, configurable Core WebSocket URL, foot-ground correction during BVH retarget, and animation-only rebinding that preserves the accepted Godot materials. Skirt contact is explicitly not resolved.

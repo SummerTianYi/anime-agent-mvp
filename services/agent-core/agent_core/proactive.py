@@ -45,3 +45,39 @@ class ProactivePolicy:
 
     def mark_spoken(self, monotonic: float | None = None) -> None:
         self._last_spoken = monotonic if monotonic is not None else time.time()
+
+
+@dataclass
+class IdlePolicy:
+    """Idle-trigger gate (D 期收尾): speak only after real user inactivity,
+    never during quiet hours, never twice within the cooldown. Pure local
+    logic — no provider involvement (zero-quota guarantee)."""
+
+    threshold_seconds: float = 2700.0
+    quiet_start: str = "23:00"
+    quiet_end: str = "08:00"
+    cooldown_seconds: float = 3600.0
+    _last_spoken: float = field(default=0.0)
+
+    def decide(
+        self,
+        idle_seconds: float,
+        now: time.struct_time | None = None,
+        monotonic: float | None = None,
+    ) -> tuple[bool, str]:
+        if idle_seconds < self.threshold_seconds:
+            return False, "not-idle"
+        if self.in_quiet_hours(now):
+            return False, "quiet-hours"
+        if self.on_cooldown(time.time() if monotonic is None else monotonic):
+            return False, "cooldown"
+        return True, ""
+
+    def in_quiet_hours(self, now: time.struct_time | None = None) -> bool:
+        return ProactivePolicy(quiet_start=self.quiet_start, quiet_end=self.quiet_end).in_quiet_hours(now)
+
+    def on_cooldown(self, monotonic: float | None = None) -> bool:
+        return (time.time() if monotonic is None else monotonic) - self._last_spoken < self.cooldown_seconds
+
+    def mark_spoken(self, monotonic: float | None = None) -> None:
+        self._last_spoken = monotonic if monotonic is not None else time.time()

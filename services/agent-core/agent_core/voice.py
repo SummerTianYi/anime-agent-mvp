@@ -1,12 +1,31 @@
 from __future__ import annotations
 
 import io
+import logging
 import os
 import threading
 import time
 import wave
 from pathlib import Path
 from typing import Any, Callable
+
+logger = logging.getLogger(__name__)
+if not logger.handlers:  # per-recording level lines must reach core.stderr.log
+    _handler = logging.StreamHandler()
+    _handler.setFormatter(logging.Formatter("%(asctime)s %(name)s %(message)s"))
+    logger.addHandler(_handler)
+    logger.setLevel(logging.INFO)
+
+# zcode (2026-09-07, KI-001): the Realtek array on this machine wedges by
+# delivering exact digital zeros (see docs/HANDOFF.md known traps). A live
+# microphone always has a nonzero noise floor, so "peak below a couple of
+# LSBs across the whole recording" is a reliable wedge signature — it also
+# never fires for a user who simply stayed quiet.
+_WEDGE_LSB_THRESHOLD = 4.0
+
+
+def _is_driver_wedge(peak_amplitude: float) -> bool:
+    return abs(peak_amplitude) * 32767.0 < _WEDGE_LSB_THRESHOLD
 
 
 class VoiceError(RuntimeError):
@@ -68,6 +87,18 @@ class VoiceRecorder:
             raise VoiceError("没有录到有效声音")
 
         audio = self._numpy.concatenate(samples, axis=0).reshape(-1)
+        peak = float(self._numpy.max(self._numpy.abs(audio))) if audio.size else 0.0
+        duration = len(audio) / float(self.sample_rate)
+        logger.info("mic recording level: peak=%.6f (%.1fs)", peak, duration)
+        if _is_driver_wedge(peak):
+            reopened = self._attempt_device_reset()
+            logger.warning("mic wedge suspected (peak=%.6f); device reopen=%s", peak, reopened)
+            hint = "" if reopened else "（本次自动重置未成功）"
+            raise VoiceError(
+                "麦克风全程只录到数字静音，像是驱动假死了" + hint +
+                "。我已经重置过麦克风，请再按住语音说一次；如果还是不行，"
+                "按一下 Fn 静音键或运行一次 Windows 麦克风测试就能唤醒它。"
+            )
         pcm = self._numpy.clip(audio, -1.0, 1.0)
         pcm = (pcm * 32767.0).astype(self._numpy.int16).tobytes()
         output = io.BytesIO()
@@ -77,6 +108,21 @@ class VoiceRecorder:
             wav_file.setframerate(self.sample_rate)
             wav_file.writeframes(pcm)
         return output.getvalue()
+
+    def _attempt_device_reset(self, sd_module: Any = None) -> bool:
+        """One automatic reopen of the default input device; best-effort."""
+        try:
+            if sd_module is None:
+                import sounddevice as sd_module  # noqa: PLC0415
+            probe = sd_module.InputStream(
+                samplerate=self.sample_rate, channels=1, dtype="float32"
+            )
+            probe.start()
+            probe.stop()
+            probe.close()
+            return True
+        except Exception:  # noqa: BLE001 - reset is best-effort by design
+            return False
 
     def cancel(self) -> None:
         stream = self._stream

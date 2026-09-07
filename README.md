@@ -14,12 +14,12 @@
 | 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
 | 表情与动作 | 已完成动作注册表与首个待机 | 48 个形变槽；12.47 秒单目动捕待机（idle_mocap_v1）自动循环，旋转样片可按 `P` 打断并在结束后自动回待机，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
 | 本地记忆 | 已完成 agent 化 | SQLite 按会话保存消息 + facts 事实表；`memory_candidate` 按敏感度分级落库，词法检索注入聊天上下文 |
-| 语音转文字 | 管线可用，驱动假死自愈待加固 | sounddevice + faster-whisper；已定位 Realtek 麦克风阵列驱动假死根因（设备持续输出静音数据，需外部事件复位），`voice.py` 自愈加固未做 |
+| 语音转文字 | 管线可用，假死自愈已上线 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
 | TTS 语音输出 | 已完成 | GPT-SoVITS sidecar（真实声线）、分片合成、三路打断、工作解说；sidecar 缺席时自动回退文字 |
 | Agent 能力层 | 已完成（考试授权制） | allow/ask/deny 权限引擎、只读工具六件套、write_file 原子写（T1 考试 3/3）、真实目录放权（T2 3/3）、run_command 白名单（T3）、MCP 宿主（C 考试）、每工具类型工作解说、主动问候（免打扰+冷却）；详见 [`docs/TEST_REPORT_2026-09-06.md`](docs/TEST_REPORT_2026-09-06.md) |
 | 一键启动 | 已完成开发机版本 | 根目录双击 `start-anime-agent.cmd`，Core 隐藏运行、Avatar 独立出现 |
 | Windows 登录自启、守护 | 未完成 | 尚未做安装器、登录任务和崩溃恢复（M3 主战场） |
-| Idle 触发、键鼠控制、Spark | 未完成 | Idle 属 D 期剩余；键鼠按蓝图缓行需先设考试；Spark 暂缓 |
+| Idle 触发 | 已完成 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |
 
 ## 零上下文接手
 

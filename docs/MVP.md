@@ -139,7 +139,7 @@ MVP 默认保守：
 | 0 — Skeleton | 已完成 |
 | 1 — Avatar Interaction & Chat | 基础闭环已完成；稳定 STT 待验收 |
 | 2 — Always On | 未完成，当前只有开发机一键启动 |
-| 3 — Proactive | 部分（启动问候已上线，含免打扰时段与冷却；Idle Trigger 未做） |
+| 3 — Proactive | 基本完成（启动问候 + Idle 触发均已上线；免打扰/冷却/IGNORE 齐备） |
 | 4 — Spark Spike | 暂缓，不阻塞本地闭环 |
 
 ### Milestone 0 — Skeleton

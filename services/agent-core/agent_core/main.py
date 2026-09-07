@@ -4,6 +4,8 @@ import asyncio
 import io
 import json
 import os
+import sys
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -35,7 +37,7 @@ from .harness import (
 from .mcp_host import McpHost
 from .memory_retrieval import retrieve_relevant
 from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision
-from .proactive import ProactivePolicy
+from .proactive import IdlePolicy, ProactivePolicy
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
 from .voice_text import normalize_voice_text
@@ -500,6 +502,81 @@ _STARTUP_GREETINGS = (
     "开机啦？我也准备好啦，今天也一起加油吧～",
 )
 _proactive_events: dict[str, float] = {}
+
+# zcode (D 期收尾, 2026-09-07): idle trigger — pure local idle detection
+# (GetLastInputInfo poll) + fixed line bank; zero LLM calls at any point,
+# so standby costs no quota (验收门禁：待机零 GLM 调用).
+idle_policy = IdlePolicy(
+    threshold_seconds=float(os.getenv("ANIME_AGENT_IDLE_THRESHOLD", "2700")),
+    quiet_start=os.getenv("ANIME_AGENT_QUIET_START", "23:00"),
+    quiet_end=os.getenv("ANIME_AGENT_QUIET_END", "08:00"),
+    cooldown_seconds=float(os.getenv("ANIME_AGENT_IDLE_COOLDOWN", "3600")),
+)
+_IDLE_LINES = (
+    "一直没看到你动呀，起来活动活动吧，眼睛也要歇一歇哦～",
+    "在忙吗？我不吵你，就是提醒一下该喝口水啦～",
+    "你安静了好一会儿，我还在桌面上等你呢，想聊天随时叫我～",
+)
+_IDLE_POLL_SECONDS = 30.0
+
+
+def _idle_seconds_now() -> float:
+    """System-wide seconds since last real keyboard/mouse input (Windows)."""
+    import ctypes
+
+    if not sys.platform.startswith("win"):
+        return 0.0
+
+    class _LastInputInfo(ctypes.Structure):
+        _fields_ = [("cbSize", ctypes.c_uint), ("dwTime", ctypes.c_uint)]
+
+    info = _LastInputInfo()
+    info.cbSize = ctypes.sizeof(info)
+    try:
+        if not ctypes.windll.user32.GetLastInputInfo(ctypes.byref(info)):
+            return 0.0
+        delta = (ctypes.windll.kernel32.GetTickCount() - info.dwTime) & 0xFFFFFFFF
+        return delta / 1000.0
+    except Exception:  # noqa: BLE001 - a poll must never take Core down
+        return 0.0
+
+
+async def _proactive_idle(idle_seconds: float) -> None:
+    allowed, reason = idle_policy.decide(idle_seconds=idle_seconds)
+    if not allowed:
+        memory.add_event("proactive.skipped", {"trigger": "idle", "reason": reason})
+        return
+    if hub.role_count("avatar") < 1:
+        memory.add_event("proactive.skipped", {"trigger": "idle", "reason": "no-avatar"})
+        return
+    idle_policy.mark_spoken()
+    line = _IDLE_LINES[int(time.time()) % len(_IDLE_LINES)]
+    memory.add_event("proactive.idle", {"idle_seconds": round(idle_seconds), "line": line})
+    try:
+        await _speak_reply(line, "proactive-idle", narrating=False)
+    except Exception as exc:  # noqa: BLE001
+        memory.add_event("proactive.error", {"message": str(exc)[:200]})
+
+
+def _idle_watch_loop(loop: asyncio.AbstractEventLoop) -> None:
+    while True:
+        time.sleep(_IDLE_POLL_SECONDS)
+        idle = _idle_seconds_now()
+        if idle < idle_policy.threshold_seconds:
+            continue
+        try:
+            asyncio.run_coroutine_threadsafe(_proactive_idle(idle), loop)
+        except RuntimeError:
+            return
+
+
+def _start_idle_watch() -> None:
+    if idle_policy.threshold_seconds <= 0:
+        memory.add_event("proactive.idle.disabled", {})
+        return
+    loop = asyncio.get_event_loop()
+    threading.Thread(target=_idle_watch_loop, args=(loop,), daemon=True, name="idle-watch").start()
+    memory.add_event("proactive.idle.enabled", {"threshold": idle_policy.threshold_seconds})
 
 
 class ConnectionHub:
@@ -1058,6 +1135,11 @@ async def _start_mcp_servers() -> None:
             memory.add_event("mcp.started", {"status": mcp_host.status()})
     except Exception as exc:  # noqa: BLE001
         memory.add_event("mcp.start.error", {"message": str(exc)[:200]})
+    # zcode (D 期收尾): idle watch — local poll only, never calls the provider
+    try:
+        _start_idle_watch()
+    except Exception as exc:  # noqa: BLE001
+        memory.add_event("proactive.idle.start.error", {"message": str(exc)[:200]})
 
 
 @app.on_event("shutdown")

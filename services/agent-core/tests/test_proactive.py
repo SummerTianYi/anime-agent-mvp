@@ -46,3 +46,39 @@ def day_time():
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# zcode (2026-09-07): idle trigger policy (D 期收尾) — pure local logic, no LLM.
+from agent_core.proactive import IdlePolicy  # noqa: E402
+
+
+class IdlePolicyTests(unittest.TestCase):
+    def test_not_idle_is_ignored_before_anything_else(self):
+        policy = IdlePolicy(threshold_seconds=600.0)
+        allowed, reason = policy.decide(idle_seconds=10.0, monotonic=0.0)
+        self.assertFalse(allowed)
+        self.assertEqual(reason, "not-idle")
+
+    def test_idle_but_quiet_hours_ignored(self):
+        policy = IdlePolicy(threshold_seconds=600.0, quiet_start="23:00", quiet_end="08:00")
+        allowed, reason = policy.decide(idle_seconds=3600.0, now=late_time(), monotonic=0.0)
+        self.assertFalse(allowed)
+        self.assertEqual(reason, "quiet-hours")
+
+    def test_idle_but_on_cooldown(self):
+        policy = IdlePolicy(threshold_seconds=600.0, cooldown_seconds=300.0)
+        policy.mark_spoken(monotonic=0.0)
+        allowed, reason = policy.decide(idle_seconds=3600.0, monotonic=100.0)
+        self.assertFalse(allowed)
+        self.assertEqual(reason, "cooldown")
+
+    def test_idle_allowed_when_all_gates_open(self):
+        policy = IdlePolicy(threshold_seconds=600.0, cooldown_seconds=300.0)
+        policy.mark_spoken(monotonic=0.0)
+        allowed, reason = policy.decide(idle_seconds=3600.0, monotonic=400.0)
+        self.assertTrue(allowed)
+        self.assertEqual(reason, "")
+
+
+def late_time():
+    return time.struct_time((2026, 9, 6, 23, 30, 0, 0, 0, 0))
