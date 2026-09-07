@@ -12,7 +12,7 @@
 | 文字聊天 | 已完成并真实验证 | 多会话；Godot → WebSocket → Core → GLM 5.3 Flash → Godot |
 | 角色 Harness | 已完成两轮 | 洛天依身份、自我认知、结构化回复、表情与动作映射；2026-09-05 注入训练版新剧本（旧剧本保留可回退） |
 | 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
-| 表情与动作 | 已完成动作注册表与首个待机 | 48 个形变槽；8.03 秒呼吸/视线待机自动循环，旋转样片可按 `P` 打断并在结束后自动回待机，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
+| 表情与动作 | 已完成动作注册表与首个待机 | 48 个形变槽；12.47 秒单目动捕待机（idle_mocap_v1）自动循环，旋转样片可按 `P` 打断并在结束后自动回待机，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
 | 本地记忆 | 已完成 agent 化 | SQLite 按会话保存消息 + facts 事实表；`memory_candidate` 按敏感度分级落库，词法检索注入聊天上下文 |
 | 语音转文字 | 管线可用，驱动假死自愈待加固 | sounddevice + faster-whisper；已定位 Realtek 麦克风阵列驱动假死根因（设备持续输出静音数据，需外部事件复位），`voice.py` 自愈加固未做 |
 | TTS 语音输出 | 已完成 | GPT-SoVITS sidecar（真实声线）、分片合成、三路打断、工作解说；sidecar 缺席时自动回退文字 |

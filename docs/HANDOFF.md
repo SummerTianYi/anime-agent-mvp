@@ -2,7 +2,7 @@
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-07（zcode）；基线提交 `edfc0f1`；Python 单测 154 项全绿。
+> 最后核验：2026-09-07（zcode）；Python 单测 154 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
 
 ## 0. 最终目标（北极星）
 
@@ -66,7 +66,7 @@
 
 ### ❌ 未开工（新领地从这里挑）
 
-Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek 假死自愈；键鼠控制（最高危，蓝图明确缓行，需新设考试）；真实第三方 MCP server 接入；T2+ 进阶考试（矛盾记忆更新、长对话压测）；Spark Adapter。
+Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek 假死自愈；open_app（B 期蓝图项未做）；键鼠控制（最高危，蓝图明确缓行，需新设考试）；真实第三方 MCP server 接入；T2+ 进阶考试（矛盾记忆更新、长对话压测）；Spark Adapter。
 
 ## 4. 编号对照表（三套体系别搞混）
 
@@ -177,7 +177,7 @@ Idle 触发（D 期剩余）；Windows 开机自启+进程守护；STT Realtek �
 | 1 | `git status --short --branch` | 了解本地归属；不丢别人未提交的工作 |
 | 2 | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-local-assets.ps1` | 打印当前资产路径、大小与 SHA-256 |
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
-| 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
+| 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `scripts/start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health` | `status=ok` 与预期 Provider |
 | 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 154 项全绿 |
 

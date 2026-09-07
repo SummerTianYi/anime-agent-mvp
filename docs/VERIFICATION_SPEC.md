@@ -9,7 +9,7 @@
    语音合成计数增量、会话列表显隐与排序、UI 展示字段。禁止只测"链路通没通"。
 2. **生产库零污染。** 对生产 Core 发测试消息必须：先 `session.new` 自建临时会话、
    显式传 `conversationId`、测完删会话并查库确认零痕迹。**禁止 `conversationId=None`**。
-3. **重启走标准序列。** 清场一个不少（见 3.1），启动只用 start-tianyi.bat 唯一入口。
+3. **重启走标准序列。** 清场一个不少（见 3.1），启动只用 scripts/start-tianyi.bat 唯一入口。
    禁止只杀不启、只起不查、跳过 watcher 清剿。
 4. **就绪三件套。** Core `/health` ok + sidecar `/health` ok:true + Core `tts.available:true`
    三者齐备才准开测。缺一开测 = 无效验证。
@@ -43,7 +43,7 @@
   2. 杀 8770 监听进程（sidecar）
   3. 按 Name like 'Godot%' 杀窗口
   4. 按 CommandLine 匹配 watch-tts-session 杀**所有代** watcher
-- **3.2 标准启动**：`start-tianyi.bat`（唯一入口，内部自带清 watcher + 防双启）。
+- **3.2 标准启动**：`scripts/start-tianyi.bat`（唯一入口，内部自带清 watcher + 防双启）。
 - **3.3 就绪三件套**（铁律 4）。
 - **3.4 临时会话全链路**：`session.new` 拿显式 id → 发中文消息 → 断言：
   - `chat.response` 的 `text` 是干净中文（无 JSON、无英文漂移、与显示一致）
