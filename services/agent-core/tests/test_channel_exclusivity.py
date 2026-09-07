@@ -190,7 +190,10 @@ class WakeSupersedeTests(unittest.TestCase):
 
 class CaptureCancelTests(unittest.TestCase):
     def test_cancel_utterance_capture_aborts_promptly(self) -> None:
-        import numpy as np
+        try:
+            import numpy as np  # noqa: F401 - CI installs the test extra only
+        except ImportError:
+            self.skipTest("numpy not installed")
 
         harness = {"reads": 0}
         token = ww.begin_capture_scope()

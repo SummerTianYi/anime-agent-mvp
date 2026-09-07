@@ -65,3 +65,4 @@ client_secret_*.json
 *-token.json
 token.json
 gcp-oauth.keys.json
+gmail_stderr.log
