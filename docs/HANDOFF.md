@@ -2,7 +2,7 @@
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-07（zcode）；Python 单测 181 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
+> 最后核验：2026-09-07（zcode）；Python 单测 191 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
 
 ## 0. 最终目标（北极星）
 
@@ -94,7 +94,7 @@ Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 181 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 191 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -189,7 +189,7 @@ Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `scripts/start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health` | `status=ok` 与预期 Provider |
-| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 181 项全绿 |
+| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 191 项全绿 |
 
 ## 10. 灾备与回滚
 
