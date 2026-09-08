@@ -94,6 +94,13 @@ class WakeWordListener:
     silence_reopen_seconds = 90.0
     device_silence_amplitude = 1e-5
     wake_cooldown_seconds = 3.0
+    # zcode (2026-09-09): Realtek "half-wedge" — the long-lived stream's gain
+    # degraded 30-100x (fresh stream on the same device measured 0.386 peak
+    # while the listener saw 0.005-0.013), slipping under the pure-silence
+    # watchdog. AGC normalizes whatever comes in, so gain drift can no longer
+    # kill the wake.
+    agc_target_rms = 0.05
+    agc_max_gain = 50.0
 
     def __init__(
         self,
@@ -117,10 +124,27 @@ class WakeWordListener:
         self._last_hit_monotonic = 0.0
         self._recent_chunks: deque[Any] = deque(maxlen=60)
         self._recent_peak = 0.0
+        self._agc_ema = 0.0
 
     @property
     def running(self) -> bool:
         return self._thread is not None and self._thread.is_alive()
+
+    def _apply_agc(self, chunk: Any) -> Any:
+        """Software AGC: normalize speech level so device gain drift (the
+        half-wedge) cannot starve the KWS. Never attenuates; digital zeros
+        stay zeros for the pure-silence watchdog."""
+        rms = float(self._numpy.sqrt(self._numpy.mean(chunk**2))) if chunk.size else 0.0
+        self._agc_ema = 0.9 * self._agc_ema + 0.1 * rms
+        gain = min(max(self.agc_target_rms / max(self._agc_ema, 1e-4), 1.0), self.agc_max_gain)
+        return (chunk * gain).clip(-1.0, 1.0)
+
+    @staticmethod
+    def _agc_math(chunk: Any, ema: float, target: float = 0.05, max_gain: float = 50.0) -> tuple[Any, float]:
+        rms = float(__import__("numpy").sqrt(__import__("numpy").mean(chunk**2))) if chunk.size else 0.0
+        ema = 0.9 * ema + 0.1 * rms
+        gain = min(max(target / max(ema, 1e-4), 1.0), max_gain)
+        return (chunk * gain).clip(-1.0, 1.0), ema
 
     @property
     def paused(self) -> bool:
@@ -176,6 +200,7 @@ class WakeWordListener:
                 time.sleep(0.5)
                 continue
             chunk = self._numpy.frombuffer(data, dtype=self._numpy.float32).reshape(-1)
+            chunk = self._apply_agc(chunk)
             self._recent_chunks.append(chunk.copy())
             peak = float(self._numpy.max(self._numpy.abs(chunk)))
             self._recent_peak = max(self._recent_peak * 0.95, peak)

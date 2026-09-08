@@ -118,8 +118,10 @@ func _verify_action(runtime: Node, action_case: Dictionary) -> Dictionary:
 	var union_rect := Rect2i()
 	var sample_failures: Array = []
 	var verify_deform_mirrors := false
+	var require_camera_readability := true
 	if animation != null:
 		var clip_data: Dictionary = runtime.authored_motion_clips.get(action_id, {})
+		require_camera_readability = bool(clip_data.get("preserve_limb_readability", true))
 		verify_deform_mirrors = (
 			str(clip_data.get("bone_layer", runtime.MOTION_LAYER_FULL_BODY))
 			== runtime.MOTION_LAYER_FULL_BODY
@@ -155,7 +157,8 @@ func _verify_action(runtime: Node, action_case: Dictionary) -> Dictionary:
 				var end := _project_bone(runtime, end_name)
 				var camera_visibility := _segment_camera_visibility(runtime, start_name, end_name)
 				minimum_camera_visibility = minf(minimum_camera_visibility, camera_visibility)
-				if camera_visibility < runtime.MIN_LIMB_CAMERA_PLANE_VISIBILITY - 0.02:
+				# Codex: a tucked arm may be foreshortened; skin/alpha/bounds checks remain.
+				if require_camera_readability and camera_visibility < runtime.MIN_LIMB_CAMERA_PLANE_VISIBILITY - 0.02:
 					sample_failures.append({
 						"sample": sample_index,
 						"ratio": ratio,

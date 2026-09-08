@@ -104,3 +104,7 @@ Codex 新增 `portrait_capture.gd` 与 `verify_hd_capture.gd`，在 `runtime.gd`
 ## Codex 增量声明 — 2026-09-08 1.3 材质离线候选 A
 
 依所有者“先模拟、看图后决定实装”的最新边界，Codex 新增 `apps/avatar-runtime/lookdev/candidate_materials.gd`、`render_candidate.gd` 和说明文件，建立不执行生产启动/桥接/UI/位置持久化的独立试渲染入口；仅复制十个 1.2 材质实例、分组调整受光/自发光与高光参数，不改官模、贴图、相机、灯光或正式入口。本轮没有新增 `runtime.gd`、注册表或启动脚本改动，它们已有未提交内容仍属前轮保守待机和 F12 功能。七组同帧视图与十二个待机时刻/朝向采样通过，2 像素网格 Alpha 差异均为 0、全图包围框一致、相机及 703 骨姿态不变、材质回退 RGB 平均误差低于 0.000001；负对照可识别 Alpha 与位移变化；GLB 哈希不变，1.2 快照校验通过。最终无引擎错误的实测证据目录为 `C:/Users/26052/AppData/Roaming/Godot/app_userdata/Luo Tianyi Desktop Avatar MVP/lookdev-1.3-candidate/2026-09-08T22-40-46-52120`（PNG 与 report.json）；181 项隔离 Core 单测及桌面 TypeScript/Vite 构建通过。早期主窗口隐藏/最小化试验失败已纠正，详情见候选 README；性能为后台离屏墙钟诊断，不宣称通过正式 GPU/桌面帧率门禁。归属、状态与测试入口同步 README/HANDOFF/TESTING/MODEL_OPTIMIZATION；本轮单代理，未启动子代理、未实装/重启正式天依、未冻结 1.3、未 commit/push，等待所有者视觉决定。
+
+## Codex 增量声明 — 2026-09-09 倾听动捕 v2
+
+依所有者新视频与背手照片，Codex 新增 `apps/avatar-runtime/mocap/` 构建、验证、GPU 试渲染与预览编码入口；`runtime.gd` 最小增量支持原生 Animation、沿原路径退出和中断后续接，只对新背手动作关闭镜头可读性纠偏；注册表切换 listen，旧 GLB 与新源视频/关键点在本地独立归档。右手耳旁轨迹、肘平面、头胸偏转来自测量，左臂遮挡段、掌向及轻微前倾人工适配，不宣称全指动捕或一比一重建。官模 GLB 哈希、703 骨、48 表情、骨位移/缩放、下半身与 1.3 材质保持不变；61 帧全轨道/全骨架验证、六个取消时机、重复触发和逆播中再次录音、旧动作/待机/输入回归通过，真实 GPU 四视图与 181 帧连续播放已生成，187 项隔离 Core 测试和桌面构建通过。贡献仅为本地实现，待所有者自然度验收，未 commit/push、未重启生产 Core/TTS、未启子代理；不是通用无穿模证明。原文档 181 与实际 187 的守卫漂移来自并行唤醒增量，未夹带改动该能力。详细路径、哈希、回退和边界见 `apps/avatar-runtime/mocap/README.md`。

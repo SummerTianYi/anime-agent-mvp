@@ -39,7 +39,18 @@ func _verify_clip(clip_data: Dictionary) -> Dictionary:
 	if not ResourceLoader.exists(motion_path):
 		_fail("Motion asset is missing: %s" % motion_path)
 		return {}
-	var packed_scene := load(motion_path) as PackedScene
+	var resource: Resource = load(motion_path)
+	if resource is Animation:
+		var native := resource as Animation
+		if native.length < float(clip_data.get("minimum_duration", 0.1)) or native.get_track_count() != 74:
+			_fail("Native listening clip has invalid duration or track count")
+			return {}
+		for i in range(native.get_track_count()):
+			if native.track_get_type(i) != Animation.TYPE_ROTATION_3D or native.track_get_key_count(i) != 61:
+				_fail("Native clip must contain 61-frame rotation-only tracks")
+				return {}
+		return {"id": clip_id, "path": motion_path, "duration": native.length, "tracks": native.get_track_count(), "format": "runtime-native; see mocap/verify_listen.gd"}
+	var packed_scene := resource as PackedScene
 	if packed_scene == null:
 		_fail("Motion asset did not import as PackedScene: %s" % motion_path)
 		return {}

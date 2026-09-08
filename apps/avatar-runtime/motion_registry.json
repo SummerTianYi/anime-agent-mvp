@@ -25,14 +25,16 @@
     },
     {
       "id": "listen",
-      "path": "res://assets/motions/luotianyi_listen.glb",
+      "path": "res://assets/motions/listen_mocap_v2.tres",
       "role": "interaction",
       "bone_layer": "upper_body",
       "loop": false,
       "blend_seconds": 0.35,
-      "minimum_duration": 8.3,
+      "minimum_duration": 1.9,
       "hold_last_while_recording": true,
-      "sample_seconds": 1.0
+      "return_via_reverse": true,
+      "preserve_limb_readability": false,
+      "sample_seconds": 1.8
     }
   ]
 }

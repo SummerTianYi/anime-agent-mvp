@@ -111,6 +111,10 @@ func _run() -> void:
 		_fail("Listen motion did not hold its final pose while recording")
 		return
 	runtime._handle_core_event({"type": "voice.state", "state": "transcribing"})
+	if not runtime.authored_motion_returning or runtime.authored_motion_name != &"listen":
+		_fail("Listen must reverse its safe entry path after recording")
+		return
+	motion_player.advance(listen_animation.length + 0.1)
 	if runtime.voice_recording_active or runtime.authored_motion_name != &"idle":
 		_fail("Listen motion did not return to idle after recording")
 		return

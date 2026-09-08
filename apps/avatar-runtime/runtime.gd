@@ -79,6 +79,7 @@ const MODEL_LOOK_TARGETS := {
 var authored_motion_player: AnimationPlayer
 var portrait_capture = preload("res://portrait_capture.gd").new()
 var authored_motion_name: StringName = &""
+var authored_motion_returning := false
 var authored_motion_clips: Dictionary = {}
 var default_idle_motion: StringName = &""
 var authored_motion_active := false
@@ -319,7 +320,17 @@ func _load_authored_motion_clip(
 	clip_data: Dictionary,
 	motion_library: AnimationLibrary,
 ) -> int:
-	var packed_scene := load(clip_path) as PackedScene
+	var source: Resource = load(clip_path)
+	# Codex: native clips are baked on this runtime's frozen rest skeleton;
+	# GLB clips keep the existing import/remap path and RESET resource.
+	if source is Animation:
+		var native := source.duplicate(true) as Animation
+		var count := _remap_animation_tracks(native, str(clip_data.get("bone_layer", MOTION_LAYER_FULL_BODY)))
+		if count > 0:
+			native.loop_mode = Animation.LOOP_LINEAR if bool(clip_data.get("loop", false)) else Animation.LOOP_NONE
+			motion_library.add_animation(clip_id, native)
+		return count
+	var packed_scene := source as PackedScene
 	if packed_scene == null:
 		return 0
 	var motion_source := packed_scene.instantiate() as Node3D
@@ -438,10 +449,14 @@ func _play_authored_motion(clip_id: StringName = &"pirouette") -> void:
 	if authored_motion_player == null or not authored_motion_clips.has(String(clip_id)):
 		print("GODOT_AUTHORED_MOTION_UNAVAILABLE", clip_id)
 		return
+	if authored_motion_active and authored_motion_name == clip_id and bool(authored_motion_clips[String(clip_id)].get("return_via_reverse", false)):
+		_resume_authored_motion()
+		return
 	if authored_motion_active:
 		_cancel_authored_motion(false)
 	_restore_bone_poses()
 	authored_motion_name = clip_id
+	authored_motion_returning = false
 	action_name = String(clip_id)
 	action_elapsed = 0.0
 	action_duration = authored_motion_player.get_animation(clip_id).length
@@ -462,6 +477,7 @@ func _cancel_authored_motion(return_to_idle: bool = false) -> void:
 	if authored_motion_player == null or not authored_motion_active:
 		return
 	authored_motion_active = false
+	authored_motion_returning = false
 	authored_motion_name = &""
 	if authored_motion_player.has_animation(&"__RESET"):
 		authored_motion_player.play(&"__RESET")
@@ -481,15 +497,44 @@ func _on_authored_motion_finished(animation_name: StringName) -> void:
 	if animation_name != authored_motion_name:
 		return
 	var clip_data: Dictionary = authored_motion_clips.get(String(animation_name), {})
+	if authored_motion_returning:
+		_cancel_authored_motion(true)
+		return
 	if voice_recording_active and bool(clip_data.get("hold_last_while_recording", false)):
 		var animation := authored_motion_player.get_animation(animation_name)
 		authored_motion_player.pause()
 		authored_motion_player.seek(animation.length, true)
 		print("GODOT_AUTHORED_MOTION_HELD", animation_name)
 		return
+	if bool(clip_data.get("return_via_reverse", false)):
+		_return_authored_motion()
+		return
 	var should_return_to_idle := animation_name != default_idle_motion
 	_cancel_authored_motion(should_return_to_idle)
 	print("GODOT_AUTHORED_MOTION_FINISHED", animation_name)
+
+
+func _return_authored_motion() -> void:
+	## Codex: travel the same outside-to-back path in reverse, including early
+	## cancellation; never interpolate a straight chord through the torso.
+	if authored_motion_player == null or authored_motion_returning:
+		return
+	var position := authored_motion_player.current_animation_position
+	if position <= 0.0001:
+		_cancel_authored_motion(true)
+		return
+	authored_motion_returning = true
+	authored_motion_player.play(authored_motion_name, 0.0, -1.0, true)
+	authored_motion_player.seek(position, true)
+
+
+func _resume_authored_motion() -> void:
+	if not authored_motion_returning:
+		return
+	var position := authored_motion_player.current_animation_position
+	authored_motion_returning = false
+	authored_motion_player.play(authored_motion_name, 0.0, 1.0)
+	authored_motion_player.seek(position, true)
 
 
 func _set_voice_motion_state(next_state: String) -> void:
@@ -498,9 +543,14 @@ func _set_voice_motion_state(next_state: String) -> void:
 	if voice_recording_active:
 		if authored_motion_name != &"listen":
 			handle_agent_event("avatar.listen")
+		elif authored_motion_returning:
+			_resume_authored_motion()
 		return
 	if was_recording and authored_motion_name == &"listen":
-		_cancel_authored_motion(true)
+		if bool(authored_motion_clips["listen"].get("return_via_reverse", false)):
+			_return_authored_motion()
+		else:
+			_cancel_authored_motion(true)
 		_set_expression("まばたき", 0.0)
 		_clear_emotions()
 		expression_name = "自然"
@@ -1118,6 +1168,9 @@ func _preserve_limb_readability() -> void:
 	## though the skin is intact. Apply the smallest camera-relative correction
 	## to every animated arm segment, independent of how the action was started.
 	if skeleton == null or action_name in ["idle", "nod"]:
+		return
+	# A deliberately tucked forearm is real occlusion, not a vanished mesh.
+	if authored_motion_active and not bool(authored_motion_clips.get(String(authored_motion_name), {}).get("preserve_limb_readability", true)):
 		return
 	for chain in READABILITY_ARM_CHAINS:
 		for segment_index in range(chain.size() - 1):

@@ -1,0 +1,31 @@
+# Listening mocap v2 — Codex, 2026-09-09
+
+Local implementation for the owner's `33409f9c0cb4dfb10e0ac54bfe27e3da.mp4` and back-hand photo. The right wrist-to-ear trajectory, elbow plane and shoulder/head yaw come from MediaPipe world landmarks; the occluded left arm, open palm and modest forward lean are authored adaptations. This is **not full-finger capture or a claim of exact monocular 3D reconstruction**. The official GLB, rest rig, weights, textures, scale and accepted 1.3 look remain unchanged.
+
+| Surface | Current behavior |
+|---|---|
+| Local active asset | `../assets/motions/listen_mocap_v2.tres`, SHA-256 `7c9794ac21b1002cbdef53e184225048e2a0dbaad909b98c043a94cdf3351d33` |
+| Timing | 61 keys at 30fps, 2 seconds entering; recording holds the last pose; stopping reverses the same path from the current time, then resumes A-pose idle |
+| Left arm | Fixed-length two-bone IK; wrist goes outside first, then behind the waist. It is genuinely occluded by the torso, not hidden or deleted |
+| Rig binding | Native Godot rotation tracks on 74 upper-body bones; avoids Blender import/export rest-axis differences. Not another exported character model |
+| Interruption | Six early/late stop points, repeated recording state, resumed recording during exit and repeated G/menu trigger covered; explicit reset/other-action overrides retain their existing immediate semantics |
+| Evidence | 20 real GPU stills, front/left/back/right; 181 sequential playback frames and MP4/GIF preview. Scope is this clip, not universal cloth collision safety |
+| Preserved legacy | Original `luotianyi_listen.glb` SHA-256 `975146830fec6920d959334fbb0ffd7539b4c7eb4716703cf600d0de705fe770` remains untouched |
+
+## Local-only archive and reproduction
+
+Repository root on this machine is `D:/UserData/Administrator/Documents/Codex/2026-08-28/https-github-com-summertianyi-anime-agent/work/anime-agent-mvp`. Its sibling `../motion-output/listen-mocap-v2/` contains `source.mp4`, `pose-landmarks.json`, the new TRES and provenance JSON, and `legacy-listen.glb`. These are local assets, not redistributable repository content. Source video SHA-256: `3bc87bb8cab0bad7c645feec0c9d70d69d61112b67f9bf9978de0f344220da48`; landmarks: `7d1327f6761a680c1e39a63e147e8235b1666850f77aa510f708bcb19a88b922`. Do not upload the person's footage by default. Copy archived `listen_mocap_v2.tres` into the active assets directory on another authorized local checkout, or rebuild with the existing `scripts/model-pipeline/extract_pose_landmarks.py` and the following commands (Git Bash, repo root):
+
+```bash
+LISTEN_LANDMARKS="$(pwd -W)/../motion-output/listen-mocap-v2/pose-landmarks.json" ../tools/godot-4.7.2/Godot_v4.7.2-stable_win64_console.exe --headless --path apps/avatar-runtime --script res://mocap/build_listen.gd
+../tools/godot-4.7.2/Godot_v4.7.2-stable_win64_console.exe --headless --path apps/avatar-runtime --script res://mocap/verify_listen.gd
+../tools/godot-4.7.2/Godot_v4.7.2-stable_win64_console.exe --display-driver windows --path apps/avatar-runtime --script res://mocap/review_listen.gd
+```
+
+The builder defaults to a separate `listen_mocap_v2_candidate.tres` and **refuses to overwrite** an existing output. `LISTEN_OUTPUT` can select a new path. Verification/rendering operate on the registry's **active** clip; they do not silently install a rebuilt candidate. The review skips production Core/UI/voice and uses the real model and animation player. Pass its printed review directory to `../motion-tools/.venv/Scripts/python.exe apps/avatar-runtime/mocap/encode_review.py <directory>` to encode the actual frame sequence. Current review: `C:/Users/26052/AppData/Roaming/Godot/app_userdata/Luo Tianyi Desktop Avatar MVP/listen-mocap-v2/2026-09-09T00-05-49`.
+
+## Verification and rollback
+
+`LISTEN_VERIFY_OK`: 74 rotation tracks, finite unit quaternions, 61 whole-rig samples, no bone translation/scale or lower-body change, 13.344° maximum adjacent-key angle, behind-torso left wrist, no camera-driven pose correction, voice/manual exit and re-entry checks. Existing motion asset/runtime, 750-frame A-pose idle, input and large-motion safety gates also pass; 187 isolated Core tests and desktop TypeScript/Vite build pass. These are sampled rendering and state/structure checks, **not a triangle-level no-contact proof**. Old large-motion projection tests presume every limb is camera-visible and do not certify an intentionally tucked arm; use this clip's four-view review instead. Final naturalness remains owner review.
+
+To roll back only listening, restore the listen registry path to `res://assets/motions/luotianyi_listen.glb`, minimum duration to `8.3`, sample time to `1.0`, remove `return_via_reverse` and `preserve_limb_readability`; restart Avatar. The loader remains backward-compatible and official model-version archives 1.0–1.3 are unchanged. Do not revert unrelated shared runtime changes or the other agents' work. This turn does not push GitHub, restart production Core/TTS, or claim a live microphone/voice end-to-end acceptance. The pre-existing docs guard currently reports 181-vs-187 test-count drift from the parallel wake-word work; that unrelated baseline mismatch is recorded rather than hidden.
