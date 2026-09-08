@@ -1,6 +1,7 @@
 extends SceneTree
 
 ## Codex: deterministic/offline state, clip and official-asset regression.
+## Run verify_listen_path.gd too: legal angles alone cannot reject snaking.
 const Review = preload("res://lookdev/render_candidate.gd")
 var checks := 0
 var failures: Array[String] = []
@@ -145,5 +146,5 @@ func _run() -> void:
 		player.advance(1.0 / 30.0)
 	_check(runtime.authored_motion_name == &"idle", "manual listen completes round trip")
 	if failures.is_empty():
-		print("LISTEN_VERIFY_OK ", {"checks": checks, "maximum_frame_angle_degrees": rad_to_deg(maximum_step), "source": "mocap+authored left arm/palm/lean; no universal collision claim"})
+		print("LISTEN_VERIFY_OK ", {"checks": checks, "maximum_frame_angle_degrees": rad_to_deg(maximum_step), "source": "reference-guided authored transition; no universal collision claim"})
 	quit(0 if failures.is_empty() else 1)

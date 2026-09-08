@@ -1,6 +1,8 @@
 extends SceneTree
 
-## Codex: bake measured right-arm motion on the ACTUAL runtime rest skeleton.
+## Historical Codex v2 builder, retained for endpoint/archive reproduction.
+## Its IK transition was rejected; use build_listen_transition.gd for current FK.
+## Bake measured right-arm motion on the ACTUAL runtime rest skeleton.
 ## The occluded left arm is authored; no mesh, rest, scale, or skin writes.
 const Review = preload("res://lookdev/render_candidate.gd")
 var runtime: Node

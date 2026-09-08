@@ -25,7 +25,7 @@
     },
     {
       "id": "listen",
-      "path": "res://assets/motions/listen_mocap_v2_corrected.tres",
+      "path": "res://assets/motions/listen_reference_fk_v2.tres",
       "role": "interaction",
       "bone_layer": "upper_body",
       "loop": false,

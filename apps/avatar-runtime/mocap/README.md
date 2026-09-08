@@ -1,4 +1,37 @@
-# Listening mocap v2 — Codex, 2026-09-09
+# Listening transition — Codex, 2026-09-09
+
+## Accepted listening motion v1 — frozen 2026-09-09 (Codex)
+
+Owner acceptance: “no problem！第一版就先这样吧，推送上去吧”. This freezes the currently installed **FK v2 detail asset** as the first accepted listening-motion release, not a model-version upgrade (official look remains 1.3). Scope includes the fixed-axis arm transition, four-degree extra lean, closer right hand, back-hand tuck, hold/reverse/re-entry behavior already present, and lossless-color review. Further changes must create a new local asset and preserve this SHA plus the FK v1 baseline. Code, tests, provenance locators and ownership declarations are authorized for this push to `SummerTianYi/anime-agent-mvp/main`; personal videos, renders and model/motion binaries remain local-only. Acceptance is for this action's visual result, not universal cloth collision safety.
+
+## Current asset: FK v2 detail pass
+
+The owner accepted FK v1's general movement and requested slightly more lean and a closer right hand. Active asset is now `listen_reference_fk_v2.tres`, SHA-256 `340c44b446ff81219cbb055d56bc4af9eaef65357e307bb871478fbb4acadf2c`, independently archived with provenance in sibling `../motion-output/listen-reference-fk-v2/`. Builder now reads immutable FK v1 (hash below), adjusts only the **end** upper-torso rotation (+4° forward) and right shoulder swing, then rebakes the same FK timing. Wrist displacement is 0.022546 runtime units (~2.25 cm); wrist-to-head distance falls from 0.241717 to 0.229491 (~1.22 cm closer). Elbow/wrist local endpoints, all starting rotations and all other end tracks are preserved; no wrist flip, model/material/skin/scale edit. The path gate permits at most 8° end change on those two bones only, while retaining the previous no-detour checks. `LISTEN_VERIFY_OK` remains 97,483 checks, 125° maximum elbow flex, 13.554° wrist bend and 4.257° maximum adjacent-key rotation.
+
+Eye-color finding: same-frame PNG/GIF comparison over 95 green iris pixels in the prior preview gave mean RGB PNG=(105.45,135.13,73.84), GIF=(109.81,99.24,103.44). GIF palette quantization shifts the small green iris region toward grey/purple; no eye material change was made. `encode_review.py` now also creates `listen-preview-lossless.png` (animated PNG), decodes it and checks exact RGB equality to each source frame. Latest output `user://listen-mocap-v2/2026-09-09T01-02-47` has 20 four-angle stills and 181 sequential renders; its 91-frame lossless preview was separately checked pixel-for-pixel against every source frame (PASS). Use this/APNG or raw PNG for color review, not GIF. Normal-resolution iris detail is still limited by rendered pixel coverage.
+
+Reproduction uses `mocap/build_listen_transition.gd` (new output name, no overwrite) and the two existing verification scripts. Roll back this detail pass by changing only the listen registry path to `res://assets/motions/listen_reference_fk_v1.tres` and refreshing Avatar. FK v1 and all earlier assets remain untouched. This is a motion revision, not a model 1.4 release. The owner subsequently approved committing/pushing this frozen state; historical “no push” statements below describe the earlier review stages only.
+
+## Historical: accepted FK v1 movement before the detail pass
+
+The owner rejected the previous corrected v2 **transition**, while accepting its endpoints: its arm rolled like a snake. The new `9d7f8fb2da073cbff079bae38d39da1d.mp4` shows a simple elbow-led raise/lower without extra wrist flipping. `build_listen_transition.gd` discards the independently solved middle frames and bakes one fixed local rotation arc per joint, coordinating shoulder/elbow and delaying the left elbow until the tuck has begun. It preserves all 74 tracks' first/last rotations, fixed bone lengths and 1.3 appearance. This is an **authored reference-guided transition**, not newly extracted motion capture, and not a universal collision solver. The prior `build_listen.gd` remains only for historical reproduction; it is not the current builder.
+
+| Item | Current evidence |
+|---|---|
+| Active asset | `res://assets/motions/listen_reference_fk_v1.tres`; SHA-256 `38e8e82cccb596d929b1fd764f581d36afc96c54c3404c10ba319431bd30a7e4` |
+| Rotation path: old → new | Right upper arm travelled 276.265° → 141.033°; right wrist 100.831° → 11.664°. These are **local composite rotation-path lengths**, not pure anatomical twist or elbow flex angles. New path excess above shortest endpoint arc is <0.001° |
+| Joint/structure gate | 97,483 checks pass; maximum adjacent key rotation 4.272°, elbow flex 125°, wrist bend 13.554°; all bone translations/scales and lower-body poses preserved |
+| Adversarial gate | `verify_listen_path.gd` samples 480 substeps, verifies all endpoints and rejects the old corrected v2 for detours/velocity; current asset passes. Builder refuses an existing output and leaves its SHA unchanged |
+| Local archive | Sibling `../motion-output/listen-reference-fk-v1/`: active TRES, provenance JSON, `reference.mp4` (SHA `cbabec3cd340cf1022a8600d0ceeb14e0684349b3c1894752d9968f33230d404`); old files remain in `../motion-output/listen-mocap-v2/` |
+| Actual GPU review | `C:/Users/26052/AppData/Roaming/Godot/app_userdata/Luo Tianyi Desktop Avatar MVP/listen-mocap-v2/2026-09-09T00-48-56`: 20 four-angle stills, 181 sequential frames, `listen-preview.mp4` and GIF |
+| Other regression | Motion import/runtime, 750-frame A-pose, text-input guard, large-motion safety/render, official asset hashes, 191 isolated Core tests and desktop TypeScript/Vite build pass |
+| Live refresh | At 00:56 local, gracefully closed verified Avatar PID 40716 and relaunched via `scripts/run-avatar-runtime.ps1`; new PID 58100 responds, has a window handle, logs 1.3/three loaded clips and Core connection ready. Core/TTS were not restarted; no live microphone test claimed. Docs consistency and final path gate pass |
+
+Rebuild with Godot `--headless --path apps/avatar-runtime --script res://mocap/build_listen_transition.gd`; requires the immutable corrected-v2 endpoint TRES above, not a new MediaPipe run. Choose a **new** `LISTEN_OUTPUT` if default output exists. Run both `mocap/verify_listen_path.gd` and `mocap/verify_listen.gd`; `LISTEN_REVIEW_PATH` overrides the active clip for candidate or negative-control checks. GPU review uses `--display-driver windows --script res://mocap/review_listen.gd`. For the general large-motion render test, explicitly set `AGENT_CORE_WS_URL=ws://127.0.0.1:1/ws` to isolate production Core; its historical default connects to Core (first run did connect, no chat test was sent; repeated with isolated URL). The first input command used a nonexistent script name; rerun with actual `verify_text_input.gd` passed. No live voice/LLM acceptance is claimed.
+
+Rollback only the listen registry path to `res://assets/motions/listen_mocap_v2_corrected.tres` and restart Avatar; keep existing hold/reverse flags. It restores the prior **rejected transition**, not a recommended final result. Do not revert shared runtime or official model versions. No commit/push is authorized by this motion-fix request.
+
+## Historical v2 record (superseded; not current acceptance)
 
 Local implementation for the owner's `33409f9c0cb4dfb10e0ac54bfe27e3da.mp4` and back-hand photo. The right wrist-to-ear trajectory, elbow plane and shoulder/head yaw come from MediaPipe world landmarks; the occluded left arm, open palm and modest forward lean are authored adaptations. This is **not full-finger capture or a claim of exact monocular 3D reconstruction**. The official GLB, rest rig, weights, textures, scale and accepted 1.3 look remain unchanged.
 

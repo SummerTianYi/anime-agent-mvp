@@ -14,7 +14,8 @@ def main():
     if len(frames) != 181:
         raise ValueError(f"Expected 181 rendered frames, got {len(frames)}")
     output = args.review_dir / "listen-preview.mp4"
-    if output.exists():
+    if any((args.review_dir / name).exists() for name in
+           ("listen-preview.mp4", "listen-preview.gif", "listen-preview-lossless.png")):
         raise FileExistsError(output)
     first = cv2.imread(str(frames[0]))
     height, width = first.shape[:2]
@@ -39,6 +40,17 @@ def main():
     # render frames; half the frame rate, not a different model/animation.
     images = [Image.open(frame).convert("RGB") for frame in frames[::2]]
     try:
+        # Lossless animated PNG is the color reference. GIF quantization can
+        # discard tiny green iris regions even when the source PNG is correct.
+        images[0].save(args.review_dir / "listen-preview-lossless.png",
+                       format="PNG", save_all=True, append_images=images[1:],
+                       duration=67, loop=0)
+        with Image.open(args.review_dir / "listen-preview-lossless.png") as decoded:
+            assert decoded.n_frames == len(images)
+            for index, expected in enumerate(images):
+                decoded.seek(index)
+                assert decoded.convert("RGB").tobytes() == expected.tobytes(), index
+        print(f"LISTEN_LOSSLESS_COLOR_OK {len(images)} frames, exact RGB match")
         images[0].save(args.review_dir / "listen-preview.gif", save_all=True,
                        append_images=images[1:], duration=67, loop=0)
     finally:
