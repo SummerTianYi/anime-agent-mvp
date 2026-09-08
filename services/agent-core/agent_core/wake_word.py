@@ -20,15 +20,16 @@ def default_wake_keywords_file() -> Path:
     return Path(__file__).resolve().parent / "data" / "wake_tianyi.txt"
 
 
-WAKE_NAME_PATTERN = re.compile(r"(天|填|添|田)[^A-Za-z0-9]{0,2}(依|一|衣|仪|伊|怡|亦)")
+# zcode (2026-09-09, 接手 Claude 未竟修复): 同音容错池按真实误听扩充。
+# 事件表实证 whisper 把"天依"转写成"天忆"(x2) 和"便宜"(x2)，故 S1 增加 pian 系、
+# S2 增加 yi 系常见变体；打招呼词改为可选（KWS 已先行把关，确认关只验名字）。
+WAKE_NAME_PATTERN = re.compile(r"[天填添田甜便片偏篇][^A-Za-z0-9]{0,2}[依一衣仪伊怡忆亦易益艺议翼宜]")
 WAKE_GREETING_PATTERN = re.compile(r"嗨|嘿|哎|哈喽|hello", re.IGNORECASE)
 
 
 def is_wake_phrase(text: str) -> bool:
-    """确认转写文本是唤醒口令：名字同音容错 + 打招呼词。"""
-    if not WAKE_NAME_PATTERN.search(text):
-        return False
-    return bool(WAKE_GREETING_PATTERN.search(text))
+    """确认转写文本是唤醒口令：名字同音容错（打招呼词可选）。"""
+    return bool(WAKE_NAME_PATTERN.search(text))
 
 
 def _import_audio_dependencies() -> tuple[Any, Any]:
