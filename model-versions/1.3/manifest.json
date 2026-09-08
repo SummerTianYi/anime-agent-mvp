@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "version": "1.3",
+  "status": "accepted",
+  "baseVersion": "1.2",
+  "displayName": "Codex conservative A-pose and accepted material refinement",
+  "acceptedAt": "2026-09-08T23:03:14.5888153+08:00",
+  "source": {
+    "name": "洛天依 V4 公式服 ver2.0",
+    "pmxFile": "luotianyi_v4_ver2.0.pmx",
+    "pmxBytes": 7634318,
+    "pmxSha256": "6C292DEEE948B3769AA7BDFC2301814431DF1EB102DA92A39656DA0236A115E7",
+    "redistribution": "local-only; public redistribution is not established"
+  },
+  "runtime": {
+    "commit": "581a856c51b1de4387896ce5ae283e279ff67d22",
+    "modelBinaryChangedFromBase": false,
+    "godot": "4.7.2",
+    "blender": "5.2.1 LTS",
+    "mmdTools": "4.5.13",
+    "vrmAddon": "4.5.0"
+  },
+  "artifacts": {
+    "archiveDirectory": "1.3/artifacts",
+    "editableBlend": {
+      "file": "luotianyi_v4_prepared.blend",
+      "bytes": 47623610,
+      "sha256": "886B61339707C289157F7D762A9B44DF26E9CFDFA92BD1D5AC518D7116B7672D"
+    },
+    "runtimeGlb": {
+      "file": "luotianyi_v4.glb",
+      "bytes": 128621144,
+      "sha256": "DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    }
+  },
+  "structure": {
+    "skeletons": 1,
+    "bones": 751,
+    "expressions": 48,
+    "pigtailChainLengths": [
+      17,
+      17
+    ],
+    "meshTopologyChanged": false,
+    "uvChanged": false,
+    "skinWeightsChanged": false
+  },
+  "optimization": {
+    "goal": "Codex conservative A-pose and accepted material refinement",
+    "plan": [
+      "Keep official geometry intact; retain approved idle and improve material layering"
+    ],
+    "changes": [
+      "Conservative shoulder-arm idle tracks; accepted material profile A; F12 native HD portraits"
+    ],
+    "explicitlyUnchanged": [
+      "Official GLB and Blend, topology, UV, skin weights, textures, camera and proportions"
+    ],
+    "knownIssues": [
+      "Universal cloth/contact physics unresolved; pirouette remains a stress sample; no continuous HD video"
+    ]
+  },
+  "visualEvidence": {
+    "localDirectory": "1.3/previews",
+    "requiredViews": [
+      "front",
+      "left",
+      "right",
+      "back",
+      "max-zoom",
+      "neutral-face",
+      "expression-extremes"
+    ],
+    "captured": [
+      {
+        "view": "front",
+        "file": "front.png",
+        "bytes": 391920,
+        "sha256": "9128AD70FDE5E815763DCED2C9C63914AB7BB9BAD688C39BCF163B9D38F30C9D"
+      },
+      {
+        "view": "left",
+        "file": "left.png",
+        "bytes": 308897,
+        "sha256": "0CF384B9CD988B193A88430BD6B9DB147BFD871A4F68617B0C8819C341E0AC61"
+      },
+      {
+        "view": "right",
+        "file": "right.png",
+        "bytes": 323385,
+        "sha256": "A2BC3A82675E6F25219E4A379C3E539595A031623AAC18AB7B9797D748EE4AEF"
+      },
+      {
+        "view": "back",
+        "file": "back.png",
+        "bytes": 349934,
+        "sha256": "426F35745C6F00E0AC6393837361AB76F900B35A0151F573150F667A2F7A119E"
+      },
+      {
+        "view": "max-zoom",
+        "file": "max-zoom.png",
+        "bytes": 391928,
+        "sha256": "E780997636E736FB8E81E252F94FA5FC6D0CB785D3DCB8BF9120D29887144325"
+      },
+      {
+        "view": "neutral-face",
+        "file": "neutral-face.png",
+        "bytes": 391917,
+        "sha256": "3BB52A629846E9CDAAAEEE1276E0615D98CAE03D16E42EC662B8B5046A1F4A1C"
+      },
+      {
+        "view": "expression-extremes",
+        "file": "expression-extremes.png",
+        "bytes": 389365,
+        "sha256": "39E50DEEFC47C4743FD143CEFE2512A740AF1AB89696A7EF420D200D70F3A7F5"
+      }
+    ]
+  },
+  "verification": [
+    {
+      "name": "snapshot-contract",
+      "result": "passed",
+      "evidence": "128621144 bytes; SHA-256 DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    },
+    {
+      "name": "visual-review",
+      "result": "passed",
+      "evidence": "Owner accepted candidate A on 2026-09-08. Production profile matches its parameters. Nine view/expression A/B cases, twelve animated samples, unchanged transforms and sampled alpha, exact bounds, reversible profiles and official hash passed; seven preview hashes recorded above."
+    },
+    {
+      "name": "regression",
+      "result": "passed",
+      "evidence": "581a856: conservative idle 70 bones/750 frames; motion runtime and asset, text input, session UI, desktop canvas, large-motion safety; five-view actual HD captures; desktop build; clean-archive 181 Core tests and docs consistency."
+    },
+    {
+      "name": "gpu-viewport",
+      "result": "passed",
+      "evidence": "Two alternating 60-frame rounds per profile: 1.3 GPU mean approximately 0.34/0.37ms and P95 0.343ms at 1920x2320. This measures one 3D viewport, not desktop end-to-end FPS or collision safety."
+    },
+    {
+      "name": "production-restart",
+      "result": "not-performed",
+      "evidence": "Core/Avatar/TTS were healthy on read-only check. Scoped stop/restart command was rejected by execution policy before running; existing session left untouched. New default is tested through production material API and takes effect at next normal Avatar launch."
+    }
+  ],
+  "rollback": {
+    "assetCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\switch-model-version.ps1 -Version 1.3",
+    "exactRuntimeCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\open-model-version.ps1 -Version 1.3 -Launch"
+  }
+}
