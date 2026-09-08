@@ -80,6 +80,10 @@
 
 Claude 的全部增量已于 2026-08-31 以提交 fc5a5a4 落库：倾听动作、唤醒词、会话删除（单击确认框改型）、会话标题、Agent 工具循环 A 期及配套测试与文档，提交时按 Codex 同一口径对共享文件做了行级分块暂存，未夹带对方代码。当前工作树剩余未提交内容全部属于 Codex：画布扩容与侧板方向（runtime.gd / interaction_ui.gd 残余行、verify_desktop_canvas.gd、ARCHITECTURE.md、TESTING.md 大动作门禁行）、大动作可读性与 MMD 镜像（runtime.gd 残余行、verify_large_motion_*.gd 两个新脚本）、MODEL_OPTIMIZATION.md 的五条增量。
 
+## Codex 1.3 冻结声明（2026-09-08；承接下方历史候选记录）
+
+所有者批准保守 A-pose、F12 高清截图与材质候选 A 作为当前基线并要求推送。Codex 将候选材质原参数移至 `apps/avatar-runtime/model_look_v13.gd`，接入 `runtime.gd` 默认 1.3 与显式旧版回退；同时提交本轮此前尚未提交的待机注册项、肩臂轨道替换、截图器及三个验证入口、lookdev 文档和相关 README/HANDOFF/TESTING/MOTION_PIPELINE/优化路线更新。官模与动捕 GLB 未改；1.3 使用旧版同哈希 Blend/GLB 的独立只读副本，完整回溯依赖清单 runtimeCommit。渲染九视图、十二组动画采样、版本选择/回退、GPU 门禁、高清截图五视图及动作/输入/会话/画布回归通过；不是全身防穿模或复杂旋转自然性验收。另一代理的 wake_word.py 与 test_wake_phrase.py 不属于本轮，保持未提交原样，不夹带。按所有者要求不启动子代理，以单代理审查和自动验证取代本次独立代理交接演练。最终冻结信息与验证记录见 `model-versions/1.3/README.md`；以下候选记录是历史阶段而非当前发布状态。
+
 ## 后续 Agent 更新规则
 
 1. 新 Agent 开工前先读本文件、`HANDOFF.md` 和当前 `git status`，不要仅凭聊天记录判断归属。
@@ -87,3 +91,15 @@ Claude 的全部增量已于 2026-08-31 以提交 fc5a5a4 落库：倾听动作�
 3. 并行开发时优先按文件或补丁块分离提交；共享文件必须检查 staged diff，避免把他人的未完成代码带入。
 4. 贡献声明不替代验证。任何“完成”仍以 `docs/TESTING.md` 的当前门禁和远端提交为准。
 5. 交接或收工前，`docs/HANDOFF.md` §7 的白纸测试门禁（零上下文独立实例通读 + 行为探针）必须通过；状态变化必须回写 HANDOFF §3 与 README 状态表。
+
+## Codex 增量声明 — 2026-09-08 高清输出候选
+
+Codex 新增 `portrait_capture.gd` 与 `verify_hd_capture.gd`，在 `runtime.gd` 接入 F12 原生高清透明 PNG 输出及聊天输入焦点守卫；同步 README、HANDOFF、TESTING 和 MODEL_OPTIMIZATION。截图通过临时 SubViewport 共享当前 3D 世界与同参数相机，默认桌面模式输出 2880×3480，完成后释放临时资源，不抓取聊天界面或桌面，不修改日常画布、官模资产、身体比例或 1.2 外观；单次保存实测约 260–361ms，可能短暂卡顿，不属于连续录制功能。前发、后发和长辫子的运行时材质检查显示为不透明双面材质，故没有贸然改 Alpha 或重绘贴图。本轮通过真实 OpenGL 正面、左右、背面及最大缩放五组同镜头对比，验证透明输出、轮廓比例、颜色差异、临时资源释放、重复请求/非法输入和官模哈希；另通过 headless 快捷键检查、保守待机、动作 runtime、文字输入、桌面画布、181 项隔离 Core 单测、桌面构建、文档守卫与 diff 检查。依所有者最新要求关闭五个已完成的旧子代理，本轮未再启用代理，采用主代理定向审查和自动化测试，不声称执行了独立代理白纸验收。此为本地未发布候选，尚未命名 1.3、commit 或 push；日常模型观感保持 1.2，头发边缘专项改善、连续高清录制及通用防穿模均不计为本轮完成项。
+
+## Codex 增量声明 — 2026-09-08 保守待机
+
+所有者明确选择暂缓贴腿待机，第一阶段动捕先做小幅、少接触动作。Codex 在 `runtime.gd` 增加内存动画副本的肩臂链替换，`motion_registry.json` 仅为 idle 开启 `relaxed_arms`，复用既有 ±48° 下放角度恢复斜下外展 A-pose，保留头胸动捕、完整长辫子与其它交互；未修改官模、比例、材质、三个动作 GLB、Core、TTS 或 UI，也未把物理专项代码带回主仓。新增 `verify_reference_idle.gd`：先复现旧待机第 0 帧肩骨不满足参考姿态，再验证 70 骨/750 帧、四种交互确实启动并移动手臂、主动 reset 与自然结束都回待机，逐键确认 listen/pirouette 未被替换，并实际渲染五视图和同镜头前后对照。独立只读审查发现切换测试可假阳性，已补上述状态/运动/逐键断言并通过。其它通过项为原动作 runtime/import、输入、画布、large-motion safety、资产哈希、181 项 Core 单测、桌面构建、文档守卫和 diff 检查；本地图片见 `MOTION_PIPELINE.md`。Core 首次测试因继承 `.env` 中 MCP 配置而中断，已仅终止该测试进程树；显式禁用 MCP/TTS/wake、使用 mock 与独立数据目录后 181 项通过，生产 Core/TTS 未重启。当前为本地候选，等待所有者视觉验收，未 commit/push；不是通用防穿模系统验收，原动作可通过关闭该字段回溯。
+
+## Codex 增量声明 — 2026-09-08 1.3 材质离线候选 A
+
+依所有者“先模拟、看图后决定实装”的最新边界，Codex 新增 `apps/avatar-runtime/lookdev/candidate_materials.gd`、`render_candidate.gd` 和说明文件，建立不执行生产启动/桥接/UI/位置持久化的独立试渲染入口；仅复制十个 1.2 材质实例、分组调整受光/自发光与高光参数，不改官模、贴图、相机、灯光或正式入口。本轮没有新增 `runtime.gd`、注册表或启动脚本改动，它们已有未提交内容仍属前轮保守待机和 F12 功能。七组同帧视图与十二个待机时刻/朝向采样通过，2 像素网格 Alpha 差异均为 0、全图包围框一致、相机及 703 骨姿态不变、材质回退 RGB 平均误差低于 0.000001；负对照可识别 Alpha 与位移变化；GLB 哈希不变，1.2 快照校验通过。最终无引擎错误的实测证据目录为 `C:/Users/26052/AppData/Roaming/Godot/app_userdata/Luo Tianyi Desktop Avatar MVP/lookdev-1.3-candidate/2026-09-08T22-40-46-52120`（PNG 与 report.json）；181 项隔离 Core 单测及桌面 TypeScript/Vite 构建通过。早期主窗口隐藏/最小化试验失败已纠正，详情见候选 README；性能为后台离屏墙钟诊断，不宣称通过正式 GPU/桌面帧率门禁。归属、状态与测试入口同步 README/HANDOFF/TESTING/MODEL_OPTIMIZATION；本轮单代理，未启动子代理、未实装/重启正式天依、未冻结 1.3、未 commit/push，等待所有者视觉决定。

@@ -55,6 +55,8 @@ const AUTHORED_MOTION_ENV := "ANIME_AGENT_USE_AUTHORED_MOTION"
 const AUTHORED_MOTION_AUTOPLAY_ENV := "ANIME_AGENT_AUTOPLAY_MOTION"
 const MODEL_LOOK_ENV := "ANIME_AGENT_MODEL_LOOK"
 const MODEL_LOOK_V12 := "1.2"
+const MODEL_LOOK_CURRENT := "1.3"
+const ModelLookV13 := preload("res://model_look_v13.gd")
 const MODEL_LOOK_TARGETS := {
 	"face": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
 	"body": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
@@ -75,6 +77,7 @@ const MODEL_LOOK_TARGETS := {
 @onready var fill_light: DirectionalLight3D = $FillLight
 
 var authored_motion_player: AnimationPlayer
+var portrait_capture = preload("res://portrait_capture.gd").new()
 var authored_motion_name: StringName = &""
 var authored_motion_clips: Dictionary = {}
 var default_idle_motion: StringName = &""
@@ -139,8 +142,10 @@ var speaking_mouth_index := -1
 var speech_player: AudioStreamPlayer = null
 var current_utterance_id := ""
 var model_look_preview_enabled := false
+var model_look_version := "1.1"
 var model_look_original_overrides: Dictionary = {}
 var model_look_preview_materials: Dictionary = {}
+var model_look_v13_materials: Dictionary = {}
 
 var core_socket: WebSocketPeer
 var core_ws_url := DEFAULT_CORE_WS_URL
@@ -195,11 +200,11 @@ func _ready() -> void:
 		"pigtail_chain_lengths": pigtail_chains.map(func(chain: Array) -> int: return chain.size()),
 		"motion_layers": _motion_layer_sizes(),
 		"expressions": expression_ids.size(),
-		"model_look": MODEL_LOOK_V12 if model_look_preview_enabled else "1.1",
+		"model_look": model_look_version,
 		"authored_motions": authored_motion_clips.keys(),
 		"desktop_overlay": DisplayServer.get_name() != "headless",
 		"core_url": core_ws_url,
-		"controls": "left-drag=move right-drag=turn wheel=zoom F1=hud arrows=turn R=reset N=nod W=wave P=authored-motion G=listen Space=greet B=blink S=smile O=surprised X=angry L=wink T=tears",
+		"controls": "left-drag=move right-drag=turn wheel=zoom F1=hud F12=portrait arrows=turn R=reset N=nod W=wave P=authored-motion G=listen Space=greet B=blink S=smile O=surprised X=angry L=wink T=tears",
 	})
 	if model_uses_authored_motion:
 		var requested_motion := OS.get_environment(AUTHORED_MOTION_AUTOPLAY_ENV).strip_edges()
@@ -337,6 +342,9 @@ func _load_authored_motion_clip(
 	var bone_layer := str(clip_data.get("bone_layer", MOTION_LAYER_FULL_BODY))
 	var remapped_tracks := _remap_animation_tracks(retargeted_animation, bone_layer)
 	if remapped_tracks > 0:
+		if bool(clip_data.get("relaxed_arms", false)):
+			_use_reference_arm_tracks(retargeted_animation)
+			remapped_tracks = retargeted_animation.get_track_count()
 		retargeted_animation.loop_mode = (
 			Animation.LOOP_LINEAR if bool(clip_data.get("loop", false)) else Animation.LOOP_NONE
 		)
@@ -347,6 +355,38 @@ func _load_authored_motion_clip(
 		motion_library.add_animation(&"__RESET", reset_animation)
 	motion_source.free()
 	return remapped_tracks
+
+
+func _use_reference_arm_tracks(animation: Animation) -> void:
+	## Codex 2026-09-08: conservative idle fallback. Modify only the in-memory
+	## animation copy, not the mocap GLB or official mesh/rig. Constant tracks
+	## also reset fingers/twist helpers after an interaction. Reuse the original
+	## runtime's 48-degree arm lowering: the GLB bind pose alone is a T-pose,
+	## whereas the requested reference is the old diagonal-down A-pose.
+	var arm_bones := {}
+	for side in ["L", "R"]:
+		_collect_bone_descendants("肩." + side, arm_bones)
+	for track_index in range(animation.get_track_count() - 1, -1, -1):
+		var path := animation.track_get_path(track_index)
+		if path.get_subname_count() == 0:
+			continue
+		var bone_index := skeleton.find_bone(str(path.get_subname(path.get_subname_count() - 1)))
+		if arm_bones.has(bone_index):
+			animation.remove_track(track_index)
+	var skeleton_path := get_path_to(skeleton)
+	for bone_index in arm_bones:
+		var reference := skeleton.get_bone_rest(bone_index)
+		var rotation: Quaternion = rest_bone_rotations.get(bone_index, reference.basis.get_rotation_quaternion())
+		var path := NodePath("%s:%s" % [skeleton_path, skeleton.get_bone_name(bone_index)])
+		var position_track := animation.add_track(Animation.TYPE_POSITION_3D)
+		animation.track_set_path(position_track, path)
+		animation.position_track_insert_key(position_track, 0.0, reference.origin)
+		var rotation_track := animation.add_track(Animation.TYPE_ROTATION_3D)
+		animation.track_set_path(rotation_track, path)
+		animation.rotation_track_insert_key(rotation_track, 0.0, rotation)
+		var scale_track := animation.add_track(Animation.TYPE_SCALE_3D)
+		animation.track_set_path(scale_track, path)
+		animation.scale_track_insert_key(scale_track, 0.0, reference.basis.get_scale())
 
 
 func _remap_animation_tracks(animation: Animation, bone_layer: String = MOTION_LAYER_FULL_BODY) -> int:
@@ -736,12 +776,24 @@ func _input(event: InputEvent) -> void:
 				handle_agent_event("avatar.tears")
 			KEY_F1:
 				_set_hud_visible(not hud_visible)
+			KEY_F12:
+				capture_hd_portrait()
 			KEY_ESCAPE:
 				get_tree().quit()
 			_:
 				shortcut_handled = false
 		if shortcut_handled:
 			get_viewport().set_input_as_handled()
+
+
+func capture_hd_portrait() -> Dictionary:
+	var source: Viewport = avatar_render_viewport if avatar_render_viewport != null else get_viewport()
+	var result: Dictionary = await portrait_capture.capture(camera, source)
+	if bool(result.get("ok", false)):
+		print("GODOT_PORTRAIT_SAVED ", result)
+	else:
+		push_warning("Portrait capture: " + str(result.get("error", "unknown error")))
+	return result
 
 
 func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
@@ -1286,25 +1338,37 @@ func _cache_expressions() -> void:
 
 func _configure_model_look() -> void:
 	var requested_look := OS.get_environment(MODEL_LOOK_ENV).strip_edges().to_lower()
-	var preview_requested := requested_look not in ["0", "false", "off", "1.1", "baseline"]
-	set_model_look_preview(preview_requested)
+	set_model_look_version(requested_look)
 
 
 func set_model_look_preview(enabled: bool) -> void:
+	# Preserve the historical 1.1/1.2 A/B API and its verification scripts.
+	set_model_look_version(MODEL_LOOK_V12 if enabled else "1.1")
+
+
+func set_model_look_version(version: String) -> void:
+	var requested := version.strip_edges().to_lower()
+	if requested in ["0", "false", "off", "1.1", "baseline"]:
+		requested = "1.1"
+	elif requested in ["1.2", "1.2-preview"]:
+		requested = MODEL_LOOK_V12
+	else:
+		requested = MODEL_LOOK_CURRENT
 	if face_mesh == null or face_mesh.mesh == null:
 		model_look_preview_enabled = false
 		return
-	if enabled == model_look_preview_enabled and not model_look_original_overrides.is_empty():
+	if requested == model_look_version and not model_look_original_overrides.is_empty():
 		return
 	_cache_model_look_materials()
 	for surface_index in model_look_original_overrides.keys():
-		var material: Material = (
-			model_look_preview_materials.get(surface_index)
-			if enabled
-			else model_look_original_overrides.get(surface_index)
-		)
+		var material: Material = model_look_original_overrides.get(surface_index)
+		if requested == MODEL_LOOK_V12:
+			material = model_look_preview_materials.get(surface_index)
+		elif requested == MODEL_LOOK_CURRENT:
+			material = model_look_v13_materials.get(surface_index)
 		face_mesh.set_surface_override_material(int(surface_index), material)
-	model_look_preview_enabled = enabled
+	model_look_version = requested
+	model_look_preview_enabled = requested != "1.1"
 
 
 func _cache_model_look_materials() -> void:
@@ -1323,6 +1387,9 @@ func _cache_model_look_materials() -> void:
 			source,
 			MODEL_LOOK_TARGETS[surface_name],
 			surface_name
+		)
+		model_look_v13_materials[surface_index] = ModelLookV13.make_material(
+			model_look_preview_materials[surface_index], surface_name
 		)
 
 
@@ -1689,7 +1756,7 @@ func _create_hud() -> void:
 
 	var footer := Label.new()
 	footer.position = Vector2(22.0, 684.0)
-	footer.text = "左键拖动人物位置 · 右键拖拽转身 · 滚轮缩放 · F1 调试信息\n←/→ 转身 · R 回正 · N 点头 · W 挥手 · P 动作样片 · Space 打招呼 · Esc 退出"
+	footer.text = "左键拖动人物位置 · 右键拖拽转身 · 滚轮缩放 · F1 调试信息\n←/→ 转身 · R 回正 · N 点头 · W 挥手 · P 动作样片 · Space 打招呼\nF12 高清透明截图 · Esc 退出"
 	footer.add_theme_color_override("font_color", Color(0.78, 0.78, 0.86))
 	footer.add_theme_font_size_override("font_size", 13)
 	footer.mouse_filter = Control.MOUSE_FILTER_IGNORE

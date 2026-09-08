@@ -30,6 +30,12 @@ Run checks from the repository root unless the table says otherwise. Install Cor
 
 ## Manual MVP acceptance
 
+Codex 高清输出候选：用 Godot `--display-driver windows --path apps/avatar-runtime --script res://verify_hd_capture.gd` 运行实际渲染门禁，期待 `GODOT_HD_CAPTURE_OK`；检查五视图（含最大缩放）、原生尺寸/透明背景、与日常画面的颜色及轮廓框比较、模型/相机不变、资源释放、忙碌/非法输入拒绝、文件名不覆盖及 F12 焦点路由。`--headless` 只检查 API 与快捷键，不可替代实际 PNG 验收。截图编码约数百毫秒，不等于高清连续录像能力。
+
+Codex 1.3 已接受材质：同一 Godot 执行 `--display-driver windows --path apps/avatar-runtime --script res://lookdev/render_candidate.gd`，期望历史门禁名 `LOOKDEV_CANDIDATE_PASS` 且无引擎错误；通过生产版本切换 API 保存九组同帧对照及面部裁切、report.json，另检十二个待机时刻/转向、负对照、别名与回退。离线入口跳过生产 Core/UI/语音；拒绝 headless 冒充视觉验收。两轮每种材质各 60 帧的 3D Viewport GPU P95 须低于 16.7ms，墙钟间隔单独记录，不据此宣称桌面端到端帧率。所有者已批准原候选 A；详见 `apps/avatar-runtime/lookdev/README.md`。F12 上述候选功能也已纳入该版。
+
+Codex 2026-09-08 conservative-idle gate: run Godot with `--headless --path apps/avatar-runtime --script res://verify_reference_idle.gd` (using the same Godot executable above); expect `GODOT_REFERENCE_IDLE_OK`, 70 arm-chain bones and 750 frames. Repeat with `--display-driver windows` for five-angle PNG evidence under `user://reference-idle-2026-09-08`. The gate proves the requested A-pose fallback, not general cloth collision safety. Full Core regressions must also explicitly clear `ANIME_AGENT_MCP_SERVERS`, set `LLM_PROVIDER=mock` and direct `ANIME_AGENT_DATA_DIR` to an isolated test directory, in addition to disabling TTS/wake: otherwise `.env` can start real MCP servers during TestClient startup. This animation-only change does not require a paid Provider call or a restart of production Core/TTS.
+
 | Scenario | Procedure | Accepted when |
 |---|---|---|
 | One-click launch | Stop current Avatar/Core, run `start-anime-agent.cmd`, then run it again | First run launches one Core/Avatar; second run reuses them without duplicate or port error |

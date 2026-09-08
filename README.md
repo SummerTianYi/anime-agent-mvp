@@ -7,12 +7,14 @@
 | 范围 | 状态 | 说明 |
 |---|---|---|
 | 3D 桌面角色 | 已完成基础闭环 | 默认使用当前屏幕工作区大小的透明穿透画布；角色在固定光轴的 2× SubViewport 中渲染，再作为二维透明层拖动，避免离轴"压扁"和旧 560×760 窗口裁切；支持转身、缩放、位置保存与 `compact` 回退模式 |
+| 高清截图 | 已接入（Codex，2026-09-08） | 聚焦角色且不在聊天输入框时按 F12，默认导出 2880×3480 透明 PNG 到 Godot 用户目录 `portraits`；不改变日常比例，不含连续录像，见 [`docs/plans/MODEL_OPTIMIZATION.md`](docs/plans/MODEL_OPTIMIZATION.md) |
+| 当前外观与下一阶段 | 1.3 材质精修 + 保守 A-pose（Codex） | 所有者已认可候选 A，参数原样接入默认配置；`ANIME_AGENT_MODEL_LOOK=1.2` 可回退材质，完整历史见 [`model-versions/README.md`](model-versions/README.md)。下一阶段为小幅、少接触动捕；不继续扩展物理系统。 |
 | 角色菜单 | 已完成 | 点击角色打开聊天或互动菜单 |
 | 聊天界面 | 已完成并真实验证 | 底部半透明浮层，洛天依主题、气泡可滚动，支持新开/切换/删除会话与历史回载 |
 | 文字聊天 | 已完成并真实验证 | 多会话；Godot → WebSocket → Core → GLM 5.3 Flash → Godot |
 | 角色 Harness | 已完成两轮 | 洛天依身份、自我认知、结构化回复、表情与动作映射；2026-09-05 注入训练版新剧本（旧剧本保留可回退） |
 | 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
-| 表情与动作 | 已完成动作注册表与首个待机 | 48 个形变槽；12.47 秒单目动捕待机（idle_mocap_v1）自动循环，旋转样片可按 `P` 打断并在结束后自动回待机，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
+| 表情与动作 | 已完成动作注册表；保守待机（Codex，2026-09-08） | 48 个形变槽；12.47 秒动捕保留躯干摇晃/转头，待机双臂恢复原先斜下外展姿态；贴腿原素材不覆盖，可关闭 `relaxed_arms` 回溯。通用防穿模未解决，第一阶段只逐条验收小幅动作，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
 | 本地记忆 | 已完成 agent 化 | SQLite 按会话保存消息 + facts 事实表；`memory_candidate` 按敏感度分级落库，词法检索注入聊天上下文 |
 | 语音转文字 | 管线可用，假死自愈已上线 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
 | TTS 语音输出 | 已完成 | GPT-SoVITS sidecar（真实声线）、分片合成、三路打断、工作解说；sidecar 缺席时自动回退文字 |

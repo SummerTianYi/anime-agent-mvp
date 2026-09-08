@@ -6,6 +6,7 @@
       "id": "idle",
       "path": "res://assets/motions/luotianyi_idle.glb",
       "role": "idle",
+      "relaxed_arms": true,
       "bone_layer": "upper_body",
       "loop": true,
       "blend_seconds": 0.35,
