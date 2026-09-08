@@ -505,6 +505,15 @@ _STARTUP_GREETINGS = (
     "开机啦？我也准备好啦，今天也一起加油吧～",
 )
 _proactive_events: dict[str, float] = {}
+_proactive_skip_state: dict[str, str] = {}
+
+
+def _log_skip_once(trigger: str, reason: str) -> None:
+    """跳过原因只在变化时记一条，防止轮询刷屏（曾刷出 431 条）。"""
+    key = f"skip:{reason}"
+    if _proactive_skip_state.get(trigger) != key:
+        memory.add_event("proactive.skipped", {"trigger": trigger, "reason": reason})
+        _proactive_skip_state[trigger] = key
 
 # zcode (D 期收尾, 2026-09-07): idle trigger — pure local idle detection
 # (GetLastInputInfo poll) + fixed line bank; zero LLM calls at any point,
@@ -547,12 +556,13 @@ def _idle_seconds_now() -> float:
 async def _proactive_idle(idle_seconds: float) -> None:
     allowed, reason = idle_policy.decide(idle_seconds=idle_seconds)
     if not allowed:
-        memory.add_event("proactive.skipped", {"trigger": "idle", "reason": reason})
+        _log_skip_once("idle", reason)
         return
     if hub.role_count("avatar") < 1:
         memory.add_event("proactive.skipped", {"trigger": "idle", "reason": "no-avatar"})
         return
     idle_policy.mark_spoken()
+    _proactive_skip_state.pop("idle", None)
     line = _IDLE_LINES[int(time.time()) % len(_IDLE_LINES)]
     memory.add_event("proactive.idle", {"idle_seconds": round(idle_seconds), "line": line})
     try:
@@ -728,9 +738,10 @@ async def _proactive_greeting(trigger: str) -> None:
     防骚扰去抖落在 events 里可查。问候为固定台词，不消耗 LLM 额度。"""
     allowed, reason = proactive_policy.allow()
     if not allowed:
-        memory.add_event("proactive.skipped", {"trigger": trigger, "reason": reason})
+        _log_skip_once(trigger, reason)
         return
     proactive_policy.mark_spoken()
+    _proactive_skip_state.pop(trigger, None)
     line = _STARTUP_GREETINGS[int(time.time()) % len(_STARTUP_GREETINGS)]
     memory.add_event("proactive.greeting", {"trigger": trigger, "line": line})
     try:
@@ -1090,10 +1101,10 @@ async def handle_wake_word(buffered_audio) -> None:
             _superseded_requests.discard(wake_request_id)
             memory.add_event("wake.busy", {"reason": "superseded-pre-dispatch"})
             return
-        session = memory.create_session()
-        await hub.send_roles({"avatar", "ui"}, event("session.switched", conversationId=session["id"], title=session["title"]))
+        # zcode (2026-09-09): 会话创建推迟到真实指令捕获之后——此前每次
+        # "唤醒成功但没跟指令"都会泄漏一个空"新对话"。
         await speech_manager.interrupt("wake")
-        await hub.send_roles({"avatar", "ui"}, event("wake.triggered", conversationId=session["id"]))
+        await hub.send_roles({"avatar", "ui"}, event("wake.triggered"))
         await hub.send_roles({"avatar", "ui"}, event("voice.state", state="recording"))
         try:
             command_bytes = await asyncio.to_thread(capture_utterance, capture_token)
@@ -1116,6 +1127,8 @@ async def handle_wake_word(buffered_audio) -> None:
                 ):
                     memory.add_event("wake.busy", {"reason": "voice-key-preempted"})
                     return
+                session = memory.create_session()
+                await hub.send_roles({"avatar", "ui"}, event("session.switched", conversationId=session["id"], title=session["title"]))
                 await hub.send_roles({"avatar", "ui"}, event("chat.user_message", conversationId=session["id"], text=command_text))
                 dispatched = True
                 asyncio.create_task(handle_chat(command_text, wake_request_id, conversation_id=session["id"]))

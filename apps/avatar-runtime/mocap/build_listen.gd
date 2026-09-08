@@ -8,8 +8,9 @@ var rig: Skeleton3D
 var frames: Array
 var controlled: Array[int] = []
 var start_pose: Dictionary = {}
+var elbow_hinges: Dictionary = {}
 var result: Animation
-var output := "res://assets/motions/listen_mocap_v2_candidate.tres"
+var output := "res://assets/motions/listen_mocap_v2_corrected_candidate.tres"
 
 func _init() -> void:
 	call_deferred("_run")
@@ -56,6 +57,17 @@ func _run() -> void:
 		controlled.append(rig.find_bone(name))
 	for bone in controlled:
 		start_pose[bone] = rig.get_bone_pose(bone)
+	# Derive neutral elbow flexion from the actual open-hand plane, not the
+	# old screen-readable gesture axis (which is not an anatomical hinge).
+	for side in ["L", "R"]:
+		var hand := _point("手首." + side)
+		var palm_normal := (_point("人指１." + side) - hand).cross(_point("小指１." + side) - hand).normalized()
+		if palm_normal.z < 0.0:
+			palm_normal = -palm_normal
+		var forearm := (hand - _point("ひじ." + side)).normalized()
+		var hinge := forearm.cross(palm_normal).normalized()
+		elbow_hinges[side] = rig.get_bone_global_pose(rig.find_bone("ひじ." + side)).basis.inverse() * hinge
+		print("LISTEN_ANATOMICAL_HINGE ", side, " ", elbow_hinges[side])
 	for name in ["腕.R", "ひじ.R", "手首.R", "腕.L", "ひじ.L", "手首.L", "頭"]:
 		print("LISTEN_RIG_BASE ", name, " ", _point(name))
 	result = Animation.new()
@@ -157,37 +169,30 @@ func _pose(t: float) -> void:
 	# measured elbow plane and wrist-to-ear motion, then solve fixed bone lengths.
 	var right_start := _point("手首.R")
 	var ear_offset := (r_wr - _landmark(8, source_time)) * 0.6
-	var right_target := _point("頭") + Vector3(-0.115, 0.035, 0.015) + ear_offset
+	var right_target := _point("頭") + Vector3(-0.115, 0.035, 0.09) + ear_offset
 	_solve_arm("R", right_start.lerp(right_target, blend), upper + Vector3(-0.35, 0.0, 0.1))
 	# Authored open palm: index extends upward, not guessed individual finger mocap.
 	var palm_axis := (_point("人指１.R") - _point("手首.R")).normalized()
-	_aim("手首.R", "人指１.R", palm_axis.slerp(Vector3(0.05, 1.0, 0.0).normalized(), blend))
+	var forearm_axis := (_point("手首.R") - _point("ひじ.R")).normalized()
+	var desired_palm := palm_axis.slerp(Vector3(0.05, 1.0, 0.0).normalized(), blend)
+	var wrist_angle := forearm_axis.angle_to(desired_palm)
+	if wrist_angle > deg_to_rad(35):
+		desired_palm = forearm_axis.slerp(desired_palm, deg_to_rad(35) / wrist_angle)
+	_aim("手首.R", "人指１.R", desired_palm)
 	# Left wrist follows an explicit outside -> behind path; never a torso chord.
 	var l_sh := _point("腕.L")
-	var l_el := _point("ひじ.L")
 	var l_wr := _point("手首.L")
-	var upper_len := l_sh.distance_to(l_el)
-	var lower_len := l_el.distance_to(l_wr)
-	var outward := Vector3(l_sh.x + 0.23, l_sh.y - 0.25, l_sh.z - 0.12)
+	var outward := Vector3(l_sh.x + 0.23, l_sh.y - 0.34, l_sh.z - 0.12)
 	var behind := Vector3(l_sh.x - 0.07, l_sh.y - 0.25, l_sh.z - 0.18)
 	var wrist: Vector3
 	if t < 0.8:
 		wrist = l_wr.lerp(outward, _smooth(t / 0.8))
 	else:
 		wrist = outward.lerp(behind, _smooth((t - 0.8) / 0.9))
-	var offset := wrist - l_sh
-	var distance := clampf(offset.length(), absf(upper_len - lower_len) + 0.01, upper_len + lower_len - 0.001)
-	var axis := offset.normalized()
-	var along := (upper_len * upper_len - lower_len * lower_len + distance * distance) / (2.0 * distance)
-	var height := sqrt(maxf(0.0, upper_len * upper_len - along * along))
-	var pole := Vector3(1.0, -0.4, -0.15)
-	pole = (pole - axis * pole.dot(axis)).normalized()
-	var elbow := l_sh + axis * along + pole * height
-	_aim("腕.L", "ひじ.L", elbow - l_sh)
-	_aim("ひじ.L", "手首.L", wrist - _point("ひじ.L"))
+	_solve_arm("L", wrist, Vector3(1.0, -0.4, -0.15))
 	# Blend the initial near-straight elbow plane without a first-frame pop.
-	var entry := _smooth(t / 0.3)
-	for name in ["腕.L", "ひじ.L"]:
+	var entry := _smooth(t / 0.6)
+	for name in ["腕.L", "ひじ.L", "手首.L", "腕.R", "ひじ.R", "手首.R"]:
 		var i := rig.find_bone(name)
 		var q: Quaternion = start_pose[i].basis.get_rotation_quaternion()
 		rig.set_bone_pose_rotation(i, q.slerp(rig.get_bone_pose_rotation(i), entry))
@@ -199,11 +204,29 @@ func _solve_arm(side: String, wrist: Vector3, pole: Vector3) -> void:
 	var a := shoulder.distance_to(elbow)
 	var b := elbow.distance_to(hand)
 	var offset := wrist - shoulder
-	var d := clampf(offset.length(), absf(a - b) + 0.001, a + b - 0.001)
+	var minimum_reach := sqrt(a * a + b * b + 2.0 * a * b * cos(deg_to_rad(125)))
+	var d := clampf(offset.length(), minimum_reach, a + b - 0.001)
 	var axis := offset.normalized()
+	wrist = shoulder + axis * d
 	var x := (a * a - b * b + d * d) / (2.0 * d)
 	var h := sqrt(maxf(0.0, a * a - x * x))
 	var perpendicular := (pole - axis * pole.dot(axis)).normalized()
 	var joint := shoulder + axis * x + perpendicular * h
-	_aim("腕." + side, "ひじ." + side, joint - shoulder)
+	# Codex: direction-only aiming leaves axial twist undefined. Rotate the
+	# shoulder's full frame so the rig's elbow hinge matches the IK bend plane;
+	# the elbow then bends about one axis instead of twisting the sleeve.
+	var upper_before := (elbow - shoulder).normalized()
+	var elbow_basis := rig.get_bone_global_pose(rig.find_bone("ひじ." + side)).basis
+	var hinge_before: Vector3 = elbow_basis * elbow_hinges[side]
+	hinge_before = (hinge_before - upper_before * hinge_before.dot(upper_before)).normalized()
+	var upper_after := (joint - shoulder).normalized()
+	var lower_after := (wrist - joint).normalized()
+	var hinge_after := upper_after.cross(lower_after).normalized()
+	var before_frame := Basis(upper_before, hinge_before, upper_before.cross(hinge_before))
+	var after_frame := Basis(upper_after, hinge_after, upper_after.cross(hinge_after))
+	var arm_index := rig.find_bone("腕." + side)
+	var arm_pose := rig.get_bone_global_pose(arm_index)
+	arm_pose.basis = after_frame * before_frame.transposed() * arm_pose.basis
+	rig.set_bone_global_pose(arm_index, arm_pose)
+	rig.force_update_all_bone_transforms()
 	_aim("ひじ." + side, "手首." + side, wrist - _point("ひじ." + side))

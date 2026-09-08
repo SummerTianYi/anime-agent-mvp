@@ -25,6 +25,11 @@ func _run() -> void:
 	runtime.set_script(Review.OfflineRuntime)
 	viewport.add_child(runtime)
 	runtime.set_model_look_version("1.3")
+	var candidate_path := OS.get_environment("LISTEN_REVIEW_PATH")
+	if not candidate_path.is_empty():
+		var lib: AnimationLibrary = runtime.authored_motion_player.get_animation_library(&"")
+		lib.remove_animation(&"listen")
+		runtime._load_authored_motion_clip(&"listen", candidate_path, runtime.authored_motion_clips["listen"], lib)
 	runtime._play_authored_motion(&"listen")
 	runtime.authored_motion_player.advance(0.0)
 	output = "user://listen-mocap-v2/" + Time.get_datetime_string_from_system().replace(":", "-")

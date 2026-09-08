@@ -21,6 +21,11 @@ func _run() -> void:
 	root.add_child(runtime)
 	var player: AnimationPlayer = runtime.authored_motion_player
 	var rig: Skeleton3D = runtime.skeleton
+	var candidate_path := OS.get_environment("LISTEN_REVIEW_PATH")
+	if not candidate_path.is_empty():
+		var lib := player.get_animation_library(&"")
+		lib.remove_animation(&"listen")
+		runtime._load_authored_motion_clip(&"listen", candidate_path, runtime.authored_motion_clips["listen"], lib)
 	_check(bool(runtime.authored_motion_clips["listen"].get("return_via_reverse", false)), "new listen registry not installed")
 	if not failures.is_empty():
 		quit(1)
@@ -31,6 +36,7 @@ func _run() -> void:
 	var clip := player.get_animation(&"listen")
 	_check(clip.get_track_count() == 74, "74 upper-body rotation tracks")
 	var maximum_step := 0.0
+	var maximum_step_at := ""
 	for i in range(clip.get_track_count()):
 		_check(clip.track_get_type(i) == Animation.TYPE_ROTATION_3D, "no position/scale/visibility track")
 		var bone := rig.find_bone(String(clip.track_get_path(i).get_subname(0)))
@@ -41,7 +47,11 @@ func _run() -> void:
 			_check(q.is_finite() and absf(q.length() - 1.0) < 0.001, "finite unit quaternion")
 			if k > 0:
 				var prev: Quaternion = clip.track_get_key_value(i, k - 1)
-				maximum_step = maxf(maximum_step, absf(prev.angle_to(q)))
+				var step := absf(prev.angle_to(q))
+				if step > maximum_step:
+					maximum_step = step
+					maximum_step_at = "%s frame %d" % [clip.track_get_path(i), k]
+	print("LISTEN_MAXIMUM_STEP ", maximum_step_at, " degrees=", rad_to_deg(maximum_step))
 	_check(maximum_step < deg_to_rad(20), "no >20-degree per-frame flip: %s" % maximum_step)
 	# Whole trajectory: pose translations/scales never change, lower body stays
 	# fixed, intended camera occlusion cannot trigger an extra arm correction.
@@ -49,12 +59,38 @@ func _run() -> void:
 	player.advance(0.0)
 	player.seek(0.0, true)
 	var baseline := {}
+	var hinges := {}
 	for bone in range(rig.get_bone_count()):
 		baseline[bone] = rig.get_bone_pose(bone)
+	for side in ["L", "R"]:
+		var hand := rig.get_bone_global_pose(rig.find_bone("手首." + side)).origin
+		var index := rig.get_bone_global_pose(rig.find_bone("人指１." + side)).origin
+		var little := rig.get_bone_global_pose(rig.find_bone("小指１." + side)).origin
+		var elbow := rig.get_bone_global_pose(rig.find_bone("ひじ." + side))
+		var normal := (index - hand).cross(little - hand).normalized()
+		if normal.z < 0.0:
+			normal = -normal
+		hinges[side] = elbow.basis.inverse() * (hand - elbow.origin).normalized().cross(normal).normalized()
 	runtime._play_authored_motion(&"listen")
 	player.advance(0.0)
+	var maximum_elbow_flex := 0.0
+	var maximum_wrist_bend := 0.0
+	var maximum_elbow_off_axis := 0.0
 	for frame in range(61):
 		player.seek(float(frame) / 30.0, true)
+		for side in ["L", "R"]:
+			var elbow_index := rig.find_bone("ひじ." + side)
+			var base_pose: Transform3D = baseline[elbow_index]
+			var bend := base_pose.basis.get_rotation_quaternion().inverse() * rig.get_bone_pose_rotation(elbow_index)
+			var vector := Vector3(bend.x, bend.y, bend.z)
+			var hinge: Vector3 = hinges[side]
+			maximum_elbow_off_axis = maxf(maximum_elbow_off_axis, (vector - hinge * vector.dot(hinge)).length())
+			var shoulder := rig.get_bone_global_pose(rig.find_bone("腕." + side)).origin
+			var joint := rig.get_bone_global_pose(rig.find_bone("ひじ." + side)).origin
+			var wrist := rig.get_bone_global_pose(rig.find_bone("手首." + side)).origin
+			maximum_elbow_flex = maxf(maximum_elbow_flex, (joint - shoulder).angle_to(wrist - joint))
+			var finger := rig.get_bone_global_pose(rig.find_bone("人指１." + side)).origin
+			maximum_wrist_bend = maxf(maximum_wrist_bend, (wrist - joint).angle_to(finger - wrist))
 		for bone in range(rig.get_bone_count()):
 			var before: Transform3D = baseline[bone]
 			var after := rig.get_bone_pose(bone)
@@ -65,6 +101,10 @@ func _run() -> void:
 		var elbow := rig.get_bone_pose(rig.find_bone("ひじ.L"))
 		runtime._preserve_limb_readability()
 		_check(elbow.is_equal_approx(rig.get_bone_pose(rig.find_bone("ひじ.L"))), "no camera correction of tucked forearm")
+	print("LISTEN_JOINT_LIMITS ", {"elbow_flex_degrees": rad_to_deg(maximum_elbow_flex), "wrist_bend_degrees": rad_to_deg(maximum_wrist_bend), "elbow_off_axis": maximum_elbow_off_axis})
+	_check(maximum_elbow_flex < deg_to_rad(135), "elbows must not fold tighter than 135 degrees")
+	_check(maximum_wrist_bend < deg_to_rad(40), "wrist bend must remain below 40 degrees")
+	_check(maximum_elbow_off_axis < 0.001, "elbow flex must stay on its hinge without axial sleeve twist")
 	var hand := rig.get_bone_global_pose(rig.find_bone("手首.L")).origin
 	var chest := rig.get_bone_global_pose(rig.find_bone("上半身2")).origin
 	_check(hand.z < chest.z - 0.09, "left wrist remains behind torso at hold")
