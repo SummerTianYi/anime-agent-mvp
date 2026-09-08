@@ -50,7 +50,7 @@
 | 能力 | 组成 | 凭证 |
 |---|---|---|
 | 聊天 / 多会话 / 删除与标题 | Godot 聊天浮层 + sessions 表 + 标题生成 | Claude，单测+真机 |
-| 唤醒词 / STT 管线 | sherpa-onnx KWS + faster-whisper 两阶段确认；Realtek 假死自愈（数字零检测 + 一次自动设备重置 + 可行动报错） | Claude 管线；zcode 自愈 2026-09-07 |
+| 唤醒词 / STT 管线 | sherpa-onnx KWS + faster-whisper 两阶段确认；Realtek 假死自愈；唤醒确认同音容错池（whisper 误听变体实证扩充）+ 唤醒流 AGC（防增益半假死） | Claude 管线；zcode 自愈+容错+AGC 2026-09-07/09 |
 | TTS 语音输出 | GPT-SoVITS sidecar 客户端、分片合成、三路打断 | Claude E 期 |
 | 只读工具六件套 | get_time/read_file/list_dir/screenshot/active_window/clipboard_read | Claude A 期；zcode T0 考试 6/6 |
 | 人设新剧本 | ACTIVE_PROMPT_OVERRIDE（旧 BASE 保留可回退） | zcode；workbench 全量 DoD + 真机 A/B |
