@@ -15,6 +15,7 @@ param(
     [string]$BlendPath,
     [string]$GlbPath,
     [string]$RuntimeCommit,
+    [string[]]$VerificationResources = @(),
     [string]$ArchiveRoot
 )
 
@@ -106,7 +107,7 @@ $blendHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $blendDestination).Has
 $glbHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $glbDestination).Hash
 $binaryChanged = $glbHash -ne ([string]$baseManifest.artifacts.runtimeGlb.sha256).ToUpperInvariant()
 # Codex: preserve the exact motion resources and support textures, not future HEAD's assets.
-$resourcePaths = @()
+$resourcePaths = @($VerificationResources)
 $registry = Get-Content -Raw -Encoding UTF8 (Join-Path $repoRoot "apps/avatar-runtime/motion_registry.json") | ConvertFrom-Json
 foreach ($clip in $registry.clips) {
     if (-not ([string]$clip.path).StartsWith("res://assets/motions/")) { throw "Unsupported motion path: $($clip.path)" }

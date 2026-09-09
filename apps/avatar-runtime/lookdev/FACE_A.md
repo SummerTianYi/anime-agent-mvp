@@ -1,6 +1,6 @@
 # Codex — face A offline study (2026-09-10)
 
-Current status (Codex, 2026-09-10): owner approved A2; integrated as local default look 1.4 after expression regressions and restarted Avatar. Historical A1/A2 preview records below remain unchanged. Official model, source atlas, motion, Core, TTS and UI are unchanged; no commit/push. Formal freeze is pending: see `model-versions/PENDING_1.4.md` for evidence, backup and rollback.
+Current status (Codex, 2026-09-10): owner approved formal 1.4 delivery; A2 is installed and frozen locally at runtime commit `7bb1aa1599e85d60adf329d79d507352a4e6eb9a`. Historical preview records below remain unchanged. Official model, source atlas, motions, Core, TTS and UI are unchanged. See `model-versions/1.4/README.md` for evidence and rollback; no remote push this turn.
 
 `render_face_a.gd` reuses the existing `OfflineRuntime` inspection harness without its production `_ready()`. It duplicates only the face StandardMaterial3D and adds `face_a.gdshader` as a next pass. The shader samples the original face atlas read-only and adds bounded UV-attached warm shading at the nose tip, existing lip pigment and ear island. It does not write vertices/normals, replace textures, move hair or alter eye materials. These are stylized pigment cues, not newly simulated shadows or a geometric nose enlargement. It remains A, not the separately proposed geometry-editing B.
 

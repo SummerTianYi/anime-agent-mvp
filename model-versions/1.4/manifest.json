@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4",
+  "status": "accepted",
+  "baseVersion": "1.3",
+  "displayName": "Codex accepted A2 facial material detail",
+  "acceptedAt": "2026-09-10T00:37:45.3677879+08:00",
+  "source": {
+    "name": "洛天依 V4 公式服 ver2.0",
+    "pmxFile": "luotianyi_v4_ver2.0.pmx",
+    "pmxBytes": 7634318,
+    "pmxSha256": "6C292DEEE948B3769AA7BDFC2301814431DF1EB102DA92A39656DA0236A115E7",
+    "redistribution": "local-only; public redistribution is not established"
+  },
+  "runtime": {
+    "commit": "7bb1aa1599e85d60adf329d79d507352a4e6eb9a",
+    "modelBinaryChangedFromBase": false,
+    "godot": "4.7.2",
+    "blender": "5.2.1 LTS",
+    "mmdTools": "4.5.13",
+    "vrmAddon": "4.5.0"
+  },
+  "artifacts": {
+    "archiveDirectory": "1.4/artifacts",
+    "editableBlend": {
+      "file": "luotianyi_v4_prepared.blend",
+      "bytes": 47623610,
+      "sha256": "886B61339707C289157F7D762A9B44DF26E9CFDFA92BD1D5AC518D7116B7672D"
+    },
+    "runtimeGlb": {
+      "file": "luotianyi_v4.glb",
+      "bytes": 128621144,
+      "sha256": "DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    }
+  },
+  "runtimeResources": [
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_avatar.jpg",
+      "bytes": 21271,
+      "sha256": "B589CEF4381E1FDAE1B54BB93618BE3B8626D6517390796FF4C5866EE0A156E6"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4_tex_luotianyi_backhair.png",
+      "bytes": 1265700,
+      "sha256": "95653823649DF240137CB7DD19E32EA7C2453D51C03F4E43E3F52774D20C27F9"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4_tex_luotianyi_body.png",
+      "bytes": 530184,
+      "sha256": "1CBB6625CBBC514AB77F8A66528204BD17F5400FADEC2019D75960BD18866A5C"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4_tex_luotianyi_clothes1.png",
+      "bytes": 1631781,
+      "sha256": "08FC342003507133A614CD91416BA295102912391615EF980D8073E78A6C49BA"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4_tex_luotianyi_clothes2.png",
+      "bytes": 2855648,
+      "sha256": "EE4136885BC6A327662E1196C55A14332AAFC4541A3E29C7D98472E70E787C5D"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4_tex_luotianyi_emotion.png",
+      "bytes": 392176,
+      "sha256": "7BE070B37E0AFEA09F0B80B8C121B17CDB47C25C56DD68726B4D969A5E42AD44"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4_tex_luotianyi_face.png",
+      "bytes": 1143488,
+      "sha256": "B882C106055350A0BDA844548ECAF1AD13822ADA14A3DD2FC0C57442C5EC52F5"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4_tex_luotianyi_fronthair.png",
+      "bytes": 1222035,
+      "sha256": "B8B489729D97D0B7E8177056096484848587B13005F6D5E8DF966E9C8151073A"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/listen_reference_fk_v2.tres",
+      "bytes": 305297,
+      "sha256": "340C44B446FF81219CBB055D56BC4AF9EAEF65357E307BB871478FBB4ACADF2C"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/luotianyi_idle.glb",
+      "bytes": 23070740,
+      "sha256": "5CF15A1D3E657CF76E5F58E33C9D3593A14494B89817AD2A910D57CABF9D433A"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/luotianyi_pirouette.glb",
+      "bytes": 23114580,
+      "sha256": "1FEFBF0667711845E4FC6E0574D57D74C8982E15AA76A2A25BB9192BE1FAA284"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/listen_reference_fk_v1.tres",
+      "bytes": 305525,
+      "sha256": "38E8E82CCCB596D929B1FD764F581D36AFC96C54C3404C10BA319431BD30A7E4"
+    }
+  ],
+  "structure": {
+    "skeletons": 1,
+    "bones": 751,
+    "expressions": 48,
+    "pigtailChainLengths": [
+      17,
+      17
+    ],
+    "meshTopologyChanged": false,
+    "uvChanged": false,
+    "skinWeightsChanged": false
+  },
+  "optimization": {
+    "goal": "Codex accepted A2 facial material detail",
+    "plan": [
+      "Improve nose and lips without changing official geometry or expressions"
+    ],
+    "changes": [
+      "UV face-only A2 next-pass material; explicit old-profile rollback; immutable support resources"
+    ],
+    "explicitlyUnchanged": [
+      "Official GLB Blend UV normals skin bones proportions source textures eyes and motions"
+    ],
+    "knownIssues": [
+      "Subtle at small desktop scale; ears hair-occluded; no universal collision or new voice validation"
+    ]
+  },
+  "visualEvidence": {
+    "localDirectory": "1.4/previews",
+    "requiredViews": [
+      "front",
+      "left",
+      "right",
+      "back",
+      "max-zoom",
+      "neutral-face",
+      "expression-extremes"
+    ],
+    "captured": [
+      {
+        "view": "front",
+        "file": "front.png",
+        "bytes": 244837,
+        "sha256": "0126DA05900F75871D26024A83295D7CBA36B4C3D57A82A61EA314C4CD36D1C6"
+      },
+      {
+        "view": "left",
+        "file": "left.png",
+        "bytes": 195725,
+        "sha256": "92621DF850DAD4AB6662613AE537624F53D81C6F9F47A4D1BEA49BD2649A8945"
+      },
+      {
+        "view": "right",
+        "file": "right.png",
+        "bytes": 200725,
+        "sha256": "BFB6E4AC37FD75B27D477696ABDF8E68BA8B7A549A8FBCA2EF234F389A160085"
+      },
+      {
+        "view": "back",
+        "file": "back.png",
+        "bytes": 220635,
+        "sha256": "EB85C5D7C4C79CF1954F2344F22BFA8D14A0C5A4C2547C83205DE057268C38CE"
+      },
+      {
+        "view": "max-zoom",
+        "file": "max-zoom.png",
+        "bytes": 392008,
+        "sha256": "DDB10C1EBAB8EF68222AB25991B0737B1DEE0F07E024B1E0F4EAB585DB81AE78"
+      },
+      {
+        "view": "neutral-face",
+        "file": "neutral-face.png",
+        "bytes": 1098827,
+        "sha256": "8F714D8A0701790CA6AB2757840E0DB89AE8CAF856CB1A0E8D08998FE409BD89"
+      },
+      {
+        "view": "expression-extremes",
+        "file": "expression-extremes.png",
+        "bytes": 1062560,
+        "sha256": "ABF2593153D6DF9F0D08E34630A5A54656CAB9BF46C6E49A204865371241FA07"
+      }
+    ]
+  },
+  "verification": [
+    {
+      "name": "snapshot-contract",
+      "result": "passed",
+      "evidence": "128621144 bytes; SHA-256 DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A"
+    },
+    {
+      "name": "visual-review",
+      "result": "passed",
+      "evidence": "Owner approved A2 installation and formal delivery 2026-09-10. Seven production-profile Godot archive views captured; 48 shapes at two weights, eight mixes and 180 continuous mouth frames passed. Nine expression contact sheets reviewed."
+    },
+    {
+      "name": "integration-regression",
+      "result": "passed",
+      "evidence": "122 pairs; 104 full-image alpha pairs unchanged; 703 runtime bones and 48 shapes; unchanged official GLB/Blend. Input/session/tool-card/canvas/750-frame idle/listen/large-motion gates, 191 isolated Core tests and desktop build passed before freeze."
+    },
+    {
+      "name": "production-restart",
+      "result": "passed",
+      "evidence": "Prior implementation turn restarted only Avatar (PID20408), runtime log model_look=1.4 and Core connected. Current freeze does not change rendering or restart services; real voice not rerun."
+    },
+    {
+      "name": "isolated-restore",
+      "result": "passed",
+      "evidence": "Recreated model-worktrees/1.4 from 7bb1aa1 and frozen resources. Runtime idle/pirouette/listen, listening path, text input passed; 122-pair/180-frame GPU gate and independent full-pixel alpha audit passed at user://face-expression-regression/2026-09-10T00-40-47-29868. Import completed before final test; historical FKv1 reference included for test reproducibility."
+    }
+  ],
+  "rollback": {
+    "assetCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\switch-model-version.ps1 -Version 1.4",
+    "exactRuntimeCommand": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\model-versions\\open-model-version.ps1 -Version 1.4 -Launch"
+  }
+}
