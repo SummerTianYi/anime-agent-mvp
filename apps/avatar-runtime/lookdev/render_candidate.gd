@@ -86,9 +86,9 @@ func _run() -> void:
 		_check(candidate_materials[index].albedo_texture == material.albedo_texture, "same official texture " + surface)
 		_check(candidate_materials[index].transparency == material.transparency, "same transparency " + surface)
 	_check(candidate_materials.size() == 10, "10 material copies")
-	for selection in ["1.1", "1.2", "1.3", "", "baseline", "1.2-preview"]:
+	for selection in ["1.1", "1.2", "1.3", "1.4", "", "baseline", "1.2-preview"]:
 		runtime.set_model_look_version(selection)
-		var expected: String = "1.3" if selection.is_empty() else ("1.1" if selection == "baseline" else ("1.2" if selection == "1.2-preview" else selection))
+		var expected: String = runtime.MODEL_LOOK_CURRENT if selection.is_empty() else ("1.1" if selection == "baseline" else ("1.2" if selection == "1.2-preview" else selection))
 		_check(runtime.model_look_version == expected, "profile selection " + selection)
 	_apply(true)
 	for index in candidate_materials:

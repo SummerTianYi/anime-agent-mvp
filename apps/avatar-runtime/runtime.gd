@@ -55,8 +55,9 @@ const AUTHORED_MOTION_ENV := "ANIME_AGENT_USE_AUTHORED_MOTION"
 const AUTHORED_MOTION_AUTOPLAY_ENV := "ANIME_AGENT_AUTOPLAY_MOTION"
 const MODEL_LOOK_ENV := "ANIME_AGENT_MODEL_LOOK"
 const MODEL_LOOK_V12 := "1.2"
-const MODEL_LOOK_CURRENT := "1.3"
+const MODEL_LOOK_CURRENT := "1.4"
 const ModelLookV13 := preload("res://model_look_v13.gd")
+const ModelLookV14 := preload("res://model_look_v14.gd")
 const MODEL_LOOK_TARGETS := {
 	"face": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
 	"body": {"albedo": 0.24, "emission": 0.86, "roughness": 0.92, "rim": 0.04},
@@ -147,6 +148,7 @@ var model_look_version := "1.1"
 var model_look_original_overrides: Dictionary = {}
 var model_look_preview_materials: Dictionary = {}
 var model_look_v13_materials: Dictionary = {}
+var model_look_v14_materials: Dictionary = {}
 
 var core_socket: WebSocketPeer
 var core_ws_url := DEFAULT_CORE_WS_URL
@@ -1405,6 +1407,8 @@ func set_model_look_version(version: String) -> void:
 		requested = "1.1"
 	elif requested in ["1.2", "1.2-preview"]:
 		requested = MODEL_LOOK_V12
+	elif requested in ["1.3", "1.4"]:
+		pass
 	else:
 		requested = MODEL_LOOK_CURRENT
 	if face_mesh == null or face_mesh.mesh == null:
@@ -1417,8 +1421,10 @@ func set_model_look_version(version: String) -> void:
 		var material: Material = model_look_original_overrides.get(surface_index)
 		if requested == MODEL_LOOK_V12:
 			material = model_look_preview_materials.get(surface_index)
-		elif requested == MODEL_LOOK_CURRENT:
+		elif requested == "1.3":
 			material = model_look_v13_materials.get(surface_index)
+		elif requested == "1.4":
+			material = model_look_v14_materials.get(surface_index)
 		face_mesh.set_surface_override_material(int(surface_index), material)
 	model_look_version = requested
 	model_look_preview_enabled = requested != "1.1"
@@ -1443,6 +1449,9 @@ func _cache_model_look_materials() -> void:
 		)
 		model_look_v13_materials[surface_index] = ModelLookV13.make_material(
 			model_look_preview_materials[surface_index], surface_name
+		)
+		model_look_v14_materials[surface_index] = ModelLookV14.make_material(
+			model_look_v13_materials[surface_index], surface_name
 		)
 
 

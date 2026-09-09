@@ -105,6 +105,25 @@ $glbItem = Get-Item -LiteralPath $glbDestination
 $blendHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $blendDestination).Hash
 $glbHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $glbDestination).Hash
 $binaryChanged = $glbHash -ne ([string]$baseManifest.artifacts.runtimeGlb.sha256).ToUpperInvariant()
+# Codex: preserve the exact motion resources and support textures, not future HEAD's assets.
+$resourcePaths = @()
+$registry = Get-Content -Raw -Encoding UTF8 (Join-Path $repoRoot "apps/avatar-runtime/motion_registry.json") | ConvertFrom-Json
+foreach ($clip in $registry.clips) {
+    if (-not ([string]$clip.path).StartsWith("res://assets/motions/")) { throw "Unsupported motion path: $($clip.path)" }
+    $resourcePaths += "apps/avatar-runtime/" + ([string]$clip.path).Substring(6)
+}
+$resourcePaths += @(Get-ChildItem (Join-Path $repoRoot "apps/avatar-runtime/assets") -File | Where-Object {
+    $_.Extension.ToLowerInvariant() -in @(".jpg", ".jpeg", ".png", ".webp")
+} | ForEach-Object { "apps/avatar-runtime/assets/" + $_.Name })
+$runtimeResources = @()
+foreach ($relative in ($resourcePaths | Sort-Object -Unique)) {
+    $sourcePath = Resolve-ModelResourcePath -Root $repoRoot -RelativePath $relative
+    $destinationPath = Resolve-ModelResourcePath -Root (Join-Path $resolvedArchiveRoot "$Version/resources") -RelativePath $relative
+    New-Item -ItemType Directory -Path (Split-Path $destinationPath -Parent) -Force | Out-Null
+    Copy-Item -LiteralPath $sourcePath -Destination $destinationPath
+    Set-ItemProperty -LiteralPath $destinationPath -Name IsReadOnly -Value $true
+    $runtimeResources += [ordered]@{ path = $relative; bytes = (Get-Item $destinationPath).Length; sha256 = (Get-FileHash $destinationPath -Algorithm SHA256).Hash }
+}
 $manifest = [ordered]@{
     schemaVersion = 1
     version = $Version
@@ -126,6 +145,7 @@ $manifest = [ordered]@{
         editableBlend = [ordered]@{ file = $blendItem.Name; bytes = $blendItem.Length; sha256 = $blendHash }
         runtimeGlb = [ordered]@{ file = $glbItem.Name; bytes = $glbItem.Length; sha256 = $glbHash }
     }
+    runtimeResources = $runtimeResources
     structure = [ordered]@{
         skeletons = 1
         bones = 751

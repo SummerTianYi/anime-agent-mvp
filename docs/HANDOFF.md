@@ -41,6 +41,8 @@
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+2026-09-10 Codex：所有者批准五官 A2 后，已接入本地默认外观 1.4 并重启 Avatar；仅复制 face 材质并增加 UV 鼻唇/耳内细节，其他 22 个材质、官模 GLB/Blend、703 骨、48 个形变及动作资源不变。122 组表情对照、180 帧连续口型、全像素 Alpha、旧版本切换、输入/会话/工具卡/动作回归与 191 项隔离 Core 单测、桌面构建通过。正式不可变版本索引仍停留 1.3，1.4 当前为已实装但未提交冻结的本地状态，不能用旧 HEAD 冒充新运行时；归档/证据/回退见 [PENDING_1.4.md](../model-versions/PENDING_1.4.md)。本轮未 commit/push，无 Core/TTS 代码修改或重启。
+
 2026-09-10 zcode U2 首块试点（所有者选定"最有把握"先行）：工具活动卡上线 Godot 浮层——`agent.tool` 事件按回合聚合成气泡流内卡片（本地/MCP 服务器徽标解析 `mcp__<server>__<tool>`、✓/✗、调用计数；参照 UI_REFERENCES §4 chatbox Work Mode 范式）。零协议/Core 改动，只动 `interaction_ui.gd` + 新守卫 `verify_tool_activity.gd`（GODOT_TOOL_ACTIVITY_OK，既有 session/text 守卫回归绿）。形态 A/B/C 决策不变仍待所有者拍板。
 
 2026-09-09 zcode Core 守护（KI-019）：用户报告"Core 又挂"，取证坐实根因——PortAudio（libportaudio64bit.dll）在唤醒词常驻麦克风流里原生崩溃 0xC0000005（WER APPCRASH 22:40:17，pid 4840，Python 零堆栈），重启/休眠同样造成"天依活着、Core 已死"。交付 `scripts/core_watchdog.ps1` 并接入 `start-mvp.ps1`：天依在桌面上就拉活 Core（双确认防误判、90s 预热防重复拉起、认领任何跑 agent_core.main 的 python、外部占用不碰、退出码验尸落 `%LOCALAPPDATA%\AnimeAgent\logs\core-watchdog.log`、天依不在即退场），全程零 GLM 调用（复活问候为固定台词）。真机两轮杀→活实测（23.4s/20.7s 恢复健康）；唤醒管线本体未动，音频监听子进程隔离留作结构修复（见 KI-019，方案归 `anime-agent-roadmap` 仓 RESILIENCE R1）。

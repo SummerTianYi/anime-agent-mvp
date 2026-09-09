@@ -52,7 +52,24 @@ if (-not $targetMatches) {
     Copy-VerifiedArtifact -Source $sourcePath -Destination $targetPath -ExpectedBytes ([long]$artifact.bytes) -ExpectedSha256 ([string]$artifact.sha256)
 }
 
-if (-not $SkipMotions) {
+$hasFrozenResources = $manifest.PSObject.Properties.Name -contains "runtimeResources"
+$frozenResourceChanged = $false
+if ($hasFrozenResources) {
+    foreach ($resource in $manifest.runtimeResources) {
+        if ($SkipMotions -and ([string]$resource.path).Contains("/motions/")) { continue }
+        $sourceResource = Resolve-ModelResourcePath -Root (Join-Path (Get-ModelVersionArchiveRoot -ArchiveRoot $ArchiveRoot) "$Version/resources") -RelativePath $resource.path
+        $targetResource = Resolve-ModelResourcePath -Root $worktreePath -RelativePath $resource.path
+        Assert-FileContract -Path $sourceResource -ExpectedBytes $resource.bytes -ExpectedSha256 $resource.sha256 | Out-Null
+        if (Test-Path -LiteralPath $targetResource) {
+            # Never overwrite edits in an existing inspection worktree.
+            Assert-FileContract -Path $targetResource -ExpectedBytes $resource.bytes -ExpectedSha256 $resource.sha256 | Out-Null
+        } else {
+            Copy-VerifiedArtifact -Source $sourceResource -Destination $targetResource -ExpectedBytes $resource.bytes -ExpectedSha256 $resource.sha256
+            $frozenResourceChanged = $true
+        }
+    }
+}
+if (-not $hasFrozenResources -and -not $SkipMotions) {
     $currentMotionDirectory = Join-Path $repoRoot "apps\avatar-runtime\assets\motions"
     $targetMotionDirectory = Join-Path $worktreePath "apps\avatar-runtime\assets\motions"
     if (Test-Path -LiteralPath $currentMotionDirectory) {
@@ -66,7 +83,7 @@ if (-not $SkipMotions) {
 $supportAssetChanged = $false
 $currentAssetDirectory = Join-Path $repoRoot "apps\avatar-runtime\assets"
 $targetAssetDirectory = Join-Path $worktreePath "apps\avatar-runtime\assets"
-Get-ChildItem -LiteralPath $currentAssetDirectory -File | Where-Object { $_.Extension.ToLowerInvariant() -in @(".jpg", ".jpeg", ".png", ".webp") } | ForEach-Object {
+Get-ChildItem -LiteralPath $currentAssetDirectory -File | Where-Object { -not $hasFrozenResources -and $_.Extension.ToLowerInvariant() -in @(".jpg", ".jpeg", ".png", ".webp") } | ForEach-Object {
     $supportTarget = Join-Path $targetAssetDirectory $_.Name
     $copySupportAsset = -not (Test-Path -LiteralPath $supportTarget)
     if (-not $copySupportAsset) {
@@ -85,7 +102,7 @@ $godotCandidates = @(
     (Join-Path (Split-Path $repoRoot -Parent) "tools\godot-4.7.2\Godot_v4.7.2-stable_win64_console.exe")
 )
 $godotConsolePath = $godotCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
-$needsImport = (-not $targetMatches) -or $supportAssetChanged -or (-not (Test-Path -LiteralPath (Join-Path $projectPath ".godot\imported")))
+$needsImport = (-not $targetMatches) -or $supportAssetChanged -or $frozenResourceChanged -or (-not (Test-Path -LiteralPath (Join-Path $projectPath ".godot\imported")))
 if ($needsImport) {
     if (-not $godotConsolePath) {
         throw "Godot 4.7.2 is required to initialize the isolated model worktree."

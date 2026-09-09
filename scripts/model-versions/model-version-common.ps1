@@ -123,3 +123,17 @@ function Write-ModelVersionJson {
     $json = $Value | ConvertTo-Json -Depth 20
     [IO.File]::WriteAllText($Path, "$json`n", [Text.UTF8Encoding]::new($false))
 }
+
+# Codex: versioned support assets must never resolve outside their archive/worktree.
+function Resolve-ModelResourcePath {
+    param([string]$Root, [string]$RelativePath)
+    if ([IO.Path]::IsPathRooted($RelativePath) -or $RelativePath.Contains(":")) {
+        throw "Invalid model resource path: $RelativePath"
+    }
+    $base = [IO.Path]::GetFullPath($Root).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+    $path = [IO.Path]::GetFullPath((Join-Path $base $RelativePath))
+    if (-not $path.StartsWith($base, [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Model resource escapes its root: $RelativePath"
+    }
+    return $path
+}

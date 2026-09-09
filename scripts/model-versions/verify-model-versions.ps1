@@ -36,6 +36,12 @@ foreach ($entry in $versions) {
         $artifactPath = Get-ArchivedArtifactPath -Manifest $manifest -Artifact $artifact -ArchiveRoot $ArchiveRoot
         Assert-FileContract -Path $artifactPath -ExpectedBytes ([long]$artifact.bytes) -ExpectedSha256 ([string]$artifact.sha256) -Label "$($entry.version) $artifactName" | Out-Null
     }
+    if ($manifest.PSObject.Properties.Name -contains "runtimeResources") {
+        foreach ($resource in $manifest.runtimeResources) {
+            $resourcePath = Resolve-ModelResourcePath -Root (Join-Path (Get-ModelVersionArchiveRoot -ArchiveRoot $ArchiveRoot) "$($entry.version)/resources") -RelativePath $resource.path
+            Assert-FileContract -Path $resourcePath -ExpectedBytes $resource.bytes -ExpectedSha256 $resource.sha256 | Out-Null
+        }
+    }
     Write-Host "MODEL_VERSION_OK $($entry.version) commit=$($manifest.runtime.commit)"
 }
 
