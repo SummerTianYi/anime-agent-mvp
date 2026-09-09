@@ -49,13 +49,13 @@ var tool_count_label: Label = null
 var tool_call_count := 0
 
 # 思考强度档（鲸鱼娘旋钮的天依版）：旋钮素材放 res://assets/effort/<level>.png
-# （~96×96 透明底），缺图时回退到角色头像占位。
+# （官方表情包：敲碗/吃瓜/棒，授权未决只留本地），缺图时回退到角色头像占位。
 const EFFORT_ORDER := ["chill", "standard", "deep"]
-const EFFORT_LABELS := {"chill": "闲聊", "standard": "标准", "deep": "全力"}
+const EFFORT_LABELS := {"chill": "碎碎念", "standard": "帮帮忙", "deep": "大展身手"}
 const EFFORT_HINTS := {
-	"chill": "不带工具纯聊天，最省额度",
-	"standard": "只读工具，3 步内解决",
-	"deep": "全工具 + MCP，5 步封顶（默认）",
+	"chill": "就陪你说说话，不动工具（最省额度）",
+	"standard": "只读工具帮眼，3 步内解决",
+	"deep": "全工具 + MCP 都安排上，5 步封顶（默认）",
 }
 var effort_level := "deep"
 var effort_button: Button = null

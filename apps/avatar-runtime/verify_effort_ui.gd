@@ -17,11 +17,11 @@ func _run() -> void:
 		_fail("Interaction UI missing")
 		return
 
-	# 1) 默认档 = 全力（保持历史行为），按钮文案可见
+	# 1) 默认档 = 大展身手（保持历史行为），按钮文案可见
 	if str(ui.effort_level) != "deep":
 		_fail("default effort must be deep, got %s" % str(ui.effort_level))
 		return
-	if str(ui.effort_button.text) != "思考·全力":
+	if str(ui.effort_button.text) != "思考·大展身手":
 		_fail("effort button text wrong: " + str(ui.effort_button.text))
 		return
 
@@ -30,19 +30,19 @@ func _run() -> void:
 	if ui.effort_overlay == null:
 		_fail("effort popover did not open")
 		return
-	if str(ui.effort_big_label.text) != "全力":
+	if str(ui.effort_big_label.text) != "大展身手":
 		_fail("popover level label wrong: " + str(ui.effort_big_label.text))
 		return
 	if int(ui.effort_slider.value) != 2:
 		_fail("slider not at deep position")
 		return
 
-	# 3) 拖到闲聊：档位名与说明联动
+	# 3) 拖到碎碎念：档位名与说明联动
 	ui.effort_slider.value = 0.0
 	if str(ui.effort_level) != "chill":
 		_fail("slider did not drive effort_level")
 		return
-	if str(ui.effort_big_label.text) != "闲聊":
+	if str(ui.effort_big_label.text) != "碎碎念":
 		_fail("popover label did not follow slider")
 		return
 	if not str(ui.effort_hint_label.text).contains("最省额度"):
@@ -54,7 +54,7 @@ func _run() -> void:
 	if ui.effort_overlay != null:
 		_fail("effort popover did not close")
 		return
-	if str(ui.effort_button.text) != "思考·闲聊":
+	if str(ui.effort_button.text) != "思考·碎碎念":
 		_fail("button label not synced after close: " + str(ui.effort_button.text))
 		return
 
@@ -78,7 +78,7 @@ func _run() -> void:
 
 	print("GODOT_EFFORT_UI_OK", {
 		"default": "deep",
-		"levels": ["闲聊", "标准", "全力"],
+		"levels": ["碎碎念", "帮帮忙", "大展身手"],
 		"slider_follows": true,
 		"send_effort": "standard",
 	})

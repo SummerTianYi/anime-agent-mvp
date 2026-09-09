@@ -45,7 +45,7 @@
 
 2026-09-10 Codex：所有者批准五官 A2 后，已接入本地默认外观 1.4 并重启 Avatar；仅复制 face 材质并增加 UV 鼻唇/耳内细节，其他 22 个材质、官模 GLB/Blend、703 骨、48 个形变及动作资源不变。122 组表情对照、180 帧连续口型、全像素 Alpha、旧版本切换、输入/会话/工具卡/动作回归与 191 项隔离 Core 单测、桌面构建通过。正式不可变版本索引仍停留 1.3，1.4 当前为已实装但未提交冻结的本地状态，不能用旧 HEAD 冒充新运行时；归档/证据/回退见 [PENDING_1.4.md](../model-versions/PENDING_1.4.md)。本轮未 commit/push，无 Core/TTS 代码修改或重启。
 
-2026-09-10 zcode 思考强度档（所有者点名"鲸鱼娘旋钮天依版"）：composer"思考·全力"按钮 → ChatGPT 式弹窗（三档刻度滑杆 + 天依旋钮）。旋钮素材已就位（所有者选定官方表情包：敲碗=闲聊/吃瓜=标准/棒=全力，`assets/effort/<level>.png`，授权未决资产照惯例只留本地不入库，缺图自动回退头像）。协议 `chat.message` 新增可选 `effort`（chill=无工具 / standard=只读六件套 3 步 / deep=全量+MCP 5 步=历史默认，缺省即旧行为，旧客户端零影响），映射在 `main.py` `effective_tools_for_effort` 纯函数 + 7 单测，权限引擎不动；`runtime.gd send_chat_message` 仅加带默认值的参数（冻结文件最小加法）。单测 191→198 全绿；守卫 `verify_effort_ui.gd`（GODOT_EFFORT_UI_OK）+ 既有三守卫回归绿。GLM thinking 参数透传待 key 有额度后验证。
+2026-09-10 zcode 思考强度档（所有者点名"鲸鱼娘旋钮天依版"）：composer"思考·大展身手"按钮 → ChatGPT 式弹窗（三档刻度滑杆 + 天依旋钮）。旋钮素材已就位（所有者选定官方表情包：敲碗/吃瓜/棒，`assets/effort/<level>.png`，前两张已镜像统一朝向，授权未决资产照惯例只留本地不入库，缺图自动回退头像）；档位显示名所有者定稿：碎碎念/帮帮忙/大展身手。协议 `chat.message` 新增可选 `effort`（chill=无工具 / standard=只读六件套 3 步 / deep=全量+MCP 5 步=历史默认，缺省即旧行为，旧客户端零影响），映射在 `main.py` `effective_tools_for_effort` 纯函数 + 7 单测，权限引擎不动；`runtime.gd send_chat_message` 仅加带默认值的参数（冻结文件最小加法）。单测 191→198 全绿；守卫 `verify_effort_ui.gd`（GODOT_EFFORT_UI_OK）+ 既有三守卫回归绿。GLM thinking 参数透传待 key 有额度后验证。
 
 2026-09-10 zcode U2 首块试点（所有者选定"最有把握"先行）：工具活动卡上线 Godot 浮层——`agent.tool` 事件按回合聚合成气泡流内卡片（本地/MCP 服务器徽标解析 `mcp__<server>__<tool>`、✓/✗、调用计数；参照 UI_REFERENCES §4 chatbox Work Mode 范式）。零协议/Core 改动，只动 `interaction_ui.gd` + 新守卫 `verify_tool_activity.gd`（GODOT_TOOL_ACTIVITY_OK，既有 session/text 守卫回归绿）。形态 A/B/C 决策不变仍待所有者拍板。
 
