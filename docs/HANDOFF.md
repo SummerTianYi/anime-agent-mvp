@@ -41,7 +41,9 @@
 
 ## 3. 当前真实状态（= 冻结区清单）
 
-2026-09-09 zcode Core 守护（KI-019）：用户报告"Core 又挂"，取证坐实根因——PortAudio（libportaudio64bit.dll）在唤醒词常驻麦克风流里原生崩溃 0xC0000005（WER APPCRASH 22:40:17，pid 4840，Python 零堆栈），重启/休眠同样造成"天依活着、Core 已死"。交付 `scripts/core_watchdog.ps1` 并接入 `start-mvp.ps1`：天依在桌面上就拉活 Core（双确认防误判、90s 预热防重复拉起、认领任何跑 agent_core.main 的 python、外部占用不碰、退出码验尸落 `%LOCALAPPDATA%\AnimeAgent\logs\core-watchdog.log`、天依不在即退场），全程零 GLM 调用（复活问候为固定台词）。真机两轮杀→活实测（23.4s/20.7s 恢复健康）；唤醒管线本体未动，音频监听子进程隔离留作结构修复（见 KI-019）。
+2026-09-10 zcode U2 首块试点（所有者选定"最有把握"先行）：工具活动卡上线 Godot 浮层——`agent.tool` 事件按回合聚合成气泡流内卡片（本地/MCP 服务器徽标解析 `mcp__<server>__<tool>`、✓/✗、调用计数；参照 UI_REFERENCES §4 chatbox Work Mode 范式）。零协议/Core 改动，只动 `interaction_ui.gd` + 新守卫 `verify_tool_activity.gd`（GODOT_TOOL_ACTIVITY_OK，既有 session/text 守卫回归绿）。形态 A/B/C 决策不变仍待所有者拍板。
+
+2026-09-09 zcode Core 守护（KI-019）：用户报告"Core 又挂"，取证坐实根因——PortAudio（libportaudio64bit.dll）在唤醒词常驻麦克风流里原生崩溃 0xC0000005（WER APPCRASH 22:40:17，pid 4840，Python 零堆栈），重启/休眠同样造成"天依活着、Core 已死"。交付 `scripts/core_watchdog.ps1` 并接入 `start-mvp.ps1`：天依在桌面上就拉活 Core（双确认防误判、90s 预热防重复拉起、认领任何跑 agent_core.main 的 python、外部占用不碰、退出码验尸落 `%LOCALAPPDATA%\AnimeAgent\logs\core-watchdog.log`、天依不在即退场），全程零 GLM 调用（复活问候为固定台词）。真机两轮杀→活实测（23.4s/20.7s 恢复健康）；唤醒管线本体未动，音频监听子进程隔离留作结构修复（见 KI-019，方案归 `anime-agent-roadmap` 仓 RESILIENCE R1）。
 
 2026-09-09 zcode UI 调研：U0 现状测绘与三路开源 UI 调研完成（`docs/plans/UI_REFERENCES.md`，零 GLM 配额，18 开源项目 + 本地协议→UI 覆盖矩阵）。确认两处 P0 呈现缺口（`permission.decision` 无 UI 呈现、`agent.tool` 活动无实感），对应 UI_UPGRADE U2/U3 规划不变；形态 A/B/C 影响分析就绪（含 Tauri 选型反转证据：airi/OLV 均迁至 Electron，壳选型需前置真机验收），**待所有者拍板**，U1 未开工。
 

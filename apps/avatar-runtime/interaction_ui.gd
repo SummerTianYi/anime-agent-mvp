@@ -19,6 +19,15 @@ const COLOR_BUBBLE_USER_TEXT := Color(0.039, 0.141, 0.204)
 const COLOR_JADE := Color(0.498, 0.831, 0.659)
 const COLOR_TEXT := Color(0.91, 0.925, 0.957)
 const COLOR_TEXT_DIM := Color(0.541, 0.576, 0.659)
+const COLOR_FAIL := Color(0.925, 0.44, 0.44)
+# MCP 工具名 mcp__<server>__<tool> 的服务器徽标中文映射（UI_REFERENCES 工具活动流）
+const MCP_SERVER_LABELS := {
+	"browser": "浏览器",
+	"github": "GitHub",
+	"search": "搜索",
+	"gmail": "邮箱",
+	"drive": "网盘",
+}
 
 var avatar: Node
 var backdrop: ColorRect
@@ -33,6 +42,11 @@ var chat_input: LineEdit
 var chat_status: Label
 var voice_button: Button
 var avatar_texture: Texture2D
+
+var tool_card: PanelContainer = null
+var tool_rows_box: VBoxContainer = null
+var tool_count_label: Label = null
+var tool_call_count := 0
 
 var sessions: Array = []
 var current_conversation_id := -1
@@ -281,6 +295,97 @@ func on_wake_idle() -> void:
 
 func on_agent_tool(tool: String, ok: bool) -> void:
 	chat_status.text = ("已使用工具：" + tool) if ok else ("工具失败：" + tool)
+	_record_tool_call(tool, ok)
+
+
+# ---------------------------------------------------------------- 工具活动卡
+
+# 同一回合的工具调用聚合成一张卡片，插在气泡流里；
+# 用户发送新消息或切换会话时开新卡，参照 chatbox Work Mode 的单行时间线。
+
+func _record_tool_call(tool: String, ok: bool) -> void:
+	if bubbles_box == null:
+		return
+	if tool_card == null or not is_instance_valid(tool_card):
+		_append_tool_card()
+	_remove_empty_hint()
+	tool_call_count += 1
+	tool_count_label.text = "%d 次调用" % tool_call_count
+	_append_tool_row(tool, ok)
+	_stick_scroll_if_needed()
+
+
+func _reset_tool_activity() -> void:
+	tool_card = null
+	tool_rows_box = null
+	tool_count_label = null
+	tool_call_count = 0
+
+
+func _append_tool_card() -> void:
+	_remove_empty_hint()
+	tool_card = PanelContainer.new()
+	tool_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = COLOR_PANEL
+	style.border_color = COLOR_PANEL_LINE
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	style.content_margin_left = 10.0
+	style.content_margin_right = 10.0
+	style.content_margin_top = 7.0
+	style.content_margin_bottom = 7.0
+	tool_card.add_theme_stylebox_override("panel", style)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 5)
+	tool_card.add_child(box)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 6)
+	var title := _make_label("工具活动", 10, COLOR_TIANI_BLUE)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(title)
+	tool_count_label = _make_label("动手中…", 10, COLOR_TEXT_DIM)
+	header.add_child(tool_count_label)
+	box.add_child(header)
+	tool_rows_box = VBoxContainer.new()
+	tool_rows_box.add_theme_constant_override("separation", 3)
+	box.add_child(tool_rows_box)
+	bubbles_box.add_child(tool_card)
+	tool_call_count = 0
+
+
+func _append_tool_row(tool: String, ok: bool) -> void:
+	var parts := _tool_badge_parts(tool)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	var badge := PanelContainer.new()
+	var badge_style := StyleBoxFlat.new()
+	badge_style.bg_color = Color(COLOR_TIANI_BLUE.r, COLOR_TIANI_BLUE.g, COLOR_TIANI_BLUE.b, 0.16)
+	badge_style.set_corner_radius_all(6)
+	badge_style.content_margin_left = 6.0
+	badge_style.content_margin_right = 6.0
+	badge_style.content_margin_top = 1.0
+	badge_style.content_margin_bottom = 1.0
+	badge.add_theme_stylebox_override("panel", badge_style)
+	badge.add_child(_make_label(str(parts[0]), 9, COLOR_TIANI_BLUE))
+	row.add_child(badge)
+	var name_label := _make_label(str(parts[1]), 11, COLOR_TEXT)
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(name_label)
+	row.add_child(_make_label("✓" if ok else "✗", 11, COLOR_JADE if ok else COLOR_FAIL))
+	tool_rows_box.add_child(row)
+
+
+func _tool_badge_parts(tool: String) -> Array:
+	if tool.begins_with("mcp__"):
+		var rest := tool.trim_prefix("mcp__")
+		var parts := rest.split("__", true, 1)
+		if parts.size() == 2:
+			var label: String = MCP_SERVER_LABELS.get(str(parts[0]).to_lower(), str(parts[0]).capitalize())
+			return [label, str(parts[1])]
+		return ["MCP", rest]
+	return ["本地", tool]
 
 
 # ---------------------------------------------------------------- 界面构建
@@ -556,6 +661,7 @@ func _clear_bubbles() -> void:
 	for child in bubbles_box.get_children():
 		child.queue_free()
 	empty_hint = null
+	_reset_tool_activity()
 	_show_empty_hint()
 
 
@@ -765,6 +871,7 @@ func _send_current_message() -> void:
 	if text.is_empty():
 		return
 	add_message("你", text)
+	_reset_tool_activity()
 	chat_input.clear()
 	avatar.send_chat_message(text)
 
