@@ -165,6 +165,19 @@ else {
     Write-Host "[Anime Agent] Core started in the background (PID $($coreProcess.Id))."
 }
 
+# Core keepalive watchdog (KI-019): PortAudio native crashes / reboots kill Core
+# silently while the avatar keeps retrying the bridge forever. While Tianyi is
+# on the desktop, the watchdog revives Core and records exit-code forensics.
+# The script holds a mutex, so a duplicate spawn here is a harmless no-op.
+$watchdogScript = Join-Path $PSScriptRoot "core_watchdog.ps1"
+if (Test-Path -LiteralPath $watchdogScript) {
+    Start-Process `
+        -FilePath "powershell.exe" `
+        -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watchdogScript) `
+        -WindowStyle Hidden | Out-Null
+    Write-Host "[Anime Agent] Core watchdog is on duty (revives Core while the avatar is on the desktop)."
+}
+
 if ($SkipAvatar) {
     Write-Host "[Anime Agent] Core verification completed; avatar launch skipped."
     exit 0

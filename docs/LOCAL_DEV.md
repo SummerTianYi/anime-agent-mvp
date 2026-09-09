@@ -47,6 +47,10 @@ Place the independently obtained and processed runtime file at `apps/avatar-runt
 
 Core health is `http://127.0.0.1:8765/health` and WebSocket is `ws://127.0.0.1:8765/ws` at defaults. Use `curl.exe --noproxy "*"` for localhost because machine proxy settings can otherwise create a false 502. Hidden Core logs are written to `%LOCALAPPDATA%\AnimeAgent\logs`; SQLite is under `%LOCALAPPDATA%\AnimeAgent\data` unless `ANIME_AGENT_DATA_DIR` overrides it.
 
+### Core watchdog (KI-019)
+
+`start-mvp.ps1` auto-starts `scripts/core_watchdog.ps1` (hidden, mutex single-instance). While the Godot avatar is on the desktop it polls `/health` and revives Core if it dies — PortAudio has already taken one native 0xC0000005 inside the wake-word mic stream (2026-09-09), and reboots/hibernation leave the same "avatar alive, Core gone" state. Behavior: two consecutive failed health polls before acting, 90s warmup guard against duplicate spawns, manages any python running `agent_core.main` (venv or system interpreter, hand-started included), leaves foreign port occupants alone, logs every witnessed death with exit code to `%LOCALAPPDATA%\AnimeAgent\logs\core-watchdog.log`, and exits when the avatar is gone. Zero GLM calls (the revival greeting is a fixed template line). Manual run: `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\core_watchdog.ps1`.
+
 ## Interaction reference
 
 | Input | Behavior |

@@ -41,6 +41,8 @@
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+2026-09-09 zcode Core 守护（KI-019）：用户报告"Core 又挂"，取证坐实根因——PortAudio（libportaudio64bit.dll）在唤醒词常驻麦克风流里原生崩溃 0xC0000005（WER APPCRASH 22:40:17，pid 4840，Python 零堆栈），重启/休眠同样造成"天依活着、Core 已死"。交付 `scripts/core_watchdog.ps1` 并接入 `start-mvp.ps1`：天依在桌面上就拉活 Core（双确认防误判、90s 预热防重复拉起、认领任何跑 agent_core.main 的 python、外部占用不碰、退出码验尸落 `%LOCALAPPDATA%\AnimeAgent\logs\core-watchdog.log`、天依不在即退场），全程零 GLM 调用（复活问候为固定台词）。真机两轮杀→活实测（23.4s/20.7s 恢复健康）；唤醒管线本体未动，音频监听子进程隔离留作结构修复（见 KI-019）。
+
 2026-09-09 zcode UI 调研：U0 现状测绘与三路开源 UI 调研完成（`docs/plans/UI_REFERENCES.md`，零 GLM 配额，18 开源项目 + 本地协议→UI 覆盖矩阵）。确认两处 P0 呈现缺口（`permission.decision` 无 UI 呈现、`agent.tool` 活动无实感），对应 UI_UPGRADE U2/U3 规划不变；形态 A/B/C 影响分析就绪（含 Tauri 选型反转证据：airi/OLV 均迁至 Electron，壳选型需前置真机验收），**待所有者拍板**，U1 未开工。
 
 2026-09-09 Codex 验收冻结：所有者明确认可当前效果并授权推送，将 FK v2 微调资产固定为“倾听动作第一版”，官模外观版本仍为1.3。本轮提交覆盖此前尚未提交的平顺轨迹修复、前倾/收手微调、无损预览编码与配套测试/归属文档；不含其他 agent 的改动或本地视频/模型二进制。当前资产、SHA、复现依赖与版本回退见 [mocap/README.md](../apps/avatar-runtime/mocap/README.md) 顶部；下文“待验收/未授权 push”属于过程记录，已由本次批准更新。
