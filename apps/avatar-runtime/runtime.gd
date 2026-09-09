@@ -921,7 +921,7 @@ func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 	_update_hud()
 
 
-func send_chat_message(text: String) -> void:
+func send_chat_message(text: String, effort: String = "") -> void:
 	var normalized_text := text.strip_edges()
 	if normalized_text.is_empty():
 		return
@@ -935,6 +935,10 @@ func send_chat_message(text: String) -> void:
 		"text": normalized_text,
 		"messageId": request_id,
 	}
+	# zcode (思考强度档): additive optional field; Core falls back to its
+	# default when the key is absent, so wake/voice paths are untouched
+	if effort != "":
+		chat_payload["effort"] = effort
 	var conversation_id: int = interaction_ui.get_current_conversation_id() if interaction_ui != null else -1
 	if conversation_id > 0:
 		chat_payload["conversationId"] = conversation_id

@@ -44,4 +44,5 @@
 
 - **2026-09-09：U0 测绘与开源调研完成（zcode，零 GLM 配额）**，产出并入 [`UI_REFERENCES.md`](UI_REFERENCES.md)：协议事件→UI 覆盖矩阵与差距清单（其 §2，确认两处 P0 缺口：权限过程不可见、工具活动无实感）；三路开源调研 18 项目（其 §3-5：聊天客户端 7 / agent 工作台 5 / VTuber 桌宠 6）；模式→天依映射表（§6）；A/B/C 形态影响分析（§7，注意其中"Tauri 选型反转证据"）。
 - **2026-09-10：U2 首块试点上线（zcode，所有者选定"最有把握"先行）**：工具活动卡落入 Godot 浮层——`agent.tool` 事件按回合聚合成气泡流内卡片（本地/MCP 服务器徽标 + ✓/✗ + 计数），零协议/Core 改动，守卫 `verify_tool_activity.gd`（`GODOT_TOOL_ACTIVITY_OK`）入 TESTING 门禁。这是 §3"三块信息流"之能力活动流的最小实现；chatbox Work Mode 范式的 Godot 版。
+- **2026-09-10：思考强度档上线（zcode，所有者点名，鲸鱼娘旋钮的天依版）**：composer 角落"思考·档位"按钮 → ChatGPT 式弹窗（档位名 + GLM-5.3-Flash + 三档刻度滑杆，旋钮为天依 Q 版形态，素材位 `assets/effort/<level>.png`，缺图回退头像）。协议加 `chat.message.effort` 可选字段（chill=无工具 / standard=只读六件套 3 步 / deep=全量+MCP 5 步=历史默认），Core 映射 `effective_tools_for_effort`（纯函数 + 7 单测），权限引擎不受影响；守卫 `verify_effort_ui.gd`（`GODOT_EFFORT_UI_OK`）。差异化点：开源七家都把 effort 藏在设置里，输入框旁快捷档位是本项目的第一个。
 - **形态决策 A/B/C 仍待所有者拍板**——拍板后把决策记录回填到本文 §3"形态待定"处，U1 才开工。

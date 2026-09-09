@@ -5,6 +5,7 @@ extends SceneTree
 #   ..\tools\godot-4.7.2\Godot_v4.7.2-stable_win64_console.exe --display-driver windows --path apps\avatar-runtime --script res://capture_tool_activity.gd
 
 const OUTPUT_PATH := "C:/Users/26052/AppData/Local/Temp/tool_activity_preview.png"
+const OUTPUT_EFFORT_PATH := "C:/Users/26052/AppData/Local/Temp/effort_dial_preview.png"
 
 
 func _init() -> void:
@@ -61,4 +62,26 @@ func _run() -> void:
 		quit(1)
 		return
 	print("TOOL_ACTIVITY_CAPTURE_SAVED ", OUTPUT_PATH, " size=", img.get_width(), "x", img.get_height())
+
+	# 第二张：思考强度弹窗（档位移到"标准"展示联动）
+	ui._open_effort_popover()
+	ui.effort_slider.value = 1.0
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var full2 := root.get_texture().get_image()
+	if full2 == null or full2.is_empty():
+		push_error("Renderer returned an empty effort capture")
+		quit(1)
+		return
+	var img2 := full2.get_region(Rect2i(from, to - from))
+	if img2 == null or img2.is_empty():
+		push_error("Crop returned an empty effort capture")
+		quit(1)
+		return
+	var err2 := img2.save_png(OUTPUT_EFFORT_PATH)
+	if err2 != OK:
+		push_error("Cannot save effort capture: " + error_string(err2))
+		quit(1)
+		return
+	print("EFFORT_DIAL_CAPTURE_SAVED ", OUTPUT_EFFORT_PATH, " size=", img2.get_width(), "x", img2.get_height())
 	quit(0)

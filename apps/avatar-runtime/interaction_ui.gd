@@ -48,6 +48,22 @@ var tool_rows_box: VBoxContainer = null
 var tool_count_label: Label = null
 var tool_call_count := 0
 
+# 思考强度档（鲸鱼娘旋钮的天依版）：旋钮素材放 res://assets/effort/<level>.png
+# （~96×96 透明底），缺图时回退到角色头像占位。
+const EFFORT_ORDER := ["chill", "standard", "deep"]
+const EFFORT_LABELS := {"chill": "闲聊", "standard": "标准", "deep": "全力"}
+const EFFORT_HINTS := {
+	"chill": "不带工具纯聊天，最省额度",
+	"standard": "只读工具，3 步内解决",
+	"deep": "全工具 + MCP，5 步封顶（默认）",
+}
+var effort_level := "deep"
+var effort_button: Button = null
+var effort_overlay: ColorRect = null
+var effort_slider: HSlider = null
+var effort_big_label: Label = null
+var effort_hint_label: Label = null
+
 var sessions: Array = []
 var current_conversation_id := -1
 var delete_overlay: ColorRect
@@ -388,6 +404,128 @@ func _tool_badge_parts(tool: String) -> Array:
 	return ["本地", tool]
 
 
+# ---------------------------------------------------------------- 思考强度档
+
+# ChatGPT 式 effort 弹窗（UI_REFERENCES §6）：档位名 + 模型名 + 刻度滑杆，
+# 旋钮是天依的 Q 版形态（鲸鱼娘旋钮的天依版）。档位只随下一条消息发送。
+
+func _effort_button_text() -> String:
+	return "思考·%s" % EFFORT_LABELS[effort_level]
+
+
+func _effort_knob_texture(level: String) -> Texture2D:
+	var path := "res://assets/effort/%s.png" % level
+	if ResourceLoader.exists(path):
+		return load(path)
+	return avatar_texture
+
+
+func _scaled_knob_icon(level: String, side: float) -> Texture2D:
+	var tex := _effort_knob_texture(level)
+	if tex == null:
+		return null
+	var img := tex.get_image()
+	if img == null:
+		return tex
+	img = img.duplicate()
+	img.resize(int(side), int(side), Image.INTERPOLATE_LANCZOS)
+	return ImageTexture.create_from_image(img)
+
+
+func _open_effort_popover() -> void:
+	if effort_overlay != null:
+		return
+	effort_overlay = ColorRect.new()
+	effort_overlay.size = VIEWPORT_SIZE
+	effort_overlay.color = Color(0.0, 0.0, 0.0, 0.45)
+	effort_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	effort_overlay.gui_input.connect(_on_effort_overlay_input)
+	var center := CenterContainer.new()
+	center.size = VIEWPORT_SIZE
+	center.mouse_filter = Control.MOUSE_FILTER_PASS
+	var panel := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = COLOR_PANEL
+	style.border_color = COLOR_PANEL_LINE
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(12)
+	style.content_margin_left = 18.0
+	style.content_margin_right = 18.0
+	style.content_margin_top = 14.0
+	style.content_margin_bottom = 14.0
+	panel.add_theme_stylebox_override("panel", style)
+	panel.custom_minimum_size = Vector2(330.0, 0.0)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+
+	effort_big_label = _make_label(EFFORT_LABELS[effort_level], 22, COLOR_TIANI_BLUE)
+	effort_big_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(effort_big_label)
+	var model_label := _make_label("GLM-5.3-Flash", 11, COLOR_TEXT_DIM)
+	model_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(model_label)
+
+	effort_slider = HSlider.new()
+	effort_slider.min_value = 0
+	effort_slider.max_value = EFFORT_ORDER.size() - 1
+	effort_slider.step = 1
+	effort_slider.tick_count = EFFORT_ORDER.size()
+	effort_slider.value = float(EFFORT_ORDER.find(effort_level))
+	effort_slider.custom_minimum_size = Vector2(280.0, 44.0)
+	effort_slider.value_changed.connect(_on_effort_slider_changed)
+	var knob := _scaled_knob_icon(effort_level, 40.0)
+	if knob != null:
+		effort_slider.add_theme_icon_override("grabber", knob)
+		effort_slider.add_theme_icon_override("grabber_highlight", knob)
+	box.add_child(effort_slider)
+
+	effort_hint_label = _make_label(EFFORT_HINTS[effort_level], 11, COLOR_TEXT_DIM)
+	effort_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(effort_hint_label)
+
+	var close_button := _make_accent_button("就这样", _hide_effort_popover)
+	close_button.custom_minimum_size = Vector2(110.0, 32.0)
+	var center_wrap := HBoxContainer.new()
+	center_wrap.alignment = BoxContainer.ALIGNMENT_CENTER
+	center_wrap.add_child(close_button)
+	box.add_child(center_wrap)
+
+	panel.add_child(box)
+	center.add_child(panel)
+	effort_overlay.add_child(center)
+	add_child(effort_overlay)
+
+
+func _hide_effort_popover() -> void:
+	if effort_overlay != null:
+		effort_overlay.queue_free()
+		effort_overlay = null
+	effort_slider = null
+	effort_big_label = null
+	effort_hint_label = null
+	if effort_button != null:
+		effort_button.text = _effort_button_text()
+
+
+func _on_effort_overlay_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		_hide_effort_popover()
+
+
+func _on_effort_slider_changed(value: float) -> void:
+	var index := clampi(int(round(value)), 0, EFFORT_ORDER.size() - 1)
+	effort_level = EFFORT_ORDER[index]
+	if effort_big_label != null:
+		effort_big_label.text = EFFORT_LABELS[effort_level]
+	if effort_hint_label != null:
+		effort_hint_label.text = EFFORT_HINTS[effort_level]
+	if effort_slider != null:
+		var knob := _scaled_knob_icon(effort_level, 40.0)
+		if knob != null:
+			effort_slider.add_theme_icon_override("grabber", knob)
+			effort_slider.add_theme_icon_override("grabber_highlight", knob)
+
+
 # ---------------------------------------------------------------- 界面构建
 
 func _build_backdrop() -> void:
@@ -479,6 +617,11 @@ func _build_chat_header() -> Control:
 func _build_composer() -> Control:
 	var composer := HBoxContainer.new()
 	composer.add_theme_constant_override("separation", 7)
+
+	effort_button = _make_button(_effort_button_text(), _open_effort_popover)
+	effort_button.custom_minimum_size = Vector2(96.0, 38.0)
+	effort_button.tooltip_text = "思考强度：调她这轮动用多少工具"
+	composer.add_child(effort_button)
 
 	chat_input = LineEdit.new()
 	chat_input.placeholder_text = "输入消息，按 Enter 发送"
@@ -873,7 +1016,7 @@ func _send_current_message() -> void:
 	add_message("你", text)
 	_reset_tool_activity()
 	chat_input.clear()
-	avatar.send_chat_message(text)
+	avatar.send_chat_message(text, effort_level)
 
 
 func _on_voice_pressed() -> void:

@@ -2,7 +2,7 @@
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-07（zcode）；Python 单测 191 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
+> 最后核验：2026-09-10（zcode）；Python 单测 198 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
 
 ## 0. 最终目标（北极星）
 
@@ -44,6 +44,8 @@
 2026-09-10 Codex 正式交付更新（覆盖下段待冻结状态）：所有者已批准1.4，运行时提交 `7bb1aa1599e85d60adf329d79d507352a4e6eb9a`，正式索引现为1.4；新增独立只读官模/Blend、七类预览及带哈希的动作/支持纹理快照。归档恢复不再遗漏倾听TRES或挪用未来动作资产；旧版清单保持原样。本轮为本地正式冻结，未推送GitHub；没有改动已验收外观/表情/动作，也不重启生产服务。[交付档案](../model-versions/1.4/README.md)。
 
 2026-09-10 Codex：所有者批准五官 A2 后，已接入本地默认外观 1.4 并重启 Avatar；仅复制 face 材质并增加 UV 鼻唇/耳内细节，其他 22 个材质、官模 GLB/Blend、703 骨、48 个形变及动作资源不变。122 组表情对照、180 帧连续口型、全像素 Alpha、旧版本切换、输入/会话/工具卡/动作回归与 191 项隔离 Core 单测、桌面构建通过。正式不可变版本索引仍停留 1.3，1.4 当前为已实装但未提交冻结的本地状态，不能用旧 HEAD 冒充新运行时；归档/证据/回退见 [PENDING_1.4.md](../model-versions/PENDING_1.4.md)。本轮未 commit/push，无 Core/TTS 代码修改或重启。
+
+2026-09-10 zcode 思考强度档（所有者点名"鲸鱼娘旋钮天依版"）：composer"思考·全力"按钮 → ChatGPT 式弹窗（三档刻度滑杆 + 天依旋钮，素材位 `assets/effort/<level>.png` 缺图回退头像，等所有者供图）。协议 `chat.message` 新增可选 `effort`（chill=无工具 / standard=只读六件套 3 步 / deep=全量+MCP 5 步=历史默认，缺省即旧行为，旧客户端零影响），映射在 `main.py` `effective_tools_for_effort` 纯函数 + 7 单测，权限引擎不动；`runtime.gd send_chat_message` 仅加带默认值的参数（冻结文件最小加法）。单测 191→198 全绿；守卫 `verify_effort_ui.gd`（GODOT_EFFORT_UI_OK）+ 既有三守卫回归绿。GLM thinking 参数透传待 key 有额度后验证。
 
 2026-09-10 zcode U2 首块试点（所有者选定"最有把握"先行）：工具活动卡上线 Godot 浮层——`agent.tool` 事件按回合聚合成气泡流内卡片（本地/MCP 服务器徽标解析 `mcp__<server>__<tool>`、✓/✗、调用计数；参照 UI_REFERENCES §4 chatbox Work Mode 范式）。零协议/Core 改动，只动 `interaction_ui.gd` + 新守卫 `verify_tool_activity.gd`（GODOT_TOOL_ACTIVITY_OK，既有 session/text 守卫回归绿）。形态 A/B/C 决策不变仍待所有者拍板。
 
@@ -110,7 +112,7 @@ Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 191 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 198 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -205,7 +207,7 @@ Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `scripts/start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health` | `status=ok` 与预期 Provider |
-| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 191 项全绿 |
+| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 198 项全绿 |
 
 ## 10. 灾备与回滚
 

@@ -26,7 +26,7 @@ try:
 except ImportError:
     pass
 
-from .agent_loop import AgentStep, ToolsUnsupportedError, run_agent_loop
+from .agent_loop import MAX_TOOL_STEPS, AgentStep, ToolsUnsupportedError, run_agent_loop
 from .harness import (
     TOOL_GUIDANCE,
     AgentReply,
@@ -36,7 +36,7 @@ from .harness import (
 )
 from .mcp_host import McpHost
 from .memory_retrieval import retrieve_relevant
-from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision
+from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision, READ_ONLY_TOOLS
 from .proactive import IdlePolicy, ProactivePolicy
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
@@ -833,7 +833,35 @@ async def broadcast_tool_step(step: AgentStep, request_id: str) -> None:
     await broadcast_state("working", request_id)
 
 
-async def handle_chat(text: str, request_id: str, conversation_id: int | None = None) -> None:
+# zcode (UI 思考强度档): the client's per-turn effort dial. Each level only
+# changes how much the tool loop may use — never the permission engine, whose
+# allow/ask/deny verdicts stay authoritative. "deep" keeps the historical
+# behavior, so clients that omit the field behave exactly as before.
+EFFORT_LEVELS: dict[str, dict[str, Any]] = {
+    "chill": {"label": "闲聊", "tools": "none", "max_steps": 0},
+    "standard": {"label": "标准", "tools": "readonly", "max_steps": 3},
+    "deep": {"label": "全力", "tools": "all", "max_steps": MAX_TOOL_STEPS},
+}
+DEFAULT_EFFORT = "deep"
+
+
+def resolve_effort(raw: Any) -> str:
+    """Normalize a client-sent effort value; anything unknown falls back to deep."""
+    name = str(raw or "").strip().lower()
+    return name if name in EFFORT_LEVELS else DEFAULT_EFFORT
+
+
+def effective_tools_for_effort(base_tools: list, mcp_entries: list, effort: str) -> list:
+    """Pure helper: apply the effort dial to the per-turn tool schema list."""
+    mode = EFFORT_LEVELS[effort]["tools"]
+    if mode == "none":
+        return []
+    if mode == "readonly":
+        return [t for t in base_tools if t["function"]["name"] in READ_ONLY_TOOLS]
+    return list(base_tools) + list(mcp_entries)
+
+
+async def handle_chat(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None) -> None:
     global _inflight_wake_request
     if _inflight_wake_request and _inflight_wake_request != request_id:
         # a newer request supersedes an in-flight wake-chain request: the same
@@ -845,14 +873,14 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         _inflight_wake_request = None
 
     try:
-        await _handle_chat_locked(text, request_id, conversation_id)
+        await _handle_chat_locked(text, request_id, conversation_id, effort)
     finally:
         if _inflight_wake_request == request_id:
             _inflight_wake_request = None
         _superseded_requests.discard(request_id)
 
 
-async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None) -> None:
+async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None) -> None:
 
     async with chat_lock:
         if request_id in _superseded_requests:
@@ -904,12 +932,16 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 memory.add_event("permission.declined", {"session_id": session_id, "tool": pending["tool"]})
                 confirm_note = "【系统提示】用户拒绝了此前请求的写入操作。请不要执行，以天依的口吻自然回应即可。"
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
-        effective_tools_schema = list(tools_schema)
-        for qualified, description, input_schema in mcp_host.tool_entries():
-            effective_tools_schema.append({
+        effort_name = resolve_effort(effort)
+        memory.add_event("chat.effort", {"request_id": request_id, "effort": effort_name})
+        mcp_entries = [
+            {
                 "type": "function",
                 "function": {"name": qualified, "description": description, "parameters": input_schema},
-            })
+            }
+            for qualified, description, input_schema in mcp_host.tool_entries()
+        ]
+        effective_tools_schema = effective_tools_for_effort(list(tools_schema), mcp_entries, effort_name)
         guided = TOOL_GUIDANCE if effective_tools_schema else ""
         # zcode (phase B 记忆接入): recall confirmed facts relevant to this
         # turn and inject them alongside tool guidance. Retrieval failures
@@ -936,6 +968,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     effective_tools_schema,
                     run_tool,
                     on_step=_make_loop_step_handler(request_id),
+                    max_steps=int(EFFORT_LEVELS[effort_name]["max_steps"]),
                 )
                 if loop_result.degraded and hasattr(provider, "complete_with_tools"):
                     memory.add_event("agent.tools.unsupported", {"request_id": request_id})
@@ -1432,7 +1465,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 except (TypeError, ValueError):
                     await hub.send(websocket, event("core.error", message="Invalid conversationId"))
                     continue
-            asyncio.create_task(handle_chat(text, request_id, conversation_id))
+            asyncio.create_task(handle_chat(text, request_id, conversation_id, payload.get("effort")))
     except WebSocketDisconnect:
         pass
     finally:

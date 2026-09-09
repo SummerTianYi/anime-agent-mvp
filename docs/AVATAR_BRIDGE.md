@@ -93,6 +93,8 @@ Core 会把它定向路由为 `ui.menu.toggle`。角色内置菜单目前直接�
 
 `chat.message` 可携带可选 `conversationId` 指定落库会话，缺省落最近活跃会话；`chat.response` 原样携带 `conversationId`。客户端切换会话时自行清空气泡并按需拉取历史。
 
+思考强度档（zcode，2026-09-10）：`chat.message` 可携带可选 `effort`（`chill`/`standard`/`deep`，缺省 `deep` 与历史行为完全一致，旧客户端不带此字段不受影响）。档位只调节本轮工具参与度：`chill` 不带任何工具（纯直答），`standard` 仅只读六件套且循环步数上限 3，`deep` 全注册表 + MCP 且步数上限 5；allow/ask/deny 权限裁决不受档位影响，审计照落 `permission.decision`。每次选择落 `chat.effort` 审计事件（request_id + 归一化档位）。
+
 删除会话：Avatar 单击删除并确认后发送 `session.delete`；Core 级联删除该会话的消息与记录并广播 `session.deleted`，随后广播最近活跃会话的 `session.switched`（最后一条会话删除后自动补建新会话）：\n\n```json
 {"type":"session.delete","conversationId":2}
 {"type":"session.deleted","conversationId":2}
