@@ -41,6 +41,8 @@
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+2026-09-09 zcode UI 调研：U0 现状测绘与三路开源 UI 调研完成（`docs/plans/UI_REFERENCES.md`，零 GLM 配额，18 开源项目 + 本地协议→UI 覆盖矩阵）。确认两处 P0 呈现缺口（`permission.decision` 无 UI 呈现、`agent.tool` 活动无实感），对应 UI_UPGRADE U2/U3 规划不变；形态 A/B/C 影响分析就绪（含 Tauri 选型反转证据：airi/OLV 均迁至 Electron，壳选型需前置真机验收），**待所有者拍板**，U1 未开工。
+
 2026-09-09 Codex 验收冻结：所有者明确认可当前效果并授权推送，将 FK v2 微调资产固定为“倾听动作第一版”，官模外观版本仍为1.3。本轮提交覆盖此前尚未提交的平顺轨迹修复、前倾/收手微调、无损预览编码与配套测试/归属文档；不含其他 agent 的改动或本地视频/模型二进制。当前资产、SHA、复现依赖与版本回退见 [mocap/README.md](../apps/avatar-runtime/mocap/README.md) 顶部；下文“待验收/未授权 push”属于过程记录，已由本次批准更新。
 
 2026-09-09 Codex FK v2 微调：所有者认可 FK v1 整体运动，要求轻微前倾与右手收近。当前 listen 指向独立 `listen_reference_fk_v2.tres`，仅末姿上半身前倾增加4°与右肩小摆向调整，原起姿、肘腕和其他末姿不变；沿用已验证的平顺 FK 进退。旧 v1 保留可回退，官模/比例/材质不变。确认前发 GIF 的瞳色偏灰紫来自调色板量化，新增无损 APNG，91 帧与源 PNG RGB 逐像素一致；证据见 [mocap/README.md](../apps/avatar-runtime/mocap/README.md) 最新段。以下为历史去绕转修复记录。
