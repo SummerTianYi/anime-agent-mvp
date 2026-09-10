@@ -45,7 +45,7 @@ func _run() -> void:
 	if str(ui.effort_big_label.text) != "碎碎念":
 		_fail("popover label did not follow slider")
 		return
-	if not str(ui.effort_hint_label.text).contains("最省额度"):
+	if not str(ui.effort_hint_label.text).contains("1 次工具往返"):
 		_fail("chill hint missing")
 		return
 

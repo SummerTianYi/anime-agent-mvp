@@ -5,19 +5,11 @@ import unittest
 from agent_core.main import (
     DEFAULT_EFFORT,
     EFFORT_LEVELS,
+    EFFORT_PROMPT_NOTES,
     MAX_TOOL_STEPS,
-    effective_tools_for_effort,
+    effort_prompt_note,
     resolve_effort,
 )
-
-
-def _schema(*names: str) -> list:
-    return [{"type": "function", "function": {"name": name}} for name in names]
-
-
-READONLY_SAMPLE = ("get_time", "read_file", "list_dir", "screenshot", "active_window", "clipboard_read")
-WRITE_SAMPLE = ("write_file", "run_command", "look_at_screen")
-MCP_SAMPLE = [{"type": "function", "function": {"name": "mcp__github__get_me"}}]
 
 
 class ResolveEffortTest(unittest.TestCase):
@@ -34,31 +26,38 @@ class ResolveEffortTest(unittest.TestCase):
         self.assertEqual(resolve_effort("chill"), "chill")
         self.assertEqual(resolve_effort("  STANDARD  "), "standard")
 
-    def test_deep_keeps_historical_loop_budget(self) -> None:
+
+class EffortLadderTest(unittest.TestCase):
+    def test_deep_keeps_historical_step_budget(self) -> None:
         self.assertEqual(EFFORT_LEVELS["deep"]["max_steps"], MAX_TOOL_STEPS)
-        self.assertEqual(EFFORT_LEVELS["deep"]["tools"], "all")
+
+    def test_step_ladder_is_1_3_5(self) -> None:
+        self.assertEqual(EFFORT_LEVELS["chill"]["max_steps"], 1)
+        self.assertEqual(EFFORT_LEVELS["standard"]["max_steps"], 3)
+        self.assertEqual(EFFORT_LEVELS["deep"]["max_steps"], 5)
+
+    def test_every_level_stays_a_full_agent(self) -> None:
+        # the dial must never scope the toolset: all levels keep the complete
+        # registry plus MCP, only the step budget and behavior note differ
+        for name, cfg in EFFORT_LEVELS.items():
+            self.assertGreaterEqual(cfg["max_steps"], 1, name)
+            self.assertIn("label", cfg, name)
 
 
-class EffectiveToolsForEffortTest(unittest.TestCase):
-    def _base(self) -> list:
-        return _schema(*READONLY_SAMPLE, *WRITE_SAMPLE)
+class EffortPromptNotesTest(unittest.TestCase):
+    def test_every_level_has_a_note(self) -> None:
+        for name, cfg in EFFORT_LEVELS.items():
+            note = effort_prompt_note(name)
+            self.assertTrue(note.strip(), f"missing behavior note for {name}")
+            self.assertIn(cfg["label"], note)
 
-    def test_chill_sends_no_tools(self) -> None:
-        self.assertEqual(effective_tools_for_effort(self._base(), MCP_SAMPLE, "chill"), [])
+    def test_unknown_level_yields_empty_note(self) -> None:
+        self.assertEqual(effort_prompt_note("turbo"), "")
 
-    def test_standard_keeps_only_readonly_tools(self) -> None:
-        tools = effective_tools_for_effort(self._base(), MCP_SAMPLE, "standard")
-        names = [t["function"]["name"] for t in tools]
-        self.assertEqual(sorted(names), sorted(READONLY_SAMPLE))
-
-    def test_deep_keeps_full_registry_plus_mcp(self) -> None:
-        tools = effective_tools_for_effort(self._base(), MCP_SAMPLE, "deep")
-        names = [t["function"]["name"] for t in tools]
-        for name in READONLY_SAMPLE:
-            self.assertIn(name, names)
-        for name in WRITE_SAMPLE:
-            self.assertIn(name, names)
-        self.assertIn("mcp__github__get_me", names)
+    def test_chill_note_keeps_replies_short_and_single_lookup(self) -> None:
+        note = effort_prompt_note("chill")
+        self.assertIn("1~3 句", note)
+        self.assertIn("一次工具往返", note)
 
 
 if __name__ == "__main__":

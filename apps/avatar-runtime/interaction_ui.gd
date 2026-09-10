@@ -53,9 +53,9 @@ var tool_call_count := 0
 const EFFORT_ORDER := ["chill", "standard", "deep"]
 const EFFORT_LABELS := {"chill": "碎碎念", "standard": "帮帮忙", "deep": "大展身手"}
 const EFFORT_HINTS := {
-	"chill": "就陪你说说话，不动工具（最省额度）",
-	"standard": "只读工具帮眼，3 步内解决",
-	"deep": "全工具 + MCP 都安排上，5 步封顶（默认）",
+	"chill": "单点快查，至多 1 次工具往返，说完接着聊",
+	"standard": "小任务直接接住，3 步内完成",
+	"deep": "先规划再动手，全工具 + MCP，5 步封顶（默认）",
 }
 var effort_level := "deep"
 var effort_button: Button = null

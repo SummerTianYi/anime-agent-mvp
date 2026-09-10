@@ -36,7 +36,7 @@ from .harness import (
 )
 from .mcp_host import McpHost
 from .memory_retrieval import retrieve_relevant
-from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision, READ_ONLY_TOOLS
+from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision
 from .proactive import IdlePolicy, ProactivePolicy
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
 from .storage import MemoryStore
@@ -833,16 +833,26 @@ async def broadcast_tool_step(step: AgentStep, request_id: str) -> None:
     await broadcast_state("working", request_id)
 
 
-# zcode (UI 思考强度档): the client's per-turn effort dial. Each level only
-# changes how much the tool loop may use — never the permission engine, whose
-# allow/ask/deny verdicts stay authoritative. "deep" keeps the historical
-# behavior, so clients that omit the field behave exactly as before.
+# zcode (UI 思考强度档): the client's per-turn effort dial. Every level keeps
+# her a complete agent — the full registry plus all MCP tools stay attached and
+# the permission engine is untouched; the dial only caps how many loop steps a
+# turn may spend and which behavior note rides the system prompt. "deep" keeps
+# the historical step budget, so clients without the field behave as before.
 EFFORT_LEVELS: dict[str, dict[str, Any]] = {
-    "chill": {"label": "闲聊", "tools": "none", "max_steps": 0},
-    "standard": {"label": "标准", "tools": "readonly", "max_steps": 3},
-    "deep": {"label": "全力", "tools": "all", "max_steps": MAX_TOOL_STEPS},
+    "chill": {"label": "碎碎念", "max_steps": 1},
+    "standard": {"label": "帮帮忙", "max_steps": 3},
+    "deep": {"label": "大展身手", "max_steps": MAX_TOOL_STEPS},
 }
 DEFAULT_EFFORT = "deep"
+EFFORT_PROMPT_NOTES: dict[str, str] = {
+    "chill": "【思考强度：碎碎念】轻松陪伴轮：优先直接回答，1~3 句口语短句；"
+             "确需工具时只做单点快查（至多一次工具往返），拿到结果立刻回来接着聊；"
+             "不铺开多步任务，也不主动提议更大的活。",
+    "standard": "【思考强度：帮帮忙】日常帮手轮：小任务直接接住，3 步内完成；"
+                "回答用短段落，做完一句简单交代；更重的活可以建议用户把思考档调到大展身手。",
+    "deep": "【思考强度：大展身手】火力全开轮：多步任务先在心里列个小计划再逐步执行并核实，"
+            "完成后给个清楚的小结；至多 5 步，确需更多就先向用户说明进展。",
+}
 
 
 def resolve_effort(raw: Any) -> str:
@@ -851,14 +861,9 @@ def resolve_effort(raw: Any) -> str:
     return name if name in EFFORT_LEVELS else DEFAULT_EFFORT
 
 
-def effective_tools_for_effort(base_tools: list, mcp_entries: list, effort: str) -> list:
-    """Pure helper: apply the effort dial to the per-turn tool schema list."""
-    mode = EFFORT_LEVELS[effort]["tools"]
-    if mode == "none":
-        return []
-    if mode == "readonly":
-        return [t for t in base_tools if t["function"]["name"] in READ_ONLY_TOOLS]
-    return list(base_tools) + list(mcp_entries)
+def effort_prompt_note(effort: str) -> str:
+    """The per-level behavior note that rides the system prompt (may be empty)."""
+    return EFFORT_PROMPT_NOTES.get(effort, "")
 
 
 async def handle_chat(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None) -> None:
@@ -934,14 +939,12 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
         effort_name = resolve_effort(effort)
         memory.add_event("chat.effort", {"request_id": request_id, "effort": effort_name})
-        mcp_entries = [
-            {
+        effective_tools_schema = list(tools_schema)
+        for qualified, description, input_schema in mcp_host.tool_entries():
+            effective_tools_schema.append({
                 "type": "function",
                 "function": {"name": qualified, "description": description, "parameters": input_schema},
-            }
-            for qualified, description, input_schema in mcp_host.tool_entries()
-        ]
-        effective_tools_schema = effective_tools_for_effort(list(tools_schema), mcp_entries, effort_name)
+            })
         guided = TOOL_GUIDANCE if effective_tools_schema else ""
         # zcode (phase B 记忆接入): recall confirmed facts relevant to this
         # turn and inject them alongside tool guidance. Retrieval failures
@@ -955,7 +958,11 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     recall_block = "【相关记忆】\n" + "\n".join(f"- {fact}" for fact in recalled)
         except Exception as exc:  # noqa: BLE001
             memory.add_event("memory.recall.error", {"message": str(exc)[:200]})
-        extra_parts = [part for part in (confirm_note, recall_block, guided) if part]
+        extra_parts = [
+            part
+            for part in (confirm_note, effort_prompt_note(effort_name), recall_block, guided)
+            if part
+        ]
         extra_system = "\n\n".join(extra_parts)
         messages = harness.build_messages(
             conversation_history, text, extra_system=extra_system, request_session_title=is_first_exchange
