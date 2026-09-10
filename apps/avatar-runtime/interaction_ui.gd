@@ -60,9 +60,11 @@ const EFFORT_HINTS := {
 var effort_level := "deep"
 var effort_button: Button = null
 var effort_overlay: ColorRect = null
-var effort_slider: HSlider = null
+var effort_slider = null
 var effort_big_label: Label = null
 var effort_hint_label: Label = null
+
+const EFFORT_SLIDER_SCRIPT := preload("res://effort_slider.gd")
 
 var sessions: Array = []
 var current_conversation_id := -1
@@ -420,18 +422,6 @@ func _effort_knob_texture(level: String) -> Texture2D:
 	return avatar_texture
 
 
-func _scaled_knob_icon(level: String, side: float) -> Texture2D:
-	var tex := _effort_knob_texture(level)
-	if tex == null:
-		return null
-	var img := tex.get_image()
-	if img == null:
-		return tex
-	img = img.duplicate()
-	img.resize(int(side), int(side), Image.INTERPOLATE_LANCZOS)
-	return ImageTexture.create_from_image(img)
-
-
 func _open_effort_popover() -> void:
 	if effort_overlay != null:
 		return
@@ -465,18 +455,15 @@ func _open_effort_popover() -> void:
 	model_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(model_label)
 
-	effort_slider = HSlider.new()
-	effort_slider.min_value = 0
-	effort_slider.max_value = EFFORT_ORDER.size() - 1
-	effort_slider.step = 1
-	effort_slider.tick_count = EFFORT_ORDER.size()
-	effort_slider.value = float(EFFORT_ORDER.find(effort_level))
-	effort_slider.custom_minimum_size = Vector2(280.0, 44.0)
+	# Codex/ChatGPT 式粗滑杆：粗轨道 + 天依蓝已选段 + 三个表情坐在档位上
+	effort_slider = EFFORT_SLIDER_SCRIPT.new()
+	effort_slider.stickers = [
+		_effort_knob_texture("chill"),
+		_effort_knob_texture("standard"),
+		_effort_knob_texture("deep"),
+	]
+	effort_slider.value = EFFORT_ORDER.find(effort_level)
 	effort_slider.value_changed.connect(_on_effort_slider_changed)
-	var knob := _scaled_knob_icon(effort_level, 40.0)
-	if knob != null:
-		effort_slider.add_theme_icon_override("grabber", knob)
-		effort_slider.add_theme_icon_override("grabber_highlight", knob)
 	box.add_child(effort_slider)
 
 	effort_hint_label = _make_label(EFFORT_HINTS[effort_level], 11, COLOR_TEXT_DIM)
@@ -512,18 +499,12 @@ func _on_effort_overlay_input(event: InputEvent) -> void:
 		_hide_effort_popover()
 
 
-func _on_effort_slider_changed(value: float) -> void:
-	var index := clampi(int(round(value)), 0, EFFORT_ORDER.size() - 1)
-	effort_level = EFFORT_ORDER[index]
+func _on_effort_slider_changed(index: int) -> void:
+	effort_level = EFFORT_ORDER[clampi(index, 0, EFFORT_ORDER.size() - 1)]
 	if effort_big_label != null:
 		effort_big_label.text = EFFORT_LABELS[effort_level]
 	if effort_hint_label != null:
 		effort_hint_label.text = EFFORT_HINTS[effort_level]
-	if effort_slider != null:
-		var knob := _scaled_knob_icon(effort_level, 40.0)
-		if knob != null:
-			effort_slider.add_theme_icon_override("grabber", knob)
-			effort_slider.add_theme_icon_override("grabber_highlight", knob)
 
 
 # ---------------------------------------------------------------- 界面构建
