@@ -53,8 +53,6 @@ func _draw() -> void:
 		var active: bool = i == value
 		var side := KNOB_SIZE if active else IDLE_SIZE
 		var center := Vector2(_stop_x(i), size.y / 2.0)
-		if active:
-			draw_circle(center, KNOB_SIZE / 2.0 + 2.0, Color(1.0, 1.0, 1.0, 0.92))
 		draw_texture_rect(
 			tex,
 			Rect2(center - Vector2(side, side) / 2.0, Vector2(side, side)),
