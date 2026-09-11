@@ -1,3 +1,4 @@
+param([string]$LogDirectory = '')
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
@@ -62,10 +63,17 @@ if (-not $godotPath) {
 
 $godotArguments = @(
     "--display-driver", "windows",
-    "--path", $projectPath,
+    "--path", ('"' + $projectPath + '"'),
     "--script", "res://launcher.gd",
     "--position", "80,80",
     "--resolution", "560x760"
 )
 
-Start-Process -FilePath $godotPath -ArgumentList $godotArguments -WindowStyle Normal | Out-Null
+$options = @{}
+if ($LogDirectory) {
+    New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
+    $stamp = Get-Date -Format 'yyyyMMdd-HHmmss-fff'
+    $options.RedirectStandardOutput = Join-Path $LogDirectory "avatar-$stamp.stdout.log"
+    $options.RedirectStandardError = Join-Path $LogDirectory "avatar-$stamp.stderr.log"
+}
+Start-Process -FilePath $godotPath -ArgumentList $godotArguments -WindowStyle Normal -PassThru @options

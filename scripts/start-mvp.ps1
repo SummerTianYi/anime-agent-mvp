@@ -1,209 +1,104 @@
+# Codex 2026-09-11: canonical startup and one avatar session.
 [CmdletBinding()]
-param(
-    [switch]$SkipAvatar
-)
-
-$ErrorActionPreference = "Stop"
-
-Add-Type -AssemblyName System.Net.Http
-
-$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-$coreRoot = Join-Path $repoRoot "services\agent-core"
-$pythonPath = Join-Path $coreRoot ".venv\Scripts\python.exe"
-$envPath = Join-Path $repoRoot ".env"
-$avatarLauncher = Join-Path $PSScriptRoot "run-avatar-runtime.ps1"
-$avatarRoot = Join-Path $repoRoot "apps\avatar-runtime"
-$logRoot = Join-Path $env:LOCALAPPDATA "AnimeAgent\logs"
-
-function Get-LocalEnvValue {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$Name,
-        [string]$DefaultValue = ""
+param([switch]$SkipAvatar, [ValidateRange(3, 180)][int]$StartupSeconds = 90)
+$ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'startup-common.ps1')
+Initialize-AgentRuntime (Join-Path $PSScriptRoot '..')
+$lock = $null
+$launchedAvatar = $null
+try {
+    if (-not (Test-Path -LiteralPath $envPath)) { throw "Project .env not found: $envPath" }
+    # Configuration errors still belong to the provider, not process liveness.
+    # Preserve the existing key/endpoint guard; use the same env precedence as Core.
+    $providerName = (Get-AgentSetting 'LLM_PROVIDER' 'glm').ToLowerInvariant()
+    switch ($providerName) {
+        'glm' {
+            if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'GLM_API_KEY'))) { throw 'GLM_API_KEY is empty.' }
+            if ((Get-AgentSetting 'GLM_BASE_URL') -notmatch '/api/coding/paas/v4/?$') {
+                throw 'GLM_BASE_URL must use the Coding endpoint ending in /api/coding/paas/v4'
+            }
+        }
+        'deepseek' {
+            if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'DEEPSEEK_API_KEY'))) { throw 'DEEPSEEK_API_KEY is empty.' }
+            if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'DEEPSEEK_BASE_URL'))) { throw 'DEEPSEEK_BASE_URL is empty.' }
+        }
+        'mock' { }
+        default { throw "Unsupported LLM_PROVIDER: $providerName" }
+    }
+    Write-Host "[Anime Agent] Checking local services. Cold Core initialization can take up to ${StartupSeconds}s."
+    $lock = Enter-AgentLock -TimeoutSeconds (2 * $StartupSeconds + 90)
+    $health = Ensure-AgentCore -StartupSeconds $StartupSeconds
+    Write-Host "[Anime Agent] Core is online on port $corePort."
+    if ($SkipAvatar) {
+        Write-Host '[Anime Agent] Core verified; avatar and session watchdog skipped.'
+        return
+    }
+    $avatar = Get-ProjectAvatar
+    if (-not $avatar) {
+        $launchedAvatar = & (Join-Path $PSScriptRoot 'run-avatar-runtime.ps1') -LogDirectory $logRoot
+    }
+    $timer = [Diagnostics.Stopwatch]::StartNew()
+    $ready = $false
+    $readySamples = 0
+    $coreMisses = 0
+    while ($timer.Elapsed.TotalSeconds -lt 60) {
+        if ($launchedAvatar -and $launchedAvatar.HasExited) { throw "Godot exited (code $($launchedAvatar.ExitCode)); check $logRoot" }
+        $avatar = Get-ProjectAvatar
+        if (-not $avatar -and -not $launchedAvatar) {
+            $launchedAvatar = & (Join-Path $PSScriptRoot 'run-avatar-runtime.ps1') -LogDirectory $logRoot
+        }
+        $health = Get-AgentCoreHealth
+        if ($health) { $coreMisses = 0 } else { $coreMisses++ }
+        if ($coreMisses -ge 3) {
+            # Core may crash while Godot is loading, before its session watcher exists.
+            $health = Ensure-AgentCore -StartupSeconds $StartupSeconds
+            $coreMisses = 0
+        }
+        if ($avatar -and $health -and $health.roles.avatar -gt 0) {
+            $window = Get-Process -Id $avatar.ProcessId -ErrorAction SilentlyContinue
+            if ($window -and $window.MainWindowHandle -ne 0 -and $window.Responding) { $readySamples++ }
+            else { $readySamples = 0 }
+        } else { $readySamples = 0 }
+        if ($readySamples -ge 2) { $ready = $true; break }
+        Start-Sleep -Milliseconds 400
+    }
+    if (-not $ready) { throw "Avatar window/bridge was not ready within 60 seconds. Check $logRoot" }
+    $ackPath = Join-Path $logRoot ("watchdog-{0}-{1}.json" -f $runtimeKey, $avatar.ProcessId)
+    $watchScript = Join-Path $PSScriptRoot 'core_watchdog.ps1'
+    # Per-avatar supervisor mutex makes repeated calls harmless; ack proves that
+    # it initialized, not merely that powershell.exe was created.
+    $watchStamp = (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + "-$PID"
+    $watcher = Start-Process powershell.exe -WindowStyle Hidden -PassThru `
+      -RedirectStandardOutput (Join-Path $logRoot "watchdog-$watchStamp.stdout.log") `
+      -RedirectStandardError (Join-Path $logRoot "watchdog-$watchStamp.stderr.log") -ArgumentList @(
+        '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ('"' + $watchScript + '"'),
+        '-AvatarId', $avatar.ProcessId, '-AvatarTicks', $avatar.CreationDate.Ticks
     )
-
-    if (-not (Test-Path -LiteralPath $envPath)) {
-        return $DefaultValue
-    }
-
-    $pattern = "^\s*" + [regex]::Escape($Name) + "\s*=\s*(.*)$"
-    $line = Get-Content -LiteralPath $envPath |
-        Where-Object { $_ -match $pattern } |
-        Select-Object -Last 1
-    if (-not $line) {
-        return $DefaultValue
-    }
-
-    $value = [regex]::Match($line, $pattern).Groups[1].Value.Trim()
-    return $value.Trim('"').Trim("'")
-}
-
-function Test-AgentCoreHealth {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$Uri
-    )
-
-    $handler = New-Object System.Net.Http.HttpClientHandler
-    $handler.UseProxy = $false
-    $client = New-Object System.Net.Http.HttpClient($handler)
-    $client.Timeout = [TimeSpan]::FromSeconds(2)
-    try {
-        $response = $client.GetAsync($Uri).GetAwaiter().GetResult()
-        if (-not $response.IsSuccessStatusCode) {
-            return $false
+    $ackReady = $false
+    $timer.Restart()
+    while ($timer.Elapsed.TotalSeconds -lt 15) {
+        if (Test-Path -LiteralPath $ackPath) {
+            try {
+                $ack = Get-Content -LiteralPath $ackPath -Raw | ConvertFrom-Json
+                $running = Get-AgentProcesses | Where-Object {
+                    $_.ProcessId -eq $ack.pid -and $_.CreationDate.Ticks -eq $ack.createdTicks -and
+                    $_.CommandLine -like ('*' + $watchScript + '*')
+                }
+                if ($running -and $ack.avatarTicks -eq $avatar.CreationDate.Ticks) { $ackReady = $true; break }
+            } catch { }
         }
-        $content = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
-        $payload = $content | ConvertFrom-Json
-        return $payload.status -eq "ok" -and $payload.service -eq "anime-agent-core"
+        Start-Sleep -Milliseconds 200
     }
-    catch {
-        return $false
+    if (-not $ackReady) { throw "Session watchdog did not initialize; check $logRoot/core-watchdog.log" }
+    Write-Host "[Anime Agent] Ready (Avatar PID $($avatar.ProcessId)). Close Godot to exit this session; use this same command to reopen."
+} catch {
+    # A failed launch must not leave a newly-created blank avatar/Core behind.
+    if ($launchedAvatar -and -not $launchedAvatar.HasExited) {
+        $null = $launchedAvatar.CloseMainWindow()
+        if (-not $launchedAvatar.WaitForExit(3000)) { $launchedAvatar.Kill() }
     }
-    finally {
-        $client.Dispose()
-        $handler.Dispose()
+    if ($lock) {
+        try { $null = Stop-AgentCoreAfterAvatarExit } catch { Write-Warning "Cleanup could not be verified: $_" }
     }
-}
-
-function Get-AvatarProcess {
-    $escapedRoot = [regex]::Escape($avatarRoot)
-    return Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
-        Where-Object {
-            $_.Name -like "Godot*" -and
-            $_.CommandLine -match $escapedRoot
-        } |
-        Select-Object -First 1
-}
-
-if (-not (Test-Path -LiteralPath $pythonPath)) {
-    throw "Agent Core Python environment was not found: $pythonPath"
-}
-if (-not (Test-Path -LiteralPath $envPath)) {
-    throw "Project .env file was not found: $envPath"
-}
-
-$providerName = (Get-LocalEnvValue -Name "LLM_PROVIDER" -DefaultValue "glm").ToLowerInvariant()
-switch ($providerName) {
-    "glm" {
-        $apiKey = Get-LocalEnvValue -Name "GLM_API_KEY"
-        if ([string]::IsNullOrWhiteSpace($apiKey)) {
-            throw "GLM_API_KEY is empty in $envPath"
-        }
-        $baseUrl = Get-LocalEnvValue -Name "GLM_BASE_URL"
-        if ($baseUrl -notmatch "/api/coding/paas/v4/?$") {
-            throw "GLM_BASE_URL must use the Coding endpoint ending in /api/coding/paas/v4"
-        }
-    }
-    "deepseek" {
-        $apiKey = Get-LocalEnvValue -Name "DEEPSEEK_API_KEY"
-        if ([string]::IsNullOrWhiteSpace($apiKey)) {
-            throw "DEEPSEEK_API_KEY is empty in $envPath"
-        }
-        $baseUrl = Get-LocalEnvValue -Name "DEEPSEEK_BASE_URL"
-        if ([string]::IsNullOrWhiteSpace($baseUrl)) {
-            throw "DEEPSEEK_BASE_URL is empty in $envPath"
-        }
-    }
-    "mock" { }
-    default {
-        throw "Unsupported LLM_PROVIDER in ${envPath}: $providerName"
-    }
-}
-
-$portText = Get-LocalEnvValue -Name "AGENT_CORE_PORT" -DefaultValue "8765"
-$corePort = 0
-if (-not [int]::TryParse($portText, [ref]$corePort) -or $corePort -lt 1 -or $corePort -gt 65535) {
-    throw "AGENT_CORE_PORT is invalid: $portText"
-}
-
-$healthUri = "http://127.0.0.1:$corePort/health"
-$env:AGENT_CORE_WS_URL = "ws://127.0.0.1:$corePort/ws"
-$coreStarted = $false
-
-if (Test-AgentCoreHealth -Uri $healthUri) {
-    Write-Host "[Anime Agent] Core is already online on port $corePort."
-}
-else {
-    $listener = Get-NetTCPConnection -LocalPort $corePort -State Listen -ErrorAction SilentlyContinue |
-        Select-Object -First 1
-    if ($listener) {
-        $owner = Get-Process -Id $listener.OwningProcess -ErrorAction SilentlyContinue
-        $ownerName = if ($owner) { $owner.ProcessName } else { "unknown" }
-        throw "Port $corePort is occupied by PID $($listener.OwningProcess) ($ownerName), but it is not a healthy Anime Agent Core."
-    }
-
-    New-Item -ItemType Directory -Path $logRoot -Force | Out-Null
-    $stdoutLog = Join-Path $logRoot "core.stdout.log"
-    $stderrLog = Join-Path $logRoot "core.stderr.log"
-    $coreProcess = Start-Process `
-        -FilePath $pythonPath `
-        -ArgumentList @("-m", "agent_core.main") `
-        -WorkingDirectory $coreRoot `
-        -WindowStyle Hidden `
-        -RedirectStandardOutput $stdoutLog `
-        -RedirectStandardError $stderrLog `
-        -PassThru
-    $coreStarted = $true
-
-    $healthy = $false
-    for ($attempt = 0; $attempt -lt 30; $attempt++) {
-        Start-Sleep -Milliseconds 500
-        if ($coreProcess.HasExited) {
-            throw "Agent Core exited during startup. Check $stderrLog"
-        }
-        if (Test-AgentCoreHealth -Uri $healthUri) {
-            $healthy = $true
-            break
-        }
-    }
-
-    if (-not $healthy) {
-        Stop-Process -Id $coreProcess.Id -Force -ErrorAction SilentlyContinue
-        throw "Agent Core did not become healthy within 15 seconds. Check $stderrLog"
-    }
-    Write-Host "[Anime Agent] Core started in the background (PID $($coreProcess.Id))."
-}
-
-# Core keepalive watchdog (KI-019): PortAudio native crashes / reboots kill Core
-# silently while the avatar keeps retrying the bridge forever. While Tianyi is
-# on the desktop, the watchdog revives Core and records exit-code forensics.
-# The script holds a mutex, so a duplicate spawn here is a harmless no-op.
-$watchdogScript = Join-Path $PSScriptRoot "core_watchdog.ps1"
-if (Test-Path -LiteralPath $watchdogScript) {
-    Start-Process `
-        -FilePath "powershell.exe" `
-        -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $watchdogScript) `
-        -WindowStyle Hidden | Out-Null
-    Write-Host "[Anime Agent] Core watchdog is on duty (revives Core while the avatar is on the desktop)."
-}
-
-if ($SkipAvatar) {
-    Write-Host "[Anime Agent] Core verification completed; avatar launch skipped."
-    exit 0
-}
-
-$avatarProcess = Get-AvatarProcess
-if ($avatarProcess) {
-    Write-Host "[Anime Agent] Avatar is already running (PID $($avatarProcess.ProcessId))."
-}
-else {
-    if (-not (Test-Path -LiteralPath $avatarLauncher)) {
-        throw "Avatar launcher was not found: $avatarLauncher"
-    }
-
-    & $avatarLauncher
-    for ($attempt = 0; $attempt -lt 20; $attempt++) {
-        Start-Sleep -Milliseconds 500
-        $avatarProcess = Get-AvatarProcess
-        if ($avatarProcess) {
-            break
-        }
-    }
-    if (-not $avatarProcess) {
-        throw "Godot avatar did not start within 10 seconds."
-    }
-    Write-Host "[Anime Agent] Avatar started (PID $($avatarProcess.ProcessId))."
-}
-
-Write-Host "[Anime Agent] Ready. You can close this launcher window."
+    throw
+} finally { Exit-AgentLock $lock }

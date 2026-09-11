@@ -86,6 +86,8 @@ Core 会把它定向路由为 `ui.menu.toggle`。角色内置菜单目前直接�
 
 请求某个会话的历史：Avatar 发送 `chat.history.request`（`conversationId` 缺省取最近活跃会话），Core 单播返回最近 50 条：
 
+Codex 2026-09-11 启动兼容修正：新数据库没有历史会话时返回 `conversationId:-1, messages:[]`，不用会导致 Godot `int(null)` 错误的空值。`GET /health/live` 是不探测 TTS/LLM 的进程存活接口，返回 `status/service/pid/roles`；原 `/health` 保留为依赖详情接口，不再用于新版本进程生死判定。
+
 ```json
 {"type":"chat.history.request","conversationId":1}
 {"type":"chat.history.response","conversationId":1,"messages":[{"role":"user","text":"你好","createdAt":"2026-08-30 02:10:00"}]}

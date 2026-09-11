@@ -1255,6 +1255,20 @@ async def wake_test(request: Request) -> dict[str, object]:
     return {"ok": True, "queued": True, "samples": int(len(samples))}
 
 
+# Codex: process liveness is independent of optional TTS/LLM availability.
+@app.get("/health/live")
+async def liveness() -> dict[str, object]:
+    return {
+        "status": "ok",
+        "service": "anime-agent-core",
+        "pid": os.getpid(),
+        "roles": {
+            "avatar": hub.role_count("avatar"),
+            "ui": hub.role_count("ui"),
+        },
+    }
+
+
 @app.get("/health")
 async def health() -> dict[str, object]:
     return {
@@ -1407,7 +1421,8 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     websocket,
                     event(
                         "chat.history.response",
-                        conversationId=history_session,
+                        # Codex: Godot's empty-selection sentinel is -1, not null.
+                        conversationId=history_session if history_session is not None else -1,
                         messages=history,
                     ),
                 )

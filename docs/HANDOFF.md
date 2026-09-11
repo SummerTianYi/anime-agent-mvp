@@ -2,7 +2,7 @@
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-10（zcode）；Python 单测 200 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
+> 最后核验：2026-09-11（Codex 启动回归）；Python 单测 203 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
 
 ## 0. 最终目标（北极星）
 
@@ -14,7 +14,7 @@
 |---|---|---|
 | M1 会说话的桌面角色 | 3D 形象、聊天、语音、动作表情 | ✅ |
 | M2 有手有眼的 agent | 工具循环、权限层、写入、命令、MCP、视觉、解说 | ✅ 收官（2026-09-07） |
-| M3 常驻的生命感 | 开机自启+守护、Idle 触发✅、长期记忆完善 | ← 当前主战场（仅剩自启/守护 + 记忆审阅 UI） |
+| M3 常驻的生命感 | 开机自启、会话守护✅、Idle 触发✅、长期记忆完善 | ← 当前主战场（登录自启、音频/TTS隔离守护及记忆审阅 UI 待做） |
 | M4 持续进化 | 声线迭代、动作模组、基模训练 | ⚪ 长期，见 [docs/plans/LONG_TERM.md](plans/LONG_TERM.md) |
 
 ## 1. 当值分派（所有者交接时填写）
@@ -40,6 +40,8 @@
 三次交接：① Codex 建基础 → Claude 接交互层（2026-08-31）；② Claude 蓝图 B/C/D 期规划完毕未执行，经所有者授权整体移交 zcode 执行（2026-09-05；harness 人设训练部分先拆至 anime-agent-workbench 沙箱训练再并回）；③ zcode 交接整理 + 白纸测试门禁建立（2026-09-07，本次）。归属细则见 [CONTRIBUTIONS.md](CONTRIBUTIONS.md)。
 
 ## 3. 当前真实状态（= 冻结区清单）
+
+2026-09-11 Codex 启动/退出修复：已替换根 `start-anime-agent.cmd` 对应实现，轻量 `/health/live` 不依赖TTS，旧版详情探测兼容、共享启动锁、归属核验恢复、守护代际及正常关窗后Core进程树清理均实机验证；空库历史响应改为 `-1` 避免Godot `int(null)` 错误。203项Core回归、14项逻辑测试、前轮独立副本矩阵与正式目录原命令验证通过；所有者最终追加两轮高强度对抗（20/24项）也通过，授权本次启动修复提交推送，CI增加Windows启动逻辑门禁。官模/动作不变；TTS独立守护、音频隔离与历史孤儿/任务恢复仍另行规划。故障时序测试的初次失败与修正、证据及精确边界见 [启动验收记录](STARTUP_REPAIR_STATUS.md)，不再依据下方历史段落判断当前启动器状态。
 
 2026-09-10 Codex 正式交付更新（覆盖下段待冻结状态）：所有者已批准1.4，运行时提交 `7bb1aa1599e85d60adf329d79d507352a4e6eb9a`，正式索引现为1.4；新增独立只读官模/Blend、七类预览及带哈希的动作/支持纹理快照。归档恢复不再遗漏倾听TRES或挪用未来动作资产；旧版清单保持原样。本轮为本地正式冻结，未推送GitHub；没有改动已验收外观/表情/动作，也不重启生产服务。[交付档案](../model-versions/1.4/README.md)。
 
@@ -90,7 +92,7 @@
 
 ### ❌ 未开工（新领地从这里挑）
 
-Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未做）；键鼠控制（最高危，缓行需新设考试）；Spark Adapter。
+Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，不重造）；音频/TTS 隔离与历史现场恢复按长期手册 OPS 分项；open_app（B 期蓝图项未做）；键鼠控制（最高危，缓行需新设考试）；Spark Adapter。
 
 ## 4. 编号对照表（三套体系别搞混）
 
@@ -112,7 +114,7 @@ Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 200 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 203 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -205,9 +207,9 @@ Windows 开机自启+守护（所有者暂缓）；open_app（B 期蓝图项未�
 | 1 | `git status --short --branch` | 了解本地归属；不丢别人未提交的工作 |
 | 2 | `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-local-assets.ps1` | 打印当前资产路径、大小与 SHA-256 |
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
-| 4 | 双击 `start-anime-agent.cmd`（真机验证一律走 `scripts/start-tianyi.bat`，见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar 出现 |
-| 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health` | `status=ok` 与预期 Provider |
-| 6 | `Set-Location services\agent-core; $env:PYTHONDONTWRITEBYTECODE='1'; .\.venv\Scripts\python.exe -m unittest discover -s tests -v` | 200 项全绿 |
+| 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
+| 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 203 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

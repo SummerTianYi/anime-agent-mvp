@@ -20,8 +20,8 @@
 | 语音转文字 | 管线可用，假死自愈已上线 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
 | TTS 语音输出 | 已完成 | GPT-SoVITS sidecar（真实声线）、分片合成、三路打断、工作解说；sidecar 缺席时自动回退文字 |
 | Agent 能力层 | 已完成（考试授权制） | allow/ask/deny 权限引擎、只读工具六件套、write_file 原子写（T1 考试 3/3）、真实目录放权（T2 3/3）、run_command 白名单（T3）、MCP 宿主（C 考试）、每工具类型工作解说、主动问候（免打扰+冷却）；详见 [`docs/TEST_REPORT_2026-09-06.md`](docs/TEST_REPORT_2026-09-06.md) |
-| 一键启动 | 已完成开发机版本 | 根目录双击 `start-anime-agent.cmd`，Core 隐藏运行、Avatar 独立出现 |
-| Windows 登录自启、守护 | 未完成 | 尚未做安装器、登录任务和崩溃恢复（M3 主战场） |
+| 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
+| Windows 登录自启、守护 | 会话守护已实现；登录自启待做 | Godot 会话内 Core 崩溃恢复和退出清理已验收；安装器/登录任务、音频隔离和 TTS 独立守护仍未完成 |
 | Idle 触发 | 已完成 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |
 | 前端 UI 升级 | 已立项（方案阶段） | 当前聊天浮层与能力不匹配；方案见 [`docs/plans/UI_UPGRADE.md`](docs/plans/UI_UPGRADE.md)，为下一主战场 |
 

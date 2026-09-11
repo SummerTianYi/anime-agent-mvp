@@ -9,10 +9,9 @@
    语音合成计数增量、会话列表显隐与排序、UI 展示字段。禁止只测"链路通没通"。
 2. **生产库零污染。** 对生产 Core 发测试消息必须：先 `session.new` 自建临时会话、
    显式传 `conversationId`、测完删会话并查库确认零痕迹。**禁止 `conversationId=None`**。
-3. **重启走标准序列。** 清场一个不少（见 3.1），启动只用 scripts/start-tianyi.bat 唯一入口。
-   禁止只杀不启、只起不查、跳过 watcher 清剿。
+3. **重启走标准序列。** 2026-09-11 所有者指定唯一日常/验收入口为根目录 `start-anime-agent.cmd`（见 3.1）。关闭 Godot 后核对对应会话退出，再用同一命令启动；禁止按 Python/Godot 名称或端口号无差别杀进程，禁止只起不查。
 4. **就绪三件套。** Core `/health` ok + sidecar `/health` ok:true + Core `tts.available:true`
-   三者齐备才准开测。缺一开测 = 无效验证。
+   三者齐备才准进行真语音验收。启动/退出及 TTS 缺席降级测试另以 `/health/live`、真实可见且响应的 Godot 窗口、Avatar WebSocket 就绪为门禁；通过启动测试不代表语音已通过。
 5. **测试环境隔离。** 跑单测必须 `ANIME_AGENT_TTS=0 ANIME_AGENT_WAKE_WORD=0`；
    禁止单测触碰生产 DB、麦克风、真实 sidecar、真实 LLM。
 6. **代码卫生。** 小步编辑、每文件 py_compile；补丁脚本先写临时文件验证后再替换
@@ -26,7 +25,7 @@
 
 ### 阶段 0：基线
 - `git status` 记录当前改动集合，只允许存在已知改动。
-- 记录测试总数基线（以 docs/TESTING.md 为准，当前 200）。
+- 记录测试总数基线（以 docs/TESTING.md 为准，当前 203）。
 - 写行为矩阵对表（铁律 7）。
 
 ### 阶段 1：实现
@@ -38,12 +37,8 @@
 - 全绿后如实记录：`Ran N tests ... OK`。
 
 ### 阶段 3：真机验证
-- **3.1 标准清场**（顺序执行，一个不少）：
-  1. 杀 8765 监听进程（Core）
-  2. 杀 8770 监听进程（sidecar）
-  3. 按 Name like 'Godot%' 杀窗口
-  4. 按 CommandLine 匹配 watch-tts-session 杀**所有代** watcher
-- **3.2 标准启动**：`scripts/start-tianyi.bat`（唯一入口，内部自带清 watcher + 防双启）。
+- **3.1 标准清场**：正常关闭本项目 Godot，核对对应 Core/子进程及会话守护退出；残留只能按项目路径、启动命令、PID和创建时间核验后处理。独立 TTS 服务不是仅凭8770端口就可终止的对象。故障注入放独立副本及端口，不能影响其它项目；快速关闭重开需确认上一代守护没有终止新会话。
+- **3.2 标准启动**：PowerShell 中调用根目录 `start-anime-agent.cmd`（用户同一条命令，不换其它入口）。
 - **3.3 就绪三件套**（铁律 4）。
 - **3.4 临时会话全链路**：`session.new` 拿显式 id → 发中文消息 → 断言：
   - `chat.response` 的 `text` 是干净中文（无 JSON、无英文漂移、与显示一致）

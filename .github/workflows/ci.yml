@@ -23,6 +23,9 @@ jobs:
       - name: Test Core
         working-directory: services/agent-core
         run: python -m unittest discover -s tests -v
+      # Codex: deterministic lifecycle guard needs no local model or credentials.
+      - name: Test Windows startup lifecycle
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test-startup.ps1
 
   docs-guard:
     runs-on: windows-latest
