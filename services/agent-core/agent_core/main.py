@@ -908,7 +908,7 @@ class ConnectionHub:
         if websocket in self._clients:
             self._roles[websocket] = role
             if role == "avatar":
-                asyncio.get_event_loop().create_task(_proactive_greeting("avatar-connect"))
+                _spawn(_proactive_greeting("avatar-connect"))
 
     async def send(self, websocket: WebSocket, payload: dict[str, object]) -> None:
         lock = self._send_locks.get(websocket)
@@ -1393,7 +1393,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         )
         if use_tts:
             await broadcast_behavior(agent_reply)
-            asyncio.create_task(_speak_reply(agent_reply.reply, request_id))
+            _spawn(_speak_reply(agent_reply.reply, request_id))
             return
         await broadcast_state("speaking", request_id)
         await broadcast_behavior(agent_reply)
@@ -1496,7 +1496,7 @@ async def handle_wake_word(buffered_audio) -> None:
                 await hub.send_roles({"avatar", "ui"}, event("session.switched", conversationId=session["id"], title=session["title"]))
                 await hub.send_roles({"avatar", "ui"}, event("chat.user_message", conversationId=session["id"], text=command_text))
                 dispatched = True
-                asyncio.create_task(handle_chat(command_text, wake_request_id, conversation_id=session["id"]))
+                _spawn(handle_chat(command_text, wake_request_id, conversation_id=session["id"]))
                 return
         await hub.send_roles({"avatar", "ui"}, event("wake.idle"))
     finally:
@@ -1576,7 +1576,7 @@ async def wake_test(request: Request) -> dict[str, object]:
             _np.arange(len(samples), dtype=_np.float64),
             samples.astype(_np.float64),
         ).astype(_np.float32)
-    asyncio.create_task(handle_wake_word(samples))
+    _spawn(handle_wake_word(samples))
     return {"ok": True, "queued": True, "samples": int(len(samples))}
 
 
@@ -1693,7 +1693,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     # wake stays paused until the transcript is dispatched: the
                     # ring buffer still holds the user's sentence and re-triggering
                     # on it would duplicate the request through the wake chain
-                    asyncio.create_task(handle_voice_transcription(audio_bytes))
+                    _spawn(handle_voice_transcription(audio_bytes))
                 continue
 
             if event_type == "speech.finished":
