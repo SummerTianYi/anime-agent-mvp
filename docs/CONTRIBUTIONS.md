@@ -76,6 +76,7 @@
 | U2 首块试点：工具活动卡（zcode，2026-09-10） | 所有者选定"最有把握"的 UI 改动先行看效果：`agent.tool` 事件在 Godot 聊天浮层按回合聚合成活动卡（来源徽标：本地/浏览器/GitHub/搜索/邮箱/网盘，`mcp__<server>__<tool>` 长名解析；✓/✗ 成败标记；调用计数；新回合与切会话自动开新卡），落实 UI_REFERENCES §4 chatbox Work Mode 单行时间线范式的 Godot 版；零协议/Core 改动，仅 `interaction_ui.gd` 加法 + 新守卫 `verify_tool_activity.gd`（GODOT_TOOL_ACTIVITY_OK：徽标解析/计数/重置/清场断言），既有 session/text 守卫回归绿；重启角色真机生效 | `apps/avatar-runtime/interaction_ui.gd`；`apps/avatar-runtime/verify_tool_activity.gd`；`docs/TESTING.md`（新守卫行）；`docs/plans/UI_UPGRADE.md`（§6 进度）；本提交 |
 | 思考强度档：鲸鱼娘旋钮天依版（zcode，2026-09-10） | 所有者点名、参照 ChatGPT effort 弹窗 + DeepSeek 鲸鱼娘旋钮创意：composer"思考·档位"按钮 → 弹窗（档位名+GLM-5.3-Flash+三档刻度滑杆，旋钮=天依 Q 版形态，素材位 `assets/effort/<level>.png` 缺图回退头像等供图）；协议 `chat.message` 加可选 `effort`（chill=无工具纯聊 / standard=只读六件套 3 步 / deep=全量+MCP 5 步=历史默认），映射为 `main.py` `effective_tools_for_effort` 纯函数+7 单测（191→198 全绿），权限引擎与 wake/voice 路径零影响；`runtime.gd send_chat_message` 最小加参（带默认值，冻结文件）；守卫 `verify_effort_ui.gd`（GODOT_EFFORT_UI_OK）+ 三守卫回归；AVATAR_BRIDGE 同步（铁律 6）；开源差异化：七家都把 effort 藏设置里，输入框旁快捷档位为本项目首创 | `services/agent-core/agent_core/main.py`；`services/agent-core/tests/test_effort.py`；`apps/avatar-runtime/interaction_ui.gd`；`apps/avatar-runtime/runtime.gd`（最小加参）；`apps/avatar-runtime/verify_effort_ui.gd`；`docs/AVATAR_BRIDGE.md`；`docs/TESTING.md`；`docs/plans/UI_UPGRADE.md`；`docs/HANDOFF.md`（§3 状态块）；本提交 |
 | 思考强度档行为层定稿 + RESILIENCE 并入手册（zcode，2026-09-10） | 所有者定调"档位=投入度而非功能开关"后推翻首版工具门控：**三档均为完整 agent**——全注册表+全部 MCP 常驻（权限引擎不因档位降级），档位只调投入度=步数阶梯 1/3/5 + 三段按档行为提示（`EFFORT_PROMPT_NOTES` 经 `extra_parts` 注入 system：碎碎念=单点快查短答/帮帮忙=小任务利落交代/大展身手=先规划后汇报），人设剧本一字不动；单测改写+新增（191→200 全绿）；滑杆重做为自绘粗轨道控件（`effort_slider.gd`：#66CCFF 已选段、三表情坐档、白圈已按反馈去除），表情包抠底（深藏青边缘泛洪）+镜像统一朝向；将外部 roadmap 仓 RESILIENCE R1-R5 细案核对后并入 plans 手册 §8（OPS-01 细化、新增 OPS-06~09、OPS-05 记录该仓转证据仓并回链） | `services/agent-core/agent_core/main.py`；`services/agent-core/tests/test_effort.py`；`apps/avatar-runtime/effort_slider.gd`；`apps/avatar-runtime/interaction_ui.gd`；`docs/plans/README.md`（UI-U2a 行+§8+§9 台账）；本提交 |
+| StepFun 视觉接入 + DS-v4-flash 适配认证 + TTS 链修复（zcode，2026-09-12） | 三件套：① `AnthropicCompatibleProvider`（/v1/messages 方言：system 合并/tool_use+tool_result 翻译/思考块跳过/热重载平价），微信 Coding Plan（DS-v4-flash，OpenAI 兼容）对比后胜出任文本主脑（GLM-5.2 备选），换模型回归发现并修复四类弱模型失败模式（人设能力句被字面执行/多工具选型漂移/ask 预征询/档位契约松动）——认证驱动+题库入库（`scripts/model_cert.py`，E 系 9 项+独立实例对抗 10 题全部达标，手册 QA-03 立项），详见 EXAM_LEDGER DS 适配认证节；② `look_at_screen` 双方言视觉（anthropic base64 图像块），天依的眼睛切到 step-3.7-flash，GLM 断供期视觉不掉线（真机验收：确认后准确描述屏幕）；③ TTS 链回归修复：09-11 启动重写丢掉了 TTS 钩子导致每次重启都哑巴——语音链（tts_autostart + watch-tts-session）折回 start-mvp.ps1，真机验收合成+播放全通 | `services/agent-core/agent_core/main.py`；`services/agent-core/tests/test_anthropic_provider.py`；`services/agent-core/agent_core/tools.py`；`services/agent-core/agent_core/harness.py`；`scripts/model_cert.py`+`model_cert_battery.json`+`model_cert_adversarial.json`；`scripts/start-mvp.ps1`；`docs/EXAM_LEDGER.md`；`docs/plans/README.md`（QA-03）；本提交 |
 | Gmail MCP 接入（zcode，2026-09-07） | @gongrzhe/server-gmail-autoauth-mcp（19 工具）经 `tools/gmail-mcp.cmd` 代理启动器接入（Google API 需本地代理）；OAuth 全流程走通（403 测试名单 → 补加 → 令牌落 ~/.gmail-mcp）；T-GMAIL 验收：真实读出收件箱（Ferrari/GitHub CI 通知），投毒邮件发送测试被她识破拒发（双层防御）；gcp-oauth.keys.json 与令牌全部 gitignore | `tools/gmail-mcp.cmd`；`.env`（gmail 条目）；`.gitignore`；本提交 |
 | STT 自愈与 Idle 触发（zcode，2026-09-07） | `voice.py`：Realtek 假死数字零检测（噪声底物理特征区分"没说话"与"驱动假死"）+ 一次自动设备重置 + 可行动报错 + 每次录音电平日志（KI-001 加固）；`proactive.py` 新增 `IdlePolicy`（阈值/免打扰/冷却，纯逻辑），`main.py` 启动钩子挂 GetLastInputInfo 本地轮询（30s，Windows）+ 台词模板库，**全程零 GLM 调用（待机零额度）**；单测 164→176 全绿（含原 D1 测试原样保留） | `agent_core/voice.py`；`agent_core/proactive.py`；`agent_core/main.py`；`tests/test_voice_selfheal.py`；`tests/test_proactive.py`；本提交 |
 | T2+ 进阶考试（zcode，2026-09-07） | 矛盾记忆更新（换载体：歌手脱粉）+ 长对话压测（16 轮：三事实注入/工具/身份陷阱/注入攻击/突袭抽背）真机实考 21 次调用；判分行为证据制（facts 表对账）；考出两个架构缺口（facts 无取代机制、晋升词表偏好中心化）与一个模型已知项放大（批量回忆自疑）；临时会话 51/52/53 与考试事实全清零；实录归档 workbench evidence，错题记入 EXAM_LEDGER | `docs/EXAM_LEDGER.md`；workbench `evidence/live_exam_t2plus.md`；本提交 |
@@ -89,6 +90,14 @@ Claude 的全部增量已于 2026-08-31 以提交 fc5a5a4 落库：倾听动作�
 ## Codex 1.3 冻结声明（2026-09-08；承接下方历史候选记录）
 
 所有者批准保守 A-pose、F12 高清截图与材质候选 A 作为当前基线并要求推送。Codex 将候选材质原参数移至 `apps/avatar-runtime/model_look_v13.gd`，接入 `runtime.gd` 默认 1.3 与显式旧版回退；同时提交本轮此前尚未提交的待机注册项、肩臂轨道替换、截图器及三个验证入口、lookdev 文档和相关 README/HANDOFF/TESTING/MOTION_PIPELINE/优化路线更新。官模与动捕 GLB 未改；1.3 使用旧版同哈希 Blend/GLB 的独立只读副本，完整回溯依赖清单 runtimeCommit。渲染九视图、十二组动画采样、版本选择/回退、GPU 门禁、高清截图五视图及动作/输入/会话/画布回归通过；不是全身防穿模或复杂旋转自然性验收。另一代理的 wake_word.py 与 test_wake_phrase.py 不属于本轮，保持未提交原样，不夹带。按所有者要求不启动子代理，以单代理审查和自动验证取代本次独立代理交接演练。最终冻结信息与验证记录见 `model-versions/1.3/README.md`；以下候选记录是历史阶段而非当前发布状态。
+
+### Codex 告别挥手离线候选（2026-09-12，未实装）
+
+按所有者确认的右手挥动、五指全程伸展制作 `apps/avatar-runtime/mocap/farewell/` 独立候选，复用已检查骨骼助手，35右臂旋转轨/4.1秒含抬手、三次挥别和回A姿。Blender只读结构取证、493个120Hz采样、手指弯曲负对照、124帧保存回放、493次非顺序/非关键帧检查通过；全身/近景各124帧真实GPU渲染和四朝向关键帧、MP4解码与无损APNG逐帧RGB校验通过。官模、正式runtime、注册表和项目配置前后哈希不变，未实装、修改退出逻辑、重启正式进程、调用Core/API、启子代理或提交推送；不把本候选称作自动动捕、全身零穿模或退出生命周期验收。路径、哈希、复现、观察范围和下一步边界见本目录README，保留其它代理并行改动。
+
+### Codex 告别挥手 v2 发力部位纠正（2026-09-12，未实装）
+
+所有者指出上一版错误使用大臂和手腕摆动，Codex仅修改farewell候选为抬臂后固定大臂、小臂绕肘±23°往返，手腕与五指保持局部姿态。增加肘枢轴不动、除肘外右臂局部旋转不动、实际摆幅及大臂/手腕错误驱动的负对照；493个120Hz采样通过。保存回放检查首次发现3.16秒阶段边界在30Hz采样间被放手插值污染，补精确关键帧后通过124帧和493次非顺序/非关键帧回放；重渲染双机位与四朝向关键帧。旧v1和本轮失败证据保留，新证据在motion-output/farewell-reference-v2，具体参数/限制见farewell/README.md。官模、runtime、注册表、项目配置哈希不变，不动Core或退出逻辑，无实装、重启、子代理、提交或推送，等待所有者审阅。
 
 ## 后续 Agent 更新规则
 
@@ -161,6 +170,16 @@ Codex 通过官模开放手掌平面推导肘部参考铰链，将肩部完整�
 ### Codex 启动修复最终对抗与收尾授权（2026-09-11）
 
 所有者要求最后两轮加强测试，通过后收尾并推送。Codex 完成独立副本20/24项检查，覆盖6路并发、正常/快速重开、废弃锁、暂停旧守护跨新会话恢复、Core崩溃/挂起、恢复中关窗、伪装健康的外部占用、非法配置、子进程清理与无关进程保护；补强故障注入时序和清理失败门禁、禁止测试暗用候选入口、隔离TTS探测端口，新增Windows CI逻辑回归。203项Core与14项逻辑、资产/文档/静态/暂存区检查通过。测试初跑失败与修正保留于启动验收记录；不是无限故障保证，也不宣称TTS/音频隔离或独立agent白纸考试完成。提交以Codex标记，只包含本次启动相关代码、测试与文档；本地日志/模型/配置和另一agent的Godot UID文件不随本次推送。
+
+### Codex 三种表情离线强化候选（2026-09-12，未实装）
+
+按所有者“先模拟并发对比图”的边界，新增 `lookdev/render_emotion_preview.gd` 与 `EMOTION_PREVIEW.md`，仅在独立离线实例中组合现有惊讶/生气/流泪的眉眼口形；真实GPU渲染单形变图谱、两轮候选及正面/30°侧面/全身小尺寸对比。官模SHA、703骨/48形变、相机灯光、全部骨姿态、23材质及网格/蒙皮引用核验通过，三组回中误差<0.000001。仅静态视觉候选，不代表动态表情/口型/眨眼/状态优先级已经修复；泪滴与小尺寸可读性仍有限。正式1.4和运行中天依均未替换，未commit/push、无子代理；证据及复现见新增说明，不改其他agent在制文件。
+
+同日Codex追加：按所有者反馈仅新增哭泣折中候选，两个旧版权重与图像保留，惊讶/生气最终参数不变；新增 `--cry-middle` 同机位正侧面三列渲染、旧报告参数复核、全图RGBA微小误差界限与单像素负对照、回中及结构检查。首次逐字节检查因少量1/255差异失败，独立像素核对后明确误差上限，最终报告PASS，未把静态预览当作正式实装。路径/参数/失败说明见 `lookdev/EMOTION_PREVIEW.md` 哭泣折中版节；无生产修改或推送。
+
+### Codex 已确认表情正式接入（2026-09-12）
+
+所有者批准直接实装后，Codex 新增窄范围 `emotion_presets.gd`，将惊讶/生气最终参数与哭泣折中参数接入 `runtime.gd` 统一事件路径；处理切换清除、口型/眨眼/状态优先级、渐变收敛及原状态恢复，不改模型1.4资产、材质、骨架、比例、动作、Core/启动器或其他agent的UI。新增独立行为守卫与GPU集成守卫：4207帧/204019断言、六组正侧面渲染、122组既有表情材质对照、180帧口型及203项Mock Core/桌面构建/既有UI动作门禁通过。使用原CMD入口重启本地实例；实装前后运行时存入独立表情1.0档案，历史模型档案保持不变。失败记录、证据与回退规则见 `apps/avatar-runtime/lookdev/EXPRESSION_1.0.md`。本次无子代理、无commit/push，不冒领他人UID文件或能力层改动。
 
 ### Codex 思考动作离线预览（2026-09-12，未实装）
 
