@@ -254,9 +254,80 @@ def write_file(path: Any, content: Any, mode: Any = "overwrite") -> dict[str, An
 
 # --- look_at_screen (zcode, D 期): screenshot -> vision provider, ask-tier --
 
+def _vision_request(
+    protocol: str,
+    base_url: str,
+    api_key: str,
+    model: str,
+    image_b64: str,
+    question: str,
+) -> "tuple[Any, str]":
+    """Build the vision HTTP request for either dialect. Returns (request, protocol)."""
+    import urllib.request
+
+    if protocol == "anthropic":
+        body = json.dumps({
+            "model": model,
+            "max_tokens": 2048,
+            "messages": [{
+                "role": "user",
+                "content": [
+                    {"type": "image", "source": {
+                        "type": "base64", "media_type": "image/png", "data": image_b64,
+                    }},
+                    {"type": "text", "text": str(question)},
+                ],
+            }],
+        }).encode("utf-8")
+        request = urllib.request.Request(
+            base_url.rstrip("/") + "/v1/messages", data=body,
+            headers={
+                "Content-Type": "application/json",
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+            }, method="POST")
+        return request, protocol
+    body = json.dumps({
+        "model": model,
+        "messages": [{
+            "role": "user",
+            "content": [
+                {"type": "image_url", "image_url": {"url": "data:image/png;base64," + image_b64}},
+                {"type": "text", "text": str(question)},
+            ],
+        }],
+        "stream": False,
+    }).encode("utf-8")
+    request = urllib.request.Request(
+        base_url.rstrip("/") + "/chat/completions", data=body,
+        headers={"Content-Type": "application/json", "Authorization": "Bearer " + api_key},
+        method="POST")
+    return request, protocol
+
+
+def _vision_text(protocol: str, payload: dict) -> str:
+    """Extract the reply text from either dialect's response payload."""
+    if protocol == "anthropic":
+        content = payload.get("content")
+        if not isinstance(content, list):
+            return ""
+        return "".join(
+            str(block.get("text", ""))
+            for block in content
+            if isinstance(block, dict) and block.get("type") == "text"
+        ).strip()
+    content = payload.get("choices", [{}])[0].get("message", {}).get("content")
+    if isinstance(content, list):
+        content = "".join(
+            str(part.get("text", "")) for part in content if isinstance(part, dict)
+        )
+    return str(content or "").strip()
+
+
 def look_at_screen(question: Any = "用一句话描述屏幕上有什么") -> dict[str, Any]:
     """截图并送视觉模型描述。ask 档：屏幕内容会发送给云端视觉模型（隐私）。
-    未配置 ANIME_AGENT_VISION_MODEL 时优雅降级为已知边界。"""
+    未配置 ANIME_AGENT_VISION_MODEL 时优雅降级为已知边界。
+    ANIME_AGENT_VISION_PROTOCOL=openai（默认）或 anthropic（StepFun step_plan 等）。"""
     vision_model = os.getenv("ANIME_AGENT_VISION_MODEL", "").strip()
     if not vision_model:
         return {"ok": False, "error": "屏幕视觉未配置（需要设置 ANIME_AGENT_VISION_MODEL 为支持图像的模型）"}
@@ -271,28 +342,20 @@ def look_at_screen(question: Any = "用一句话描述屏幕上有什么") -> di
         image_b64 = base64.b64encode(image_path.read_bytes()).decode("ascii")
     except OSError as exc:
         return {"ok": False, "error": f"读取截图失败：{exc}"}
-    body = json.dumps({
-        "model": vision_model,
-        "messages": [{
-            "role": "user",
-            "content": [
-                {"type": "image_url", "image_url": {"url": "data:image/png;base64," + image_b64}},
-                {"type": "text", "text": str(question)},
-            ],
-        }],
-        "stream": False,
-    }).encode("utf-8")
+    protocol = os.getenv("ANIME_AGENT_VISION_PROTOCOL", "openai").strip().lower()
     base_url = os.getenv("ANIME_AGENT_VISION_BASE_URL", os.getenv("GLM_BASE_URL", "")).strip()
     api_key = os.getenv("ANIME_AGENT_VISION_KEY", os.getenv("GLM_API_KEY", ""))
+    if not base_url or not api_key:
+        return {"ok": False, "error": "屏幕视觉未配置（缺少视觉端点或密钥）"}
+    request, protocol = _vision_request(protocol, base_url, api_key, vision_model, image_b64, question)
     try:
-        request = urllib.request.Request(
-            base_url.rstrip("/") + "/chat/completions", data=body,
-            headers={"Content-Type": "application/json", "Authorization": "Bearer " + api_key})
-        with urllib.request.urlopen(request, timeout=60) as response:
+        with urllib.request.urlopen(request, timeout=90) as response:
             payload = json.loads(response.read().decode("utf-8"))
-        text = str(payload["choices"][0]["message"]["content"]).strip()
+        text = _vision_text(protocol, payload).strip()
     except Exception as exc:  # noqa: BLE001
         return {"ok": False, "error": f"视觉模型调用失败：{str(exc)[:200]}"}
+    if not text:
+        return {"ok": False, "error": "视觉模型返回空描述"}
     return {"ok": True, "description": text[:600]}
 
 
