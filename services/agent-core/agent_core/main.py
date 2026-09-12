@@ -975,9 +975,22 @@ def _make_loop_step_handler(request_id: str):
             narrated_tools.add(step.tool)
             line = TOOL_NARRATION_LINES[step.tool]
         if line:
-            asyncio.create_task(_speak_reply(line, request_id, narrating=True))
+            _spawn(_speak_reply(line, request_id, narrating=True))
 
     return handler
+
+
+_background_tasks: set = set()
+
+
+def _spawn(coro) -> asyncio.Task:
+    """create_task holds only a weak ref: without this registry the loop may
+    GC a sleeping fire-and-forget task mid-flight (the think filler died this
+    way). Keep a strong ref until the task finishes."""
+    task = asyncio.create_task(coro)
+    _background_tasks.add(task)
+    task.add_done_callback(_background_tasks.discard)
+    return task
 
 
 async def _maybe_speak_think_filler(request_id: str, effort: str) -> None:
@@ -1205,7 +1218,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             await _withdraw_session_if_empty(conversation_id)
             return
         await broadcast_state("thinking", request_id)
-        asyncio.create_task(_maybe_speak_think_filler(request_id, effort))
+        _spawn(_maybe_speak_think_filler(request_id, effort))
         probe = conversation_id if conversation_id is not None else memory.latest_session_id()
         is_first_exchange = probe is None or not memory.load_messages(1, probe)
         session_id = memory.add_message("user", text, request_id, conversation_id)
@@ -1643,7 +1656,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     # 她点关窗：在挥手窗口内送一句告别（sidecar 此刻仍在线）
                     farewell = FAREWELL_LINES[int(time.time()) % len(FAREWELL_LINES)]
                     memory.add_event("avatar.farewell", {"line": farewell})
-                    asyncio.create_task(_speak_reply(farewell, f"exit-{int(time.time() * 1000)}", narrating=True))
+                    _spawn(_speak_reply(farewell, f"exit-{int(time.time() * 1000)}", narrating=True))
                     continue
                 if interaction != "avatar.clicked" or not isinstance(interaction_payload, dict):
                     await hub.send(websocket, event("core.error", message="Invalid avatar interaction"))
@@ -1805,7 +1818,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 except (TypeError, ValueError):
                     await hub.send(websocket, event("core.error", message="Invalid conversationId"))
                     continue
-            asyncio.create_task(handle_chat(text, request_id, conversation_id, payload.get("effort")))
+            _spawn(handle_chat(text, request_id, conversation_id, payload.get("effort")))
     except WebSocketDisconnect:
         pass
     finally:
