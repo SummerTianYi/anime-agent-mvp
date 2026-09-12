@@ -642,6 +642,7 @@ func _build_interaction() -> void:
 	box.add_child(title_row)
 
 	for action in [
+		["思考", "avatar.think"], # Codex: approved thinking reference v1.
 		["倾听动作（样片）", "avatar.listen"],
 		["旋转动作（样片）", "avatar.pirouette"],
 		["挥手", "avatar.wave"],

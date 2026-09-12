@@ -451,6 +451,9 @@ func _play_authored_motion(clip_id: StringName = &"pirouette") -> void:
 	if authored_motion_player == null or not authored_motion_clips.has(String(clip_id)):
 		print("GODOT_AUTHORED_MOTION_UNAVAILABLE", clip_id)
 		return
+	# Codex: a repeated thinking state/menu click must not snap back to entry.
+	if clip_id == &"think" and authored_motion_active and authored_motion_name == clip_id:
+		return
 	if authored_motion_active and authored_motion_name == clip_id and bool(authored_motion_clips[String(clip_id)].get("return_via_reverse", false)):
 		_resume_authored_motion()
 		return
@@ -685,7 +688,13 @@ func _handle_core_event(payload: Dictionary) -> void:
 func _set_agent_state(next_state: String) -> void:
 	if next_state not in ["idle", "thinking", "speaking", "working", "error"]:
 		return
+	# Codex: one approved take per thinking entry, without delaying the reply or
+	# stealing an interaction/recording. The take includes its own full exit.
+	var previous_state := agent_state
 	agent_state = next_state
+	if next_state == "thinking" and previous_state != "thinking" and not voice_recording_active:
+		if (not authored_motion_active and action_name == "idle") or authored_motion_name == default_idle_motion:
+			_play_authored_motion(&"think")
 	print("GODOT_AVATAR_AGENT_STATE", agent_state)
 	_clear_mouth_shapes()
 	_clear_emotions()
@@ -884,6 +893,8 @@ func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 			_set_expression("ウィンク", 0.72, 1.1)
 		"avatar.pirouette":
 			_play_authored_motion()
+		"avatar.think":
+			_play_authored_motion(&"think")
 		"avatar.listen":
 			_play_authored_motion(&"listen")
 			_set_expression("まばたき", 1.0, 2.1)
@@ -1241,6 +1252,15 @@ func _constrain_limb_segment(parent_name: String, child_name: String) -> void:
 func _apply_pigtail_pose() -> void:
 	if skeleton == null:
 		return
+	# Codex: baked complete chains own the middle of the approved take. Blend
+	# the ends into the *live* idle clock so finishing never leaves hair behind.
+	var authored_weight := 0.0
+	if authored_motion_active and authored_motion_player != null:
+		var clip: Dictionary = authored_motion_clips.get(String(authored_motion_name), {})
+		if bool(clip.get("authored_pigtails", false)):
+			var position := authored_motion_player.current_animation_position
+			var length := authored_motion_player.current_animation_length
+			authored_weight = smoothstep(0.0, 0.2, position) * (1.0 - smoothstep(length - 0.2, length, position))
 	for chain_position in range(pigtail_chains.size()):
 		var chain: Array = pigtail_chains[chain_position]
 		var side_sign := -1.0 if chain_position == 0 else 1.0
@@ -1261,7 +1281,14 @@ func _apply_pigtail_pose() -> void:
 			var offset := Quaternion(Vector3.RIGHT, sway) \
 				* Quaternion(Vector3.UP, deg_to_rad(inward_angle)) \
 				* Quaternion(Vector3.FORWARD, deg_to_rad(depth_angle) + settle)
-			skeleton.set_bone_pose_rotation(bone_index, pigtail_base_rotations[bone_index] * offset)
+			var idle_rotation: Quaternion = pigtail_base_rotations[bone_index] * offset
+			var authored_rotation := skeleton.get_bone_pose_rotation(bone_index)
+			var rotation := idle_rotation
+			if authored_weight >= 1.0:
+				rotation = authored_rotation
+			elif authored_weight > 0.0:
+				rotation = idle_rotation.slerp(authored_rotation, authored_weight)
+			skeleton.set_bone_pose_rotation(bone_index, rotation)
 
 
 func _set_bone_offset(bone_name: String, offset: Quaternion) -> void:

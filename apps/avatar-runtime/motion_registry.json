@@ -35,6 +35,18 @@
       "return_via_reverse": true,
       "preserve_limb_readability": false,
       "sample_seconds": 1.8
+    },
+    {
+      "id": "think",
+      "path": "res://assets/motions/thinking_reference_v1.tres",
+      "role": "interaction",
+      "bone_layer": "upper_body",
+      "loop": false,
+      "blend_seconds": 0.25,
+      "minimum_duration": 9.4,
+      "preserve_limb_readability": false,
+      "authored_pigtails": true,
+      "sample_seconds": 3.7
     }
   ]
 }

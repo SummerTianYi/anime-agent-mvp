@@ -1,0 +1,18 @@
+{
+  "owner": "Codex",
+  "version": "thinking-1.0",
+  "model_look": "1.4",
+  "path": "res://assets/motions/thinking_reference_v1.tres",
+  "sha256": "7637d1210c52fd4fcaff4d40f517eab578a9cfc4c9dec46b1e75c370a56e9f09",
+  "duration_seconds": 9.5,
+  "body_rotation_tracks": 74,
+  "hair_rotation_tracks": 34,
+  "live_solver": false,
+  "local_only": true,
+  "source_root_from_repo": "../motion-output/thinking-hair-return-v1",
+  "body_source": "final-detail/thinking_preview.tres",
+  "body_sha256": "6b6e4a15c1f531a5a727408adbee77b84306c038b5953708922c57345c3a9eb2",
+  "hair_source": "review11/hair_return_preview.tres",
+  "hair_sha256": "1f77d1eb52b7066d09ea8b711efe72781ecfc50575414bff1f24c6bd45849e51",
+  "official_glb_sha256": "df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a"
+}

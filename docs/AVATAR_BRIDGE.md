@@ -14,6 +14,8 @@ Core 返回 `core.status` 和 `client.ready`。
 
 ## Agent 状态
 
+Codex 思考动作第一版：Godot收到从其他状态进入 `thinking` 时，空闲且未录音则播放本地 `think` 一次；重复状态不重启，`speaking`/`working`/`idle` 立即生效而身体完整收势，不阻塞回复。互动菜单直接调用本地 `avatar.think`；它**未加入 Core 的外部命令白名单**，不应假设通过远程 `avatar.command` 可调用。录音倾听和显式手动动作可抢占，完整结束后恢复待机；见 `apps/avatar-runtime/mocap/thinking/README.md`。
+
 Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 
 ```json
