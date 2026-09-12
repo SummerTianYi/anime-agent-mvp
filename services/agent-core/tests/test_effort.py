@@ -57,7 +57,13 @@ class EffortPromptNotesTest(unittest.TestCase):
     def test_chill_note_keeps_replies_short_and_single_lookup(self) -> None:
         note = effort_prompt_note("chill")
         self.assertIn("1~3 句", note)
-        self.assertIn("一次工具往返", note)
+        self.assertIn("1 次往返", note)
+
+    def test_same_question_contracts_visibly_differ(self) -> None:
+        # 同一个问题三档的回答形态必须一眼可辨：短口语 vs 完整段落 vs 结构化交付
+        self.assertIn("不列表", effort_prompt_note("chill"))
+        self.assertIn("不写长篇分析", effort_prompt_note("standard"))
+        self.assertIn("列要点", effort_prompt_note("deep"))
 
 
 if __name__ == "__main__":
