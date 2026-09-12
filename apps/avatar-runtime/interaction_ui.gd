@@ -37,7 +37,6 @@ var interaction_panel: PanelContainer
 var bubbles_scroll: ScrollContainer
 var bubbles_box: VBoxContainer
 var empty_hint: Label
-var session_option: OptionButton
 var chat_input: LineEdit
 var chat_status: Label
 var voice_button: Button
@@ -184,29 +183,9 @@ func _upsert_session(conversation_id: int, title: String) -> void:
 
 
 func _sync_session_options() -> void:
-	if session_option == null:
-		return
-	session_option.clear()
-	var selected := 0
-	for index in range(sessions.size()):
-		var item: Dictionary = sessions[index]
-		session_option.add_item(str(item["title"]))
-		if int(item["id"]) == current_conversation_id:
-			selected = index
-	if not sessions.is_empty():
-		session_option.select(selected)
-
-
-func _on_session_selected(index: int) -> void:
-	if index < 0 or index >= sessions.size():
-		return
-	var conversation_id := int(sessions[index]["id"])
-	if conversation_id == current_conversation_id:
-		return
-	current_conversation_id = conversation_id
-	_clear_bubbles()
-	chat_status.text = "正在载入历史……"
-	avatar.request_chat_history(conversation_id)
+	# 会话下拉已移除：会话的查看与切换统一走回忆手账页
+	if history_page != null and history_page.visible and history_search != null:
+		_refresh_history_list(history_search.text)
 
 
 func _on_new_session_pressed() -> void:
@@ -578,9 +557,21 @@ func _build_history_page() -> void:
 
 	history_list_box = VBoxContainer.new()
 	history_list_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	history_list_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	history_list_box.add_theme_constant_override("separation", 4)
-	box.add_child(history_list_box)
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var grabber := StyleBoxFlat.new()
+	grabber.bg_color = Color(COLOR_TIANI_BLUE.r, COLOR_TIANI_BLUE.g, COLOR_TIANI_BLUE.b, 0.55)
+	grabber.set_corner_radius_all(4)
+	scroll.add_theme_stylebox_override("grabber", grabber)
+	var grabber_hover := StyleBoxFlat.new()
+	grabber_hover.bg_color = Color(COLOR_TIANI_BLUE.r, COLOR_TIANI_BLUE.g, COLOR_TIANI_BLUE.b, 0.85)
+	grabber_hover.set_corner_radius_all(4)
+	scroll.add_theme_stylebox_override("grabber_highlight", grabber_hover)
+	scroll.add_child(history_list_box)
+	box.add_child(scroll)
 
 	chat_panel.add_child(history_page)
 	history_page.visible = false
@@ -799,14 +790,6 @@ func _build_chat_header() -> Control:
 		badge.stretch_mode = TextureRect.STRETCH_SCALE
 		row.add_child(badge)
 	row.add_child(_make_label("洛天依", 14, COLOR_TIANI_BLUE))
-
-	session_option = OptionButton.new()
-	session_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	session_option.focus_mode = Control.FOCUS_NONE
-	session_option.add_theme_font_size_override("font_size", 12)
-	session_option.tooltip_text = "切换会话"
-	session_option.item_selected.connect(_on_session_selected)
-	row.add_child(session_option)
 
 	history_button = _make_button("回忆", _toggle_history_page)
 	history_button.custom_minimum_size = Vector2(56.0, 30.0)

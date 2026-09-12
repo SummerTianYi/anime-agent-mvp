@@ -29,15 +29,18 @@ func _run() -> void:
 		_fail("current session not selected from list")
 		return
 
-	# 2) 标题事件刷新下拉
+	# 2) 标题事件刷新会话数据（下拉已移除，标题进回忆手账数据源）
 	runtime._handle_core_event({
 		"type": "session.title",
 		"conversationId": 1,
 		"title": "天气与问候",
 	})
-	var selected_text: String = ui.session_option.get_item_text(ui.session_option.selected)
-	if selected_text != "天气与问候":
-		_fail("session.title event did not update dropdown")
+	var found_title := false
+	for session in ui.sessions:
+		if int(session["id"]) == 1 and str(session["title"]) == "天气与问候":
+			found_title = true
+	if not found_title:
+		_fail("session.title event did not update session data")
 		return
 
 	# 3) 单击删除 → 确认框（修复点：一次点击）
@@ -107,7 +110,7 @@ func _run() -> void:
 
 	print("GODOT_SESSION_UI_OK", {
 		"single_click_dialog": true,
-		"title_refresh": selected_text,
+		"title_refresh": true,
 		"list_filtered": true,
 		"history_page_groups": group_headers,
 		"history_search_filter": true,
