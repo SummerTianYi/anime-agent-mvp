@@ -4,6 +4,22 @@ param([switch]$SkipAvatar, [ValidateRange(3, 180)][int]$StartupSeconds = 90)
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'startup-common.ps1')
 Initialize-AgentRuntime (Join-Path $PSScriptRoot '..')
+# Voice chain (zcode 2026-09-12 regression fix): the 09-11 startup rewrite
+# dropped the TTS hooks that start-tianyi.ps1 carried, so every restart since
+# booted mute. Launch the sidecar (idempotent on 8770) + VRAM watcher with the
+# rest of the stack, no matter which entry point was used.
+$ttsBat = Join-Path (Split-Path $script:repoRoot -Parent) 'tianyi-tts\scripts\tts_autostart.bat'
+$ttsWatcher = Join-Path $PSScriptRoot 'watch-tts-session.ps1'
+if ((Test-Path -LiteralPath $ttsBat) -and (Test-Path -LiteralPath $ttsWatcher)) {
+    Get-CimInstance Win32_Process -Filter "Name like 'powershell%'" -ErrorAction SilentlyContinue |
+        Where-Object { $_.CommandLine -match 'watch-tts-session\.ps1' } |
+        ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+    Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', "`"$ttsBat`"" -WindowStyle Hidden
+    Start-Process -FilePath 'powershell' -ArgumentList @(
+        '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $ttsWatcher
+    ) -WindowStyle Hidden
+    Write-Host '[Anime Agent] Voice sidecar warming up on 8770 (joins within ~1 min).'
+}
 $lock = $null
 $launchedAvatar = $null
 try {
