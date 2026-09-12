@@ -683,7 +683,11 @@ func _create_interaction_ui() -> void:
 
 
 func _handle_core_event(payload: Dictionary) -> void:
+	# zcode: during the goodbye wave the ONLY frame we still honor is the
+	# farewell voice — menus/state updates are already settled.
 	if farewell_exit.closing:
+		if str(payload.get("type", "")) == "avatar.speak":
+			_handle_avatar_speak(payload)
 		return
 	var event_type := str(payload.get("type", ""))
 	match event_type:
