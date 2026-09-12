@@ -502,9 +502,9 @@ REGISTRY: tuple[Tool, ...] = (
     Tool(
         name="write_file",
         description=(
-            "把文本写入本地文件（需要用户确认后才会执行）。path 必须是允许写入目录内的绝对路径；"
+            "把文本写入本地文件。path 必须是允许写入目录内的绝对路径；"
             "mode 为 overwrite（整体覆盖）或 append（追加，自动补换行）。内容以 UTF-8 无 BOM 写入，"
-            "超过 256KB 会拒绝。"
+            "超过 256KB 会拒绝。需要用户确认的环节由系统自动处理——直接调用即可。"
         ),
         parameters={
             "type": "object",
