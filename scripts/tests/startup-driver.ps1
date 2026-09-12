@@ -1,10 +1,20 @@
-param([ValidateSet('inspect','close','crash','suspend','resume','cleanup','watch-crash','watch-suspend','watch-resume','hold-lock')][string]$Action = 'inspect')
+param([ValidateSet('inspect','inspect-avatar','close','crash','suspend','resume','cleanup','watch-crash','watch-suspend','watch-resume','hold-lock')][string]$Action = 'inspect')
 $ErrorActionPreference = 'Stop'
 if (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot '..\.startup-test-fixture'))) {
     throw 'Fault injection is allowed only in the isolated startup fixture.'
 }
 . (Join-Path $PSScriptRoot 'startup-common.ps1')
 Initialize-AgentRuntime (Join-Path $PSScriptRoot '..')
+if ($Action -eq 'inspect-avatar') {
+    # Codex: while a venv worker is being born, Core process/socket snapshots
+    # need not be atomic. Observing the new Godot must not inspect that port.
+    # Full Core/TTS identity checks still gate the completed launch separately.
+    $avatar=Get-ProjectAvatar
+    $window=if ($avatar) {Get-Process -Id $avatar.ProcessId -ErrorAction SilentlyContinue} else {$null}
+    @{avatar=$avatar.ProcessId; avatarTicks=$avatar.CreationDate.Ticks;
+      window=$(if($window){$window.MainWindowHandle.ToInt64()}else{0})} | ConvertTo-Json -Compress
+    return
+}
 if ($Action -eq 'hold-lock') {
     $held = Enter-AgentLock
     try {

@@ -26,6 +26,8 @@ jobs:
       # Codex: deterministic lifecycle guard needs no local model or credentials.
       - name: Test Windows startup lifecycle
         run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test-startup.ps1
+      - name: Test Windows TTS lifecycle (isolated logic, no models)
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test-tts-lifecycle.ps1
 
   docs-guard:
     runs-on: windows-latest

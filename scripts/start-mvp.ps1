@@ -4,22 +4,9 @@ param([switch]$SkipAvatar, [ValidateRange(3, 180)][int]$StartupSeconds = 90)
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'startup-common.ps1')
 Initialize-AgentRuntime (Join-Path $PSScriptRoot '..')
-# Voice chain (zcode 2026-09-12 regression fix): the 09-11 startup rewrite
-# dropped the TTS hooks that start-tianyi.ps1 carried, so every restart since
-# booted mute. Launch the sidecar (idempotent on 8770) + VRAM watcher with the
-# rest of the stack, no matter which entry point was used.
-$ttsBat = Join-Path (Split-Path $script:repoRoot -Parent) 'tianyi-tts\scripts\tts_autostart.bat'
-$ttsWatcher = Join-Path $PSScriptRoot 'watch-tts-session.ps1'
-if ((Test-Path -LiteralPath $ttsBat) -and (Test-Path -LiteralPath $ttsWatcher)) {
-    Get-CimInstance Win32_Process -Filter "Name like 'powershell%'" -ErrorAction SilentlyContinue |
-        Where-Object { $_.CommandLine -match 'watch-tts-session\.ps1' } |
-        ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
-    Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', "`"$ttsBat`"" -WindowStyle Hidden
-    Start-Process -FilePath 'powershell' -ArgumentList @(
-        '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $ttsWatcher
-    ) -WindowStyle Hidden
-    Write-Host '[Anime Agent] Voice sidecar warming up on 8770 (joins within ~1 min).'
-}
+# Codex: preserve zcode's voice-chain intent, but start it inside the canonical
+# session lifecycle after a real avatar is ready, not before validation/locking.
+. (Join-Path $PSScriptRoot 'tts-lifecycle.ps1')
 $lock = $null
 $launchedAvatar = $null
 try {
@@ -110,6 +97,18 @@ try {
         Start-Sleep -Milliseconds 200
     }
     if (-not $ackReady) { throw "Session watchdog did not initialize; check $logRoot/core-watchdog.log" }
+    # Lock order: TTS watcher may hold its TTS mutex while taking startup for
+    # atomic exit cleanup. Never wait for its acknowledgement under startup.
+    Exit-AgentLock $lock
+    $lock = $null
+    try {
+        if (Start-AgentTtsWatch $avatar) {
+            Write-Host '[Anime Agent] Waiting for voice model warmup (up to 180s); closing Godot cancels this wait.'
+            if (Wait-AgentTtsReady $avatar) { Write-Host '[Anime Agent] Voice ready: real model warmup completed; session recovery is active.' }
+            else { Write-Warning 'Voice is NOT ready (warmup timeout or avatar closed). No voice-ready claim; tts-watch.log records recovery attempts.' }
+        } else { Write-Host '[Anime Agent] Local voice supervision disabled/unavailable or avatar closed.' }
+    }
+    catch { Write-Warning "Voice supervision unavailable (text session preserved): $_" }
     Write-Host "[Anime Agent] Ready (Avatar PID $($avatar.ProcessId)). Close Godot to exit this session; use this same command to reopen."
 } catch {
     # A failed launch must not leave a newly-created blank avatar/Core behind.

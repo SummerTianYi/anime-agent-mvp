@@ -4,6 +4,29 @@ extends "res://runtime.gd"
 var frames := 0
 var sampled := {}
 var configured := false
+var audio_capture: AudioEffectCapture
+var audio_peak := 0.0
+var audio_samples := 0
+func _handle_avatar_speak(payload: Dictionary) -> void:
+	audio_peak = 0.0
+	audio_samples = 0
+	if audio_capture:
+		audio_capture.clear_buffer()
+	super._handle_avatar_speak(payload)
+	_record_tts({"event":"started", "playing":speech_player != null and speech_player.playing, "utterance":current_utterance_id})
+func _on_speech_finished() -> void:
+	if audio_capture:
+		_sample_audio_mix()
+		_record_tts({"event":"audio-mix", "peak":audio_peak, "samples":audio_samples, "muted":AudioServer.is_bus_mute(0), "driver":AudioServer.get_driver_name(), "utterance":current_utterance_id})
+	_record_tts({"event":"finished", "utterance":current_utterance_id})
+	super._on_speech_finished()
+func _record_tts(sample: Dictionary) -> void:
+	var path := OS.get_environment("FAREWELL_EVIDENCE").path_join("tts-playback.jsonl")
+	var file := FileAccess.open(path, FileAccess.READ_WRITE if FileAccess.file_exists(path) else FileAccess.WRITE)
+	if file:
+		file.seek_end()
+		file.store_line(JSON.stringify(sample))
+		file.close()
 func _ready() -> void:
 	if not FileAccess.file_exists("res://../../.farewell-test-fixture") or OS.get_environment("FAREWELL_EVIDENCE").is_empty() or OS.get_environment("AGENT_CORE_WS_URL").is_empty() or OS.get_environment("AGENT_CORE_WS_URL") == DEFAULT_CORE_WS_URL:
 		push_error("Exit probe requires a disposable fixture and isolated Core URL")
@@ -11,6 +34,17 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	super._ready()
+	if OS.get_environment("TTS_AUDIBLE_TEST") == "1":
+		AudioServer.set_bus_mute(0, false)
+		audio_capture = AudioEffectCapture.new()
+		AudioServer.add_bus_effect(0, audio_capture)
+func _sample_audio_mix() -> void:
+	if not audio_capture:
+		return
+	var buffer := audio_capture.get_buffer(audio_capture.get_frames_available())
+	audio_samples += buffer.size()
+	for sample in buffer:
+		audio_peak = maxf(audio_peak, maxf(absf(sample.x), absf(sample.y)))
 func _configure_desktop_window() -> void:
 	canvas_mode = CANVAS_MODE_DESKTOP
 	get_tree().root.title = "Codex Farewell Isolated Probe"
@@ -23,6 +57,7 @@ func _update_mouse_passthrough(_force: bool = false) -> void:
 	pass
 func _process(delta: float) -> void:
 	super._process(delta)
+	_sample_audio_mix()
 	frames += 1
 	var scenario := OS.get_environment("FAREWELL_SCENARIO")
 	if frames == 5:

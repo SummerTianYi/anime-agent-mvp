@@ -137,6 +137,7 @@ def main():
             src = REPO / "scripts" / (name + ".ps1")
             shutil.copy2(src, bench / "scripts" / (name + ".ps1"))
         shutil.copy2(REPO / "scripts/startup-common.ps1", bench / "scripts/startup-common.ps1")
+        shutil.copy2(REPO / "scripts/tts-lifecycle.ps1", bench / "scripts/tts-lifecycle.ps1")
         shutil.copy2(REPO / "scripts/tests/startup-driver.ps1", bench / "scripts/startup-driver.ps1")
         shutil.copy2(REPO / "start-anime-agent.cmd", bench / "start-anime-agent.cmd")
         core = bench / "services/agent-core"

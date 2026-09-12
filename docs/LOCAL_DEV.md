@@ -69,6 +69,8 @@ The chat input receives normal keyboard events while focused; global Avatar shor
 
 ## TTS sidecar（E 期声线，可选组件）
 
+Codex 2026-09-13：日常仍只使用根`start-anime-agent.cmd`，启用TTS时由它在Avatar就绪后启动会话看护；下方直接启动sidecar仅供调试。新sidecar在首合成与自检预热完成后才返回`ok:true`；两轮真实CUDA冷恢复约一分钟，生命周期、日志、实装与未验证边界见 [TTS修复记录](TTS_REPAIR_STATUS.md)。
+
 天依声线由独立 sidecar 进程提供（GPT-SoVITS v2Pro，与 Core 完全隔离、自带 venv）。侧车源码与模型归 tianyi-tts 工作区（anime-agent-tts 私有仓库）管理，不在本仓库内。启动命令：
 
 ```powershell

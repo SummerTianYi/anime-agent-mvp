@@ -17,7 +17,7 @@ def main():
                     ignore=shutil.ignore_patterns('shader_cache','*.log'))
     scripts = repo/'scripts'
     (scripts/'tests').mkdir(parents=True)
-    for name in ('start-mvp.ps1','startup-common.ps1','core_watchdog.ps1','run-avatar-runtime.ps1'):
+    for name in ('start-mvp.ps1','startup-common.ps1','tts-lifecycle.ps1','core_watchdog.ps1','run-avatar-runtime.ps1'):
         shutil.copy2(source/'scripts'/name, scripts/name)
     shutil.copy2(source/'scripts/tests/startup-driver.ps1',scripts/'startup-driver.ps1')
     shutil.copy2(source/'scripts/tests/test_farewell_exit.py',scripts/'tests/test_farewell_exit.py')

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import os
 import time
 import urllib.error
@@ -22,6 +23,7 @@ from dataclasses import dataclass, field
 STRONG_PUNCTUATION = "。！？；…!?" + chr(10)
 WEAK_PUNCTUATION = "，、：,:"
 PART_MAX_CHARS = 48
+logger = logging.getLogger(__name__)
 
 
 def split_reply_into_parts(text: str, max_chars: int = PART_MAX_CHARS) -> list[str]:
@@ -115,17 +117,22 @@ class SpeechClient:
         return f"{self.base_url}/health"
 
     def probe_health(self) -> bool:
-        """Force a health probe; caches the result for 60 seconds."""
+        """Probe availability; a negative result is cached for at most 2s."""
         try:
             payload = _get_json(self.health_url, self.health_timeout)
-            healthy = bool(payload.get("ok"))
+            healthy = isinstance(payload, dict) and payload.get("ok") is True
         except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError, ValueError):
             healthy = False
+        if self._healthy != healthy:
+            logger.info("TTS availability=%s", healthy)
         self._healthy = healthy
         self._probed_monotonic = time.monotonic()
         return healthy
 
     def is_healthy(self, max_age: float = 60.0) -> bool:
+        # Codex: a recovered sidecar must not stay muted behind a 60s failure.
+        if self._healthy is False:
+            max_age = min(max_age, 2.0)
         if self._healthy is not None and time.monotonic() - self._probed_monotonic < max_age:
             return self._healthy
         return self.probe_health()
@@ -139,10 +146,15 @@ class SpeechClient:
             payload = _post_json(f"{self.base_url}/synthesize", {"text": text, "speed": speed}, self.synth_timeout)
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             self.invalidate_health()
+            logger.warning("TTS synthesis unavailable (%s)", type(exc).__name__)
             raise SpeechUnavailable(f"TTS 服务不可达：{exc}") from exc
         except json.JSONDecodeError as exc:
+            self.invalidate_health()
             raise SpeechUnavailable("TTS 服务响应格式无法识别") from exc
-        if not payload.get("ok"):
+        if not isinstance(payload, dict):
+            self.invalidate_health()
+            raise SpeechUnavailable("TTS 服务响应格式无法识别")
+        if payload.get("ok") is not True:
             self.invalidate_health()
             raise SpeechUnavailable(str(payload.get("error", "TTS 合成失败"))[:200])
         try:
@@ -152,6 +164,7 @@ class SpeechClient:
                 "sampleRate": int(payload["sampleRate"]),
             }
         except (KeyError, TypeError, ValueError) as exc:
+            self.invalidate_health()
             raise SpeechUnavailable("TTS 服务响应缺少字段") from exc
 
 

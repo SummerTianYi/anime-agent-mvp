@@ -5,6 +5,7 @@ param([Parameter(Mandatory=$true)][int]$AvatarId,
       [ValidateRange(1,60)][int]$PollSeconds = 10)
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'startup-common.ps1')
+. (Join-Path $PSScriptRoot 'tts-lifecycle.ps1')
 Initialize-AgentRuntime (Join-Path $PSScriptRoot '..')
 New-Item -ItemType Directory -Path $logRoot -Force | Out-Null
 $watchdogLog = Join-Path $logRoot 'core-watchdog.log'
@@ -40,6 +41,11 @@ try {
         }
         if ($timer.Elapsed.TotalSeconds -ge $PollSeconds) {
             $timer.Restart()
+            # Codex: a dead TTS supervisor must not leave a living avatar mute.
+            # Separate from Core health, outside the startup mutex: TTS exit
+            # cleanup takes that mutex while holding its own session mutex.
+            try { $null = Start-AgentTtsWatch $tracked }
+            catch { Write-WatchdogLog "TTS supervisor recovery deferred: $_" }
             if (Get-AgentCoreHealth) { $strikes = 0 }
             else { $strikes++ }
             if ($strikes -ge 2) {
