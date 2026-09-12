@@ -43,7 +43,7 @@ REASONING_SETS = [
     (("东家", "西家", "南家"), "兔子"),
 ]
 
-SENT_SPLIT = re.compile(r"[。！？!?…\n]+")
+SENT_SPLIT = re.compile(r"[。！？!?]+")  # 省略号……是口语的拖音，不算句界
 LIST_LINE = re.compile(r"^\s*([-*•]|\d+[.、)]|#{1,6})\s*\S")
 
 
@@ -157,6 +157,7 @@ def grade(item: dict, replies: list[str], mids: list[str]) -> tuple[str, list[st
 
 
 async def turn(ws, text: str, effort: str, confirm_expected: bool, timeout: float = 150.0):
+    """Send one question and collect exactly its own replies (request_id matched)."""
     mid = f"cert-{uuid.uuid4().hex[:8]}"
     await ws.send(json.dumps({
         "type": "chat.message", "text": text,
@@ -174,9 +175,9 @@ async def turn(ws, text: str, effort: str, confirm_expected: bool, timeout: floa
         except asyncio.TimeoutError:
             break
         event = json.loads(raw)
-        if event.get("type") == "chat.response":
+        if event.get("type") == "chat.response" and event.get("request_id") == mid:
             replies.append(str(event.get("text", "")))
-            if confirm_expected and not confirmed and replies:
+            if confirm_expected and not confirmed:
                 await ws.send(json.dumps({
                     "type": "chat.message", "text": "确认",
                     "messageId": f"cert-{uuid.uuid4().hex[:8]}",
@@ -216,6 +217,8 @@ async def run_battery(battery: dict, out_path: Path, only: str | None, rounds_ov
                 await asyncio.sleep(1.2)
 
                 question = item["question"]
+                if "{NOTES_DIR}" in question:
+                    question = question.replace("{NOTES_DIR}", str(NOTES_DIR))
                 confirm = bool(item.get("confirm_expected"))
 
                 if question == "__REASONING__":
@@ -228,35 +231,43 @@ async def run_battery(battery: dict, out_path: Path, only: str | None, rounds_ov
                     item["answer"] = names[0]
 
                 if question == "__SUPERSEDE__":
+                    # 打字消息在 chat_lock 上排队、不会互相打断：本考题验证的是
+                    # 队列完整性——慢题在前、快题在后，两题都要按序得到回答。
                     q1 = f"cert-{uuid.uuid4().hex[:8]}"
+                    q2 = f"cert-{uuid.uuid4().hex[:8]}"
                     await ws.send(json.dumps({
                         "type": "chat.message",
                         "text": "帮我从 1 数到 3000 里的所有质数，把前 50 个都列出来",
                         "messageId": q1, "effort": effort_of(item),
                     }))
-                    await asyncio.sleep(4)
-                    q2 = f"cert-{uuid.uuid4().hex[:8]}"
                     await ws.send(json.dumps({
                         "type": "chat.message",
-                        "text": "算了，不用数了，直接告诉我现在几点了就好",
+                        "text": "好了之后告诉我现在几点了",
                         "messageId": q2, "effort": effort_of(item),
                     }))
-                    replies = []
-                    deadline = time.time() + 120
-                    while time.time() < deadline and len(replies) < 1:
+                    r1: list[str] = []
+                    r2: list[str] = []
+                    deadline = time.time() + 240
+                    while time.time() < deadline and (len(r1) < 1 or len(r2) < 1):
                         try:
-                            raw = await asyncio.wait_for(ws.recv(), timeout=max(1, deadline - time.time()))
+                            raw = await asyncio.wait_for(ws.recv(), timeout=max(1.0, deadline - time.time()))
                         except asyncio.TimeoutError:
                             break
                         event = json.loads(raw)
                         if event.get("type") == "chat.response":
-                            replies.append(str(event.get("text", "")))
-                    clean = superseded_for(q1) or len(replies) == 1
-                    answered = bool(replies) and re.search(r"\d{1,2}\s*点|下午|上午|晚上", replies[-1])
-                    ok = bool(clean and answered)
+                            rid = str(event.get("request_id") or "")
+                            reply_text = str(event.get("text", ""))
+                            if rid == q1 and not r1:
+                                r1.append(reply_text)
+                            elif rid == q2 and not r2:
+                                r2.append(reply_text)
+                    ok = bool(r1) and bool(r2) and re.search(r"\d{1,2}\s*点|下午|上午|晚上", r2[-1])
                     verdicts.append("PASS" if ok else "FAIL")
-                    samples.append({"round": round_no, "q2_reply": replies[-1][:200] if replies else "",
-                                    "q1_superseded": superseded_for(q1)})
+                    samples.append({
+                        "round": round_no,
+                        "q1_prime_head": r1[-1][:80] if r1 else "(未答)",
+                        "q2_time": r2[-1][:80] if r2 else "(未答)",
+                    })
                     continue
 
                 replies, mids = await turn(ws, question, effort_of(item), confirm)
