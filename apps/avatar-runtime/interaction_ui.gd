@@ -64,6 +64,12 @@ var effort_slider = null
 var effort_big_label: Label = null
 var effort_hint_label: Label = null
 
+# 回忆手账：历史会话的列表页（日期分组 + 搜索），替代纯下拉的管理形态
+var history_button: Button = null
+var history_page: PanelContainer = null
+var history_search: LineEdit = null
+var history_list_box: VBoxContainer = null
+
 const EFFORT_SLIDER_SCRIPT := preload("res://effort_slider.gd")
 
 var sessions: Array = []
@@ -118,11 +124,14 @@ func on_session_list(items: Array) -> void:
 			sessions.append({
 				"id": int(item.get("conversationId", 0)),
 				"title": str(item.get("title", "会话")),
+				"updated": str(item.get("updatedAt", "")),
 			})
 	if current_conversation_id < 0 and not sessions.is_empty():
 		current_conversation_id = int(sessions[0]["id"])
 		avatar.request_chat_history(current_conversation_id)
 	_sync_session_options()
+	if history_page != null and history_page.visible and history_search != null:
+		_refresh_history_list(history_search.text)
 
 
 func on_session_switched(conversation_id: int, title: String) -> void:
@@ -507,6 +516,208 @@ func _on_effort_slider_changed(index: int) -> void:
 		effort_hint_label.text = EFFORT_HINTS[effort_level]
 
 
+# ---------------------------------------------------------------- 回忆手账
+
+# 历史会话的列表页：日期四组折叠（今天/昨天/七天内/更早）+ 标题搜索 + 敲碗空态。
+# 数据全部来自既有 session.list 响应，纯 UI 层，不动数据库。
+
+func _toggle_history_page() -> void:
+	if history_page != null and history_page.visible:
+		_close_history_page()
+		return
+	_open_history_page()
+
+
+func _open_history_page() -> void:
+	if chat_panel == null:
+		return
+	if history_page == null or not is_instance_valid(history_page):
+		_build_history_page()
+	history_page.visible = true
+	if history_search != null:
+		_refresh_history_list(history_search.text)
+	avatar.request_session_list()
+
+
+func _close_history_page() -> void:
+	if history_page != null:
+		history_page.visible = false
+
+
+func _build_history_page() -> void:
+	history_page = PanelContainer.new()
+	history_page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var style := StyleBoxFlat.new()
+	style.bg_color = COLOR_PANEL
+	style.border_color = COLOR_PANEL_LINE
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(12)
+	style.content_margin_left = 12.0
+	style.content_margin_right = 12.0
+	style.content_margin_top = 10.0
+	style.content_margin_bottom = 10.0
+	history_page.add_theme_stylebox_override("panel", style)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	history_page.add_child(box)
+
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 6)
+	var title := _make_label("♪ 回忆手账", 14, COLOR_TIANI_BLUE)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(title)
+	header.add_child(_make_button("×", _close_history_page))
+	box.add_child(header)
+
+	history_search = LineEdit.new()
+	history_search.placeholder_text = "搜索回忆…"
+	history_search.custom_minimum_size = Vector2(0.0, 32.0)
+	history_search.clear_button_enabled = true
+	history_search.text_changed.connect(_refresh_history_list)
+	box.add_child(history_search)
+
+	history_list_box = VBoxContainer.new()
+	history_list_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	history_list_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	history_list_box.add_theme_constant_override("separation", 4)
+	box.add_child(history_list_box)
+
+	chat_panel.add_child(history_page)
+	history_page.visible = false
+
+
+func _refresh_history_list(filter: String = "") -> void:
+	if history_list_box == null:
+		return
+	for child in history_list_box.get_children():
+		child.queue_free()
+
+	var today := Time.get_datetime_dict_from_system()
+	var today_start := _day_start_unix(0)
+	var yesterday_start := _day_start_unix(1)
+	var week_start := _day_start_unix(6)
+	var groups := {
+		"今天": [], "昨天": [], "七天内": [], "更早": [],
+	}
+	for session in sessions:
+		var title := str(session.get("title", ""))
+		if filter.strip_edges() != "" and title.findn(filter.strip_edges()) < 0:
+			continue
+		var group := _history_group_of(str(session.get("updated", "")), today_start, yesterday_start, week_start)
+		groups[group].append(session)
+
+	var visible_count := 0
+	for group_name in ["今天", "昨天", "七天内", "更早"]:
+		var items: Array = groups[group_name]
+		if items.is_empty():
+			continue
+		history_list_box.add_child(_make_label("♪ " + group_name, 11, COLOR_TIANI_BLUE))
+		for session in items:
+			history_list_box.add_child(_make_history_card(session))
+			visible_count += 1
+
+	if visible_count == 0:
+		history_list_box.add_child(_make_history_empty_state(filter))
+
+
+func _day_start_unix(days_ago: int) -> float:
+	var d := Time.get_datetime_dict_from_system()
+	var midnight := Time.get_unix_time_from_datetime_string(
+		"%04d-%02d-%02dT00:00:00" % [d.year, d.month, d.day]
+	)
+	return midnight - days_ago * 86400.0
+
+
+func _history_group_of(updated: String, today_start: float, yesterday_start: float, week_start: float) -> String:
+	var unix := Time.get_unix_time_from_datetime_string(str(updated).replace(" ", "T").substr(0, 19))
+	if unix <= 0:
+		return "更早"
+	if unix >= today_start:
+		return "今天"
+	if unix >= yesterday_start:
+		return "昨天"
+	if unix >= week_start:
+		return "七天内"
+	return "更早"
+
+
+func _make_history_card(session: Dictionary) -> Control:
+	var card := Button.new()
+	card.custom_minimum_size = Vector2(0.0, 50.0)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(COLOR_PANEL.r, COLOR_PANEL.g, COLOR_PANEL.b, 0.85)
+	style.set_corner_radius_all(9)
+	card.add_theme_stylebox_override("normal", style)
+	var hover := StyleBoxFlat.new()
+	hover.bg_color = Color(COLOR_TIANI_BLUE.r, COLOR_TIANI_BLUE.g, COLOR_TIANI_BLUE.b, 0.14)
+	hover.set_corner_radius_all(9)
+	card.add_theme_stylebox_override("hover", hover)
+	card.add_theme_stylebox_override("pressed", hover)
+	card.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+
+	var box := HBoxContainer.new()
+	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	box.offset_left = 10.0
+	box.offset_right = -10.0
+	box.add_theme_constant_override("separation", 8)
+	card.add_child(box)
+
+	var chip := TextureRect.new()
+	chip.texture = avatar_texture
+	chip.custom_minimum_size = Vector2(24.0, 24.0)
+	chip.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	chip.stretch_mode = TextureRect.STRETCH_SCALE
+	chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	box.add_child(chip)
+
+	var text_box := VBoxContainer.new()
+	text_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	text_box.add_theme_constant_override("separation", 1)
+	var title_label := _make_label(str(session.get("title", "会话")), 12, COLOR_TEXT)
+	title_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	text_box.add_child(title_label)
+	var time_label := _make_label(str(session.get("updated", "")).substr(0, 16), 9, COLOR_TEXT_DIM)
+	text_box.add_child(time_label)
+	box.add_child(text_box)
+
+	card.pressed.connect(_on_history_card_pressed.bind(int(session["id"])))
+	return card
+
+
+func _make_history_empty_state(filter: String) -> Control:
+	var box := VBoxContainer.new()
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.add_theme_constant_override("separation", 6)
+	var tex := load("res://assets/effort/chill.png") if ResourceLoader.exists("res://assets/effort/chill.png") else avatar_texture
+	if tex != null:
+		var sticker := TextureRect.new()
+		sticker.texture = tex
+		sticker.custom_minimum_size = Vector2(72.0, 72.0)
+		sticker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		sticker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		sticker.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		box.add_child(sticker)
+	var hint_text := "没有找到匹配的回忆" if filter.strip_edges() != "" else "还没有回忆哦，敲碗等开张～"
+	var hint := _make_label(hint_text, 11, COLOR_TEXT_DIM)
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_child(hint)
+	return box
+
+
+func _on_history_card_pressed(conversation_id: int) -> void:
+	_close_history_page()
+	if conversation_id == current_conversation_id:
+		return
+	current_conversation_id = conversation_id
+	_sync_session_options()
+	_clear_bubbles()
+	chat_status.text = "正在翻开这段回忆…"
+	avatar.request_chat_history(conversation_id)
+
+
 # ---------------------------------------------------------------- 界面构建
 
 func _build_backdrop() -> void:
@@ -583,6 +794,11 @@ func _build_chat_header() -> Control:
 	session_option.tooltip_text = "切换会话"
 	session_option.item_selected.connect(_on_session_selected)
 	row.add_child(session_option)
+
+	history_button = _make_button("回忆", _toggle_history_page)
+	history_button.custom_minimum_size = Vector2(56.0, 30.0)
+	history_button.tooltip_text = "回忆手账：浏览历史会话"
+	row.add_child(history_button)
 
 	var new_button := _make_accent_button("＋ 新对话", _on_new_session_pressed)
 	new_button.custom_minimum_size = Vector2(88.0, 30.0)

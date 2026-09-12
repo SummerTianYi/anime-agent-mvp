@@ -6,6 +6,7 @@ extends SceneTree
 
 const OUTPUT_PATH := "C:/Users/26052/AppData/Local/Temp/tool_activity_preview.png"
 const OUTPUT_EFFORT_PATH := "C:/Users/26052/AppData/Local/Temp/effort_dial_preview.png"
+const OUTPUT_HISTORY_PATH := "C:/Users/26052/AppData/Local/Temp/history_page_preview.png"
 
 
 func _init() -> void:
@@ -84,4 +85,44 @@ func _run() -> void:
 		quit(1)
 		return
 	print("EFFORT_DIAL_CAPTURE_SAVED ", OUTPUT_EFFORT_PATH, " size=", img2.get_width(), "x", img2.get_height())
+
+	# 第三张：回忆手账（历史会话列表页）
+	ui._close_history_page()
+	ui._close_effort_popover()
+	ui.on_session_list([
+		{"conversationId": 21, "title": "熬夜的危害聊哪", "updatedAt": _recent_stamp(0)},
+		{"conversationId": 22, "title": "认证训练复盘", "updatedAt": _recent_stamp(0)},
+		{"conversationId": 23, "title": "谁的仓鼠最大", "updatedAt": _recent_stamp(1)},
+		{"conversationId": 24, "title": "帮我读一下笔记", "updatedAt": _recent_stamp(2)},
+		{"conversationId": 25, "title": "歌单计划讨论", "updatedAt": _recent_stamp(9)},
+	])
+	ui.chat_status.text = "按住「语音」说话，松开后转写回输入框"
+	ui._open_history_page()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var full3 := root.get_texture().get_image()
+	if full3 == null or full3.is_empty():
+		push_error("Renderer returned an empty history capture")
+		quit(1)
+		return
+	var img3 := full3.get_region(Rect2i(from, to - from))
+	if img3 == null or img3.is_empty():
+		push_error("Crop returned an empty history capture")
+		quit(1)
+		return
+	var err3 := img3.save_png(OUTPUT_HISTORY_PATH)
+	if err3 != OK:
+		push_error("Cannot save history capture: " + error_string(err3))
+		quit(1)
+		return
+	print("HISTORY_PAGE_CAPTURE_SAVED ", OUTPUT_HISTORY_PATH, " size=", img3.get_width(), "x", img3.get_height())
 	quit(0)
+
+
+func _recent_stamp(days_ago: int) -> String:
+	var d := Time.get_datetime_dict_from_system()
+	var unix := Time.get_unix_time_from_datetime_string(
+		"%04d-%02d-%02dT08:30:00" % [d.year, d.month, d.day]
+	) - days_ago * 86400
+	var dict := Time.get_datetime_dict_from_unix_time(int(unix))
+	return "%04d-%02d-%02d %02d:%02d:00" % [dict.year, dict.month, dict.day, dict.hour, dict.minute]

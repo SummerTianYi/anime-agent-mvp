@@ -77,10 +77,40 @@ func _run() -> void:
 		_fail("current not cleared after deletion")
 		return
 
+	# 7) 回忆手账：打开页面、日期分组、搜索过滤、关闭
+	var today_dict := Time.get_datetime_dict_from_system()
+	var today_str := "%04d-%02d-%02d 10:00:00" % [today_dict.year, today_dict.month, today_dict.day]
+	ui.on_session_list([
+		{"conversationId": 7, "title": "今日份回忆", "updatedAt": today_str},
+		{"conversationId": 8, "title": "更早的回忆", "updatedAt": "2026-01-01 00:00:00"},
+	])
+	ui._open_history_page()
+	if ui.history_page == null or not ui.history_page.visible:
+		_fail("history page did not open")
+		return
+	var group_headers := 0
+	for child in ui.history_list_box.get_children():
+		if child is Label and str(child.text).begins_with("♪"):
+			group_headers += 1
+	if group_headers < 2:
+		_fail("expected date group headers (今天/更早), got %d" % group_headers)
+		return
+	ui.history_search.text = "更早"
+	ui._refresh_history_list("更早")
+	if ui.history_list_box.get_child_count() < 2:
+		_fail("search filter did not filter history cards")
+		return
+	ui._close_history_page()
+	if ui.history_page != null and ui.history_page.visible:
+		_fail("history page did not close")
+		return
+
 	print("GODOT_SESSION_UI_OK", {
 		"single_click_dialog": true,
 		"title_refresh": selected_text,
 		"list_filtered": true,
+		"history_page_groups": group_headers,
+		"history_search_filter": true,
 	})
 	quit(0)
 
