@@ -87,8 +87,7 @@ func _run() -> void:
 	print("EFFORT_DIAL_CAPTURE_SAVED ", OUTPUT_EFFORT_PATH, " size=", img2.get_width(), "x", img2.get_height())
 
 	# 第三张：回忆手账（历史会话列表页）
-	ui._close_history_page()
-	ui._close_effort_popover()
+	ui._hide_effort_popover()
 	ui.on_session_list([
 		{"conversationId": 21, "title": "熬夜的危害聊哪", "updatedAt": _recent_stamp(0)},
 		{"conversationId": 22, "title": "认证训练复盘", "updatedAt": _recent_stamp(0)},
