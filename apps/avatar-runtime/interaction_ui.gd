@@ -8,6 +8,9 @@ const HISTORY_SCROLL_STICK_RANGE := 60.0
 const AVATAR_BODY_LEFT := 122.0
 const AVATAR_BODY_RIGHT := 438.0
 const SIDE_PANEL_GAP := 24.0
+# 皮肤壁纸（可选，assets/skin/ 下缺文件则回退纯色面板）
+const SKIN_CHAT_BG := "res://assets/skin/chat_bg.png"
+const SKIN_JOURNAL_BG := "res://assets/skin/journal_bg.png"
 
 # 洛天依主题（docs/design/chat-form-upgrade.md）
 const COLOR_PANEL := Color(0.039, 0.063, 0.11, 0.94)
@@ -410,6 +413,12 @@ func _effort_knob_texture(level: String) -> Texture2D:
 	return avatar_texture
 
 
+func _skin_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	return null
+
+
 func _open_effort_popover() -> void:
 	if effort_overlay != null:
 		return
@@ -536,6 +545,20 @@ func _build_history_page() -> void:
 	style.content_margin_top = 10.0
 	style.content_margin_bottom = 10.0
 	history_page.add_theme_stylebox_override("panel", style)
+	var journal_skin := _skin_texture(SKIN_JOURNAL_BG)
+	if journal_skin != null:
+		var wallpaper := TextureRect.new()
+		wallpaper.texture = journal_skin
+		wallpaper.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		wallpaper.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		wallpaper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		wallpaper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		history_page.add_child(wallpaper)
+		var dim := ColorRect.new()
+		dim.color = Color(0.02, 0.05, 0.10, 0.45)
+		dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		history_page.add_child(dim)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 8)
 	history_page.add_child(box)
@@ -752,6 +775,16 @@ func _build_menu() -> void:
 
 func _build_chat() -> void:
 	chat_panel = _make_panel(Vector2(10.0, 330.0), Vector2(540.0, 420.0), COLOR_PANEL, COLOR_PANEL_LINE)
+	var skin := _skin_texture(SKIN_CHAT_BG)
+	if skin != null:
+		var wallpaper := TextureRect.new()
+		wallpaper.texture = skin
+		wallpaper.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		wallpaper.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		wallpaper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		wallpaper.modulate = Color(1.0, 1.0, 1.0, 0.4)
+		wallpaper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		chat_panel.add_child(wallpaper)
 	var margin := MarginContainer.new()
 	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
 		margin.add_theme_constant_override(side, 12)
