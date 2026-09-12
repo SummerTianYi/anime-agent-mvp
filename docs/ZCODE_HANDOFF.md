@@ -144,11 +144,13 @@ T0/T1/T2（真实笔记目录 `work/tianyi-notes` 放权，运行时数据不入
 
 **分层执行，逐层准入；"与本地一致"的定义 = L0+L1+L2 全绿，且 L3 场景表逐行通过。** 全部命令在仓库根执行。
 
+> **实测背书（2026-09-13，本机模拟脱机包）**：按 `git archive HEAD`（269 项）解压到与生产无关的全新目录后，zcode 侧四层实测通过——① 包内以 Python 3.12.10 显式路径重建 venv + `pip install -e ".[test]"` → **223/223 单测 OK**（17s，9 项按 CI 同款口径 skip）；② **`DOCS_CONSISTENCY_OK`**（223 对账 / 36 env 变量 / 9 工具）；③ 补入 assets 整目录 + 首跑 `--headless --import` 后 → **`GODOT_SESSION_UI_OK` / `GODOT_EFFORT_UI_OK` / `GODOT_TOOL_ACTIVITY_OK` 三守卫全绿**；④ 复制 `.env` 后认证卷链路 **E2-ASK-DIRECT 5/5 PASS（真 DS 调用，退出码 0）**。过程抓出 4 个打包缺口，已写进 §9/§13——**整合后必须复跑本节才算交付**。
+
 ### L0 自动层（零 key、零模型、可无人值守）
 
 | 步骤 | 命令 | 通过标准 |
 |---|---|---|
-| 环境安装 | Python 3.12 → `python -m venv services/agent-core/.venv` → `pip install -e "services/agent-core[test]"` | 安装零错误 |
+| 环境安装 | **必须用 Python 3.12 解释器显式建 venv**（实测本机 PATH 默认 `python` 是 3.10.11，`python -m venv` 直接违反 `requires-python>=3.12` 而失败）：`"C:\...\Python312\python.exe" -m venv services/agent-core/.venv` → `pip install -e "services/agent-core[test]"` | 安装零错误；venv 内 `python --version` ≥3.12 |
 | Core 单测 | `cd services/agent-core && .venv/Scripts/python.exe -m unittest discover -s tests -v` | **223 项全过，0 fail 0 error**。⚠️ 隔离铁律：跑测试前必须 `LLM_PROVIDER=mock`、`ANIME_AGENT_DATA_DIR` 指向空隔离目录、**清空 `ANIME_AGENT_MCP_SERVERS`**、禁 TTS/wake——否则 `.env` 会拉起真 MCP/真 Provider |
 | 文档守卫 | `PYTHONUTF8=1 python scripts/check_docs_consistency.py` | 打印 `DOCS_CONSISTENCY_OK` 退出码 0 |
 | 启动生命周期 | `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test-startup.ps1` | 14 项全过（CI 同款） |
@@ -158,6 +160,8 @@ T0/T1/T2（真实笔记目录 `work/tianyi-notes` 放权，运行时数据不入
 | 模型版本注册表 | `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/model-versions/verify-model-versions.ps1` | `MODEL_VERSION_OK 1.0/1.1` + `MODEL_VERSION_REGISTRY_OK` |
 
 ### L1 Godot 守卫族（零 Core 依赖；Godot 取 `<包>/../tools/godot-4.7.2/Godot_v4.7.2-stable_win64_console.exe` 或包内等价位置）
+
+**两个实测前置**：① `apps/avatar-runtime/assets/` 必须已按 §9 补齐（缺官模 GLB 时 `main.tscn:19` 解析失败，场景节点全 null，所有守卫连锁挂掉）；② 包内首跑必须先执行 `Godot --headless --import --path apps/avatar-runtime`（headless `--script` 模式不触发资源导入，缺 `.godot/imported/` 缓存时直接 `Cannot open file ...imported/*.scn`）。
 
 | 守卫 | 命令（`--headless --path apps/avatar-runtime --script res://...`） | OK 标记与断言要点 |
 |---|---|---|
@@ -196,11 +200,11 @@ T0/T1/T2（真实笔记目录 `work/tianyi-notes` 放权，运行时数据不入
 
 ## 9. 脱机打包清单（按交付标准）
 
-**必须进包**：本仓库全部 git 跟踪文件（`git ls-files` 共 **269** 项，即打包基线）+ 官模与冻结资产（按 `model-versions/1.4/README.md` 哈希核对）+ tianyi-tts 私仓 + 唤醒 KWS 模型目录 + 本地素材四类（`apps/avatar-runtime/assets/` 下的 `luotianyi_avatar.jpg`、`skin/chat_bg.png`、`skin/journal_bg.png`、`effort/*.png`——**gitignore 全 ignore，必须从本机手工收集**，缺了走既有回退路径）+ Godot 4.7.2（原位置在仓库父级 `../tools/godot-4.7.2/`，打包时要么进包并改守卫命令路径，要么保持父级布局）。
+**必须进包**：本仓库全部 git 跟踪文件（`git ls-files` 共 **269** 项，即打包基线）+ **`apps/avatar-runtime/assets/` 整目录原样复制（含 `.import` 元数据）**——实测这是**运行时必需而非观感素材**：`luotianyi_v4.glb` + 7 张官模纹理（缺 GLB 则 `main.tscn` 解析失败、Avatar 完全起不来）、`motions/`（3 个动作 GLB + listen 的 TRES 变体 + farewell/thinking TRES，缺了动作系统挂）、`skin/` 两壁纸、`effort/` 三贴纸、`luotianyi_avatar.jpg`（缺了走回退）——**全部在 gitignore 墙内，必须从本机收集** + tianyi-tts 私仓 + 唤醒 KWS 模型目录 + 官模管线源档（`model-archive/`、`motion-output/`，按 `model-versions/1.4/README.md` 哈希核对；仅测试门禁用，运行时非必需）+ Godot 4.7.2（原位置在仓库父级 `../tools/godot-4.7.2/`，打包时要么进包并改守卫命令路径，要么保持父级布局——实测包独立目录时相对路径断裂）。
 
 **包外准备**：填好的 `.env`（§7.1，密钥处置见 §13）、Gmail OAuth、代理、GitHub token。
 
-**首启自检动线**：§8 L0 全部 → L1 全部 → L2 全部 → L3 按表逐行。CI（GitHub Actions）对 L0 三 job 做远端复验。
+**首启自检动线**：补齐 assets 整目录 → `Godot --headless --import` 生成导入缓存 → §8 L0 全部 → L1 全部 → L2 全部 → L3 按表逐行。CI（GitHub Actions）对 L0 三 job 做远端复验。**本节配方已在本机模拟包上完整跑通（§8 实测背书），整合后按同一动线复跑即为交付验收。**
 
 **工作区现存未跟踪物**（打包排除，勿删）：`apps/avatar-runtime/godot_*.log`（测试日志）、`runs/`（认证证据）、`docs/DATA_RECOVERY_STATUS.md` 与 lookdev/mocap `.uid` 及 Codex 在制文件（Codex 侧自管）。
 
@@ -241,7 +245,7 @@ T0/T1/T2（真实笔记目录 `work/tianyi-notes` 放权，运行时数据不入
 1. **数据模式二选一**："跟本机一样的效果"有两种口径——**空库首启**（干净交付，功能等价）或**携带数据**（把 `%LOCALAPPDATA%/AnimeAgent/data/` 一并打包，含全部聊天记录与手账内容，**隐私敏感**）。脱机测试机若要看回忆手账有内容、记忆有事实，必须选后者；建议交付包用空库 + 单独的数据包按需并入。
 2. **密钥进包风险**：微信 DS token（勿 replace，绑账号）、StepFun/Tavily key、GitHub token、Gmail OAuth——明文进包有泄露面。建议包内放 `.env.example` 级占位 + 密钥单独渠道交给执行人填写。
 3. **官模与素材授权**：官模 GLB、三张贴纸、壁纸、头像均为授权限本机使用的资产（.gitignore 墙内）。脱机包自用没问题，**不得二次分发**——交付说明里要写明。
-4. **venv 不可拷贝**：`.venv` 内脚本硬编码绝对路径，新机必须 `python -m venv` 重建 + `pip install -e ".[test,voice,tools]"`。若目标机无网络，需提前 `pip download` 全量 wheels 随包。
+4. **venv 不可拷贝 + 解释器陷阱**：`.venv` 内脚本硬编码绝对路径，新机必须重建；且**不能裸写 `python`**——实测本机 PATH 默认是 3.10.11，直接建 venv 会被 `requires-python>=3.12` 拒绝（§8 L0 写明 3.12 显式路径）。若目标机无网络，需提前 `pip download` 全量 wheels 随包；sherpa-onnx 为唤醒依赖但**不在 pyproject extras 里**（wake_word.py 裸 import），装 extras 后须单独 `pip install sherpa-onnx`。
 5. **Godot 布局依赖**：守卫命令引用 `../tools/godot-4.7.2/`（仓库父级）——打包要么复刻"仓库+父级 tools"两层结构，要么统一改成包内相对路径（一行配置，但要过一遍 §8 L1）。
 6. **voice/tools extras**：生产机跑的是 `.[voice,test,tools]` 全家桶；只装 `[test]` 会丢唤醒/截图能力。打包文档按 §7.2 extras 表装全。
 7. **环境噪音**：目标机注意——8765/8770 端口占用自检、Windows Defender 对 GPT-SoVITS/watchdog ps1 的拦截放行、显卡驱动（TTS CUDA 推理）、Realtek 麦克风阵列驱动假死问题（STT 自愈已兜底但物理差异仍可能）。
