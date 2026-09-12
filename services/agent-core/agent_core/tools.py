@@ -472,7 +472,7 @@ REGISTRY: tuple[Tool, ...] = (
     ),
     Tool(
         name="look_at_screen",
-        description="看一眼你的屏幕并用一句话描述内容（需要用户确认：屏幕截图会发送给视觉模型分析）。",
+        description="看屏幕内容时必须用这个：截取当前屏幕，让视觉模型回答你的提问并返回描述（看屏幕上有什么/描述画面/念出屏幕文字都用它）。首次调用时系统会自动向用户请求隐私确认。",
         parameters={
             "type": "object",
             "properties": {
