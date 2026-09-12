@@ -909,6 +909,8 @@ class ConnectionHub:
             self._roles[websocket] = role
             if role == "avatar":
                 _spawn(_proactive_greeting("avatar-connect"))
+                if os.getenv("ANIME_AGENT_FAREWELL_PRECACHE", "1").strip().lower() not in {"0", "false", "no", "off"}:
+                    _spawn(_precache_farewell_audio())
 
     async def send(self, websocket: WebSocket, payload: dict[str, object]) -> None:
         lock = self._send_locks.get(websocket)
@@ -981,6 +983,29 @@ def _make_loop_step_handler(request_id: str):
 
 
 _background_tasks: set = set()
+
+
+FAREWELL_AUDIO_CACHE: dict[str, dict] = {}
+
+
+async def _precache_farewell_audio() -> None:
+    """Pre-synthesize the three farewell lines once the voice warms up, so the
+    exit line plays instantly instead of racing synthesis inside the exit
+    window. Retries through sidecar restarts; silent give-up after 2 minutes."""
+    deadline = time.time() + 120.0
+    while time.time() < deadline:
+        try:
+            for line in FAREWELL_LINES:
+                FAREWELL_AUDIO_CACHE[line] = await asyncio.to_thread(
+                    speech_manager.client.synthesize, line, speech_manager.speed
+                )
+            memory.add_event("farewell.precached", {"count": len(FAREWELL_LINES)})
+            return
+        except Exception:
+            if time.time() >= deadline:
+                memory.add_event("farewell.precache.failed", {})
+                return
+            await asyncio.sleep(10)
 
 
 def _spawn(coro) -> asyncio.Task:
@@ -1653,10 +1678,23 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 interaction = str(payload.get("event", "")).strip()
                 interaction_payload = payload.get("payload", {})
                 if interaction == "exiting":
-                    # 她点关窗：在挥手窗口内送一句告别（sidecar 此刻仍在线）
+                    # 她点关窗：挥手窗口内送一句告别——优先播预合成缓存（零合成延迟）
                     farewell = FAREWELL_LINES[int(time.time()) % len(FAREWELL_LINES)]
-                    memory.add_event("avatar.farewell", {"line": farewell})
-                    _spawn(_speak_reply(farewell, f"exit-{int(time.time() * 1000)}", narrating=True))
+                    cached = FAREWELL_AUDIO_CACHE.get(farewell)
+                    memory.add_event("avatar.farewell", {"line": farewell, "precached": cached is not None})
+                    if cached is not None:
+                        await _broadcast_speak({
+                            "utteranceId": f"farewell-{int(time.time() * 1000)}",
+                            "text": farewell,
+                            "audioPath": cached["audioPath"],
+                            "durationMs": int(cached["durationMs"]),
+                            "sampleRate": int(cached["sampleRate"]),
+                            "requestId": f"exit-{int(time.time() * 1000)}",
+                            "partIndex": 0,
+                            "partCount": 1,
+                        })
+                    else:
+                        _spawn(_speak_reply(farewell, f"exit-{int(time.time() * 1000)}", narrating=True))
                     continue
                 if interaction != "avatar.clicked" or not isinstance(interaction_payload, dict):
                     await hub.send(websocket, event("core.error", message="Invalid avatar interaction"))

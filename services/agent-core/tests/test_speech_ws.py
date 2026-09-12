@@ -8,6 +8,7 @@ import unittest
 from pathlib import Path
 
 os.environ.setdefault("ANIME_AGENT_WAKE_WORD", "0")
+os.environ.setdefault("ANIME_AGENT_FAREWELL_PRECACHE", "0")
 
 from fastapi.testclient import TestClient
 
