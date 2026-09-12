@@ -136,6 +136,7 @@ var expression_ids: Dictionary = {}
 var expression_values: Dictionary = {}
 var expression_targets: Dictionary = {}
 var expression_timers: Dictionary = {}
+var emotion_preset = preload("res://emotion_presets.gd").new()
 var blink_timer := 3.8
 var expression_name := "自然"
 var agent_state := "idle"
@@ -207,6 +208,7 @@ func _ready() -> void:
 		"pigtail_chain_lengths": pigtail_chains.map(func(chain: Array) -> int: return chain.size()),
 		"motion_layers": _motion_layer_sizes(),
 		"expressions": expression_ids.size(),
+		"expression_revision": emotion_preset.REVISION,
 		"model_look": model_look_version,
 		"authored_motions": authored_motion_clips.keys(),
 		"desktop_overlay": DisplayServer.get_name() != "headless",
@@ -240,6 +242,9 @@ func _process(delta: float) -> void:
 	elapsed += delta
 	if farewell_exit.closing:
 		farewell_exit.advance(delta)
+		# zcode: keep the bridge pumping during the goodbye so the farewell
+		# voice line from Core still arrives and plays over the wave
+		_process_core_bridge(delta)
 		return
 	_process_core_bridge(delta)
 	current_yaw = lerp_angle(current_yaw, target_yaw, 1.0 - exp(-delta * 8.0))
@@ -295,6 +300,10 @@ func request_exit() -> void:
 	left_dragging = false
 	voice_recording_active = false
 	_save_window_position()
+	# zcode: tell Core she's leaving so the farewell line is synthesized inside
+	# the goodbye window (the TTS watcher only stops the sidecar after quit)
+	if core_socket != null and core_socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
+		core_socket.send_text(JSON.stringify({"type": "avatar.interaction", "event": "exiting"}))
 	if not farewell_exit.begin(self):
 		_finish_exit("farewell_unavailable")
 		return
@@ -750,15 +759,23 @@ func _set_agent_state(next_state: String) -> void:
 			_play_authored_motion(&"think")
 	print("GODOT_AVATAR_AGENT_STATE", agent_state)
 	_clear_mouth_shapes()
-	_clear_emotions()
+	_clear_emotions(true)
+	_apply_agent_state_face()
+	if agent_state == "speaking":
+		speaking_mouth_elapsed = 0.0
+		speaking_mouth_index = -1
+	if emotion_preset.active():
+		expression_name = emotion_preset.label
+	_update_hud()
+
+
+func _apply_agent_state_face() -> void:
 	match agent_state:
 		"thinking":
 			_set_expression("じと目", 0.28)
 			expression_name = "思考中"
 		"speaking":
 			_set_expression("笑い", 0.18)
-			speaking_mouth_elapsed = 0.0
-			speaking_mouth_index = -1
 			expression_name = "说话中"
 		"working":
 			_set_expression("じと目", 0.18)
@@ -768,7 +785,6 @@ func _set_agent_state(next_state: String) -> void:
 			expression_name = "连接异常"
 		_:
 			expression_name = "自然"
-	_update_hud()
 
 
 func _clear_mouth_shapes() -> void:
@@ -961,15 +977,16 @@ func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 		"avatar.smile":
 			_show_emotion("笑い", "微笑", clampf(float(payload.get("intensity", 0.85)), 0.0, 1.0), 2.4)
 		"avatar.surprised":
-			_show_emotion("びっくり", "惊讶", clampf(float(payload.get("intensity", 0.9)), 0.0, 1.0), 1.6)
+			_show_emotion_preset("surprised", float(payload.get("intensity", 0.9)))
 		"avatar.angry":
-			_show_emotion("怒り", "生气", clampf(float(payload.get("intensity", 0.82)), 0.0, 1.0), 1.8)
+			_show_emotion_preset("angry", float(payload.get("intensity", 0.82)))
 		"avatar.wink":
+			_clear_emotions()
 			_set_expression("ウィンク右", 0.95, 1.2)
 			_set_expression("笑い", 0.45, 1.2)
 			expression_name = "右眼单眨"
 		"avatar.tears":
-			_show_emotion("眼泪", "眼泪", clampf(float(payload.get("intensity", 0.92)), 0.0, 1.0), 2.4)
+			_show_emotion_preset("tears", float(payload.get("intensity", 0.92)))
 		"avatar.mouth_a":
 			_show_mouth("あ", "口型 あ")
 		"avatar.mouth_i":
@@ -981,6 +998,9 @@ func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
 		"avatar.mouth_o":
 			_show_mouth("お", "口型 お")
 		"avatar.expression":
+			# An explicit raw morph command supersedes a composed preset.
+			if emotion_preset.active():
+				_clear_emotions()
 			var expression_key := str(payload.get("name", ""))
 			var expression_value := clampf(float(payload.get("value", 1.0)), 0.0, 1.0)
 			var expression_duration := maxf(float(payload.get("duration", 1.5)), 0.0)
@@ -1573,9 +1593,22 @@ func _set_expression(name: String, value: float, duration: float = 0.0) -> void:
 	expression_timers[name] = maxf(duration, 0.0)
 
 
-func _clear_emotions() -> void:
-	for name in ["笑い", "にやり", "じと目", "びっくり", "困る", "怒り", "怒り２", "眼泪", "汗", "愛心眼", "星星眼", "圈圈眼"]:
+func _clear_emotions(preserve_preset: bool = false) -> void:
+	if not preserve_preset:
+		emotion_preset.clear()
+	for name in emotion_preset.LEGACY_EMOTIONS:
 		_set_expression(name, 0.0)
+
+
+func _show_emotion_preset(name: String, intensity: float) -> void:
+	_clear_emotions()
+	# Keep the underlying state face available after the timed overlay ends;
+	# do not reset the speech clock merely because an emotion was requested.
+	_apply_agent_state_face()
+	for wink in ["ウィンク", "ウィンク右", "まばたき左", "まばたき右"]:
+		_set_expression(wink, 0.0)
+	emotion_preset.play(name, intensity)
+	expression_name = emotion_preset.label if emotion_preset.active() else "自然"
 
 
 func _show_emotion(name: String, label: String, value: float, duration: float) -> void:
@@ -1585,6 +1618,8 @@ func _show_emotion(name: String, label: String, value: float, duration: float) -
 
 
 func _show_mouth(name: String, label: String) -> void:
+	if emotion_preset.active():
+		_clear_emotions()
 	for mouth_name in ["あ", "い", "う", "え", "お", "ん"]:
 		_set_expression(mouth_name, 0.0)
 	_set_expression(name, 0.9, 1.15)
@@ -1594,12 +1629,18 @@ func _show_mouth(name: String, label: String) -> void:
 func _trigger_blink() -> void:
 	_set_expression("まばたき", 1.0, 0.18)
 	blink_timer = 4.0
-	expression_name = "眨眼"
+	if not emotion_preset.active():
+		expression_name = "眨眼"
 
 
 func _process_expressions(delta: float) -> void:
 	if face_mesh == null:
 		return
+	var had_preset: bool = emotion_preset.active()
+	emotion_preset.advance(delta)
+	if had_preset and not emotion_preset.active():
+		expression_name = {"idle":"自然", "thinking":"思考中", "speaking":"说话中", "working":"工作中", "error":"连接异常"}.get(agent_state,"自然")
+		_update_hud()
 	blink_timer -= delta
 	if action_name == "idle" and blink_timer <= 0.0:
 		_trigger_blink()
@@ -1611,10 +1652,16 @@ func _process_expressions(delta: float) -> void:
 			if remaining <= 0.0:
 				expression_targets[name] = 0.0
 			expression_timers[name] = maxf(remaining, 0.0)
+	var blink := 0.0
+	for eye in ["まばたき", "まばたき左", "まばたき右", "ウィンク", "ウィンク右"]:
+		blink = maxf(blink,float(expression_targets.get(eye,0.0)))
 	for name in expression_ids.keys():
 		var current := float(expression_values[name])
 		var target := float(expression_targets[name])
+		target = emotion_preset.resolve(name,target,agent_state == "speaking",blink)
 		current = lerpf(current, target, 1.0 - exp(-delta * 18.0))
+		if absf(current - target) < 0.00001:
+			current = target
 		expression_values[name] = current
 		face_mesh.set_blend_shape_value(int(expression_ids[name]), current)
 	if expression_name != "自然" and _expressions_are_neutral():
@@ -1958,6 +2005,9 @@ func _handle_speech_stop(payload: Dictionary) -> void:
 
 func _on_speech_finished() -> void:
 	_report_speech_finished(false)
+	# zcode: during the goodbye wave, a finished farewell line commits the exit
+	if farewell_exit.closing:
+		_finish_exit("farewell_speech_done")
 
 
 func _report_speech_finished(interrupted: bool) -> void:

@@ -78,6 +78,19 @@ TOOL_NARRATION_LINES = {
     "active_window": "我瞄一眼你现在开着什么窗口~",
 }
 
+# 关窗告别与长思考补白（zcode 2026-09-13，配 Codex 新增的 farewell/think 动作）
+FAREWELL_LINES = (
+    "那么今天就到这里啦，拜拜～下次再见哦！",
+    "我先下线休息啦，你也早点休息，晚安～",
+    "要暂时分开啦…记得想我呀，回见！",
+)
+THINK_FILLER_LINES = (
+    "唔——让我想想哦…",
+    "嗯…稍等，我在理思路…",
+    "等等我呀，思路马上就通…",
+)
+THINK_FILLER_DELAY_SECONDS = 5.0
+
 app = FastAPI(title="Anime Agent Core", version="0.2.0")
 
 AVATAR_EVENTS = {
@@ -967,6 +980,18 @@ def _make_loop_step_handler(request_id: str):
     return handler
 
 
+async def _maybe_speak_think_filler(request_id: str, effort: str) -> None:
+    """长思考阶段的补白台词（DS 思考常 8s+）；碎碎念档保持安静，
+    回复自身的语音会按既有顶替机制打断这段补白。"""
+    if resolve_effort(effort) == "chill":
+        return
+    await asyncio.sleep(THINK_FILLER_DELAY_SECONDS)
+    if request_id in _superseded_requests or _agent_state != "thinking":
+        return
+    line = THINK_FILLER_LINES[int(time.time() * 1000) % len(THINK_FILLER_LINES)]
+    await _speak_reply(line, request_id + "-think", narrating=True)
+
+
 async def _speak_reply(text: str, request_id: str, narrating: bool = False) -> None:
     """Synthesize + broadcast one utterance outside the chat lock, then settle state."""
     try:
@@ -1180,6 +1205,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             await _withdraw_session_if_empty(conversation_id)
             return
         await broadcast_state("thinking", request_id)
+        asyncio.create_task(_maybe_speak_think_filler(request_id, effort))
         probe = conversation_id if conversation_id is not None else memory.latest_session_id()
         is_first_exchange = probe is None or not memory.load_messages(1, probe)
         session_id = memory.add_message("user", text, request_id, conversation_id)
@@ -1613,6 +1639,12 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
             if event_type == "avatar.interaction":
                 interaction = str(payload.get("event", "")).strip()
                 interaction_payload = payload.get("payload", {})
+                if interaction == "exiting":
+                    # 她点关窗：在挥手窗口内送一句告别（sidecar 此刻仍在线）
+                    farewell = FAREWELL_LINES[int(time.time()) % len(FAREWELL_LINES)]
+                    memory.add_event("avatar.farewell", {"line": farewell})
+                    asyncio.create_task(_speak_reply(farewell, f"exit-{int(time.time() * 1000)}", narrating=True))
+                    continue
                 if interaction != "avatar.clicked" or not isinstance(interaction_payload, dict):
                     await hub.send(websocket, event("core.error", message="Invalid avatar interaction"))
                     continue
