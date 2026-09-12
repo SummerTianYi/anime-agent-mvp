@@ -22,6 +22,10 @@ try {
             if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'DEEPSEEK_API_KEY'))) { throw 'DEEPSEEK_API_KEY is empty.' }
             if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'DEEPSEEK_BASE_URL'))) { throw 'DEEPSEEK_BASE_URL is empty.' }
         }
+        'stepfun' {
+            if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'STEPFUN_API_KEY'))) { throw 'STEPFUN_API_KEY is empty.' }
+            if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'STEPFUN_BASE_URL'))) { throw 'STEPFUN_BASE_URL is empty.' }
+        }
         'mock' { }
         default { throw "Unsupported LLM_PROVIDER: $providerName" }
     }

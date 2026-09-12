@@ -2,7 +2,7 @@
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-12（Codex 正式表情实装；zcode 计数同步 204）；Python 单测 204 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
+> 最后核验：2026-09-12（Codex 正式表情实装；zcode 计数同步 204）；Python 单测 214 项全绿（门禁以 [TESTING.md](TESTING.md) 当前口径为准）。
 
 ## 0. 最终目标（北极星）
 
@@ -116,7 +116,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 204 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 214 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -211,7 +211,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 204 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 214 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

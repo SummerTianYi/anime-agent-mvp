@@ -339,6 +339,267 @@ class OpenAICompatibleProvider:
             return response.read()
 
 
+class AnthropicCompatibleProvider:
+    """Speaks the Anthropic /v1/messages dialect (StepFun step_plan and kin).
+
+    The agent loop stays OpenAI-shaped: this adapter translates the
+    conversation and tool schemas on the way in, and repacks text/tool_use
+    content blocks into the OpenAI-shaped turn the loop expects on the way
+    out. Thinking blocks (step-3.7-flash et al.) are skipped on parse, and
+    max_tokens must leave room for them.
+    """
+
+    ANTHROPIC_VERSION = "2023-06-01"
+    DEFAULT_MAX_TOKENS = 4096
+
+    def __init__(
+        self,
+        *,
+        name: str,
+        base_url: str,
+        model: str,
+        api_key: str,
+        timeout_seconds: float,
+        reload_config: Callable[[], tuple[str, str, str] | None] | None = None,
+        max_tokens: int | None = None,
+    ) -> None:
+        self.name = name
+        self.base_url = base_url.rstrip("/")
+        self.model = model
+        self.api_key = api_key
+        self.timeout_seconds = timeout_seconds
+        self.configured = bool(api_key)
+        self._reload_config = reload_config
+        self.max_tokens = int(max_tokens or self.DEFAULT_MAX_TOKENS)
+
+    @property
+    def messages_url(self) -> str:
+        return f"{self.base_url}/v1/messages"
+
+    def _apply_config(self, base_url: str, model: str, api_key: str) -> None:
+        self.base_url = base_url.rstrip("/")
+        self.model = model
+        self.api_key = api_key
+        self.configured = bool(api_key)
+
+    @staticmethod
+    def _arguments_from(raw: Any) -> dict:
+        if isinstance(raw, str):
+            try:
+                parsed = json.loads(raw)
+            except json.JSONDecodeError:
+                return {}
+            return parsed if isinstance(parsed, dict) else {}
+        return raw if isinstance(raw, dict) else {}
+
+    def _to_anthropic_messages(self, messages: list[dict]) -> tuple[str, list[dict]]:
+        """OpenAI-shaped conversation -> (system, Anthropic messages).
+
+        system rows merge into the top-level system param; assistant tool_calls
+        become tool_use blocks; tool rows become user tool_result blocks.
+        """
+        system_parts: list[str] = []
+        out: list[dict] = []
+        for item in messages:
+            role = str(item.get("role"))
+            content = item.get("content")
+            if role == "system":
+                if content:
+                    system_parts.append(str(content))
+            elif role == "assistant":
+                blocks: list[dict] = []
+                text = str(content or "").strip()
+                if text:
+                    blocks.append({"type": "text", "text": text})
+                for call in item.get("tool_calls") or []:
+                    function = call.get("function") or {}
+                    blocks.append(
+                        {
+                            "type": "tool_use",
+                            "id": str(call.get("id") or ""),
+                            "name": str(function.get("name", "")),
+                            "input": self._arguments_from(function.get("arguments")),
+                        }
+                    )
+                if not blocks:
+                    blocks.append({"type": "text", "text": "（继续）"})
+                out.append({"role": "assistant", "content": blocks})
+            elif role == "tool":
+                out.append(
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "tool_result",
+                                "tool_use_id": str(item.get("tool_call_id") or ""),
+                                "content": str(content or ""),
+                            }
+                        ],
+                    }
+                )
+            else:
+                out.append({"role": "user", "content": [{"type": "text", "text": str(content or "")}]})
+        return "\n\n".join(system_parts), out
+
+    @staticmethod
+    def _to_anthropic_tools(tools: list[dict]) -> list[dict]:
+        out = []
+        for tool in tools:
+            function = tool.get("function") or {}
+            out.append(
+                {
+                    "name": str(function.get("name", "")),
+                    "description": str(function.get("description", "")),
+                    "input_schema": function.get("parameters")
+                    or {"type": "object", "properties": {}},
+                }
+            )
+        return out
+
+    def _build_request(self, body: dict) -> urllib.request.Request:
+        return urllib.request.Request(
+            self.messages_url,
+            data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
+            headers={
+                "Accept": "application/json",
+                "x-api-key": self.api_key,
+                "anthropic-version": self.ANTHROPIC_VERSION,
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+
+    async def _send_with_config_reload(self, request: urllib.request.Request) -> bytes:
+        for attempt in (0, 1):
+            try:
+                if attempt == 1:
+                    request.add_header("x-api-key", self.api_key)
+                    request.add_unredirected_header("x-api-key", self.api_key)
+                return await asyncio.to_thread(self._request, request)
+            except urllib.error.HTTPError as exc:
+                if (
+                    attempt == 0
+                    and exc.code in RELOADABLE_HTTP_CODES
+                    and self._reload_config is not None
+                ):
+                    fresh = await asyncio.to_thread(self._reload_config)
+                    if fresh is not None and (
+                        fresh[0].rstrip("/") != self.base_url
+                        or fresh[1] != self.model
+                        or fresh[2] != self.api_key
+                    ):
+                        self._apply_config(fresh[0], fresh[1], fresh[2])
+                        continue
+                raise
+        raise ProviderError(f"{self.name} API request failed")
+
+    def _request(self, request: urllib.request.Request) -> bytes:
+        hostname = urllib.parse.urlparse(request.full_url).hostname
+        if hostname in {"127.0.0.1", "localhost"}:
+            opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        else:
+            opener = urllib.request.build_opener()
+        with opener.open(request, timeout=self.timeout_seconds) as response:
+            return response.read()
+
+    @staticmethod
+    def _http_error_detail(exc: urllib.error.HTTPError) -> str:
+        try:
+            payload = json.loads(exc.read().decode("utf-8", "replace"))
+            error = payload.get("error", {})
+            message = error.get("message", "") if isinstance(error, dict) else ""
+        except (AttributeError, TypeError, json.JSONDecodeError, OSError):
+            return ""
+        return " ".join(str(message).split())[:240]
+
+    def _parse_response(self, payload: dict) -> dict:
+        content = payload.get("content")
+        if not isinstance(content, list):
+            raise ProviderError(f"{self.name} API 响应格式无法识别")
+        text = "".join(
+            str(block.get("text", ""))
+            for block in content
+            if isinstance(block, dict) and block.get("type") == "text"
+        ).strip()
+        tool_calls: list[dict] = []
+        for index, block in enumerate(content):
+            if isinstance(block, dict) and block.get("type") == "tool_use":
+                tool_calls.append(
+                    {
+                        "id": str(block.get("id") or f"call_{index}"),
+                        "name": str(block.get("name", "")).strip(),
+                        "arguments": self._arguments_from(block.get("input")),
+                    }
+                )
+        raw: dict = {"role": "assistant", "content": text or None}
+        if tool_calls:
+            raw["tool_calls"] = [
+                {
+                    "id": call["id"],
+                    "type": "function",
+                    "function": {
+                        "name": call["name"],
+                        "arguments": json.dumps(call["arguments"], ensure_ascii=False),
+                    },
+                }
+                for call in tool_calls
+            ]
+        return {"content": text, "tool_calls": tool_calls, "raw": raw}
+
+    async def _post(self, body: dict, tools: bool) -> dict:
+        request = self._build_request(body)
+        try:
+            response_bytes = await self._send_with_config_reload(request)
+        except urllib.error.HTTPError as exc:
+            if tools and exc.code in {400, 404, 422}:
+                raise ToolsUnsupportedError(
+                    f"{self.name} rejected the tools payload (HTTP {exc.code})"
+                ) from exc
+            detail = self._http_error_detail(exc)
+            suffix = f"：{detail}" if detail else ""
+            raise ProviderError(
+                f"{self.name} API 返回 HTTP {exc.code}{suffix}"
+            ) from exc
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            raise ProviderError(f"无法连接 {self.name} API") from exc
+        try:
+            payload = json.loads(response_bytes.decode("utf-8"))
+        except json.JSONDecodeError as exc:
+            raise ProviderError(f"{self.name} API 响应格式无法识别") from exc
+        return self._parse_response(payload)
+
+    async def complete(self, messages: list[dict[str, str]]) -> str:
+        if not self.api_key:
+            raise ProviderError(f"{self.name} API Key 未配置")
+        system, anthropic_messages = self._to_anthropic_messages(messages)
+        body: dict = {
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "messages": anthropic_messages,
+        }
+        if system:
+            body["system"] = system
+        turn = await self._post(body, tools=False)
+        text = str(turn.get("content") or "").strip()
+        if not text:
+            raise ProviderError(f"{self.name} API 返回空回复")
+        return text
+
+    async def complete_with_tools(self, messages: list[dict], tools: list[dict]) -> dict:
+        if not self.api_key:
+            raise ProviderError(f"{self.name} API Key 未配置")
+        system, anthropic_messages = self._to_anthropic_messages(messages)
+        body: dict = {
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "messages": anthropic_messages,
+            "tools": self._to_anthropic_tools(tools),
+        }
+        if system:
+            body["system"] = system
+        return await self._post(body, tools=True)
+
+
 RELOADABLE_HTTP_CODES = frozenset({401, 403, 429})
 
 
@@ -386,6 +647,12 @@ def _provider_config(name: str) -> tuple[str, str, str]:
             os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
             os.getenv("DEEPSEEK_API_KEY", ""),
         )
+    if name == "stepfun":
+        return (
+            os.getenv("STEPFUN_BASE_URL", "https://api.stepfun.com/step_plan"),
+            os.getenv("STEPFUN_MODEL", "step-3.7-flash"),
+            os.getenv("STEPFUN_API_KEY", ""),
+        )
     return (
         os.getenv("GLM_BASE_URL", "https://open.bigmodel.cn/api/coding/paas/v4"),
         os.getenv("GLM_MODEL", "glm-5.3-flash"),
@@ -394,11 +661,19 @@ def _provider_config(name: str) -> tuple[str, str, str]:
 
 
 def build_provider() -> ChatProvider:
-    if LLM_PROVIDER not in {"glm", "deepseek"}:
+    if LLM_PROVIDER not in {"glm", "deepseek", "stepfun"}:
         return MockProvider()
     base_url, model, api_key = _provider_config(LLM_PROVIDER)
     if not api_key:
         return MockProvider()
+    if LLM_PROVIDER == "stepfun":
+        return AnthropicCompatibleProvider(
+            name=LLM_PROVIDER,
+            base_url=base_url,
+            model=model,
+            api_key=api_key,
+            timeout_seconds=LLM_TIMEOUT_SECONDS,
+        )
     return OpenAICompatibleProvider(
         name=LLM_PROVIDER,
         base_url=base_url,
