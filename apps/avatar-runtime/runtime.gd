@@ -78,6 +78,8 @@ const MODEL_LOOK_TARGETS := {
 @onready var fill_light: DirectionalLight3D = $FillLight
 
 var authored_motion_player: AnimationPlayer
+var farewell_exit = preload("res://farewell_exit.gd").new()
+var exit_committed := false
 var portrait_capture = preload("res://portrait_capture.gd").new()
 var authored_motion_name: StringName = &""
 var authored_motion_returning := false
@@ -169,6 +171,8 @@ var hud_visible := false
 
 
 func _ready() -> void:
+	# Codex: a normal OS close requests the farewell, not immediate SceneTree exit.
+	get_tree().auto_accept_quit = false
 	## AnimationPlayer is a child node. Run this controller after child animation
 	## tracks so camera-readability and pigtail corrections are the final pose
 	## written before rendering, rather than being overwritten in the same frame.
@@ -234,6 +238,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
+	if farewell_exit.closing:
+		farewell_exit.advance(delta)
+		return
 	_process_core_bridge(delta)
 	current_yaw = lerp_angle(current_yaw, target_yaw, 1.0 - exp(-delta * 8.0))
 	current_distance = lerp(current_distance, target_distance, 1.0 - exp(-delta * 8.0))
@@ -268,6 +275,43 @@ func _process(delta: float) -> void:
 	_process_expressions(delta)
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		request_exit()
+
+
+func request_exit() -> void:
+	if farewell_exit.closing or exit_committed:
+		return
+	# Core's existing session watchdog owns cleanup only AFTER this process exits.
+	# Keep the socket alive during farewell, but accept no more character commands.
+	if interaction_ui != null:
+		interaction_ui.hide_all()
+		interaction_ui.process_mode = Node.PROCESS_MODE_DISABLED
+	if speech_player != null:
+		speech_player.stop()
+	rotation_dragging = false
+	left_pressing = false
+	left_dragging = false
+	voice_recording_active = false
+	_save_window_position()
+	if not farewell_exit.begin(self):
+		_finish_exit("farewell_unavailable")
+		return
+	print("GODOT_FAREWELL_STARTED length=4.1")
+	# Wall-clock fallback also runs while SceneTree is paused/time_scale is zero.
+	get_tree().create_timer(farewell_exit.DEADLINE_SECONDS, true, false, true).timeout.connect(
+		func() -> void: _finish_exit("farewell_deadline"))
+
+
+func _finish_exit(reason: String) -> void:
+	if exit_committed:
+		return
+	exit_committed = true
+	print("GODOT_FAREWELL_EXIT ", reason)
+	get_tree().quit()
+
+
 func _prepare_authored_motions() -> void:
 	if not _environment_flag(AUTHORED_MOTION_ENV, true):
 		return
@@ -289,6 +333,9 @@ func _prepare_authored_motions() -> void:
 	default_idle_motion = StringName(str(registry_data.get("default_idle", "")))
 	for clip_data in registry_data.get("clips", []):
 		if clip_data is not Dictionary:
+			continue
+		# Exit resources are indexed for backup, never registered as interactions.
+		if str(clip_data.get("role", "")) == "exit":
 			continue
 		var clip_id := StringName(str(clip_data.get("id", "")))
 		var clip_path := str(clip_data.get("path", ""))
@@ -448,6 +495,8 @@ func _environment_flag(name: String, default_value: bool) -> bool:
 
 
 func _play_authored_motion(clip_id: StringName = &"pirouette") -> void:
+	if farewell_exit.closing:
+		return
 	if authored_motion_player == null or not authored_motion_clips.has(String(clip_id)):
 		print("GODOT_AUTHORED_MOTION_UNAVAILABLE", clip_id)
 		return
@@ -499,6 +548,8 @@ func _cancel_authored_motion(return_to_idle: bool = false) -> void:
 
 
 func _on_authored_motion_finished(animation_name: StringName) -> void:
+	if farewell_exit.closing:
+		return
 	if animation_name != authored_motion_name:
 		return
 	var clip_data: Dictionary = authored_motion_clips.get(String(animation_name), {})
@@ -623,6 +674,8 @@ func _create_interaction_ui() -> void:
 
 
 func _handle_core_event(payload: Dictionary) -> void:
+	if farewell_exit.closing:
+		return
 	var event_type := str(payload.get("type", ""))
 	match event_type:
 		"avatar.speak":
@@ -736,6 +789,8 @@ func _process_speaking_mouth(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if farewell_exit.closing:
+		return
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT:
@@ -840,7 +895,7 @@ func _input(event: InputEvent) -> void:
 			KEY_F12:
 				capture_hd_portrait()
 			KEY_ESCAPE:
-				get_tree().quit()
+				request_exit()
 			_:
 				shortcut_handled = false
 		if shortcut_handled:
@@ -858,6 +913,8 @@ func capture_hd_portrait() -> Dictionary:
 
 
 func handle_agent_event(event_type: String, payload: Dictionary = {}) -> void:
+	if farewell_exit.closing:
+		return
 	match event_type:
 		"avatar.speak":
 			_handle_avatar_speak(payload)

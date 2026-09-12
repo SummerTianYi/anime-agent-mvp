@@ -47,6 +47,14 @@
       "preserve_limb_readability": false,
       "authored_pigtails": true,
       "sample_seconds": 3.7
+    },
+    {
+      "id": "farewell",
+      "path": "res://assets/motions/farewell_reference_v1.tres",
+      "role": "exit",
+      "loop": false,
+      "minimum_duration": 4.0,
+      "sha256": "aa9684cdf8e8927a601bbed3c47bf6abc38fc7dc4b85b8432f0239889542bea7"
     }
   ]
 }

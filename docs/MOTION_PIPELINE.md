@@ -1,8 +1,10 @@
 # Authored motion pipeline
 
-The registry now contains four local clips: a 12.47-second idle with conservative arm placement, the CMU BVH pirouette stress test, the accepted2-second listening FK v2 entry, and owner-approved9.5-second thinking v1 (Codex,2026-09-12). Idle/pirouette retain GLB-track import; listen/think use native Godot Animations. Listening holds during recording and reverses its entry to exit. Thinking combines74 body and34 complete pigtail rotation tracks, hands the hair back to the live idle clock, and runs once without blocking replies. No motion mesh replaces the official character; no live solver is installed. Prior assets remain local and unchanged. See [listening evidence](../apps/avatar-runtime/mocap/README.md) and [thinking reproduction, limitations and rollback](../apps/avatar-runtime/mocap/thinking/README.md).
+The registry now contains four ordinary local clips: a 12.47-second idle with conservative arm placement, the CMU BVH pirouette stress test, the accepted2-second listening FK v2 entry, and owner-approved9.5-second thinking v1 (Codex,2026-09-12). Idle/pirouette retain GLB-track import; listen/think use native Godot Animations. Listening holds during recording and reverses its entry to exit. Thinking combines74 body and34 complete pigtail rotation tracks, hands the hair back to the live idle clock, and runs once without blocking replies. No motion mesh replaces the official character; no live solver is installed. Prior assets remain local and unchanged. See [listening evidence](../apps/avatar-runtime/mocap/README.md) and [thinking reproduction, limitations and rollback](../apps/avatar-runtime/mocap/thinking/README.md).
 
 ## Current artifact and behavior
+
+Codex2026-09-12: the registry additionally indexes `farewell_reference_v1.tres` (4.1s/39tracks) with `role=exit`. It is intentionally excluded from normal authored-motion loading/menu/Core commands; `farewell_exit.gd` owns normal window-close playback, including the two approved morph tracks, then quits. Future model snapshots collect this resource through the same registry; previous archives are unchanged. See [exit implementation and isolated lifecycle tests](FAREWELL_EXIT.md).
 
 | Property | Verified value |
 |---|---|

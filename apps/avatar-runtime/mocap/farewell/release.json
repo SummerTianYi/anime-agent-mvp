@@ -1,0 +1,18 @@
+{
+  "owner": "Codex",
+  "date": "2026-09-12",
+  "revision": "farewell-1.0",
+  "model_appearance": "1.4",
+  "trigger": "normal_window_close",
+  "duration_seconds": 4.1,
+  "entry_blend_seconds": 0.45,
+  "watchdog_seconds": 8.0,
+  "tracks": {"rotation": 37, "blend_shape": 2},
+  "path": "res://assets/motions/farewell_reference_v1.tres",
+  "sha256": "aa9684cdf8e8927a601bbed3c47bf6abc38fc7dc4b85b8432f0239889542bea7",
+  "approved_source": "D:/UserData/Administrator/Documents/Codex/2026-08-28/https-github-com-summertianyi-anime-agent/work/motion-output/farewell-reference-v3/full01/farewell_preview.tres",
+  "approved_video": "D:/UserData/Administrator/Documents/Codex/2026-08-28/https-github-com-summertianyi-anime-agent/work/motion-output/farewell-reference-v3/delivery01/farewell-preview.mp4",
+  "model_sha256": "df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a",
+  "asset_distribution": "local_only",
+  "limitations": ["forced termination cannot play animation", "8 second fallback needs the engine event loop alive", "not a universal collision system"]
+}
