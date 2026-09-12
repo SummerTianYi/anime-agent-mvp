@@ -592,10 +592,9 @@ func _refresh_history_list(filter: String = "") -> void:
 	for child in history_list_box.get_children():
 		child.queue_free()
 
-	var today := Time.get_datetime_dict_from_system()
-	var today_start := _day_start_unix(0)
-	var yesterday_start := _day_start_unix(1)
-	var week_start := _day_start_unix(6)
+	var today_start := _day_start_utc(0)
+	var yesterday_start := _day_start_utc(1)
+	var week_start := _day_start_utc(6)
 	var groups := {
 		"今天": [], "昨天": [], "七天内": [], "更早": [],
 	}
@@ -620,16 +619,28 @@ func _refresh_history_list(filter: String = "") -> void:
 		history_list_box.add_child(_make_history_empty_state(filter))
 
 
-func _day_start_unix(days_ago: int) -> float:
+func _tz_bias_sec() -> float:
+	# 系统时区偏移（分钟，东八区为 480）
+	var tz := Time.get_time_zone_from_system()
+	return float(tz.get("bias", 0)) * 60.0
+
+
+func _updated_utc(updated: String) -> float:
+	# session.updatedAt 由 Core 以 UTC 存储；naive 解析即真 UTC 纪元
+	return Time.get_unix_time_from_datetime_string(str(updated).replace(" ", "T").substr(0, 19))
+
+
+func _day_start_utc(days_ago: int) -> float:
+	# 本地零点：按本地墙钟构造 naive，再减时区偏移换回真 UTC
 	var d := Time.get_datetime_dict_from_system()
-	var midnight := Time.get_unix_time_from_datetime_string(
+	var naive_midnight := Time.get_unix_time_from_datetime_string(
 		"%04d-%02d-%02dT00:00:00" % [d.year, d.month, d.day]
 	)
-	return midnight - days_ago * 86400.0
+	return naive_midnight - _tz_bias_sec() - days_ago * 86400.0
 
 
 func _history_group_of(updated: String, today_start: float, yesterday_start: float, week_start: float) -> String:
-	var unix := Time.get_unix_time_from_datetime_string(str(updated).replace(" ", "T").substr(0, 19))
+	var unix := _updated_utc(updated)
 	if unix <= 0:
 		return "更早"
 	if unix >= today_start:
@@ -678,7 +689,9 @@ func _make_history_card(session: Dictionary) -> Control:
 	var title_label := _make_label(str(session.get("title", "会话")), 12, COLOR_TEXT)
 	title_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	text_box.add_child(title_label)
-	var time_label := _make_label(str(session.get("updated", "")).substr(0, 16), 9, COLOR_TEXT_DIM)
+	var local_unix := _updated_utc(str(session.get("updated", ""))) + _tz_bias_sec()
+	var when := Time.get_datetime_dict_from_unix_time(int(local_unix))
+	var time_label := _make_label("%02d-%02d %02d:%02d" % [when.month, when.day, when.hour, when.minute], 9, COLOR_TEXT_DIM)
 	text_box.add_child(time_label)
 	box.add_child(text_box)
 
