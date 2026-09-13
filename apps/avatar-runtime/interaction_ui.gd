@@ -738,15 +738,67 @@ func _make_history_card(session: Dictionary) -> Control:
 	box.add_child(text_box)
 
 	# zcode: per-card delete - the inner Button consumes the click, so it never
-	# bubbles into the card's switch-session press
-	var card_delete := _make_button("删", _on_card_delete_pressed.bind(int(session["id"])))
-	card_delete.custom_minimum_size = Vector2(34.0, 26.0)
+	# bubbles into the card's switch-session press; flat trash-can glyph instead
+	# of a text label
+	var card_delete := Button.new()
+	card_delete.custom_minimum_size = Vector2(30.0, 26.0)
 	card_delete.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	card_delete.tooltip_text = "删除这条回忆"
+	card_delete.focus_mode = Control.FOCUS_NONE
+	var idle_style := StyleBoxFlat.new()
+	idle_style.bg_color = Color(COLOR_PANEL.r, COLOR_PANEL.g, COLOR_PANEL.b, 0.0)
+	idle_style.set_corner_radius_all(6)
+	card_delete.add_theme_stylebox_override("normal", idle_style)
+	var armed_style := StyleBoxFlat.new()
+	armed_style.bg_color = Color(0.85, 0.25, 0.30, 0.16)
+	armed_style.set_corner_radius_all(6)
+	card_delete.add_theme_stylebox_override("hover", armed_style)
+	card_delete.add_theme_stylebox_override("pressed", armed_style)
+	card_delete.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	var trash := _make_trash_icon(15.0, COLOR_TEXT_DIM)
+	trash.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	card_delete.add_child(trash)
+	card_delete.pressed.connect(_on_card_delete_pressed.bind(int(session["id"])))
 	box.add_child(card_delete)
 
 	card.pressed.connect(_on_history_card_pressed.bind(int(session["id"])))
 	return card
+
+
+func _make_trash_icon(size: float, color: Color) -> Control:
+	# zcode:程序化垃圾桶小图标（把手 + 盖 + 梯形桶身 + 双竖纹），零素材依赖
+	var holder := Control.new()
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.custom_minimum_size = Vector2(size, size)
+	var handle := ColorRect.new()
+	handle.color = color
+	handle.position = Vector2(size * 0.38, size * 0.08)
+	handle.size = Vector2(size * 0.24, size * 0.14)
+	handle.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(handle)
+	var lid := ColorRect.new()
+	lid.color = color
+	lid.position = Vector2(size * 0.12, size * 0.26)
+	lid.size = Vector2(size * 0.76, size * 0.12)
+	lid.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(lid)
+	var body := Polygon2D.new()
+	body.polygon = PackedVector2Array([
+		Vector2(size * 0.20, size * 0.44),
+		Vector2(size * 0.80, size * 0.44),
+		Vector2(size * 0.68, size * 0.97),
+		Vector2(size * 0.32, size * 0.97),
+	])
+	body.color = color
+	holder.add_child(body)
+	for groove_x in [0.40, 0.55]:
+		var groove := ColorRect.new()
+		groove.color = Color(0.0, 0.0, 0.0, 0.22)
+		groove.position = Vector2(size * groove_x, size * 0.56)
+		groove.size = Vector2(size * 0.06, size * 0.34)
+		groove.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		holder.add_child(groove)
+	return holder
 
 
 func _make_history_empty_state(filter: String) -> Control:
