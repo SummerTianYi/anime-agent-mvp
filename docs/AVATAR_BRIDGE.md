@@ -133,6 +133,12 @@ TTS 由独立 sidecar 承载（GPT-SoVITS v2Pro 天依声线，运行于 tianyi-
 
 长回复按句子标点切分、分片流水线合成：Core 每当前一分片播放结束就广播下一分片，全部分片共用同一个 `utteranceId`，`partIndex` 从 0 计数、`partCount` 为总分片数。播放端每播完一个分片照常回报 `speech.finished`，无需感知分片；收到 `avatar.speech.stop` 时直接停止当前播放即可，后续分片由 Core 停止下发。Godot 加载 wav 播放，并按既有 `agent.state` 的 `speaking` 状态循环元音口型。
 
+### 退出阶段的语音与动画共同完成（Codex，2026-09-13）
+
+Avatar 关闭窗口时发送 `{"type":"avatar.interaction","event":"exiting","requestId":"exit-<本次唯一ID>"}`。Core 保留 zcode 的预合成缓存优先策略，在返回的 `avatar.speak.requestId` 中原样带回该ID，分片字段遵循上文既有契约。缓存文件已失效则重新合成；TTS禁用、合成失败或取消时，向Avatar发送 `{"type":"avatar.farewell.status","requestId":"exit-<本次唯一ID>","state":"unavailable"}`，只结束对应的语音等待。
+
+关闭阶段只接收本次ID、顺序和总数合法的告别分片，丢弃迟到普通语音、重复或乱序分片；正常情况下4.1秒批准动画和最后一段告别语音均完成才退出。缺音频、失败或中断可降级为播完动作；原8秒事件循环截止时间仍会终止过长或卡住的告别，不承诺超过8秒的语音完整播毕。新Core仍接收不带ID的旧Avatar请求；新版共同完成门禁要求Core与Avatar一起更新，不能将混合旧版本视为完整验收。
+
 ### Core → avatar/ui：`avatar.speech.stop`
 
 用户开始说话（`voice.start`）、唤醒词确认、或新消息顶替旧播报时，Core 中断当前播报：

@@ -9,6 +9,7 @@ import types
 import wave
 import math
 import struct
+import uuid
 
 root = Path(__file__).resolve().parents[1]
 assert (root / '.tts-test-fixture').is_file()
@@ -38,11 +39,14 @@ def load(_config):
             impl._lifecycle.busy_limit = .7
             while True: time.sleep(.1)
         time.sleep(float(settings().get('synth_delay', 0)))
-        dst=root/'out'/'fixture.wav'; dst.parent.mkdir(exist_ok=True)
+        seconds = max(.01, min(12., float(settings().get('audio_seconds', .1))))
+        # Cached farewell and chat can overlap. A shared file would be
+        # truncated while Godot opens it, unlike the real unique audio spool.
+        dst=root/'out'/('fixture-'+uuid.uuid4().hex+'.wav'); dst.parent.mkdir(exist_ok=True)
         with wave.open(str(dst),'wb') as wav:
             wav.setnchannels(1); wav.setsampwidth(2); wav.setframerate(32000)
-            wav.writeframes(b''.join(struct.pack('<h',int(2000*math.sin(i*.1))) for i in range(3200)))
-        return {'ok':True,'audioPath':str(dst),'durationMs':100,'sampleRate':32000}
+            wav.writeframes(b''.join(struct.pack('<h',int(2000*math.sin(i*.1))) for i in range(round(32000 * seconds))))
+        return {'ok':True,'audioPath':str(dst),'durationMs':round(seconds * 1000),'sampleRate':32000}
     return synth
 
 original_get=impl.Handler.do_GET

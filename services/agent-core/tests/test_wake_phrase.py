@@ -28,3 +28,12 @@ class WakePhraseTests(unittest.TestCase):
     def test_still_rejects_unrelated_speech(self) -> None:
         for text in ["你好", "今天天气不错", "忆", "播放音乐", "拜託", "播放点别的"]:
             self.assertFalse(is_wake_phrase(text), text)
+
+    def test_verified_short_wake_mishearings(self) -> None:
+        # Codex: real bundled KWS hit + Whisper small transcription, 2026-09-13.
+        for text in ["嗨 前一", "嗨 前衣", "嗨，前一。", "嘿，前衣！"]:
+            self.assertTrue(is_wake_phrase(text), text)
+
+    def test_qian_alias_does_not_admit_ordinary_commands(self) -> None:
+        for text in ["前一天", "前一页", "前衣", "嗨，前一页", "嗨 前一台电脑", "请看前一页", "前一", "前一你好"]:
+            self.assertFalse(is_wake_phrase(text), text)

@@ -43,6 +43,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+2026-09-13 Codex 三方整合：保留 DS + StepFun、人设/工具/权限契约、预合成、后台强引用任务及 zcode 最新 UI。当前Core238项基线；补齐告别、Drive、MCP路径、唤醒和TTS健康缓存等整合修复。项目提交入口为根 [PRD](../PRD.md)，源码范围、既有验收与尚未通过的跨机门禁见 [DELIVERY_STATUS.md](DELIVERY_STATUS.md)。内部原始报告、测试正文及私人候选不公开；不动现有窗口或私人数据。下方较早日期保留历史口径。
+
 2026-09-12 Codex 退出告别：所有者批准挥别v3并授权实装/推送，新增独立 `farewell_exit.gd` 接管正常关窗及原Esc出口，4.1秒告别后再退出；连续关闭只播放一次，迟到事件不覆盖表情/动作，8秒事件循环计时兜底。退出后沿用原Core会话守护清理，未改启动器/能力层。注册表 `farewell` 的 `role=exit` 仅供资产快照，不进入普通动作菜单。七组3444采样、三轮独立Windows原CMD/WM_CLOSE验证及既有回归通过；按所有者要求，当前Godot/Core没有关闭、重启或收到测试操作，新实现下次启动生效。表情未提交内容不夹带，本轮无子代理或真实Provider调用。[代码/资产/证据/边界](FAREWELL_EXIT.md)。
 
 2026-09-12 Codex 思考动作第一版：所有者批准带发束回位的 review11 后，正式注册 `think`（9.5秒、108旋转轨），菜单「思考」及 agent 进入 thinking 自动触发一次；接收回复不等动作结束，录音/手动动作可中断，完整播放后两条17骨辫子平滑交还当前待机相位。身体、官模、外观1.4不改，旧动作/模型版本保留。代码与本地限定资产定位、SHA、构建入口及验收边界见 [思考交付记录](../apps/avatar-runtime/mocap/thinking/README.md)；它是参考视频经人工接触适配的烘焙动作，不是全指自动动捕或通用防穿模系统。此次不夹带此前未提交的表情实现或其他 agent 内容。
@@ -122,7 +124,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 223 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 238 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -217,7 +219,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 223 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 238 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

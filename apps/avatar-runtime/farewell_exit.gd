@@ -15,6 +15,7 @@ var idle_pose: Array[Transform3D] = []
 var start_face := PackedFloat32Array()
 var bone_tracks := {}
 var face_tracks := {}
+var speech_gate = preload("res://farewell_speech_gate.gd").new()
 
 func begin(owner_runtime: Node3D) -> bool:
 	if closing:
@@ -75,6 +76,11 @@ func advance(delta: float) -> void:
 	apply_pose()
 	if time >= clip.length:
 		finished = true
+		speech_gate.animation_done = true
+		try_finish()
+
+func try_finish() -> void:
+	if speech_gate.ready():
 		runtime._finish_exit("animation_finished")
 
 func apply_pose() -> void:

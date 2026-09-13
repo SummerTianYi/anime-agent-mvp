@@ -222,8 +222,12 @@ class PerToolTimeout(unittest.TestCase):
 class McpCommandResolutionTests(unittest.TestCase):
     def test_bare_npx_resolves_to_absolute_path(self):
         from agent_core.mcp_host import _resolve_command
+        from unittest.mock import patch
 
-        resolved = _resolve_command(["npx", "-y", "some-package"])
+        # Codex: test the resolver contract, not whether the test PC installed npm.
+        with patch("agent_core.mcp_host.shutil.which", return_value="C:/Node/npx.cmd") as lookup:
+            resolved = _resolve_command(["npx", "-y", "some-package"])
+        lookup.assert_called_once_with("npx")
         self.assertNotEqual(resolved[0].lower(), "npx")
         self.assertIn("npx", resolved[0].lower())
         self.assertTrue(Path(resolved[0]).is_absolute())

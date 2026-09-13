@@ -5,6 +5,24 @@ from agent_core.speech import SpeechClient, SpeechUnavailable
 
 
 class SpeechRecoveryTests(unittest.TestCase):
+    def test_positive_health_cannot_hide_restarting_sidecar_for_a_minute(self):
+        client = SpeechClient('http://127.0.0.1:1')
+        with patch('agent_core.speech.time.monotonic', side_effect=[100, 101, 103, 103]), patch(
+            'agent_core.speech._get_json', side_effect=[{'ok': True}, {'ok': False, 'phase': 'warming'}]
+        ) as get:
+            self.assertTrue(client.probe_health())
+            self.assertTrue(client.is_healthy())
+            self.assertFalse(client.is_healthy())
+            self.assertEqual(get.call_count, 2)
+
+    def test_explicit_fresh_health_rejects_warming_even_inside_cache_window(self):
+        client = SpeechClient('http://127.0.0.1:1')
+        with patch('agent_core.speech.time.monotonic', side_effect=[100, 100.1, 100.1]), patch(
+            'agent_core.speech._get_json', side_effect=[{'ok': True}, {'ok': False, 'phase': 'warming'}]
+        ):
+            self.assertTrue(client.probe_health())
+            self.assertFalse(client.is_healthy(max_age=0))
+
     def test_negative_health_rechecks_within_two_seconds(self):
         client = SpeechClient('http://127.0.0.1:1')
         with patch('agent_core.speech.time.monotonic', side_effect=[100, 101, 103, 103]), patch(

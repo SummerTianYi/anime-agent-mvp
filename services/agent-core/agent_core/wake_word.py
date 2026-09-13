@@ -25,11 +25,15 @@ def default_wake_keywords_file() -> Path:
 # S2 增加 yi 系常见变体；打招呼词改为可选（KWS 已先行把关，确认关只验名字）。
 WAKE_NAME_PATTERN = re.compile(r"[天填添田甜便片偏篇][^A-Za-z0-9]{0,2}[依一衣仪伊怡忆亦易益艺议翼宜]")
 WAKE_GREETING_PATTERN = re.compile(r"嗨|嘿|哎|哈喽|hello", re.IGNORECASE)
+# Codex: observed KWS-positive Whisper-small outputs from synthetic speech.
+# Keep this alias greeting-required and whole-utterance-only: adding 前 to the
+# general name pool would incorrectly admit ordinary phrases such as 前一天.
+WAKE_SHORT_MISHEARING_PATTERN = re.compile(r"(?:嗨|嘿)[\s，,。.!！?？]*前[\s，,]*[一衣][\s，,。.!！?？]*")
 
 
 def is_wake_phrase(text: str) -> bool:
     """确认转写文本是唤醒口令：名字同音容错（打招呼词可选）。"""
-    return bool(WAKE_NAME_PATTERN.search(text))
+    return bool(WAKE_NAME_PATTERN.search(text) or WAKE_SHORT_MISHEARING_PATTERN.fullmatch(text.strip()))
 
 
 def _import_audio_dependencies() -> tuple[Any, Any]:

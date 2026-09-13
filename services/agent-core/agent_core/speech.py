@@ -130,9 +130,10 @@ class SpeechClient:
         return healthy
 
     def is_healthy(self, max_age: float = 60.0) -> bool:
-        # Codex: a recovered sidecar must not stay muted behind a 60s failure.
-        if self._healthy is False:
-            max_age = min(max_age, 2.0)
+        # Codex: either cache direction expires within 2s. A previously healthy
+        # sidecar may have restarted into model warming; a 60s positive cache
+        # falsely reported readiness and dropped the first post-recovery reply.
+        max_age = min(max_age, 2.0)
         if self._healthy is not None and time.monotonic() - self._probed_monotonic < max_age:
             return self._healthy
         return self.probe_health()

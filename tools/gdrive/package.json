@@ -1,0 +1,13 @@
+{
+  "name": "anime-agent-gdrive-compat",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Codex OAuth compatibility fix; preserves zcode's read-only Drive MCP handlers",
+  "scripts": { "test": "node --test oauth.test.mjs" },
+  "dependencies": {
+    "@google-cloud/local-auth": "3.0.1",
+    "@modelcontextprotocol/sdk": "1.0.1",
+    "googleapis": "144.0.0"
+  }
+}

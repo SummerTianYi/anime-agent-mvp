@@ -28,6 +28,7 @@ def main():
     p.add_argument('--session-stress', action='store_true', help='Compound faults and concurrent original-CMD launches; synthetic isolated voice only')
     p.add_argument('--close-race', action='store_true', help='Freeze obsolete TTS supervisor across real WM_CLOSE and three concurrent reopen commands')
     p.add_argument('--audible', action='store_true', help='Unmute only isolated Godot and inspect its audio mix; never microphone capture')
+    p.add_argument('--self-contained', action='store_true', help='Use explicitly marked private bundle interpreters and copied libraries, never developer venv dependencies')
     p.add_argument('--scenarios', nargs='+', default=['idle','listen','think','pirouette','speaking','repeated','paused','zero_scale','missing','corrupt'])
     a = p.parse_args()
     assert not (a.tts_fixture_sidecar and a.tts_real_copy)
@@ -36,7 +37,11 @@ def main():
     assert not a.audible or a.tts_real_copy
     assert not a.session_stress or a.tts_fixture_sidecar
     assert not a.close_race or a.tts_fixture_sidecar
+    assert not any(s in ('long_audio', 'audio_deadline') for s in a.scenarios) or a.tts_fixture_sidecar
     repo, source = a.repo.resolve(), a.source.resolve()
+    if a.self_contained:
+        assert a.tts_real_copy
+        assert (source.parent.parent/'.private-portable-test-candidate').is_file()
     if a.session_stress or a.close_race:
         spec = importlib.util.spec_from_file_location('tts_session_stress', source/'scripts/tests/tts-session-stress.py')
         stress = importlib.util.module_from_spec(spec)
@@ -86,7 +91,7 @@ def main():
         env.update(ANIME_AGENT_TTS='1',ANIME_AGENT_TTS_NARRATE='0',TTS_WORKSPACE=str(tts),TTS_SERVICE_URL=f'http://127.0.0.1:{tts_port}')
     elif a.tts_real_copy:
         tts=a.tts_real_copy.resolve()
-        assert tts != (source.parent/'tianyi-tts').resolve()
+        assert a.self_contained or tts != (source.parent/'tianyi-tts').resolve()
         assert (tts/'.real-voice-test-copy').is_file()
         assert (tts/'venv/Scripts/python.exe').is_file()
         (repo/'.tts-test-fixture').write_text('Codex real voice isolated session')
@@ -178,8 +183,12 @@ def main():
     core = repo/'services/agent-core'
     if not core.exists():
         shutil.copytree(source/'services/agent-core/agent_core',core/'agent_core',ignore=shutil.ignore_patterns('__pycache__'))
-        venv.EnvBuilder(with_pip=False).create(core/'.venv')
-    if a.tts_real_copy:
+        if a.self_contained:
+            shutil.copytree(source/'services/agent-core/.venv',core/'.venv',ignore=shutil.ignore_patterns('__pycache__'))
+            assert (core/'.venv/Scripts/python312._pth').is_file()
+        else:
+            venv.EnvBuilder(with_pip=False).create(core/'.venv')
+    if a.tts_real_copy and not a.self_contained:
         (core/'.venv/Lib/site-packages/source-dependencies.pth').write_text(str(source/'services/agent-core/.venv/Lib/site-packages')+'\n')
     godot_dir = Path(env['LOCALAPPDATA'])/'Godot'
     godot_dir.mkdir(exist_ok=True)
@@ -193,6 +202,11 @@ def main():
             output = evidence/scenario; output.mkdir()
             env['FAREWELL_SCENARIO'] = scenario
             env['FAREWELL_EVIDENCE'] = str(output)
+            if a.tts_fixture_sidecar:
+                # Each case starts a new owned sidecar; cache preparation also
+                # sees this duration. Never writes to a production workspace.
+                seconds = 6.0 if scenario == 'long_audio' else 10.0 if scenario == 'audio_deadline' else .1
+                (tts/'control.json').write_text(json.dumps({'audio_seconds':seconds}), encoding='utf-8')
             if scenario == 'missing': clip.unlink()
             elif scenario == 'corrupt': clip.write_bytes(b'not the approved animation')
             else: clip.write_bytes(approved)
@@ -286,7 +300,7 @@ def main():
                         if a.audible:
                             completed=completed and any(row['event']=='audio-mix' and row['peak']>.001 and not row['muted'] and row['driver']!='Dummy' for row in rows)
                         return completed
-                    wait(played,110 if a.tts_real_copy else 20)
+                    wait(played,110 if a.tts_real_copy else 40 if scenario == 'audio_deadline' else 20)
                     ws.send(json.dumps({'type':'session.delete','conversationId':session}))
                     until('session.deleted')
             logs = list((Path(env['LOCALAPPDATA'])/'AnimeAgent/logs').glob('avatar-*.stdout.log'))
@@ -300,7 +314,7 @@ def main():
             duration = time.monotonic()-start
             text = log_path.read_text(encoding='utf-8',errors='replace')
             (output/'avatar.log').write_text(text,encoding='utf-8')
-            expected = 'farewell_unavailable' if scenario in ('missing','corrupt') else 'farewell_deadline' if scenario in ('paused','zero_scale') else 'animation_finished'
+            expected = 'farewell_unavailable' if scenario in ('missing','corrupt') else 'farewell_deadline' if scenario in ('paused','zero_scale','audio_deadline') else 'animation_finished'
             assert text.count('GODOT_FAREWELL_EXIT ' + expected) == 1, text
             assert text.count('GODOT_FAREWELL_STARTED') == (0 if scenario in ('missing','corrupt') else 1), text
             data = [json.loads(line) for line in (output/'frames.jsonl').read_text().splitlines()] if (output/'frames.jsonl').exists() else []
@@ -312,6 +326,22 @@ def main():
                 assert 4.0 <= duration < 35
             elif expected == 'farewell_deadline':
                 assert duration >= 8 and duration < 35
+            if voice_test and scenario not in ('missing','corrupt','paused','zero_scale'):
+                playback = [json.loads(line) for line in (output/'tts-playback.jsonl').read_text().splitlines()]
+                exits = [row for row in playback if row['event']=='exit']
+                assert len(exits)==1
+                starts = [row for row in playback if row['event']=='started' and row.get('requestId','').startswith('exit-') and row['playing']]
+                assert starts, 'no correlated farewell reached the actual AudioStreamPlayer'
+                own_id = starts[-1]['utterance']
+                finishes = [row for row in playback if row['event']=='finished' and row['utterance']==own_id]
+                if scenario == 'audio_deadline':
+                    assert not finishes, 'fixture should exceed the bounded exit deadline'
+                else:
+                    assert finishes and exits[0]['monotonicMs'] >= finishes[-1]['monotonicMs'], 'quit before farewell playback ended'
+                    if scenario == 'long_audio':
+                        assert finishes[-1]['monotonicMs']-starts[-1]['monotonicMs'] >= 5800
+                voice_metrics['correlatedFarewellPlayed'] = True
+                voice_metrics['farewellFinishedBeforeExit'] = bool(finishes)
             errors = list((Path(env['LOCALAPPDATA'])/'AnimeAgent/logs').glob('avatar-*.stderr.log'))
             assert all('SCRIPT ERROR' not in f.read_text(encoding='utf-8',errors='replace') for f in errors)
             protect()

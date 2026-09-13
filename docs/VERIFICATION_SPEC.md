@@ -1,5 +1,7 @@
 # 真机验证 SPEC —— 每次改动后的强制完整流程
 
+Codex 2026-09-13 source handoff: current Core238 baseline and verification boundaries are summarized in [DELIVERY_STATUS.md](DELIVERY_STATUS.md); private raw acceptance records are not published. Physical microphone, clean-OS/second-PC, non-NVIDIA and macOS equivalence remain unverified; local isolation does not waive those gates.
+
 > 目的：杜绝"改 A 坏 B"。任何代码/配置/脚本的改动，**必须走完本流程才算完成**；
 > 汇报必须带证据，无证据 = 没做。本 SPEC 由 2026-09-04 的连续事故提炼而成（见附录）。
 
@@ -25,7 +27,7 @@
 
 ### 阶段 0：基线
 - `git status` 记录当前改动集合，只允许存在已知改动。
-- 记录测试总数基线（以 docs/TESTING.md 为准，当前 223）。
+- 记录测试总数基线（以 docs/TESTING.md 为准，当前 238）。
 - 写行为矩阵对表（铁律 7）。
 
 ### 阶段 1：实现

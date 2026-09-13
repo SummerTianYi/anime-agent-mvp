@@ -13,8 +13,10 @@ def main():
     parent = Path(tempfile.mkdtemp(prefix='codex-farewell-'))
     repo = parent / 'fixture'
     avatar = repo / 'apps/avatar-runtime'
+    # Codex: editor folding caches contain long, checkout-specific filenames.
+    # They are not runtime dependencies and can exceed MAX_PATH in nested fixtures.
     shutil.copytree(source/'apps/avatar-runtime', avatar,
-                    ignore=shutil.ignore_patterns('shader_cache','*.log'))
+                    ignore=shutil.ignore_patterns('shader_cache','editor','*.log'))
     scripts = repo/'scripts'
     (scripts/'tests').mkdir(parents=True)
     for name in ('start-mvp.ps1','startup-common.ps1','tts-lifecycle.ps1','core_watchdog.ps1','run-avatar-runtime.ps1'):

@@ -13,7 +13,7 @@ func _handle_avatar_speak(payload: Dictionary) -> void:
 	if audio_capture:
 		audio_capture.clear_buffer()
 	super._handle_avatar_speak(payload)
-	_record_tts({"event":"started", "playing":speech_player != null and speech_player.playing, "utterance":current_utterance_id})
+	_record_tts({"event":"started", "playing":speech_player != null and speech_player.playing, "utterance":current_utterance_id, "requestId":payload.get("requestId", ""), "partIndex":payload.get("partIndex", 0)})
 func _on_speech_finished() -> void:
 	if audio_capture:
 		_sample_audio_mix()
@@ -21,12 +21,16 @@ func _on_speech_finished() -> void:
 	_record_tts({"event":"finished", "utterance":current_utterance_id})
 	super._on_speech_finished()
 func _record_tts(sample: Dictionary) -> void:
+	sample["monotonicMs"] = Time.get_ticks_msec()
 	var path := OS.get_environment("FAREWELL_EVIDENCE").path_join("tts-playback.jsonl")
 	var file := FileAccess.open(path, FileAccess.READ_WRITE if FileAccess.file_exists(path) else FileAccess.WRITE)
 	if file:
 		file.seek_end()
 		file.store_line(JSON.stringify(sample))
 		file.close()
+func _finish_exit(reason: String) -> void:
+	_record_tts({"event":"exit", "reason":reason, "animationSeconds":farewell_exit.time})
+	super._finish_exit(reason)
 func _ready() -> void:
 	if not FileAccess.file_exists("res://../../.farewell-test-fixture") or OS.get_environment("FAREWELL_EVIDENCE").is_empty() or OS.get_environment("AGENT_CORE_WS_URL").is_empty() or OS.get_environment("AGENT_CORE_WS_URL") == DEFAULT_CORE_WS_URL:
 		push_error("Exit probe requires a disposable fixture and isolated Core URL")

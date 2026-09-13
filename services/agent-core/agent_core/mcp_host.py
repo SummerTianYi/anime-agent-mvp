@@ -10,11 +10,43 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import shlex
 import shutil
 from pathlib import Path
 from dataclasses import dataclass, field
 
 PROTOCOL_VERSION = "2024-11-05"
+
+
+def _split_command(command: str) -> list[str]:
+    """Codex: preserve quoted portable paths using the platform's argv rules.
+
+    This only parses arguments; it does not invoke a shell or expand variables.
+    Windows backslashes must not be treated as POSIX escape characters.
+    """
+    command = command.strip()
+    if not command:
+        return []
+    if os.name != "nt":
+        return shlex.split(command)
+    import ctypes
+    from ctypes import wintypes
+
+    shell32 = ctypes.WinDLL("shell32", use_last_error=True)
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    parse = shell32.CommandLineToArgvW
+    parse.argtypes = [wintypes.LPCWSTR, ctypes.POINTER(ctypes.c_int)]
+    parse.restype = ctypes.POINTER(wintypes.LPWSTR)
+    kernel32.LocalFree.argtypes = [ctypes.c_void_p]
+    kernel32.LocalFree.restype = ctypes.c_void_p
+    count = ctypes.c_int()
+    argv = parse(command, ctypes.byref(count))
+    if not argv:
+        raise ctypes.WinError(ctypes.get_last_error())
+    try:
+        return [argv[i] for i in range(count.value)]
+    finally:
+        kernel32.LocalFree(argv)
 
 
 def _resolve_command(parts: list[str]) -> list[str]:
@@ -117,7 +149,7 @@ class McpHost:
                 continue
             name, command = entry.split("=", 1)
             name = name.strip()
-            parts = _resolve_command(command.strip().split())
+            parts = _resolve_command(_split_command(command))
             if not parts:
                 continue
             server = McpServer(name=name, command=parts)

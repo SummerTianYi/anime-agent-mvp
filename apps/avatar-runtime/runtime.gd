@@ -295,6 +295,7 @@ func request_exit() -> void:
 		interaction_ui.process_mode = Node.PROCESS_MODE_DISABLED
 	if speech_player != null:
 		speech_player.stop()
+	_report_speech_finished(true)
 	rotation_dragging = false
 	left_pressing = false
 	left_dragging = false
@@ -303,7 +304,9 @@ func request_exit() -> void:
 	# zcode: tell Core she's leaving so the farewell line is synthesized inside
 	# the goodbye window (the TTS watcher only stops the sidecar after quit)
 	if core_socket != null and core_socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
-		core_socket.send_text(JSON.stringify({"type": "avatar.interaction", "event": "exiting"}))
+		var exit_id := "exit-%s-%s" % [OS.get_process_id(), Time.get_ticks_usec()]
+		farewell_exit.speech_gate.expect_speech(exit_id)
+		core_socket.send_text(JSON.stringify({"type": "avatar.interaction", "event": "exiting", "requestId": exit_id}))
 	if not farewell_exit.begin(self):
 		_finish_exit("farewell_unavailable")
 		return
@@ -686,8 +689,17 @@ func _handle_core_event(payload: Dictionary) -> void:
 	# zcode: during the goodbye wave the ONLY frame we still honor is the
 	# farewell voice — menus/state updates are already settled.
 	if farewell_exit.closing:
-		if str(payload.get("type", "")) == "avatar.speak":
-			_handle_avatar_speak(payload)
+		match str(payload.get("type", "")):
+			"avatar.speak":
+				_handle_avatar_speak(payload)
+			"avatar.speech.stop":
+				# Never honor a blanket/stale stop from an earlier conversation.
+				if not current_utterance_id.is_empty() and str(payload.get("utteranceId", "")) == current_utterance_id:
+					_handle_speech_stop(payload)
+			"avatar.farewell.status":
+				if str(payload.get("state", "")) == "unavailable":
+					farewell_exit.speech_gate.unavailable(str(payload.get("requestId", "")))
+					farewell_exit.try_finish()
 		return
 	var event_type := str(payload.get("type", ""))
 	match event_type:
@@ -1983,6 +1995,8 @@ func _update_hud() -> void:
 
 
 func _handle_avatar_speak(payload: Dictionary) -> void:
+	if farewell_exit.closing and not farewell_exit.speech_gate.accept_part(payload):
+		return
 	if speech_player == null:
 		speech_player = AudioStreamPlayer.new()
 		speech_player.bus = "Master"
@@ -1991,9 +2005,11 @@ func _handle_avatar_speak(payload: Dictionary) -> void:
 	var path := str(payload.get("audioPath", ""))
 	var utterance_id := str(payload.get("utteranceId", ""))
 	if path.is_empty() or not FileAccess.file_exists(path):
+		_finish_unplayable_farewell(utterance_id)
 		return
 	var wav := AudioStreamWAV.load_from_file(path)
 	if wav == null:
+		_finish_unplayable_farewell(utterance_id)
 		return
 	current_utterance_id = utterance_id
 	speech_player.stream = wav
@@ -2005,13 +2021,27 @@ func _handle_speech_stop(payload: Dictionary) -> void:
 	if speech_player != null and speech_player.playing and (utterance_id == "" or utterance_id == current_utterance_id):
 		speech_player.stop()
 		_report_speech_finished(true)
+		if farewell_exit.closing:
+			farewell_exit.speech_gate.finish_part(utterance_id, true)
+			farewell_exit.try_finish()
 
 
 func _on_speech_finished() -> void:
+	var finished_id := current_utterance_id
 	_report_speech_finished(false)
-	# zcode: during the goodbye wave, a finished farewell line commits the exit
+	# Codex: audio completion cannot bypass the approved 4.1-second motion.
 	if farewell_exit.closing:
-		_finish_exit("farewell_speech_done")
+		farewell_exit.speech_gate.finish_part(finished_id)
+		farewell_exit.try_finish()
+
+
+func _finish_unplayable_farewell(utterance_id: String) -> void:
+	if not farewell_exit.closing:
+		return
+	current_utterance_id = utterance_id
+	_report_speech_finished(true)
+	farewell_exit.speech_gate.finish_part(utterance_id, true)
+	farewell_exit.try_finish()
 
 
 func _report_speech_finished(interrupted: bool) -> void:

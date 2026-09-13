@@ -17,7 +17,9 @@ from typing import Callable, Literal, Protocol
 
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 
-ENV_PATH = Path(__file__).resolve().parents[3] / ".env"
+# Codex: portable delivery keeps private provider config outside the archive;
+# retain zcode's existing credential hot-reload against that same explicit file.
+ENV_PATH = Path(os.getenv("ANIME_AGENT_CONFIG_PATH") or (Path(__file__).resolve().parents[3] / ".env"))
 
 try:
     from dotenv import load_dotenv
@@ -988,6 +990,41 @@ _background_tasks: set = set()
 FAREWELL_AUDIO_CACHE: dict[str, dict] = {}
 
 
+async def _deliver_farewell(request_id: str) -> None:
+    """Codex: correlate cached/live farewell audio with one closing Avatar.
+
+    The Avatar joins playback and animation completion; failures settle only
+    this request, while its independent deadline still bounds a hung service.
+    """
+    async def unavailable() -> None:
+        await hub.send_roles({"avatar"}, event(
+            "avatar.farewell.status", requestId=request_id, state="unavailable"))
+
+    if not TTS_ENABLED:
+        await unavailable()
+        return
+    farewell = FAREWELL_LINES[int(time.time()) % len(FAREWELL_LINES)]
+    cached = FAREWELL_AUDIO_CACHE.get(farewell)
+    if cached is not None and not Path(str(cached.get("audioPath", ""))).is_file():
+        cached = None  # The sidecar may have restarted/pruned its old spool.
+    memory.add_event("avatar.farewell", {"line": farewell, "precached": cached is not None})
+    try:
+        if cached is not None:
+            await speech_manager.interrupt("exit")
+            await _broadcast_speak({
+                "utteranceId": f"farewell-{request_id}", "text": farewell,
+                "audioPath": cached["audioPath"], "durationMs": int(cached["durationMs"]),
+                "sampleRate": int(cached["sampleRate"]), "requestId": request_id,
+                "partIndex": 0, "partCount": 1,
+            })
+        else:
+            utterance = await speech_manager.speak(farewell, request_id)
+            if not utterance.has_audio or utterance.cancelled:
+                await unavailable()
+    except (SpeechUnavailable, OSError, KeyError, TypeError, ValueError):
+        await unavailable()
+
+
 async def _precache_farewell_audio() -> None:
     """Pre-synthesize the three farewell lines once the voice warms up, so the
     exit line plays instantly instead of racing synthesis inside the exit
@@ -1021,12 +1058,18 @@ def _spawn(coro) -> asyncio.Task:
 async def _maybe_speak_think_filler(request_id: str, effort: str) -> None:
     """长思考阶段的补白台词（DS 思考常 8s+）；碎碎念档保持安静，
     回复自身的语音会按既有顶替机制打断这段补白。"""
-    if resolve_effort(effort) == "chill":
+    if not TTS_ENABLED or resolve_effort(effort) == "chill":
         return
     await asyncio.sleep(THINK_FILLER_DELAY_SECONDS)
     if request_id in _superseded_requests or _agent_state != "thinking":
         return
     line = THINK_FILLER_LINES[int(time.time() * 1000) % len(THINK_FILLER_LINES)]
+    # zcode: re-check right before speaking - synthesis takes seconds and the
+    # main reply may finish in between; a late filler would broadcast speaking
+    # over an already-idle turn and then settle into working forever, which
+    # deadlocks the wake word behind busy-suppression
+    if _agent_state != "thinking":
+        return
     await _speak_reply(line, request_id + "-think", narrating=True)
 
 
@@ -1643,7 +1686,9 @@ async def health() -> dict[str, object]:
             "enabled": TTS_ENABLED,
             "narrate": TTS_NARRATE,
             "service": SPEECH_SETTINGS["url"],
-            "available": await asyncio.to_thread(speech_client.is_healthy) if TTS_ENABLED else False,
+            # Diagnostic readiness must describe this sidecar now, not a cached
+            # prior process. /health/live remains cheap and independent of TTS.
+            "available": await asyncio.to_thread(speech_client.is_healthy, max_age=0) if TTS_ENABLED else False,
         },
         "wake": {
             "enabled": wake_listener is not None,
@@ -1678,23 +1723,11 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 interaction = str(payload.get("event", "")).strip()
                 interaction_payload = payload.get("payload", {})
                 if interaction == "exiting":
-                    # 她点关窗：挥手窗口内送一句告别——优先播预合成缓存（零合成延迟）
-                    farewell = FAREWELL_LINES[int(time.time()) % len(FAREWELL_LINES)]
-                    cached = FAREWELL_AUDIO_CACHE.get(farewell)
-                    memory.add_event("avatar.farewell", {"line": farewell, "precached": cached is not None})
-                    if cached is not None:
-                        await _broadcast_speak({
-                            "utteranceId": f"farewell-{int(time.time() * 1000)}",
-                            "text": farewell,
-                            "audioPath": cached["audioPath"],
-                            "durationMs": int(cached["durationMs"]),
-                            "sampleRate": int(cached["sampleRate"]),
-                            "requestId": f"exit-{int(time.time() * 1000)}",
-                            "partIndex": 0,
-                            "partCount": 1,
-                        })
-                    else:
-                        _spawn(_speak_reply(farewell, f"exit-{int(time.time() * 1000)}", narrating=True))
+                    # Optional correlation id keeps older Avatars compatible.
+                    request_id = str(payload.get("requestId", ""))
+                    if not request_id.startswith("exit-") or len(request_id) > 96:
+                        request_id = f"exit-{time.time_ns()}"
+                    _spawn(_deliver_farewell(request_id))
                     continue
                 if interaction != "avatar.clicked" or not isinstance(interaction_payload, dict):
                     await hub.send(websocket, event("core.error", message="Invalid avatar interaction"))

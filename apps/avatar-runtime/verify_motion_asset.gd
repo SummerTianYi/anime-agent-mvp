@@ -3,6 +3,13 @@ extends SceneTree
 
 const REGISTRY_PATH := "res://motion_registry.json"
 const EXPECTED_BONE_COUNT := 751
+# Codex: validate each installed format; thinking and farewell are not listening clips.
+const EXPECTED_IDS := ["idle", "pirouette", "listen", "think", "farewell"]
+const NATIVE_CONTRACTS := {
+	"listen": {"tracks": 74, "rotations": 74, "shapes": 0, "keys": 61},
+	"think": {"tracks": 108, "rotations": 108, "shapes": 0, "sha256": "7637d1210c52fd4fcaff4d40f517eab578a9cfc4c9dec46b1e75c370a56e9f09"},
+	"farewell": {"tracks": 39, "rotations": 37, "shapes": 2, "sha256": "aa9684cdf8e8927a601bbed3c47bf6abc38fc7dc4b85b8432f0239889542bea7"},
+}
 
 
 func _init() -> void:
@@ -15,16 +22,22 @@ func _run() -> void:
 		_fail("Motion registry is invalid")
 		return
 	var results: Array[Dictionary] = []
+	var seen: Array[String] = []
 	for clip_data in registry_data.get("clips", []):
 		if clip_data is not Dictionary:
 			_fail("Motion registry contains a non-dictionary clip")
 			return
+		var clip_id := str(clip_data.get("id", ""))
+		if clip_id not in EXPECTED_IDS or clip_id in seen:
+			_fail("Unknown or duplicate motion id: " + clip_id)
+			return
+		seen.append(clip_id)
 		var result := _verify_clip(clip_data)
 		if result.is_empty():
 			return
 		results.append(result)
-	if results.size() != 3:
-		_fail("Expected three motion clips, found %d" % results.size())
+	if results.size() != EXPECTED_IDS.size():
+		_fail("Expected five installed motion clips, found %d" % results.size())
 		return
 	print("GODOT_MOTION_ASSETS_OK", {
 		"registry": REGISTRY_PATH,
@@ -42,14 +55,33 @@ func _verify_clip(clip_data: Dictionary) -> Dictionary:
 	var resource: Resource = load(motion_path)
 	if resource is Animation:
 		var native := resource as Animation
-		if native.length < float(clip_data.get("minimum_duration", 0.1)) or native.get_track_count() != 74:
-			_fail("Native listening clip has invalid duration or track count")
+		var contract: Dictionary = NATIVE_CONTRACTS.get(clip_id, {})
+		if contract.is_empty() or native.length < float(clip_data.get("minimum_duration", 0.1)) or native.get_track_count() != int(contract.tracks):
+			_fail("Native clip has invalid duration or track count: " + clip_id)
 			return {}
+		if contract.has("sha256") and FileAccess.get_sha256(motion_path) != contract.sha256:
+			_fail("Approved native clip hash mismatch: " + clip_id)
+			return {}
+		var rotations := 0
+		var shapes := 0
 		for i in range(native.get_track_count()):
-			if native.track_get_type(i) != Animation.TYPE_ROTATION_3D or native.track_get_key_count(i) != 61:
-				_fail("Native clip must contain 61-frame rotation-only tracks")
+			if native.track_get_type(i) == Animation.TYPE_ROTATION_3D:
+				rotations += 1
+			elif native.track_get_type(i) == Animation.TYPE_BLEND_SHAPE:
+				shapes += 1
+			else:
+				_fail("Unexpected translation/scale/value track: " + clip_id)
 				return {}
-		return {"id": clip_id, "path": motion_path, "duration": native.length, "tracks": native.get_track_count(), "format": "runtime-native; see mocap/verify_listen.gd"}
+			if native.track_get_key_count(i) < 2 or (contract.has("keys") and native.track_get_key_count(i) != int(contract.keys)):
+				_fail("Invalid native key count: " + clip_id)
+				return {}
+		if rotations != int(contract.rotations) or shapes != int(contract.shapes):
+			_fail("Native rotation/expression track contract mismatch: " + clip_id)
+			return {}
+		return {"id": clip_id, "path": motion_path, "duration": native.length, "tracks": native.get_track_count(), "format": "runtime-native; per-motion playback guards required"}
+	if NATIVE_CONTRACTS.has(clip_id):
+		_fail("Native motion was replaced with a non-Animation resource: " + clip_id)
+		return {}
 	var packed_scene := resource as PackedScene
 	if packed_scene == null:
 		_fail("Motion asset did not import as PackedScene: %s" % motion_path)

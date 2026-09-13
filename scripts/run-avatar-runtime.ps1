@@ -51,11 +51,15 @@ if ([string]::IsNullOrWhiteSpace($env:ANIME_AGENT_MODEL_LOOK)) {
 }
 
 $godotCandidates = @(
+    $env:ANIME_AGENT_GODOT_EXE,
     (Join-Path $env:LOCALAPPDATA "Godot\Godot_v4.7.2-stable_win64.exe"),
     "D:\steam\steamapps\common\Godot\Godot_v4.7.2-stable_win64.exe",
     (Join-Path $repoRoot "..\tools\godot-4.7.2\Godot_v4.7.2-stable_win64.exe")
 )
-$godotPath = $godotCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+$godotPath = $godotCandidates | Where-Object { $_ -and (Test-Path -LiteralPath $_) } | Select-Object -First 1
+if ($env:ANIME_AGENT_GODOT_EXE -and -not (Test-Path -LiteralPath $env:ANIME_AGENT_GODOT_EXE -PathType Leaf)) {
+    throw 'ANIME_AGENT_GODOT_EXE was explicitly configured but not found; refusing a developer-runtime fallback.'
+}
 
 if (-not $godotPath) {
     throw "Godot 4 was not found. Install Godot 4 or update the candidate paths in this script."
