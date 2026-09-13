@@ -80,6 +80,36 @@ func _run() -> void:
 		_fail("current not cleared after deletion")
 		return
 
+	# 6b) 手账卡片删除：按卡片 id 弹确认框，确认后请求按该 id 发出
+	ui._open_history_page()
+	var card_button_found := false
+	for child in ui.history_list_box.get_children():
+		if child is Button:
+			card_button_found = true
+			break
+	if not card_button_found:
+		_fail("history cards missing for per-card delete")
+		return
+	ui._on_card_delete_pressed(8)
+	if ui.delete_overlay == null:
+		_fail("card delete did not open confirm dialog")
+		return
+	if int(ui._pending_delete_id) != 8:
+		_fail("card delete did not bind the card session id")
+		return
+	ui.chat_status.text = "marker"
+	ui._on_delete_confirmed()
+	if ui.delete_overlay != null:
+		_fail("card delete confirm did not close dialog")
+		return
+	if not str(ui.chat_status.text).contains("尚未连接"):
+		_fail("card delete confirm did not reach runtime request path")
+		return
+	if int(ui._pending_delete_id) != -1:
+		_fail("pending delete id not reset after confirm")
+		return
+	ui._close_history_page()
+
 	# 7) 回忆手账：打开页面、日期分组、搜索过滤、关闭
 	var today_dict := Time.get_datetime_dict_from_system()
 	var today_str := "%04d-%02d-%02d 10:00:00" % [today_dict.year, today_dict.month, today_dict.day]

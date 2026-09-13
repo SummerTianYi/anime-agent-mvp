@@ -77,6 +77,9 @@ const EFFORT_SLIDER_SCRIPT := preload("res://effort_slider.gd")
 var sessions: Array = []
 var current_conversation_id := -1
 var delete_overlay: ColorRect
+# zcode: session id awaiting delete confirmation (-1 = the current chat);
+# lets the memory-journal cards delete any conversation, not just the open one
+var _pending_delete_id: int = -1
 
 var menu_visible := false
 var chat_visible := false
@@ -217,9 +220,14 @@ func _on_delete_session_pressed() -> void:
 	_show_delete_dialog()
 
 
-func _show_delete_dialog() -> void:
+func _on_card_delete_pressed(conversation_id: int) -> void:
+	_show_delete_dialog(conversation_id)
+
+
+func _show_delete_dialog(session_id: int = -1) -> void:
 	if delete_overlay != null:
 		return
+	_pending_delete_id = session_id
 	delete_overlay = ColorRect.new()
 	delete_overlay.size = VIEWPORT_SIZE
 	delete_overlay.color = Color(0.0, 0.0, 0.0, 0.45)
@@ -243,8 +251,9 @@ func _show_delete_dialog() -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 10)
 	box.add_child(_make_label("删除对话", 15, COLOR_TEXT))
+	var target_id := session_id if session_id > 0 else current_conversation_id
 	var body := _make_label(
-		"确定删除「%s」吗？删除后无法恢复。" % _current_session_title(), 12, COLOR_TEXT_DIM
+		"确定删除「%s」吗？删除后无法恢复。" % _session_title_of(target_id), 12, COLOR_TEXT_DIM
 	)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size = Vector2(264.0, 0.0)
@@ -278,8 +287,12 @@ func _on_delete_overlay_input(event: InputEvent) -> void:
 
 func _on_delete_confirmed() -> void:
 	_hide_delete_dialog()
-	if current_conversation_id > 0:
-		avatar.request_delete_session(current_conversation_id)
+	# zcode: journal cards pass an explicit id; the header button keeps the
+	# current-chat semantics via _pending_delete_id = -1
+	var target := _pending_delete_id if _pending_delete_id > 0 else current_conversation_id
+	_pending_delete_id = -1
+	if target > 0:
+		avatar.request_delete_session(target)
 
 
 func on_session_title(conversation_id: int, title: String) -> void:
@@ -289,11 +302,11 @@ func on_session_title(conversation_id: int, title: String) -> void:
 	_sync_session_options()
 
 
-func _current_session_title() -> String:
+func _session_title_of(conversation_id: int) -> String:
 	for item in sessions:
-		if int(item["id"]) == current_conversation_id:
+		if int(item["id"]) == conversation_id:
 			return str(item["title"])
-	return "当前会话"
+	return "当前会话" if conversation_id == current_conversation_id else "这条回忆"
 
 
 func on_session_deleted(conversation_id: int) -> void:
@@ -723,6 +736,14 @@ func _make_history_card(session: Dictionary) -> Control:
 	var time_label := _make_label("%02d-%02d %02d:%02d" % [when.month, when.day, when.hour, when.minute], 9, COLOR_TEXT_DIM)
 	text_box.add_child(time_label)
 	box.add_child(text_box)
+
+	# zcode: per-card delete - the inner Button consumes the click, so it never
+	# bubbles into the card's switch-session press
+	var card_delete := _make_button("删", _on_card_delete_pressed.bind(int(session["id"])))
+	card_delete.custom_minimum_size = Vector2(34.0, 26.0)
+	card_delete.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	card_delete.tooltip_text = "删除这条回忆"
+	box.add_child(card_delete)
 
 	card.pressed.connect(_on_history_card_pressed.bind(int(session["id"])))
 	return card
