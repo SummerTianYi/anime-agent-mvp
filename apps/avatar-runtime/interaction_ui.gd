@@ -148,6 +148,9 @@ func on_session_switched(conversation_id: int, title: String) -> void:
 func on_chat_history(conversation_id: int, messages: Array) -> void:
 	if current_conversation_id > 0 and conversation_id != current_conversation_id:
 		return
+	# zcode: adopt the loaded session when we were on a fresh/empty page
+	if conversation_id > 0 and current_conversation_id <= 0:
+		current_conversation_id = conversation_id
 	_clear_bubbles()
 	for item in messages:
 		if not (item is Dictionary):
@@ -163,6 +166,10 @@ func add_message(role: String, text: String, conversation_id: int = -1) -> void:
 		return
 	if conversation_id > 0 and current_conversation_id > 0 and conversation_id != current_conversation_id:
 		return
+	# zcode: adopt an unknown fresh-session id so follow-up messages stay in
+	# the same conversation instead of opening yet another page each turn
+	if conversation_id > 0 and current_conversation_id <= 0:
+		current_conversation_id = conversation_id
 	var time_text := Time.get_time_string_from_system().substr(0, 5)
 	_append_bubble(role, safe_text, time_text)
 	_scroll_to_bottom()
@@ -192,6 +199,14 @@ func _sync_session_options() -> void:
 
 
 func _on_new_session_pressed() -> void:
+	# zcode: flip locally FIRST - opening a fresh page must never depend on the
+	# Core broadcast round-trip (a dropped session.switched used to leave the
+	# button dead). Empty id = next outgoing message opens a brand-new session
+	# (send_chat_message omits conversationId), and the late session.switched
+	# from Core merely realigns ids when it arrives.
+	current_conversation_id = -1
+	_clear_bubbles()
+	chat_status.text = "新的一页翻开啦，想聊点什么？"
 	avatar.request_new_session()
 
 
