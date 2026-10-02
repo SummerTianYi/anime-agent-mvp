@@ -328,6 +328,8 @@ def main():
                 assert duration >= 8 and duration < 35
             if voice_test and scenario not in ('missing','corrupt','paused','zero_scale'):
                 playback = [json.loads(line) for line in (output/'tts-playback.jsonl').read_text().splitlines()]
+                playback = [row for row in playback if row.get('pid') == state['avatar']]
+                assert playback, 'no playback evidence for the final avatar generation'
                 exits = [row for row in playback if row['event']=='exit']
                 assert len(exits)==1
                 starts = [row for row in playback if row['event']=='started' and row.get('requestId','').startswith('exit-') and row['playing']]

@@ -41,7 +41,8 @@ from .memory_retrieval import retrieve_relevant
 from .permissions import ALLOW, ASK, ActionRequest, PermissionEngine, PolicyDecision
 from .proactive import IdlePolicy, ProactivePolicy
 from .speech import SpeechClient, SpeechManager, SpeechUnavailable, speech_settings_from_env
-from .storage import MemoryStore
+from .speech_cache import pin_farewell, wav_info
+from .storage import MemoryStore, default_data_dir
 from .voice_text import normalize_voice_text
 from .tools import build_tool_registry, execute_tool, openai_tools_schema
 from .voice import VoiceError, VoiceRecorder, transcribe_wav
@@ -844,6 +845,10 @@ def _idle_seconds_now() -> float:
 
 
 async def _proactive_idle(idle_seconds: float) -> None:
+    # Codex: do not replace a user's pending reply with an idle greeting while
+    # the voice service is recovering; manual/wake interruption stays allowed.
+    if not TTS_ENABLED or speech_manager.current is not None or _proactive_pending or _agent_state in {"thinking", "working"}:
+        return
     allowed, reason = idle_policy.decide(idle_seconds=idle_seconds)
     if not allowed:
         _log_skip_once("idle", reason)
@@ -851,14 +856,17 @@ async def _proactive_idle(idle_seconds: float) -> None:
     if hub.role_count("avatar") < 1:
         memory.add_event("proactive.skipped", {"trigger": "idle", "reason": "no-avatar"})
         return
-    idle_policy.mark_spoken()
     _proactive_skip_state.pop("idle", None)
     line = _IDLE_LINES[int(time.time()) % len(_IDLE_LINES)]
     memory.add_event("proactive.idle", {"idle_seconds": round(idle_seconds), "line": line})
+    _proactive_pending.add("idle")
     try:
-        await _speak_reply(line, "proactive-idle", narrating=False)
+        if await _speak_reply(line, "proactive-idle", narrating=False):
+            idle_policy.mark_spoken()
     except Exception as exc:  # noqa: BLE001
         memory.add_event("proactive.error", {"message": str(exc)[:200]})
+    finally:
+        _proactive_pending.discard("idle")
 
 
 def _idle_watch_loop(loop: asyncio.AbstractEventLoop) -> None:
@@ -894,6 +902,9 @@ class ConnectionHub:
 
     def role_count(self, role: str) -> int:
         return sum(client_role == role for client_role in self._roles.values())
+
+    def role_of(self, websocket: WebSocket) -> str:
+        return self._roles.get(websocket, "unknown")
 
     async def connect(self, websocket: WebSocket) -> None:
         await websocket.accept()
@@ -950,11 +961,20 @@ async def _broadcast_speech_stop(utterance_id: str, reason: str) -> None:
     memory.add_event("speech.interrupted", {"utteranceId": utterance_id, "reason": reason})
 
 
+async def _broadcast_speech_recovery(utterance_id: str, request_id: str) -> None:
+    memory.add_event("speech.recovering", {"utteranceId": utterance_id, "request_id": request_id})
+    await hub.send_roles({"avatar", "ui"}, event(
+        "core.error", message="语音服务正在恢复；文字回复仍可查看，恢复后会继续播报。",
+        request_id=request_id,
+    ))
+
+
 speech_client = SpeechClient(SPEECH_SETTINGS["url"])
 speech_manager = SpeechManager(
     speech_client,
     on_speak=_broadcast_speak,
     on_interrupt=_broadcast_speech_stop,
+    on_recovery=_broadcast_speech_recovery,
 )
 
 
@@ -988,6 +1008,7 @@ _background_tasks: set = set()
 
 
 FAREWELL_AUDIO_CACHE: dict[str, dict] = {}
+_farewell_precaching = False
 
 
 async def _deliver_farewell(request_id: str) -> None:
@@ -1004,23 +1025,24 @@ async def _deliver_farewell(request_id: str) -> None:
         await unavailable()
         return
     farewell = FAREWELL_LINES[int(time.time()) % len(FAREWELL_LINES)]
-    cached = FAREWELL_AUDIO_CACHE.get(farewell)
-    if cached is not None and not Path(str(cached.get("audioPath", ""))).is_file():
-        cached = None  # The sidecar may have restarted/pruned its old spool.
+    cached = None
+    # Prefer the selected line, but any validated approved farewell beats
+    # waiting for inference after closing (e.g. only one line is warmed so far).
+    for line in dict.fromkeys([farewell, *FAREWELL_AUDIO_CACHE]):
+        try:
+            cached = wav_info(Path(FAREWELL_AUDIO_CACHE[line]['audioPath']))
+        except (OSError, KeyError, ValueError, EOFError):
+            continue
+        farewell = line
+        break
     memory.add_event("avatar.farewell", {"line": farewell, "precached": cached is not None})
     try:
         if cached is not None:
-            await speech_manager.interrupt("exit")
-            await _broadcast_speak({
-                "utteranceId": f"farewell-{request_id}", "text": farewell,
-                "audioPath": cached["audioPath"], "durationMs": int(cached["durationMs"]),
-                "sampleRate": int(cached["sampleRate"]), "requestId": request_id,
-                "partIndex": 0, "partCount": 1,
-            })
+            utterance = await speech_manager.speak(farewell, request_id, prepared_audio=cached)
         else:
             utterance = await speech_manager.speak(farewell, request_id)
-            if not utterance.has_audio or utterance.cancelled:
-                await unavailable()
+        if not utterance.completed:
+            await unavailable()
     except (SpeechUnavailable, OSError, KeyError, TypeError, ValueError):
         await unavailable()
 
@@ -1028,21 +1050,34 @@ async def _deliver_farewell(request_id: str) -> None:
 async def _precache_farewell_audio() -> None:
     """Pre-synthesize the three farewell lines once the voice warms up, so the
     exit line plays instantly instead of racing synthesis inside the exit
-    window. Retries through sidecar restarts; silent give-up after 2 minutes."""
-    deadline = time.time() + 120.0
-    while time.time() < deadline:
-        try:
-            for line in FAREWELL_LINES:
-                FAREWELL_AUDIO_CACHE[line] = await asyncio.to_thread(
-                    speech_manager.client.synthesize, line, speech_manager.speed
-                )
-            memory.add_event("farewell.precached", {"count": len(FAREWELL_LINES)})
-            return
-        except Exception:
-            if time.time() >= deadline:
-                memory.add_event("farewell.precache.failed", {})
+    window. Keep session-owned recovery alive and pin WAVs outside the spool."""
+    global _farewell_precaching
+    if not TTS_ENABLED or _farewell_precaching:
+        return
+    _farewell_precaching = True
+    try:
+        while hub.role_count('avatar') > 0:
+            try:
+                for line in FAREWELL_LINES:
+                    if line in FAREWELL_AUDIO_CACHE:
+                        try:
+                            wav_info(Path(FAREWELL_AUDIO_CACHE[line]['audioPath']))
+                        except (OSError, ValueError, EOFError):
+                            FAREWELL_AUDIO_CACHE.pop(line)
+                    if line not in FAREWELL_AUDIO_CACHE:
+                        audio = await asyncio.to_thread(speech_manager.client.synthesize, line, speech_manager.speed)
+                        FAREWELL_AUDIO_CACHE[line] = await asyncio.to_thread(
+                            pin_farewell, default_data_dir() / 'speech-cache' / 'farewell', line, audio)
+                    await hub.send_roles({'avatar'}, event('avatar.farewell.cache',
+                        text=line, **FAREWELL_AUDIO_CACHE[line]))
+                memory.add_event('farewell.precached', {'count':len(FAREWELL_AUDIO_CACHE)})
                 return
-            await asyncio.sleep(10)
+            except (SpeechUnavailable, OSError, ValueError, EOFError):
+                # Runtime recovery may take longer than the old 120s budget.
+                # Keep trying only while this Avatar session exists.
+                await asyncio.sleep(10)
+    finally:
+        _farewell_precaching = False
 
 
 def _spawn(coro) -> asyncio.Task:
@@ -1073,19 +1108,32 @@ async def _maybe_speak_think_filler(request_id: str, effort: str) -> None:
     await _speak_reply(line, request_id + "-think", narrating=True)
 
 
-async def _speak_reply(text: str, request_id: str, narrating: bool = False) -> None:
+async def _speak_reply(text: str, request_id: str, narrating: bool = False) -> bool:
     """Synthesize + broadcast one utterance outside the chat lock, then settle state."""
+    if request_id in _superseded_requests:
+        return False
+    if not narrating:
+        # The reply is already available as text. Waiting for TTS is not LLM
+        # thinking: leave the wake-word path open while inference recovers.
+        await broadcast_state("idle", request_id)
+    if request_id in _superseded_requests:
+        return False
     try:
         utterance = await speech_manager.speak(text, request_id)
-    except SpeechUnavailable:
-        utterance = None
-    if utterance is None or not utterance.has_audio:
-        await broadcast_state("speaking", request_id)
-        await asyncio.sleep(min(1.2, max(0.35, len(text) / 55.0)))
-        await broadcast_state("working" if narrating else "idle", request_id)
-        return
+    except SpeechUnavailable as exc:
+        # Codex: no fake speaking animation after a failed audio request.
+        memory.add_event("speech.unavailable", {"request_id": request_id, "message": str(exc)})
+        await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc), request_id=request_id))
+        if speech_manager.current is None and request_id not in _superseded_requests:
+            await broadcast_state("working" if narrating else "idle", request_id)
+        return False
+    if utterance.cancelled or request_id in _superseded_requests:
+        return False
     if speech_manager.current is None:
         await broadcast_state("working" if narrating else "idle", request_id)
+    if utterance.completed:
+        memory.add_event("speech.completed", {"utteranceId": utterance.id, "request_id": request_id})
+    return utterance.completed
 
 
 def timestamp() -> str:
@@ -1114,21 +1162,29 @@ async def broadcast_behavior(reply: AgentReply) -> None:
         )
 
 
+_proactive_pending: set[str] = set()
+
+
 async def _proactive_greeting(trigger: str) -> None:
     """D 期主动触发：启动/空闲问候。免打扰时段与冷却期由策略模块把关，
     防骚扰去抖落在 events 里可查。问候为固定台词，不消耗 LLM 额度。"""
+    if not TTS_ENABLED or _proactive_pending or speech_manager.current is not None:
+        return
     allowed, reason = proactive_policy.allow()
     if not allowed:
         _log_skip_once(trigger, reason)
         return
-    proactive_policy.mark_spoken()
     _proactive_skip_state.pop(trigger, None)
     line = _STARTUP_GREETINGS[int(time.time()) % len(_STARTUP_GREETINGS)]
     memory.add_event("proactive.greeting", {"trigger": trigger, "line": line})
+    _proactive_pending.add(trigger)
     try:
-        await _speak_reply(line, f"proactive-{trigger}", narrating=False)
+        if await _speak_reply(line, f"proactive-{trigger}", narrating=False):
+            proactive_policy.mark_spoken()
     except Exception as exc:  # noqa: BLE001
         memory.add_event("proactive.error", {"message": str(exc)[:200]})
+    finally:
+        _proactive_pending.discard(trigger)
 
 
 async def run_tool(name: str, arguments: dict) -> dict:
@@ -1457,7 +1513,6 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         use_tts = (
             TTS_ENABLED
             and hub.role_count("avatar") > 0
-            and await asyncio.to_thread(speech_client.is_healthy)
         )
         if use_tts:
             await broadcast_behavior(agent_reply)
@@ -1686,6 +1741,9 @@ async def health() -> dict[str, object]:
             "enabled": TTS_ENABLED,
             "narrate": TTS_NARRATE,
             "service": SPEECH_SETTINGS["url"],
+            "playbackProtocol": 2,
+            "farewellCachedLines": len(FAREWELL_AUDIO_CACHE),
+            "speechPending": speech_manager.current is not None,
             # Diagnostic readiness must describe this sidecar now, not a cached
             # prior process. /health/live remains cheap and independent of TTS.
             "available": await asyncio.to_thread(speech_client.is_healthy, max_age=0) if TTS_ENABLED else False,
@@ -1727,7 +1785,11 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     request_id = str(payload.get("requestId", ""))
                     if not request_id.startswith("exit-") or len(request_id) > 96:
                         request_id = f"exit-{time.time_ns()}"
-                    _spawn(_deliver_farewell(request_id))
+                    if hub.role_of(websocket) == 'avatar' and payload.get('speechLocal') is True:
+                        await speech_manager.interrupt('exit')
+                        memory.add_event('avatar.farewell.local', {'request_id':request_id})
+                    else:
+                        _spawn(_deliver_farewell(request_id))
                     continue
                 if interaction != "avatar.clicked" or not isinstance(interaction_payload, dict):
                     await hub.send(websocket, event("core.error", message="Invalid avatar interaction"))
@@ -1741,6 +1803,9 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
             if event_type == "voice.start":
                 if TTS_ENABLED:
                     await speech_manager.interrupt("voice")
+                # Codex: the new voice interaction owns the state transition;
+                # an old cancelled speech task must not reset a newer turn.
+                await broadcast_state("idle")
                 cancel_utterance_capture()
                 if wake_listener is not None:
                     wake_listener.pause()
@@ -1748,6 +1813,8 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     voice_recorder.start()
                 except VoiceError as exc:
                     await hub.send(websocket, event("core.error", message=str(exc)))
+                    if wake_listener is not None:
+                        wake_listener.resume()
                 else:
                     await hub.send_roles({"avatar", "ui"}, event("voice.state", state="recording"))
                 continue
@@ -1767,10 +1834,17 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     _spawn(handle_voice_transcription(audio_bytes))
                 continue
 
-            if event_type == "speech.finished":
+            if event_type in {"speech.finished", "speech.failed"}:
                 utterance_id = str(payload.get("utteranceId", "")).strip()
-                if utterance_id:
-                    await speech_manager.notify_finished(utterance_id)
+                playback_id = str(payload.get("playbackId", "")).strip()
+                if utterance_id and playback_id and hub.role_of(websocket) == "avatar":
+                    accepted = await speech_manager.notify_finished(
+                        utterance_id, playback_id, interrupted=payload.get("interrupted") is True,
+                        error="audio-load-failed" if event_type == "speech.failed" else "")
+                    if accepted:
+                        memory.add_event("speech.receipt", {"utteranceId": utterance_id,
+                            "playbackId": playback_id, "failed": event_type == "speech.failed",
+                            "interrupted": payload.get("interrupted") is True})
                 continue
 
             if event_type == "voice.cancel":

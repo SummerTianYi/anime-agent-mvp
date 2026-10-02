@@ -8,7 +8,7 @@ Initialize-AgentRuntime (Join-Path $PSScriptRoot '..')
 $null=Initialize-AgentTts
 if ($Action -in @('stop-watch','suspend-watch','resume-watch')) {
     $watchPath=Join-Path $PSScriptRoot 'watch-tts-session.ps1'
-    $target=@(Get-AgentProcesses | Where-Object { $_.ProcessId -eq $TargetId -and $_.CreationDate.Ticks -eq $TargetTicks -and $_.Name -like 'powershell*' -and $_.CommandLine.Replace('/','\').Contains($watchPath) })
+    $target=@(Get-AgentProcesses | Where-Object { $_.ProcessId -eq $TargetId -and $_.CreationDate.Ticks -eq $TargetTicks -and $_.Name -like 'powershell*' -and $_.CommandLine -and $_.CommandLine.Replace('/','\').Contains($watchPath) })
     if ($target.Count -ne 1) {throw 'Isolated TTS watcher identity mismatch'}
     if ($Action -in @('suspend-watch','resume-watch')) {
         Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class TtsFault { [DllImport("ntdll.dll")] public static extern int NtSuspendProcess(IntPtr h); [DllImport("ntdll.dll")] public static extern int NtResumeProcess(IntPtr h); }'
@@ -29,7 +29,7 @@ if ($Action -eq 'stop') {
 }
 $avatar=Get-ProjectAvatar
 $watchPath=Join-Path $PSScriptRoot 'watch-tts-session.ps1'
-$watchers=@(Get-AgentProcesses | Where-Object { $_.Name -like 'powershell*' -and $_.CommandLine.Replace('/','\').Contains($watchPath) })
+$watchers=@(Get-AgentProcesses | Where-Object { $_.Name -like 'powershell*' -and $_.CommandLine -and $_.CommandLine.Replace('/','\').Contains($watchPath) })
 @{tts=@($state.Processes | Select-Object ProcessId,ParentProcessId,@{n='Ticks';e={$_.CreationDate.Ticks}});
 listener=$state.ListenerPid; avatar=$avatar.ProcessId; avatarTicks=$avatar.CreationDate.Ticks;
 watchers=@($watchers | Select-Object ProcessId,@{n='Ticks';e={$_.CreationDate.Ticks}})} | ConvertTo-Json -Depth 4 -Compress

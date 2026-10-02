@@ -163,9 +163,11 @@ def transcribe_wav(audio_bytes: bytes) -> str:
                         model_name,
                         device=device,
                         compute_type=compute_type,
+                        # Codex: installed speech models must survive model-host outages.
+                        local_files_only=True,
                     )
                 except Exception as exc:
-                    raise VoiceError("语音模型加载失败，请检查模型文件和设备配置") from exc
+                    raise VoiceError("本地语音模型加载失败，请检查已安装的模型缓存和设备配置；不会自动联网下载") from exc
 
     try:
         try:

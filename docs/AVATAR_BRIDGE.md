@@ -121,23 +121,27 @@ Core 验证命令白名单后定向发送给 Avatar。支持的命令由 `AVATAR
 
 ## TTS 语音输出与打断（E 期）
 
-TTS 由独立 sidecar 承载（GPT-SoVITS v2Pro 天依声线，运行于 tianyi-tts 工作区自己的 venv），Core 通过 HTTP 调用并广播音频文件路径给 Godot 播放。`ANIME_AGENT_TTS=0` 或 sidecar 不可用时，Core 自动回退到文字-only 流程（估时 speaking→idle），协议向后兼容。
+TTS 由独立 sidecar 承载（GPT-SoVITS v2Pro 天依声线，运行于 tianyi-tts 工作区自己的 venv），Core 通过 HTTP 调用并广播音频文件路径给 Godot 播放。`ANIME_AGENT_TTS=0` 保留文字路径；启用时，瞬态合成故障在有界恢复期内重试尚未播放的片段，不以估时结束冒充语音成功。
 
 ### Core → avatar/ui：`avatar.speak`
 
 聊天回复产生后，Core 合成语音并广播：
 
 ```json
-{"type":"avatar.speak","utteranceId":"utt-1a2b3c4d5e6f","text":"如果需要我帮忙，就喊我的名字吧。","audioPath":"D:/.../spool/utt_1735689600000.wav","durationMs":4820,"sampleRate":32000,"requestId":"m1","partIndex":0,"partCount":1}
+{"type":"avatar.speak","utteranceId":"utt-1a2b3c4d5e6f","playbackId":"unique-part-attempt","text":"如果需要我帮忙，就喊我的名字吧。","audioPath":"D:/.../spool/utt_1735689600000.wav","durationMs":4820,"sampleRate":32000,"requestId":"m1","partIndex":0,"partCount":1}
 ```
 
-长回复按句子标点切分、分片流水线合成：Core 每当前一分片播放结束就广播下一分片，全部分片共用同一个 `utteranceId`，`partIndex` 从 0 计数、`partCount` 为总分片数。播放端每播完一个分片照常回报 `speech.finished`，无需感知分片；收到 `avatar.speech.stop` 时直接停止当前播放即可，后续分片由 Core 停止下发。Godot 加载 wav 播放，并按既有 `agent.state` 的 `speaking` 状态循环元音口型。
+长回复按句子标点切分、分片流水线合成：Core 每当前一分片确认播放结束才下发下一分片，全部分片共用 `utteranceId`；`partIndex` 从0计数，`partCount` 为总数。每次生成的片段具有独立 `playbackId`。回执丢失时补发同一个ID，Godot保留最近64个结果并重发回执，不重复播放；明确加载失败才重新合成并使用新ID。收到 `avatar.speech.stop` 则停止当前播放和后续分片。
+
+Codex 2026-10-03：Core/Godot必须配套更新。旧的id-only回执在网络边界不再算作成功；Godot仍可播放旧Core的消息，但混用版本不具备本闭环保证。新场景通过Core `_speak_reply` 的统一入口接入，不能自己发一条 `avatar.speak` 后以估时判断成功。
 
 ### 退出阶段的语音与动画共同完成（Codex，2026-09-13）
 
 Avatar 关闭窗口时发送 `{"type":"avatar.interaction","event":"exiting","requestId":"exit-<本次唯一ID>"}`。Core 保留 zcode 的预合成缓存优先策略，在返回的 `avatar.speak.requestId` 中原样带回该ID，分片字段遵循上文既有契约。缓存文件已失效则重新合成；TTS禁用、合成失败或取消时，向Avatar发送 `{"type":"avatar.farewell.status","requestId":"exit-<本次唯一ID>","state":"unavailable"}`，只结束对应的语音等待。
 
 关闭阶段只接收本次ID、顺序和总数合法的告别分片，丢弃迟到普通语音、重复或乱序分片；正常情况下4.1秒批准动画和最后一段告别语音均完成才退出。缺音频、失败或中断可降级为播完动作；原8秒事件循环截止时间仍会终止过长或卡住的告别，不承诺超过8秒的语音完整播毕。新Core仍接收不带ID的旧Avatar请求；新版共同完成门禁要求Core与Avatar一起更新，不能将混合旧版本视为完整验收。
+
+Codex 2026-10-03告别缓存：Core校验PCM WAV后原子复制到自身数据目录的 `speech-cache/farewell`，不再依赖sidecar的15分钟spool。每条就绪发送 `avatar.farewell.cache`（text/audioPath/durationMs/sampleRate）；Godot提前解码持有资源。关窗优先本地播放并在退出请求带 `speechLocal:true`，Core只打断普通播报，不再重复合成。此路径即使Core暂离线或文件随后消失也能播。未取得有效预载时仍走Core的确认式告别播放；刚冷启动即退出且尚未生成任何音频不保证有告别声音。缓存只放批准的固定台词，不存聊天内容，不修改声线。
 
 ### Core → avatar/ui：`avatar.speech.stop`
 
@@ -154,10 +158,10 @@ Avatar 关闭窗口时发送 `{"type":"avatar.interaction","event":"exiting","re
 音频播完或被打断后，Godot 回报：
 
 ```json
-{"type":"speech.finished","utteranceId":"utt-1a2b3c4d5e6f","interrupted":false}
+{"type":"speech.finished","utteranceId":"utt-1a2b3c4d5e6f","playbackId":"unique-part-attempt","partIndex":0,"interrupted":false}
 ```
 
-Core 以此把 `agent.state` 从 `speaking` 归位 `idle`（工作解说场景归位 `working`）；若 Godot 未回报，Core 在 `durationMs + 5s` 后超时归位，协议不依赖客户端上报。未知 `utteranceId` 静默忽略。打断决策记入 events 表（`speech.interrupted`）。
+Core仅接受avatar角色、匹配utteranceId与playbackId的回执。正常完成才记 `speech.completed` 并允许主动提醒进入冷却；`interrupted:true` 属于取消，不是成功。未知或过期回执忽略。加载失败发送 `speech.failed`（同样的ID字段，error=`audio-load-failed`）。每次派发等待 `durationMs + 5s`，最多3次派发；缺回执时补送同一ID，明确失败才换新音频。用尽重试则停止该播报、保留文字并报告故障，绝不把超时记为播放完成。此回执证明播放器完成，不能证明用户硬件未静音或人耳实际听见。
 
 ## 验证
 

@@ -103,19 +103,24 @@ function Test-ProjectCoreProcess {
 }
 
 function Get-AgentCoreState {
-    $processes = Get-AgentProcesses
-    $owned = @($processes | Where-Object { Test-ProjectCoreProcess $_ $processes })
-    $listeners = @(Get-NetTCPConnection -ErrorAction Stop | Where-Object {
-        $_.LocalPort -eq $corePort -and $_.State -eq 'Listen'
-    })
-    foreach ($listener in $listeners) {
-        if ($listener.OwningProcess -notin $owned.ProcessId) {
-            throw "Port $corePort belongs to an unverified/foreign process (PID $($listener.OwningProcess)). It was NOT stopped."
+    # Codex: CIM and socket enumeration are not atomic. A recovering worker can
+    # bind between them. Refresh BOTH snapshots before declaring it foreign;
+    # never relax executable/parent ownership checks or stop an unknown PID.
+    for ($attempt = 0; $attempt -lt 3; $attempt++) {
+        $processes = Get-AgentProcesses
+        $owned = @($processes | Where-Object { Test-ProjectCoreProcess $_ $processes })
+        $listeners = @(Get-NetTCPConnection -ErrorAction Stop | Where-Object {
+            $_.LocalPort -eq $corePort -and $_.State -eq 'Listen'
+        })
+        $unverified = @($listeners | Where-Object { $_.OwningProcess -notin $owned.ProcessId })
+        if (-not $unverified.Count) {
+            $listenerPid = 0
+            if ($listeners.Count) { $listenerPid = [int]$listeners[0].OwningProcess }
+            return [pscustomobject]@{ Processes = $owned; ListenerPid = $listenerPid }
         }
+        if ($attempt -lt 2) { Start-Sleep -Milliseconds 100 }
     }
-    $listenerPid = 0
-    if ($listeners.Count) { $listenerPid = [int]$listeners[0].OwningProcess }
-    return [pscustomobject]@{ Processes = $owned; ListenerPid = $listenerPid }
+    throw "Port $corePort belongs to an unverified/foreign process (PID $($unverified[0].OwningProcess)). It was NOT stopped."
 }
 
 function Stop-ProjectCoreProcesses {
@@ -202,7 +207,7 @@ function Ensure-AgentCore {
 function Get-ProjectAvatar {
     $normalizedRoot = $avatarRoot.Replace('/', '\')
     return Get-AgentProcesses | Where-Object {
-        $_.Name -like 'Godot*' -and $_.CommandLine.Replace('/', '\') -match
+        $_.Name -like 'Godot*' -and $_.CommandLine -and $_.CommandLine.Replace('/', '\') -match
             ('(?i)--path\s+"?' + [regex]::Escape($normalizedRoot) + '(?:"|\s|$)')
     } | Select-Object -First 1
 }

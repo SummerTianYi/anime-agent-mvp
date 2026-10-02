@@ -109,7 +109,10 @@ class SpeechManagerTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_speak_happy_path(self) -> None:
         mgr, events = self._manager(_FakeClient())
-        utt = await mgr.speak("你好", "req-1")
+        task = asyncio.create_task(mgr.speak("你好", "req-1"))
+        await self._wait_has_audio(mgr)
+        await mgr.notify_finished(mgr.current.id)
+        utt = await task
         self.assertEqual(events[0][0], "speak")
         self.assertTrue(utt.has_audio and not utt.cancelled)
         self.assertIsNone(mgr.current)
@@ -151,6 +154,9 @@ class SpeechManagerTests(unittest.IsolatedAsyncioTestCase):
         t2 = asyncio.create_task(mgr.speak("第二句", "r2"))
         await self._wait_has_audio(mgr)
         utt1 = await t1
+        while mgr.current is None or mgr.current.request_id != 'r2' or not mgr.current.playback_id:
+            await asyncio.sleep(.001)
+        await mgr.notify_finished(mgr.current.id)
         utt2 = await t2
         self.assertTrue(utt1.cancelled)
         self.assertFalse(utt2.cancelled)

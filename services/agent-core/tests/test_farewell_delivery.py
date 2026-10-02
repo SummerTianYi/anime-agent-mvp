@@ -1,6 +1,7 @@
 """Codex: farewell correlation/failure regressions; no real sidecar or database."""
 import tempfile
 import unittest
+import wave
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -14,9 +15,11 @@ class FarewellDeliveryTests(unittest.IsolatedAsyncioTestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.audio = Path(self.temp.name) / "farewell.wav"
-        self.audio.write_bytes(b"synthetic cached path fixture")
+        with wave.open(str(self.audio), 'wb') as wav:
+            wav.setparams((1, 2, 32000, 0, 'NONE', 'not compressed'))
+            wav.writeframes(b'\0\0' * 192000)
         self.manager = SimpleNamespace(interrupt=AsyncMock(), speak=AsyncMock(
-            return_value=SimpleNamespace(has_audio=True, cancelled=False)))
+            return_value=SimpleNamespace(has_audio=True, cancelled=False, completed=True)))
         self.broadcast = AsyncMock()
         self.hub = SimpleNamespace(send_roles=AsyncMock())
         for name, value in (("TTS_ENABLED", True), ("FAREWELL_LINES", ("再见。",)),
@@ -38,11 +41,11 @@ class FarewellDeliveryTests(unittest.IsolatedAsyncioTestCase):
     async def test_cached_audio_echoes_request_and_single_part_contract(self):
         core.FAREWELL_AUDIO_CACHE["再见。"] = {"audioPath": str(self.audio), "durationMs": 6000, "sampleRate": 32000}
         await core._deliver_farewell("exit-test")
-        data = self.broadcast.call_args.args[0]
-        self.assertEqual((data["requestId"], data["partIndex"], data["partCount"]), ("exit-test", 0, 1))
+        args = self.manager.speak.call_args
+        self.assertEqual(args.args, ('再见。', 'exit-test'))
+        data = args.kwargs['prepared_audio']
         self.assertEqual(data["durationMs"], 6000)
-        self.manager.interrupt.assert_awaited_once_with("exit")
-        self.manager.speak.assert_not_awaited()
+        self.broadcast.assert_not_awaited() # No bypass of playback confirmation.
 
     async def test_stale_cached_path_resynthesizes_with_same_request(self):
         core.FAREWELL_AUDIO_CACHE["再见。"] = {"audioPath": str(self.audio.with_suffix(".missing"))}
@@ -57,11 +60,13 @@ class FarewellDeliveryTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_no_audio_settles(self):
         self.manager.speak.return_value.has_audio = False
+        self.manager.speak.return_value.completed = False
         await core._deliver_farewell("exit-test")
         self.hub.send_roles.assert_awaited_once()
 
     async def test_cancelled_audio_settles(self):
         self.manager.speak.return_value.cancelled = True
+        self.manager.speak.return_value.completed = False
         await core._deliver_farewell("exit-test")
         self.hub.send_roles.assert_awaited_once()
 
@@ -72,3 +77,14 @@ class FarewellDeliveryTests(unittest.IsolatedAsyncioTestCase):
             await core._maybe_speak_think_filler("test", "deep")
             speak.assert_not_awaited()
             sleep.assert_not_awaited()
+
+    async def test_corrupt_cache_resynthesizes(self):
+        self.audio.write_bytes(b'bad wav')
+        core.FAREWELL_AUDIO_CACHE['再见。']={'audioPath':str(self.audio)}
+        await core._deliver_farewell('exit-test')
+        self.manager.speak.assert_awaited_once_with('再见。','exit-test')
+
+    async def test_partial_warmup_uses_valid_other_line(self):
+        core.FAREWELL_AUDIO_CACHE['拜拜。']={'audioPath':str(self.audio)}
+        await core._deliver_farewell('exit-test')
+        self.assertEqual(self.manager.speak.call_args.args, ('拜拜。','exit-test'))

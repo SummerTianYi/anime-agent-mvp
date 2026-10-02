@@ -2,9 +2,13 @@
 
 **项目文档提交入口：[PRD — 已实现功能、目录及关键文件用途](PRD.md)**。本仓库保存可公开源码；受限模型/声线资源、私人凭据及内部过程数据不随项目文档上传，详见 [交付范围](docs/DELIVERY_STATUS.md)。
 
-这是一个 Windows 本地优先的 3D 二次元桌面角色 MVP，产品形态是类似 VTuber 的独立桌面角色，而不是 Codex、Claude 或传统聊天窗口的复制品。当前角色由 Godot 渲染，点击角色可打开"聊天 / 互动"菜单，文字或语音输入由本地 Python Agent Core 处理。当前已验证配置为微信 Coding Plan DS-v4-flash 文本主脑 + StepFun step-3.7-flash 视觉；回复中的情绪和动作元数据驱动模型表情与骨骼动作。Codex、Claude、zcode 等 Agent 只用于开发，不是生产运行时依赖。
+这是一个 Windows 本地优先的 3D 二次元桌面角色 MVP，产品形态是类似 VTuber 的独立桌面角色，而不是 Codex、Claude 或传统聊天窗口的复制品。当前角色由 Godot 渲染，点击角色可打开"聊天 / 互动"菜单，文字或语音输入由本地 Python Agent Core 处理。本机最新验证配置为微信 Coding Plan DS-v4-flash 文本主脑 + Qwen3.8-Flash 视觉（Token Plan Anthropic 协议）；回复中的情绪和动作元数据驱动模型表情与骨骼动作。Codex、Claude、zcode 等 Agent 只用于开发，不是生产运行时依赖。
 
 ## 当前结论
+
+Codex 2026-10-03：公共语音链路新增分片播放回执、去重补送、坏音频重合成及成功后提醒冷却；告别音频脱离临时spool，并提前加载到Godot内存。Core273项、Godot播放/退出回归、合成音频与真实CUDA声线的四场景闭环及组合进程故障通过；已由原CMD重启激活，所有者确认“倾听和语音回复都正常”并授权GitHub发布。主仓与配套 [anime-agent-tts](https://github.com/SummerTianYi/anime-agent-tts) 均以Codex标记提交，实际同步以远端提交记录为准。状态及边界见[TTS记录](docs/TTS_REPAIR_STATUS.md)。未来场景沿用公共播报入口，不各自重建TTS看护；下方较早日期的未发布/待人声验收描述保留为历史。
+
+Codex 2026-10-02：本地最新接口配置为 DS 文本主脑 + Qwen3.8-Flash 视觉，均已实测联通。STT/TTS 缓存离线加载、待播语音恢复和启动快照竞态修复已通过回归、真实 CUDA 播放双轮及组合故障验证；按所有者选择恢复当前可证实历史并以原 CMD 正式启动。23:49 核对 Godot/Core/TTS、CUDA 声线就绪及麦克风唤醒监听正常；真实人声交互等待所有者确认。本轮未 commit/push。正式状态与边界以 [本轮 TTS 记录](docs/TTS_REPAIR_STATUS.md) 为准；下方 9 月记录为历史证据。
 
 Codex 2026-09-13 三方整合：保持 zcode 的 DS 主脑 + StepFun 视觉与已批准人物/声线，补齐告别共同完成、Drive OAuth 刷新、Windows MCP 路径引号、窄范围唤醒误听确认及 TTS 正健康缓存修复与回归。Core 当前238项基线。公开说明见[当前源码交付](docs/DELIVERY_STATUS.md)，私人原始验收记录不入库；不是任意电脑完全等效的发布声明。
 
@@ -25,13 +29,13 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 角色菜单 | 已完成 | 点击角色打开聊天或互动菜单 |
 | 退出告别 | 已接入；整合修复本地验证通过（Codex，2026-09-13） | 正常等待批准动作与本次告别语音共同结束，8秒异常兜底；资源SHA不变，详见[整合说明](docs/DELIVERY_STATUS.md) |
 | 聊天界面 | 已完成并真实验证 | 底部半透明浮层，洛天依主题、气泡可滚动，支持新开/切换/删除会话与历史回载 |
-| 文字聊天 | 已完成并真实验证 | 多会话；Godot → WebSocket → Core → 当前 DS 主脑 → Godot；StepFun 提供独立视觉结果 |
+| 文字聊天 | 已完成并真实验证 | 多会话；Godot → WebSocket → Core → 当前 DS 主脑 → Godot；本机最新 Qwen 配置提供独立视觉结果，隐私确认门禁保留 |
 | 角色 Harness | 已完成两轮 | 洛天依身份、自我认知、结构化回复、表情与动作映射；2026-09-05 注入训练版新剧本（旧剧本保留可回退） |
 | 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
 | 表情与动作 | 已完成动作注册表；保守待机（Codex，2026-09-08） | 48 个形变槽；12.47 秒动捕保留躯干摇晃/转头，待机双臂恢复原先斜下外展姿态；贴腿原素材不覆盖，可关闭 `relaxed_arms` 回溯。通用防穿模未解决，第一阶段只逐条验收小幅动作，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
 | 本地记忆 | 已完成 agent 化 | SQLite 按会话保存消息 + facts 事实表；`memory_candidate` 按敏感度分级落库，词法检索注入聊天上下文 |
 | 语音转文字 | 管线可用，假死自愈已上线 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
-| TTS 语音输出 | 已完成 | GPT-SoVITS sidecar（真实声线）、分片合成、三路打断、工作解说；sidecar 缺席时自动回退文字 |
+| TTS 语音输出 | 本轮恢复修复已本地激活 | GPT-SoVITS 真实声线、分片合成、打断及解说；瞬态故障有限等待恢复，旧回复被打断后不迟到播放，超时明确报错并保留文字 |
 | Agent 能力层 | 已完成（考试授权制） | allow/ask/deny 权限引擎、只读工具六件套、write_file 原子写（T1 考试 3/3）、真实目录放权（T2 3/3）、run_command 白名单（T3）、MCP 宿主（C 考试）、每工具类型工作解说、主动问候（免打扰+冷却）；详见 [`docs/TEST_REPORT_2026-09-06.md`](docs/TEST_REPORT_2026-09-06.md) |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
 | Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |

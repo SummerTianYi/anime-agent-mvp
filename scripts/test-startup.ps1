@@ -19,6 +19,8 @@ function New-TestCore([int]$Id = 41001, [int]$AgeSeconds = 120) {
 function Reset-TestState {
     $script:fakeProcesses = @()
     $script:fakeListeners = @()
+    $script:processSnapshots = [Collections.Queue]::new()
+    $script:listenerSnapshots = [Collections.Queue]::new()
     $script:stopped = @()
     $script:spawned = 0
     $script:responses = [Collections.Queue]::new()
@@ -26,8 +28,16 @@ function Reset-TestState {
     $script:exitOnStart = $false
 }
 # Replace OS boundaries in this test process only; production has no test mode.
-function Get-CimInstance { param($ClassName, $ErrorAction) return $script:fakeProcesses }
-function Get-NetTCPConnection { param($ErrorAction) return $script:fakeListeners }
+function Get-CimInstance {
+    param($ClassName, $ErrorAction)
+    if ($script:processSnapshots.Count) { return $script:processSnapshots.Dequeue() }
+    return $script:fakeProcesses
+}
+function Get-NetTCPConnection {
+    param($ErrorAction)
+    if ($script:listenerSnapshots.Count) { return $script:listenerSnapshots.Dequeue() }
+    return $script:fakeListeners
+}
 function Stop-AgentProcessTree {
     param($ProcessId)
     $Id = $ProcessId
@@ -51,6 +61,13 @@ function Start-AgentCoreProcess {
     return [pscustomobject]@{ Id = 41001; HasExited = $script:exitOnStart; ExitCode = 17 }
 }
 Reset-TestState
+Test-Case 'exiting Godot with unavailable command line is ignored safely' {
+    $script:fakeProcesses = @([pscustomobject]@{
+        ProcessId=49999; Name='Godot.exe'; CommandLine=$null
+    })
+    Assert-True ($null -eq (Get-ProjectAvatar)) 'exiting/null identity accepted'
+    Reset-TestState
+}
 Test-Case 'venv parent and redirected worker identity; reject another project' {
     $parent = New-TestCore
     $worker = New-TestCore 41002 110
@@ -92,6 +109,31 @@ Test-Case 'cold start and duplicate launch reuse one healthy Core' {
     $null = Ensure-AgentCore
     $null = Ensure-AgentCore
     Assert-True ($spawned -eq 1 -and $stopped.Count -eq 0) 'duplicate launch'
+}
+Test-Case 'own Core binding between inventory snapshots is revalidated' {
+    Reset-TestState
+    $script:fakeProcesses = @(New-TestCore)
+    $script:fakeListeners = @([pscustomobject]@{ LocalPort=$corePort; State='Listen'; OwningProcess=41001 })
+    $script:processSnapshots.Enqueue(@())
+    $state = Get-AgentCoreState
+    Assert-True ($state.ListenerPid -eq 41001 -and $stopped.Count -eq 0) 'new own worker was not revalidated'
+}
+Test-Case 'vanished listener is not accepted from a stale snapshot' {
+    Reset-TestState
+    $script:listenerSnapshots.Enqueue(@([pscustomobject]@{ LocalPort=$corePort; State='Listen'; OwningProcess=41001 }))
+    $state = Get-AgentCoreState
+    Assert-True ($state.ListenerPid -eq 0 -and $state.Processes.Count -eq 0) 'stale listener accepted'
+}
+Test-Case 'refresh revealing foreign PID reuse still fails closed' {
+    Reset-TestState
+    $foreign = New-TestCore
+    $foreign.ExecutablePath = 'C:\another-project\python.exe'
+    $script:fakeProcesses = @($foreign)
+    $script:fakeListeners = @([pscustomobject]@{ LocalPort=$corePort; State='Listen'; OwningProcess=41001 })
+    $script:processSnapshots.Enqueue(@())
+    $caught = $false
+    try { $null = Ensure-AgentCore } catch { $caught = $_.ToString().Contains('NOT stopped') }
+    Assert-True ($caught -and $stopped.Count -eq 0 -and $spawned -eq 0) 'foreign reused PID touched'
 }
 Test-Case 'two transient failures do not kill a warming Core' {
     Reset-TestState

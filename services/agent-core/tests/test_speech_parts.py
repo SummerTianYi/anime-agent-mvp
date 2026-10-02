@@ -111,13 +111,13 @@ class StreamingSpeechTests(unittest.TestCase):
         self.assertTrue(utt.cancelled)
         self.assertEqual(stops, [(payloads[0]["utteranceId"], "voice")])
 
-    def test_followup_failure_ends_gracefully(self) -> None:
+    def test_permanent_followup_failure_is_reported_not_silently_dropped(self) -> None:
         client = ScriptedStreamClient(fail_on_call=2)
         mgr, payloads, _stops = _make_manager(client, auto_finish=True)
-        utt = _run(mgr.speak(THREE_PARTS, "r1"))
+        with self.assertRaises(SpeechUnavailable):
+            _run(mgr.speak(THREE_PARTS, "r1"))
         self.assertEqual(len(payloads), 1)
-        self.assertTrue(utt.done.is_set())
-        self.assertFalse(utt.cancelled)
+        self.assertIsNone(mgr.current)
 
     def test_new_speak_supersedes_streaming_utterance(self) -> None:
         client = ScriptedStreamClient()
@@ -129,7 +129,11 @@ class StreamingSpeechTests(unittest.TestCase):
                 if payloads:
                     break
                 await asyncio.sleep(0.01)
-            second = await mgr.speak("好。", "r2")
+            second_task = asyncio.create_task(mgr.speak("好。", "r2"))
+            while len(payloads) < 2:
+                await asyncio.sleep(.001)
+            await mgr.notify_finished(payloads[-1]['utteranceId'], payloads[-1]['playbackId'])
+            second = await second_task
             return await first, second
 
         first, second = _run(scenario())

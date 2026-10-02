@@ -1,8 +1,12 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
+Codex 2026-10-03 语音线交付：当前Core回归基线273。分片回执/去重补送、播放器明确失败后的重合成、主动语音成功后冷却、稳定告别WAV缓存与Godot内存预加载已实现；四场景真实声线闭环和组合进程故障通过。已由原CMD重启激活，Core播放协议2/告别缓存3条、CUDA TTS就绪、唤醒运行；所有者确认真实倾听和语音回复都正常并授权GitHub发布，本轮语音线收尾。本次主仓及配套anime-agent-tts语音修复提交均标记Codex，远端同步以Git记录为准。未改模型、动作、声线或历史数据；私人配置/数据/原始日志不发布。详情见[TTS记录](TTS_REPAIR_STATUS.md)最新节，下方较早日期的未发布/待人声验收描述是历史，旧进程号不是当前状态。
+
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-09-13（Codex：TTS实装、所有者验证及配套推送授权；Core223和压力回归通过）。门禁以 [TESTING.md](TESTING.md) 与 [TTS记录](TTS_REPAIR_STATUS.md)顶部为准。
+> 最后核验：2026-10-02 23:49（Codex：DS/Qwen 联通、语音恢复修复通过隔离验收并经原 CMD 正式激活；物理人声交互待所有者确认）。门禁以 [TESTING.md](TESTING.md) 与 [TTS记录](TTS_REPAIR_STATUS.md)顶部为准。
+
+本轮当前状态：Core 252、sidecar 26、启动逻辑 18 及 TTS 生命周期 13 均通过；真实 CUDA 声线/播放两轮、14 项 Windows 服务故障及最新组合压力回归通过。正式 Godot19924、Core33736、TTS17888 已在线，真实 CUDA 声线 ready、唤醒监听 running 且未暂停。经所有者批准，只恢复当前可证实的210条消息和14条记忆，原损坏库/冷快照及旧记录恢复档案均保留，未混入896条备份独有消息。不改模型/动作/声线配置，未提交推送。物理麦克风对话待所有者确认；下段及较早日期均为历史记录。
 
 Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证，已获准同步两仓；Core看护拉活TTS看护、45秒心跳、真实预热、故障恢复及代际退出清理生效。274项离线回归连续两轮、复合故障和旧看护延迟恢复跨重开测试通过，完整声线两轮冷恢复60.187/58.765秒且Godot实际音频输出通过。发布时只读复核当前Godot/Core/TTS健康，不重复重启；保留zcode最新语音联动，并补齐其已引用的原表情依赖。没有正式数据库操作、24h观察或子代理；不是“任何故障零中断”。实现、配套语音仓、失败证据及回退见[TTS记录](TTS_REPAIR_STATUS.md)，原[zcode交接](TTS_HANDOFF.md)保留归属。历史数据恢复记录只保留本地，不属此次发布范围。
 
@@ -43,6 +47,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+2026-10-02 Codex：本机接口改为 DS 文本 + Qwen3.8-Flash 视觉并实测联通。修复 STT/TTS 缓存加载意外联网、瞬态故障丢失语音、分段取消及恢复进程快照竞态，保留原能力与权限门禁。当前候选/激活状态以本文件顶部及 [TTS 记录](TTS_REPAIR_STATUS.md) 为准；实际麦克风对话等待恢复窗口后由所有者配合验收。
+
 2026-09-13 Codex 三方整合：保留 DS + StepFun、人设/工具/权限契约、预合成、后台强引用任务及 zcode 最新 UI。当前Core238项基线；补齐告别、Drive、MCP路径、唤醒和TTS健康缓存等整合修复。项目提交入口为根 [PRD](../PRD.md)，源码范围、既有验收与尚未通过的跨机门禁见 [DELIVERY_STATUS.md](DELIVERY_STATUS.md)。内部原始报告、测试正文及私人候选不公开；不动现有窗口或私人数据。下方较早日期保留历史口径。
 
 2026-09-12 Codex 退出告别：所有者批准挥别v3并授权实装/推送，新增独立 `farewell_exit.gd` 接管正常关窗及原Esc出口，4.1秒告别后再退出；连续关闭只播放一次，迟到事件不覆盖表情/动作，8秒事件循环计时兜底。退出后沿用原Core会话守护清理，未改启动器/能力层。注册表 `farewell` 的 `role=exit` 仅供资产快照，不进入普通动作菜单。七组3444采样、三轮独立Windows原CMD/WM_CLOSE验证及既有回归通过；按所有者要求，当前Godot/Core没有关闭、重启或收到测试操作，新实现下次启动生效。表情未提交内容不夹带，本轮无子代理或真实Provider调用。[代码/资产/证据/边界](FAREWELL_EXIT.md)。
@@ -76,6 +82,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 2026-09-08 Codex 演出层收口：所有者已认可保守 A-pose 和材质候选 A，并授权一起冻结为 1.3、提交推送。idle 的 `relaxed_arms` 只修改内存动画中的完整肩臂链，保留动捕躯干/头部、眨眼与两条完整长辫子；`model_look_v13.gd` 只复制十个材质，官方 GLB/纹理/骨架/比例不变；F12 导出高清透明 PNG。默认外观 1.3，显式 `ANIME_AGENT_MODEL_LOOK=1.2` 或 `1.1` 回退旧材质；完整版本通过 model-versions 的隔离 worktree 工具恢复。下一阶段直接做小幅、少接触动捕，动作逐条验收，不再扩大通用物理攻坚，不代表旧旋转/倾听样片无穿模；不改 agent/语音/UI。旧子代理保持关闭，所有者要求后续模型更新必须先保存旧版、真实同镜头对比、测试后实装并重启；若当次明确“只试渲染”，则先等视觉批准。入口见 [MODEL_OPTIMIZATION.md](plans/MODEL_OPTIMIZATION.md) 与 [MOTION_PIPELINE.md](MOTION_PIPELINE.md)。
 
 ### ✅ 已上线（不许重构；改动前必须先跑对应测试，见 §6 铁律 1）
+
+Codex 2026-10-02 当前增量：DS 文本 + Qwen3.8-Flash 视觉凭据已在忽略的本地配置中完成独立联通验证；正式服务的数据库恢复、STT/TTS 离线加载及待播回复恢复正在进行，尚未按此记录宣称上线。只恢复当前可证实历史，旧备份不混入活动数据；完整最新验收状态见 [TTS_REPAIR_STATUS.md](TTS_REPAIR_STATUS.md) 的 2026-10-02 节，不能用下方历史 PASS 替代当前验证。
 
 | 能力 | 组成 | 凭证 |
 |---|---|---|
@@ -124,7 +132,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 238 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 273 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -219,7 +227,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 238 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 273 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

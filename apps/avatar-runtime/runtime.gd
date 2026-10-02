@@ -146,6 +146,9 @@ var speaking_mouth_index := -1
 # E-phase TTS playback state
 var speech_player: AudioStreamPlayer = null
 var current_utterance_id := ""
+var current_speech_payload: Dictionary = {}
+var speech_receipts: Dictionary = {}
+var farewell_voice_cache: Array[Dictionary] = []
 var model_look_preview_enabled := false
 var model_look_version := "1.1"
 var model_look_original_overrides: Dictionary = {}
@@ -303,14 +306,21 @@ func request_exit() -> void:
 	_save_window_position()
 	# zcode: tell Core she's leaving so the farewell line is synthesized inside
 	# the goodbye window (the TTS watcher only stops the sidecar after quit)
-	if core_socket != null and core_socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
-		var exit_id := "exit-%s-%s" % [OS.get_process_id(), Time.get_ticks_usec()]
+	var exit_id := "exit-%s-%s" % [OS.get_process_id(), Time.get_ticks_usec()]
+	var local_voice := not farewell_voice_cache.is_empty()
+	if local_voice or _core_connected():
 		farewell_exit.speech_gate.expect_speech(exit_id)
-		core_socket.send_text(JSON.stringify({"type": "avatar.interaction", "event": "exiting", "requestId": exit_id}))
+	if _core_connected():
+		core_socket.send_text(JSON.stringify({"type": "avatar.interaction", "event": "exiting", "requestId": exit_id, "speechLocal": local_voice}))
 	if not farewell_exit.begin(self):
 		_finish_exit("farewell_unavailable")
 		return
 	print("GODOT_FAREWELL_STARTED length=4.1")
+	if local_voice:
+		var entry: Dictionary = farewell_voice_cache[Time.get_ticks_msec() % farewell_voice_cache.size()]
+		_handle_avatar_speak({"utteranceId": "farewell-" + exit_id, "playbackId": exit_id,
+			"requestId": exit_id, "partIndex": 0, "partCount": 1,
+			"audioPath": entry.audioPath, "text": entry.text, "cachedFarewell": true})
 	# Wall-clock fallback also runs while SceneTree is paused/time_scale is zero.
 	get_tree().create_timer(farewell_exit.DEADLINE_SECONDS, true, false, true).timeout.connect(
 		func() -> void: _finish_exit("farewell_deadline"))
@@ -703,6 +713,8 @@ func _handle_core_event(payload: Dictionary) -> void:
 		return
 	var event_type := str(payload.get("type", ""))
 	match event_type:
+		"avatar.farewell.cache":
+			_cache_farewell_voice(payload)
 		"avatar.speak":
 			_handle_avatar_speak(payload)
 		"avatar.speech.stop":
@@ -1995,6 +2007,13 @@ func _update_hud() -> void:
 
 
 func _handle_avatar_speak(payload: Dictionary) -> void:
+	var playback_id := str(payload.get("playbackId", ""))
+	if not playback_id.is_empty():
+		if speech_receipts.has(playback_id):
+			_send_speech_receipt(speech_receipts[playback_id])
+			return
+		if str(current_speech_payload.get("playbackId", "")) == playback_id:
+			return # Delivery retry while still playing: never restart the audio.
 	if farewell_exit.closing and not farewell_exit.speech_gate.accept_part(payload):
 		return
 	if speech_player == null:
@@ -2004,16 +2023,45 @@ func _handle_avatar_speak(payload: Dictionary) -> void:
 		add_child(speech_player)
 	var path := str(payload.get("audioPath", ""))
 	var utterance_id := str(payload.get("utteranceId", ""))
-	if path.is_empty() or not FileAccess.file_exists(path):
-		_finish_unplayable_farewell(utterance_id)
-		return
-	var wav := AudioStreamWAV.load_from_file(path)
+	if not current_utterance_id.is_empty():
+		speech_player.stop()
+		_report_speech_finished(true)
+	current_utterance_id = utterance_id
+	current_speech_payload = payload.duplicate()
+	var wav: AudioStreamWAV = null
+	if payload.get("cachedFarewell", false) and farewell_exit.closing:
+		for entry in farewell_voice_cache:
+			if entry.audioPath == path:
+				wav = entry.stream
+				break
+	elif not path.is_empty() and FileAccess.file_exists(path):
+		wav = AudioStreamWAV.load_from_file(path)
 	if wav == null:
 		_finish_unplayable_farewell(utterance_id)
 		return
 	current_utterance_id = utterance_id
 	speech_player.stream = wav
 	speech_player.play()
+	if not speech_player.playing:
+		_finish_unplayable_farewell(utterance_id)
+
+
+func _cache_farewell_voice(payload: Dictionary) -> void:
+	var path := str(payload.get("audioPath", ""))
+	if not FileAccess.file_exists(path):
+		return
+	var wav := AudioStreamWAV.load_from_file(path)
+	if wav == null or wav.get_length() <= 0.0:
+		return
+	var text := str(payload.get("text", ""))
+	for index in farewell_voice_cache.size():
+		if farewell_voice_cache[index].text == text:
+			farewell_voice_cache.remove_at(index)
+			break
+	if farewell_voice_cache.size() >= 3:
+		farewell_voice_cache.pop_front()
+	# Hold the decoded resource: Core/spool/TTS failure cannot silence closing.
+	farewell_voice_cache.append({"text":text,"audioPath":path,"stream":wav})
 
 
 func _handle_speech_stop(payload: Dictionary) -> void:
@@ -2036,17 +2084,34 @@ func _on_speech_finished() -> void:
 
 
 func _finish_unplayable_farewell(utterance_id: String) -> void:
-	if not farewell_exit.closing:
-		return
 	current_utterance_id = utterance_id
-	_report_speech_finished(true)
-	farewell_exit.speech_gate.finish_part(utterance_id, true)
-	farewell_exit.try_finish()
+	var retryable := not str(current_speech_payload.get("playbackId", "")).is_empty()
+	_report_speech_finished(false, "audio-load-failed")
+	if farewell_exit.closing:
+		if retryable:
+			farewell_exit.speech_gate.retry_part(utterance_id)
+		else:
+			farewell_exit.speech_gate.finish_part(utterance_id, true)
+		farewell_exit.try_finish()
 
 
-func _report_speech_finished(interrupted: bool) -> void:
+func _report_speech_finished(interrupted: bool, error: String = "") -> void:
 	if current_utterance_id == "":
 		return
-	if _core_connected():
-		core_socket.send_text(JSON.stringify({"type": "speech.finished", "utteranceId": current_utterance_id, "interrupted": interrupted}))
+	var receipt := {"type": "speech.finished" if error.is_empty() else "speech.failed",
+		"utteranceId": current_utterance_id, "interrupted": interrupted,
+		"playbackId": str(current_speech_payload.get("playbackId", "")),
+		"partIndex": current_speech_payload.get("partIndex", 0), "error": error}
+	var playback_id: String = receipt.playbackId
+	if not playback_id.is_empty():
+		speech_receipts[playback_id] = receipt
+		if speech_receipts.size() > 64:
+			speech_receipts.erase(speech_receipts.keys()[0])
+	_send_speech_receipt(receipt)
 	current_utterance_id = ""
+	current_speech_payload = {}
+
+
+func _send_speech_receipt(receipt: Dictionary) -> void:
+	if _core_connected():
+		core_socket.send_text(JSON.stringify(receipt))

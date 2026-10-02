@@ -6,6 +6,7 @@ import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 os.environ.setdefault("ANIME_AGENT_WAKE_WORD", "0")
 os.environ.setdefault("ANIME_AGENT_FAREWELL_PRECACHE", "0")
@@ -65,6 +66,9 @@ def _collect_until(ws, stop_type: str, match: dict | None = None, limit: int = 3
 
 class SpeechWSTests(unittest.TestCase):
     def setUp(self) -> None:
+        quiet = patch.object(core.proactive_policy, 'allow', return_value=(False, 'test-isolation'))
+        quiet.start()
+        self.addCleanup(quiet.stop)
         self._tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self._tmp.cleanup)
         store = MemoryStore(data_dir=Path(self._tmp.name))
@@ -113,11 +117,15 @@ class SpeechWSTests(unittest.TestCase):
         speaking = next(e for e in events if e.get("type") == "agent.state" and e.get("state") == "speaking")
         self.assertEqual(speaking["request_id"], "m1")
 
-        ws.send_json({"type": "speech.finished", "utteranceId": speak["utteranceId"]})
+        ws.send_json({"type": "speech.finished", "utteranceId": speak["utteranceId"], "playbackId": speak["playbackId"]})
         tail = _collect_until(ws, "agent.state", match={"state": "idle"})
         self.assertNotIn("avatar.speech.stop", [e.get("type") for e in tail])
         self.assertEqual(self.speech_client.synth_count, 1)
 
+
+    def test_transient_negative_health_does_not_drop_reply(self) -> None:
+        self.speech_client.is_healthy = lambda: False
+        self.test_tts_chat_flow_speaks_and_settles()
 
     def test_voice_start_interrupts_speech(self) -> None:
         _client, ws = self._connect()
@@ -164,6 +172,38 @@ class SpeechWSTests(unittest.TestCase):
         evt = _recv(ws)
         self.assertEqual(evt.get("type"), "pong")
         self.assertIsNone(core.speech_manager.current)
+
+    def test_stale_or_ui_receipt_cannot_complete_avatar_playback(self) -> None:
+        client, ws = self._connect()
+        ws.send_json({'type':'chat.message','messageId':'receipt-test','text':'测试'})
+        speak = _collect_until(ws, 'avatar.speak')[-1]
+        with client.websocket_connect('/ws') as ui:
+            ui.send_json({'type':'client.hello','role':'ui'})
+            _collect_until(ui,'client.ready')
+            ui.send_json({'type':'speech.finished','utteranceId':speak['utteranceId'],'playbackId':speak['playbackId']})
+            ui.send_json({'type':'ping'})
+            _collect_until(ui,'pong')
+            self.assertIsNotNone(core.speech_manager.current)
+            self.assertFalse(core.speech_manager.current.done.is_set())
+        for playback in ({}, {'playbackId':'obsolete-attempt'}):
+            ws.send_json({'type':'speech.finished','utteranceId':speak['utteranceId'],**playback})
+            ws.send_json({'type':'ping'})
+            _collect_until(ws,'pong')
+            self.assertFalse(core.speech_manager.current.done.is_set())
+        ws.send_json({'type':'speech.finished','utteranceId':speak['utteranceId'],'playbackId':speak['playbackId']})
+        _collect_until(ws,'agent.state',match={'state':'idle'})
+
+    def test_load_failure_retries_with_new_playback_id(self) -> None:
+        _client, ws = self._connect()
+        ws.send_json({'type':'chat.message','messageId':'failed-load','text':'测试'})
+        speak = _collect_until(ws,'avatar.speak')[-1]
+        ws.send_json({'type':'speech.failed','utteranceId':speak['utteranceId'],'playbackId':speak['playbackId']})
+        retry = _collect_until(ws,'avatar.speak')[-1]
+        self.assertEqual(retry['utteranceId'],speak['utteranceId'])
+        self.assertNotEqual(retry['playbackId'],speak['playbackId'])
+        ws.send_json({'type':'speech.finished','utteranceId':retry['utteranceId'],'playbackId':retry['playbackId']})
+        _collect_until(ws,'agent.state',match={'state':'idle'})
+        self.assertEqual(self.speech_client.synth_count,2)
 
 
 if __name__ == "__main__":

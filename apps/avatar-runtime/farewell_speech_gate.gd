@@ -38,6 +38,10 @@ func finish_part(id: String, interrupted: bool = false) -> void:
 	next_part += 1
 	speech_done = interrupted or next_part == part_count
 
+func retry_part(id: String) -> void:
+	if id == utterance_id:
+		utterance_id = "" # Explicitly unplayed; same part may be replaced by Core.
+
 func unavailable(id: String) -> void:
 	# A late failure cannot truncate a part already playing.
 	if id == request_id and utterance_id.is_empty():

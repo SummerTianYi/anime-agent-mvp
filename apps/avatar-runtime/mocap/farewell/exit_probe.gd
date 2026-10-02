@@ -21,6 +21,8 @@ func _on_speech_finished() -> void:
 	_record_tts({"event":"finished", "utterance":current_utterance_id})
 	super._on_speech_finished()
 func _record_tts(sample: Dictionary) -> void:
+	# Codex: rapid reopen shares an evidence file, not a process generation.
+	sample["pid"] = OS.get_process_id()
 	sample["monotonicMs"] = Time.get_ticks_msec()
 	var path := OS.get_environment("FAREWELL_EVIDENCE").path_join("tts-playback.jsonl")
 	var file := FileAccess.open(path, FileAccess.READ_WRITE if FileAccess.file_exists(path) else FileAccess.WRITE)
