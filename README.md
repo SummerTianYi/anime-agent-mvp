@@ -1,5 +1,7 @@
 # Anime Agent MVP
 
+Codex 2026-10-04：新增[Agent能力全景评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md)（56个真实模型场景、84轮对话、36项定向探针；原Core273项回归通过）。当前定位是受监督的短任务/陪伴型Agent，不是可靠的无人值守代办系统；授权误判、执行回执、工具正文传递、记忆召回及部分MCP连接器有待修问题。此次仅评测与报告，不是运行功能修复；下方旧考试成绩保留为历史证据。
+
 **项目文档提交入口：[PRD — 已实现功能、目录及关键文件用途](PRD.md)**。本仓库保存可公开源码；受限模型/声线资源、私人凭据及内部过程数据不随项目文档上传，详见 [交付范围](docs/DELIVERY_STATUS.md)。
 
 这是一个 Windows 本地优先的 3D 二次元桌面角色 MVP，产品形态是类似 VTuber 的独立桌面角色，而不是 Codex、Claude 或传统聊天窗口的复制品。当前角色由 Godot 渲染，点击角色可打开"聊天 / 互动"菜单，文字或语音输入由本地 Python Agent Core 处理。本机最新验证配置为微信 Coding Plan DS-v4-flash 文本主脑 + Qwen3.8-Flash 视觉（Token Plan Anthropic 协议）；回复中的情绪和动作元数据驱动模型表情与骨骼动作。Codex、Claude、zcode 等 Agent 只用于开发，不是生产运行时依赖。
@@ -35,10 +37,10 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 角色 Harness | 已完成两轮 | 洛天依身份、自我认知、结构化回复、表情与动作映射；2026-09-05 注入训练版新剧本（旧剧本保留可回退） |
 | 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
 | 表情与动作 | 已完成动作注册表；保守待机（Codex，2026-09-08） | 48 个形变槽；12.47 秒动捕保留躯干摇晃/转头，待机双臂恢复原先斜下外展姿态；贴腿原素材不覆盖，可关闭 `relaxed_arms` 回溯。通用防穿模未解决，第一阶段只逐条验收小幅动作，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
-| 本地记忆 | 已完成 agent 化 | SQLite 按会话保存消息 + facts 事实表；`memory_candidate` 按敏感度分级落库，词法检索注入聊天上下文 |
+| 本地记忆 | 基础存储/更正/跨会话可用；完整闭环待补 | SQLite消息与facts；当前评测发现top3召回遗漏、敏感项显式记住策略及遗忘执行入口缺口，见[2026-10-04评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md) |
 | 语音转文字 | 管线可用，假死自愈已上线 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
 | TTS 语音输出 | 本轮恢复修复已本地激活 | GPT-SoVITS 真实声线、分片合成、打断及解说；瞬态故障有限等待恢复，旧回复被打断后不迟到播放，超时明确报错并保留文字 |
-| Agent 能力层 | 已完成（考试授权制） | allow/ask/deny 权限引擎、只读工具六件套、write_file 原子写（T1 考试 3/3）、真实目录放权（T2 3/3）、run_command 白名单（T3）、MCP 宿主（C 考试）、每工具类型工作解说、主动问候（免打扰+冷却）；详见 [`docs/TEST_REPORT_2026-09-06.md`](docs/TEST_REPORT_2026-09-06.md) |
+| Agent 能力层 | 已实现工具与权限框架；当前可靠性有阻断项 | 正向短任务有实证，但拒绝误批、多个待办覆盖、失败回执失真等尚未修复；当前判断见[全景评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md)，[旧考试记录](docs/TEST_REPORT_2026-09-06.md)不替代当前验收 |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
 | Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |
 | Idle 触发 | 已完成 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |
