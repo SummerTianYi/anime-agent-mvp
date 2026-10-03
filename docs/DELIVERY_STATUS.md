@@ -1,5 +1,7 @@
 # 当前源码整合与公开交付边界
 
+2026-10-04 Codex补记：本文下方为9月交付快照，最新接口/语音状态见 [HANDOFF](HANDOFF.md)、[TTS记录](TTS_REPAIR_STATUS.md)。五仓责任与当前资产恢复边界见 [REPOSITORY_MAP](REPOSITORY_MAP.md)；保留MVP公开源码与TTS私有声线分仓，不上传本地官模/动作。
+
 Codex，2026-09-13。按所有者最新要求，本次交付改为 MVP 仓库中的最终实现及根目录 [PRD](../PRD.md)，不提交大体积运行包、私人记录或内部训练/验收原文。
 
 ## 整合内容
