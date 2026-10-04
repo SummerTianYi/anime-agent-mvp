@@ -23,6 +23,18 @@ class ActionsTests(unittest.IsolatedAsyncioTestCase):
             self.assertNotEqual(decision(text),"approve",text)
         self.assertEqual(decision("确认"),"approve")
 
+    async def test_literal_payload_is_not_a_permission_decision(self):
+        for text in ('把 /tmp/reject.txt 写成：不要执行样本。',
+                     '请发送邮件，正文：取消订单。',
+                     '请保存 "不要执行" 这句话', '"确认"', '`cancel`',
+                     '确认 "新参数"', 'yes `changed arguments`'):
+            self.assertEqual(decision(text), "other", text)
+
+    async def test_real_decline_and_edit_survive_literal_removal(self):
+        self.assertEqual(decision('不要发送正文为“确认”的邮件'), "decline")
+        self.assertEqual(decision('改成：不要执行样本。'), "edit")
+        self.assertEqual(decision('不同意，取消。'), "decline")
+
     async def test_revision_is_not_reusable_and_multiple_actions_survive(self):
         a,b = self.propose("a"),self.propose("b")
         self.assertEqual(len(self.book.pending(1)),2)

@@ -27,12 +27,20 @@ def args_hash(tool, arguments):
 
 
 def decision(text):
-    normalized = re.sub(r"[\s。！!，,；;]", "", text).lower()
+    # Quoted/code literals and an explicitly delimited write/mail payload are
+    # task data, not permission instructions. This classifier never grants
+    # authorization from a substring; ambiguous prose still requires a ticket.
+    control = re.sub(r'```[\s\S]*?```|`[^`]*`|"[^"\n]*"|“[^”]*”|「[^」]*」|\x27[^\x27\n]*\x27', " ", text)
+    payload = re.search(r"(?:写成|写入|保存为|改成|改为|内容|正文)\s*[:：]", control)
+    if payload:
+        control = control[:payload.end()-1]
+    normalized = re.sub(r"[\s。！!，,；;]", "", control).lower()
     if re.search(r"不同意|不确认|不要|别执行|别写|别发|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许|no\b|cancel\b", normalized):
         return "edit" if re.search(r"改成|改为|改发|换成|重新|改一下", normalized) else "decline"
     if re.search(r"改成|改为|改发|换成|改一下", normalized):
         return "edit"
-    if re.fullmatch(r"(?:确认|同意|可以|执行吧|好的|去吧|ok|yes|确认执行|同意执行)", normalized):
+    affirmative = re.sub(r"[\s。！!，,；;]", "", text).lower()
+    if re.fullmatch(r"(?:确认|同意|可以|执行吧|好的|去吧|ok|yes|确认执行|同意执行)", affirmative):
         return "approve"
     return "other"
 

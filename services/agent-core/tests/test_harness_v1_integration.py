@@ -57,6 +57,22 @@ class MainActionTests(unittest.IsolatedAsyncioTestCase):
         final=self.store.load_messages(10,self.sid)[-1]["content"]
         self.assertIn("已取消",final); self.assertNotIn("全部成功",final)
 
+    async def test_negative_literal_does_not_revoke_pending_ticket(self):
+        first=await self.proposal("one.txt","原待办")
+        await core.handle_chat('把第二份文件写成：不要执行样本。',"literal",self.sid)
+        self.assertEqual(core._sync_pending(self.sid)[0]["action_id"],first["action_id"])
+        self.assertFalse(core._task_state[self.sid]["blocked"])
+        self.assertFalse((self.root/"one.txt").exists())
+
+    async def test_initial_negative_literal_can_propose_then_be_declined(self):
+        core._task_state.pop(self.sid, None)
+        await core.handle_chat('把文件写成：不要执行样本。',"literal-first",self.sid)
+        first=await self.proposal("literal.txt","不要执行样本。")
+        self.assertIn("confirmation",first)
+        await core.handle_chat('不同意，先不要执行。',"literal-decline",self.sid)
+        self.assertFalse(core._sync_pending(self.sid))
+        self.assertFalse((self.root/"literal.txt").exists())
+
     async def test_changed_params_invalidate_old_ticket(self):
         first=await self.proposal("one.txt","旧版")
         await core.handle_chat("取消旧的，改成新版","edit",self.sid)

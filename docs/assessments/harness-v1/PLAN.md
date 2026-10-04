@@ -34,6 +34,12 @@ Owner follow-up (2026-10-04): change quiet hours to 01:00–07:00. Apply through
 
 ## Progress
 
+### Payload/decision regression follow-up (registered before requests)
+
+`repair-01` F03/F05 exposed a real regression introduced by eager pre-lock revocation: a negative word inside the requested file content was treated as a cancellation, so the initial confirmation was never offered. All original PARTIAL/BLOCKED scores remain. The shared fix separates quoted/code and explicit colon-delimited payloads from control prose, keeps approval matching the **entire original text**, and avoids revoking nonexistent tasks. Four regression tests were added; three reproduced the bug before the fix. No model-specific prompt edits.
+
+After repair-01 completes, `repair-02` will run F02,F03,F04,F05 × both models × three repeats (24 runs), checking ordinary write, refusal, edited parameters and cancellation on the final source. Estimated 60–110 additional HTTP, still under the original shared cap 1,100. This is a changed-code regression batch, not replacement of first failures. No resampling on unchanged code to obtain PASS. If the budget or external-service stop gate intervenes, report the actual unattempted slots.
+
 - [x] Read actual source/overlay and V0 REVIEW; baseline tests.
 - [x] Calibrate grader/offline regrade (21 legacy + 7 native receipt calibration controls).
 - [x] Mainline implementation and regression gates (350 isolated unit tests).
