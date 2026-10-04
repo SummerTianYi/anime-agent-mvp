@@ -30,12 +30,17 @@ def decision(text):
     # Quoted/code literals and an explicitly delimited write/mail payload are
     # task data, not permission instructions. This classifier never grants
     # authorization from a substring; ambiguous prose still requires a ticket.
-    control = re.sub(r'```[\s\S]*?```|`[^`]*`|"[^"\n]*"|“[^”]*”|「[^」]*」|\x27[^\x27\n]*\x27', " ", text)
-    payload = re.search(r"(?:写成|写入|保存为|改成|改为|内容|正文)\s*[:：]", control)
-    if payload:
+    control = re.sub(
+        r'\x60{3}[\s\S]*?\x60{3}|\x60[^\x60]*\x60|"(?:\\.|[^"\\])*"|“[^”]*”|‘[^’]*’|「[^」]*」'
+        r'|(?<![A-Za-z0-9])\x27(?:\\.|[^\x27\\])*\x27(?![A-Za-z0-9])', " ", text)
+    payload = re.search(r"(写成|写入|保存为|改成|改为|(?:内容|正文)(?:如下|为)?)\s*[:：]", control)
+    # A topic such as "关于邮件内容：" is not evidence of a data payload.
+    if payload and (payload.group(1) in {"写成","写入","保存为","改成","改为"}
+                    or re.search(r"发送|发(?:一封)?邮件|写|保存|记录|草拟|新建|追加", control[:payload.start()])):
         control = control[:payload.end()-1]
     normalized = re.sub(r"[\s。！!，,；;]", "", control).lower()
-    if re.search(r"不同意|不确认|不要|(?<!分)别(?:执行|写|发)|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许|\bno\b|\bcancel\b", control.lower()):
+    if (re.search(r"不同意|不确认|不要|(?<!分)别(?:执行|写|发)|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许", normalized)
+            or re.search(r"\b(?:no|cancel|stop)\b|\b(?:don't|don’t|do\s+not)\s+(?:send|write|execute|run)\b", control.lower())):
         return "edit" if re.search(r"改成|改为|改发|换成|重新|改一下", normalized) else "decline"
     if re.search(r"改成|改为|改发|换成|改一下", normalized):
         return "edit"

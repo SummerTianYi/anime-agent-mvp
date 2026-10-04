@@ -228,13 +228,27 @@ class IndependentReviewTests(unittest.IsolatedAsyncioTestCase):
         )
 
     async def test_p1_cancel_received_before_dispatch_revokes_queued_approval(self):
+        await self._cancel_queued_approval("取消")
+
+    # Follow-up independent review found these classifier counterexamples;
+    # parent executes their integration consequences in this isolated fixture.
+    async def test_cancel_contractions_revokes_queued_approval(self):
+        await self._cancel_queued_approval("Don't send it. Please cancel. That's final.")
+
+    async def test_cancel_after_topic_label_revokes_queued_approval(self):
+        await self._cancel_queued_approval("关于邮件内容：不要发送，取消这项操作。")
+
+    async def test_cancel_spaced_negation_revokes_queued_approval(self):
+        await self._cancel_queued_approval("不 确认")
+
+    async def _cancel_queued_approval(self, text):
         proposal = await self.propose()
         await self.core.chat_lock.acquire()
         approval = asyncio.create_task(self.chat("确认", "queued-approval", confirmation=proposal["confirmation"]))
         cancel = None
         try:
             await asyncio.sleep(0)
-            cancel = asyncio.create_task(self.chat("取消", "queued-cancel"))
+            cancel = asyncio.create_task(self.chat(text, "queued-cancel"))
             # chat() uses wait_for, so allow both wrapped handlers to reach the lock.
             for _ in range(4):
                 await asyncio.sleep(0)

@@ -28,13 +28,19 @@ class ActionsTests(unittest.IsolatedAsyncioTestCase):
                      '请发送邮件，正文：取消订单。',
                      '请保存 "不要执行" 这句话', '"确认"', '`cancel`',
                      '确认 "新参数"', 'yes `changed arguments`', '分别写两个文件',
-                     '分别发送两封邮件', 'play piano'):
+                     '分别发送两封邮件', 'play piano', '请保存‘不要执行’这句话',
+                     '请发送邮件，正文如下：取消订单。', '请保存 "第一行\n不要执行"'):
             self.assertEqual(decision(text), "other", text)
 
     async def test_real_decline_and_edit_survive_literal_removal(self):
         self.assertEqual(decision('不要发送正文为“确认”的邮件'), "decline")
         self.assertEqual(decision('改成：不要执行样本。'), "edit")
         self.assertEqual(decision('不同意，取消。'), "decline")
+        self.assertEqual(decision("Don't send it. Please cancel. That's final."), "decline")
+        self.assertEqual(decision("关于邮件内容：不要发送，取消这项操作。"), "decline")
+        self.assertEqual(decision("关于内容：改成新参数。"), "edit")
+        self.assertEqual(decision("不 确认"), "decline")
+        self.assertEqual(decision("不\n确认"), "decline")
 
     async def test_revision_is_not_reusable_and_multiple_actions_survive(self):
         a,b = self.propose("a"),self.propose("b")
