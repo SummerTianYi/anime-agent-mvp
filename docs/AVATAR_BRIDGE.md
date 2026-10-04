@@ -1,5 +1,15 @@
 # Avatar Bridge
 
+## Harness V1 candidate 协议增量（Codex，2026-10-04）
+
+- `permission.pending`：按 `conversationId` 下发有序 `actions`，每项含 `action_id`、`revision`、`args_hash`、`tool`、`arguments`。`chat.message` 的 `confirmation` 必须携带所确认版本的前三个字段；普通确认文字不是泛化授权。兼容无票据客户端只绑定最后已展示的票据，不能因队首变化误批下一项。改参、取消、过期及跨会话票据不执行；执行前再检查权限。
+- `voice.start` / `voice.stop`：Godot携带 `captureId` 和当前 `conversationId`。取消为 `voice.cancel`；新录音、取消、切会话及断开撤销代际。`voice.state`、`voice.transcript`、`voice.hint` 回带代际与会话，Godot丢弃旧 `captureId`。转写只回填输入框，不自动发送。
+- 空语音和录音/识别失败用输入区 `voice.hint`，不产生 `chat.response`、记忆或主脑请求。默认 `ANIME_AGENT_VOICE_INPUT_MODE=manual`，不会启动后台唤醒采集；既有TTS播放事件不改。
+- `read_tool_result(ref, offset)` 只续取本任务已获授权的缓存结果；`recall_memory(query)` 只检索当前可见记忆，返回保存可见总量与召回量，不能从未召回推断未保存。
+- 三档名称与 `effort` wire值仍为碎碎念/chill、帮帮忙/standard、大展身手/deep；含义改为3/6/9轮与6/12/18次工具投入，权限/人格一致。网关推理开关未证实，不发送猜测参数。
+
+本节为增量，最终激活/验收状态见 [V1报告](assessments/harness-v1/REPORT.md)；下文保留旧客户端兼容说明，不代表继续开启后台监听。
+
 Godot 角色运行时通过本地 WebSocket 连接 Agent Core，默认地址是 `ws://127.0.0.1:8765/ws`，可用进程环境变量 `AGENT_CORE_WS_URL` 覆盖；`start-mvp.ps1` 会根据 `.env` 中的 `AGENT_CORE_PORT` 自动设置该地址。连接断开后每 2 秒自动重试，不依赖 React/Tauri 窗口。
 
 ## 连接握手

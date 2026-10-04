@@ -4,6 +4,7 @@ import asyncio
 import io
 import json
 import os
+import re
 import sys
 import threading
 import time
@@ -781,6 +782,7 @@ _ACTIVE_CHAT_SESSION_ID: list[int | None] = [None]
 _action_ledger = None
 _task_state: dict[int, dict] = {}
 _result_pages: dict[int, ResultPages] = {}
+_shown_confirmations: dict[int, dict] = {}
 
 
 def _actions():
@@ -788,6 +790,8 @@ def _actions():
     if _action_ledger is None or _action_ledger.db is not memory.connection:
         _action_ledger = ActionLedger(memory.connection)
         _task_state.clear()
+        _pending_writes.clear()
+        _shown_confirmations.clear()
     return _action_ledger
 
 
@@ -798,6 +802,15 @@ def _sync_pending(session_id):
     else:
         _pending_writes.pop(session_id, None)
     return pending
+
+
+async def _publish_pending(session):
+    pending = _sync_pending(session)
+    # Compatibility clients may say only "确认": bind the LAST DISPLAYED ticket,
+    # not whichever action has become queue head while the previous turn runs.
+    _shown_confirmations[session] = _actions().ticket(pending[0]) if pending else {}
+    await hub.send_roles({"avatar","ui"}, event("permission.pending", conversationId=session,
+        actions=[{**_actions().ticket(a),"tool":a["tool"],"arguments":a["arguments"]} for a in pending]))
 
 
 async def _execute_authorized_tool(name, arguments):
@@ -821,12 +834,19 @@ def _permission_still_valid(name, arguments):
 def _receipt_delivery(session_id, task, fallback):
     """An authoritative action card, not an LLM assertion, settles mutation state."""
     items = _actions().task_items(session_id, task["id"])
-    if not items:
+    seen = {a["action_id"] for a in items}
+    for aid in task.get("observed_actions", []):
+        a = _actions().records.get(aid)
+        if a and a["session_id"] == session_id and aid not in seen:
+            items.append(a)
+            seen.add(aid)
+    failures = task.get("tool_failures", [])
+    if not items and not failures:
         return fallback
     labels = {"succeeded":"执行成功", "failed":"执行失败", "unknown":"结果未知，未自动重试",
               "cancelled":"已取消，未执行", "expired":"授权过期，未执行",
               "awaiting_confirmation":"待确认，尚未执行", "executing":"执行中，尚未确认结果"}
-    lines = []
+    lines = [f"{f['tool']}：未完成；{f['error']}" for f in failures]
     for item in items:
         args, receipt = item["arguments"], item.get("receipt") or {}
         target = args.get("path") or args.get("to") or args.get("title") or item["tool"]
@@ -844,7 +864,7 @@ def _receipt_delivery(session_id, task, fallback):
     # Read-only connector successes may carry the requested substantive answer.
     mutations = [i for i in items if i["tool"] in {"write_file","run_command"} or
                  any(x in i["tool"] for x in ("send_", "create_", "update_", "delete_", "push_", "edit_"))]
-    if mutations or any(i["status"] != "succeeded" for i in items):
+    if failures or mutations or any(i["status"] != "succeeded" for i in items):
         return "我核对了实际执行记录：\n" + "\n".join(lines)
     return fallback
 
@@ -1289,6 +1309,8 @@ async def _proactive_greeting(trigger: str) -> None:
 
 async def run_tool(name: str, arguments: dict) -> dict:
     session = _ACTIVE_CHAT_SESSION_ID[0]
+    book = _actions()
+    task = _task_state.setdefault(session, {"id":REQUEST_ID.get() or str(time.time_ns()),"intent":"","blocked":False})
     arguments = arguments if isinstance(arguments, dict) else {}
     decision = permission_engine.evaluate(ActionRequest(tool=str(name or ""), arguments=arguments,
                                                         origin="agent", session_id=session))
@@ -1297,21 +1319,21 @@ async def run_tool(name: str, arguments: dict) -> dict:
     if decision.kind == ASK:
         if session is None:
             return {"ok":False,"error":"没有绑定会话，未执行"}
-        book = _actions()
-        task = _task_state.setdefault(session, {"id":REQUEST_ID.get() or str(time.time_ns()),"intent":"","blocked":False})
         if task.get("blocked"):
             return {"ok":False,"outcome":"cancelled","error":"用户已拒绝本轮操作，不能重新提出待办"}
         item = book.propose(session, task["id"], REQUEST_ID.get(), name, arguments)
+        if item["action_id"] not in task.setdefault("observed_actions", []):
+            task["observed_actions"].append(item["action_id"])
         _sync_pending(session)
         memory.add_event("permission.ask" if item["status"] == "awaiting_confirmation" else "permission.receipt.reused",
                          {"session_id":session,"request_id":REQUEST_ID.get(),**book.ticket(item),
                           "tool":name,"arguments":arguments,"outcome":item["status"]})
-        await hub.send_roles({"avatar","ui"}, event("permission.pending", conversationId=session,
-                             actions=[{**book.ticket(a),"tool":a["tool"],"arguments":a["arguments"]}
-                                      for a in book.pending(session)]))
+        await _publish_pending(session)
         return _result_pages.setdefault(session, ResultPages()).pack(book.result(item))
     if not decision.allowed:
-        return {"ok":False,"error":f"权限拒绝（{decision.rule_id}）：{decision.reason}"}
+        failure = {"tool":name,"error":f"权限拒绝（{decision.rule_id}）：{decision.reason}"}
+        task.setdefault("tool_failures", []).append(failure)
+        return {"ok":False,**failure}
     pages = _result_pages.setdefault(session, ResultPages())
     if name == "read_tool_result":
         return {"ok":True, **pages.read(arguments.get("ref",""), arguments.get("offset",0))}
@@ -1320,7 +1342,10 @@ async def run_tool(name: str, arguments: dict) -> dict:
         picked = retrieve_task_memories(str(arguments.get("query","")), facts)
         return {"ok":True,"memories":picked,"available_count":len(facts),"recalled_count":len(picked),
                 "note":"未召回不等于未保存；这里只包含本会话可见记忆"}
-    return pages.pack(await _execute_authorized_tool(name, arguments))
+    result = await _execute_authorized_tool(name, arguments)
+    if result.get("ok") is not True:
+        task.setdefault("tool_failures", []).append({"tool":name,"error":result.get("error") or "未取得成功回执"})
+    return pages.pack(result)
 
 
 async def broadcast_tool_step(step: AgentStep, request_id: str) -> None:
@@ -1382,11 +1407,24 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     # Capture the exact head before waiting for chat_lock; queued/double-click approvals
     # may not accidentally authorize a different action that becomes head later.
     session_probe = conversation_id if conversation_id is not None else memory.latest_session_id()
-    if confirmation is None and session_probe is not None and confirmation_decision(text) == "approve":
-        pending = _sync_pending(session_probe)
-        confirmation = _actions().ticket(pending[0]) if pending else {}
+    incoming_decision = confirmation_decision(text)
+    preempted = None
+    if session_probe is not None:
+        book = _actions()
+        if incoming_decision in {"decline","edit"}:
+            preempted = book.cancel(session_probe)
+            active_task = _task_state.get(session_probe)
+            if active_task is not None:
+                # Revocation must reach the mutation boundary BEFORE waiting
+                # for a model/turn lock. Already dispatched I/O is not undone.
+                active_task["blocked"] = True
+            _sync_pending(session_probe)
+            memory.add_event("permission.revoked", {"session_id":session_probe,"request_id":request_id,
+                "actions":[book.ticket(a) for a in preempted],"before_turn_lock":True})
+        if confirmation is None and incoming_decision == "approve":
+            confirmation = dict(_shown_confirmations.get(session_probe, {}))
     try:
-        await _handle_chat_locked(text, request_id, conversation_id, effort, confirmation)
+        await _handle_chat_locked(text, request_id, conversation_id, effort, confirmation, preempted)
     finally:
         REQUEST_ID.reset(transport_token)
         if _inflight_wake_request == request_id:
@@ -1394,7 +1432,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         _superseded_requests.discard(request_id)
 
 
-async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None) -> None:
+async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None) -> None:
 
     async with chat_lock:
         if request_id in _superseded_requests:
@@ -1411,29 +1449,37 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         book = _actions()
         pending = _sync_pending(session_id)
         confirm_note = ""
-        intent = confirmation_decision(text) if pending else "other"
+        intent = confirmation_decision(text) if pending or preempted is not None else "other"
         task = _task_state.get(session_id)
         if task is None and pending:
             task = {"id":pending[0]["task_id"],"intent":"恢复之前待确认任务","blocked":False}
             _task_state[session_id] = task
         if pending and intent == "approve":
-            selected = confirmation if confirmation is not None else book.ticket(pending[0])
+            selected = confirmation if confirmation is not None else {}
             result = await book.execute(session_id, selected, request_id, _permission_still_valid, _execute_authorized_tool)
             memory.add_event("permission.confirmed", {"session_id":session_id,"request_id":request_id,
                              "tool":pending[0]["tool"],"result":result,**selected})
             _sync_pending(session_id)
             confirm_note = "【本轮确认的真实回执】\n" + json.dumps(result,ensure_ascii=False)
-        elif pending and intent in {"decline","edit"}:
-            cancelled = book.cancel(session_id)
+        elif (pending or preempted is not None) and intent in {"decline","edit"}:
+            cancelled = (preempted or []) + book.cancel(session_id)
             _sync_pending(session_id)
+            if task is None:
+                task = {"id":request_id,"intent":text,"blocked":True}
+                _task_state[session_id] = task
             task["blocked"] = intent == "decline"
             if intent == "edit":
                 task["intent"] = text
             memory.add_event("permission.declined", {"session_id":session_id,"request_id":request_id,
                              "actions":[book.ticket(a) for a in cancelled]})
             confirm_note = "旧参数已取消，绝不能执行。仅当用户在本轮明确提供新要求，才能提出新版本待办。"
+        elif pending or (task and re.fullmatch(r"\s*(?:请)?(?:继续|继续吧|继续执行|接着做|go on|continue)[!。！\s]*", text, re.I)):
+            # A clarification/natural continuation is not cancellation and is
+            # not consent. Keep the queue and exact tickets until an explicit
+            # decision; newly proposed actions join it rather than overwrite it.
+            confirm_note = "既有操作仍待确认，本条消息没有授予执行权限。保留所有待办；确认必须绑定展示的参数版本。"
         else:
-            # A new user instruction invalidates parked authorization; no stale approval carries over.
+            # No unresolved action: begin a new bounded task.
             book.cancel(session_id)
             _sync_pending(session_id)
             task = {"id":request_id,"intent":text,"blocked":False}
@@ -1492,9 +1538,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     on_step=_make_loop_step_handler(request_id),
                     max_steps=max(0, int(task["budget"]["max_steps"])-task["rounds_used"]),
                     max_calls=max(0, int(task["budget"]["max_calls"])-task["calls_used"]),
+                    on_round=lambda: task.__setitem__("rounds_used", task["rounds_used"]+1),
+                    on_call=lambda: task.__setitem__("calls_used", task["calls_used"]+1),
                 )
-                task["calls_used"] += len(loop_result.steps)
-                task["rounds_used"] += loop_result.rounds
                 if loop_result.degraded and hasattr(provider, "complete_with_tools"):
                     memory.add_event("agent.tools.unsupported", {"request_id": request_id})
                 if loop_result.steps:
@@ -1535,8 +1581,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             await _withdraw_session_if_empty(session_id)
             return
         memory.add_message("assistant", agent_reply.reply, request_id, session_id)
-        await hub.send_roles({"avatar","ui"}, event("permission.pending", conversationId=session_id,
-            actions=[{**book.ticket(a),"tool":a["tool"],"arguments":a["arguments"]} for a in _sync_pending(session_id)]))
+        await _publish_pending(session_id)
         if is_first_exchange:
             title = agent_reply.session_title or default_title(text)
             if title and memory.rename_session(session_id, title):

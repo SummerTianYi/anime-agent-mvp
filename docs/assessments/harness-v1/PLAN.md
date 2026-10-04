@@ -27,10 +27,10 @@ Production private configuration/data and uncommitted work are preserved. No mod
 ## Progress
 
 - [x] Read actual source/overlay and V0 REVIEW; baseline tests.
-- [ ] Calibrate grader/offline regrade.
-- [ ] Mainline implementation and regression gates.
-- [ ] Four interaction fixes and tests.
+- [x] Calibrate grader/offline regrade (21 legacy + 7 native receipt calibration controls).
+- [x] Mainline implementation and regression gates (350 isolated unit tests).
+- [x] Four interaction fixes and automated tests (human checks remain separate).
 - [ ] Dual-model frozen core trials.
-- [ ] Adversarial review and recorded retests.
+- [x] Independent adversarial review and recorded retests (five P1 findings, 11 regression scenarios).
 - [ ] Authorized desktop activation and immediate owner notice.
 - [ ] Owner feedback, report, commit/push/remote verification.

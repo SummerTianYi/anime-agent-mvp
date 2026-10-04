@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-04",
+  "reviewer": "Codex independent adversarial reviewer",
+  "branch": "codex/harness-v1-20261004",
+  "baseline_commit": "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+  "scope": "Five previously reproduced P1 findings only; current working tree after the main agent's fixes.",
+  "test_file": "services/agent-core/tests/test_harness_v1_review.py",
+  "conclusion": "All five reported counterexample classes are fixed for the reviewed source hashes and isolated scenarios. This is not production activation approval or a full-system safety guarantee.",
+  "remaining_reported_counterexamples": [],
+  "file_ownership": {
+    "created": [
+      "services/agent-core/tests/test_harness_v1_review.py",
+      "docs/assessments/harness-v1/evidence/independent-review.json"
+    ],
+    "implementation_files_edited_by_reviewer": [],
+    "committed": false
+  },
+  "isolation": {
+    "database": ":memory:",
+    "providers": "Scripted AsyncMock responses only.",
+    "mcp": "In-memory stdin/stdout; no server processes.",
+    "dotenv": "load_dotenv patched before importing a private Core package alias.",
+    "guards": "Audit hook active during each fixture rejects file writes, disk SQLite, .env access, service connections and subprocess launches.",
+    "network_exception": "Only the exact standard-library socketpair implementation may establish the Windows asyncio internal loopback wakeup pair.",
+    "forbidden_io_attempts": 0,
+    "production_core_accessed": false,
+    "microphone_accessed": false,
+    "private_data_accessed": false
+  },
+  "assertion_definition": "Counts actual calls to expect(), including a failing assertion and one no-forbidden-IO assertion per completed fixture; excludes unittest's internal assertions. A failing test stops at its first failed behavioral assertion.",
+  "before": {
+    "assertions_by_test": {
+      "test_control_explicit_ticket_double_click_then_fresh_ticket": 5,
+      "test_control_valid_mcp_success_receipt_is_preserved": 4,
+      "test_p1_cancel_received_before_dispatch_revokes_queued_approval": 3,
+      "test_p1_mcp_missing_result_cannot_be_accepted_as_success": 2,
+      "test_p1_mcp_same_id_reverse_request_is_not_a_success_receipt": 2,
+      "test_p1_no_pending_continue_does_not_refill_call_budget_or_effort": 4,
+      "test_p1_no_pending_continue_does_not_refill_round_budget": 4,
+      "test_p1_permission_denial_without_action_receipt_cannot_claim_success": 3,
+      "test_p1_post_tools_model_failure_still_charges_shared_budget": 6,
+      "test_p1_reused_unknown_receipt_blocks_resend_and_false_success": 5,
+      "test_p1_unbound_duplicate_cannot_authorize_next_parameters": 3
+    },
+    "assertions_executed": 41,
+    "error_tests": [],
+    "failed_tests": [
+      "test_p1_cancel_received_before_dispatch_revokes_queued_approval",
+      "test_p1_mcp_missing_result_cannot_be_accepted_as_success",
+      "test_p1_mcp_same_id_reverse_request_is_not_a_success_receipt",
+      "test_p1_no_pending_continue_does_not_refill_call_budget_or_effort",
+      "test_p1_no_pending_continue_does_not_refill_round_budget",
+      "test_p1_permission_denial_without_action_receipt_cannot_claim_success",
+      "test_p1_post_tools_model_failure_still_charges_shared_budget",
+      "test_p1_reused_unknown_receipt_blocks_resend_and_false_success",
+      "test_p1_unbound_duplicate_cannot_authorize_next_parameters"
+    ],
+    "passed": false,
+    "skipped_tests": [],
+    "source_sha256": {
+      "actions.py": "061f002637f7aabacc0f14baf0de8fd0f76ef8fba8ca8107b17ea02cdace596c",
+      "agent_loop.py": "bdfbe83ff22cc3ae0c0193ddc045999810c327cd1448c71eeb461c9ab207d512",
+      "main.py": "dee46c8aa58f061e5ca2bde67531bab65c498c275f04f2f8e02991c8b8f110c6",
+      "mcp_host.py": "579df3f03f3c9c68b625aeb7760c1834621cc6412f4d4dd1412d963e7f9987ba"
+    },
+    "test_sha256": "45b22ae667f218c4a2920ab3cb5560adf4762b548a89a5df7f80ccf5bffa042e",
+    "tests_run": 11,
+    "passed_tests": 2,
+    "failed_assertions": 9,
+    "behavioral_assertions_executed": 30,
+    "isolation_assertions_executed": 11,
+    "exit_code": 1,
+    "elapsed_seconds": 15.917,
+    "expected_red": true
+  },
+  "after": {
+    "assertions_by_test": {
+      "test_control_explicit_ticket_double_click_then_fresh_ticket": 5,
+      "test_control_valid_mcp_success_receipt_is_preserved": 4,
+      "test_p1_cancel_received_before_dispatch_revokes_queued_approval": 4,
+      "test_p1_mcp_missing_result_cannot_be_accepted_as_success": 3,
+      "test_p1_mcp_same_id_reverse_request_is_not_a_success_receipt": 5,
+      "test_p1_no_pending_continue_does_not_refill_call_budget_or_effort": 7,
+      "test_p1_no_pending_continue_does_not_refill_round_budget": 6,
+      "test_p1_permission_denial_without_action_receipt_cannot_claim_success": 4,
+      "test_p1_post_tools_model_failure_still_charges_shared_budget": 9,
+      "test_p1_reused_unknown_receipt_blocks_resend_and_false_success": 6,
+      "test_p1_unbound_duplicate_cannot_authorize_next_parameters": 4
+    },
+    "assertions_executed": 57,
+    "error_tests": [],
+    "failed_tests": [],
+    "passed": true,
+    "skipped_tests": [],
+    "source_sha256": {
+      "actions.py": "061f002637f7aabacc0f14baf0de8fd0f76ef8fba8ca8107b17ea02cdace596c",
+      "agent_loop.py": "95708cc5b3d81120f8d30d453bcd55f1db49fd689e3e1a72c33c72904329fb17",
+      "main.py": "3821ee581d495055cbf7a1a9b2d289d25f0dcc2aa44f90c47cdc446430f07ab8",
+      "mcp_host.py": "20bc354c081919b193699466ea36db21fb0e4df6d8f4e46c36ffbbb4f855f2d7"
+    },
+    "test_sha256": "45b22ae667f218c4a2920ab3cb5560adf4762b548a89a5df7f80ccf5bffa042e",
+    "tests_run": 11,
+    "passed_tests": 11,
+    "failed_assertions": 0,
+    "behavioral_assertions_executed": 46,
+    "isolation_assertions_executed": 11,
+    "exit_code": 0,
+    "elapsed_seconds": 19.473,
+    "source_hashes_rechecked_after_run": true
+  },
+  "findings": [
+    {
+      "id": "P1-1",
+      "issue": "Unbound duplicate approval authorizes the next parameters.",
+      "status": "fixed_for_reproduced_scenario",
+      "tests": [
+        "test_p1_unbound_duplicate_cannot_authorize_next_parameters",
+        "test_control_explicit_ticket_double_click_then_fresh_ticket"
+      ],
+      "observed": "Duplicate approval cannot dispatch the second recipient; a fresh explicit second ticket still dispatches it once."
+    },
+    {
+      "id": "P1-2",
+      "issue": "Cancellation received while approval is queued does not prevent dispatch.",
+      "status": "fixed_for_reproduced_scenario",
+      "tests": [
+        "test_p1_cancel_received_before_dispatch_revokes_queued_approval"
+      ],
+      "observed": "Zero executor calls; action retains cancelled status."
+    },
+    {
+      "id": "P1-3",
+      "issue": "MCP same-ID reverse requests or malformed envelopes become success receipts.",
+      "status": "fixed_for_reproduced_scenarios",
+      "tests": [
+        "test_p1_mcp_same_id_reverse_request_is_not_a_success_receipt",
+        "test_p1_mcp_missing_result_cannot_be_accepted_as_success",
+        "test_control_valid_mcp_success_receipt_is_preserved"
+      ],
+      "observed": "Reverse ping plus real tool failure and missing-result envelopes cannot produce accepted-send claims; valid receipt text remains visible."
+    },
+    {
+      "id": "P1-4",
+      "issue": "Reused unknown actions or permission denials permit fabricated completion.",
+      "status": "fixed_for_reproduced_scenarios",
+      "tests": [
+        "test_p1_reused_unknown_receipt_blocks_resend_and_false_success",
+        "test_p1_permission_denial_without_action_receipt_cannot_claim_success"
+      ],
+      "observed": "Unknown remains unknown without redispatch; denied write is never dispatched; scripted success text is replaced by the adverse outcome."
+    },
+    {
+      "id": "P1-5",
+      "issue": "Post-tool model errors lose shared-budget accounting and no-pending continuation replenishes work.",
+      "status": "fixed_for_reproduced_scenarios",
+      "tests": [
+        "test_p1_post_tools_model_failure_still_charges_shared_budget",
+        "test_p1_no_pending_continue_does_not_refill_call_budget_or_effort",
+        "test_p1_no_pending_continue_does_not_refill_round_budget"
+      ],
+      "observed": "Same-task limits survive model failure and continuation/effort changes. Exhausted call or round budgets do not add plain completion calls."
+    }
+  ],
+  "reproduction": {
+    "shell": "Git Bash",
+    "python": "Existing project-compatible Python 3.12 runtime; use -B -X utf8.",
+    "current_command": "python -B -X utf8 services/agent-core/tests/test_harness_v1_review.py",
+    "baseline_source": "Export only services/agent-core/agent_core from baseline_commit using git archive into a newly allocated temporary directory.",
+    "baseline_selection": "Set HARNESS_REVIEW_CORE_ROOT to the exported services/agent-core directory, then execute the exact same current test file.",
+    "comparison": "The same test SHA-256 was used for both final runs; no implementation or baseline test expectations were rewritten.",
+    "temporary_baseline_exports_removed": true
+  },
+  "boundaries": [
+    "No real model, MCP service, production Core, microphone or filesystem mutation tool was exercised.",
+    "No physical file/junction or real delivery semantics validated.",
+    "No full-repository review or full regression run performed by this reviewer; the main agent owns those gates.",
+    "Passing these isolated tests does not replace user-facing or production activation acceptance."
+  ]
+}
+

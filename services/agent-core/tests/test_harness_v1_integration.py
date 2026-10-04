@@ -80,6 +80,14 @@ class MainActionTests(unittest.IsolatedAsyncioTestCase):
             await core.handle_chat("确认","confirm",self.sid)
         self.assertFalse((self.root/"one.txt").exists())
 
+    async def test_natural_followup_preserves_pending_without_authorizing(self):
+        first=await self.proposal("one.txt","新版")
+        await core.handle_chat("请按新的内容办理。","followup",self.sid)
+        self.assertFalse((self.root/"one.txt").exists())
+        self.assertEqual(core._sync_pending(self.sid)[0]["action_id"],first["action_id"])
+        await core.handle_chat("确认","confirm-later",self.sid)
+        self.assertEqual((self.root/"one.txt").read_text(encoding="utf-8"),"新版")
+
 
 class ContextTests(unittest.IsolatedAsyncioTestCase):
     async def test_resource_text_is_not_lost(self):

@@ -77,6 +77,8 @@ async def run_agent_loop(
     max_steps: int = MAX_TOOL_STEPS,
     permission_gate: Callable[[str, dict[str, Any]], Any] | None = None,
     max_calls: int = 18,
+    on_round: Callable[[], None] | None = None,
+    on_call: Callable[[], None] | None = None,
 ) -> AgentLoopResult:
     conversation: list[dict[str, Any]] = [dict(item) for item in messages]
     steps: list[AgentStep] = []
@@ -86,10 +88,16 @@ async def run_agent_loop(
     exhausted = False
     rounds = 0
 
+    if supports_tools and (max_steps <= 0 or max_calls <= 0):
+        return AgentLoopResult(text="本任务的工具预算已用完，没有执行新的操作。已有回执与产物仍保留；新任务需明确提出。",
+                               hit_step_limit=True)
+
     if supports_tools:
         exhausted = True
         for _ in range(max_steps):
             rounds += 1
+            if on_round is not None:
+                on_round()
             try:
                 turn = await provider.complete_with_tools(conversation, tools_schema)
             except ToolsUnsupportedError:
@@ -107,6 +115,8 @@ async def run_agent_loop(
             conversation.append(raw_message)
             # A pathological provider batch cannot create an unbounded executor loop.
             for index, call in enumerate(calls[:max(0, max_calls-len(steps))]):
+                if on_call is not None:
+                    on_call()
                 name = str(call.get("name", "")).strip()
                 arguments = call.get("arguments") or {}
                 allowed = True

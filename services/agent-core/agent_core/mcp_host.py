@@ -78,15 +78,35 @@ class McpServer:
         line = json.dumps(payload, ensure_ascii=False) + "\n"
         self.process.stdin.write(line.encode("utf-8"))
         await self.process.stdin.drain()
+        deadline = asyncio.get_running_loop().time() + timeout
         while True:
-            raw = await asyncio.wait_for(self.process.stdout.readline(), timeout=timeout)
+            remaining = deadline - asyncio.get_running_loop().time()
+            if remaining <= 0:
+                raise TimeoutError("MCP response deadline expired")
+            raw = await asyncio.wait_for(self.process.stdout.readline(), timeout=remaining)
             if not raw:
                 raise RuntimeError("MCP server closed stdout")
             text = raw.decode("utf-8", errors="replace").strip()
             if not text:
                 continue
             msg = json.loads(text)
+            if not isinstance(msg, dict) or msg.get("jsonrpc") != "2.0":
+                raise RuntimeError("Invalid MCP JSON-RPC envelope")
+            if "method" in msg:
+                # Server->client request IDs have an independent namespace.
+                # Never mistake a reverse request/notification for our receipt.
+                if "id" in msg:
+                    response = {"jsonrpc":"2.0","id":msg["id"]}
+                    if msg["method"] == "ping":
+                        response["result"] = {}
+                    else:
+                        response["error"] = {"code":-32601,"message":"Client method not supported"}
+                    self.process.stdin.write((json.dumps(response)+"\n").encode("utf-8"))
+                    await self.process.stdin.drain()
+                continue
             if msg.get("id") == payload.get("id"):
+                if ("result" in msg) == ("error" in msg):
+                    raise RuntimeError("MCP response has no unique result/error")
                 return msg
 
     async def start(self) -> None:
@@ -125,7 +145,12 @@ class McpServer:
         })
         if "error" in reply:
             return {"ok": False, "error": str(reply["error"])[:300]}
-        result = reply.get("result", {})
+        result = reply.get("result")
+        if (not isinstance(result, dict) or
+            not ("content" in result or "structuredContent" in result) or
+            not isinstance(result.get("content", []), list) or
+            ("isError" in result and type(result["isError"]) is not bool)):
+            raise RuntimeError("MCP tool did not return a valid execution receipt")
         parts = []
         for part in result.get("content", []):
             if part.get("type") == "text":
