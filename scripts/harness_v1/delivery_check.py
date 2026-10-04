@@ -1,12 +1,21 @@
-"""Staged-content safety check. Reports names/counts only, never secrets."""
+"""Index safety check, optionally including already-committed candidate changes.
+
+Reports names/counts only, never secrets. --base-ref scans the index relative to
+the agreed baseline, so earlier candidate commits are not missed at delivery.
+"""
 import argparse,json,subprocess
 from pathlib import Path
 from dotenv import dotenv_values
 ROOT=Path(__file__).resolve().parents[2]
-p=argparse.ArgumentParser();p.add_argument("--env-file",type=Path,required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument("--env-file",type=Path,required=True)
+p.add_argument("--base-ref");a=p.parse_args()
 values=dotenv_values(a.env_file)
 secrets=[str(v) for k,v in values.items() if v and len(str(v))>=12 and any(x in k for x in ("KEY","TOKEN","SECRET","PASSWORD"))]
-names=subprocess.check_output(["git","diff","--cached","--name-only"],cwd=ROOT,text=True).splitlines()
+command=["git","diff","--cached","--name-only","--diff-filter=ACMRT"]
+if a.base_ref:
+    subprocess.run(["git","rev-parse","--verify",a.base_ref+"^{commit}"],cwd=ROOT,check=True,capture_output=True)
+    command.append(a.base_ref)
+names=subprocess.check_output(command,cwd=ROOT,text=True).splitlines()
 errors=[]
 for name in names:
     if name.startswith(("docs/assessments/harness-v0/","scripts/harness_v0/")):errors.append((name,"V0 changed"))

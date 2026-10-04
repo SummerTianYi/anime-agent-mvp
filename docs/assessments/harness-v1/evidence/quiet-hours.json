@@ -1,0 +1,44 @@
+{
+  "quiet_start": "01:00",
+  "quiet_end": "07:00",
+  "checks": [
+    {
+      "time": "00:59",
+      "quiet": false,
+      "idle_600_allowed": true,
+      "reason": "",
+      "passed": true
+    },
+    {
+      "time": "01:00",
+      "quiet": true,
+      "idle_600_allowed": false,
+      "reason": "quiet-hours",
+      "passed": true
+    },
+    {
+      "time": "06:59",
+      "quiet": true,
+      "idle_600_allowed": false,
+      "reason": "quiet-hours",
+      "passed": true
+    },
+    {
+      "time": "07:00",
+      "quiet": false,
+      "idle_600_allowed": true,
+      "reason": "",
+      "passed": true
+    },
+    {
+      "time": "23:00",
+      "quiet": false,
+      "idle_600_allowed": true,
+      "reason": "",
+      "passed": true
+    }
+  ],
+  "real_10_minute_test": false,
+  "llm_calls": 0,
+  "passed": true
+}

@@ -1,0 +1,11 @@
+{
+  "tests": 6,
+  "seconds": 0.094,
+  "ok": false,
+  "failures": [
+    {
+      "id": "test_harness_v1_adversarial.AdversarialTests.test_idle_preplayback_activity_or_busy_prevents_audio_without_llm",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_adversarial.py\", line 65, in test_idle_preplayback_activity_or_busy_prevents_audio_without_llm\n    policy=IdlePolicy(quiet_hours_start=0,quiet_hours_end=0)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: IdlePolicy.__init__() got an unexpected keyword argument 'quiet_hours_start'\n"
+    }
+  ]
+}

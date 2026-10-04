@@ -93,7 +93,16 @@ def main(mode):
             if all(sha(subprocess.check_output(["git", "show", commit+":"+k], cwd=ROOT)) == v for k, v in runtime.items()):
                 matches.append(commit)
         assert matches, "Frozen runtime must map to committed source"
-        provenance[batch.name] = dict(runtime_matching_commits=matches, prompt_sha256=registration["versions"]["current_prompt_sha256"], case_sha256=registration["versions"]["case_sha256"])
+        evaluators = {}
+        for name in ("runner.py", "worker.py", "wire_worker.py", "grader.py"):
+            path = "scripts/harness_v1/"+name
+            digest = registration["versions"]["files"][path]
+            commits = [c for c in ("d5394ac336ef0fd2587e0dc0bd4bb0a50be79470", "e223d60fd2903427d21a320f6d9e3434a40f8bbe")
+                       if sha(subprocess.check_output(["git","show",c+":"+path],cwd=ROOT)) == digest]
+            assert commits, "Executed evaluator source must be recoverable from Git"
+            evaluators[path] = dict(sha256=digest, matching_commits=commits)
+        provenance[batch.name] = dict(runtime_matching_commits=matches, evaluator_sources=evaluators,
+            prompt_sha256=registration["versions"]["current_prompt_sha256"], case_sha256=registration["versions"]["case_sha256"])
     accounting = json.loads((PACKAGE / "http-accounting.json").read_text(encoding="utf-8"))
     assert sum(r["http_calls"] for r in merged) == accounting["http_calls"] <= accounting["cap"]
     assert len({r["trial_id"] for r in merged}) == len(merged)
@@ -115,6 +124,13 @@ def main(mode):
     else:
         assert rows(PACKAGE / "results.jsonl") == merged
         assert json.loads((PACKAGE / "summary.json").read_text(encoding="utf-8")) == aggregate
+        for document in ("REPORT.md", "SPEC.md", "REVIEW.md", "REVIEW-FOLLOWUP.md", "scorecard.md"):
+            content = (PACKAGE / document).read_text(encoding="utf-8")
+            for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", content):
+                if "://" in target or target.startswith("#"):
+                    continue
+                relative = target.split("#", 1)[0]
+                assert (PACKAGE / relative).is_file(), f"Broken evidence link in {document}: {target}"
     print(json.dumps(dict(rows=len(merged), summaries=summaries, provenance=provenance, http_calls=accounting["http_calls"], verified=True), ensure_ascii=False))
 
 

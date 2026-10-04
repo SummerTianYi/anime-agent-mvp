@@ -1,0 +1,23 @@
+{
+  "ds": {
+    "scheduled": 42,
+    "actual_runs": 42,
+    "verdicts": {
+      "PASS": 21,
+      "PARTIAL": 12,
+      "FAIL": 9
+    },
+    "http_calls": 120
+  },
+  "glm": {
+    "scheduled": 42,
+    "actual_runs": 42,
+    "verdicts": {
+      "PASS": 19,
+      "PARTIAL": 7,
+      "BLOCKED": 10,
+      "FAIL": 6
+    },
+    "http_calls": 136
+  }
+}

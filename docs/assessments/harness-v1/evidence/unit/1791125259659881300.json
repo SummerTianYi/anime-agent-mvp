@@ -1,0 +1,11 @@
+{
+  "tests": 19,
+  "seconds": 13.0,
+  "ok": false,
+  "failures": [
+    {
+      "id": "test_harness_v1_integration.IdlePlaybackTests.test_same_reminder_all_parts_and_ack_retries_are_allowed",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_integration.py\", line 195, in test_same_reminder_all_parts_and_ack_retries_are_allowed\n    await core._broadcast_speak(dict(payload,partIndex=1))\n  File \"{SOURCE}\\services\\agent-core\\agent_core\\main.py\", line 1069, in _broadcast_speak\n    raise RuntimeError(\"Idle reminder cancelled by activity/quiet-hours/busy before playback\")\nRuntimeError: Idle reminder cancelled by activity/quiet-hours/busy before playback\n"
+    }
+  ]
+}

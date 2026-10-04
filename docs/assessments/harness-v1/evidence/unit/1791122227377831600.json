@@ -1,0 +1,11 @@
+{
+  "tests": 332,
+  "seconds": 34.516,
+  "ok": false,
+  "failures": [
+    {
+      "id": "test_speech_delivery.SceneSuccessTests.test_successful_greeting_and_idle_mark_after_playback",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_speech_delivery.py\", line 135, in test_successful_greeting_and_idle_mark_after_playback\n    self.policy.mark_spoken.assert_called_once()\n  File \"{PYTHON}\\Lib\\unittest\\mock.py\", line 928, in assert_called_once\n    raise AssertionError(msg)\nAssertionError: Expected 'mark_spoken' to have been called once. Called 0 times.\n"
+    }
+  ]
+}

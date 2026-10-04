@@ -1,0 +1,11 @@
+{
+  "tests": 338,
+  "seconds": 35.063,
+  "ok": false,
+  "failures": [
+    {
+      "id": "test_harness_v1_adversarial.AdversarialTests.test_idle_preplayback_activity_or_busy_prevents_audio_without_llm",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_adversarial.py\", line 76, in test_idle_preplayback_activity_or_busy_prevents_audio_without_llm\n    with self.assertRaises(RuntimeError):await core._broadcast_speak({\"requestId\":\"proactive-idle\"})\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\agent_core\\main.py\", line 1047, in _broadcast_speak\n    allowed, _ = idle_policy.decide(_idle_seconds_now())\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\agent_core\\proactive.py\", line 81, in decide\n    if self.in_quiet_hours(now):\n       ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\agent_core\\proactive.py\", line 88, in in_quiet_hours\n    return ProactivePolicy(quiet_start=self.quiet_start, quiet_end=self.quiet_end).in_quiet_hours(now)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\agent_core\\proactive.py\", line 27, in in_quiet_hours\n    start_h, start_m = _parse_hhmm(self.quiet_start)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\agent_core\\proactive.py\", line 13, in _parse_"
+    }
+  ]
+}

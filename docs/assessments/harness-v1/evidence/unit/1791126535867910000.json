@@ -1,0 +1,15 @@
+{
+  "tests": 22,
+  "seconds": 12.734,
+  "ok": false,
+  "failures": [
+    {
+      "id": "test_harness_v1_integration.ContextTests.test_raw_newlines_and_stray_brace_do_not_discard_valid_reply",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_integration.py\", line 122, in test_raw_newlines_and_stray_brace_do_not_discard_valid_reply\n    self.assertEqual(CharacterHarness.parse_reply(raw).reply,\"我是洛天依。\\n不是电脑里的真人。\")\nAssertionError: '这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。' != '我是洛天依。\\n不是电脑里的真人。'\n- 这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。\n+ 我是洛天依。\n+ 不是电脑里的真人。\n\n"
+    },
+    {
+      "id": "test_harness_v1_integration.ContextTests.test_raw_newlines_with_unescaped_inner_quotes",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_integration.py\", line 127, in test_raw_newlines_with_unescaped_inner_quotes\n    self.assertIn('这里的\"演唱者\"不等于词曲作者。',reply.reply)\nAssertionError: '这里的\"演唱者\"不等于词曲作者。' not found in '这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。'\n"
+    }
+  ]
+}

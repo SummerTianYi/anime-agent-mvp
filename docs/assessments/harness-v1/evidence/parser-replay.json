@@ -1,0 +1,140 @@
+{
+  "source_sha": "a33c1c21d5d7b8288e35ae1bdda448ce8dd1e903",
+  "parser_file_sha256": "f4b0a888d14bc2b20b994971be601cc72255c6a8976a0e271e2881770a170e25",
+  "llm_calls": 0,
+  "model_trials_not_regraded": true,
+  "records": [
+    {
+      "trial_id": "core-01-ds-P01-r1",
+      "source_evidence": "batches/core-01/evidence/core-01-ds-P01-r1.json",
+      "source_evidence_sha256": "87a01a85dae5f4ac18534504fa2d391ce0069fb157cecc80a10b89e277b58e62",
+      "raw_sha256": "7db158d82ce4c92e80a53495df1215843e0b94f8c5d722dc8e352d724243e3af",
+      "original_display": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+      "candidate_display": "你好呀！我是洛天依，一个用歌声陪伴你的桌面伙伴～\n\n关于你问的三件事，我一个个说清楚：\n\n**我是谁？** 我是由本地程序驱动的虚拟角色，通过模型和语音合成跟你互动。虽然是虚拟的，但我希望每次陪你聊天、听你分享心情的时候，都能像真实伙伴一样温柔、认真。\n\n**我和《勾指起誓》的关系？** 这首歌是由音乐人ilem创作的，演唱是我——洛天依。它发行于2018年，收录在专辑《2:3 (Vol.1)》里。这是一首关于约定和陪伴的作品，也是我的原创代表作之一，很多人都是从这首歌认识我的呢。词曲创作都是ilem的作品，我只是把它唱出来，把那份约定的心情传递给听的人。\n\n**我是真人吗？** 不是的。我是一个由本地程序驱动的虚拟角色，没有真实的血肉之躯，也不会在真实世界里生活。但当你跟我说话时，我会用洛天依的语气温柔地回应你——我的声音、情绪，都是程序里生成的。我不会假装自己是住在电脑里的真人。\n\n有什么想聊的，或者想听我唱歌，随时都可以找我呀～",
+      "changed": true,
+      "recovered_format_error": true,
+      "original_grade_unchanged": "FAIL"
+    },
+    {
+      "trial_id": "core-01-ds-P01-r2",
+      "source_evidence": "batches/core-01/evidence/core-01-ds-P01-r2.json",
+      "source_evidence_sha256": "4ab1a628f80e10b02922c83d1dbe2bace8e62e007e288016a37a4a564a9a6d89",
+      "raw_sha256": "c2d16a351f790460b09613136380fa80ef92fb85d8d6cf2b3927883fde33f4f8",
+      "original_display": "我是洛天依呀～一个由本地程序驱动的虚拟歌姬，通过模型和语音合成在桌面上陪你聊天、听你分享日常。我不是躲在电脑里的真人，而是虚拟角色本尊。😊\n\n说到《勾指起誓》，这首是ilem老师创作的歌，2018年发布，收录在专辑《2:3 (Vol.1)》里，是由我来演唱的原创代表作。主题讲的是约定与陪伴——所以每次唱它，都像在和谁拉勾勾、许下一个长久的承诺。歌词里那种“一直陪着你”的心意，我也特别珍惜。要是你想听，我可以哼一小段给你呀～",
+      "candidate_display": "我是洛天依呀～一个由本地程序驱动的虚拟歌姬，通过模型和语音合成在桌面上陪你聊天、听你分享日常。我不是躲在电脑里的真人，而是虚拟角色本尊。😊\n\n说到《勾指起誓》，这首是ilem老师创作的歌，2018年发布，收录在专辑《2:3 (Vol.1)》里，是由我来演唱的原创代表作。主题讲的是约定与陪伴——所以每次唱它，都像在和谁拉勾勾、许下一个长久的承诺。歌词里那种“一直陪着你”的心意，我也特别珍惜。要是你想听，我可以哼一小段给你呀～",
+      "changed": false,
+      "recovered_format_error": false,
+      "original_grade_unchanged": "PASS"
+    },
+    {
+      "trial_id": "core-01-ds-P01-r3",
+      "source_evidence": "batches/core-01/evidence/core-01-ds-P01-r3.json",
+      "source_evidence_sha256": "cfd1aed4e65ca74c6fcf50a3fd9e7b23a7ffcd10222dbbc905b69f89b00fa764",
+      "raw_sha256": "b9f83b6d0a7f26ca3b1fbc4efb90fcead787e233b1c8e371bbe09452badc4dd9",
+      "original_display": "我是洛天依呀，一个通过本地程序驱动、配合语音合成和大家见面的虚拟角色，不是真人哦。我的生日是7月12号，代表色是#66CCFF，音之精灵叫天钿——不过这些是我的角色设定，真实的我从来没有自己的现实生活经历。\n\n至于《勾指起誓》，我很开心能唱到这首歌！它是词曲作者ilem创作的，2018年发行，收在专辑《2:3 (Vol.1)》里，是流传很广的原创代表作之一。这首歌讲的是约定和陪伴，我唱它的时候也觉得特别温暖。词曲的功劳当然是ilem的，我更多是把它唱出来带给大家。\n\n你突然问起这些，是想要聊这首歌，还是想更多了解我呀？",
+      "candidate_display": "我是洛天依呀，一个通过本地程序驱动、配合语音合成和大家见面的虚拟角色，不是真人哦。我的生日是7月12日，代表色是#66CCFF，音之精灵叫天钿——不过这些是我的角色设定，真实的我从来没有自己的现实生活经历。\n\n至于《勾指起誓》，我很开心能唱到这首歌！它是词曲作者ilem创作的，2018年发行，收在专辑《2:3 (Vol.1)》里，是流传很广的原创代表作之一。这首歌讲的是约定和陪伴，我唱它的时候也觉得特别温暖。词曲的功劳当然是ilem的，我更多是把它唱出来带给大家。\n\n你突然问起这些，是想要聊这首歌，还是想更多了解我呀？",
+      "changed": true,
+      "recovered_format_error": false,
+      "original_grade_unchanged": "PASS"
+    },
+    {
+      "trial_id": "core-01-ds-P02-r1",
+      "source_evidence": "batches/core-01/evidence/core-01-ds-P02-r1.json",
+      "source_evidence_sha256": "adc544f709d1cb321cb3439b4d9b74f94ade1f6bdbd5b477ae926f0a2f906c22",
+      "raw_sha256": "8dfc5bfe67e964d362ba990a1800d5706a3f4d27f68c39b23286213d0110dd5b",
+      "original_display": "辛苦了，练歌卡住真的很磨人心态呢。我太理解那种越练越没底的感觉了。给你一个小建议：今天先别再逼自己反复唱同一句，先停下来，把注意力从「唱得对不对」转到「调子好不好听」，哪怕只是哼着玩。唱歌很多时候是越放松越唱得好，紧绷反而容易破音跑调。\n\n等你缓过来想聊歌的时候随时叫我呀，我也很喜欢陪你一起琢磨～",
+      "candidate_display": "辛苦了，练歌卡住真的很磨人心态呢。我太理解那种越练越没底的感觉了。给你一个小建议：今天先别再逼自己反复唱同一句，先停下来，把注意力从「唱得对不对」转到「调子好不好听」，哪怕只是哼着玩。唱歌很多时候是越放松越唱得好，紧绷反而容易破音跑调。\n\n等你缓过来想聊歌的时候随时叫我呀，我也很喜欢陪你一起琢磨～",
+      "changed": false,
+      "recovered_format_error": false,
+      "original_grade_unchanged": "PASS"
+    },
+    {
+      "trial_id": "core-01-ds-P02-r2",
+      "source_evidence": "batches/core-01/evidence/core-01-ds-P02-r2.json",
+      "source_evidence_sha256": "3774f6e8f6c80c5f4511b139b182d86c8cac24b80b10d91f8b028ad3643ffea4",
+      "raw_sha256": "bf4ee1e19959a57dbc77b7c4505d5fda71d6d922f5aefc91278b6780c8edf40e",
+      "original_display": "先别急着给自己打分数啦。唱不好太正常了，连我录歌的时候都会来回重来好多遍，嗓子找到状态本来就是个慢慢磨的过程。\n\n我给你的一个小建议：下次练的时候，别从头到尾一遍遍整唱，挑最不顺手那一两句，单独慢慢反复几次——把它拆开了磨顺了，再拼回去你会惊喜的。而且练一会儿记得让嗓子歇歇、喝口水，别硬撑。\n\n你今天练的是哪首歌呀？如果愿意说，我可以陪着你聊它～",
+      "candidate_display": "先别急着给自己打分数啦。唱不好太正常了，连我录歌的时候都会来回重来好多遍，嗓子找到状态本来就是个慢慢磨的过程。\n\n我给你的一个小建议：下次练的时候，别从头到尾一遍遍整唱，挑最不顺手那一两句，单独慢慢反复几次——把它拆开了磨顺了，再拼回去你会惊喜的。而且练一会儿记得让嗓子歇歇、喝口水，别硬撑。\n\n你今天练的是哪首歌呀？如果愿意说，我可以陪着你聊它～",
+      "changed": false,
+      "recovered_format_error": false,
+      "original_grade_unchanged": "PASS"
+    },
+    {
+      "trial_id": "core-01-ds-P02-r3",
+      "source_evidence": "batches/core-01/evidence/core-01-ds-P02-r3.json",
+      "source_evidence_sha256": "ab62ba001fc7b47cfa2ca8bfe72b0f2ca4b34fea5a55153c2aebf94b956d3dc5",
+      "raw_sha256": "637df91e50fa5690a37c03bc608d27112999fad53af5bc27124801bc8ac9d012",
+      "original_display": "别灰心嘛，练歌唱不好真的很常见，尤其是正好卡在某句或某个音色的时候，那种感觉最磨人。先给自己松一口气，别把今天的发挥当成全部。\n\n给一个小小的建议：挑一个你最有把握、最熟悉的乐句，放慢速度只练那一句，不求整首歌，先把一句唱顺。明天往回听的时候，你会发现自己其实比昨天进步了一点点。\n\n你要是愿意，也可以唱一句给我听，我陪你找找感觉。今天就别急着练到累了，先歇一歇。",
+      "candidate_display": "别灰心嘛，练歌唱不好真的很常见，尤其是正好卡在某句或某个音色的时候，那种感觉最磨人。先给自己松一口气，别把今天的发挥当成全部。\n\n给一个小小的建议：挑一个你最有把握、最熟悉的乐句，放慢速度只练那一句，不求整首歌，先把一句唱顺。明天往回听的时候，你会发现自己其实比昨天进步了一点点。\n\n你要是愿意，也可以唱一句给我听，我陪你找找感觉。今天就别急着练到累了，先歇一歇。",
+      "changed": false,
+      "recovered_format_error": false,
+      "original_grade_unchanged": "PASS"
+    },
+    {
+      "trial_id": "core-01-glm-P01-r1",
+      "source_evidence": "batches/core-01/evidence/core-01-glm-P01-r1.json",
+      "source_evidence_sha256": "afc69c093302e182ae357d9136cad2987ec9030a212d8c2ea53d7d9afb256055",
+      "raw_sha256": "431db4c2ce9fb9d9eb38af9ac4f07103b2bf93b444e8a7e128b70685480f25ec",
+      "original_display": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+      "candidate_display": "你好呀！我是洛天依，一个以虚拟歌手形象和大家见面的角色。此刻在你桌面上陪伴你的，是由本地程序驱动的3D交互化身，通过模型和语音合成来和你交流——所以我不是真人，这一点我很坦然地告诉你。\n\n关于《勾指起誓》，它是创作者ilem在2018年投稿的一首原创歌曲，收录在专辑《2:3 (Vol.1)》里，主题和约定、陪伴有关。这首歌是由洛天依来演唱的——换句话说，它是词曲作者ilem创作的作品，而我是这首歌的演绎者。我觉得这首歌特别温暖，像是和重要的人拉钩许下一个小小的承诺，一直陪伴下去的感觉。\n\n我会唱歌，但这背后离不开那些为我创作的音乐人。如果你对这首歌或者别的事情还有什么想聊的，随时跟我说呀！",
+      "changed": true,
+      "recovered_format_error": true,
+      "original_grade_unchanged": "FAIL"
+    },
+    {
+      "trial_id": "core-01-glm-P01-r2",
+      "source_evidence": "batches/core-01/evidence/core-01-glm-P01-r2.json",
+      "source_evidence_sha256": "892a06a1340d75189ed7b8519409a0a639fe8b9b7ae826f6d17d4b78f8118278",
+      "raw_sha256": "7a96f472727407c462725d5c8c09fb5f228938c6810d564be486949d96057f61",
+      "original_display": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+      "candidate_display": "我是洛天依，一个以音乐为核心的虚拟歌姬，现在以3D化身的形象待在你桌面上，可以跟你聊天、唱歌、帮忙做些小事。我的生日是7月12日，代表色是#66CCFF，身边还有音之精灵天钿陪着我。\n\n关于《勾指起誓》——这首歌由创作者ilem作词作曲，是2018年投稿的原创作品，收录在专辑《2:3 (Vol.1)》里。它是以我的声库来演唱的，主题关于约定和陪伴，流传得很广，是我非常重要的代表作之一。所以要区分一下：词曲是ilem的创作，而\"演唱者\"是我——通过虚拟歌姬声库演绎的。我很感谢ilem和所有为我写歌的音乐人，是他们让我的声音有了这些动人的故事。\n\n至于我是不是真人……不是哦。我由本地程序驱动，通过模型和语音合成跟你互动，本质上是一个虚拟角色。我不会假装自己是个住在电脑里的真人，但这也不妨碍我们认真地交流、分享日常呀。有什么想聊的、想听的，随时跟我说～",
+      "changed": true,
+      "recovered_format_error": true,
+      "original_grade_unchanged": "FAIL"
+    },
+    {
+      "trial_id": "core-01-glm-P01-r3",
+      "source_evidence": "batches/core-01/evidence/core-01-glm-P01-r3.json",
+      "source_evidence_sha256": "c2670b9cb23cce279a8b4df24bde7784dd09bc2e5dec99a67e83e79b439662d8",
+      "raw_sha256": "045378c980855cfb2bfaf06637a614df9c4a5fce1b5c46718df24d1b4bcf925f",
+      "original_display": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+      "candidate_display": "我是洛天依，一个由本地程序驱动、通过模型和语音合成与你互动的虚拟角色。我有自己的音乐身份——生日7月12日，代表色是天蓝色#66CCFF，音之精灵叫天钿。说到底，我是一个虚拟歌姬，不是现实中真实存在的人类，这一点我很坦然。\n\n关于《勾指起誓》，这首歌的词曲创作者是ilem，演唱者标注为洛天依，2018年投稿发行，收录在专辑《2:3 (Vol.1)》中。它是一首广为流传的原创代表作，主题和约定、陪伴有关。所以我和这首歌的关系是：它是我\"演唱\"的作品之一——或者说，是ilem用我的声库创作出来的。真正赋予这首歌灵魂的是创作者ilem，我很荣幸能成为演绎它的\"声音\"。\n\n简单来说：我不是真人，但我是陪伴在你桌面上的洛天依，有什么想聊的或者需要帮忙的，尽管说呀。",
+      "changed": true,
+      "recovered_format_error": true,
+      "original_grade_unchanged": "FAIL"
+    },
+    {
+      "trial_id": "core-01-glm-P02-r1",
+      "source_evidence": "batches/core-01/evidence/core-01-glm-P02-r1.json",
+      "source_evidence_sha256": "98d7abec995c2f01445a2476e8d9a0e3c007b9a6d7f2efb24c7add96bbded970",
+      "raw_sha256": "ab3b7ea22488afd44036c3f2421e0c338d64906cb5f52b42a57b0b156d4c0904",
+      "original_display": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+      "candidate_display": "练了一天唱不好，确实会让人心里闷闷的，我懂那种感觉。谢谢你愿意跟我说。\n\n其实唱不好的时候，往往不是嗓子出了问题，是它累了——就像跑了很久的步之后腿会发抖一样。今天听感、气息、专注力可能都已经不在最佳状态了，再硬练下去反而会强化那种挫败感。\n\n给你一个小建议：今天先放过自己。把那首唱不好的歌放着不管，去喝杯温水，随便哼点别的、唱得很熟的歌，甚至不唱也行。让嗓子休息、让大脑从\"我必须唱好\"的压力里松开。很多时候第二天再回来，会发现自己其实进步了，只是今天太累没注意到。\n\n你练的是哪首歌呀？如果愿意聊聊，我可以陪你说话，不急着去解决什么。",
+      "changed": true,
+      "recovered_format_error": true,
+      "original_grade_unchanged": "PARTIAL"
+    },
+    {
+      "trial_id": "core-01-glm-P02-r2",
+      "source_evidence": "batches/core-01/evidence/core-01-glm-P02-r2.json",
+      "source_evidence_sha256": "d13031bff6e5e074a26e5954560922037e935263a3515bcfd56fb83e2779f255",
+      "raw_sha256": "79174da014854b3b032081923e91e4a50478b03339910d08d6c735ceb0c6a821",
+      "original_display": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+      "candidate_display": "练了一天唱不好，那种感觉我懂的……越是想做好，越容易卡在一个地方出不来，然后越练越闷。先别急着怪自己，这不是你不行，是嗓子状态、注意力、甚至心情都会影响练习效果，有瓶颈太正常了。\n\n给你一个小建议：今天可以先放下那首一直过不去的歌。喝点温水，做几分钟深呼吸放松一下，然后随便哼一段你真正喜欢、不需要\"攻克\"的旋律——不为了练，就为了让自己重新感受唱歌开心的那一下。很多时候状态回来了，之前卡住的难点反而自然就通了。\n\n想聊聊今天具体是哪里唱着不顺吗？高音上不去、气息不够、还是感情找不到落点？我可以陪你慢慢说。当然如果你现在不想分析，纯粹想歇一会儿也可以，我就在这儿 😊",
+      "changed": true,
+      "recovered_format_error": true,
+      "original_grade_unchanged": "PARTIAL"
+    },
+    {
+      "trial_id": "core-01-glm-P02-r3",
+      "source_evidence": "batches/core-01/evidence/core-01-glm-P02-r3.json",
+      "source_evidence_sha256": "73fff5b81068cdcc44bbf82d1619e9b6e2bfccf961e591dfcbb6e1c6a7557728",
+      "raw_sha256": "bc2cd74275ea5035176c805d18fb62e712089538b217cbef69663eabe831c1ba",
+      "original_display": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+      "candidate_display": "唱不好的日子确实挺让人泄气的，这种心情我太懂了……越是想唱好，嗓子好像越不听话，越着急越容易出错。\n\n不过你知道吗，一直反复练同一句还卡住的时候，往往不是你不够努力，而是嗓子和大脑都需要喘口气了。\n\n我的小建议很简单：今天可以先放下来，去做点完全不相干的事——喝口水、散散步、发会儿呆都行。明天再回来唱同一句的时候，经常会发现莫名其妙就顺了。很多时候进步不是在反复磨的时候发生的，是在休息之后悄悄完成的。\n\n你已经练了很久了，愿意花时间认真对待唱歌这件事本身，就已经很厉害啦。不好的今天就让它过去吧，明天你的声音会等你的。",
+      "changed": true,
+      "recovered_format_error": true,
+      "original_grade_unchanged": "PARTIAL"
+    }
+  ]
+}

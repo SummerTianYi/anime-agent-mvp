@@ -1,0 +1,19 @@
+{
+  "tests": 52,
+  "seconds": 33.922,
+  "ok": false,
+  "failures": [
+    {
+      "id": "test_harness_v1_actions.ActionsTests.test_literal_payload_is_not_a_permission_decision",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_actions.py\", line 30, in test_literal_payload_is_not_a_permission_decision\n    self.assertEqual(decision(text), \"other\", text)\nAssertionError: 'decline' != 'other'\n- decline\n+ other\n : 把 /tmp/reject.txt 写成：不要执行样本。\n"
+    },
+    {
+      "id": "test_harness_v1_integration.MainActionTests.test_initial_negative_literal_can_propose_then_be_declined",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_integration.py\", line 71, in test_initial_negative_literal_can_propose_then_be_declined\n    self.assertIn(\"confirmation\",first)\nAssertionError: 'confirmation' not found in {'ok': False, 'outcome': 'cancelled', 'error': '用户已拒绝本轮操作，不能重新提出待办'}\n"
+    },
+    {
+      "id": "test_harness_v1_integration.MainActionTests.test_negative_literal_does_not_revoke_pending_ticket",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_integration.py\", line 63, in test_negative_literal_does_not_revoke_pending_ticket\n    self.assertEqual(core._sync_pending(self.sid)[0][\"action_id\"],first[\"action_id\"])\n                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^\nIndexError: list index out of range\n"
+    }
+  ]
+}

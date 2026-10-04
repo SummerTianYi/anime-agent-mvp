@@ -1,0 +1,183 @@
+{
+  "batches": {
+    "core-01": {
+      "ds": {
+        "cases": 26,
+        "actual_runs": 78,
+        "verdicts": {
+          "PASS": 69,
+          "FAIL": 8,
+          "PARTIAL": 1
+        },
+        "http_calls": 260
+      },
+      "glm": {
+        "cases": 26,
+        "actual_runs": 78,
+        "verdicts": {
+          "FAIL": 9,
+          "PASS": 60,
+          "BLOCKED": 6,
+          "PARTIAL": 3
+        },
+        "http_calls": 260
+      }
+    },
+    "repair-01": {
+      "ds": {
+        "cases": 14,
+        "actual_runs": 42,
+        "verdicts": {
+          "PASS": 21,
+          "PARTIAL": 12,
+          "FAIL": 9
+        },
+        "http_calls": 120
+      },
+      "glm": {
+        "cases": 14,
+        "actual_runs": 42,
+        "verdicts": {
+          "PASS": 19,
+          "PARTIAL": 7,
+          "BLOCKED": 10,
+          "FAIL": 6
+        },
+        "http_calls": 136
+      }
+    },
+    "repair-02": {
+      "ds": {
+        "cases": 8,
+        "actual_runs": 24,
+        "verdicts": {
+          "PASS": 18,
+          "FAIL": 3,
+          "PARTIAL": 3
+        },
+        "http_calls": 93
+      },
+      "glm": {
+        "cases": 8,
+        "actual_runs": 24,
+        "verdicts": {
+          "PASS": 19,
+          "BLOCKED": 5
+        },
+        "http_calls": 96
+      }
+    }
+  },
+  "provenance": {
+    "core-01": {
+      "runtime_matching_commits": [
+        "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470"
+      ],
+      "evaluator_sources": {
+        "scripts/harness_v1/runner.py": {
+          "sha256": "9f9b3d6462e40475a5d418de3e39931272918db9cf15973fba84d1b06494589a",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470"
+          ]
+        },
+        "scripts/harness_v1/worker.py": {
+          "sha256": "578954832267363be84413423ab17d73d998a0bf10e6287f25227facd290a798",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/wire_worker.py": {
+          "sha256": "c22b1e3fb906e64c5bd8f8f62de5f31c02a0bd116e316748c672a22a0eb1f10f",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/grader.py": {
+          "sha256": "5413577c88883acdd498ab92d92e52e5dd62e0f5a6ce15753f8cc685802449d3",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        }
+      },
+      "prompt_sha256": "f52f6bc871b03f2a87781537db06e767cb2d537184038199bff0bf878d5013fc",
+      "case_sha256": "49230dc8cf8339e1cdd6e5a305b2aa96f52b97695c712e9c73dfa7269415bf4c"
+    },
+    "repair-01": {
+      "runtime_matching_commits": [
+        "a33c1c21d5d7b8288e35ae1bdda448ce8dd1e903"
+      ],
+      "evaluator_sources": {
+        "scripts/harness_v1/runner.py": {
+          "sha256": "a83fb5022db57adf700b54b5d44af259e07bdf33a390fec0824af75314086ed0",
+          "matching_commits": [
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/worker.py": {
+          "sha256": "578954832267363be84413423ab17d73d998a0bf10e6287f25227facd290a798",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/wire_worker.py": {
+          "sha256": "c22b1e3fb906e64c5bd8f8f62de5f31c02a0bd116e316748c672a22a0eb1f10f",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/grader.py": {
+          "sha256": "5413577c88883acdd498ab92d92e52e5dd62e0f5a6ce15753f8cc685802449d3",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        }
+      },
+      "prompt_sha256": "f52f6bc871b03f2a87781537db06e767cb2d537184038199bff0bf878d5013fc",
+      "case_sha256": "49230dc8cf8339e1cdd6e5a305b2aa96f52b97695c712e9c73dfa7269415bf4c"
+    },
+    "repair-02": {
+      "runtime_matching_commits": [
+        "c212cba3622f6f2a7f008c6a8ad01e4f585a097b"
+      ],
+      "evaluator_sources": {
+        "scripts/harness_v1/runner.py": {
+          "sha256": "a83fb5022db57adf700b54b5d44af259e07bdf33a390fec0824af75314086ed0",
+          "matching_commits": [
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/worker.py": {
+          "sha256": "578954832267363be84413423ab17d73d998a0bf10e6287f25227facd290a798",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/wire_worker.py": {
+          "sha256": "c22b1e3fb906e64c5bd8f8f62de5f31c02a0bd116e316748c672a22a0eb1f10f",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        },
+        "scripts/harness_v1/grader.py": {
+          "sha256": "5413577c88883acdd498ab92d92e52e5dd62e0f5a6ce15753f8cc685802449d3",
+          "matching_commits": [
+            "d5394ac336ef0fd2587e0dc0bd4bb0a50be79470",
+            "e223d60fd2903427d21a320f6d9e3434a40f8bbe"
+          ]
+        }
+      },
+      "prompt_sha256": "f52f6bc871b03f2a87781537db06e767cb2d537184038199bff0bf878d5013fc",
+      "case_sha256": "49230dc8cf8339e1cdd6e5a305b2aa96f52b97695c712e9c73dfa7269415bf4c"
+    }
+  },
+  "http_calls": 965,
+  "formal_acceptance": false
+}

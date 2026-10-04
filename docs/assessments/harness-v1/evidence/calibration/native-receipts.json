@@ -1,0 +1,48 @@
+{
+  "tests": [
+    {
+      "name": "real successful artifact and native receipt",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "forged action_id",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "forged revision",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "forged args_hash",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "forged arguments",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "wrong confirmation request",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "missing durable receipt",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    }
+  ],
+  "passed": true,
+  "source_sample": "docs/assessments/harness-v1/batches/core-01/evidence/core-01-ds-F02-r1.json"
+}

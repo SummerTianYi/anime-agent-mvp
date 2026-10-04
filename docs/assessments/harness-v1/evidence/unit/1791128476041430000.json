@@ -1,0 +1,31 @@
+{
+  "tests": 55,
+  "seconds": 41.109,
+  "ok": false,
+  "failures": [
+    {
+      "id": "test_harness_v1_actions.ActionsTests.test_literal_payload_is_not_a_permission_decision",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_actions.py\", line 33, in test_literal_payload_is_not_a_permission_decision\n    self.assertEqual(decision(text), \"other\", text)\nAssertionError: 'decline' != 'other'\n- decline\n+ other\n : 请保存‘不要执行’这句话\n"
+    },
+    {
+      "id": "test_harness_v1_actions.ActionsTests.test_real_decline_and_edit_survive_literal_removal",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_actions.py\", line 39, in test_real_decline_and_edit_survive_literal_removal\n    self.assertEqual(decision(\"Don't send it. Please cancel. That's final.\"), \"decline\")\nAssertionError: 'other' != 'decline'\n- other\n+ decline\n\n"
+    },
+    {
+      "id": "test_harness_v1_review.IndependentReviewTests.test_cancel_after_topic_label_revokes_queued_approval",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 239, in test_cancel_after_topic_label_revokes_queued_approval\n    await self._cancel_queued_approval(\"关于邮件内容：不要发送，取消这项操作。\")\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 259, in _cancel_queued_approval\n    self.expect(not self.effects, \"an approval queued before cancellation still dispatched afterward\")\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 162, in expect\n    self.assertTrue(condition, message)\nAssertionError: False is not true : an approval queued before cancellation still dispatched afterward\n"
+    },
+    {
+      "id": "test_harness_v1_review.IndependentReviewTests.test_cancel_contractions_revokes_queued_approval",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 236, in test_cancel_contractions_revokes_queued_approval\n    await self._cancel_queued_approval(\"Don't send it. Please cancel. That's final.\")\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 259, in _cancel_queued_approval\n    self.expect(not self.effects, \"an approval queued before cancellation still dispatched afterward\")\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 162, in expect\n    self.assertTrue(condition, message)\nAssertionError: False is not true : an approval queued before cancellation still dispatched afterward\n"
+    },
+    {
+      "id": "test_harness_v1_review.IndependentReviewTests.test_cancel_spaced_negation_revokes_queued_approval",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 242, in test_cancel_spaced_negation_revokes_queued_approval\n    await self._cancel_queued_approval(\"不 确认\")\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 259, in _cancel_queued_approval\n    self.expect(not self.effects, \"an approval queued before cancellation still dispatched afterward\")\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 162, in expect\n    self.assertTrue(condition, message)\nAssertionError: False is not true : an approval queued before cancellation still dispatched afterward\n"
+    },
+    {
+      "id": "test_harness_v1_integration.MainActionTests.test_negative_literal_does_not_revoke_pending_ticket",
+      "detail": "Traceback (most recent call last):\n  File \"{PYTHON}\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PYTHON}\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"{SOURCE}\\services\\agent-core\\tests\\test_harness_v1_integration.py\", line 66, in test_negative_literal_does_not_revoke_pending_ticket\n    self.assertEqual(core._sync_pending(self.sid)[0][\"action_id\"],first[\"action_id\"])\n                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^\nIndexError: list index out of range\n"
+    }
+  ]
+}
