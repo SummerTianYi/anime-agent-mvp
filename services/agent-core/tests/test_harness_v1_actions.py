@@ -27,7 +27,8 @@ class ActionsTests(unittest.IsolatedAsyncioTestCase):
         for text in ('把 /tmp/reject.txt 写成：不要执行样本。',
                      '请发送邮件，正文：取消订单。',
                      '请保存 "不要执行" 这句话', '"确认"', '`cancel`',
-                     '确认 "新参数"', 'yes `changed arguments`'):
+                     '确认 "新参数"', 'yes `changed arguments`', '分别写两个文件',
+                     '分别发送两封邮件', 'play piano'):
             self.assertEqual(decision(text), "other", text)
 
     async def test_real_decline_and_edit_survive_literal_removal(self):

@@ -65,7 +65,8 @@ class MainActionTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse((self.root/"one.txt").exists())
 
     async def test_initial_negative_literal_can_propose_then_be_declined(self):
-        core._task_state.pop(self.sid, None)
+        # Previous completed task state must not turn a new request into a
+        # cancellation when no pending or in-flight operation exists.
         await core.handle_chat('把文件写成：不要执行样本。',"literal-first",self.sid)
         first=await self.proposal("literal.txt","不要执行样本。")
         self.assertIn("confirmation",first)

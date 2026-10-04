@@ -35,7 +35,7 @@ def decision(text):
     if payload:
         control = control[:payload.end()-1]
     normalized = re.sub(r"[\s。！!，,；;]", "", control).lower()
-    if re.search(r"不同意|不确认|不要|别执行|别写|别发|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许|no\b|cancel\b", normalized):
+    if re.search(r"不同意|不确认|不要|(?<!分)别(?:执行|写|发)|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许|\bno\b|\bcancel\b", control.lower()):
         return "edit" if re.search(r"改成|改为|改发|换成|重新|改一下", normalized) else "decline"
     if re.search(r"改成|改为|改发|换成|改一下", normalized):
         return "edit"

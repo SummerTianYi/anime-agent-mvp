@@ -1425,7 +1425,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     if session_probe is not None:
         book = _actions()
         if incoming_decision in {"decline","edit"} and (
-                book.pending(session_probe) or _task_state.get(session_probe) is not None):
+                book.pending(session_probe) or (chat_lock.locked() and _task_state.get(session_probe) is not None)):
             preempted = book.cancel(session_probe)
             active_task = _task_state.get(session_probe)
             if active_task is not None:
