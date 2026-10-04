@@ -12,6 +12,19 @@ Exit code 0 = all items pass their bar.
 """
 from __future__ import annotations
 
+# Codex Harness V0: the legacy production-bound CLI is intentionally disabled.
+# Historical implementation remains below for audit, not for implicit live use.
+if __name__ == "__main__":
+    import sys as _sys
+    from pathlib import Path as _Path
+    if "--harness-v0" not in _sys.argv:
+        raise SystemExit("Production-coupled legacy runner disabled. Use --harness-v0 {capture,freeze,run,replay}.")
+    _sys.argv.remove("--harness-v0")
+    _sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+    from scripts.harness_v0.runner import main as _harness_main
+    _harness_main()
+    raise SystemExit(0)
+
 import asyncio
 import json
 import re

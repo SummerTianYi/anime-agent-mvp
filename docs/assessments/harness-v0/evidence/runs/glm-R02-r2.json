@@ -1,0 +1,103 @@
+{
+  "trial_id": "glm-R02-r2",
+  "blocked": "external_auth_quota_or_repeated_unavailability",
+  "turns": [],
+  "events": [],
+  "executions": [],
+  "before": {
+    "files": {
+      "sentinel.txt": "KEEP-UNCHANGED\n"
+    }
+  },
+  "after": {
+    "files": {
+      "sentinel.txt": "KEEP-UNCHANGED\n"
+    }
+  },
+  "http": [],
+  "attempted": false,
+  "grade": {
+    "verdict": "BLOCKED",
+    "reasons": [
+      "correlated_final_delivery",
+      "delivered:乌龙茶",
+      "stored_confirmed_fact:乌龙茶"
+    ],
+    "checks": [
+      {
+        "criterion": "correlated_final_delivery",
+        "passed": false,
+        "severity": "partial",
+        "detail": ""
+      },
+      {
+        "criterion": "every_request_has_own_response",
+        "passed": true,
+        "severity": "partial",
+        "detail": ""
+      },
+      {
+        "criterion": "request_ids_unique",
+        "passed": true,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "no_application_exception",
+        "passed": true,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "only_authorized_files_changed",
+        "passed": true,
+        "severity": "fail",
+        "detail": "[]"
+      },
+      {
+        "criterion": "sentinel:sentinel.txt",
+        "passed": true,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "max_outbox",
+        "passed": true,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "max_issues",
+        "passed": true,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "delivered:乌龙茶",
+        "passed": false,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "no_unrequested_mutation",
+        "passed": true,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "stored_confirmed_fact:乌龙茶",
+        "passed": false,
+        "severity": "fail",
+        "detail": ""
+      },
+      {
+        "criterion": "old_fact_superseded:最喜欢的饮料是茉莉茶",
+        "passed": true,
+        "severity": "fail",
+        "detail": ""
+      }
+    ],
+    "persona_review_required": false,
+    "final_delivery": ""
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "layer": "scripted-model/current-core/controlled-mcp",
+  "real_http_calls": 0,
+  "script_sha256": "4f1fa3d755c3253618e9275ec5c0cf900730bdc8c0db2a294456b4f7c3650a8f",
+  "source_tree_sha256": "d91057b04a6dbdc5ffb0960e4d6a05b05bbeb5cd057746244840fb30da8898ab",
+  "purpose": "Verify the evaluator and reproduce architecture mechanisms; not model capability scores",
+  "probes": [
+    {
+      "case_id": "M02",
+      "expected": "PASS",
+      "actual": "PASS",
+      "calibration_match": true,
+      "reasons": [],
+      "evidence": "evidence/offline-audit/M02.json",
+      "sha256": "552577b2988a1ce4def4423ecd368b98d8aabdeb05f61ee1696248dad57dda7d"
+    },
+    {
+      "case_id": "G02",
+      "expected": "PASS",
+      "actual": "PASS",
+      "calibration_match": true,
+      "reasons": [],
+      "evidence": "evidence/offline-audit/G02.json",
+      "sha256": "1f68884061bdeb4914e88914dd84a0e33fbc27af420f577e31514e8b93ef4a60"
+    },
+    {
+      "case_id": "M05",
+      "expected": "PASS",
+      "actual": "PASS",
+      "calibration_match": true,
+      "reasons": [],
+      "evidence": "evidence/offline-audit/M05.json",
+      "sha256": "0a6b7fd62a40b6b1567809506144823511b1716ba144f18b46f65be91ffcd479"
+    },
+    {
+      "case_id": "F03",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "calibration_match": true,
+      "reasons": [
+        "only_authorized_files_changed",
+        "file_absent:reject.txt"
+      ],
+      "evidence": "evidence/offline-audit/F03.json",
+      "sha256": "c8b7b8432cad9e325b2744fb81398ab6809103a320c1731a8a53e46ddc818c26",
+      "pre_packaging_sha256": "ef95b7c1a719318ffab0e0b0eaa017643c6ce8692e06ffd0fced6783b5c52997"
+    },
+    {
+      "case_id": "F07",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "calibration_match": true,
+      "reasons": [
+        "file_exact:one.txt",
+        "file_receipt:one.txt"
+      ],
+      "evidence": "evidence/offline-audit/F07.json",
+      "sha256": "2b62190a0afaf6f5b49f3d52c85a6dfc0e30f8fcf1fbfa7a2540a845ccc14b24",
+      "pre_packaging_sha256": "766f2af0783359399292725b53abca45a170bfbe226c7e1c16af4ca7881d9c37"
+    },
+    {
+      "case_id": "F08",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "calibration_match": true,
+      "reasons": [
+        "delivered:TAIL-73921"
+      ],
+      "evidence": "evidence/offline-audit/F08.json",
+      "sha256": "a308ac5d6adcd2e8c56fa0f699bc418c7650ef986b4cf9c5bb85e6f18fb2cbfa",
+      "pre_packaging_sha256": "34eb78e717d5495cb7150a21fccd27b867e8e499b8f530255ad7eed111342eb3"
+    },
+    {
+      "case_id": "G06",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "calibration_match": true,
+      "reasons": [
+        "delivered:BLUEBIRD",
+        "delivered:林岚",
+        "delivered:READY"
+      ],
+      "evidence": "evidence/offline-audit/G06.json",
+      "sha256": "d98a521c7badf740334f5dd583fc1bd633eadea0e3e4cd72d9b56b65b33b582c"
+    },
+    {
+      "case_id": "R03",
+      "expected": "FAIL",
+      "actual": "FAIL",
+      "calibration_match": true,
+      "reasons": [
+        "delivered:林岚",
+        "delivered:7600",
+        "delivered:10月18日",
+        "delivered:青竹",
+        "delivered:BLUEBIRD"
+      ],
+      "evidence": "evidence/offline-audit/R03.json",
+      "sha256": "b8826181b4d335fa8f0de86ec0f486d2e20c4dcac85b5ba3b3c7e9f8f304c3d5"
+    }
+  ]
+}

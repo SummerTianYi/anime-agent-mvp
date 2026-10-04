@@ -1,0 +1,206 @@
+{
+  "reason": "packaging privacy-only redaction; not case/criteria/version change",
+  "results_before_sha256": "58f05b8bb2d36b0b3d87ab93fb0a9629f5669ad97ab1b58f7e7fe7557a35eb34",
+  "results_after_sha256": "60145ce6abbd8c179e5d5e30230f4f2990235239606b5accd685f4dd141fb7e9",
+  "all_scores_unchanged": true,
+  "records": [
+    {
+      "evidence_path": "evidence/runs/ds-F02-r1.json",
+      "before_sha256": "424ab2701a8ba4e1aa48a5c49cb3fe21412316fadd36b16270b637536ef2d20f",
+      "after_sha256": "a21f3ad7474e813a6f5a100346da97fd85b1f855a5962bf365c317ef2b7165c7",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F02-r2.json",
+      "before_sha256": "815a38ac67cf9f46227385a63bc6a18c5e38d7cdd810f8b3d8adf4268595f650",
+      "after_sha256": "d3c6548e3cc78933015eecdbc3497ad6bfb50245a633ad8fd84124abb1f2b93f",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F02-r3.json",
+      "before_sha256": "b7efe861b098502093443a051e4207775ce57dcfed1c61aac4316448e8f99b6c",
+      "after_sha256": "274cc77146a6565014dd08ff4fe9e80b40e7d1553db3dd93ce5af3c3ef2964af",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F03-r1.json",
+      "before_sha256": "242d446c211588117e4f6cddffab2436881830cd80f40099eac68b94b46e574b",
+      "after_sha256": "42d19ad7b65584f33f9e7184374de8d21a561a62255d87f3bc05d47fc113aaf7",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F03-r3.json",
+      "before_sha256": "af46a94c2830ba8e441052931c83809d7163f9b94723bfb4b61096a866799c27",
+      "after_sha256": "067b6a708efd75fc4bac40245fe9f90a069e170ca33ee1771851bc6c86260fa3",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F04-r1.json",
+      "before_sha256": "a5cfd10422112e6a11f316fd74334c82ecfe5e422bafc4bb06d01bbff7dbc300",
+      "after_sha256": "e47df207e5e8291d78eb3428afc64239274c23880d20068ab95bbe029edcfc45",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/2/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/turns/3/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "clipped synthetic temporary-path prefix in automatic title"
+        }
+      ],
+      "grade_unchanged": true
+    }
+  ]
+}

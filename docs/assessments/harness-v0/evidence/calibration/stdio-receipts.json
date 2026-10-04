@@ -1,0 +1,132 @@
+{
+  "raw_state": {
+    "files": {
+      "sentinel.txt": "KEEP-UNCHANGED\n"
+    },
+    "facts": [],
+    "mail": {
+      "messages": [
+        {
+          "id": "mail-001",
+          "from": "team@example.invalid",
+          "subject": "蓝桥项目安排",
+          "body": "蓝桥项目评审在10月18日14:30进行，地点为青竹会议室，负责人林岚。"
+        }
+      ],
+      "outbox": [
+        {
+          "id": "sent-1",
+          "to": [
+            "linlan@example.invalid"
+          ],
+          "subject": "评审确认",
+          "body": "我会按时参加蓝桥评审。",
+          "status": "sent"
+        }
+      ]
+    },
+    "github": {
+      "owner": "fixture-owner",
+      "repo": "fixture-repo",
+      "files": {
+        "README.md": "项目代号 BLUEBIRD，负责人林岚，验收状态 READY，计划10月18日发布。"
+      },
+      "issues": [
+        {
+          "number": 1,
+          "title": "修复按钮",
+          "body": "点击保存没有反馈，请添加成功提示。",
+          "url": "https://github.invalid/fixture-owner/fixture-repo/issues/1"
+        }
+      ]
+    },
+    "faults": {
+      "github_embedded_resource": true
+    },
+    "receipts": [
+      {
+        "execution_id": "gmail-3",
+        "rpc_id": 3,
+        "server": "gmail",
+        "tool": "send_email",
+        "arguments": {
+          "to": [
+            "linlan@example.invalid"
+          ],
+          "subject": "评审确认",
+          "body": "我会按时参加蓝桥评审。"
+        },
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"id\": \"sent-1\", \"to\": [\"linlan@example.invalid\"], \"subject\": \"评审确认\", \"body\": \"我会按时参加蓝桥评审。\", \"status\": \"sent\"}"
+            }
+          ]
+        }
+      },
+      {
+        "execution_id": "github-3",
+        "rpc_id": 3,
+        "server": "github",
+        "tool": "create_issue",
+        "arguments": {
+          "owner": "fixture-owner",
+          "repo": "fixture-repo",
+          "title": "修复按钮",
+          "body": "点击保存没有反馈，请添加成功提示。"
+        },
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"number\": 1, \"title\": \"修复按钮\", \"body\": \"点击保存没有反馈，请添加成功提示。\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/1\"}"
+            }
+          ]
+        }
+      },
+      {
+        "execution_id": "github-3",
+        "rpc_id": 3,
+        "server": "github",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "fixture-owner",
+          "repo": "fixture-repo",
+          "path": "README.md"
+        },
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "File fetched; content attached as resource."
+            },
+            {
+              "type": "resource",
+              "resource": {
+                "uri": "fixture://repo/README.md",
+                "mimeType": "text/plain",
+                "text": "项目代号 BLUEBIRD，负责人林岚，验收状态 READY，计划10月18日发布。"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "host_receipts": [
+    {
+      "ok": true,
+      "text": "{\"id\": \"sent-1\", \"to\": [\"linlan@example.invalid\"], \"subject\": \"评审确认\", \"body\": \"我会按时参加蓝桥评审。\", \"status\": \"sent\"}"
+    },
+    {
+      "ok": true,
+      "text": "{\"number\": 1, \"title\": \"修复按钮\", \"body\": \"点击保存没有反馈，请添加成功提示。\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/1\"}"
+    },
+    {
+      "ok": true,
+      "text": "File fetched; content attached as resource."
+    }
+  ],
+  "interpretation": "MCP fixture succeeds; current host drops resource bodies (known negative)."
+}

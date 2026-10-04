@@ -1,0 +1,30 @@
+{
+  "status": "FAIL",
+  "production_source_manifest_unchanged": true,
+  "production_core_contacted": false,
+  "real_model_http_calls": 0,
+  "candidate_prompt_activated": false,
+  "independent_agent_whitepaper_gate": "not run; Manager acceptance pending",
+  "checks": [
+    {
+      "command": "python -m scripts.harness_v0.verify_package --private-env <private-test.env>",
+      "exit_code": 1,
+      "output": "{\n  \"ds\": {\n    \"cases\": 26,\n    \"scheduled\": 78,\n    \"actual_runs\": 10,\n    \"verdicts\": {\n      \"PASS\": 5,\n      \"FAIL\": 4,\n      \"BLOCKED\": 69\n    },\n    \"http_calls\": 30\n  },\n  \"glm\": {\n    \"cases\": 26,\n    \"scheduled\": 78,\n    \"actual_runs\": 10,\n    \"verdicts\": {\n      \"PASS\": 6,\n      \"FAIL\": 3,\n      \"BLOCKED\": 69\n    },\n    \"http_calls\": 36\n  }\n}\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"{REPO}\\scripts\\harness_v0\\verify_package.py\", line 72, in <module>\n    main()\n  File \"{REPO}\\scripts\\harness_v0\\verify_package.py\", line 61, in main\n    assert not re.search(r\"[CD]:[\\\\/]+(?:Users|UserData)\", text), \"Unsanitized local path: \" + path.name\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Unsanitized local path: delivery-checks.json\n"
+    },
+    {
+      "command": "python scripts/check_docs_consistency.py",
+      "exit_code": 0,
+      "output": "[1] actual unittest cases: 273\n    docs\\TESTING.md: claims 273 (ok)\n    AGENTS.md: claims 273 (ok)\n    docs\\HANDOFF.md: claims 273 (ok)\n    docs\\HANDOFF.md: claims 273 (ok)\n    docs\\VERIFICATION_SPEC.md: claims 273 (ok)\n[2] code env vars: 37, .env.example entries: 39\n    all code vars documented\n[3] registered tools: ['active_window', 'clipboard_read', 'get_time', 'list_dir', 'look_at_screen', 'read_file', 'run_command', 'screenshot', 'write_file']\n    all tools documented in AVATAR_BRIDGE.md\nDOCS_CONSISTENCY_OK\n{SOURCE}\\services\\agent-core\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n  from starlette.testclient import TestClient as TestClient  # noqa\n"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": "git diff --cached --check",
+      "exit_code": 0,
+      "output": ""
+    }
+  ]
+}

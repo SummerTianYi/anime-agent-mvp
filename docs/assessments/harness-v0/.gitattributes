@@ -1,0 +1,5 @@
+# Codex: evidence hashes cover exact bytes. Preserve generated JSON/JSONL/TXT
+# across Windows/Linux checkouts; do not apply Git newline conversion to them.
+*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.jsonl -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

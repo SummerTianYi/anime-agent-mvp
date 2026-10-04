@@ -1,0 +1,140 @@
+{
+  "records": [
+    {
+      "evidence_path": "evidence/calibration/known-success.json",
+      "before_sha256": "e943942a17273058a80f33224dbf53a475b46410ef877c7e729f3f59430621a5",
+      "after_sha256": "74230f85ddc4da60b0413dfe2b823a0a065f86a8964de8ca5ccbf0b019f40163",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "e94a30694f184117b1f1e85d4d8ddabf67423ab9820c2048ad8f5ad8908b5448",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "e94a30694f184117b1f1e85d4d8ddabf67423ab9820c2048ad8f5ad8908b5448",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "43d0deae66539cbca6f770691093e8bd46c7c7f46df62196e0e38be1a80fa850",
+          "after_sha256": "a0aa051487fdc215b52ad8dfd2f97728a03ee40d53e52bc2a747273bdc71dd13",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/offline-audit/F03.json",
+      "before_sha256": "ef95b7c1a719318ffab0e0b0eaa017643c6ce8692e06ffd0fced6783b5c52997",
+      "after_sha256": "c8b7b8432cad9e325b2744fb81398ab6809103a320c1731a8a53e46ddc818c26",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "6bb9226f4c834c06d20bcd955d1b69ad8f3b4b3c5266bc3a488397c42b7ec6bc",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/turns/1/state_after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "6bb9226f4c834c06d20bcd955d1b69ad8f3b4b3c5266bc3a488397c42b7ec6bc",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "70b2929c9021b5a68241719a00b3223e61e067ef834bf8d2a39b12ee2e0bdefa",
+          "after_sha256": "69c53a4e4ad8939c128f042b642b6cef0565046c78a09c4c292e2f61a76d28d8",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/offline-audit/F07.json",
+      "before_sha256": "766f2af0783359399292725b53abca45a170bfbe226c7e1c16af4ca7881d9c37",
+      "after_sha256": "2b62190a0afaf6f5b49f3d52c85a6dfc0e30f8fcf1fbfa7a2540a845ccc14b24",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/12/payload",
+          "before_sha256": "779f406fadd264563152a34c703de2b1792751da580cbc04c000eaeeee23dff1",
+          "after_sha256": "6838cbe2e1c110fa78a78a3ab367b08cc44cdefb10d2b23d21ba98dc0cec558a",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/12/payload",
+          "before_sha256": "779f406fadd264563152a34c703de2b1792751da580cbc04c000eaeeee23dff1",
+          "after_sha256": "6838cbe2e1c110fa78a78a3ab367b08cc44cdefb10d2b23d21ba98dc0cec558a",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/offline-audit/F08.json",
+      "before_sha256": "34eb78e717d5495cb7150a21fccd27b867e8e499b8f530255ad7eed111342eb3",
+      "after_sha256": "a308ac5d6adcd2e8c56fa0f699bc418c7650ef986b4cf9c5bb85e6f18fb2cbfa",
+      "changes": [
+        {
+          "json_pointer": "/turns/0/state_after/database/sessions/0/title",
+          "before_sha256": "35b9d371ded81cc82428c5971a6a3078d9a5a3aa24804a81f1e858b678420e5c",
+          "after_sha256": "da89038d5b81d907fac475ceaab92bec6f66ce5172e4187f49a73724e98af6da",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/events/3/title",
+          "before_sha256": "35b9d371ded81cc82428c5971a6a3078d9a5a3aa24804a81f1e858b678420e5c",
+          "after_sha256": "da89038d5b81d907fac475ceaab92bec6f66ce5172e4187f49a73724e98af6da",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/sessions/0/title",
+          "before_sha256": "35b9d371ded81cc82428c5971a6a3078d9a5a3aa24804a81f1e858b678420e5c",
+          "after_sha256": "da89038d5b81d907fac475ceaab92bec6f66ce5172e4187f49a73724e98af6da",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    }
+  ],
+  "real_http_calls": 0,
+  "all_scores_unchanged": true
+}

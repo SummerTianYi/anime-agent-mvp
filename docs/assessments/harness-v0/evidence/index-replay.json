@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "scope": "staged candidate before this self-report",
+  "frozen_files_and_evidence_bytes_preserved": true,
+  "staged_files_checked": 202,
+  "staged_total_bytes": 3619617,
+  "index_tree_before_self_report": "cb98c1a7de8a4121c772610f49703e9b79152a84",
+  "secret_values_compared": 6,
+  "clean_export_replay_stdout": "{\n  \"ds\": {\n    \"cases\": 26,\n    \"scheduled\": 78,\n    \"actual_runs\": 10,\n    \"verdicts\": {\n      \"PASS\": 5,\n      \"FAIL\": 4,\n      \"BLOCKED\": 69\n    },\n    \"http_calls\": 30\n  },\n  \"glm\": {\n    \"cases\": 26,\n    \"scheduled\": 78,\n    \"actual_runs\": 10,\n    \"verdicts\": {\n      \"PASS\": 6,\n      \"FAIL\": 3,\n      \"BLOCKED\": 69\n    },\n    \"http_calls\": 36\n  }\n}\n",
+  "real_model_http_calls": 0
+}

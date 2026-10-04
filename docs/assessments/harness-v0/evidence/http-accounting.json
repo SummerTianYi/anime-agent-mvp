@@ -1,0 +1,269 @@
+{
+  "cap": 900,
+  "reserved_wire_attempts": [
+    {
+      "sequence": 1,
+      "trial_id": "glm-F01-r1"
+    },
+    {
+      "sequence": 2,
+      "trial_id": "ds-F01-r1"
+    },
+    {
+      "sequence": 3,
+      "trial_id": "ds-F01-r1"
+    },
+    {
+      "sequence": 4,
+      "trial_id": "glm-F01-r1"
+    },
+    {
+      "sequence": 5,
+      "trial_id": "glm-F01-r2"
+    },
+    {
+      "sequence": 6,
+      "trial_id": "ds-F01-r2"
+    },
+    {
+      "sequence": 7,
+      "trial_id": "ds-F01-r2"
+    },
+    {
+      "sequence": 8,
+      "trial_id": "glm-F01-r2"
+    },
+    {
+      "sequence": 9,
+      "trial_id": "ds-F01-r3"
+    },
+    {
+      "sequence": 10,
+      "trial_id": "glm-F01-r3"
+    },
+    {
+      "sequence": 11,
+      "trial_id": "ds-F01-r3"
+    },
+    {
+      "sequence": 12,
+      "trial_id": "glm-F01-r3"
+    },
+    {
+      "sequence": 13,
+      "trial_id": "glm-F02-r1"
+    },
+    {
+      "sequence": 14,
+      "trial_id": "ds-F02-r1"
+    },
+    {
+      "sequence": 15,
+      "trial_id": "ds-F02-r1"
+    },
+    {
+      "sequence": 16,
+      "trial_id": "glm-F02-r1"
+    },
+    {
+      "sequence": 17,
+      "trial_id": "ds-F02-r1"
+    },
+    {
+      "sequence": 18,
+      "trial_id": "ds-F02-r1"
+    },
+    {
+      "sequence": 19,
+      "trial_id": "glm-F02-r1"
+    },
+    {
+      "sequence": 20,
+      "trial_id": "glm-F02-r1"
+    },
+    {
+      "sequence": 21,
+      "trial_id": "glm-F02-r1"
+    },
+    {
+      "sequence": 22,
+      "trial_id": "glm-F02-r1"
+    },
+    {
+      "sequence": 23,
+      "trial_id": "glm-F02-r2"
+    },
+    {
+      "sequence": 24,
+      "trial_id": "ds-F02-r2"
+    },
+    {
+      "sequence": 25,
+      "trial_id": "ds-F02-r2"
+    },
+    {
+      "sequence": 26,
+      "trial_id": "glm-F02-r2"
+    },
+    {
+      "sequence": 27,
+      "trial_id": "ds-F02-r2"
+    },
+    {
+      "sequence": 28,
+      "trial_id": "ds-F02-r2"
+    },
+    {
+      "sequence": 29,
+      "trial_id": "glm-F02-r2"
+    },
+    {
+      "sequence": 30,
+      "trial_id": "glm-F02-r2"
+    },
+    {
+      "sequence": 31,
+      "trial_id": "glm-F02-r3"
+    },
+    {
+      "sequence": 32,
+      "trial_id": "ds-F02-r3"
+    },
+    {
+      "sequence": 33,
+      "trial_id": "ds-F02-r3"
+    },
+    {
+      "sequence": 34,
+      "trial_id": "glm-F02-r3"
+    },
+    {
+      "sequence": 35,
+      "trial_id": "glm-F02-r3"
+    },
+    {
+      "sequence": 36,
+      "trial_id": "ds-F02-r3"
+    },
+    {
+      "sequence": 37,
+      "trial_id": "ds-F03-r1"
+    },
+    {
+      "sequence": 38,
+      "trial_id": "glm-F03-r1"
+    },
+    {
+      "sequence": 39,
+      "trial_id": "ds-F03-r1"
+    },
+    {
+      "sequence": 40,
+      "trial_id": "glm-F03-r1"
+    },
+    {
+      "sequence": 41,
+      "trial_id": "ds-F03-r1"
+    },
+    {
+      "sequence": 42,
+      "trial_id": "glm-F03-r1"
+    },
+    {
+      "sequence": 43,
+      "trial_id": "glm-F03-r2"
+    },
+    {
+      "sequence": 44,
+      "trial_id": "ds-F03-r2"
+    },
+    {
+      "sequence": 45,
+      "trial_id": "ds-F03-r2"
+    },
+    {
+      "sequence": 46,
+      "trial_id": "glm-F03-r2"
+    },
+    {
+      "sequence": 47,
+      "trial_id": "ds-F03-r2"
+    },
+    {
+      "sequence": 48,
+      "trial_id": "glm-F03-r2"
+    },
+    {
+      "sequence": 49,
+      "trial_id": "glm-F03-r3"
+    },
+    {
+      "sequence": 50,
+      "trial_id": "ds-F03-r3"
+    },
+    {
+      "sequence": 51,
+      "trial_id": "ds-F03-r3"
+    },
+    {
+      "sequence": 52,
+      "trial_id": "glm-F03-r3"
+    },
+    {
+      "sequence": 53,
+      "trial_id": "ds-F03-r3"
+    },
+    {
+      "sequence": 54,
+      "trial_id": "glm-F03-r3"
+    },
+    {
+      "sequence": 55,
+      "trial_id": "ds-F04-r1"
+    },
+    {
+      "sequence": 56,
+      "trial_id": "glm-F04-r1"
+    },
+    {
+      "sequence": 57,
+      "trial_id": "ds-F04-r1"
+    },
+    {
+      "sequence": 58,
+      "trial_id": "glm-F04-r1"
+    },
+    {
+      "sequence": 59,
+      "trial_id": "glm-F04-r1"
+    },
+    {
+      "sequence": 60,
+      "trial_id": "ds-F04-r1"
+    },
+    {
+      "sequence": 61,
+      "trial_id": "ds-F04-r1"
+    },
+    {
+      "sequence": 62,
+      "trial_id": "glm-F04-r1"
+    },
+    {
+      "sequence": 63,
+      "trial_id": "glm-F04-r1"
+    },
+    {
+      "sequence": 64,
+      "trial_id": "glm-F04-r1"
+    },
+    {
+      "sequence": 65,
+      "trial_id": "glm-F04-r1"
+    },
+    {
+      "sequence": 66,
+      "trial_id": "glm-F04-r1"
+    }
+  ]
+}

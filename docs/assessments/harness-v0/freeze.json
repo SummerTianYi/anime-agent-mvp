@@ -1,0 +1,18 @@
+{
+  "version": "v0.1",
+  "policy": "append/version changes; preserve all first outcomes",
+  "files": {
+    "docs/assessments/harness-v0/cases.json": "b89af08b2258b0085e2e3e3988365e3052c09aa898c4b81d55ca3d0ad87f8bf9",
+    "scripts/model_cert.py": "a952655a297e39f0eb8db7933b505b2e48000c6126450eeca4500209e0ea4e33",
+    "scripts/harness_v0/grader.py": "f24085e8d81d434c56ab1661cd297a1e87d060d3b521f2df60699e7698af819f",
+    "scripts/harness_v0/worker.py": "e85dec3aa11b11d60782931ee43b49c62d80528f68cf24087f5ccae029e09ba7",
+    "scripts/harness_v0/budget.py": "ce76f87e28b1d6129abf1221390113e09065d5bee9b624e0d1480b8780847fd4",
+    "scripts/harness_v0/fixture_mcp.py": "815e6dcc69eaf731b5b95e9799a5ac639dbeb8fd881a2f04a529750548e1fbdf",
+    "scripts/harness_v0/prepare.py": "2f93131175f918d5636b545d42dac40911145ca7bc91d92bee66f0a1314f14d2",
+    "scripts/harness_v0/runner.py": "5bb62eec9c7d8ddb3c14b366f2f7cf6643f5a573c3661562516e9188ba8de137",
+    "scripts/harness_v0/test_calibration.py": "888a50b36322a4cd487786b307a63e200bf5cdf04cacf12abdde2b3272010b20"
+  },
+  "source_tree_sha256": "d91057b04a6dbdc5ffb0960e4d6a05b05bbeb5cd057746244840fb30da8898ab",
+  "current_prompt_sha256": "ae370354e78324b2d34d0f9ed7e1724c0c5721d64fd7404db4d422cb48a7762c",
+  "candidate_prompt_active": false
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "pre-freeze evaluator development, no real model requests",
+  "attempts": [
+    {"tests": 21, "errors": 2, "reason": "Windows SQLite context manager committed but did not close connections; temporary budget DB cleanup remained locked", "change": "Use contextlib.closing around every budget connection; preserve all assertions"},
+    {"tests": 24, "errors": 1, "reason": "New test insertion accidentally moved fault assertions into the wrong test, causing NameError", "change": "Move assertions back to their original fixture test; no removed criteria"},
+    {"tests": 24, "errors": 0, "reason": "All existing calibration tests passed"},
+    {"tests": 25, "errors": 0, "reason": "Added actual controlled stdio roundtrip and known resource-loss negative; passed before freeze"}
+  ],
+  "live_results_modified": false,
+  "frozen_evaluator_modified_after_live_start": false
+}

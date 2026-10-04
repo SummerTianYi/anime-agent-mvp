@@ -1,0 +1,268 @@
+{
+  "reason": "packaging privacy-only redaction; not case/criteria/version change",
+  "results_before_sha256": "60145ce6abbd8c179e5d5e30230f4f2990235239606b5accd685f4dd141fb7e9",
+  "results_after_sha256": "6afa1e7b5e5261289f3c1d58db87a323ad43f66e537fd61ef1654c07285649d9",
+  "all_scores_unchanged": true,
+  "records": [
+    {
+      "evidence_path": "evidence/runs/ds-F02-r1.json",
+      "before_sha256": "a21f3ad7474e813a6f5a100346da97fd85b1f855a5962bf365c317ef2b7165c7",
+      "after_sha256": "874cffa4f956df13abf69695dfce3aa67d5506d0f94f649ac6a3f052f5577999",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "df1d121dbed57a2238eb6f2ba1ed6bb66ebf35d7bb7d33973cedcf1f6301d943",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "df1d121dbed57a2238eb6f2ba1ed6bb66ebf35d7bb7d33973cedcf1f6301d943",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F02-r1.json",
+      "before_sha256": "3ec16749dccdd3b432603855c6470d45eac2e536240ae1ebfed4726dbc237f53",
+      "after_sha256": "aa9ae8cd98b3aef01ae1e43e5c9fbc5ecab1a68859a2bf2340b13fd8b2eda240",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/15/payload",
+          "before_sha256": "d0af1ea481ff88b78c333bc9561219c891fce36dcff97f54b24dc9e6ec0bacfa",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/15/payload",
+          "before_sha256": "d0af1ea481ff88b78c333bc9561219c891fce36dcff97f54b24dc9e6ec0bacfa",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F02-r2.json",
+      "before_sha256": "d3c6548e3cc78933015eecdbc3497ad6bfb50245a633ad8fd84124abb1f2b93f",
+      "after_sha256": "d09218913059b1e5a488f36fd70dbff341cc1ac0144d3c1a264d4c5b3a2928e2",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "d77650d9cd451a5bc6523ee9c90481e65e4b917589903fc39e546e512880b5ec",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "d77650d9cd451a5bc6523ee9c90481e65e4b917589903fc39e546e512880b5ec",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F02-r2.json",
+      "before_sha256": "653aba1ea0b1c3ca796e81ccda58eca2df1b859bacde64d999d27aa538a2f599",
+      "after_sha256": "09671d3c04bc741747e847470b408f3ae08fa08daf75e0b482b05ac555d82eec",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "4d367fe821f257d97044d805961e7e6fe8210b1d8a8b0f472e583f9dfc18b714",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "4d367fe821f257d97044d805961e7e6fe8210b1d8a8b0f472e583f9dfc18b714",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F02-r3.json",
+      "before_sha256": "274cc77146a6565014dd08ff4fe9e80b40e7d1553db3dd93ce5af3c3ef2964af",
+      "after_sha256": "2075acaa645f22c67d11e1c959c4699e2baab93ab5082b1e568c55c89839c762",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "c10e6f43c5009c5427bb79495203b3d1af79becf915ce914f24f9722eccee846",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "c10e6f43c5009c5427bb79495203b3d1af79becf915ce914f24f9722eccee846",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F02-r3.json",
+      "before_sha256": "0a933cd7cf57aef6dbf92bd52b165dc0691cc410dbdf8688b2e26598ac834d57",
+      "after_sha256": "39ef7dacfb30a56d128365db48fa1b1774ec7e7ab27b0996eb4d83624f5e3645",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "6bae089da5463fa2bcff374beae9f866986f1c200e2f89fc8ee81bc8fd3ca4ed",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "6bae089da5463fa2bcff374beae9f866986f1c200e2f89fc8ee81bc8fd3ca4ed",
+          "after_sha256": "1475474c754765e83947bc91894b2c82991d8473b94ea3da17e980f6ecb36361",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F03-r1.json",
+      "before_sha256": "42d19ad7b65584f33f9e7184374de8d21a561a62255d87f3bc05d47fc113aaf7",
+      "after_sha256": "8878f94ffb2a03804e2d99c33a79a710690c612f7b114eead7952413b599e1aa",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "d4a5317391c6f25c087ea67636a7627c43d5ac725654ba98a5237a0c9a982fd8",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "d4a5317391c6f25c087ea67636a7627c43d5ac725654ba98a5237a0c9a982fd8",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F03-r1.json",
+      "before_sha256": "6507d9c0a0f3180813f214b451a11645351c474fa6602a51403e8ed15abe2292",
+      "after_sha256": "2943c9ee74788ae4963d7bee6b449f7e545aa7fc760e4cbc07716da5e43a8593",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "8ec90729683a21ef43a7509308a6d66bd18d9e209ee0241cf065e973071d67b0",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "8ec90729683a21ef43a7509308a6d66bd18d9e209ee0241cf065e973071d67b0",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F03-r2.json",
+      "before_sha256": "5678c418ba386b57d9b5b6dff48e481ea656633e06e87179dfb4d5ea16bfa6f9",
+      "after_sha256": "82762550cdb68094f6aa723ea1363030ad8ad59fdfc670cd7670bebdaa72f280",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "fd136223414239905cc3efc4bf97ce1ee02567f38e59397f0369e7ab81fff6c2",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "fd136223414239905cc3efc4bf97ce1ee02567f38e59397f0369e7ab81fff6c2",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F03-r2.json",
+      "before_sha256": "4b71d53d9f16280f9650772102752ba81e5ceaa5ef7703a9e87f2622657c65cc",
+      "after_sha256": "8b6cd365281363d4d0008422ab36407d72ff783815e6b26ec688f5f7502ceb8c",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "b8fc5f390027d136168ab0c021a36d47ac01de8954b57e1ee511f4174315150c",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "b8fc5f390027d136168ab0c021a36d47ac01de8954b57e1ee511f4174315150c",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/ds-F03-r3.json",
+      "before_sha256": "4b14fe1a77fdb77342fd0cc4ece039ad4cfdcbb8bf13be50d2d4881594c479f4",
+      "after_sha256": "c05f5ec3707a11235b3d55af1103c23de0e6dfb20f388015822a717735ba0950",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "948a59ce6c08f5847e85a66dfa5911af636844c4cf0157fa9bf253b1b8d45e45",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "948a59ce6c08f5847e85a66dfa5911af636844c4cf0157fa9bf253b1b8d45e45",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F03-r3.json",
+      "before_sha256": "067b6a708efd75fc4bac40245fe9f90a069e170ca33ee1771851bc6c86260fa3",
+      "after_sha256": "de7ef5f195a78ae94586c8072c2763e85646173fb60fe4ad73a34cf2946d2026",
+      "changes": [
+        {
+          "json_pointer": "/turns/1/state_after/database/events/9/payload",
+          "before_sha256": "1173aed000010d2bb18e46ee93d82340e91be3123f1ef93b6c29b8886474f1df",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/9/payload",
+          "before_sha256": "1173aed000010d2bb18e46ee93d82340e91be3123f1ef93b6c29b8886474f1df",
+          "after_sha256": "a25db3b0f68c88a7e486e708f175364b0d9fc68f66241c1df66f698015a3eecc",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    },
+    {
+      "evidence_path": "evidence/runs/glm-F04-r1.json",
+      "before_sha256": "e47df207e5e8291d78eb3428afc64239274c23880d20068ab95bbe029edcfc45",
+      "after_sha256": "db99844bc0d49aad8d6592b3b8a8ce8c0056acb746177f911845b7f2ea0d70a2",
+      "changes": [
+        {
+          "json_pointer": "/turns/3/state_after/database/events/26/payload",
+          "before_sha256": "e19e761d8f2d422df905856ee2d10f31c40d441c74c8b5dfe217866901235ed9",
+          "after_sha256": "aa75535773a59aae2b0d88b405486a13abfa134e4ece160aa71e391a08eee91b",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        },
+        {
+          "json_pointer": "/after/database/events/26/payload",
+          "before_sha256": "e19e761d8f2d422df905856ee2d10f31c40d441c74c8b5dfe217866901235ed9",
+          "after_sha256": "aa75535773a59aae2b0d88b405486a13abfa134e4ece160aa71e391a08eee91b",
+          "reason": "synthetic temporary path in automatic title or multiply JSON-escaped receipt"
+        }
+      ],
+      "grade_unchanged": true
+    }
+  ]
+}
