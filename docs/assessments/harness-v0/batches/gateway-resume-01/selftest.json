@@ -1,0 +1,8 @@
+{
+  "exit_code": 0,
+  "command": "python -m unittest scripts.harness_v0.test_resume -v",
+  "stdout": "",
+  "stderr": "test_200_not_halted (scripts.harness_v0.test_resume.ResumeTests.test_200_not_halted) ... ok\ntest_duplicate_slot_refused (scripts.harness_v0.test_resume.ResumeTests.test_duplicate_slot_refused) ... ok\ntest_error_body_retained_and_next_wire_not_reserved (scripts.harness_v0.test_resume.ResumeTests.test_error_body_retained_and_next_wire_not_reserved) ... ok\ntest_frozen_original_unchanged (scripts.harness_v0.test_resume.ResumeTests.test_frozen_original_unchanged) ... ok\ntest_minimum_gap (scripts.harness_v0.test_resume.ResumeTests.test_minimum_gap) ... ok\ntest_only_blocked_selected_and_failures_retained (scripts.harness_v0.test_resume.ResumeTests.test_only_blocked_selected_and_failures_retained) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n",
+  "http_calls": 0,
+  "pre_live_development": "Initial error-body-replay test failed: assigning HTTPError.fp did not rewind cached read. Reconstructed equivalent HTTPError with BytesIO, then all 6 passed before live continuation; no test criterion removed."
+}

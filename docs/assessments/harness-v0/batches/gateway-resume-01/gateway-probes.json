@@ -1,0 +1,142 @@
+{
+  "layer": "gateway-only/synthetic-text/no-core",
+  "http_cap": 2,
+  "parent_http_calls": 66,
+  "cumulative_cap": 900,
+  "probes": [
+    {
+      "model_tag": "ds",
+      "model_configuration": {
+        "model": "Deepseek-v4-flash",
+        "base_url": "https://chatapi.weixin.qq.com/openai/v1",
+        "protocol": "openai-chat-completions",
+        "stream": false,
+        "temperature": "omitted/current adapter default",
+        "seed": "not supported/omitted",
+        "thinking": {
+          "redacted_reasoning_sha256": "3f000b934f672eab09618b4e82b9aa13764db7f38231e9f9613c017fcfde907a",
+          "characters": 31
+        },
+        "tool_choice": "auto when tools present",
+        "timeout_seconds": 45.0,
+        "proxy_mode": "auto",
+        "credential_reference": "DEEPSEEK_API_KEY (value excluded)"
+      },
+      "request_body": {
+        "model": "Deepseek-v4-flash",
+        "stream": false,
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是隔离连通性测试。请仅回复 GATEWAY_OK。"
+          }
+        ]
+      },
+      "started_utc": "2026-10-04T08:23:20.825030+00:00",
+      "status": 200,
+      "http_calls": 1,
+      "response_body": {
+        "id": "5a8ea429dccb4bf699a7df20ab158489",
+        "object": "chat.completion",
+        "created": 1791102200,
+        "model": "Deepseek-v4-flash",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "GATEWAY_OK",
+              "reasoning_content": null,
+              "tool_calls": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "matched_stop": 1
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 18,
+          "total_tokens": 23,
+          "completion_tokens": 5,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        },
+        "metadata": {
+          "weight_version": "default"
+        }
+      },
+      "passed": true,
+      "elapsed_ms": 469
+    },
+    {
+      "model_tag": "glm",
+      "model_configuration": {
+        "model": "GLM-5.2",
+        "base_url": "https://chatapi.weixin.qq.com/openai/v1",
+        "protocol": "openai-chat-completions",
+        "stream": false,
+        "temperature": "omitted/current adapter default",
+        "seed": "not supported/omitted",
+        "thinking": {
+          "redacted_reasoning_sha256": "3f000b934f672eab09618b4e82b9aa13764db7f38231e9f9613c017fcfde907a",
+          "characters": 31
+        },
+        "tool_choice": "auto when tools present",
+        "timeout_seconds": 45.0,
+        "proxy_mode": "auto",
+        "credential_reference": "DEEPSEEK_API_KEY (value excluded)"
+      },
+      "request_body": {
+        "model": "GLM-5.2",
+        "stream": false,
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是隔离连通性测试。请仅回复 GATEWAY_OK。"
+          }
+        ]
+      },
+      "started_utc": "2026-10-04T08:23:23.296447+00:00",
+      "status": 200,
+      "http_calls": 1,
+      "response_body": {
+        "id": "3cebf6fe90984ebe96f59fd2d6b6b5c7",
+        "object": "chat.completion",
+        "created": 1791102210,
+        "model": "GLM-5.2",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "GATEWAY_OK",
+              "reasoning_content": {
+                "redacted_reasoning_sha256": "e46986ffb7eda440fb786273ddeb81e41b40fda0ea5b9270893001f0ea986aac",
+                "characters": 304
+              },
+              "tool_calls": null
+            },
+            "logprobs": null,
+            "finish_reason": "stop",
+            "matched_stop": 154827
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 26,
+          "total_tokens": 195,
+          "completion_tokens": 169,
+          "prompt_tokens_details": null,
+          "reasoning_tokens": 0
+        },
+        "metadata": {
+          "weight_version": "default"
+        }
+      },
+      "passed": true,
+      "elapsed_ms": 7859
+    }
+  ],
+  "script_sha256": "2d96f1e4ad51ed0ad50e74e76b64244fbb42f8fd0de529d928ecf11e06df15cc",
+  "http_calls": 2,
+  "all_passed": true
+}

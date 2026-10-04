@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "production_core_contacted": false,
+  "production_source_matches_original_manifest": true,
+  "candidate_prompt_active": false,
+  "real_http_calls": 0,
+  "secret_values_compared": 6,
+  "staged_file_count": 158,
+  "index_tree_before_this_self_report": "231c5ddd20e10bfb003142b463cf674727f69c26",
+  "checks": [
+    {
+      "command": [
+        "python",
+        "scripts/check_docs_consistency.py"
+      ],
+      "exit_code": 0,
+      "output": "[1] actual unittest cases: 273\n    docs\\TESTING.md: claims 273 (ok)\n    AGENTS.md: claims 273 (ok)\n    docs\\HANDOFF.md: claims 273 (ok)\n    docs\\HANDOFF.md: claims 273 (ok)\n    docs\\VERIFICATION_SPEC.md: claims 273 (ok)\n[2] code env vars: 37, .env.example entries: 39\n    all code vars documented\n[3] registered tools: ['active_window', 'clipboard_read', 'get_time', 'list_dir', 'look_at_screen', 'read_file', 'run_command', 'screenshot', 'write_file']\n    all tools documented in AVATAR_BRIDGE.md\nDOCS_CONSISTENCY_OK\nD:\\UserData\\Administrator\\Documents\\Codex\\2026-08-28\\https-github-com-summertianyi-anime-agent\\work\\anime-agent-mvp\\services\\agent-core\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n  from starlette.testclient import TestClient as TestClient  # noqa\n"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "python",
+        "scripts/model_cert.py",
+        "--harness-v0",
+        "replay"
+      ],
+      "clean_index_export": true,
+      "exit_code": 0,
+      "output": "{\n  \"ds\": {\n    \"cases\": 26,\n    \"scheduled\": 78,\n    \"actual_runs\": 10,\n    \"verdicts\": {\n      \"PASS\": 5,\n      \"FAIL\": 4,\n      \"BLOCKED\": 69\n    },\n    \"http_calls\": 30\n  },\n  \"glm\": {\n    \"cases\": 26,\n    \"scheduled\": 78,\n    \"actual_runs\": 10,\n    \"verdicts\": {\n      \"PASS\": 6,\n      \"FAIL\": 3,\n      \"BLOCKED\": 69\n    },\n    \"http_calls\": 36\n  }\n}\n"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "scripts.harness_v0.resume_batch",
+        "replay"
+      ],
+      "clean_index_export": true,
+      "exit_code": 0,
+      "output": "{\n  \"ds\": {\n    \"scheduled\": 69,\n    \"actual_runs\": 69,\n    \"verdicts\": {\n      \"PASS\": 38,\n      \"FAIL\": 28,\n      \"PARTIAL\": 3\n    },\n    \"http_calls\": 255\n  },\n  \"glm\": {\n    \"scheduled\": 69,\n    \"actual_runs\": 69,\n    \"verdicts\": {\n      \"FAIL\": 21,\n      \"PASS\": 43,\n      \"BLOCKED\": 3,\n      \"PARTIAL\": 2\n    },\n    \"http_calls\": 245\n  }\n}\n"
+    }
+  ],
+  "independent_agent_whitepaper_gate": "not run; Manager acceptance pending"
+}

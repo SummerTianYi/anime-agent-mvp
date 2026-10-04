@@ -6,6 +6,8 @@
 
 ## 1. 目标、阅读与维护约定
 
+2026-10-04 Codex Harness V0补测：按Manager要求恢复网关测试并补跑138个槽；本次502次HTTP无429、GLM有3次45秒超时，两批累计568次。26题每模型三重复均已实际采样，原失败不覆盖。发现机械判卷有误判/漏判，须连同[补测报告](../assessments/harness-v0/batches/gateway-resume-01/REPORT.md)和[全文复核](../assessments/harness-v0/batches/gateway-resume-01/REVIEW.md)阅读，不能只按PASS数排名。仍为独立分支candidate；候选提示词未启用、生产不变，不合并不部署。
+
 2026-10-04 Codex：新增 **Harness V0 candidate**，共享能力/角色契约与提示词候选、冻结评测器、DS/GLM部分基线及证据入口：[REPORT](../assessments/harness-v0/REPORT.md)、[SPEC](../assessments/harness-v0/SPEC.md)。26题各模型三重复已登记，但网关429使本轮每模型仅实际开始10次，未完成全量基线；候选未激活，生产运行未改，是否放行/补测/V1由Manager决定。不能把本条理解为Agent能力已经补齐。
 
 最终产品是一个本地优先、角色优先、安全优先的洛天依桌面伙伴：有可辨识的形象、自然动作与声线，能聊天、记忆、感知，并在授权范围内做事；不是把通用聊天窗口换一张头像。模型、动捕、Agent、语音、UI、稳定性和分发属于同一产品的不同方向。本文管理“以后做什么、为什么做、怎样验收”；[HANDOFF](../HANDOFF.md) 管当前领地和运行状态，[TESTING](../TESTING.md) 管实际测试命令，[CONTRIBUTIONS](../CONTRIBUTIONS.md) 管贡献凭证，[模型版本索引](../../model-versions/README.md) 管不可变交付。

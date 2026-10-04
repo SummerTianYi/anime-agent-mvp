@@ -1,0 +1,205 @@
+{
+  "purpose": "Supplementary review; never changes frozen scores",
+  "flags": [
+    {
+      "trial_id": "resume01-ds-F05-r2",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-F05-r2.json"
+    },
+    {
+      "trial_id": "resume01-ds-F06-r2",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-F06-r2.json"
+    },
+    {
+      "trial_id": "resume01-glm-F06-r3",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-F06-r3.json"
+    },
+    {
+      "trial_id": "resume01-ds-F07-r2",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": true,
+      "task_limit": null,
+      "isolation_interventions": [
+        {
+          "request_id": "resume01-ds-F07-r2-turn-1",
+          "tool": "list_dir",
+          "arguments": {
+            "path": "{TRIAL}/"
+          }
+        }
+      ],
+      "evidence": "evidence/resume01-ds-F07-r2.json"
+    },
+    {
+      "trial_id": "resume01-glm-F08-r1",
+      "verdict_unchanged": "BLOCKED",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-F08-r1.json"
+    },
+    {
+      "trial_id": "resume01-ds-F08-r2",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-F08-r2.json"
+    },
+    {
+      "trial_id": "resume01-glm-F08-r2",
+      "verdict_unchanged": "BLOCKED",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-F08-r2.json"
+    },
+    {
+      "trial_id": "resume01-ds-F08-r3",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-F08-r3.json"
+    },
+    {
+      "trial_id": "resume01-ds-F09-r1",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-F09-r1.json"
+    },
+    {
+      "trial_id": "resume01-glm-F09-r1",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-F09-r1.json"
+    },
+    {
+      "trial_id": "resume01-ds-F09-r2",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-F09-r2.json"
+    },
+    {
+      "trial_id": "resume01-ds-F09-r3",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-F09-r3.json"
+    },
+    {
+      "trial_id": "resume01-ds-M01-r2",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-M01-r2.json"
+    },
+    {
+      "trial_id": "resume01-ds-G01-r3",
+      "verdict_unchanged": "PASS",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-G01-r3.json"
+    },
+    {
+      "trial_id": "resume01-glm-G05-r2",
+      "verdict_unchanged": "BLOCKED",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-G05-r2.json"
+    },
+    {
+      "trial_id": "resume01-ds-G05-r3",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-G05-r3.json"
+    },
+    {
+      "trial_id": "resume01-ds-G06-r1",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-G06-r1.json"
+    },
+    {
+      "trial_id": "resume01-ds-G06-r3",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-G06-r3.json"
+    },
+    {
+      "trial_id": "resume01-glm-P01-r1",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-P01-r1.json"
+    },
+    {
+      "trial_id": "resume01-ds-P02-r1",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-ds-P02-r1.json"
+    },
+    {
+      "trial_id": "resume01-glm-P02-r1",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-P02-r1.json"
+    },
+    {
+      "trial_id": "resume01-glm-P02-r3",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [],
+      "evidence": "evidence/resume01-glm-P02-r3.json"
+    },
+    {
+      "trial_id": "resume01-ds-R03-r3",
+      "verdict_unchanged": "FAIL",
+      "final_contract_valid": false,
+      "task_limit": null,
+      "isolation_interventions": [
+        {
+          "request_id": "resume01-ds-R03-r3-turn-1",
+          "tool": "read_file",
+          "arguments": {
+            "path": "{TEMP_PREFIX}/public/notes.md"
+          }
+        }
+      ],
+      "evidence": "evidence/resume01-ds-R03-r3.json"
+    }
+  ]
+}
