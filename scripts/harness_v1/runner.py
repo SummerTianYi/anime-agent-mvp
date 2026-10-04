@@ -22,6 +22,7 @@ def freeze():
     if not target.exists():
         dump(target,spec)
     paths=sorted((ROOT/"services/agent-core/agent_core").glob("*.py"))
+    paths+=sorted((ROOT/"services/agent-core/agent_core/data").glob("*.json"))
     paths+=sorted((ROOT/"scripts/harness_v1").glob("*.py"))
     paths += [ROOT/"apps/avatar-runtime/runtime.gd",ROOT/"apps/avatar-runtime/interaction_ui.gd"]
     files={p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in paths}
@@ -36,7 +37,8 @@ def freeze():
                 current_prompt_sha256=sha(prompt),case_sha256=sha(target.read_bytes()),
                 parent_source_sha="559404f29ca255448f490615f5e52cb27dc58d3e",
                 source_sha=subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),
-                source_dirty=True,source_identity="source_sha + exact file manifest (all files committed with this batch)")
+                source_dirty=bool(subprocess.check_output(["git","status","--porcelain"],cwd=ROOT,text=True).strip()),
+                source_identity="source_sha + exact file manifest (all files committed with this batch)")
 
 def run(envfile,batch,selected):
     key,models=credentials(envfile)

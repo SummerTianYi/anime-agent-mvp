@@ -19,8 +19,11 @@ for path in sorted((PACKAGE / "batches/core-01/evidence").glob("*-P0*.json")):
     parsed = CharacterHarness.parse_reply(raw).reply
     records.append(dict(trial_id=ev["trial_id"], source_evidence=path.relative_to(PACKAGE).as_posix(),
         source_evidence_sha256=sha(path.read_bytes()), raw_sha256=sha(raw), original_display=original,
-        candidate_display=parsed, changed=original != parsed, original_grade_unchanged=ev["grade"]["verdict"]))
+        candidate_display=parsed, changed=original != parsed,
+        recovered_format_error="这次回复格式出了问题" in original and "这次回复格式出了问题" not in parsed,
+        original_grade_unchanged=ev["grade"]["verdict"]))
 dump(PACKAGE / "evidence/parser-replay.json", dict(source_sha=subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
     parser_file_sha256=sha((ROOT / "services/agent-core/agent_core/harness.py").read_bytes()),
     llm_calls=0, model_trials_not_regraded=True, records=records))
-print(json.dumps(dict(records=len(records), recovered=sum(r["changed"] for r in records), llm_calls=0)))
+print(json.dumps(dict(records=len(records), changed_displays=sum(r["changed"] for r in records),
+                      recovered_format_errors=sum(r["recovered_format_error"] for r in records), llm_calls=0)))

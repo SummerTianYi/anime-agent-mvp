@@ -19,6 +19,7 @@ def get(path):
         return json.load(response)
 health, live = get("/health"), get("/health/live")
 paths = sorted((ROOT / "services/agent-core/agent_core").glob("*.py"))
+paths += sorted((ROOT / "services/agent-core/agent_core/data").glob("*.json"))
 paths += [ROOT / "apps/avatar-runtime" / name for name in ("runtime.gd", "interaction_ui.gd")]
 files = {}
 for source in paths:
@@ -27,7 +28,8 @@ for source in paths:
     files[relative] = dict(candidate=hashlib.sha256(source.read_bytes()).hexdigest(),
                            deployed=hashlib.sha256(deployed.read_bytes()).hexdigest())
 config = {}
-allowed = {"LLM_PROVIDER", "ANIME_AGENT_VOICE_INPUT_MODE", "ANIME_AGENT_WAKE_WORD", "ANIME_AGENT_IDLE_THRESHOLD"}
+allowed = {"LLM_PROVIDER", "ANIME_AGENT_VOICE_INPUT_MODE", "ANIME_AGENT_WAKE_WORD", "ANIME_AGENT_IDLE_THRESHOLD",
+           "ANIME_AGENT_QUIET_START", "ANIME_AGENT_QUIET_END"}
 for line in (a.production / ".env").read_text(encoding="utf-8-sig").splitlines():
     key, sep, value = line.partition("=")
     if sep and key in allowed:
@@ -48,4 +50,4 @@ out = ROOT / "docs/assessments/harness-v1/evidence" / a.record
 assert not out.exists(), "Preserve earlier activation evidence; select a new record for a later activation"
 out.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
 print(json.dumps({k: record[k] for k in ("runtime_source_sha", "core_pid", "health", "tts", "files_match")}, ensure_ascii=False))
-raise SystemExit(not record["files_match"] or not health["roles"]["avatar"] or health["wake"]["running"])
+raise SystemExit(not record["files_match"] or not health["roles"]["avatar"] or health["wake"]["running"] or not health["tts"]["available"])
