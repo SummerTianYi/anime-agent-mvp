@@ -1,6 +1,6 @@
 # Codex: explicitly authorized, project-scoped normal-close activation.
 [CmdletBinding()]
-param([Parameter(Mandatory)][string]$Production, [ValidateSet('prepare','activate','rollback')][string]$Phase='prepare', [string]$Backup)
+param([Parameter(Mandatory)][string]$Production, [ValidateSet('prepare','activate','rollback')][string]$Phase='prepare', [string]$Backup, [string]$ExpectedManifest)
 $ErrorActionPreference='Stop'
 $source=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $target=(Resolve-Path -LiteralPath $Production).Path
@@ -22,12 +22,20 @@ function TargetPath([string]$Relative) {
     return $path
 }
 if ($Phase -eq 'prepare') {
+    if ($ExpectedManifest) {
+        $active=Get-Content -LiteralPath $ExpectedManifest -Raw -Encoding UTF8 | ConvertFrom-Json
+        if(-not $active.files_match -or -not $active.file_hashes){throw 'Expected activation manifest is not verified'}
+        foreach($entry in $active.file_hashes.PSObject.Properties){
+            if((Get-FileHash (TargetPath $entry.Name)).Hash.ToLowerInvariant() -ne $entry.Value.deployed){throw "Production changed after activation: $($entry.Name). No overwrite."}
+        }
+    } else {
     $base=Get-Content (Join-Path $source 'docs/assessments/harness-v0/evidence/baseline/manifest.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     foreach($entry in $base.files.PSObject.Properties) {
         if ((ShaText (TargetPath $entry.Name)) -ne $entry.Value) {throw "Production source changed since baseline: $($entry.Name). No overwrite."}
     }
     & git -C $target diff --exit-code --quiet -- apps/avatar-runtime/runtime.gd apps/avatar-runtime/interaction_ui.gd
     if ($LASTEXITCODE -ne 0) {throw 'Production avatar has unreviewed changes'}
+    }
     $Backup=Join-Path $env:LOCALAPPDATA ('AnimeAgent/harness-backups/v1-'+(Get-Date -Format 'yyyyMMdd-HHmmss'))
     New-Item -ItemType Directory -Path $Backup | Out-Null
     $files=@()

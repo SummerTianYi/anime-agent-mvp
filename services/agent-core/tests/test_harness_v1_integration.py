@@ -179,3 +179,56 @@ class IdleEpisodeTests(unittest.TestCase):
         night=time.struct_time((2026,10,4,23,0,0,0,0,0))
         self.assertFalse(p.decide(600,night,1600)[0])
         self.assertTrue(p.decide(700,self.day,1700)[0])
+
+
+class IdlePlaybackTests(unittest.IsolatedAsyncioTestCase):
+    async def test_cancelled_reminder_restores_idle_without_hiding_other_work(self):
+        async def fail(*_args,**_kwargs):
+            core._agent_state="speaking"
+            raise RuntimeError("synthetic activity cancellation")
+        hub=type("Hub",(),{"send_roles":AsyncMock(),"role_count":lambda *_:1})()
+        policy=IdlePolicy(quiet_start="00:00",quiet_end="00:00")
+        with patch.object(core,"TTS_ENABLED",True),patch.object(core,"idle_policy",policy), \
+             patch.object(core,"_agent_state","idle"),patch.object(core,"_speak_reply",side_effect=fail), \
+             patch.object(core,"_proactive_pending",set()),patch.object(core,"hub",hub), \
+             patch.object(core,"speech_manager",type("Speech",(),{"current":None})()), \
+             patch.object(core,"chat_lock",asyncio.Lock()),patch.object(core,"voice_capture",CaptureState()), \
+             patch.object(core.memory,"add_event"):
+            await core._proactive_idle(650)
+            self.assertEqual(core._agent_state,"idle")
+            self.assertFalse(core._proactive_pending)
+
+    async def test_same_reminder_all_parts_and_ack_retries_are_allowed(self):
+        policy=IdlePolicy(quiet_start="00:00",quiet_end="00:00")
+        hub=type("Hub",(),{"send_roles":AsyncMock(),"role_count":lambda *_:1})()
+        with patch.object(core,"idle_policy",policy),patch.object(core,"hub",hub), \
+             patch.object(core,"_idle_seconds_now",return_value=650), \
+             patch.object(core,"_agent_state","idle"),patch.object(core,"voice_capture",CaptureState()), \
+             patch.object(core,"chat_lock",asyncio.Lock()),patch.object(core,"broadcast_state",AsyncMock()):
+            payload={"requestId":"proactive-idle","utteranceId":"one-reminder","partIndex":0,"partCount":2}
+            await core._broadcast_speak(payload)
+            core._agent_state="speaking"
+            await core._broadcast_speak(dict(payload,partIndex=1))
+            await core._broadcast_speak(dict(payload,partIndex=1))
+            self.assertEqual(hub.send_roles.await_count,3)
+            self.assertFalse(policy.decide(650)[0])
+            with self.assertRaises(RuntimeError):
+                await core._broadcast_speak(dict(payload,utteranceId="another-reminder"))
+
+    async def test_activity_or_quiet_hours_cancels_remaining_parts(self):
+        policy=IdlePolicy(quiet_start="00:00",quiet_end="00:00")
+        hub=type("Hub",(),{"send_roles":AsyncMock(),"role_count":lambda *_:1})()
+        with patch.object(core,"idle_policy",policy),patch.object(core,"hub",hub), \
+             patch.object(core,"_idle_seconds_now",return_value=650) as idle, \
+             patch.object(core,"_agent_state","idle"),patch.object(core,"voice_capture",CaptureState()), \
+             patch.object(core,"chat_lock",asyncio.Lock()),patch.object(core,"broadcast_state",AsyncMock()):
+            payload={"requestId":"proactive-idle","utteranceId":"activity-case","partIndex":0,"partCount":2}
+            await core._broadcast_speak(payload)
+            idle.return_value=0
+            with self.assertRaises(RuntimeError):
+                await core._broadcast_speak(dict(payload,partIndex=1))
+            idle.return_value=650
+            with patch.object(policy,"in_quiet_hours",return_value=True):
+                with self.assertRaises(RuntimeError):
+                    await core._broadcast_speak(dict(payload,partIndex=1))
+            self.assertEqual(hub.send_roles.await_count,1)

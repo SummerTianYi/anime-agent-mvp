@@ -24,6 +24,12 @@ Read exact IDs and gateway from current sanitized configuration: Deepseek-v4-fla
 
 Production private configuration/data and uncommitted work are preserved. No model, animation, voice asset, TTS implementation, historical chat or memory deletion. Synthetic fixtures only. V0 bytes never rewritten. Real service connectivity is separate from controlled MCP results.
 
+## Repair batch registration (before any repair batch API request)
+
+`repair-01`: F02,F03,F04,F05,F07,M02,M03,M04,M05,G02,G03,G05, both models three times (72 runs). This is the shared execution/authorization/receipt surface changed by the independent review and F04 follow-up repair; includes the known first-batch failures, all three task types, rejection, cancellation, parameter edits, multiple actions and connector failure. Same frozen cases/criteria/fixtures and per-trial budgets. The other 14 cases are not resampled just for a better score; their core-01 results retain that source version. Estimated additional 280–380 HTTP, still inside the original global cap 1,100; no extra authorization or reset of the counter. One model worker at a time, only after core-01 ends. Any interruption or remaining gap is reported, not silently replaced.
+
+Final idle delivery follow-up is self-reviewed (not attributed to the closed independent reviewer): a new regression first reproduced rejection of the second part of one idle utterance. The fix leases the reminder by utterance and idle episode, preserves same-ID playback recovery, and clears speaking state after local cancellation. TTS implementation is untouched. This local-only follow-up sends zero model requests.
+
 ## Progress
 
 - [x] Read actual source/overlay and V0 REVIEW; baseline tests.

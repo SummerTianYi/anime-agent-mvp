@@ -60,6 +60,7 @@ class IdlePolicy:
     _last_spoken: float = field(default=0.0)
     _episode_origin: float | None = None
     _episode_notified: bool = False
+    playback_utterance: str = ""
 
     def observe(self, idle_seconds: float, clock: float | None = None) -> None:
         origin = (time.monotonic() if clock is None else clock) - max(0.0, idle_seconds)
@@ -68,6 +69,7 @@ class IdlePolicy:
         elif origin > self._episode_origin + 1.0:
             self._episode_origin = origin
             self._episode_notified = False
+            self.playback_utterance = ""
 
     def decide(
         self,
@@ -90,6 +92,7 @@ class IdlePolicy:
     def on_cooldown(self, monotonic: float | None = None) -> bool:
         return (time.time() if monotonic is None else monotonic) - self._last_spoken < self.cooldown_seconds
 
-    def mark_spoken(self, monotonic: float | None = None) -> None:
+    def mark_spoken(self, monotonic: float | None = None, *, utterance_id: str = "") -> None:
         self._last_spoken = monotonic if monotonic is not None else time.time()
         self._episode_notified = True
+        self.playback_utterance = utterance_id

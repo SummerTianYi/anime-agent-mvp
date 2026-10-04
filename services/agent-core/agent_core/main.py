@@ -979,6 +979,10 @@ async def _proactive_idle(idle_seconds: float) -> None:
         memory.add_event("proactive.error", {"message": str(exc)[:200]})
     finally:
         _proactive_pending.discard("idle")
+        # A pre-playback cancellation is local to this reminder. Don't leave
+        # the avatar stuck "speaking" after its owned utterance has settled.
+        if speech_manager.current is None and _agent_state == "speaking":
+            await broadcast_state("idle", "proactive-idle")
 
 
 def _idle_watch_loop(loop: asyncio.AbstractEventLoop) -> None:
@@ -1064,11 +1068,20 @@ hub = ConnectionHub()
 
 async def _broadcast_speak(payload: dict[str, object]) -> None:
     if payload.get("requestId") == "proactive-idle":
-        allowed, _ = idle_policy.decide(_idle_seconds_now())
-        if not allowed or chat_lock.locked() or voice_capture.phase != "idle" or _agent_state != "idle" or hub.role_count("avatar") < 1:
+        idle_seconds = _idle_seconds_now()
+        allowed, _ = idle_policy.decide(idle_seconds)
+        utterance_id = str(payload.get("utteranceId", ""))
+        continuing = bool(utterance_id) and idle_policy.playback_utterance == utterance_id
+        # Parts/ACK retransmissions belong to ONE reminder, not a new idle event.
+        # Activity clears the lease; quiet-hours and foreground work still win.
+        if ((not allowed and not continuing) or idle_seconds < idle_policy.threshold_seconds
+                or idle_policy.in_quiet_hours() or chat_lock.locked() or voice_capture.phase != "idle"
+                or _agent_state not in ({"idle", "speaking"} if continuing else {"idle"})
+                or hub.role_count("avatar") < 1):
             raise RuntimeError("Idle reminder cancelled by activity/quiet-hours/busy before playback")
         # Latch before dispatch, not after playback: the same episode cannot race a second utterance.
-        idle_policy.mark_spoken()
+        if not continuing:
+            idle_policy.mark_spoken(utterance_id=utterance_id)
     await hub.send_roles({"avatar", "ui"}, event("avatar.speak", **payload))
     await broadcast_state("speaking", str(payload.get("requestId", "")))
 
