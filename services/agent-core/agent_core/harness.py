@@ -200,14 +200,16 @@ class CharacterHarness:
             candidate = fenced.group(1).strip()
 
         try:
-            payload = json.loads(candidate)
+            # Model JSON occasionally contains literal newlines/tabs in reply.
+            # Decode them as string data, never execute or reinterpret the text.
+            payload = json.loads(candidate, strict=False)
         except (TypeError, json.JSONDecodeError):
             recovered = CharacterHarness._recover_trailing_json(candidate)
             if recovered is None:
                 # raw_decode respects strings/braces and tolerates a stray suffix.
                 for match in re.finditer(r"\{", candidate):
                     try:
-                        decoded, length = json.JSONDecoder().raw_decode(candidate[match.start():])
+                        decoded, length = json.JSONDecoder(strict=False).raw_decode(candidate[match.start():])
                         if isinstance(decoded, dict) and isinstance(decoded.get("reply"), str):
                             recovered = (candidate[match.start():match.start()+length], decoded)
                             break
@@ -218,7 +220,7 @@ class CharacterHarness:
                 if repaired is None:
                     return CharacterHarness._safe_fallback(raw)
                 try:
-                    payload = json.loads(repaired)
+                    payload = json.loads(repaired, strict=False)
                 except json.JSONDecodeError:
                     return CharacterHarness._safe_fallback(raw)
                 candidate = repaired
@@ -294,13 +296,13 @@ class CharacterHarness:
                 if depth == 0:
                     snippet = text[index : end + 1]
                     try:
-                        payload = json.loads(snippet)
+                        payload = json.loads(snippet, strict=False)
                     except json.JSONDecodeError:
                         repaired = CharacterHarness._repair_unescaped_quotes(snippet)
                         if repaired is None:
                             continue
                         try:
-                            payload = json.loads(repaired)
+                            payload = json.loads(repaired, strict=False)
                         except json.JSONDecodeError:
                             continue
                         snippet = repaired

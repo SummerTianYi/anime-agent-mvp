@@ -117,6 +117,16 @@ class ContextTests(unittest.IsolatedAsyncioTestCase):
         bad=CharacterHarness.parse_reply('{"reply": garbage, "emotion": bad}')
         self.assertNotIn('"reply"',bad.reply)
 
+    async def test_raw_newlines_and_stray_brace_do_not_discard_valid_reply(self):
+        raw='{"reply":"我是洛天依。\n不是电脑里的真人。","emotion":"happy","gesture":"none"}}'
+        self.assertEqual(CharacterHarness.parse_reply(raw).reply,"我是洛天依。\n不是电脑里的真人。")
+
+    async def test_raw_newlines_with_unescaped_inner_quotes(self):
+        raw='{"reply":"我是洛天依。\n这里的"演唱者"不等于词曲作者。","emotion":"happy","gesture":"none"}'
+        reply=CharacterHarness.parse_reply(raw)
+        self.assertIn('这里的"演唱者"不等于词曲作者。',reply.reply)
+        self.assertEqual(reply.emotion,"happy")
+
 
 class VoiceInputTests(unittest.IsolatedAsyncioTestCase):
     async def test_simplify_preserves_literals_english_numbers_and_paths(self):
