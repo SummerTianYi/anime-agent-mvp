@@ -16,3 +16,5 @@
 *.glb binary
 *.vrm binary
 *.blend binary
+# Frozen assessment artifacts retain exact bytes on every checkout/host.
+docs/assessments/harness-v1/** -text

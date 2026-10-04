@@ -144,29 +144,31 @@ if __name__ == "__main__":
     unittest.main()
 
 
-# zcode (2026-09-07, T-MCP 验收考出): the one-shot confirm flag was session-
-# scoped, so after confirming tool A the NEXT unrelated ask-tier tool B got a
-# data-less "already executed" receipt instead of its own ask flow. The flag
-# must be scoped to the tool name.
-class OneShotFlagScopeTests(unittest.TestCase):
-    def setUp(self) -> None:
-        import agent_core.main as core
+# Codex V1: preserve the original no-cross-tool-leak regression, now also
+# bind exact parameters and preserve the real receipt (not a one-shot flag).
+class ActionReceiptScopeTests(unittest.TestCase):
+    def setUp(self):
+        from agent_core.actions import ActionLedger
+        import sqlite3
+        self.db = sqlite3.connect(":memory:")
+        self.addCleanup(self.db.close)
+        self.book = ActionLedger(self.db)
 
-        self.core = core
-        core._confirmed_write_once.clear()
-        self.addCleanup(core._confirmed_write_once.clear)
-        self._session = core._ACTIVE_CHAT_SESSION_ID[0]
-        core._ACTIVE_CHAT_SESSION_ID[0] = 5
-        self.addCleanup(self.core._ACTIVE_CHAT_SESSION_ID.__setitem__, 0, self._session)
+    def test_receipt_does_not_leak_to_unrelated_tool(self):
+        first = self.book.propose(5,"task","r","write_file",{"path":"a","content":"x"})
+        async def execute(*_):
+            return {"ok":True,"path":"a"}
+        run(self.book.execute(5,self.book.ticket(first),"c",lambda *_:True,execute))
+        second = self.book.propose(5,"task","r2","mcp__github__get_me",{})
+        self.assertTrue(self.book.result(second)["needs_confirmation"])
+        self.assertNotEqual(first["action_id"],second["action_id"])
 
-    def test_flag_does_not_leak_to_unrelated_tool(self) -> None:
-        self.core._confirmed_write_once[5] = "write_file"
-        result = run(self.core.run_tool("mcp__github__get_me", {}))
-        self.assertNotIn("already_executed", result)
-        self.assertTrue(result.get("needs_confirmation"))
-
-    def test_flag_consumed_by_same_tool_retry(self) -> None:
-        self.core._confirmed_write_once[5] = "look_at_screen"
-        result = run(self.core.run_tool("look_at_screen", {}))
-        self.assertTrue(result.get("already_executed"))
-        self.assertNotIn(5, self.core._confirmed_write_once)  # consumed exactly once
+    def test_same_tool_new_parameters_need_new_confirmation(self):
+        first = self.book.propose(5,"task","r","write_file",{"path":"a","content":"old"})
+        async def execute(*_):
+            return {"ok":False,"error":"write rejected"}
+        run(self.book.execute(5,self.book.ticket(first),"c",lambda *_:True,execute))
+        retry = self.book.propose(5,"task","r2","write_file",{"path":"a","content":"old"})
+        self.assertFalse(self.book.result(retry)["ok"])
+        second = self.book.propose(5,"task","r3","write_file",{"path":"a","content":"new"})
+        self.assertTrue(self.book.result(second)["needs_confirmation"])

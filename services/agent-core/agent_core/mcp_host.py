@@ -71,6 +71,7 @@ class McpServer:
     tools: list[dict] = field(default_factory=list)
     started: bool = False
     error: str = ""
+    _call_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
 
     async def _roundtrip(self, payload: dict, timeout: float = 15.0) -> dict:
         assert self.process is not None and self.process.stdin and self.process.stdout
@@ -112,16 +113,32 @@ class McpServer:
         self.started = True
 
     async def call(self, tool: str, arguments: dict) -> dict:
+        async with self._call_lock:
+            return await self._call_locked(tool, arguments)
+
+    async def _call_locked(self, tool: str, arguments: dict) -> dict:
+        request_id = self.next_id
+        self.next_id += 1
         reply = await self._roundtrip({
-            "jsonrpc": "2.0", "id": self.next_id, "method": "tools/call",
+            "jsonrpc": "2.0", "id": request_id, "method": "tools/call",
             "params": {"name": tool, "arguments": arguments},
         })
-        self.next_id += 1
         if "error" in reply:
             return {"ok": False, "error": str(reply["error"])[:300]}
         result = reply.get("result", {})
-        parts = [str(part.get("text", "")) for part in result.get("content", []) if part.get("type") == "text"]
-        text = "\n".join(parts)[:4000]
+        parts = []
+        for part in result.get("content", []):
+            if part.get("type") == "text":
+                parts.append(str(part.get("text", "")))
+            elif part.get("type") == "resource":
+                resource = part.get("resource", {})
+                parts.append(json.dumps({"uri":resource.get("uri"),"mimeType":resource.get("mimeType"),
+                    "text":resource.get("text"),"binary_omitted":"blob" in resource}, ensure_ascii=False))
+            elif part.get("type") == "resource_link":
+                parts.append(json.dumps(part, ensure_ascii=False))
+        if "structuredContent" in result:
+            parts.append(json.dumps(result["structuredContent"], ensure_ascii=False))
+        text = "\n".join(parts)
         return {"ok": not result.get("isError", False), "text": text}
 
     async def stop(self) -> None:

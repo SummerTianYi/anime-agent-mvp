@@ -6,6 +6,8 @@
 
 ## 1. 目标、阅读与维护约定
 
+2026-10-04 Codex Harness V1：承接V0补测与REVIEW，已进入同轮实现，不另起项目。候选入口：[REPORT](../assessments/harness-v1/REPORT.md)、[实现契约](../assessments/harness-v1/SPEC.md)。共享授权/回执与上下文、手动STT简体回填、600秒提醒和三档投入；测试证据与桌面激活分别记录，最终由Manager放行，不自动合并main。
+
 2026-10-04 Codex Harness V0补测：按Manager要求恢复网关测试并补跑138个槽；本次502次HTTP无429、GLM有3次45秒超时，两批累计568次。26题每模型三重复均已实际采样，原失败不覆盖。发现机械判卷有误判/漏判，须连同[补测报告](../assessments/harness-v0/batches/gateway-resume-01/REPORT.md)和[全文复核](../assessments/harness-v0/batches/gateway-resume-01/REVIEW.md)阅读，不能只按PASS数排名。仍为独立分支candidate；候选提示词未启用、生产不变，不合并不部署。
 
 2026-10-04 Codex：新增 **Harness V0 candidate**，共享能力/角色契约与提示词候选、冻结评测器、DS/GLM部分基线及证据入口：[REPORT](../assessments/harness-v0/REPORT.md)、[SPEC](../assessments/harness-v0/SPEC.md)。26题各模型三重复已登记，但网关429使本轮每模型仅实际开始10次，未完成全量基线；候选未激活，生产运行未改，是否放行/补测/V1由Manager决定。不能把本条理解为Agent能力已经补齐。

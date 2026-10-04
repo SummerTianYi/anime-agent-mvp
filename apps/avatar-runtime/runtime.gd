@@ -88,6 +88,8 @@ var default_idle_motion: StringName = &""
 var authored_motion_active := false
 var model_uses_authored_motion := false
 var voice_recording_active := false
+var voice_capture_id := ""
+var pending_confirmations: Dictionary = {}
 
 var elapsed := 0.0
 var target_yaw := 0.0
@@ -732,6 +734,7 @@ func _handle_core_event(payload: Dictionary) -> void:
 			if interaction_ui != null:
 				interaction_ui.add_message("洛天依", str(payload.get("text", "")), int(payload.get("conversationId", -1)))
 		"session.switched":
+			cancel_voice_recording()
 			if interaction_ui != null:
 				interaction_ui.on_session_switched(int(payload.get("conversationId", -1)), str(payload.get("title", "新对话")))
 		"session.list.response":
@@ -744,6 +747,8 @@ func _handle_core_event(payload: Dictionary) -> void:
 			if interaction_ui != null:
 				interaction_ui.on_wake_triggered()
 		"voice.state":
+			if payload.has("captureId") and str(payload.captureId) != voice_capture_id:
+				return
 			var voice_state := str(payload.get("state", "idle"))
 			_set_voice_motion_state(voice_state)
 			if interaction_ui != null:
@@ -761,8 +766,15 @@ func _handle_core_event(payload: Dictionary) -> void:
 			if interaction_ui != null:
 				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)))
 		"voice.transcript":
+			if voice_capture_id.is_empty() or str(payload.get("captureId", "")) != voice_capture_id:
+				return
 			if interaction_ui != null:
 				interaction_ui.on_voice_transcript(str(payload.get("text", "")))
+		"voice.hint":
+			if str(payload.get("captureId", "")) == voice_capture_id and interaction_ui != null:
+				interaction_ui.on_voice_hint(str(payload.get("message", "")))
+		"permission.pending":
+			pending_confirmations[int(payload.get("conversationId", -1))] = payload.get("actions", [])
 		"avatar.command":
 			var command := str(payload.get("event", ""))
 			var command_payload: Variant = payload.get("payload", {})
@@ -1058,6 +1070,10 @@ func send_chat_message(text: String, effort: String = "") -> void:
 	var conversation_id: int = interaction_ui.get_current_conversation_id() if interaction_ui != null else -1
 	if conversation_id > 0:
 		chat_payload["conversationId"] = conversation_id
+		var pending: Array = pending_confirmations.get(conversation_id, [])
+		if not pending.is_empty():
+			var action: Dictionary = pending[0]
+			chat_payload["confirmation"] = {"action_id":action.action_id, "revision":action.revision, "args_hash":action.args_hash}
 	core_socket.send_text(JSON.stringify(chat_payload))
 	_set_agent_state("thinking")
 
@@ -1069,6 +1085,7 @@ func request_session_list() -> void:
 
 
 func request_chat_history(conversation_id: int) -> void:
+	cancel_voice_recording()
 	if not _core_connected():
 		return
 	if conversation_id > 0:
@@ -1081,6 +1098,7 @@ func request_chat_history(conversation_id: int) -> void:
 
 
 func request_new_session() -> void:
+	cancel_voice_recording()
 	if not _core_connected():
 		if interaction_ui != null:
 			interaction_ui.show_error("Core 尚未连接，无法新建会话。")
@@ -1089,6 +1107,7 @@ func request_new_session() -> void:
 
 
 func request_delete_session(conversation_id: int) -> void:
+	cancel_voice_recording()
 	if not _core_connected():
 		if interaction_ui != null:
 			interaction_ui.show_error("Core 尚未连接，无法删除会话。")
@@ -1108,13 +1127,28 @@ func start_voice_recording() -> void:
 		if interaction_ui != null:
 			interaction_ui.show_error("Core 尚未连接，无法录音。")
 		return
-	core_socket.send_text(JSON.stringify({"type": "voice.start"}))
+	voice_capture_id = "voice-%d" % Time.get_ticks_usec()
+	var sid: int = interaction_ui.get_current_conversation_id() if interaction_ui != null else -1
+	core_socket.send_text(JSON.stringify({"type": "voice.start", "captureId":voice_capture_id, "conversationId":sid}))
 
 
 func stop_voice_recording() -> void:
+	if voice_capture_id.is_empty():
+		return
 	if core_socket == null or core_socket.get_ready_state() != WebSocketPeer.STATE_OPEN:
 		return
-	core_socket.send_text(JSON.stringify({"type": "voice.stop"}))
+	core_socket.send_text(JSON.stringify({"type": "voice.stop", "captureId":voice_capture_id}))
+
+
+func cancel_voice_recording() -> void:
+	if voice_capture_id.is_empty():
+		return
+	voice_capture_id = ""
+	_set_voice_motion_state("idle")
+	if _core_connected():
+		core_socket.send_text(JSON.stringify({"type":"voice.cancel"}))
+	if interaction_ui != null:
+		interaction_ui.on_voice_hint("已取消录音")
 
 
 func _start_action(next_action: String, duration: float) -> void:

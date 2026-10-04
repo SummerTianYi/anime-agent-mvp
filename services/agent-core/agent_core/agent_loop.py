@@ -16,7 +16,7 @@ from typing import Any, Awaitable, Callable
 
 
 MAX_TOOL_STEPS = 5
-TOOL_RESULT_CHAR_LIMIT = 1200
+TOOL_RESULT_CHAR_LIMIT = 8000
 
 
 class ToolsUnsupportedError(RuntimeError):
@@ -37,6 +37,7 @@ class AgentLoopResult:
     steps: list[AgentStep] = field(default_factory=list)
     degraded: bool = False
     hit_step_limit: bool = False
+    rounds: int = 0
 
 
 def _truncate(text: str, limit: int) -> str:
@@ -75,6 +76,7 @@ async def run_agent_loop(
     on_step: Callable[[AgentStep], Awaitable[None]] | None = None,
     max_steps: int = MAX_TOOL_STEPS,
     permission_gate: Callable[[str, dict[str, Any]], Any] | None = None,
+    max_calls: int = 18,
 ) -> AgentLoopResult:
     conversation: list[dict[str, Any]] = [dict(item) for item in messages]
     steps: list[AgentStep] = []
@@ -82,10 +84,12 @@ async def run_agent_loop(
     final_text: str | None = None
     degraded = not supports_tools
     exhausted = False
+    rounds = 0
 
     if supports_tools:
         exhausted = True
         for _ in range(max_steps):
+            rounds += 1
             try:
                 turn = await provider.complete_with_tools(conversation, tools_schema)
             except ToolsUnsupportedError:
@@ -101,7 +105,8 @@ async def run_agent_loop(
                 break
             raw_message = turn.get("raw") or {"role": "assistant", "content": None}
             conversation.append(raw_message)
-            for index, call in enumerate(calls):
+            # A pathological provider batch cannot create an unbounded executor loop.
+            for index, call in enumerate(calls[:max(0, max_calls-len(steps))]):
                 name = str(call.get("name", "")).strip()
                 arguments = call.get("arguments") or {}
                 allowed = True
@@ -117,7 +122,10 @@ async def run_agent_loop(
                         reason = str(exc)[:200]
                 if allowed:
                     try:
-                        result = await executor(name, arguments)
+                        if len(steps) >= max_calls:
+                            result = {"ok":False,"error":"本轮工具调用预算已用完；未执行","outcome":"budget_exhausted"}
+                        else:
+                            result = await executor(name, arguments)
                     except Exception as exc:  # noqa: BLE001 - a crashing executor must not kill the loop
                         result = {"ok": False, "error": str(exc)[:300]}
                 else:
@@ -144,6 +152,12 @@ async def run_agent_loop(
                         "content": step.summary,
                     }
                 )
+            if any(json.loads(s.summary).get("needs_confirmation") for s in steps[-len(calls):]
+                   if s.summary.startswith("{") and len(s.summary) < TOOL_RESULT_CHAR_LIMIT):
+                exhausted = False
+                break
+            if len(steps) >= max_calls:
+                break
 
     if final_text is None:
         final_text = await provider.complete(_fallback_messages(messages, steps))
@@ -152,4 +166,5 @@ async def run_agent_loop(
         steps=steps,
         degraded=degraded,
         hit_step_limit=exhausted,
+        rounds=rounds,
     )

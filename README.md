@@ -1,5 +1,8 @@
 # Anime Agent MVP
 
+Codex 2026-10-04：本分支为 [Harness V1 candidate](docs/assessments/harness-v1/REPORT.md)，不是main正式发行；共享双模型任务执行与手动语音/600秒提醒/投入档位修复。桌面实际激活和人工反馈以报告为准。
+
+
 Codex 2026-10-04：配套[非Agent系统综合评估与DS诊断](docs/NON_AGENT_SYSTEM_ASSESSMENT_2026-10-04_CODEX.md)已补齐模型/表情、动作/物理、语音、UI、启停、数据与分发状态。外观默认1.4、五版档案及现用声线校验通过；通用防穿模与跨机等效运行仍未完成。本次DS四次独立请求成功，所有者确认原窗口已能回复；未改配置或运行实现，截图发生时的精确传输原因仍待定位，不能称彻底修复。
 
 Codex 2026-10-04：新增[Agent能力全景评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md)（56个真实模型场景、84轮对话、36项定向探针；原Core273项回归通过）。当前定位是受监督的短任务/陪伴型Agent，不是可靠的无人值守代办系统；授权误判、执行回执、工具正文传递、记忆召回及部分MCP连接器有待修问题。此次仅评测与报告，不是运行功能修复；下方旧考试成绩保留为历史证据。
@@ -40,12 +43,12 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |
 | 表情与动作 | 已完成动作注册表；保守待机（Codex，2026-09-08） | 48 个形变槽；12.47 秒动捕保留躯干摇晃/转头，待机双臂恢复原先斜下外展姿态；贴腿原素材不覆盖，可关闭 `relaxed_arms` 回溯。通用防穿模未解决，第一阶段只逐条验收小幅动作，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
 | 本地记忆 | 基础存储/更正/跨会话可用；完整闭环待补 | SQLite消息与facts；当前评测发现top3召回遗漏、敏感项显式记住策略及遗忘执行入口缺口，见[2026-10-04评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md) |
-| 语音转文字 | 管线可用，假死自愈已上线 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
+| 语音转文字 | V1 candidate：手动录音与本地简体回填 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
 | TTS 语音输出 | 本轮恢复修复已本地激活 | GPT-SoVITS 真实声线、分片合成、打断及解说；瞬态故障有限等待恢复，旧回复被打断后不迟到播放，超时明确报错并保留文字 |
-| Agent 能力层 | 已实现工具与权限框架；当前可靠性有阻断项 | 正向短任务有实证，但拒绝误批、多个待办覆盖、失败回执失真等尚未修复；当前判断见[全景评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md)，[旧考试记录](docs/TEST_REPORT_2026-09-06.md)不替代当前验收 |
+| Agent 能力层 | Harness V1 candidate，待Manager验收 | 参数版本授权、多个待办、真实回执、长结果与资源正文、共享人格/投入预算已实现；双模型实测与已知缺口见[候选报告](docs/assessments/harness-v1/REPORT.md)。不是全任务可靠性承诺。 |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
 | Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |
-| Idle 触发 | 已完成 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |
+| Idle 触发 | V1 candidate：连续600秒、同段一次 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |
 | 前端 UI 升级 | 已立项（方案阶段） | 当前聊天浮层与能力不匹配；方案见 [`docs/plans/UI_UPGRADE.md`](docs/plans/UI_UPGRADE.md)，为下一主战场 |
 
 ## 零上下文接手

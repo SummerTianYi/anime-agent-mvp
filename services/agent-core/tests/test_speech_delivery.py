@@ -123,7 +123,7 @@ class SceneSuccessTests(unittest.IsolatedAsyncioTestCase):
         await core._proactive_idle(5000)
         self.policy.mark_spoken.assert_not_called()
 
-    async def test_successful_greeting_and_idle_mark_after_playback(self):
+    async def test_greeting_marks_after_playback_idle_not_remarked_after_playback(self):
         async def success(*args, **kw):
             self.policy.mark_spoken.assert_not_called()
             return True
@@ -132,7 +132,9 @@ class SceneSuccessTests(unittest.IsolatedAsyncioTestCase):
         self.policy.mark_spoken.assert_called_once()
         self.policy.mark_spoken.reset_mock()
         await core._proactive_idle(5000)
-        self.policy.mark_spoken.assert_called_once()
+        # Idle consumption happens at _broadcast_speak, not after playback;
+        # otherwise activity while speaking would consume the next episode.
+        self.policy.mark_spoken.assert_not_called()
 
     async def test_concurrent_greetings_not_duplicate(self):
         entered, release=asyncio.Event(),asyncio.Event()

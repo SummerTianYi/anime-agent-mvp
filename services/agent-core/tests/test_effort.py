@@ -28,13 +28,14 @@ class ResolveEffortTest(unittest.TestCase):
 
 
 class EffortLadderTest(unittest.TestCase):
-    def test_deep_keeps_historical_step_budget(self) -> None:
-        self.assertEqual(EFFORT_LEVELS["deep"]["max_steps"], MAX_TOOL_STEPS)
+    def test_deep_has_bounded_task_budget(self) -> None:
+        self.assertEqual(EFFORT_LEVELS["deep"]["max_steps"], 9)
+        self.assertEqual(EFFORT_LEVELS["deep"]["max_calls"], 18)
 
-    def test_step_ladder_is_1_3_5(self) -> None:
-        self.assertEqual(EFFORT_LEVELS["chill"]["max_steps"], 1)
-        self.assertEqual(EFFORT_LEVELS["standard"]["max_steps"], 3)
-        self.assertEqual(EFFORT_LEVELS["deep"]["max_steps"], 5)
+    def test_step_ladder_is_3_6_9(self) -> None:
+        self.assertEqual(EFFORT_LEVELS["chill"]["max_steps"], 3)
+        self.assertEqual(EFFORT_LEVELS["standard"]["max_steps"], 6)
+        self.assertEqual(EFFORT_LEVELS["deep"]["max_steps"], 9)
 
     def test_every_level_stays_a_full_agent(self) -> None:
         # the dial must never scope the toolset: all levels keep the complete
@@ -54,16 +55,18 @@ class EffortPromptNotesTest(unittest.TestCase):
     def test_unknown_level_yields_empty_note(self) -> None:
         self.assertEqual(effort_prompt_note("turbo"), "")
 
-    def test_chill_note_keeps_replies_short_and_single_lookup(self) -> None:
+    def test_chill_keeps_tools_and_does_not_force_short_style(self) -> None:
         note = effort_prompt_note("chill")
-        self.assertIn("至多两句", note)
-        self.assertIn("1 次往返", note)
+        self.assertNotIn("至多两句", note)
+        self.assertNotIn("默认不调工具", note)
+        self.assertIn("3轮", note)
 
     def test_same_question_contracts_visibly_differ(self) -> None:
         # 同一个问题三档的回答形态必须一眼可辨：短口语 vs 完整段落 vs 结构化交付
-        self.assertIn("不列表", effort_prompt_note("chill"))
-        self.assertIn("不写长篇分析", effort_prompt_note("standard"))
-        self.assertIn("要点列表", effort_prompt_note("deep"))
+        for level in EFFORT_LEVELS:
+            self.assertIn("不强制句数或列表", effort_prompt_note(level))
+            self.assertIn("权限和人格与其他档一致", effort_prompt_note(level))
+            self.assertIn("尚未确认支持", effort_prompt_note(level))
 
 
 if __name__ == "__main__":

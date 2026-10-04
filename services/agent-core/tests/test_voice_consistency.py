@@ -110,6 +110,9 @@ class FakeWakeListener:
         self.paused = True
         self.pause_count += 1
 
+    def stop(self) -> None:
+        self.paused = True
+
     def resume(self) -> None:
         self.paused = False
         self.resume_count += 1
@@ -157,7 +160,7 @@ class WakeReArmTests(unittest.TestCase):
         core.voice_recorder = self.recorder
         self.addCleanup(setattr, core, "voice_recorder", core.voice_recorder)
 
-    def test_wake_stays_paused_until_transcript_dispatched(self) -> None:
+    def test_manual_mode_keeps_background_wake_stopped_after_transcript(self) -> None:
         from fastapi.testclient import TestClient
 
         observed = {}
@@ -185,10 +188,10 @@ class WakeReArmTests(unittest.TestCase):
         transcript = _collect_until(ws, "voice.transcript", limit=40)[-1]
         self.assertEqual(transcript["text"], "测试一句")
         self.assertTrue(observed["paused_during"])
-        self.assertEqual(self.listener.resume_count, 1)
-        self.assertFalse(self.listener.paused)
+        self.assertEqual(self.listener.resume_count, 0)
+        self.assertTrue(self.listener.paused)
 
-    def test_failed_recording_still_re_arms_wake(self) -> None:
+    def test_stray_stop_never_rearms_listener_or_creates_chat(self) -> None:
         from fastapi.testclient import TestClient
 
         client = TestClient(core.app)
@@ -202,12 +205,17 @@ class WakeReArmTests(unittest.TestCase):
 
         # stop without any prior start: VoiceError path must still resume
         ws.send_json({"type": "voice.stop"})
-        _collect_until(ws, "core.error", limit=20)
-        self.assertEqual(self.listener.resume_count, 1)
+        ws.send_json({"type":"ping"})
+        seen = _collect_until(ws, "pong", limit=20)
+        self.assertFalse(any(e.get("type") in {"core.error","chat.response","voice.transcript"} for e in seen))
+        self.assertEqual(self.listener.resume_count, 0)
 
 
 class VoiceRefractoryTests(unittest.TestCase):
     def test_recent_voice_stop_drops_wake_trigger(self) -> None:
+        previous_mode = core.VOICE_INPUT_MODE
+        core.VOICE_INPUT_MODE = "wake"
+        self.addCleanup(setattr, core, "VOICE_INPUT_MODE", previous_mode)
         class _SpyMemory:
             def __init__(self) -> None:
                 self.events = []
