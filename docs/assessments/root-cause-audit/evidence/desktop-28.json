@@ -1,0 +1,131 @@
+{
+  "session_id": 353,
+  "captured_utc": "2026-10-07T12:32:49.523552+00:00",
+  "messages": [
+    {
+      "id": 1313,
+      "role": "user",
+      "content": "[RA-R01] 这是合成审计数据，请记住：审计青岚项目的负责人是林岚，预算是120元。不是现实项目。只简短确认保存，不要使用表情符号。",
+      "request_id": "avatar-chat-1344344",
+      "created_at": "2026-10-07 12:32:30",
+      "conversation_id": 353
+    },
+    {
+      "id": 1314,
+      "role": "assistant",
+      "content": "已保存：审计青岚项目负责人为林岚，预算120元，属于合成数据，非现实项目。",
+      "request_id": "avatar-chat-1344344",
+      "created_at": "2026-10-07 12:32:39",
+      "conversation_id": 353
+    }
+  ],
+  "events": [
+    {
+      "id": 7062,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-1344344"
+      },
+      "created_at": "2026-10-07 12:32:30"
+    },
+    {
+      "id": 7063,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-1344344",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 12:32:30"
+    },
+    {
+      "id": 7065,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "57c419af3ce845f4891d6c86afe07ec9",
+        "request_id": "avatar-chat-1344344",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 8906
+      },
+      "created_at": "2026-10-07 12:32:39"
+    },
+    {
+      "id": 7066,
+      "event_type": "memory.candidate",
+      "payload": {
+        "fact": "项目：审计青岚项目，负责人林岚，预算120元（合成数据，非现实项目）",
+        "request_id": "avatar-chat-1344344",
+        "status": "confirmed"
+      },
+      "created_at": "2026-10-07 12:32:39"
+    },
+    {
+      "id": 7067,
+      "event_type": "memory.fact.stored",
+      "payload": {
+        "fact_id": 24,
+        "status": "confirmed",
+        "request_id": "avatar-chat-1344344"
+      },
+      "created_at": "2026-10-07 12:32:39"
+    },
+    {
+      "id": 7068,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-1344344"
+      },
+      "created_at": "2026-10-07 12:32:39"
+    },
+    {
+      "id": 7070,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1344344"
+      },
+      "created_at": "2026-10-07 12:32:43"
+    }
+  ],
+  "actions": [],
+  "facts": [
+    {
+      "fact_id": 24,
+      "session_id": 353,
+      "scope": "global",
+      "content": "项目：审计青岚项目，负责人林岚，预算120元（合成数据，非现实项目）",
+      "status": "confirmed",
+      "source_request_id": "avatar-chat-1344344",
+      "created_at": "2026-10-07 12:32:39"
+    }
+  ],
+  "http_attempts_observed": 1,
+  "wire_calls": {
+    "57c419af3ce845f4891d6c86afe07ec9": 1
+  },
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [],
+  "malformed_event_timestamp_rows_excluded": 24,
+  "snapshot_verification": {
+    "source_before": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "cef724ddd9c12448e3fbd4c70fd3be4a6c76d3e12d86db7bf796be4514ba4456"
+    },
+    "copy": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "cef724ddd9c12448e3fbd4c70fd3be4a6c76d3e12d86db7bf796be4514ba4456"
+    },
+    "source_after": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "cef724ddd9c12448e3fbd4c70fd3be4a6c76d3e12d86db7bf796be4514ba4456"
+    },
+    "method": "passive file copy; equal file sets and SHA256 in three scans; not an atomic SQLite backup"
+  }
+}

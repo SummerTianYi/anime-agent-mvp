@@ -1,0 +1,1014 @@
+{
+  "utc": "2026-10-07T12:02:52.246130+00:00",
+  "layer": "passive diagnostic, not frontend acceptance",
+  "8765": {
+    "status": "ok",
+    "service": "anime-agent-core",
+    "version": "0.2.0",
+    "timestamp": "2026-10-07T12:02:52.284062+00:00",
+    "clients": 1,
+    "roles": {
+      "avatar": 1,
+      "ui": 0
+    },
+    "llm": {
+      "provider": "deepseek",
+      "runtime": "deepseek",
+      "configured": true,
+      "model": "Deepseek-v4-flash"
+    },
+    "tools": {
+      "enabled": true,
+      "count": 9
+    },
+    "tts": {
+      "enabled": true,
+      "narrate": true,
+      "service": "http://127.0.0.1:8770",
+      "playbackProtocol": 2,
+      "farewellCachedLines": 3,
+      "speechPending": false,
+      "available": true
+    },
+    "wake": {
+      "enabled": false,
+      "running": false,
+      "paused": false,
+      "recent_peak": 0.0
+    }
+  },
+  "8770": {
+    "service": "tianyi-tts",
+    "protocol": 1,
+    "pid": 11580,
+    "ok": true,
+    "phase": "ready",
+    "busySeconds": 0.0,
+    "uptimeSeconds": 76.031,
+    "consecutiveFailures": 0,
+    "device": "cuda",
+    "reference": "data/segments/seg00199.wav",
+    "synthCount": 0,
+    "selfCheck": {
+      "enabled": true,
+      "threshold": 0.9,
+      "takes": 1,
+      "retries": 0
+    }
+  },
+  "gmail_auth": {
+    "modified_utc": "2026-10-07T12:01:11.013915+00:00",
+    "changed_since_backup": true,
+    "access_token_present": true,
+    "refresh_token_present": true,
+    "token_values": "not collected"
+  },
+  "processes": [
+    {
+      "create_time": 1791367539.3274524,
+      "name": "powershell.exe",
+      "pid": 1916,
+      "ppid": 37536,
+      "tags": [
+        "core_watchdog.ps1"
+      ],
+      "cwd": "<USER>"
+    },
+    {
+      "create_time": 1791367526.5713797,
+      "name": "node.exe",
+      "pid": 2468,
+      "ppid": 5348,
+      "tags": [
+        "server-gmail-autoauth-mcp"
+      ],
+      "cwd": "<PRODUCTION>\\services\\agent-core"
+    },
+    {
+      "create_time": 1791374495.8760767,
+      "name": "python.exe",
+      "pid": 11460,
+      "ppid": 27528,
+      "tags": [
+        "tts_server.py"
+      ],
+      "cwd": "<WORK>\\tianyi-tts"
+    },
+    {
+      "create_time": 1791374495.9941945,
+      "name": "python.exe",
+      "pid": 11580,
+      "ppid": 11460,
+      "tags": [
+        "tts_server.py"
+      ],
+      "cwd": "<WORK>\\tianyi-tts\\GPT-SoVITS"
+    },
+    {
+      "create_time": 1791367524.856505,
+      "name": "node.exe",
+      "pid": 15520,
+      "ppid": 17232,
+      "tags": [
+        "server-gmail-autoauth-mcp"
+      ],
+      "cwd": "<PRODUCTION>\\services\\agent-core"
+    },
+    {
+      "create_time": 1791367519.818483,
+      "name": "python.exe",
+      "pid": 15580,
+      "ppid": 31896,
+      "tags": [
+        "agent_core.main"
+      ],
+      "cwd": "<PRODUCTION>\\services\\agent-core"
+    },
+    {
+      "create_time": 1791367542.1465907,
+      "name": "powershell.exe",
+      "pid": 27528,
+      "ppid": 37536,
+      "tags": [
+        "watch-tts-session.ps1"
+      ],
+      "cwd": "<USER>"
+    },
+    {
+      "create_time": 1791367519.6523702,
+      "name": "python.exe",
+      "pid": 31896,
+      "ppid": 37536,
+      "tags": [
+        "agent_core.main"
+      ],
+      "cwd": "<PRODUCTION>\\services\\agent-core"
+    },
+    {
+      "create_time": 1791367531.742946,
+      "name": "Godot_v4.7.2-stable_win64.exe",
+      "pid": 41476,
+      "ppid": 37536,
+      "tags": [
+        "Godot_v4.7.2"
+      ],
+      "cwd": "<PRODUCTION>\\apps\\avatar-runtime"
+    }
+  ],
+  "watch_events": [
+    {
+      "event": "supervisor-start",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "avatar": 41476,
+        "avatarTicks": 639269931317429460
+      },
+      "time": "2026-10-07T18:05:43.9689914+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "start",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 0
+      },
+      "time": "2026-10-07T18:05:46.3320767+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-180547-041-27528.stdout.log",
+        "pid": 24876,
+        "stderr": "tts-20261007-180547-041-27528.stderr.log"
+      },
+      "time": "2026-10-07T18:05:47.1597397+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 2,
+        "attempt": 1
+      },
+      "time": "2026-10-07T18:05:47.1767652+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 19700
+      },
+      "time": "2026-10-07T18:05:53.2035859+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "ready",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "ready",
+        "misses": 0,
+        "listener": 19700
+      },
+      "time": "2026-10-07T18:06:36.0996612+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "confirm",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 1,
+        "listener": 19700
+      },
+      "time": "2026-10-07T19:44:49.0548848+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 2,
+        "listener": 19700
+      },
+      "time": "2026-10-07T19:44:53.1266047+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269931472139850,
+        "pid": 19700
+      },
+      "time": "2026-10-07T19:44:54.0479631+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269931470497840,
+        "pid": 24876
+      },
+      "time": "2026-10-07T19:44:54.8085368+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-194455-576-27528.stdout.log",
+        "pid": 25984,
+        "stderr": "tts-20261007-194455-576-27528.stderr.log"
+      },
+      "time": "2026-10-07T19:44:55.6906556+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 2,
+        "attempt": 1
+      },
+      "time": "2026-10-07T19:44:55.6926569+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 35044
+      },
+      "time": "2026-10-07T19:45:01.7626589+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "ready",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "ready",
+        "misses": 0,
+        "listener": 35044
+      },
+      "time": "2026-10-07T19:45:48.1248392+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "confirm",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 1,
+        "listener": 35044
+      },
+      "time": "2026-10-07T19:45:52.0499174+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 2,
+        "listener": 35044
+      },
+      "time": "2026-10-07T19:45:56.0172334+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269990957988020,
+        "pid": 35044
+      },
+      "time": "2026-10-07T19:45:56.8667034+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269990955824330,
+        "pid": 25984
+      },
+      "time": "2026-10-07T19:45:57.5649449+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-194558-216-27528.stdout.log",
+        "pid": 35132,
+        "stderr": "tts-20261007-194558-216-27528.stderr.log"
+      },
+      "time": "2026-10-07T19:45:58.2666245+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 4,
+        "attempt": 2
+      },
+      "time": "2026-10-07T19:45:58.2691394+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 36772
+      },
+      "time": "2026-10-07T19:46:04.1335510+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "ready",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "ready",
+        "misses": 0,
+        "listener": 36772
+      },
+      "time": "2026-10-07T19:46:46.5378230+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "confirm",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 1,
+        "listener": 36772
+      },
+      "time": "2026-10-07T19:46:50.4433071+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 2,
+        "listener": 36772
+      },
+      "time": "2026-10-07T19:46:54.3046943+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269991583568170,
+        "pid": 36772
+      },
+      "time": "2026-10-07T19:46:55.1195018+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269991582220580,
+        "pid": 35132
+      },
+      "time": "2026-10-07T19:46:55.9807517+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-194656-738-27528.stdout.log",
+        "pid": 20252,
+        "stderr": "tts-20261007-194656-738-27528.stderr.log"
+      },
+      "time": "2026-10-07T19:46:56.8095208+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 8,
+        "attempt": 3
+      },
+      "time": "2026-10-07T19:46:56.8135186+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 17196
+      },
+      "time": "2026-10-07T19:47:02.7835427+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "ready",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "ready",
+        "misses": 0,
+        "listener": 17196
+      },
+      "time": "2026-10-07T19:47:40.5567542+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "confirm",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 1,
+        "listener": 17196
+      },
+      "time": "2026-10-07T19:47:44.5413895+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 2,
+        "listener": 17196
+      },
+      "time": "2026-10-07T19:47:48.5149588+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269992168759390,
+        "pid": 17196
+      },
+      "time": "2026-10-07T19:47:49.3330869+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269992167452400,
+        "pid": 20252
+      },
+      "time": "2026-10-07T19:47:50.1477963+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-194750-899-27528.stdout.log",
+        "pid": 6404,
+        "stderr": "tts-20261007-194750-899-27528.stderr.log"
+      },
+      "time": "2026-10-07T19:47:50.9507535+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 16,
+        "attempt": 4
+      },
+      "time": "2026-10-07T19:47:50.9547446+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 8876
+      },
+      "time": "2026-10-07T19:47:56.9105449+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "ready",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "ready",
+        "misses": 0,
+        "listener": 8876
+      },
+      "time": "2026-10-07T19:48:37.3147773+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "confirm",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 1,
+        "listener": 8876
+      },
+      "time": "2026-10-07T19:58:52.8153962+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 2,
+        "listener": 8876
+      },
+      "time": "2026-10-07T19:58:56.6712795+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269992710282150,
+        "pid": 8876
+      },
+      "time": "2026-10-07T19:58:57.4426547+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269992709031360,
+        "pid": 6404
+      },
+      "time": "2026-10-07T19:58:58.2066824+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-195858-885-27528.stdout.log",
+        "pid": 17556,
+        "stderr": "tts-20261007-195858-885-27528.stderr.log"
+      },
+      "time": "2026-10-07T19:58:58.9536911+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 2,
+        "attempt": 1
+      },
+      "time": "2026-10-07T19:58:58.9546966+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 39348
+      },
+      "time": "2026-10-07T19:59:04.8900673+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 11,
+        "listener": 39348
+      },
+      "time": "2026-10-07T19:59:46.0512727+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269999390282530,
+        "pid": 39348
+      },
+      "time": "2026-10-07T19:59:46.8973772+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269999388887460,
+        "pid": 17556
+      },
+      "time": "2026-10-07T19:59:47.7593542+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-195948-481-27528.stdout.log",
+        "pid": 17492,
+        "stderr": "tts-20261007-195948-481-27528.stderr.log"
+      },
+      "time": "2026-10-07T19:59:48.5506555+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 4,
+        "attempt": 2
+      },
+      "time": "2026-10-07T19:59:48.5536564+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 36316
+      },
+      "time": "2026-10-07T19:59:54.6526002+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "ready",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "ready",
+        "misses": 0,
+        "listener": 36316
+      },
+      "time": "2026-10-07T20:00:36.1792718+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "confirm",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 1,
+        "listener": 36316
+      },
+      "time": "2026-10-07T20:00:40.0941696+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 2,
+        "listener": 36316
+      },
+      "time": "2026-10-07T20:00:44.1488457+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269999886428940,
+        "pid": 36316
+      },
+      "time": "2026-10-07T20:00:44.9563059+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639269999884866960,
+        "pid": 17492
+      },
+      "time": "2026-10-07T20:00:45.6734150+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-200046-484-27528.stdout.log",
+        "pid": 33720,
+        "stderr": "tts-20261007-200046-484-27528.stderr.log"
+      },
+      "time": "2026-10-07T20:00:46.5306904+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 8,
+        "attempt": 3
+      },
+      "time": "2026-10-07T20:00:46.5343049+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 30268
+      },
+      "time": "2026-10-07T20:00:52.6587254+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "restart",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "failed",
+        "misses": 11,
+        "listener": 30268
+      },
+      "time": "2026-10-07T20:01:33.4294237+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639270000466230430,
+        "pid": 30268
+      },
+      "time": "2026-10-07T20:01:34.2622044+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "stopped-owned-process",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "ticks": 639270000464865780,
+        "pid": 33720
+      },
+      "time": "2026-10-07T20:01:35.1389840+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "spawn",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "stdout": "tts-20261007-200135-871-27528.stdout.log",
+        "pid": 11460,
+        "stderr": "tts-20261007-200135-871-27528.stderr.log"
+      },
+      "time": "2026-10-07T20:01:35.9310453+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "retry-budget",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "delaySeconds": 16,
+        "attempt": 4
+      },
+      "time": "2026-10-07T20:01:35.9340457+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "warming",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": null,
+        "misses": 1,
+        "listener": 11580
+      },
+      "time": "2026-10-07T20:01:41.8918320+08:00",
+      "watcher": 27528
+    },
+    {
+      "event": "ready",
+      "agent": "Codex",
+      "port": 8770,
+      "detail": {
+        "phase": "ready",
+        "misses": 0,
+        "listener": 11580
+      },
+      "time": "2026-10-07T20:02:22.9128549+08:00",
+      "watcher": 27528
+    }
+  ],
+  "sidecar_error_lines": [
+    {
+      "file": "tts-20261007-200135-871-27528.stderr.log",
+      "lines": []
+    },
+    {
+      "file": "tts-20261007-200046-484-27528.stderr.log",
+      "lines": []
+    },
+    {
+      "file": "tts-20261007-195948-481-27528.stderr.log",
+      "lines": []
+    }
+  ],
+  "sidecar_status_lines": [
+    {
+      "file": "tts-20261007-200135-871-27528.stdout.log",
+      "lines": [
+        "TTS_SERVER_READY"
+      ]
+    },
+    {
+      "file": "tts-20261007-200046-484-27528.stdout.log",
+      "lines": [
+        "TTS_SERVER_READY"
+      ]
+    },
+    {
+      "file": "tts-20261007-195948-481-27528.stdout.log",
+      "lines": [
+        "TTS_SERVER_READY"
+      ]
+    },
+    {
+      "file": "tts-20261007-195858-885-27528.stdout.log",
+      "lines": [
+        "TTS_SERVER_READY"
+      ]
+    },
+    {
+      "file": "tts-20261007-194750-899-27528.stdout.log",
+      "lines": [
+        "TTS_SERVER_READY",
+        "TTS_SYNTH_OK count=1",
+        "TTS_SYNTH_OK count=2",
+        "TTS_SYNTH_OK count=3",
+        "TTS_SYNTH_OK count=4",
+        "TTS_SYNTH_OK count=5",
+        "TTS_SYNTH_OK count=6",
+        "TTS_SYNTH_OK count=7",
+        "TTS_SYNTH_OK count=8",
+        "TTS_SYNTH_OK count=9",
+        "TTS_SYNTH_OK count=10",
+        "TTS_SYNTH_OK count=11",
+        "TTS_SYNTH_OK count=12",
+        "TTS_SYNTH_OK count=13",
+        "TTS_SYNTH_OK count=14",
+        "TTS_SYNTH_OK count=15",
+        "TTS_SYNTH_OK count=16",
+        "TTS_SYNTH_OK count=17",
+        "TTS_SYNTH_OK count=18",
+        "TTS_SYNTH_OK count=19",
+        "TTS_SYNTH_OK count=20",
+        "TTS_SYNTH_OK count=21",
+        "TTS_SYNTH_OK count=22",
+        "TTS_SYNTH_OK count=23",
+        "TTS_SYNTH_OK count=24",
+        "TTS_SYNTH_OK count=25",
+        "TTS_SYNTH_OK count=26",
+        "TTS_SYNTH_OK count=27",
+        "TTS_SYNTH_OK count=28",
+        "TTS_SYNTH_OK count=29"
+      ]
+    },
+    {
+      "file": "tts-20261007-194656-738-27528.stdout.log",
+      "lines": [
+        "TTS_SERVER_READY"
+      ]
+    }
+  ],
+  "stable_copy_quick_check": [
+    "*** in database main ***\nTree 4 page 4 cell 14: Rowid 672 out of order"
+  ],
+  "db_latest_ids": {
+    "messages": 1290,
+    "events": 6813
+  }
+}

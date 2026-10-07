@@ -1,0 +1,19 @@
+{
+  "pid": 34560,
+  "package_query_status": 15700,
+  "unpackaged": true,
+  "normal_path": "<USER>\\AppData\\Local\\AnimeAgent\\data\\anime-agent.sqlite3",
+  "physical_path": "<USER-PHYSICAL>\\AppData\\Local\\AnimeAgent\\data\\anime-agent.sqlite3",
+  "normal_size": 233472,
+  "physical_size": 1253376,
+  "normal": {
+    "": "546c89f3e4ac0935c43d0f1d74a8572e9add38dd85aa576858ded981acb2521a",
+    "-wal": "52ac35cf98199fef2e37adbfd4d070f6925f37d1e22c4433bcd564a1ee9a3141"
+  },
+  "physical": {
+    "": "4d8986a8eea7c71a2854c29db59b2a94fc389f61d65a1c9dd1ae080e344ad9c9",
+    "-wal": "2a377e836ef9ed518f0bca594f738eb09402057cefdef4942e761fe06c28c3ee"
+  },
+  "no_database_write": true,
+  "same_namespace_snapshot": false
+}

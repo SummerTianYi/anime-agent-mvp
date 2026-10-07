@@ -1,0 +1,697 @@
+{
+  "session_id": 352,
+  "captured_utc": "2026-10-07T12:30:32.233626+00:00",
+  "messages": [
+    {
+      "id": 1303,
+      "role": "user",
+      "content": "[RA-M02C] 这是根因审计的独立测试会话。请用Gmail向OWNER_TEST_MAILBOX发送一封测试邮件，主题为[天依根因审计 20261007] RA-M02，正文为：这是天依根因审计的合成测试邮件。校验标记：IRIS-200。无需回复。无抄送、无附件。先提出原生发送动作让我核对确认，然后才能执行。",
+      "request_id": "avatar-chat-782124",
+      "created_at": "2026-10-07 12:23:08",
+      "conversation_id": 352
+    },
+    {
+      "id": 1304,
+      "role": "assistant",
+      "content": "好的，我先向您核对一下待发送的动作，等您确认后再执行~\n\n📧 **待发送邮件确认**\n- **收件人**：OWNER_TEST_MAILBOX\n- **主题**：`[天依根因审计 20261007] RA-M02`\n- **正文**：`这是天依根因审计的合成测试邮件。校验标记：IRIS-200。无需回复。`\n- **抄送/密送**：无\n- **附件**：无\n\n以上内容无误的话，请回复确认，我就发送。",
+      "request_id": "avatar-chat-782124",
+      "created_at": "2026-10-07 12:23:17",
+      "conversation_id": 352
+    },
+    {
+      "id": 1305,
+      "role": "user",
+      "content": "确认",
+      "request_id": "avatar-chat-1089947",
+      "created_at": "2026-10-07 12:28:16",
+      "conversation_id": 352
+    },
+    {
+      "id": 1306,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n['OWNER_TEST_MAILBOX']：待确认，尚未执行\n下一项待确认参数：{\"to\": [\"OWNER_TEST_MAILBOX\"], \"subject\": \"[天依根因审计 20261007] RA-M02\", \"body\": \"这是天依根因审计的合成测试邮件。校验标记：IRIS-200。无需回复。\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-1089947",
+      "created_at": "2026-10-07 12:28:19",
+      "conversation_id": 352
+    },
+    {
+      "id": 1307,
+      "role": "user",
+      "content": "确认",
+      "request_id": "avatar-chat-1147549",
+      "created_at": "2026-10-07 12:29:14",
+      "conversation_id": 352
+    },
+    {
+      "id": 1308,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n['OWNER_TEST_MAILBOX']：连接器已接受发送（不代表收件人已收到）；Email sent successfully with ID: 1a11656dc9c1716c",
+      "request_id": "avatar-chat-1147549",
+      "created_at": "2026-10-07 12:29:23",
+      "conversation_id": 352
+    },
+    {
+      "id": 1309,
+      "role": "user",
+      "content": "[RA-M04] 请只用Gmail读取刚才这封审计测试邮件，ID为1a11656dc9c1716c。核对主题、正文校验标记和收件人，引用实际读回结果，不要重发，不读其他邮件。",
+      "request_id": "avatar-chat-1210768",
+      "created_at": "2026-10-07 12:30:17",
+      "conversation_id": 352
+    },
+    {
+      "id": 1310,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\nmcp__gmail__read_email：待确认，尚未执行\n下一项待确认参数：{\"messageId\": \"1a11656dc9c1716c\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-1210768",
+      "created_at": "2026-10-07 12:30:25",
+      "conversation_id": 352
+    }
+  ],
+  "events": [
+    {
+      "id": 6981,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-782124"
+      },
+      "created_at": "2026-10-07 12:23:08"
+    },
+    {
+      "id": 6982,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-782124",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 12:23:08"
+    },
+    {
+      "id": 6983,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "df3b1547f9dd41cabd1012db603988d2",
+        "request_id": "avatar-chat-782124",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 8719
+      },
+      "created_at": "2026-10-07 12:23:17"
+    },
+    {
+      "id": 6984,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-782124"
+      },
+      "created_at": "2026-10-07 12:23:17"
+    },
+    {
+      "id": 6985,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-782124"
+      },
+      "created_at": "2026-10-07 12:23:23"
+    },
+    {
+      "id": 6986,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-0533f8317420",
+        "request_id": "avatar-chat-782124"
+      },
+      "created_at": "2026-10-07 12:23:23"
+    },
+    {
+      "id": 6987,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-0533f8317420",
+        "playbackId": "8db0576c68e74ad5b89d57009aea94b3",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 12:23:29"
+    },
+    {
+      "id": 6988,
+      "event_type": "speech.unavailable",
+      "payload": {
+        "request_id": "avatar-chat-782124",
+        "message": "语音服务恢复超时，文字回复已保留，请稍后重试"
+      },
+      "created_at": "2026-10-07 12:26:23"
+    },
+    {
+      "id": 6989,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-782124"
+      },
+      "created_at": "2026-10-07 12:26:23"
+    },
+    {
+      "id": 6990,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:16"
+    },
+    {
+      "id": 6991,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-1089947",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 12:28:16"
+    },
+    {
+      "id": 6992,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "3fa3d8227cb146889648c588042dee80",
+        "request_id": "avatar-chat-1089947",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 2062
+      },
+      "created_at": "2026-10-07 12:28:18"
+    },
+    {
+      "id": 6993,
+      "event_type": "permission.decision",
+      "payload": {
+        "tool": "mcp__gmail__send_email",
+        "kind": "ask",
+        "allowed": false,
+        "rule_id": "ask-mcp",
+        "reason": "MCP 工具需用户确认",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:18"
+    },
+    {
+      "id": 6994,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 352,
+        "request_id": "avatar-chat-1089947",
+        "action_id": "d4acf3127d5c4dc9b382061ead6f5253",
+        "revision": 1,
+        "args_hash": "fa8a316fc1d1a6df5b3cce1202641b6cc4236e3ff04ee7ab423bc10ec913644b",
+        "tool": "mcp__gmail__send_email",
+        "arguments": {
+          "to": [
+            "OWNER_TEST_MAILBOX"
+          ],
+          "subject": "[天依根因审计 20261007] RA-M02",
+          "body": "这是天依根因审计的合成测试邮件。校验标记：IRIS-200。无需回复。"
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-07 12:28:18"
+    },
+    {
+      "id": 6995,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "working",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:18"
+    },
+    {
+      "id": 6996,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "5e66cb71aa5640caa71f7be9606d7087",
+        "request_id": "avatar-chat-1089947",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 1437
+      },
+      "created_at": "2026-10-07 12:28:19"
+    },
+    {
+      "id": 6997,
+      "event_type": "agent.tools",
+      "payload": {
+        "request_id": "avatar-chat-1089947",
+        "tools": [
+          "mcp__gmail__send_email"
+        ],
+        "ok": [
+          false
+        ],
+        "errors": [
+          "{\"ok\": false, \"action_id\": \"d4acf3127d5c4dc9b382061ead6f5253\", \"revision\": 1, \"args_hash\": \"fa8a316fc1d1a6df5b3cce1202641b6cc4236e3ff04ee7ab423bc10ec913644b\", \"outcome\": \"awaiting_confirmation\", \"execution_id\": null, \"confirmation_request_id\": null, \"needs_confirmation\": true, \"confirmation\": {\"action_id\": \"d4acf3127d5c4dc9b382061ead6f5253\", \"revision\": 1, \"args_hash\": \"fa8a316fc1d1a6df5b3cce1202641b6cc4236e3ff04ee7ab423bc10ec913644b\"}, \"error\": \"操作尚未执行。等待用户确认当前动作；不要重复调用或声称完成。\"}"
+        ]
+      },
+      "created_at": "2026-10-07 12:28:19"
+    },
+    {
+      "id": 6998,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:19"
+    },
+    {
+      "id": 6999,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:23"
+    },
+    {
+      "id": 7001,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:37"
+    },
+    {
+      "id": 7003,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:46"
+    },
+    {
+      "id": 7005,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:54"
+    },
+    {
+      "id": 7007,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:28:59"
+    },
+    {
+      "id": 7009,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:29:06"
+    },
+    {
+      "id": 7011,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1089947"
+      },
+      "created_at": "2026-10-07 12:29:11"
+    },
+    {
+      "id": 7014,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:14"
+    },
+    {
+      "id": 7015,
+      "event_type": "permission.confirmed",
+      "payload": {
+        "session_id": 352,
+        "request_id": "avatar-chat-1147549",
+        "tool": "mcp__gmail__send_email",
+        "result": {
+          "ok": true,
+          "output": "Email sent successfully with ID: 1a11656dc9c1716c",
+          "action_id": "d4acf3127d5c4dc9b382061ead6f5253",
+          "revision": 1,
+          "args_hash": "fa8a316fc1d1a6df5b3cce1202641b6cc4236e3ff04ee7ab423bc10ec913644b",
+          "outcome": "succeeded",
+          "execution_id": "70ecedee4bb44ffea9142497f427a768",
+          "confirmation_request_id": "avatar-chat-1147549"
+        },
+        "action_id": "d4acf3127d5c4dc9b382061ead6f5253",
+        "args_hash": "fa8a316fc1d1a6df5b3cce1202641b6cc4236e3ff04ee7ab423bc10ec913644b",
+        "revision": 1.0
+      },
+      "created_at": "2026-10-07 12:29:15"
+    },
+    {
+      "id": 7016,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-1147549",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 12:29:15"
+    },
+    {
+      "id": 7018,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "148c77bfc1574f1190efebce5e60f051",
+        "request_id": "avatar-chat-1147549",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 7813
+      },
+      "created_at": "2026-10-07 12:29:23"
+    },
+    {
+      "id": 7019,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:23"
+    },
+    {
+      "id": 7021,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:25"
+    },
+    {
+      "id": 7022,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "b7c55428635a47feab4d4c0b212b71f4",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 12:29:28"
+    },
+    {
+      "id": 7023,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:36"
+    },
+    {
+      "id": 7024,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "d9812b9363f94b27bbbcc7566a757192",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 12:29:44"
+    },
+    {
+      "id": 7025,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:44"
+    },
+    {
+      "id": 7026,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "f4bc47c369994a4e834e37d13cc2f1f4",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 12:29:46"
+    },
+    {
+      "id": 7027,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:48"
+    },
+    {
+      "id": 7028,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "281fbf0134be449b8c96329637febb55",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 12:29:54"
+    },
+    {
+      "id": 7029,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:54"
+    },
+    {
+      "id": 7030,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "request_id": "avatar-chat-1147549"
+      },
+      "created_at": "2026-10-07 12:29:54"
+    },
+    {
+      "id": 7031,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-1210768"
+      },
+      "created_at": "2026-10-07 12:30:17"
+    },
+    {
+      "id": 7032,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-1210768",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 12:30:17"
+    },
+    {
+      "id": 7033,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "cb5c40c513794f17b98895e5ff03c708",
+        "request_id": "avatar-chat-1210768",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6688
+      },
+      "created_at": "2026-10-07 12:30:23"
+    },
+    {
+      "id": 7034,
+      "event_type": "permission.decision",
+      "payload": {
+        "tool": "mcp__gmail__read_email",
+        "kind": "ask",
+        "allowed": false,
+        "rule_id": "ask-mcp",
+        "reason": "MCP 工具需用户确认",
+        "request_id": "avatar-chat-1210768"
+      },
+      "created_at": "2026-10-07 12:30:23"
+    },
+    {
+      "id": 7035,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 352,
+        "request_id": "avatar-chat-1210768",
+        "action_id": "b4bbd31def26434fbaad3ff991a2fd68",
+        "revision": 1,
+        "args_hash": "d9fae2177307f8b9876ea6baf3f7d49cf301886f0ac65ac8c8c2a03cca08617d",
+        "tool": "mcp__gmail__read_email",
+        "arguments": {
+          "messageId": "1a11656dc9c1716c"
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-07 12:30:23"
+    },
+    {
+      "id": 7036,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "working",
+        "request_id": "avatar-chat-1210768"
+      },
+      "created_at": "2026-10-07 12:30:23"
+    },
+    {
+      "id": 7037,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "f89fa60a44dc479780fa2d8c868acbe1",
+        "request_id": "avatar-chat-1210768",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 1938
+      },
+      "created_at": "2026-10-07 12:30:25"
+    },
+    {
+      "id": 7038,
+      "event_type": "agent.tools",
+      "payload": {
+        "request_id": "avatar-chat-1210768",
+        "tools": [
+          "mcp__gmail__read_email"
+        ],
+        "ok": [
+          false
+        ],
+        "errors": [
+          "{\"ok\": false, \"action_id\": \"b4bbd31def26434fbaad3ff991a2fd68\", \"revision\": 1, \"args_hash\": \"d9fae2177307f8b9876ea6baf3f7d49cf301886f0ac65ac8c8c2a03cca08617d\", \"outcome\": \"awaiting_confirmation\", \"execution_id\": null, \"confirmation_request_id\": null, \"needs_confirmation\": true, \"confirmation\": {\"action_id\": \"b4bbd31def26434fbaad3ff991a2fd68\", \"revision\": 1, \"args_hash\": \"d9fae2177307f8b9876ea6baf3f7d49cf301886f0ac65ac8c8c2a03cca08617d\"}, \"error\": \"操作尚未执行。等待用户确认当前动作；不要重复调用或声称完成。\"}"
+        ]
+      },
+      "created_at": "2026-10-07 12:30:25"
+    },
+    {
+      "id": 7039,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-1210768"
+      },
+      "created_at": "2026-10-07 12:30:25"
+    },
+    {
+      "id": 7040,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1210768"
+      },
+      "created_at": "2026-10-07 12:30:31"
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "d4acf3127d5c4dc9b382061ead6f5253",
+      "args_hash": "fa8a316fc1d1a6df5b3cce1202641b6cc4236e3ff04ee7ab423bc10ec913644b",
+      "arguments": {
+        "body": "这是天依根因审计的合成测试邮件。校验标记：IRIS-200。无需回复。",
+        "subject": "[天依根因审计 20261007] RA-M02",
+        "to": [
+          "OWNER_TEST_MAILBOX"
+        ]
+      },
+      "confirmation_request_id": "avatar-chat-1147549",
+      "execution_id": "70ecedee4bb44ffea9142497f427a768",
+      "expires": 1791376698.5099173,
+      "receipt": {
+        "ok": true,
+        "output": "Email sent successfully with ID: 1a11656dc9c1716c"
+      },
+      "request_id": "avatar-chat-1089947",
+      "revision": 1,
+      "session_id": 352,
+      "status": "succeeded",
+      "task_id": "avatar-chat-1089947",
+      "tool": "mcp__gmail__send_email"
+    },
+    {
+      "action_id": "b4bbd31def26434fbaad3ff991a2fd68",
+      "args_hash": "d9fae2177307f8b9876ea6baf3f7d49cf301886f0ac65ac8c8c2a03cca08617d",
+      "arguments": {
+        "messageId": "1a11656dc9c1716c"
+      },
+      "expires": 1791376823.9489915,
+      "receipt": null,
+      "request_id": "avatar-chat-1210768",
+      "revision": 1,
+      "session_id": 352,
+      "status": "awaiting_confirmation",
+      "task_id": "avatar-chat-1210768",
+      "tool": "mcp__gmail__read_email"
+    }
+  ],
+  "facts": [],
+  "http_attempts_observed": 6,
+  "wire_calls": {
+    "df3b1547f9dd41cabd1012db603988d2": 1,
+    "3fa3d8227cb146889648c588042dee80": 1,
+    "5e66cb71aa5640caa71f7be9606d7087": 1,
+    "148c77bfc1574f1190efebce5e60f051": 1,
+    "cb5c40c513794f17b98895e5ff03c708": 1,
+    "f89fa60a44dc479780fa2d8c868acbe1": 1
+  },
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [],
+  "malformed_event_timestamp_rows_excluded": 24,
+  "snapshot_verification": {
+    "source_before": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "1728623df000b26a64905daf0b80634c3d7fdadef4d87780483832e7cf63819f"
+    },
+    "copy": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "1728623df000b26a64905daf0b80634c3d7fdadef4d87780483832e7cf63819f"
+    },
+    "source_after": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "1728623df000b26a64905daf0b80634c3d7fdadef4d87780483832e7cf63819f"
+    },
+    "method": "passive file copy; equal file sets and SHA256 in three scans; not an atomic SQLite backup"
+  }
+}

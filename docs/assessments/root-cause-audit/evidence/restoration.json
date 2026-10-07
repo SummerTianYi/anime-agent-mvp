@@ -1,0 +1,23 @@
+{
+  "runtime_manifest_changed_files": [],
+  "production_tracked_status_unchanged": false,
+  "production_git_head_unchanged": true,
+  "formal_prompt_unchanged": true,
+  "env_equal_private_pre_glm_backup": true,
+  "env_sha256": "55050b08961a662af55a94297d5c464fa705f81d0db8bd4db53f072413f4fbda",
+  "active_model": {
+    "provider": "deepseek",
+    "runtime": "deepseek",
+    "configured": true,
+    "model": "Deepseek-v4-flash"
+  },
+  "historical_evidence": {
+    "docs/assessments/harness-v0": {
+      "changed_tracked_files": []
+    },
+    "docs/assessments/harness-v1": {
+      "changed_tracked_files": []
+    }
+  },
+  "not_proven": "No claim of all user-data bytes unchanged: authorized synthetic messages/facts and runtime event writes are expected. No user-history deletion/migration/repair was performed."
+}

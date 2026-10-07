@@ -6,6 +6,8 @@
 
 ## 1. 目标、阅读与维护约定
 
+2026-10-07 Codex：[全能力根因审查](../assessments/root-cause-audit/REPORT.md)、[覆盖清单](../assessments/root-cause-audit/COVERAGE.md)、[因果证据](../assessments/root-cause-audit/ROOT_CAUSES.md)、[独立对抗](../assessments/root-cause-audit/ADVERSARIAL_REVIEW.md)。本轮只审计，不改业务/正式提示词；候选修复方向不是实施授权，停在Manager决策点。
+
 2026-10-04 Codex Harness V1：承接V0补测与REVIEW，已进入同轮实现，不另起项目。候选入口：[REPORT](../assessments/harness-v1/REPORT.md)、[实现契约](../assessments/harness-v1/SPEC.md)。共享授权/回执与上下文、手动STT简体回填、600秒提醒和三档投入；测试证据与桌面激活分别记录，最终由Manager放行，不自动合并main。
 
 2026-10-04 Codex Harness V0补测：按Manager要求恢复网关测试并补跑138个槽；本次502次HTTP无429、GLM有3次45秒超时，两批累计568次。26题每模型三重复均已实际采样，原失败不覆盖。发现机械判卷有误判/漏判，须连同[补测报告](../assessments/harness-v0/batches/gateway-resume-01/REPORT.md)和[全文复核](../assessments/harness-v0/batches/gateway-resume-01/REVIEW.md)阅读，不能只按PASS数排名。仍为独立分支candidate；候选提示词未启用、生产不变，不合并不部署。

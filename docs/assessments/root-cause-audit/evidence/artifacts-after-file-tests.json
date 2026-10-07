@@ -1,0 +1,71 @@
+{
+  "utc": "2026-10-07T12:18:43.939816+00:00",
+  "layer": "passive artifact inspection, not visual acceptance",
+  "assets": [
+    {
+      "path": "apps/avatar-runtime/assets/luotianyi_v4.glb",
+      "exists": true,
+      "bytes": 128621144,
+      "sha256": "df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a",
+      "matches_frozen_contract": true
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/farewell_reference_v1.tres",
+      "exists": true,
+      "bytes": 310211,
+      "sha256": "aa9684cdf8e8927a601bbed3c47bf6abc38fc7dc4b85b8432f0239889542bea7"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/listen_reference_fk_v2.tres",
+      "exists": true,
+      "bytes": 305297,
+      "sha256": "340c44b446ff81219cbb055d56bc4af9eaef65357e307bb871478fbb4acadf2c"
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/luotianyi_idle.glb",
+      "exists": true,
+      "bytes": 23070740,
+      "sha256": "5cf15a1d3e657cf76e5f58e33c9d3593a14494b89817ad2a910d57cabf9d433a",
+      "matches_frozen_contract": true
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/luotianyi_pirouette.glb",
+      "exists": true,
+      "bytes": 23114580,
+      "sha256": "1fefbf0667711845e4fc6e0574d57d74c8982e15aa76a2a25bb9192be1faa284",
+      "matches_frozen_contract": true
+    },
+    {
+      "path": "apps/avatar-runtime/assets/motions/thinking_reference_v1.tres",
+      "exists": true,
+      "bytes": 3828470,
+      "sha256": "7637d1210c52fd4fcaff4d40f517eab578a9cfc4c9dec46b1e75c370a56e9f09"
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "work/tianyi-notes/root-cause-audit-20261007/source-a.txt",
+      "exists": true,
+      "bytes": 134,
+      "sha256": "ee760f7b1724c2b74dec5bd5c9c63a313e17d814524144d9b41c630bdd756816",
+      "synthetic_content": "合成审计资料 A（不是私人资料）\n青岚计划：预算120元，人数3人，集合时间14:30。\n校验标记：A-IRIS。\n"
+    },
+    {
+      "path": "work/tianyi-notes/root-cause-audit-20261007/source-b.txt",
+      "exists": true,
+      "bytes": 134,
+      "sha256": "f1a46c1726b49000151fa488fe5320f6921bd90e54206f505f65aa3f670b661f",
+      "synthetic_content": "合成审计资料 B（不是私人资料）\n白榆计划：预算80元，人数2人，集合时间15:00。\n校验标记：B-CEDAR。\n"
+    },
+    {
+      "path": "work/tianyi-notes/root-cause-audit-20261007/result.txt",
+      "exists": false
+    },
+    {
+      "path": "work/tianyi-notes/root-cause-audit-20261007/control.txt",
+      "exists": false
+    }
+  ],
+  "timing": "post RA-F01/F02; no separately hashed pre-state was captured",
+  "api_calls": 0
+}

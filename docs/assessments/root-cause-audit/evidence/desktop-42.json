@@ -1,0 +1,130 @@
+{
+  "session_id": 359,
+  "captured_utc": "2026-10-07T13:20:37.726953+00:00",
+  "messages": [
+    {
+      "id": 1337,
+      "role": "user",
+      "content": "[RA-END] 审计结束前的无副作用检查：请只回复“我在，随时可以聊天。”不要调用工具，不要保存记忆。",
+      "request_id": "avatar-chat-164945",
+      "created_at": "2026-10-07 13:19:56",
+      "conversation_id": 359
+    },
+    {
+      "id": 1338,
+      "role": "assistant",
+      "content": "我在，随时可以聊天。",
+      "request_id": "avatar-chat-164945",
+      "created_at": "2026-10-07 13:20:02",
+      "conversation_id": 359
+    }
+  ],
+  "events": [
+    {
+      "id": 7337,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-164945"
+      },
+      "created_at": "2026-10-07 13:19:56"
+    },
+    {
+      "id": 7338,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-164945",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 13:19:56"
+    },
+    {
+      "id": 7339,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "86584d34b5014fc1a26e63f849ee257f",
+        "request_id": "avatar-chat-164945",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6297
+      },
+      "created_at": "2026-10-07 13:20:02"
+    },
+    {
+      "id": 7340,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-164945"
+      },
+      "created_at": "2026-10-07 13:20:02"
+    },
+    {
+      "id": 7341,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-164945"
+      },
+      "created_at": "2026-10-07 13:20:07"
+    },
+    {
+      "id": 7342,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-d6adc1b1e4e0",
+        "playbackId": "aa1a5d9c1cc84065af08b0ad63f6b84f",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 13:20:10"
+    },
+    {
+      "id": 7343,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-164945"
+      },
+      "created_at": "2026-10-07 13:20:10"
+    },
+    {
+      "id": 7344,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-d6adc1b1e4e0",
+        "request_id": "avatar-chat-164945"
+      },
+      "created_at": "2026-10-07 13:20:10"
+    }
+  ],
+  "actions": [],
+  "facts": [],
+  "http_attempts_observed": 1,
+  "wire_calls": {
+    "86584d34b5014fc1a26e63f849ee257f": 1
+  },
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [],
+  "malformed_event_timestamp_rows_excluded": 24,
+  "snapshot_verification": {
+    "source_before": {
+      "": "4d8986a8eea7c71a2854c29db59b2a94fc389f61d65a1c9dd1ae080e344ad9c9",
+      "-wal": "892c0749bf1b72eaeb4e21a20ebd48c266e9f6ece4705a222113a15d6cc924c7"
+    },
+    "copy": {
+      "": "4d8986a8eea7c71a2854c29db59b2a94fc389f61d65a1c9dd1ae080e344ad9c9",
+      "-wal": "892c0749bf1b72eaeb4e21a20ebd48c266e9f6ece4705a222113a15d6cc924c7"
+    },
+    "source_after": {
+      "": "4d8986a8eea7c71a2854c29db59b2a94fc389f61d65a1c9dd1ae080e344ad9c9",
+      "-wal": "892c0749bf1b72eaeb4e21a20ebd48c266e9f6ece4705a222113a15d6cc924c7"
+    },
+    "method": "passive file copy; equal file sets and SHA256 in three scans; not an atomic SQLite backup"
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "kind": "read-only source/config/DB diagnostic; not frontend acceptance",
+  "config_allowlist": {
+    "ANIME_AGENT_TTS": "1",
+    "ANIME_AGENT_TOOLS_ROOTS": "<PRODUCTION>\\work\\tianyi-exam;<PRODUCTION>\\work\\tianyi-exam-t1;<PRODUCTION>\\work\\tianyi-notes",
+    "ANIME_AGENT_WRITE_ROOTS": "<PRODUCTION>\\work\\tianyi-exam-t1;<PRODUCTION>\\work\\tianyi-notes",
+    "ANIME_AGENT_ALLOWED_COMMANDS": "python",
+    "ANIME_AGENT_MCP_SERVERS": "browser=npx -y @playwright/mcp@latest --browser chrome --isolated;github=<PRODUCTION>\\tools\\github-mcp-server.exe stdio;search=npx -y tavily-mcp@latest;gmail=<PRODUCTION>\\tools\\gmail-mcp.cmd;drive=<PRODUCTION>\\tools\\gdrive-mcp.cmd",
+    "ANIME_AGENT_VISION_BASE_URL": "https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic"
+  },
+  "last_runtime_mcp_start": [
+    {
+      "id": 6444,
+      "event_type": "mcp.started",
+      "payload": {
+        "status": {
+          "browser": {
+            "started": true,
+            "tools": 25,
+            "error": ""
+          },
+          "github": {
+            "started": true,
+            "tools": 44,
+            "error": ""
+          },
+          "search": {
+            "started": true,
+            "tools": 5,
+            "error": ""
+          },
+          "gmail": {
+            "started": true,
+            "tools": 19,
+            "error": ""
+          },
+          "drive": {
+            "started": true,
+            "tools": 1,
+            "error": ""
+          }
+        }
+      },
+      "created_at": "2026-10-07 10:05:29"
+    }
+  ],
+  "db_quick_check": [
+    "*** in database main ***\nTree 4 page 4 cell 14: Rowid 672 out of order"
+  ],
+  "schema": [
+    {
+      "name": "messages",
+      "sql": "CREATE TABLE messages (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                role TEXT NOT NULL,\n                content TEXT NOT NULL,\n                request_id TEXT NOT NULL DEFAULT '',\n                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP\n            , conversation_id INTEGER NOT NULL DEFAULT 0)"
+    },
+    {
+      "name": "sqlite_sequence",
+      "sql": "CREATE TABLE sqlite_sequence(name,seq)"
+    },
+    {
+      "name": "events",
+      "sql": "CREATE TABLE events (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                event_type TEXT NOT NULL,\n                payload TEXT NOT NULL DEFAULT '{}',\n                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP\n            )"
+    },
+    {
+      "name": "settings",
+      "sql": "CREATE TABLE settings (\n                key TEXT PRIMARY KEY,\n                value TEXT NOT NULL\n            )"
+    },
+    {
+      "name": "sessions",
+      "sql": "CREATE TABLE sessions (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                title TEXT NOT NULL DEFAULT '新对话',\n                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,\n                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP\n            )"
+    },
+    {
+      "name": "facts",
+      "sql": "CREATE TABLE facts (\n                fact_id INTEGER PRIMARY KEY AUTOINCREMENT,\n                session_id INTEGER,\n                scope TEXT NOT NULL DEFAULT 'global',\n                content TEXT NOT NULL,\n                status TEXT NOT NULL DEFAULT 'pending',\n                source_request_id TEXT NOT NULL DEFAULT '',\n                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP\n            )"
+    },
+    {
+      "name": "harness_actions",
+      "sql": "CREATE TABLE harness_actions (id TEXT PRIMARY KEY, session_id INTEGER, payload TEXT NOT NULL)"
+    }
+  ],
+  "cross_repositories": [
+    {
+      "directory": "anime-agent-cleanup-sim",
+      "head": "55b83c93890ea168984d4e39c78757a1c87ca206",
+      "branch": "",
+      "status": "M  apps/avatar-runtime/runtime.gd\nM  apps/avatar-runtime/verify_model_look.gd\nD  apps/avatar-runtime/verify_skirt_physics.gd\n",
+      "remote": "https://github.com/SummerTianYi/anime-agent-mvp.git"
+    },
+    {
+      "directory": "anime-agent-cloth-physics",
+      "head": "d9b5d45a37d1847ea4f03a0bdd96b638a271802e",
+      "branch": "codex/contact-baseline-20260907",
+      "status": " M .gitignore\n M CODEX_OWNERSHIP.md\n M README.md\n M docs/ACCEPTANCE.md\n M docs/FAILED_APPROACHES.md\n?? docs/CLOTH_SAMPLE_RESULT_2026-09-08_CODEX.md\n?? docs/CONTACT_BASELINE_2026-09-07_CODEX.md\n?? docs/CONTINUOUS_PROXY_2026-09-08_CODEX.md\n?? docs/GARMENT_EXECUTION_2026-09-08_CODEX.md\n?? docs/MMD_EXECUTION_2026-09-07_CODEX.md\n?? docs/PHYSICS_IMPLEMENTATION_2026-09-08_CODEX.md\n?? docs/POSE_CHAIN_2026-09-07_CODEX.md\n?? docs/POSE_RESPONSE_2026-09-08_CODEX.md\n?? docs/REANALYSIS_2026-09-07_CODEX.md\n?? docs/plans/\n?? scripts/contact/\n?? scripts/physics/\n?? scripts/run-contact-baseline.ps1\n",
+      "remote": "https://github.com/SummerTianYi/anime-agent-cloth-physics.git"
+    },
+    {
+      "directory": "anime-agent-cloth-physics-cold-check",
+      "head": "7ef00643992da2792f12d0a897ba08ef62fb6815",
+      "branch": "main",
+      "status": "",
+      "remote": "https://github.com/SummerTianYi/anime-agent-cloth-physics.git"
+    },
+    {
+      "directory": "anime-agent-mvp",
+      "head": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+      "branch": "main",
+      "status": " M .env.example\n M AGENTS.md\n M README.md\n M apps/avatar-runtime/interaction_ui.gd\n M apps/avatar-runtime/runtime.gd\n M docs/CONTRIBUTIONS.md\n M docs/HANDOFF.md\n M docs/TESTING.md\n M docs/VERIFICATION_SPEC.md\n M scripts/start-mvp.ps1\n M services/agent-core/agent_core/agent_loop.py\n M services/agent-core/agent_core/harness.py\n M services/agent-core/agent_core/main.py\n M services/agent-core/agent_core/mcp_host.py\n M services/agent-core/agent_core/memory_retrieval.py\n M services/agent-core/agent_core/permissions.py\n M services/agent-core/agent_core/proactive.py\n M services/agent-core/agent_core/speech.py\n M services/agent-core/agent_core/storage.py\n M services/agent-core/agent_core/tools.py\n M services/agent-core/agent_core/voice.py\n M services/agent-core/agent_core/wake_word.py\n M services/agent-core/tests/test_provider_reload.py\n?? apps/avatar-runtime/godot_cert_run.log\n?? apps/avatar-runtime/godot_farewell.log\n?? apps/avatar-runtime/godot_farewell2.log\n?? apps/avatar-runtime/godot_final.log\n?? apps/avatar-runtime/godot_final2.log\n?? apps/avatar-runtime/godot_final3.log\n?? apps/avatar-runtime/godot_final4.log\n?? apps/avatar-runtime/godot_final5.log\n?? apps/avatar-runtime/godot_p.log\n?? apps/avatar-runtime/godot_run2.log\n?? apps/avatar-runtime/godot_run3.log\n?? apps/avatar-runtime/godot_run4.log\n?? apps/avatar-runtime/godot_run5.log\n?? apps/avatar-runtime/godot_run6.log\n?? apps/avatar-runtime/godot_run7.log\n?? apps/avatar-runtime/godot_run8.log\n?? apps/avatar-runtime/lookdev/EMOTION_PREVIEW.md\n?? apps/avatar-runtime/lookdev/EXPRESSION_1.0.md\n?? apps/avatar-runtime/lookdev/capture_v14_archive.gd.uid\n?? apps/avatar-runtime/lookdev/face_a.gdshader.uid\n?? apps/avatar-runtime/lookdev/face_a2.gdshader.uid\n?? apps/avatar-runtime/lookdev/render_candidate.gd.uid\n?? apps/avatar-runtime/lookdev/render_emotion_preview.gd.uid\n?? apps/avatar-runtime/lookdev/render_face_a.gd.uid\n?? apps/avatar-runtime/lookdev/verify_emotion_integration.gd.uid\n?? apps/avatar-runtime/lookdev/verify_face_expressions.gd.uid\n?? apps/avatar-runtime/mocap/build_listen.gd.uid\n?? apps/avatar-runtime/mocap/build_listen_transition.gd.uid\n?? apps/avatar-runtime/mocap/farewell/exit_probe.gd.uid\n?? apps/avatar-runtime/mocap/farewell/freeze.gd.uid\n?? apps/avatar-runtime/mocap/farewell/pose.gd.uid\n?? apps/avatar-runtime/mocap/farewell/review.gd.uid\n?? apps/avatar-runtime/mocap/review_listen.gd.uid\n?? apps/avatar-runtime/mocap/thinking/freeze.gd.uid\n?? apps/avatar-runtime/mocap/thinking/hair_pose.gd.uid\n?? apps/avatar-runtime/mocap/thinking/physics_preview.gd.uid\n?? apps/avatar-runtime/mocap/thinking/pose.gd.uid\n?? apps/avatar-runtime/mocap/thinking/preview.gd.uid\n?? apps/avatar-runtime/mocap/thinking/preview_hair.gd.uid\n?? apps/avatar-runtime/mocap/thinking/probe.gd.uid\n?? apps/avatar-runtime/mocap/thinking/render_integration.gd.uid\n?? apps/avatar-runtime/mocap/thinking/spring_audit.gd.uid\n?? apps/avatar-runtime/mocap/thinking/strand_physics.gd.uid\n?? apps/avatar-runtime/mocap/thinking/verify.gd.uid\n?? apps/avatar-runtime/mocap/thinking/verify_hair.gd.uid\n?? apps/avatar-runtime/mocap/thinking/verify_integration.gd.uid\n?? apps/avatar-runtime/mocap/verify_listen.gd.uid\n?? apps/avatar-runtime/mocap/verify_listen_path.gd.uid\n?? docs/DATA_RECOVERY_STATUS.md\n?? docs/DS_CONNECTIVITY_REPAIR_2026-10-04_CODEX.md\n?? docs/GLM52_CONNECTION_STATUS_2026-10-04_CODEX.md\n?? docs/INTEGRATION_ACCEPTANCE.md\n?? docs/PORTABLE_ACCEPTANCE.md\n?? runs/\n?? scripts/delivery/\n?? services/agent-core/agent_core/actions.py\n?? services/agent-core/agent_core/provider_http.py\n?? services/agent-core/agent_core/result_pages.py\n?? services/agent-core/agent_core/stt_input.py\n?? services/agent-core/tests/test_provider_resilience.py\n?? services/agent-core/tests/test_wechat_glm.py\n",
+      "remote": "https://github.com/SummerTianYi/anime-agent-mvp.git"
+    },
+    {
+      "directory": "anime-agent-mvp-harness-v0",
+      "head": "acc7bd4227c8e99a4adb7ed7266a8e1d06105ebd",
+      "branch": "codex/root-cause-audit-20261007",
+      "status": "?? docs/assessments/root-cause-audit/\n?? scripts/root_cause_audit/\n",
+      "remote": "https://github.com/SummerTianYi/anime-agent-mvp.git"
+    },
+    {
+      "directory": "anime-agent-workbench",
+      "head": "10c05d116e58886f3a9366c99cbdc214e9bdfae4",
+      "branch": "main",
+      "status": "",
+      "remote": "https://github.com/SummerTianYi/anime-agent-workbench.git"
+    },
+    {
+      "directory": "tianyi-tts",
+      "head": "3814b4c9d32bb17c3638cf851e5649d9c7d17fa7",
+      "branch": "main",
+      "status": "?? out/lang_eval/\n?? out/lang_eval_mixed/\n?? out/selfcheck_eval/\n?? out/tts_server_20260904.log\n?? out/tts_server_auto.log\n?? out/tts_server_fixcheck.log\n?? out/tts_server_fixcheck2.log\n",
+      "remote": "https://github.com/SummerTianYi/anime-agent-tts.git"
+    }
+  ],
+  "local_tools": [
+    {
+      "name": "get_time",
+      "description": "获取当前本地日期、时间、星期。回答“现在几点”“今天几号”一类问题时使用。无参数。",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "line": 449
+    },
+    {
+      "name": "read_file",
+      "description": "读取本地文本文件内容。path 必须是绝对路径；每页最多64KB，按返回next_offset续取。只允许访问允许目录内的文件，超出范围会返回错误。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "文件的绝对路径"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "字节偏移，默认0；超过64KB时续取"
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "line": 455
+    },
+    {
+      "name": "list_dir",
+      "description": "列出本地目录内容（名称、类型、大小），最多 200 项。path 必须是绝对路径。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "目录的绝对路径"
+          }
+        },
+        "required": [
+          "path"
+        ]
+      },
+      "line": 469
+    },
+    {
+      "name": "screenshot",
+      "description": "截取主显示器画面并保存为 PNG，返回文件路径。注意：图像内容不会提供给模型，仅保存文件。",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "line": 479
+    },
+    {
+      "name": "active_window",
+      "description": "获取当前前台窗口的标题（仅 Windows）。用于了解用户正在使用什么程序。",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "line": 485
+    },
+    {
+      "name": "clipboard_read",
+      "description": "读取系统剪贴板中的文本，最多 16000 字符。",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "line": 491
+    },
+    {
+      "name": "look_at_screen",
+      "description": "看屏幕内容时必须用这个：截取当前屏幕，让视觉模型回答你的提问并返回描述（看屏幕上有什么/描述画面/念出屏幕文字都用它）。首次调用时系统会自动向用户请求隐私确认。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "想问屏幕的什么，默认整体描述"
+          }
+        },
+        "required": []
+      },
+      "timeout": 90.0,
+      "line": 497
+    },
+    {
+      "name": "run_command",
+      "description": "运行一条白名单内的本地命令（如 python），不经 shell 管道。命令的第一个词必须在白名单内，包含特殊字符会被拒绝。执行前需要用户确认。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command_line": {
+            "type": "string",
+            "description": "完整命令行，如 python -c \"print(1)\""
+          }
+        },
+        "required": [
+          "command_line"
+        ]
+      },
+      "line": 510
+    },
+    {
+      "name": "write_file",
+      "description": "把文本写入本地文件，例如把用户口述的一条备忘追加到用户的笔记文件末尾。path 必须是允许写入目录内的绝对路径；mode 为 overwrite（整体覆盖）或 append（追加，自动补换行）。内容以 UTF-8 无 BOM 写入，超过 256KB 会拒绝。需要用户确认的环节由系统自动处理——直接调用即可。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "目标文件的绝对路径（仅限允许写入目录）"
+          },
+          "content": {
+            "type": "string",
+            "description": "要写入的文本内容"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "overwrite",
+              "append"
+            ],
+            "description": "默认 overwrite"
+          }
+        },
+        "required": [
+          "path",
+          "content"
+        ]
+      },
+      "line": 526
+    }
+  ],
+  "runtime_only_tools": [
+    "read_tool_result",
+    "recall_memory"
+  ],
+  "production_business_files_changed": false
+}

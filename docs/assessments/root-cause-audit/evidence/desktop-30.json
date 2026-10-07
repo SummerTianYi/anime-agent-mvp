@@ -1,0 +1,225 @@
+{
+  "session_id": 354,
+  "captured_utc": "2026-10-07T12:36:47.232035+00:00",
+  "messages": [
+    {
+      "id": 1317,
+      "role": "user",
+      "content": "[RA-R03] 请查一下当前时间，并回忆合成审计青岚项目现在的预算及负责人。若没有记忆请直说，不要猜。请普通文字简短回答。",
+      "request_id": "avatar-chat-1575775",
+      "created_at": "2026-10-07 12:36:22",
+      "conversation_id": 354
+    },
+    {
+      "id": 1318,
+      "role": "assistant",
+      "content": "当前时间是 2026年10月7号（星期三）晚上 20:36。关于审计青岚项目，我记忆里查到的是：负责人林岚，预算 120 元（标注为合成数据、非现实项目）。已作答。",
+      "request_id": "avatar-chat-1575775",
+      "created_at": "2026-10-07 12:36:34",
+      "conversation_id": 354
+    }
+  ],
+  "events": [
+    {
+      "id": 7084,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:22"
+    },
+    {
+      "id": 7085,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-1575775",
+        "effort": "chill"
+      },
+      "created_at": "2026-10-07 12:36:22"
+    },
+    {
+      "id": 7086,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "b5dafc3469ef4049b201f3a1b457e9d2",
+        "request_id": "avatar-chat-1575775",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6172
+      },
+      "created_at": "2026-10-07 12:36:28"
+    },
+    {
+      "id": 7087,
+      "event_type": "permission.decision",
+      "payload": {
+        "tool": "get_time",
+        "kind": "allow",
+        "allowed": true,
+        "rule_id": "allow-readonly:get_time",
+        "reason": "只读工具默认放行",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:28"
+    },
+    {
+      "id": 7088,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "working",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:28"
+    },
+    {
+      "id": 7089,
+      "event_type": "permission.decision",
+      "payload": {
+        "tool": "recall_memory",
+        "kind": "allow",
+        "allowed": true,
+        "rule_id": "allow-readonly:recall_memory",
+        "reason": "只读工具默认放行",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:28"
+    },
+    {
+      "id": 7090,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "working",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:28"
+    },
+    {
+      "id": 7091,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:30"
+    },
+    {
+      "id": 7092,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-07c1a2fe76aa",
+        "playbackId": "b6618b907c99432e956bd1de9519049c",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 12:36:34"
+    },
+    {
+      "id": 7093,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "working",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:34"
+    },
+    {
+      "id": 7094,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-07c1a2fe76aa",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:34"
+    },
+    {
+      "id": 7095,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "14d0eee5a76a4217b14fc86fe5d56387",
+        "request_id": "avatar-chat-1575775",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6093
+      },
+      "created_at": "2026-10-07 12:36:34"
+    },
+    {
+      "id": 7096,
+      "event_type": "agent.tools",
+      "payload": {
+        "request_id": "avatar-chat-1575775",
+        "tools": [
+          "get_time",
+          "recall_memory"
+        ],
+        "ok": [
+          true,
+          true
+        ],
+        "errors": []
+      },
+      "created_at": "2026-10-07 12:36:34"
+    },
+    {
+      "id": 7097,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:34"
+    },
+    {
+      "id": 7098,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:37"
+    },
+    {
+      "id": 7100,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-1575775"
+      },
+      "created_at": "2026-10-07 12:36:43"
+    }
+  ],
+  "actions": [],
+  "facts": [],
+  "http_attempts_observed": 2,
+  "wire_calls": {
+    "b5dafc3469ef4049b201f3a1b457e9d2": 1,
+    "14d0eee5a76a4217b14fc86fe5d56387": 1
+  },
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [],
+  "malformed_event_timestamp_rows_excluded": 24,
+  "snapshot_verification": {
+    "source_before": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "e4332efbfd8db5a3172e835e81cb9c15487401d37fd9b2cc30534c38fa10eaac"
+    },
+    "copy": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "e4332efbfd8db5a3172e835e81cb9c15487401d37fd9b2cc30534c38fa10eaac"
+    },
+    "source_after": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "e4332efbfd8db5a3172e835e81cb9c15487401d37fd9b2cc30534c38fa10eaac"
+    },
+    "method": "passive file copy; equal file sets and SHA256 in three scans; not an atomic SQLite backup"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "layer": "offline synthetic; no remote email or connector process",
+  "api_calls": 0,
+  "business_modified": false,
+  "cases": [
+    {
+      "flag": "omitted",
+      "tool": "search_emails",
+      "wire": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: invalid_grant"
+            }
+          ]
+        }
+      },
+      "receipt": {
+        "ok": true,
+        "output": "Error: invalid_grant",
+        "action_id": "e1f76da930a243669cb0f3f56f6f0ccd",
+        "revision": 1,
+        "args_hash": "1fa34b96b1a44e83db72db814a6af97405ddde4dbda3abc4df91c0493629eea3",
+        "outcome": "succeeded",
+        "execution_id": "ed7f18748fd34613ba72a81882831640",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我先执行查询。"
+    },
+    {
+      "flag": "omitted",
+      "tool": "send_email",
+      "wire": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: invalid_grant"
+            }
+          ]
+        }
+      },
+      "receipt": {
+        "ok": true,
+        "output": "Error: invalid_grant",
+        "action_id": "2ec5f1c34ee341f3959504a710f0a748",
+        "revision": 1,
+        "args_hash": "c0a46709f68c4c7897bace273510d4c49a21fabfd6295c3b7da63ee64f6fd922",
+        "outcome": "succeeded",
+        "execution_id": "ccd349f0fd564aa69fd584639c499c25",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我核对了实际执行记录：\nmcp__gmail__send_email：连接器已接受发送（不代表收件人已收到）；Error: invalid_grant"
+    },
+    {
+      "flag": false,
+      "tool": "search_emails",
+      "wire": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: invalid_grant"
+            }
+          ],
+          "isError": false
+        }
+      },
+      "receipt": {
+        "ok": true,
+        "output": "Error: invalid_grant",
+        "action_id": "1b285621660a41b0b784083c99611e3e",
+        "revision": 1,
+        "args_hash": "1fa34b96b1a44e83db72db814a6af97405ddde4dbda3abc4df91c0493629eea3",
+        "outcome": "succeeded",
+        "execution_id": "00542c561e3544bea8b24a5407909c93",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我先执行查询。"
+    },
+    {
+      "flag": false,
+      "tool": "send_email",
+      "wire": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: invalid_grant"
+            }
+          ],
+          "isError": false
+        }
+      },
+      "receipt": {
+        "ok": true,
+        "output": "Error: invalid_grant",
+        "action_id": "d7c9ace4a95e455d8606cf0ec877188c",
+        "revision": 1,
+        "args_hash": "c0a46709f68c4c7897bace273510d4c49a21fabfd6295c3b7da63ee64f6fd922",
+        "outcome": "succeeded",
+        "execution_id": "380c652ee77742ee9995ab0a8a668007",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我核对了实际执行记录：\nmcp__gmail__send_email：连接器已接受发送（不代表收件人已收到）；Error: invalid_grant"
+    },
+    {
+      "flag": true,
+      "tool": "search_emails",
+      "wire": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: invalid_grant"
+            }
+          ],
+          "isError": true
+        }
+      },
+      "receipt": {
+        "ok": false,
+        "output": "Error: invalid_grant",
+        "action_id": "c71f3a74928047e5838c5a7b6b808e59",
+        "revision": 1,
+        "args_hash": "1fa34b96b1a44e83db72db814a6af97405ddde4dbda3abc4df91c0493629eea3",
+        "outcome": "failed",
+        "execution_id": "6bc233aba2d74520b6957b5dda93160e",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我核对了实际执行记录：\nmcp__gmail__search_emails：执行失败"
+    },
+    {
+      "flag": true,
+      "tool": "send_email",
+      "wire": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: invalid_grant"
+            }
+          ],
+          "isError": true
+        }
+      },
+      "receipt": {
+        "ok": false,
+        "output": "Error: invalid_grant",
+        "action_id": "44eee287e4424add8e53ecfbdc7c703e",
+        "revision": 1,
+        "args_hash": "c0a46709f68c4c7897bace273510d4c49a21fabfd6295c3b7da63ee64f6fd922",
+        "outcome": "failed",
+        "execution_id": "2ad3d18ee483460898168ed7a3fd03b9",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我核对了实际执行记录：\nmcp__gmail__send_email：执行失败"
+    },
+    {
+      "flag": "rpc-error",
+      "tool": "search_emails",
+      "wire": {
+        "error": {
+          "code": -32603,
+          "message": "invalid_grant"
+        }
+      },
+      "receipt": {
+        "ok": false,
+        "output": "",
+        "error": "{'code': -32603, 'message': 'invalid_grant'}",
+        "action_id": "c04e593f6707426892f787dcc8cf42d0",
+        "revision": 1,
+        "args_hash": "1fa34b96b1a44e83db72db814a6af97405ddde4dbda3abc4df91c0493629eea3",
+        "outcome": "failed",
+        "execution_id": "b2e7cd46fab642dda4fb26f57b9d39c1",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我核对了实际执行记录：\nmcp__gmail__search_emails：执行失败；{'code': -32603, 'message': 'invalid_grant'}"
+    },
+    {
+      "flag": "rpc-error",
+      "tool": "send_email",
+      "wire": {
+        "error": {
+          "code": -32603,
+          "message": "invalid_grant"
+        }
+      },
+      "receipt": {
+        "ok": false,
+        "output": "",
+        "error": "{'code': -32603, 'message': 'invalid_grant'}",
+        "action_id": "53a719bfb30e4f28bcb44adc60a4346c",
+        "revision": 1,
+        "args_hash": "c0a46709f68c4c7897bace273510d4c49a21fabfd6295c3b7da63ee64f6fd922",
+        "outcome": "failed",
+        "execution_id": "641e0a39c35240f1a1d1eb522b53d78b",
+        "confirmation_request_id": "confirm"
+      },
+      "delivery": "我核对了实际执行记录：\nmcp__gmail__send_email：执行失败；{'code': -32603, 'message': 'invalid_grant'}"
+    }
+  ],
+  "valid_error_word_control": {
+    "ok": true,
+    "text": "Document title: Error handling guide"
+  }
+}

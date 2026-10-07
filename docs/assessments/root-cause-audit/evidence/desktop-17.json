@@ -1,0 +1,256 @@
+{
+  "session_id": 351,
+  "captured_utc": "2026-10-07T12:13:55.364215+00:00",
+  "messages": [
+    {
+      "id": 1291,
+      "role": "user",
+      "content": "[RA-M01R] 这是根因审计的独立测试会话。请在Gmail中仅搜索 subject:\"[天依根因审计 20261007]\"，最多5封，不查询其他邮件、不发送或修改邮件。请报告匹配数量；如果需要确认请走原生确认。",
+      "request_id": "avatar-chat-169542",
+      "created_at": "2026-10-07 12:12:56",
+      "conversation_id": 351
+    },
+    {
+      "id": 1292,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\nmcp__gmail__search_emails：待确认，尚未执行\n下一项待确认参数：{\"query\": \"subject:\\\"[天依根因审计 20261007]\\\"\", \"maxResults\": 5}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-169542",
+      "created_at": "2026-10-07 12:13:28",
+      "conversation_id": 351
+    }
+  ],
+  "events": [
+    {
+      "id": 6827,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:12:56"
+    },
+    {
+      "id": 6828,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-169542",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 12:12:56"
+    },
+    {
+      "id": 6829,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "6c4b4e270250443c92266d7067f17a98",
+        "request_id": "avatar-chat-169542",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6469
+      },
+      "created_at": "2026-10-07 12:13:02"
+    },
+    {
+      "id": 6830,
+      "event_type": "permission.decision",
+      "payload": {
+        "tool": "mcp__gmail__search_emails",
+        "kind": "ask",
+        "allowed": false,
+        "rule_id": "ask-mcp",
+        "reason": "MCP 工具需用户确认",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:02"
+    },
+    {
+      "id": 6831,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 351,
+        "request_id": "avatar-chat-169542",
+        "action_id": "369d89ee96e94e608f22871d44d03544",
+        "revision": 1,
+        "args_hash": "7add36f6f8891c528afe03c0c9cf06faa26cf378890393d626d358f87fc7e5a4",
+        "tool": "mcp__gmail__search_emails",
+        "arguments": {
+          "query": "subject:\"[天依根因审计 20261007]\"",
+          "maxResults": 5
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-07 12:13:02"
+    },
+    {
+      "id": 6832,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "working",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:02"
+    },
+    {
+      "id": 6833,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:07"
+    },
+    {
+      "id": 6834,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-620848d8c1d2",
+        "playbackId": "39dd2868192649c989349e37eabf18e5",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 12:13:09"
+    },
+    {
+      "id": 6835,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "working",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:09"
+    },
+    {
+      "id": 6836,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-620848d8c1d2",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:09"
+    },
+    {
+      "id": 6837,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "12751449314845b699272f067087f9d7",
+        "request_id": "avatar-chat-169542",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 25750
+      },
+      "created_at": "2026-10-07 12:13:28"
+    },
+    {
+      "id": 6838,
+      "event_type": "agent.tools",
+      "payload": {
+        "request_id": "avatar-chat-169542",
+        "tools": [
+          "mcp__gmail__search_emails"
+        ],
+        "ok": [
+          false
+        ],
+        "errors": [
+          "{\"ok\": false, \"action_id\": \"369d89ee96e94e608f22871d44d03544\", \"revision\": 1, \"args_hash\": \"7add36f6f8891c528afe03c0c9cf06faa26cf378890393d626d358f87fc7e5a4\", \"outcome\": \"awaiting_confirmation\", \"execution_id\": null, \"confirmation_request_id\": null, \"needs_confirmation\": true, \"confirmation\": {\"action_id\": \"369d89ee96e94e608f22871d44d03544\", \"revision\": 1, \"args_hash\": \"7add36f6f8891c528afe03c0c9cf06faa26cf378890393d626d358f87fc7e5a4\"}, \"error\": \"操作尚未执行。等待用户确认当前动作；不要重复调用或声称完成。\"}"
+        ]
+      },
+      "created_at": "2026-10-07 12:13:28"
+    },
+    {
+      "id": 6839,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:28"
+    },
+    {
+      "id": 6840,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:30"
+    },
+    {
+      "id": 6842,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:41"
+    },
+    {
+      "id": 6844,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:46"
+    },
+    {
+      "id": 6846,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:13:54"
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "369d89ee96e94e608f22871d44d03544",
+      "args_hash": "7add36f6f8891c528afe03c0c9cf06faa26cf378890393d626d358f87fc7e5a4",
+      "arguments": {
+        "maxResults": 5,
+        "query": "subject:\"[天依根因审计 20261007]\""
+      },
+      "expires": 1791375782.5118103,
+      "receipt": null,
+      "request_id": "avatar-chat-169542",
+      "revision": 1,
+      "session_id": 351,
+      "status": "awaiting_confirmation",
+      "task_id": "avatar-chat-169542",
+      "tool": "mcp__gmail__search_emails"
+    }
+  ],
+  "facts": [],
+  "http_attempts_observed": 2,
+  "wire_calls": {
+    "6c4b4e270250443c92266d7067f17a98": 1,
+    "12751449314845b699272f067087f9d7": 1
+  },
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [],
+  "malformed_event_timestamp_rows_excluded": 24,
+  "snapshot_verification": {
+    "source_before": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "51b04e1221e7af0cb880d3344f591524f1147a063885d432638a3f617e658680"
+    },
+    "copy": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "51b04e1221e7af0cb880d3344f591524f1147a063885d432638a3f617e658680"
+    },
+    "source_after": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "51b04e1221e7af0cb880d3344f591524f1147a063885d432638a3f617e658680"
+    },
+    "method": "passive file copy; equal file sets and SHA256 in three scans; not an atomic SQLite backup"
+  }
+}

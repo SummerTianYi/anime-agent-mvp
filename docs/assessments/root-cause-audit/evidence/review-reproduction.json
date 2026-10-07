@@ -1,0 +1,12 @@
+{
+  "layer": "offline synthetic counterfactuals",
+  "api_calls": 0,
+  "business_modified": false,
+  "result": {
+    "chunk_id": "c57368",
+    "wall_time_seconds": 0.9329843,
+    "exit_code": 0,
+    "original_token_count": 183,
+    "output": "test_deleted_wal_is_rejected (test_probe.SnapshotTests.test_deleted_wal_is_rejected) ... ok\r\ntest_different_copy_despite_matching_source_scans_is_rejected (test_probe.SnapshotTests.test_different_copy_despite_matching_source_scans_is_rejected) ... ok\r\ntest_late_wal_is_rejected (test_probe.SnapshotTests.test_late_wal_is_rejected) ... ok\r\ntest_malformed_timestamp_does_not_pass_date_filter (test_probe.SnapshotTests.test_malformed_timestamp_does_not_pass_date_filter) ... ok\r\ntest_unchanged_files_with_wal_are_verified (test_probe.SnapshotTests.test_unchanged_files_with_wal_are_verified) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 5 tests in 0.021s\r\n\r\nOK\r\nRC02_RC03_COUNTEREXAMPLES_PASS\r\n"
+  }
+}

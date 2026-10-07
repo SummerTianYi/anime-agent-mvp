@@ -1,0 +1,12 @@
+{
+  "layer": "read-only asset checks",
+  "api_calls": 0,
+  "result": {
+    "chunk_id": "0e404b",
+    "wall_time_seconds": 2.4273202,
+    "exit_code": 1,
+    "original_token_count": 159,
+    "output": "VOICE_ASSETS_OK: 5 assets, config and patch; runtime_weights=True\r\nDoes not validate third-party model caches, Python/CUDA, playback or a clean-machine installation.\r\nFile <WORK>\\anime-agent-mv\r\np\\scripts\\check-local-assets.ps1 cannot be loaded because running scripts is disabled on this system. For more informat\r\nion, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.\r\n    + CategoryInfo          : SecurityError: (:) [], ParentContainsErrorRecordException\r\n    + FullyQualifiedErrorId : UnauthorizedAccess\r\n"
+  },
+  "interpretation": "Voice verifier passed. PowerShell avatar checker was blocked by the environment execution policy; not bypassed. Equivalent read-only hashes are separately in artifacts-after-file-tests.json."
+}

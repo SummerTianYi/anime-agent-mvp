@@ -1,0 +1,545 @@
+{
+  "captured_utc": "2026-10-07T13:04:01.000511+00:00",
+  "candidate_head": "acc7bd4227c8e99a4adb7ed7266a8e1d06105ebd",
+  "production_git_head": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+  "production_status": " M .env.example\n M AGENTS.md\n M README.md\n M apps/avatar-runtime/interaction_ui.gd\n M apps/avatar-runtime/runtime.gd\n M docs/CONTRIBUTIONS.md\n M docs/HANDOFF.md\n M docs/TESTING.md\n M docs/VERIFICATION_SPEC.md\n M scripts/start-mvp.ps1\n M services/agent-core/agent_core/agent_loop.py\n M services/agent-core/agent_core/harness.py\n M services/agent-core/agent_core/main.py\n M services/agent-core/agent_core/mcp_host.py\n M services/agent-core/agent_core/memory_retrieval.py\n M services/agent-core/agent_core/permissions.py\n M services/agent-core/agent_core/proactive.py\n M services/agent-core/agent_core/speech.py\n M services/agent-core/agent_core/storage.py\n M services/agent-core/agent_core/tools.py\n M services/agent-core/agent_core/voice.py\n M services/agent-core/agent_core/wake_word.py\n M services/agent-core/tests/test_provider_reload.py\n?? apps/avatar-runtime/godot_cert_run.log\n?? apps/avatar-runtime/godot_farewell.log\n?? apps/avatar-runtime/godot_farewell2.log\n?? apps/avatar-runtime/godot_final.log\n?? apps/avatar-runtime/godot_final2.log\n?? apps/avatar-runtime/godot_final3.log\n?? apps/avatar-runtime/godot_final4.log\n?? apps/avatar-runtime/godot_final5.log\n?? apps/avatar-runtime/godot_p.log\n?? apps/avatar-runtime/godot_run2.log\n?? apps/avatar-runtime/godot_run3.log\n?? apps/avatar-runtime/godot_run4.log\n?? apps/avatar-runtime/godot_run5.log\n?? apps/avatar-runtime/godot_run6.log\n?? apps/avatar-runtime/godot_run7.log\n?? apps/avatar-runtime/godot_run8.log\n?? apps/avatar-runtime/lookdev/EMOTION_PREVIEW.md\n?? apps/avatar-runtime/lookdev/EXPRESSION_1.0.md\n?? apps/avatar-runtime/lookdev/capture_v14_archive.gd.uid\n?? apps/avatar-runtime/lookdev/face_a.gdshader.uid\n?? apps/avatar-runtime/lookdev/face_a2.gdshader.uid\n?? apps/avatar-runtime/lookdev/render_candidate.gd.uid\n?? apps/avatar-runtime/lookdev/render_emotion_preview.gd.uid\n?? apps/avatar-runtime/lookdev/render_face_a.gd.uid\n?? apps/avatar-runtime/lookdev/verify_emotion_integration.gd.uid\n?? apps/avatar-runtime/lookdev/verify_face_expressions.gd.uid\n?? apps/avatar-runtime/mocap/build_listen.gd.uid\n?? apps/avatar-runtime/mocap/build_listen_transition.gd.uid\n?? apps/avatar-runtime/mocap/farewell/exit_probe.gd.uid\n?? apps/avatar-runtime/mocap/farewell/freeze.gd.uid\n?? apps/avatar-runtime/mocap/farewell/pose.gd.uid\n?? apps/avatar-runtime/mocap/farewell/review.gd.uid\n?? apps/avatar-runtime/mocap/review_listen.gd.uid\n?? apps/avatar-runtime/mocap/thinking/freeze.gd.uid\n?? apps/avatar-runtime/mocap/thinking/hair_pose.gd.uid\n?? apps/avatar-runtime/mocap/thinking/physics_preview.gd.uid\n?? apps/avatar-runtime/mocap/thinking/pose.gd.uid\n?? apps/avatar-runtime/mocap/thinking/preview.gd.uid\n?? apps/avatar-runtime/mocap/thinking/preview_hair.gd.uid\n?? apps/avatar-runtime/mocap/thinking/probe.gd.uid\n?? apps/avatar-runtime/mocap/thinking/render_integration.gd.uid\n?? apps/avatar-runtime/mocap/thinking/spring_audit.gd.uid\n?? apps/avatar-runtime/mocap/thinking/strand_physics.gd.uid\n?? apps/avatar-runtime/mocap/thinking/verify.gd.uid\n?? apps/avatar-runtime/mocap/thinking/verify_hair.gd.uid\n?? apps/avatar-runtime/mocap/thinking/verify_integration.gd.uid\n?? apps/avatar-runtime/mocap/verify_listen.gd.uid\n?? apps/avatar-runtime/mocap/verify_listen_path.gd.uid\n?? docs/DATA_RECOVERY_STATUS.md\n?? docs/DS_CONNECTIVITY_REPAIR_2026-10-04_CODEX.md\n?? docs/GLM52_CONNECTION_STATUS_2026-10-04_CODEX.md\n?? docs/INTEGRATION_ACCEPTANCE.md\n?? docs/PORTABLE_ACCEPTANCE.md\n?? runs/\n?? scripts/delivery/\n?? services/agent-core/agent_core/actions.py\n?? services/agent-core/agent_core/provider_http.py\n?? services/agent-core/agent_core/result_pages.py\n?? services/agent-core/agent_core/stt_input.py\n?? services/agent-core/tests/test_provider_resilience.py\n?? services/agent-core/tests/test_wechat_glm.py\n?? work/tianyi-notes/root-cause-audit-20261007/\n",
+  "health": {
+    "status": "ok",
+    "service": "anime-agent-core",
+    "version": "0.2.0",
+    "timestamp": "2026-10-07T13:03:56.067258+00:00",
+    "clients": 1,
+    "roles": {
+      "avatar": 1,
+      "ui": 0
+    },
+    "llm": {
+      "provider": "glm",
+      "runtime": "glm",
+      "configured": true,
+      "model": "GLM-5.2"
+    },
+    "tools": {
+      "enabled": true,
+      "count": 9
+    },
+    "tts": {
+      "enabled": true,
+      "narrate": true,
+      "playbackProtocol": 2,
+      "farewellCachedLines": 3,
+      "speechPending": false,
+      "available": true
+    },
+    "wake": {
+      "enabled": false,
+      "running": false,
+      "paused": false,
+      "recent_peak": 0.0
+    }
+  },
+  "liveness": {
+    "status": "ok",
+    "service": "anime-agent-core",
+    "pid": 30796,
+    "roles": {
+      "avatar": 1,
+      "ui": 0
+    }
+  },
+  "processes": [
+    {
+      "core_pid": 30796,
+      "process_metadata": "psutil unavailable"
+    }
+  ],
+  "config_allowlist": {
+    "LLM_PROVIDER": "glm",
+    "ANIME_AGENT_VOICE_INPUT_MODE": "manual",
+    "ANIME_AGENT_WAKE_WORD": "0",
+    "GLM_BASE_URL": "https://open.bigmodel.cn/api/coding/paas/v4",
+    "GLM_MODEL": "GLM-5.2",
+    "GLM_CREDENTIAL_SOURCE": "deepseek",
+    "LLM_TIMEOUT_SECONDS": "45",
+    "ANIME_AGENT_VISION_MODEL": "qwen3.8-flash",
+    "ANIME_AGENT_VISION_PROTOCOL": "anthropic",
+    "ANIME_AGENT_IDLE_THRESHOLD": "600",
+    "ANIME_AGENT_QUIET_START": "01:00",
+    "ANIME_AGENT_QUIET_END": "07:00",
+    "DEEPSEEK_BASE_URL": "https://chatapi.weixin.qq.com/openai/v1",
+    "DEEPSEEK_MODEL": "Deepseek-v4-flash"
+  },
+  "prompt_sha256": "f52f6bc871b03f2a87781537db06e767cb2d537184038199bff0bf878d5013fc",
+  "files": {
+    "services/agent-core/agent_core/__init__.py": {
+      "deployed_sha256": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+      "mtime_utc": "2026-08-28T15:34:35.826308+00:00",
+      "c212cba": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+      "matches_c212cba": true,
+      "acc7bd4": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/actions.py": {
+      "deployed_sha256": "1a288be2c657e6f28caee38eb683b8ed06d37fe6593c7d28ab8c9920db4cf068",
+      "mtime_utc": "2026-10-04T15:42:04.063893+00:00",
+      "c212cba": "1a288be2c657e6f28caee38eb683b8ed06d37fe6593c7d28ab8c9920db4cf068",
+      "matches_c212cba": true,
+      "acc7bd4": "1a288be2c657e6f28caee38eb683b8ed06d37fe6593c7d28ab8c9920db4cf068",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/agent_loop.py": {
+      "deployed_sha256": "95708cc5b3d81120f8d30d453bcd55f1db49fd689e3e1a72c33c72904329fb17",
+      "mtime_utc": "2026-10-04T14:29:41.455980+00:00",
+      "c212cba": "95708cc5b3d81120f8d30d453bcd55f1db49fd689e3e1a72c33c72904329fb17",
+      "matches_c212cba": true,
+      "acc7bd4": "95708cc5b3d81120f8d30d453bcd55f1db49fd689e3e1a72c33c72904329fb17",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/harness.py": {
+      "deployed_sha256": "f4b0a888d14bc2b20b994971be601cc72255c6a8976a0e271e2881770a170e25",
+      "mtime_utc": "2026-10-04T15:09:20.534388+00:00",
+      "c212cba": "f4b0a888d14bc2b20b994971be601cc72255c6a8976a0e271e2881770a170e25",
+      "matches_c212cba": true,
+      "acc7bd4": "f4b0a888d14bc2b20b994971be601cc72255c6a8976a0e271e2881770a170e25",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/main.py": {
+      "deployed_sha256": "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95",
+      "mtime_utc": "2026-10-04T15:31:03.794172+00:00",
+      "c212cba": "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95",
+      "matches_c212cba": true,
+      "acc7bd4": "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/mcp_host.py": {
+      "deployed_sha256": "20bc354c081919b193699466ea36db21fb0e4df6d8f4e46c36ffbbb4f855f2d7",
+      "mtime_utc": "2026-10-04T14:26:02.525498+00:00",
+      "c212cba": "20bc354c081919b193699466ea36db21fb0e4df6d8f4e46c36ffbbb4f855f2d7",
+      "matches_c212cba": true,
+      "acc7bd4": "20bc354c081919b193699466ea36db21fb0e4df6d8f4e46c36ffbbb4f855f2d7",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/memory_retrieval.py": {
+      "deployed_sha256": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+      "mtime_utc": "2026-10-04T13:37:07.323555+00:00",
+      "c212cba": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+      "matches_c212cba": true,
+      "acc7bd4": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/permissions.py": {
+      "deployed_sha256": "f3238a30875e52cc5ed5d3f0175a1dc60bc9f25a438263abcaf2eb7fb2745a55",
+      "mtime_utc": "2026-10-04T13:37:07.321551+00:00",
+      "c212cba": "f3238a30875e52cc5ed5d3f0175a1dc60bc9f25a438263abcaf2eb7fb2745a55",
+      "matches_c212cba": true,
+      "acc7bd4": "f3238a30875e52cc5ed5d3f0175a1dc60bc9f25a438263abcaf2eb7fb2745a55",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/proactive.py": {
+      "deployed_sha256": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+      "mtime_utc": "2026-10-04T14:48:43.224260+00:00",
+      "c212cba": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+      "matches_c212cba": true,
+      "acc7bd4": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/provider_http.py": {
+      "deployed_sha256": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+      "mtime_utc": "2026-10-04T03:39:22.548402+00:00",
+      "c212cba": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+      "matches_c212cba": true,
+      "acc7bd4": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/result_pages.py": {
+      "deployed_sha256": "2987d5844c5a7e9f4156648c747f3b7c24d0cd1a8f1f48e554e8b7804cf9a1e4",
+      "mtime_utc": "2026-10-04T13:37:07.319532+00:00",
+      "c212cba": "2987d5844c5a7e9f4156648c747f3b7c24d0cd1a8f1f48e554e8b7804cf9a1e4",
+      "matches_c212cba": true,
+      "acc7bd4": "2987d5844c5a7e9f4156648c747f3b7c24d0cd1a8f1f48e554e8b7804cf9a1e4",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/song_catalog.py": {
+      "deployed_sha256": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+      "mtime_utc": "2026-08-29T12:39:45.248364+00:00",
+      "c212cba": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+      "matches_c212cba": true,
+      "acc7bd4": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/speech.py": {
+      "deployed_sha256": "31b77cd18b09efb68db48a2725fc44dbe97f7c81d9679657c7b46817dd9d4fbc",
+      "mtime_utc": "2026-10-04T07:11:02.354000+00:00",
+      "c212cba": "31b77cd18b09efb68db48a2725fc44dbe97f7c81d9679657c7b46817dd9d4fbc",
+      "matches_c212cba": true,
+      "acc7bd4": "31b77cd18b09efb68db48a2725fc44dbe97f7c81d9679657c7b46817dd9d4fbc",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/speech_cache.py": {
+      "deployed_sha256": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+      "mtime_utc": "2026-10-02T16:33:56.656867+00:00",
+      "c212cba": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+      "matches_c212cba": true,
+      "acc7bd4": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/storage.py": {
+      "deployed_sha256": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+      "mtime_utc": "2026-10-04T07:11:02.356023+00:00",
+      "c212cba": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+      "matches_c212cba": true,
+      "acc7bd4": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/stt_input.py": {
+      "deployed_sha256": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+      "mtime_utc": "2026-10-04T13:43:30.303306+00:00",
+      "c212cba": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+      "matches_c212cba": true,
+      "acc7bd4": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/tools.py": {
+      "deployed_sha256": "9f751b0c507dacad78b8ca6cfc4dd1bb0d83ab1f4137984f32cb07dfb9de54d7",
+      "mtime_utc": "2026-10-04T13:58:25.461020+00:00",
+      "c212cba": "9f751b0c507dacad78b8ca6cfc4dd1bb0d83ab1f4137984f32cb07dfb9de54d7",
+      "matches_c212cba": true,
+      "acc7bd4": "9f751b0c507dacad78b8ca6cfc4dd1bb0d83ab1f4137984f32cb07dfb9de54d7",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/voice.py": {
+      "deployed_sha256": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+      "mtime_utc": "2026-10-04T07:11:02.357018+00:00",
+      "c212cba": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+      "matches_c212cba": true,
+      "acc7bd4": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/voice_text.py": {
+      "deployed_sha256": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+      "mtime_utc": "2026-09-02T02:07:05.992057+00:00",
+      "c212cba": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+      "matches_c212cba": true,
+      "acc7bd4": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/wake_word.py": {
+      "deployed_sha256": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+      "mtime_utc": "2026-10-04T07:11:02.358022+00:00",
+      "c212cba": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+      "matches_c212cba": true,
+      "acc7bd4": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+      "matches_acc7bd4": true
+    },
+    "services/agent-core/agent_core/data/luotianyi_original_songs.json": {
+      "deployed_sha256": "22552757d32c86e1bf9d52217c3c3ff588bd35a86ba1ceada6707198f2710f8d",
+      "mtime_utc": "2026-08-29T12:38:38.215128+00:00",
+      "c212cba": "22552757d32c86e1bf9d52217c3c3ff588bd35a86ba1ceada6707198f2710f8d",
+      "matches_c212cba": true,
+      "acc7bd4": "22552757d32c86e1bf9d52217c3c3ff588bd35a86ba1ceada6707198f2710f8d",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/capture_tool_activity.gd": {
+      "deployed_sha256": "5b273e6c9bef9f449bba6e5d769eaf45c84b4d6ac90e5fa3659cc2f0a0481a54",
+      "mtime_utc": "2026-09-12T16:23:22.352744+00:00",
+      "c212cba": "5b273e6c9bef9f449bba6e5d769eaf45c84b4d6ac90e5fa3659cc2f0a0481a54",
+      "matches_c212cba": true,
+      "acc7bd4": "5b273e6c9bef9f449bba6e5d769eaf45c84b4d6ac90e5fa3659cc2f0a0481a54",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/effort_slider.gd": {
+      "deployed_sha256": "4344c4948c4e55ee714e2a84aba5cef5c256dc5319a6413f3f78f7fcb8a7aa78",
+      "mtime_utc": "2026-09-10T00:20:59.361450+00:00",
+      "c212cba": "4344c4948c4e55ee714e2a84aba5cef5c256dc5319a6413f3f78f7fcb8a7aa78",
+      "matches_c212cba": true,
+      "acc7bd4": "4344c4948c4e55ee714e2a84aba5cef5c256dc5319a6413f3f78f7fcb8a7aa78",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/emotion_presets.gd": {
+      "deployed_sha256": "a1f9bbea999580c857c45769acfa586dca46b294f5d5975a90f3e597bbc44c33",
+      "mtime_utc": "2026-09-11T16:19:07.456529+00:00",
+      "c212cba": "a1f9bbea999580c857c45769acfa586dca46b294f5d5975a90f3e597bbc44c33",
+      "matches_c212cba": true,
+      "acc7bd4": "a1f9bbea999580c857c45769acfa586dca46b294f5d5975a90f3e597bbc44c33",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/farewell_exit.gd": {
+      "deployed_sha256": "bd25c01d4511f535fa72414a2dc6255c11399933d4989231f904b2b97881210f",
+      "mtime_utc": "2026-09-13T01:24:24.196946+00:00",
+      "c212cba": "bd25c01d4511f535fa72414a2dc6255c11399933d4989231f904b2b97881210f",
+      "matches_c212cba": true,
+      "acc7bd4": "bd25c01d4511f535fa72414a2dc6255c11399933d4989231f904b2b97881210f",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/farewell_speech_gate.gd": {
+      "deployed_sha256": "9ca0a4fc7717c5637c38250fd1f9cd0008914b79adae7543c8ba18883daf7087",
+      "mtime_utc": "2026-10-02T16:27:38.273182+00:00",
+      "c212cba": "9ca0a4fc7717c5637c38250fd1f9cd0008914b79adae7543c8ba18883daf7087",
+      "matches_c212cba": true,
+      "acc7bd4": "9ca0a4fc7717c5637c38250fd1f9cd0008914b79adae7543c8ba18883daf7087",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/interaction_ui.gd": {
+      "deployed_sha256": "00f8c9e1f4ee0de019835cf0592f2b1fab4bf09ae228dff6157842bdbc552401",
+      "mtime_utc": "2026-10-04T13:45:08.107795+00:00",
+      "c212cba": "00f8c9e1f4ee0de019835cf0592f2b1fab4bf09ae228dff6157842bdbc552401",
+      "matches_c212cba": true,
+      "acc7bd4": "00f8c9e1f4ee0de019835cf0592f2b1fab4bf09ae228dff6157842bdbc552401",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/launcher.gd": {
+      "deployed_sha256": "5b65034bc972c23b11a7f26dbd7b29578ec476e81a8edc5a385452de93580d33",
+      "mtime_utc": "2026-08-28T19:25:08.830414+00:00",
+      "c212cba": "5b65034bc972c23b11a7f26dbd7b29578ec476e81a8edc5a385452de93580d33",
+      "matches_c212cba": true,
+      "acc7bd4": "5b65034bc972c23b11a7f26dbd7b29578ec476e81a8edc5a385452de93580d33",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/model_look_v13.gd": {
+      "deployed_sha256": "9bd26468fe4aff8f0486e8f2001616538b4fe650f7d918e91aa21a758681eb1c",
+      "mtime_utc": "2026-09-08T14:51:20.787045+00:00",
+      "c212cba": "9bd26468fe4aff8f0486e8f2001616538b4fe650f7d918e91aa21a758681eb1c",
+      "matches_c212cba": true,
+      "acc7bd4": "9bd26468fe4aff8f0486e8f2001616538b4fe650f7d918e91aa21a758681eb1c",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/model_look_v14.gd": {
+      "deployed_sha256": "81970b92c6fad730dcd9e2fb0ee285692c18118a29e506147128b28c53fdcb55",
+      "mtime_utc": "2026-09-09T16:15:05.229347+00:00",
+      "c212cba": "81970b92c6fad730dcd9e2fb0ee285692c18118a29e506147128b28c53fdcb55",
+      "matches_c212cba": true,
+      "acc7bd4": "81970b92c6fad730dcd9e2fb0ee285692c18118a29e506147128b28c53fdcb55",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/portrait_capture.gd": {
+      "deployed_sha256": "fe48524c319f5601d3740c0c781221ac9421fd47d6a4d0e6803de4a455a30cf0",
+      "mtime_utc": "2026-09-08T14:12:07.038551+00:00",
+      "c212cba": "fe48524c319f5601d3740c0c781221ac9421fd47d6a4d0e6803de4a455a30cf0",
+      "matches_c212cba": true,
+      "acc7bd4": "fe48524c319f5601d3740c0c781221ac9421fd47d6a4d0e6803de4a455a30cf0",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/runtime.gd": {
+      "deployed_sha256": "0ad46f150734814e1de2e7deb12799dfd9637cbdff041a80ce5f6ae715519295",
+      "mtime_utc": "2026-10-04T13:45:08.107795+00:00",
+      "c212cba": "0ad46f150734814e1de2e7deb12799dfd9637cbdff041a80ce5f6ae715519295",
+      "matches_c212cba": true,
+      "acc7bd4": "0ad46f150734814e1de2e7deb12799dfd9637cbdff041a80ce5f6ae715519295",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_desktop_canvas.gd": {
+      "deployed_sha256": "2c59629ce7a6ab3b88863334546d9962fe6009015e8f68c6be8710b6ab61471f",
+      "mtime_utc": "2026-08-30T20:44:32.341602+00:00",
+      "c212cba": "2c59629ce7a6ab3b88863334546d9962fe6009015e8f68c6be8710b6ab61471f",
+      "matches_c212cba": true,
+      "acc7bd4": "2c59629ce7a6ab3b88863334546d9962fe6009015e8f68c6be8710b6ab61471f",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_effort_ui.gd": {
+      "deployed_sha256": "efaf35b497d0582bf0e3a7549b9791a08f3fe2df42932a6a0982ecb67660586d",
+      "mtime_utc": "2026-09-10T00:38:41.869333+00:00",
+      "c212cba": "1efd08e3041b85206611973606de523482dcd93ce3de0e553e2d8982c4a53108",
+      "matches_c212cba": false,
+      "acc7bd4": "1efd08e3041b85206611973606de523482dcd93ce3de0e553e2d8982c4a53108",
+      "matches_acc7bd4": false
+    },
+    "apps/avatar-runtime/verify_emotion_presets.gd": {
+      "deployed_sha256": "a7d15e677471519f8604a6cc9a59b7f1246633fb1288119f9cb16432c27c2140",
+      "mtime_utc": "2026-09-11T16:33:50.803210+00:00",
+      "c212cba": "a7d15e677471519f8604a6cc9a59b7f1246633fb1288119f9cb16432c27c2140",
+      "matches_c212cba": true,
+      "acc7bd4": "a7d15e677471519f8604a6cc9a59b7f1246633fb1288119f9cb16432c27c2140",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_farewell.gd": {
+      "deployed_sha256": "43ec302af5dcd4c54e3614e48ab0c0d6f36820aa02b8de2c636012c7b2953336",
+      "mtime_utc": "2026-09-12T14:54:42.519774+00:00",
+      "c212cba": "43ec302af5dcd4c54e3614e48ab0c0d6f36820aa02b8de2c636012c7b2953336",
+      "matches_c212cba": true,
+      "acc7bd4": "43ec302af5dcd4c54e3614e48ab0c0d6f36820aa02b8de2c636012c7b2953336",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_farewell_speech.gd": {
+      "deployed_sha256": "608f3a807e6883bd5845f49bd964b703a183f885c84c4c734260049bf483a5b2",
+      "mtime_utc": "2026-09-13T01:27:04.368118+00:00",
+      "c212cba": "608f3a807e6883bd5845f49bd964b703a183f885c84c4c734260049bf483a5b2",
+      "matches_c212cba": true,
+      "acc7bd4": "608f3a807e6883bd5845f49bd964b703a183f885c84c4c734260049bf483a5b2",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_hd_capture.gd": {
+      "deployed_sha256": "73e9a1ed08986955e1bc968af16439aee45cd81a754a4908476ce679f955a0c7",
+      "mtime_utc": "2026-09-08T14:16:03.895969+00:00",
+      "c212cba": "73e9a1ed08986955e1bc968af16439aee45cd81a754a4908476ce679f955a0c7",
+      "matches_c212cba": true,
+      "acc7bd4": "73e9a1ed08986955e1bc968af16439aee45cd81a754a4908476ce679f955a0c7",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_large_motion_render.gd": {
+      "deployed_sha256": "6571f89dd6407387067c1f4f08a6a9d5c4153e2b6f64297b277dd1ab5c3058db",
+      "mtime_utc": "2026-09-08T16:14:08.440103+00:00",
+      "c212cba": "6571f89dd6407387067c1f4f08a6a9d5c4153e2b6f64297b277dd1ab5c3058db",
+      "matches_c212cba": true,
+      "acc7bd4": "6571f89dd6407387067c1f4f08a6a9d5c4153e2b6f64297b277dd1ab5c3058db",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_large_motion_safety.gd": {
+      "deployed_sha256": "d81331bc27593c54ebc67c28b8f1f544aa9a2dd35e896ebf938647485dd49934",
+      "mtime_utc": "2026-08-31T03:40:40.453127+00:00",
+      "c212cba": "d81331bc27593c54ebc67c28b8f1f544aa9a2dd35e896ebf938647485dd49934",
+      "matches_c212cba": true,
+      "acc7bd4": "d81331bc27593c54ebc67c28b8f1f544aa9a2dd35e896ebf938647485dd49934",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_model_look.gd": {
+      "deployed_sha256": "fb27efd344162419e42acacef06552c5258d7e8143fe43cd6b930a3d2d7513f0",
+      "mtime_utc": "2026-09-02T11:58:14.960626+00:00",
+      "c212cba": "fb27efd344162419e42acacef06552c5258d7e8143fe43cd6b930a3d2d7513f0",
+      "matches_c212cba": true,
+      "acc7bd4": "fb27efd344162419e42acacef06552c5258d7e8143fe43cd6b930a3d2d7513f0",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_motion_asset.gd": {
+      "deployed_sha256": "005f1ac5f351ba0dd13a9beb1ed9d63b32f044c4ab09a7fbbdbad4a3c47e63e2",
+      "mtime_utc": "2026-09-13T00:50:27.001341+00:00",
+      "c212cba": "005f1ac5f351ba0dd13a9beb1ed9d63b32f044c4ab09a7fbbdbad4a3c47e63e2",
+      "matches_c212cba": true,
+      "acc7bd4": "005f1ac5f351ba0dd13a9beb1ed9d63b32f044c4ab09a7fbbdbad4a3c47e63e2",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_motion_runtime.gd": {
+      "deployed_sha256": "ba438867789c2c9346f74c19b3a84eb69c625b0acdf0c9796b28bb1e28ea77f5",
+      "mtime_utc": "2026-09-08T16:03:22.684483+00:00",
+      "c212cba": "ba438867789c2c9346f74c19b3a84eb69c625b0acdf0c9796b28bb1e28ea77f5",
+      "matches_c212cba": true,
+      "acc7bd4": "ba438867789c2c9346f74c19b3a84eb69c625b0acdf0c9796b28bb1e28ea77f5",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_reference_idle.gd": {
+      "deployed_sha256": "b74d7140b7468b1ab2aa59939ce945ab6db70b5ba438cb3a78728999f18e3ec4",
+      "mtime_utc": "2026-09-08T13:55:12.022830+00:00",
+      "c212cba": "b74d7140b7468b1ab2aa59939ce945ab6db70b5ba438cb3a78728999f18e3ec4",
+      "matches_c212cba": true,
+      "acc7bd4": "b74d7140b7468b1ab2aa59939ce945ab6db70b5ba438cb3a78728999f18e3ec4",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_session_ui.gd": {
+      "deployed_sha256": "dd1dc12d8b8a8568455c11fa983a70e8480dd692f0c868cd4122bba1b5560e3d",
+      "mtime_utc": "2026-09-13T05:16:26.887921+00:00",
+      "c212cba": "dd1dc12d8b8a8568455c11fa983a70e8480dd692f0c868cd4122bba1b5560e3d",
+      "matches_c212cba": true,
+      "acc7bd4": "dd1dc12d8b8a8568455c11fa983a70e8480dd692f0c868cd4122bba1b5560e3d",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_speech_delivery.gd": {
+      "deployed_sha256": "ef3a2c6b9eaedba1b021e1f5e557c665438fc78b02bb47d4a8bc43dee2c47075",
+      "mtime_utc": "2026-10-02T16:35:25.288255+00:00",
+      "c212cba": "ef3a2c6b9eaedba1b021e1f5e557c665438fc78b02bb47d4a8bc43dee2c47075",
+      "matches_c212cba": true,
+      "acc7bd4": "ef3a2c6b9eaedba1b021e1f5e557c665438fc78b02bb47d4a8bc43dee2c47075",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_text_input.gd": {
+      "deployed_sha256": "0f569c627ac04248c3ae2ce58797b39299c1100d9fb08f1c4d850fbf0d5e416c",
+      "mtime_utc": "2026-08-29T14:07:28.667805+00:00",
+      "c212cba": "0f569c627ac04248c3ae2ce58797b39299c1100d9fb08f1c4d850fbf0d5e416c",
+      "matches_c212cba": true,
+      "acc7bd4": "0f569c627ac04248c3ae2ce58797b39299c1100d9fb08f1c4d850fbf0d5e416c",
+      "matches_acc7bd4": true
+    },
+    "apps/avatar-runtime/verify_tool_activity.gd": {
+      "deployed_sha256": "a731f602165b608a8dd7c5b33ea0877431d3a27dd86bfbe78f7a47e37a25f28a",
+      "mtime_utc": "2026-09-09T16:00:57.331590+00:00",
+      "c212cba": "a731f602165b608a8dd7c5b33ea0877431d3a27dd86bfbe78f7a47e37a25f28a",
+      "matches_c212cba": true,
+      "acc7bd4": "a731f602165b608a8dd7c5b33ea0877431d3a27dd86bfbe78f7a47e37a25f28a",
+      "matches_acc7bd4": true
+    },
+    "scripts/test-tts-lifecycle.ps1": {
+      "deployed_sha256": "39e0f998436ebcd8bf19a4f948e101556a3113f3bf8ac6add171033ebca1aaeb",
+      "mtime_utc": "2026-09-12T18:04:06.762663+00:00",
+      "c212cba": "39e0f998436ebcd8bf19a4f948e101556a3113f3bf8ac6add171033ebca1aaeb",
+      "matches_c212cba": true,
+      "acc7bd4": "39e0f998436ebcd8bf19a4f948e101556a3113f3bf8ac6add171033ebca1aaeb",
+      "matches_acc7bd4": true
+    },
+    "scripts/tts-lifecycle.ps1": {
+      "deployed_sha256": "358ea35fa96ce231e7e7a3ab2e1fb5610865855add4b48bde32541d85aa73400",
+      "mtime_utc": "2026-09-12T18:04:58.682373+00:00",
+      "c212cba": "358ea35fa96ce231e7e7a3ab2e1fb5610865855add4b48bde32541d85aa73400",
+      "matches_c212cba": true,
+      "acc7bd4": "358ea35fa96ce231e7e7a3ab2e1fb5610865855add4b48bde32541d85aa73400",
+      "matches_acc7bd4": true
+    },
+    "scripts/watch-tts-session.ps1": {
+      "deployed_sha256": "ff0da50e5f2b1efcee96fba1196d9c74bd5eb427487ece4b648683871bc0d6a2",
+      "mtime_utc": "2026-09-12T18:09:14.783092+00:00",
+      "c212cba": "ff0da50e5f2b1efcee96fba1196d9c74bd5eb427487ece4b648683871bc0d6a2",
+      "matches_c212cba": true,
+      "acc7bd4": "ff0da50e5f2b1efcee96fba1196d9c74bd5eb427487ece4b648683871bc0d6a2",
+      "matches_acc7bd4": true
+    },
+    "scripts/start-mvp.ps1": {
+      "deployed_sha256": "f855004c4a1274df5b213999a81ba16293d9619fe6b48f4e5b4e9b165ee15de2",
+      "mtime_utc": "2026-10-04T06:59:12.292875+00:00",
+      "c212cba": "f855004c4a1274df5b213999a81ba16293d9619fe6b48f4e5b4e9b165ee15de2",
+      "matches_c212cba": true,
+      "acc7bd4": "f855004c4a1274df5b213999a81ba16293d9619fe6b48f4e5b4e9b165ee15de2",
+      "matches_acc7bd4": true
+    },
+    "scripts/startup-common.ps1": {
+      "deployed_sha256": "338cf1d74b06ac3f94d48c3e66cca64a5efcdf4a73eeea367f8f327749e3eb36",
+      "mtime_utc": "2026-10-02T15:39:19.358433+00:00",
+      "c212cba": "338cf1d74b06ac3f94d48c3e66cca64a5efcdf4a73eeea367f8f327749e3eb36",
+      "matches_c212cba": true,
+      "acc7bd4": "338cf1d74b06ac3f94d48c3e66cca64a5efcdf4a73eeea367f8f327749e3eb36",
+      "matches_acc7bd4": true
+    },
+    "start-anime-agent.cmd": {
+      "deployed_sha256": "dded67f5486c8db28a8d6f67428e3829b94cce03bde4fba8f0ebfd769fd5608c",
+      "mtime_utc": "2026-09-11T14:33:47.885667+00:00",
+      "c212cba": "dded67f5486c8db28a8d6f67428e3829b94cce03bde4fba8f0ebfd769fd5608c",
+      "matches_c212cba": true,
+      "acc7bd4": "dded67f5486c8db28a8d6f67428e3829b94cce03bde4fba8f0ebfd769fd5608c",
+      "matches_acc7bd4": true
+    }
+  },
+  "start_event_id": 7248,
+  "last_mcp_start": [
+    {
+      "id": 7235,
+      "payload": {
+        "status": {
+          "browser": {
+            "started": true,
+            "tools": 25,
+            "error": ""
+          },
+          "github": {
+            "started": true,
+            "tools": 44,
+            "error": ""
+          },
+          "search": {
+            "started": true,
+            "tools": 5,
+            "error": ""
+          },
+          "gmail": {
+            "started": true,
+            "tools": 19,
+            "error": ""
+          },
+          "drive": {
+            "started": true,
+            "tools": 1,
+            "error": ""
+          }
+        }
+      },
+      "created_at": "2026-10-07 13:02:28"
+    }
+  ],
+  "db_access": "read-only metadata; no message or fact contents queried",
+  "note": "Disk hashes are not direct in-memory code proof. Compare process start and file mtimes; no restart performed."
+}

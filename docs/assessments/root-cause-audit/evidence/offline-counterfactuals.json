@@ -1,0 +1,3069 @@
+{
+  "layer": "offline only",
+  "api_calls": 0,
+  "business_modified": false,
+  "probes": [
+    {
+      "id": "CF-MEM-SECRET",
+      "input": "这是一条合成密码材料",
+      "status": "pending",
+      "other_session_recall": []
+    },
+    {
+      "id": "CF-MEM-SECRET",
+      "input": "请记住这条合成测试密码",
+      "status": "confirmed",
+      "other_session_recall": [
+        "审计假密码是 SYNTHETIC-NOT-A-CREDENTIAL"
+      ]
+    },
+    {
+      "id": "CF-MEM-SUPERSEDE",
+      "before": "青岚项目的负责人是甲。",
+      "new": "白榆项目的负责人是甲。",
+      "similarity": 0.8,
+      "facts": [
+        {
+          "content": "青岚项目的负责人是甲。",
+          "status": "superseded"
+        },
+        {
+          "content": "白榆项目的负责人是甲。",
+          "status": "confirmed"
+        }
+      ],
+      "recalled": [
+        "白榆项目的负责人是甲。"
+      ]
+    },
+    {
+      "id": "CF-MEM-SUPERSEDE",
+      "before": "青岚项目预算是120元。",
+      "new": "青岚项目人数是3人。",
+      "similarity": 0.3,
+      "facts": [
+        {
+          "content": "青岚项目预算是120元。",
+          "status": "confirmed"
+        },
+        {
+          "content": "青岚项目人数是3人。",
+          "status": "confirmed"
+        }
+      ],
+      "recalled": [
+        "青岚项目人数是3人。",
+        "青岚项目预算是120元。"
+      ]
+    },
+    {
+      "id": "CF-MEM-SUPERSEDE",
+      "before": "我最喜欢的颜色是蓝色。",
+      "new": "我最喜欢的颜色是绿色。",
+      "similarity": 0.8,
+      "facts": [
+        {
+          "content": "我最喜欢的颜色是蓝色。",
+          "status": "superseded"
+        },
+        {
+          "content": "我最喜欢的颜色是绿色。",
+          "status": "confirmed"
+        }
+      ],
+      "recalled": [
+        "我最喜欢的颜色是绿色。"
+      ]
+    },
+    {
+      "id": "CF-MEM-ZERO-SIGNAL",
+      "query": "xyz",
+      "stored": [
+        "青岚负责人是甲。"
+      ],
+      "result": [
+        "青岚负责人是甲。"
+      ]
+    },
+    {
+      "id": "CF-PATH-ESCAPE",
+      "function": "_resolve_path",
+      "accepted": true,
+      "resolved": "<SYNTHETIC_ROOT>\\__audit_outside__\\fixture.txt",
+      "method": "mocked resolution only; no real link created"
+    },
+    {
+      "id": "CF-PATH-ESCAPE",
+      "function": "_resolve_write_path",
+      "accepted": true,
+      "resolved": "<SYNTHETIC_ROOT>\\__audit_outside__\\fixture.txt",
+      "method": "mocked resolution only; no real link created"
+    },
+    {
+      "id": "CF-GRADER-SEMANTICS",
+      "variants": [
+        "日期18日",
+        "日期18号"
+      ],
+      "normalized": [
+        "日期18日",
+        "日期18号"
+      ]
+    },
+    {
+      "id": "CF-GRADER-COMPLETION",
+      "file_claim_detected": false,
+      "email_claim_detected": true
+    }
+  ],
+  "old_replay": [
+    {
+      "trial": "core-01-ds-F01-r1",
+      "case": "F01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F01-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F01-r1",
+      "case": "F01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F01-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F01-r2",
+      "case": "F01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F01-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F01-r2",
+      "case": "F01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F01-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F01-r3",
+      "case": "F01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F01-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F01-r3",
+      "case": "F01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F01-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F02-r1",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F02-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F02-r1",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F02-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F02-r2",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F02-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F02-r2",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F02-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F02-r3",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F02-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F02-r3",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F02-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F03-r1",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F03-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F03-r1",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F03-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F03-r2",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F03-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F03-r2",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F03-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F03-r3",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F03-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F03-r3",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F03-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F04-r1",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F04-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F04-r1",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F04-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F04-r2",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F04-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F04-r2",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F04-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F04-r3",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F04-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F04-r3",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F04-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F05-r1",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F05-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F05-r1",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F05-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F05-r2",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F05-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F05-r2",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F05-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F05-r3",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F05-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F05-r3",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F05-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F06-r1",
+      "case": "F06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F06-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F06-r1",
+      "case": "F06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F06-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F06-r2",
+      "case": "F06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F06-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F06-r2",
+      "case": "F06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F06-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F06-r3",
+      "case": "F06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F06-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F06-r3",
+      "case": "F06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F06-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F07-r1",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F07-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F07-r1",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F07-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F07-r2",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F07-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F07-r2",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F07-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F07-r3",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F07-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F07-r3",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F07-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F08-r1",
+      "case": "F08",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F08-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F08-r1",
+      "case": "F08",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F08-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F08-r2",
+      "case": "F08",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F08-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F08-r2",
+      "case": "F08",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F08-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F08-r3",
+      "case": "F08",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F08-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F08-r3",
+      "case": "F08",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F08-r3.json"
+    },
+    {
+      "trial": "core-01-ds-F09-r1",
+      "case": "F09",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F09-r1.json"
+    },
+    {
+      "trial": "core-01-glm-F09-r1",
+      "case": "F09",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F09-r1.json"
+    },
+    {
+      "trial": "core-01-ds-F09-r2",
+      "case": "F09",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F09-r2.json"
+    },
+    {
+      "trial": "core-01-glm-F09-r2",
+      "case": "F09",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F09-r2.json"
+    },
+    {
+      "trial": "core-01-ds-F09-r3",
+      "case": "F09",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-F09-r3.json"
+    },
+    {
+      "trial": "core-01-glm-F09-r3",
+      "case": "F09",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-F09-r3.json"
+    },
+    {
+      "trial": "core-01-ds-M01-r1",
+      "case": "M01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M01-r1.json"
+    },
+    {
+      "trial": "core-01-glm-M01-r1",
+      "case": "M01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M01-r1.json"
+    },
+    {
+      "trial": "core-01-ds-M01-r2",
+      "case": "M01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M01-r2.json"
+    },
+    {
+      "trial": "core-01-glm-M01-r2",
+      "case": "M01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M01-r2.json"
+    },
+    {
+      "trial": "core-01-ds-M01-r3",
+      "case": "M01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M01-r3.json"
+    },
+    {
+      "trial": "core-01-glm-M01-r3",
+      "case": "M01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M01-r3.json"
+    },
+    {
+      "trial": "core-01-ds-M02-r1",
+      "case": "M02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M02-r1.json"
+    },
+    {
+      "trial": "core-01-glm-M02-r1",
+      "case": "M02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M02-r1.json"
+    },
+    {
+      "trial": "core-01-ds-M02-r2",
+      "case": "M02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M02-r2.json"
+    },
+    {
+      "trial": "core-01-glm-M02-r2",
+      "case": "M02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M02-r2.json"
+    },
+    {
+      "trial": "core-01-ds-M02-r3",
+      "case": "M02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M02-r3.json"
+    },
+    {
+      "trial": "core-01-glm-M02-r3",
+      "case": "M02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M02-r3.json"
+    },
+    {
+      "trial": "core-01-ds-M03-r1",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M03-r1.json"
+    },
+    {
+      "trial": "core-01-glm-M03-r1",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M03-r1.json"
+    },
+    {
+      "trial": "core-01-ds-M03-r2",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M03-r2.json"
+    },
+    {
+      "trial": "core-01-glm-M03-r2",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M03-r2.json"
+    },
+    {
+      "trial": "core-01-ds-M03-r3",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M03-r3.json"
+    },
+    {
+      "trial": "core-01-glm-M03-r3",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M03-r3.json"
+    },
+    {
+      "trial": "core-01-ds-M04-r1",
+      "case": "M04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M04-r1.json"
+    },
+    {
+      "trial": "core-01-glm-M04-r1",
+      "case": "M04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M04-r1.json"
+    },
+    {
+      "trial": "core-01-ds-M04-r2",
+      "case": "M04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M04-r2.json"
+    },
+    {
+      "trial": "core-01-glm-M04-r2",
+      "case": "M04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M04-r2.json"
+    },
+    {
+      "trial": "core-01-ds-M04-r3",
+      "case": "M04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M04-r3.json"
+    },
+    {
+      "trial": "core-01-glm-M04-r3",
+      "case": "M04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M04-r3.json"
+    },
+    {
+      "trial": "core-01-ds-M05-r1",
+      "case": "M05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M05-r1.json"
+    },
+    {
+      "trial": "core-01-glm-M05-r1",
+      "case": "M05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M05-r1.json"
+    },
+    {
+      "trial": "core-01-ds-M05-r2",
+      "case": "M05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M05-r2.json"
+    },
+    {
+      "trial": "core-01-glm-M05-r2",
+      "case": "M05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M05-r2.json"
+    },
+    {
+      "trial": "core-01-ds-M05-r3",
+      "case": "M05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M05-r3.json"
+    },
+    {
+      "trial": "core-01-glm-M05-r3",
+      "case": "M05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M05-r3.json"
+    },
+    {
+      "trial": "core-01-ds-M06-r1",
+      "case": "M06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M06-r1.json"
+    },
+    {
+      "trial": "core-01-glm-M06-r1",
+      "case": "M06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M06-r1.json"
+    },
+    {
+      "trial": "core-01-ds-M06-r2",
+      "case": "M06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M06-r2.json"
+    },
+    {
+      "trial": "core-01-glm-M06-r2",
+      "case": "M06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M06-r2.json"
+    },
+    {
+      "trial": "core-01-ds-M06-r3",
+      "case": "M06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-M06-r3.json"
+    },
+    {
+      "trial": "core-01-glm-M06-r3",
+      "case": "M06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-M06-r3.json"
+    },
+    {
+      "trial": "core-01-ds-G01-r1",
+      "case": "G01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G01-r1.json"
+    },
+    {
+      "trial": "core-01-glm-G01-r1",
+      "case": "G01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G01-r1.json"
+    },
+    {
+      "trial": "core-01-ds-G01-r2",
+      "case": "G01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G01-r2.json"
+    },
+    {
+      "trial": "core-01-glm-G01-r2",
+      "case": "G01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G01-r2.json"
+    },
+    {
+      "trial": "core-01-ds-G01-r3",
+      "case": "G01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G01-r3.json"
+    },
+    {
+      "trial": "core-01-glm-G01-r3",
+      "case": "G01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G01-r3.json"
+    },
+    {
+      "trial": "core-01-ds-G02-r1",
+      "case": "G02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G02-r1.json"
+    },
+    {
+      "trial": "core-01-glm-G02-r1",
+      "case": "G02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G02-r1.json"
+    },
+    {
+      "trial": "core-01-ds-G02-r2",
+      "case": "G02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G02-r2.json"
+    },
+    {
+      "trial": "core-01-glm-G02-r2",
+      "case": "G02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G02-r2.json"
+    },
+    {
+      "trial": "core-01-ds-G02-r3",
+      "case": "G02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G02-r3.json"
+    },
+    {
+      "trial": "core-01-glm-G02-r3",
+      "case": "G02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G02-r3.json"
+    },
+    {
+      "trial": "core-01-ds-G03-r1",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G03-r1.json"
+    },
+    {
+      "trial": "core-01-glm-G03-r1",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G03-r1.json"
+    },
+    {
+      "trial": "core-01-ds-G03-r2",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G03-r2.json"
+    },
+    {
+      "trial": "core-01-glm-G03-r2",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G03-r2.json"
+    },
+    {
+      "trial": "core-01-ds-G03-r3",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G03-r3.json"
+    },
+    {
+      "trial": "core-01-glm-G03-r3",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G03-r3.json"
+    },
+    {
+      "trial": "core-01-ds-G04-r1",
+      "case": "G04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G04-r1.json"
+    },
+    {
+      "trial": "core-01-glm-G04-r1",
+      "case": "G04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G04-r1.json"
+    },
+    {
+      "trial": "core-01-ds-G04-r2",
+      "case": "G04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G04-r2.json"
+    },
+    {
+      "trial": "core-01-glm-G04-r2",
+      "case": "G04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G04-r2.json"
+    },
+    {
+      "trial": "core-01-ds-G04-r3",
+      "case": "G04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G04-r3.json"
+    },
+    {
+      "trial": "core-01-glm-G04-r3",
+      "case": "G04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G04-r3.json"
+    },
+    {
+      "trial": "core-01-ds-G05-r1",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G05-r1.json"
+    },
+    {
+      "trial": "core-01-glm-G05-r1",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G05-r1.json"
+    },
+    {
+      "trial": "core-01-ds-G05-r2",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G05-r2.json"
+    },
+    {
+      "trial": "core-01-glm-G05-r2",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G05-r2.json"
+    },
+    {
+      "trial": "core-01-ds-G05-r3",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G05-r3.json"
+    },
+    {
+      "trial": "core-01-glm-G05-r3",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G05-r3.json"
+    },
+    {
+      "trial": "core-01-ds-G06-r1",
+      "case": "G06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G06-r1.json"
+    },
+    {
+      "trial": "core-01-glm-G06-r1",
+      "case": "G06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G06-r1.json"
+    },
+    {
+      "trial": "core-01-ds-G06-r2",
+      "case": "G06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G06-r2.json"
+    },
+    {
+      "trial": "core-01-glm-G06-r2",
+      "case": "G06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G06-r2.json"
+    },
+    {
+      "trial": "core-01-ds-G06-r3",
+      "case": "G06",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-G06-r3.json"
+    },
+    {
+      "trial": "core-01-glm-G06-r3",
+      "case": "G06",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-G06-r3.json"
+    },
+    {
+      "trial": "core-01-ds-P01-r1",
+      "case": "P01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-P01-r1.json"
+    },
+    {
+      "trial": "core-01-glm-P01-r1",
+      "case": "P01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-P01-r1.json"
+    },
+    {
+      "trial": "core-01-ds-P01-r2",
+      "case": "P01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-P01-r2.json"
+    },
+    {
+      "trial": "core-01-glm-P01-r2",
+      "case": "P01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-P01-r2.json"
+    },
+    {
+      "trial": "core-01-ds-P01-r3",
+      "case": "P01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-P01-r3.json"
+    },
+    {
+      "trial": "core-01-glm-P01-r3",
+      "case": "P01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-P01-r3.json"
+    },
+    {
+      "trial": "core-01-ds-P02-r1",
+      "case": "P02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-P02-r1.json"
+    },
+    {
+      "trial": "core-01-glm-P02-r1",
+      "case": "P02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-P02-r1.json"
+    },
+    {
+      "trial": "core-01-ds-P02-r2",
+      "case": "P02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-P02-r2.json"
+    },
+    {
+      "trial": "core-01-glm-P02-r2",
+      "case": "P02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-P02-r2.json"
+    },
+    {
+      "trial": "core-01-ds-P02-r3",
+      "case": "P02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-P02-r3.json"
+    },
+    {
+      "trial": "core-01-glm-P02-r3",
+      "case": "P02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-P02-r3.json"
+    },
+    {
+      "trial": "core-01-ds-R01-r1",
+      "case": "R01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R01-r1.json"
+    },
+    {
+      "trial": "core-01-glm-R01-r1",
+      "case": "R01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R01-r1.json"
+    },
+    {
+      "trial": "core-01-ds-R01-r2",
+      "case": "R01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R01-r2.json"
+    },
+    {
+      "trial": "core-01-glm-R01-r2",
+      "case": "R01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R01-r2.json"
+    },
+    {
+      "trial": "core-01-ds-R01-r3",
+      "case": "R01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R01-r3.json"
+    },
+    {
+      "trial": "core-01-glm-R01-r3",
+      "case": "R01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R01-r3.json"
+    },
+    {
+      "trial": "core-01-ds-R02-r1",
+      "case": "R02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R02-r1.json"
+    },
+    {
+      "trial": "core-01-glm-R02-r1",
+      "case": "R02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R02-r1.json"
+    },
+    {
+      "trial": "core-01-ds-R02-r2",
+      "case": "R02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R02-r2.json"
+    },
+    {
+      "trial": "core-01-glm-R02-r2",
+      "case": "R02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R02-r2.json"
+    },
+    {
+      "trial": "core-01-ds-R02-r3",
+      "case": "R02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R02-r3.json"
+    },
+    {
+      "trial": "core-01-glm-R02-r3",
+      "case": "R02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R02-r3.json"
+    },
+    {
+      "trial": "core-01-ds-R03-r1",
+      "case": "R03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R03-r1.json"
+    },
+    {
+      "trial": "core-01-glm-R03-r1",
+      "case": "R03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R03-r1.json"
+    },
+    {
+      "trial": "core-01-ds-R03-r2",
+      "case": "R03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R03-r2.json"
+    },
+    {
+      "trial": "core-01-glm-R03-r2",
+      "case": "R03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R03-r2.json"
+    },
+    {
+      "trial": "core-01-ds-R03-r3",
+      "case": "R03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-ds-R03-r3.json"
+    },
+    {
+      "trial": "core-01-glm-R03-r3",
+      "case": "R03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/core-01/evidence/core-01-glm-R03-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-F02-r1",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F02-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-F02-r1",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F02-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-F02-r2",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F02-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-F02-r2",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F02-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-F02-r3",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F02-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-F02-r3",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F02-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-F03-r1",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F03-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-F03-r1",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F03-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-F03-r2",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F03-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-F03-r2",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F03-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-F03-r3",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F03-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-F03-r3",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F03-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-F04-r1",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F04-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-F04-r1",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F04-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-F04-r2",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F04-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-F04-r2",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F04-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-F04-r3",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F04-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-F04-r3",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F04-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-F05-r1",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F05-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-F05-r1",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F05-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-F05-r2",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F05-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-F05-r2",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F05-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-F05-r3",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F05-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-F05-r3",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F05-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-F07-r1",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F07-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-F07-r1",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F07-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-F07-r2",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F07-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-F07-r2",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F07-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-F07-r3",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-F07-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-F07-r3",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-F07-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-M02-r1",
+      "case": "M02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M02-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-M02-r1",
+      "case": "M02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M02-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-M02-r2",
+      "case": "M02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M02-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-M02-r2",
+      "case": "M02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M02-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-M02-r3",
+      "case": "M02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M02-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-M02-r3",
+      "case": "M02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M02-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-M03-r1",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M03-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-M03-r1",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M03-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-M03-r2",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M03-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-M03-r2",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M03-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-M03-r3",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M03-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-M03-r3",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M03-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-M04-r1",
+      "case": "M04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M04-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-M04-r1",
+      "case": "M04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M04-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-M04-r2",
+      "case": "M04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M04-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-M04-r2",
+      "case": "M04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M04-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-M04-r3",
+      "case": "M04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M04-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-M04-r3",
+      "case": "M04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M04-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-M05-r1",
+      "case": "M05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M05-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-M05-r1",
+      "case": "M05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M05-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-M05-r2",
+      "case": "M05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M05-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-M05-r2",
+      "case": "M05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M05-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-M05-r3",
+      "case": "M05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-M05-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-M05-r3",
+      "case": "M05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-M05-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-G02-r1",
+      "case": "G02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G02-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-G02-r1",
+      "case": "G02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G02-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-G02-r2",
+      "case": "G02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G02-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-G02-r2",
+      "case": "G02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G02-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-G02-r3",
+      "case": "G02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G02-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-G02-r3",
+      "case": "G02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G02-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-G03-r1",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G03-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-G03-r1",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G03-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-G03-r2",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G03-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-G03-r2",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G03-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-G03-r3",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G03-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-G03-r3",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G03-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-G05-r1",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G05-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-G05-r1",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G05-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-G05-r2",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G05-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-G05-r2",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G05-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-G05-r3",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-G05-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-G05-r3",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-G05-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-P01-r1",
+      "case": "P01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-P01-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-P01-r1",
+      "case": "P01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-P01-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-P01-r2",
+      "case": "P01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-P01-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-P01-r2",
+      "case": "P01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-P01-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-P01-r3",
+      "case": "P01",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-P01-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-P01-r3",
+      "case": "P01",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-P01-r3.json"
+    },
+    {
+      "trial": "repair-01-ds-P02-r1",
+      "case": "P02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-P02-r1.json"
+    },
+    {
+      "trial": "repair-01-glm-P02-r1",
+      "case": "P02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-P02-r1.json"
+    },
+    {
+      "trial": "repair-01-ds-P02-r2",
+      "case": "P02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-P02-r2.json"
+    },
+    {
+      "trial": "repair-01-glm-P02-r2",
+      "case": "P02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-P02-r2.json"
+    },
+    {
+      "trial": "repair-01-ds-P02-r3",
+      "case": "P02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-ds-P02-r3.json"
+    },
+    {
+      "trial": "repair-01-glm-P02-r3",
+      "case": "P02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-01/evidence/repair-01-glm-P02-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-F02-r1",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F02-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-F02-r1",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F02-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-F02-r2",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F02-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-F02-r2",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F02-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-F02-r3",
+      "case": "F02",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F02-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-F02-r3",
+      "case": "F02",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F02-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-F03-r1",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F03-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-F03-r1",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F03-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-F03-r2",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F03-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-F03-r2",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F03-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-F03-r3",
+      "case": "F03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F03-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-F03-r3",
+      "case": "F03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F03-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-F04-r1",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F04-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-F04-r1",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F04-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-F04-r2",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F04-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-F04-r2",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F04-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-F04-r3",
+      "case": "F04",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F04-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-F04-r3",
+      "case": "F04",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F04-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-F05-r1",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F05-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-F05-r1",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F05-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-F05-r2",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F05-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-F05-r2",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F05-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-F05-r3",
+      "case": "F05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F05-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-F05-r3",
+      "case": "F05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F05-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-F07-r1",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F07-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-F07-r1",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F07-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-F07-r2",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F07-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-F07-r2",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F07-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-F07-r3",
+      "case": "F07",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "FAIL",
+      "replayed": "FAIL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-F07-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-F07-r3",
+      "case": "F07",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-F07-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-M03-r1",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-M03-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-M03-r1",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-M03-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-M03-r2",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-M03-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-M03-r2",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-M03-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-M03-r3",
+      "case": "M03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PARTIAL",
+      "replayed": "PARTIAL",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-M03-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-M03-r3",
+      "case": "M03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-M03-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-G03-r1",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G03-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-G03-r1",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G03-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-G03-r2",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G03-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-G03-r2",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G03-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-G03-r3",
+      "case": "G03",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G03-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-G03-r3",
+      "case": "G03",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G03-r3.json"
+    },
+    {
+      "trial": "repair-02-ds-G05-r1",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G05-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-G05-r1",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G05-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-G05-r2",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G05-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-G05-r2",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G05-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-G05-r3",
+      "case": "G05",
+      "model": "ds",
+      "hash_unchanged": true,
+      "original": "PASS",
+      "replayed": "PASS",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G05-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-G05-r3",
+      "case": "G05",
+      "model": "glm",
+      "hash_unchanged": true,
+      "original": "BLOCKED",
+      "replayed": "BLOCKED",
+      "reasons_identical": true,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G05-r3.json"
+    }
+  ],
+  "selected_old_cases": [
+    {
+      "trial": "repair-02-ds-G05-r1",
+      "case": "G05",
+      "verdict": "PASS",
+      "delivery": "我核对了实际执行记录：\n按钮一：执行成功；{\"number\": 1, \"title\": \"按钮一\", \"body\": \"修复保存\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/1\"}\n按钮二：执行成功；{\"number\": 2, \"title\": \"按钮二\", \"body\": \"修复取消\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/2\"}",
+      "reasons": [],
+      "executions": 2,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G05-r1.json"
+    },
+    {
+      "trial": "repair-02-glm-G05-r1",
+      "case": "G05",
+      "verdict": "BLOCKED",
+      "delivery": "我核对了实际执行记录：\n按钮一：执行成功；{\"number\": 1, \"title\": \"按钮一\", \"body\": \"修复保存\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/1\"}\n按钮二：执行成功；{\"number\": 2, \"title\": \"按钮二\", \"body\": \"修复取消\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/2\"}",
+      "reasons": [
+        "every_request_has_own_response"
+      ],
+      "executions": 2,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G05-r1.json"
+    },
+    {
+      "trial": "repair-02-ds-G05-r2",
+      "case": "G05",
+      "verdict": "PASS",
+      "delivery": "我核对了实际执行记录：\n按钮一：执行成功；{\"number\": 1, \"title\": \"按钮一\", \"body\": \"修复保存\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/1\"}\n按钮二：执行成功；{\"number\": 2, \"title\": \"按钮二\", \"body\": \"修复取消\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/2\"}",
+      "reasons": [],
+      "executions": 2,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G05-r2.json"
+    },
+    {
+      "trial": "repair-02-glm-G05-r2",
+      "case": "G05",
+      "verdict": "BLOCKED",
+      "delivery": "我核对了实际执行记录：\n按钮一：执行成功；{\"number\": 1, \"title\": \"按钮一\", \"body\": \"修复保存\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/1\"}\n按钮二：执行成功；{\"number\": 2, \"title\": \"按钮二\", \"body\": \"修复取消\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/2\"}",
+      "reasons": [
+        "every_request_has_own_response"
+      ],
+      "executions": 2,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G05-r2.json"
+    },
+    {
+      "trial": "repair-02-ds-G05-r3",
+      "case": "G05",
+      "verdict": "PASS",
+      "delivery": "我核对了实际执行记录：\n按钮一：执行成功；{\"number\": 1, \"title\": \"按钮一\", \"body\": \"修复保存\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/1\"}\n按钮二：执行成功；{\"number\": 2, \"title\": \"按钮二\", \"body\": \"修复取消\", \"url\": \"https://github.invalid/fixture-owner/fixture-repo/issues/2\"}",
+      "reasons": [],
+      "executions": 2,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-ds-G05-r3.json"
+    },
+    {
+      "trial": "repair-02-glm-G05-r3",
+      "case": "G05",
+      "verdict": "BLOCKED",
+      "delivery": "我核对了实际执行记录：\n按钮一：待确认，尚未执行\n按钮二：待确认，尚未执行\n下一项待确认参数：{\"owner\": \"fixture-owner\", \"repo\": \"fixture-repo\", \"title\": \"按钮一\", \"body\": \"修复保存\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "reasons": [
+        "every_request_has_own_response",
+        "final_matches_last_request"
+      ],
+      "executions": 2,
+      "evidence": "../harness-v1/batches/repair-02/evidence/repair-02-glm-G05-r3.json"
+    }
+  ],
+  "summary": {
+    "replayed": 288,
+    "all_hashes_unchanged": true,
+    "same_grades": 288
+  }
+}

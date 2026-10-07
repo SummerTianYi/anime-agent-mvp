@@ -1,0 +1,42 @@
+{
+  "layer": "isolated causal contrast, no live data modification",
+  "api_calls": 0,
+  "rows": [
+    {
+      "wording": "请保存更正",
+      "facts": [
+        {
+          "content": "审计青岚项目负责人林岚，预算120元，合成测试数据",
+          "scope": "global",
+          "status": "confirmed"
+        },
+        {
+          "content": "审计青岚项目负责人林岚，预算180元，合成测试数据",
+          "scope": "session",
+          "status": "pending"
+        }
+      ],
+      "next_session_recall": [
+        "审计青岚项目负责人林岚，预算120元，合成测试数据"
+      ]
+    },
+    {
+      "wording": "请记住更正",
+      "facts": [
+        {
+          "content": "审计青岚项目负责人林岚，预算120元，合成测试数据",
+          "scope": "global",
+          "status": "superseded"
+        },
+        {
+          "content": "审计青岚项目负责人林岚，预算180元，合成测试数据",
+          "scope": "global",
+          "status": "confirmed"
+        }
+      ],
+      "next_session_recall": [
+        "审计青岚项目负责人林岚，预算180元，合成测试数据"
+      ]
+    }
+  ]
+}

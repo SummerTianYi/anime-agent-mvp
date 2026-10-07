@@ -1,0 +1,259 @@
+{
+  "session_id": 348,
+  "captured_utc": "2026-10-07T11:07:16.057254+00:00",
+  "messages": [
+    {
+      "id": 1261,
+      "role": "user",
+      "content": "天依你好，这是根因审计的独立测试会话。请只回复：你好，我在。不要保存任何记忆，也不要调用工具。",
+      "request_id": "avatar-chat-3402301",
+      "created_at": "2026-10-07 11:02:15",
+      "conversation_id": 348
+    },
+    {
+      "id": 1262,
+      "role": "assistant",
+      "content": "你好，我在。",
+      "request_id": "avatar-chat-3402301",
+      "created_at": "2026-10-07 11:02:21",
+      "conversation_id": 348
+    }
+  ],
+  "events": [
+    {
+      "id": 6466,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-3402301"
+      },
+      "created_at": "2026-10-07 11:02:15"
+    },
+    {
+      "id": 6467,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-3402301",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 11:02:15"
+    },
+    {
+      "id": 6468,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "38a61d2acfce4a8385a7e3b204a24d51",
+        "request_id": "avatar-chat-3402301",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 5890
+      },
+      "created_at": "2026-10-07 11:02:21"
+    },
+    {
+      "id": 6469,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-3402301"
+      },
+      "created_at": "2026-10-07 11:02:21"
+    },
+    {
+      "id": 6470,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-3402301"
+      },
+      "created_at": "2026-10-07 11:02:27"
+    },
+    {
+      "id": 6471,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-2b4711bbd195",
+        "playbackId": "b1f8ce3c48914fe8b3d5860c3e00eef7",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 11:02:28"
+    },
+    {
+      "id": 6472,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-3402301"
+      },
+      "created_at": "2026-10-07 11:02:28"
+    },
+    {
+      "id": 6473,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-2b4711bbd195",
+        "request_id": "avatar-chat-3402301"
+      },
+      "created_at": "2026-10-07 11:02:28"
+    }
+  ],
+  "actions": [],
+  "facts": [],
+  "http_attempts_observed": 1,
+  "wire_calls": {
+    "38a61d2acfce4a8385a7e3b204a24d51": 1
+  },
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [
+    {
+      "id": 152,
+      "type": "assistant",
+      "created_at": "avatar-chat-1735379",
+      "payload_type": "str"
+    },
+    {
+      "id": 153,
+      "type": "user",
+      "created_at": "avatar-chat-33612",
+      "payload_type": "str"
+    },
+    {
+      "id": 154,
+      "type": "user",
+      "created_at": "health-probe-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 155,
+      "type": "assistant",
+      "created_at": "health-probe-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 156,
+      "type": "user",
+      "created_at": "avatar-chat-399857",
+      "payload_type": "str"
+    },
+    {
+      "id": 157,
+      "type": "assistant",
+      "created_at": "avatar-chat-399857",
+      "payload_type": "str"
+    },
+    {
+      "id": 158,
+      "type": "user",
+      "created_at": "long-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 159,
+      "type": "assistant",
+      "created_at": "long-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 160,
+      "type": "user",
+      "created_at": "short-2",
+      "payload_type": "str"
+    },
+    {
+      "id": 161,
+      "type": "assistant",
+      "created_at": "short-2",
+      "payload_type": "str"
+    },
+    {
+      "id": 162,
+      "type": "user",
+      "created_at": "long-3",
+      "payload_type": "str"
+    },
+    {
+      "id": 163,
+      "type": "assistant",
+      "created_at": "long-3",
+      "payload_type": "str"
+    },
+    {
+      "id": 164,
+      "type": "user",
+      "created_at": "long-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 165,
+      "type": "assistant",
+      "created_at": "long-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 166,
+      "type": "user",
+      "created_at": "short-2",
+      "payload_type": "str"
+    },
+    {
+      "id": 167,
+      "type": "assistant",
+      "created_at": "short-2",
+      "payload_type": "str"
+    },
+    {
+      "id": 168,
+      "type": "user",
+      "created_at": "long-3",
+      "payload_type": "str"
+    },
+    {
+      "id": 169,
+      "type": "assistant",
+      "created_at": "long-3",
+      "payload_type": "str"
+    },
+    {
+      "id": 170,
+      "type": "user",
+      "created_at": "key-check-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 171,
+      "type": "assistant",
+      "created_at": "key-check-1",
+      "payload_type": "str"
+    },
+    {
+      "id": 172,
+      "type": "user",
+      "created_at": "avatar-chat-68034",
+      "payload_type": "str"
+    },
+    {
+      "id": 173,
+      "type": "assistant",
+      "created_at": "avatar-chat-68034",
+      "payload_type": "str"
+    },
+    {
+      "id": 463,
+      "type": "user",
+      "created_at": "wake-1789138055075",
+      "payload_type": "str"
+    },
+    {
+      "id": 464,
+      "type": "user",
+      "created_at": "wake-1789138508705",
+      "payload_type": "str"
+    }
+  ]
+}

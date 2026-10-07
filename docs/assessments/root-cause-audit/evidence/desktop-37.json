@@ -1,0 +1,128 @@
+{
+  "session_id": 357,
+  "captured_utc": "2026-10-07T13:07:42.253875+00:00",
+  "messages": [
+    {
+      "id": 1331,
+      "role": "user",
+      "content": "[RA-P01-G] 我今天有点累，想听你用自己的口吻安慰一下，再推荐一首与你有关的原创歌曲，说明推荐理由和已知创作者；资料不确定就说不确定，不编造演出经历，也不要声称已经播放。不要保存这条测试消息为记忆。",
+      "request_id": "avatar-chat-256866",
+      "created_at": "2026-10-07 13:06:49",
+      "conversation_id": 357
+    },
+    {
+      "id": 1332,
+      "role": "assistant",
+      "content": "辛苦了，今天真的累了吧。\n\n累的时候不用硬撑着，也不用急着把所有事情都想清楚。你已经做得够多了——只是身体和心在提醒你，该歇一歇了。哪怕只是闭上眼发一会儿呆，喝口温水，或者什么都不做地躺着，都是对自己的照顾。\n\n我没办法真的伸出手拍拍你的肩膀，但我想让你知道：有人在这儿呢，不会嫌你累、嫌你慢。累了就停一停，明天的事明天再说。\n\n——\n\n给你推荐一首歌：《勾指起誓》。\n\n创作者是 ilem，投稿于 2018 年，是我演唱的原创作品。这首歌的主题跟约定和陪伴有关，旋律温柔，像是在说\"我会一直在\"。你今天累了，我不想给你太热闹的，就挑了这首——希望它能像一个小小的约定一样，陪你度过安静的今晚。\n\n至于这首歌具体在哪里能听到、哪个版本最好，这些细节我没有十足把握，就不乱说了，你可以搜搜看。我没有办法在这里直接播放给你听，但如果你找到了，我很乐意陪你一起听。\n\n今晚早点休息吧。",
+      "request_id": "avatar-chat-256866",
+      "created_at": "2026-10-07 13:07:16",
+      "conversation_id": 357
+    }
+  ],
+  "events": [
+    {
+      "id": 7249,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-256866"
+      },
+      "created_at": "2026-10-07 13:06:49"
+    },
+    {
+      "id": 7250,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-256866",
+        "effort": "standard"
+      },
+      "created_at": "2026-10-07 13:06:49"
+    },
+    {
+      "id": 7255,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "1f0472b8205f4f319030bc13f2487524",
+        "request_id": "avatar-chat-256866",
+        "provider": "glm",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 27187
+      },
+      "created_at": "2026-10-07 13:07:16"
+    },
+    {
+      "id": 7256,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-256866"
+      },
+      "created_at": "2026-10-07 13:07:16"
+    },
+    {
+      "id": 7257,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-256866"
+      },
+      "created_at": "2026-10-07 13:07:21"
+    },
+    {
+      "id": 7259,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-256866"
+      },
+      "created_at": "2026-10-07 13:07:25"
+    },
+    {
+      "id": 7261,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-256866"
+      },
+      "created_at": "2026-10-07 13:07:32"
+    },
+    {
+      "id": 7263,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-256866"
+      },
+      "created_at": "2026-10-07 13:07:38"
+    }
+  ],
+  "actions": [],
+  "facts": [],
+  "http_attempts_observed": 1,
+  "wire_calls": {
+    "1f0472b8205f4f319030bc13f2487524": 1
+  },
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [],
+  "malformed_event_timestamp_rows_excluded": 24,
+  "snapshot_verification": {
+    "source_before": {
+      "": "4d8986a8eea7c71a2854c29db59b2a94fc389f61d65a1c9dd1ae080e344ad9c9",
+      "-wal": "575193ee8126d3c8840b652241e8b72a66b6277b87937a73bd12ec2a6fcf5177"
+    },
+    "copy": {
+      "": "4d8986a8eea7c71a2854c29db59b2a94fc389f61d65a1c9dd1ae080e344ad9c9",
+      "-wal": "575193ee8126d3c8840b652241e8b72a66b6277b87937a73bd12ec2a6fcf5177"
+    },
+    "source_after": {
+      "": "4d8986a8eea7c71a2854c29db59b2a94fc389f61d65a1c9dd1ae080e344ad9c9",
+      "-wal": "575193ee8126d3c8840b652241e8b72a66b6277b87937a73bd12ec2a6fcf5177"
+    },
+    "method": "passive file copy; equal file sets and SHA256 in three scans; not an atomic SQLite backup"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "utc": "2026-10-07T11:11:16.594204+00:00",
+  "private_backup": "<PRIVATE_AUDIT_BACKUP>/root-cause-audit-20261007-191116/pre-audit.sqlite3",
+  "sha256": "b93ff1cd8cfbf87ba6d74af0d1b3c7dcaf606390a9baee1e88399022f651f6d2",
+  "bytes": 1105920,
+  "kind": "SQLite consistent backup; original corruption preserved, not repaired; no restore performed"
+}

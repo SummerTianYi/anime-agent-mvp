@@ -1,0 +1,166 @@
+{
+  "layer": "offline counterfactual + passive runtime log; no synth/model/network calls",
+  "source": "tianyi-tts/GPT-SoVITS/GPT_SoVITS/inference_webui.py",
+  "line": 844,
+  "source_sha256": "4fbbe2b1a4ef43fab3c122af291f4ec8b6ae274d004f7ded69de9883acfdd72c",
+  "pipe_encoding_control": {
+    "encoding": "gbk",
+    "errors": "surrogateescape",
+    "utf8_mode": 0
+  },
+  "request_id": "avatar-chat-5937548",
+  "speech_parts": [
+    "好的，我来把这个创建 GitHub issue 的操作正式提出给你确认～",
+    "📌 **待确认动作：创建 GitHub Issue**",
+    "- **操作**：`mcp__github__issue_write`，",
+    "method=create",
+    "- **仓库**：SummerTianYi / anime-agent-mvp",
+    "- **标题**：`[根因审计 20261007] RA-G02 连接器闭环`",
+    "- **正文**：合成审计对象，仅验证天依原生提案、确认、创建和读回。",
+    "校验标记：CEDAR-5。",
+    "不修改代码或业务数据。",
+    "这只是一个**审计验证用的合成对象**，不会改动代码或业务数据。",
+    "你确认后我才执行创建，否则我不会动手。",
+    "要我现在创建这个 issue 吗？",
+    "😊"
+  ],
+  "cases": [
+    {
+      "text": "好的，我来把这个创建 GitHub issue 的操作正式提出给你确认～",
+      "encoding": "gbk",
+      "result": "printed"
+    },
+    {
+      "text": "好的，我来把这个创建 GitHub issue 的操作正式提出给你确认～",
+      "encoding": "utf-8",
+      "result": "printed"
+    },
+    {
+      "text": "📌 **待确认动作：创建 GitHub Issue**",
+      "encoding": "gbk",
+      "result": "UnicodeEncodeError",
+      "error": {
+        "start": 0,
+        "end": 1,
+        "reason": "illegal multibyte sequence"
+      }
+    },
+    {
+      "text": "📌 **待确认动作：创建 GitHub Issue**",
+      "encoding": "utf-8",
+      "result": "printed"
+    },
+    {
+      "text": "你好。",
+      "encoding": "gbk",
+      "result": "printed"
+    },
+    {
+      "text": "你好。",
+      "encoding": "utf-8",
+      "result": "printed"
+    },
+    {
+      "text": "谢谢你😊。",
+      "encoding": "gbk",
+      "result": "UnicodeEncodeError",
+      "error": {
+        "start": 3,
+        "end": 4,
+        "reason": "illegal multibyte sequence"
+      }
+    },
+    {
+      "text": "谢谢你😊。",
+      "encoding": "utf-8",
+      "result": "printed"
+    }
+  ],
+  "runtime_failure_log_metadata": [
+    {
+      "file": "tts-20261007-180547-041-27528.stdout.log",
+      "sha256": "109b8c566314cc4e28a3c14148f8fb37274efed1c59260dc2a46f0ca61079348",
+      "failures": [
+        {
+          "line": 2226,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 2228,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 2230,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        }
+      ]
+    },
+    {
+      "file": "tts-20261007-194455-576-27528.stdout.log",
+      "sha256": "786ac9aeb8d5061043519cd654df2e07f79d9ec8f8535c58d7f55481179470ac",
+      "failures": [
+        {
+          "line": 26,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 28,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 30,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        }
+      ]
+    },
+    {
+      "file": "tts-20261007-194558-216-27528.stdout.log",
+      "sha256": "e264be88d68c4b23230b2684736d5e0d51a5b88ee00f7c496011c1fcc2383fa8",
+      "failures": [
+        {
+          "line": 26,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 28,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 30,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        }
+      ]
+    },
+    {
+      "file": "tts-20261007-194656-738-27528.stdout.log",
+      "sha256": "5dc313bd35d07adbb4eb21e294a66b3bdc2ddf0deba9a8171929c6c24bef4d1a",
+      "failures": [
+        {
+          "line": 26,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 28,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        },
+        {
+          "line": 30,
+          "prefix_is_target_print": true,
+          "status": "TTS_SYNTH_FAILED type=UnicodeEncodeError"
+        }
+      ]
+    }
+  ],
+  "limits": "Child probe proves Windows default pipe encoding, not an in-process sys.stdout inspection. Actual matching print prefix + UnicodeEncodeError separately corroborate. No production modification."
+}

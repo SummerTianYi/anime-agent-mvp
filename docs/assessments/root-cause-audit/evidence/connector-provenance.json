@@ -1,0 +1,44 @@
+{
+  "utc": "2026-10-07T11:40:00.114451+00:00",
+  "gmail_version": "1.1.11",
+  "source": {
+    "type": "git",
+    "url": "git+https://github.com/gongrzhe/server-gmail-autoauth-mcp.git"
+  },
+  "manifest": {
+    "gmail dist/index.js": {
+      "sha256": "b3bdcf99498b9b28881c70f95f53944b56cdb306e38ec0ea57e47c502ec1d4d2",
+      "bytes": 51795
+    },
+    "gmail launcher": {
+      "sha256": "e29a2753f38325c2341d4784e555d070c73afabe3bdeebb1fbaaa997ce185296",
+      "bytes": 212
+    },
+    "drive index.mjs": {
+      "sha256": "16bee5cbec5f9c8ed5c649b56e8b4148c0194a1b0e3a15bff49e8cd7ef90369e",
+      "bytes": 6891
+    },
+    "drive oauth.mjs": {
+      "sha256": "cfcf9000f6c639845efb23ff0ed0c2fafc291a2c1a7e357403bf053b106a28c9",
+      "bytes": 749
+    },
+    "GitHub MCP binary": {
+      "sha256": "75b7982916f802e25860e2a8988cecfb29d70e76a59d722e0ac0d306a4cbda30",
+      "bytes": 26078720
+    }
+  },
+  "private_backup": "<PRODUCTION>/runs/private-audit-preservation/gmail-before-auth-20261007-194000",
+  "backed_up": true,
+  "source_modified": false,
+  "gmail_error_contract": {
+    "line": 1000,
+    "behavior": "catch returns content:[{type:text,text:Error...}] without isError"
+  },
+  "gmail_auth": {
+    "mode": "auth",
+    "callback_port": 3000,
+    "writes": "only credentials.json, not gdrive-credentials.json",
+    "reload": "server loads credential once at startup; current child needs lifecycle restart"
+  },
+  "drive_contract": "only search tool; resources/read handler exists but Core has no exposed caller"
+}

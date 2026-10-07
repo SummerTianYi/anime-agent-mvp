@@ -1,0 +1,3075 @@
+{
+  "layer": "derived from passive desktop captures; no model requests",
+  "method": "union call_id; max attempt; never sum cumulative snapshots",
+  "hard_limit": 180,
+  "observed_http_attempts": 54,
+  "by_provider": {
+    "deepseek": 49,
+    "glm": 5
+  },
+  "distinct_http_calls": 54,
+  "unique_user_requests": 38,
+  "request_ids": [
+    "avatar-chat-1089947",
+    "avatar-chat-1147549",
+    "avatar-chat-1210768",
+    "avatar-chat-1256865",
+    "avatar-chat-1344344",
+    "avatar-chat-1406874",
+    "avatar-chat-1575775",
+    "avatar-chat-164945",
+    "avatar-chat-169542",
+    "avatar-chat-1718063",
+    "avatar-chat-1783867",
+    "avatar-chat-2058221",
+    "avatar-chat-2540054",
+    "avatar-chat-256866",
+    "avatar-chat-2591173",
+    "avatar-chat-270488",
+    "avatar-chat-2940897",
+    "avatar-chat-3402301",
+    "avatar-chat-361125",
+    "avatar-chat-4130840",
+    "avatar-chat-4390217",
+    "avatar-chat-4661864",
+    "avatar-chat-5100444",
+    "avatar-chat-5166904",
+    "avatar-chat-5263188",
+    "avatar-chat-5461657",
+    "avatar-chat-553152",
+    "avatar-chat-5742528",
+    "avatar-chat-5937548",
+    "avatar-chat-628811",
+    "avatar-chat-6305995",
+    "avatar-chat-6430941",
+    "avatar-chat-6575446",
+    "avatar-chat-6768548",
+    "avatar-chat-690447",
+    "avatar-chat-700502",
+    "avatar-chat-777916",
+    "avatar-chat-782124"
+  ],
+  "sessions_latest_evidence": {
+    "348": "desktop-05.json",
+    "349": "desktop-09.json",
+    "350": "desktop-15.json",
+    "351": "desktop-22.json",
+    "352": "desktop-27.json",
+    "353": "desktop-29.json",
+    "354": "desktop-33.json",
+    "355": "desktop-35.json",
+    "356": "desktop-36.json",
+    "357": "desktop-37.json",
+    "358": "desktop-43.json",
+    "359": "desktop-42.json"
+  },
+  "calls": [
+    {
+      "call_id": "38a61d2acfce4a8385a7e3b204a24d51",
+      "request_id": "avatar-chat-3402301",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 5890,
+      "session_id": 348,
+      "evidence": "desktop-05.json"
+    },
+    {
+      "call_id": "c57bebc478d843bd8f33e37a8b1db475",
+      "request_id": "avatar-chat-4130840",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7218,
+      "session_id": 348,
+      "evidence": "desktop-05.json"
+    },
+    {
+      "call_id": "59846088ea69437d8d233ea4ef32f0d3",
+      "request_id": "avatar-chat-4130840",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7703,
+      "session_id": 348,
+      "evidence": "desktop-05.json"
+    },
+    {
+      "call_id": "5df323fc2a9546268de95c4920fcdc7d",
+      "request_id": "avatar-chat-4390217",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7484,
+      "session_id": 348,
+      "evidence": "desktop-05.json"
+    },
+    {
+      "call_id": "9c2850ccad2b486cae906018b5a49556",
+      "request_id": "avatar-chat-4661864",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7297,
+      "session_id": 348,
+      "evidence": "desktop-05.json"
+    },
+    {
+      "call_id": "ceeebf54b10042b184527c935133f3a5",
+      "request_id": "avatar-chat-4661864",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6828,
+      "session_id": 348,
+      "evidence": "desktop-05.json"
+    },
+    {
+      "call_id": "79f04f6e12ba4718beda7f72206418cf",
+      "request_id": "avatar-chat-5100444",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6391,
+      "session_id": 349,
+      "evidence": "desktop-09.json"
+    },
+    {
+      "call_id": "048e928f31d240c48ecf8ff47217ce24",
+      "request_id": "avatar-chat-5100444",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 2062,
+      "session_id": 349,
+      "evidence": "desktop-09.json"
+    },
+    {
+      "call_id": "bbeac052443045c1abaf38306a74627d",
+      "request_id": "avatar-chat-5166904",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7375,
+      "session_id": 349,
+      "evidence": "desktop-09.json"
+    },
+    {
+      "call_id": "939842d06b4f4edaab1f32e0bebc28ff",
+      "request_id": "avatar-chat-5263188",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6782,
+      "session_id": 349,
+      "evidence": "desktop-09.json"
+    },
+    {
+      "call_id": "d25a31c636e544038de4efa9c899e113",
+      "request_id": "avatar-chat-5263188",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 2750,
+      "session_id": 349,
+      "evidence": "desktop-09.json"
+    },
+    {
+      "call_id": "ecaa4e2e3a6c4b0c88c1738de5d340b1",
+      "request_id": "avatar-chat-5461657",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6594,
+      "session_id": 349,
+      "evidence": "desktop-09.json"
+    },
+    {
+      "call_id": "d9d6ee1a2a534d118e380327f61d501a",
+      "request_id": "avatar-chat-5742528",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7609,
+      "session_id": 349,
+      "evidence": "desktop-09.json"
+    },
+    {
+      "call_id": "5429ae326c0b469a948735569f05cea6",
+      "request_id": "avatar-chat-5937548",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 8437,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "1de01ce3c8e342d393c894f9300c9bc2",
+      "request_id": "avatar-chat-6305995",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 2469,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "54e75a75084f439a8f1ff66fdcd47dea",
+      "request_id": "avatar-chat-6305995",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 2328,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "88ee91f2e3ae4c92b8f4c87ef694f6dd",
+      "request_id": "avatar-chat-6430941",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6515,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "f97f2d2d35ac4805a98ac40ab5e6f958",
+      "request_id": "avatar-chat-6575446",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6625,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "1860ebb3ae87404282be67ab89a23e2d",
+      "request_id": "avatar-chat-6575446",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 1921,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "dbcc31a4c0114116a4fb403065de2364",
+      "request_id": "avatar-chat-6768548",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6953,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "3387fcb2e63c4a40b00d5c597805769a",
+      "request_id": "avatar-chat-6768548",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 9265,
+      "session_id": 350,
+      "evidence": "desktop-15.json"
+    },
+    {
+      "call_id": "6c4b4e270250443c92266d7067f17a98",
+      "request_id": "avatar-chat-169542",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6469,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "12751449314845b699272f067087f9d7",
+      "request_id": "avatar-chat-169542",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 25750,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "18c82ea0d45b46d5afaaec22f1fee8a2",
+      "request_id": "avatar-chat-270488",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6578,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "f6e088eabf7b44b293f4f6ffac00b44e",
+      "request_id": "avatar-chat-270488",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7156,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "cdcf5630d35444b6bfadd0eb241092e7",
+      "request_id": "avatar-chat-361125",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7407,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "626159b526c04f899c7b9594d6f77b1f",
+      "request_id": "avatar-chat-553152",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 3093,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "300709488ff74bfa8baf4f48f1ce292d",
+      "request_id": "avatar-chat-628811",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 22469,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "49451496c37744d8a2fa6951171635bf",
+      "request_id": "avatar-chat-700502",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 3329,
+      "session_id": 351,
+      "evidence": "desktop-22.json"
+    },
+    {
+      "call_id": "df3b1547f9dd41cabd1012db603988d2",
+      "request_id": "avatar-chat-782124",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 8719,
+      "session_id": 352,
+      "evidence": "desktop-27.json"
+    },
+    {
+      "call_id": "3fa3d8227cb146889648c588042dee80",
+      "request_id": "avatar-chat-1089947",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 2062,
+      "session_id": 352,
+      "evidence": "desktop-27.json"
+    },
+    {
+      "call_id": "5e66cb71aa5640caa71f7be9606d7087",
+      "request_id": "avatar-chat-1089947",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 1437,
+      "session_id": 352,
+      "evidence": "desktop-27.json"
+    },
+    {
+      "call_id": "148c77bfc1574f1190efebce5e60f051",
+      "request_id": "avatar-chat-1147549",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7813,
+      "session_id": 352,
+      "evidence": "desktop-27.json"
+    },
+    {
+      "call_id": "cb5c40c513794f17b98895e5ff03c708",
+      "request_id": "avatar-chat-1210768",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6688,
+      "session_id": 352,
+      "evidence": "desktop-27.json"
+    },
+    {
+      "call_id": "f89fa60a44dc479780fa2d8c868acbe1",
+      "request_id": "avatar-chat-1210768",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 1938,
+      "session_id": 352,
+      "evidence": "desktop-27.json"
+    },
+    {
+      "call_id": "8dfff2ed3abc4ddebd9feea3c165ddef",
+      "request_id": "avatar-chat-1256865",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 8000,
+      "session_id": 352,
+      "evidence": "desktop-27.json"
+    },
+    {
+      "call_id": "57c419af3ce845f4891d6c86afe07ec9",
+      "request_id": "avatar-chat-1344344",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 8906,
+      "session_id": 353,
+      "evidence": "desktop-29.json"
+    },
+    {
+      "call_id": "31db485281f942378ce028c535c9be4d",
+      "request_id": "avatar-chat-1406874",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6079,
+      "session_id": 353,
+      "evidence": "desktop-29.json"
+    },
+    {
+      "call_id": "b5dafc3469ef4049b201f3a1b457e9d2",
+      "request_id": "avatar-chat-1575775",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6172,
+      "session_id": 354,
+      "evidence": "desktop-33.json"
+    },
+    {
+      "call_id": "14d0eee5a76a4217b14fc86fe5d56387",
+      "request_id": "avatar-chat-1575775",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6093,
+      "session_id": 354,
+      "evidence": "desktop-33.json"
+    },
+    {
+      "call_id": "c76fe014a5a04a8cb0f73c39a0ab2809",
+      "request_id": "avatar-chat-1718063",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7516,
+      "session_id": 354,
+      "evidence": "desktop-33.json"
+    },
+    {
+      "call_id": "59587849aae841e79f768da98a87ba81",
+      "request_id": "avatar-chat-1783867",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 9078,
+      "session_id": 354,
+      "evidence": "desktop-33.json"
+    },
+    {
+      "call_id": "ec353462d0654535b3738f2ee019de53",
+      "request_id": "avatar-chat-2058221",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6875,
+      "session_id": 354,
+      "evidence": "desktop-33.json"
+    },
+    {
+      "call_id": "5e0924be98ba4142931d9ca961ac5b6f",
+      "request_id": "avatar-chat-2540054",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 7313,
+      "session_id": 355,
+      "evidence": "desktop-35.json"
+    },
+    {
+      "call_id": "1fbb1ded7c7a4b65af26d4527227b827",
+      "request_id": "avatar-chat-2540054",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 1844,
+      "session_id": 355,
+      "evidence": "desktop-35.json"
+    },
+    {
+      "call_id": "8db4207251c94ecf8e1d587f7e4ac987",
+      "request_id": "avatar-chat-2591173",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6547,
+      "session_id": 355,
+      "evidence": "desktop-35.json"
+    },
+    {
+      "call_id": "f6dd6b6ec2cf4fc39b3dbda772df58b8",
+      "request_id": "avatar-chat-2591173",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 8093,
+      "session_id": 355,
+      "evidence": "desktop-35.json"
+    },
+    {
+      "call_id": "4ce05d6853044b71a5d0f3463a94515a",
+      "request_id": "avatar-chat-2940897",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 9515,
+      "session_id": 356,
+      "evidence": "desktop-36.json"
+    },
+    {
+      "call_id": "1f0472b8205f4f319030bc13f2487524",
+      "request_id": "avatar-chat-256866",
+      "provider": "glm",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 27187,
+      "session_id": 357,
+      "evidence": "desktop-37.json"
+    },
+    {
+      "call_id": "c7ea637d54f8486a8bc6257035eb0aef",
+      "request_id": "avatar-chat-690447",
+      "provider": "glm",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 8656,
+      "session_id": 358,
+      "evidence": "desktop-43.json"
+    },
+    {
+      "call_id": "e76fb0d5ee50416c9f73c118fcff78a9",
+      "request_id": "avatar-chat-690447",
+      "provider": "glm",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 28515,
+      "session_id": 358,
+      "evidence": "desktop-43.json"
+    },
+    {
+      "call_id": "ef5a1de703b5408db159ac768699abe4",
+      "request_id": "avatar-chat-690447",
+      "provider": "glm",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 21453,
+      "session_id": 358,
+      "evidence": "desktop-43.json"
+    },
+    {
+      "call_id": "e9a0c59325c040088a7afb56f11125c2",
+      "request_id": "avatar-chat-777916",
+      "provider": "glm",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 18547,
+      "session_id": 358,
+      "evidence": "desktop-43.json"
+    },
+    {
+      "call_id": "86584d34b5014fc1a26e63f849ee257f",
+      "request_id": "avatar-chat-164945",
+      "provider": "deepseek",
+      "host": "chatapi.weixin.qq.com",
+      "route": "direct",
+      "attempt": 1,
+      "outcome": "ok",
+      "elapsed_ms": 6297,
+      "session_id": 359,
+      "evidence": "desktop-42.json"
+    }
+  ],
+  "actions_latest": [
+    {
+      "action_id": "a1609bfaf9f24af99f90aa5086b1a8fd",
+      "args_hash": "62b2c60ab714157d168f0fb8832d7406cf6d1dd70b334a3c7300445408fad45a",
+      "arguments": {
+        "owner": "SummerTianYi",
+        "path": "README.md",
+        "repo": "anime-agent-mvp"
+      },
+      "confirmation_request_id": "avatar-chat-5166904",
+      "execution_id": "235142cc3d0c446e8c9253ec9a9b3a27",
+      "expires": 1791373239.9380102,
+      "receipt": {
+        "ok": true,
+        "output": "successfully downloaded text file (SHA: 944a6a28a03e71a83d84f6ab9bad34be0489f47d)\n{\"uri\": \"repo://SummerTianYi/anime-agent-mvp/sha/d3ed6d68f2509ad51bea15cf8224c5f3a165d957/contents/README.md\", \"mimeType\": \"text/plain; charset=utf-8\", \"text\": \"# Anime Agent MVP\\n\\nCodex 2026-10-04：配套[非Agent系统综合评估与DS诊断](docs/NON_AGENT_SYSTEM_ASSESSMENT_2026-10-04_CODEX.md)已补齐模型/表情、动作/物理、语音、UI、启停、数据与分发状态。外观默认1.4、五版档案及现用声线校验通过；通用防穿模与跨机等效运行仍未完成。本次DS四次独立请求成功，所有者确认原窗口已能回复；未改配置或运行实现，截图发生时的精确传输原因仍待定位，不能称彻底修复。\\n\\nCodex 2026-10-04：新增[Agent能力全景评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md)（56个真实模型场景、84轮对话、36项定向探针；原Core273项回归通过）。当前定位是受监督的短任务/陪伴型Agent，不是可靠的无人值守代办系统；授权误判、执行回执、工具正文传递、记忆召回及部分MCP连接器有待修问题。此次仅评测与报告，不是运行功能修复；下方旧考试成绩保留为历史证据。\\n\\n**项目文档提交入口：[PRD — 已实现功能、目录及关键文件用途](PRD.md)**。本仓库保存可公开源码；受限模型/声线资源、私人凭据及内部过程数据不随项目文档上传，详见 [交付范围](docs/DELIVERY_STATUS.md)。\\n\\n这是一个 Windows 本地优先的 3D 二次元桌面角色 MVP，产品形态是类似 VTuber 的独立桌面角色，而不是 Codex、Claude 或传统聊天窗口的复制品。当前角色由 Godot 渲染，点击角色可打开\\\"聊天 / 互动\\\"菜单，文字或语音输入由本地 Python Agent Core 处理。本机最新验证配置为微信 Coding Plan DS-v4-flash 文本主脑 + Qwen3.8-Flash 视觉（Token Plan Anthropic 协议）；回复中的情绪和动作元数据驱动模型表情与骨骼动作。Codex、Claude、zcode 等 Agent 只用于开发，不是生产运行时依赖。\\n\\n## 当前结论\\n\\nCodex 2026-10-04：五仓分工及实装依赖已核对，**本仓是产品主仓，私有 TTS 仓是直接运行配套**；Workbench 已验收能力已并入本仓，Roadmap 是历史规划证据，Cloth Physics 是未实装实验。按所有者选择保留分仓，补齐现用声线备份；官模/动作继续只留本地。完整责任表、发现的 e5/e20 备份缺口与恢复范围见 [仓库与运行依赖地图](docs/REPOSITORY_MAP.md)。本轮不改变正在运行的天依。\\n\\nCodex 2026-10-03：公共语音链路新增分片播放回执、去重补送、坏音频重合成及成功后提醒冷却；告别音频脱离临时spool，并提前加载到Godot内存。Core273项、Godot播放/退出回归、合成音频与真实CUDA声线的四场景闭环及组合进程故障通过；已由原CMD重启激活，所有者确认“倾听和语音回复都正常”并授权GitHub发布。主仓与配套 [anime-agent-tts](https://github.com/SummerTianYi/anime-agent-tts) 均以Codex标记提交，实际同步以远端提交记录为准。状态及边界见[TTS记录](docs/TTS_REPAIR_STATUS.md)。未来场景沿用公共播报入口，不各自重建TTS看护；下方较早日期的未发布/待人声验收描述保留为历史。\\n\\nCodex 2026-10-02：本地最新接口配置为 DS 文本主脑 + Qwen3.8-Flash 视觉，均已实测联通。STT/TTS 缓存离线加载、待播语音恢复和启动快照竞态修复已通过回归、真实 CUDA 播放双轮及组合故障验证；按所有者选择恢复当前可证实历史并以原 CMD 正式启动。23:49 核对 Godot/Core/TTS、CUDA 声线就绪及麦克风唤醒监听正常；真实人声交互等待所有者确认。本轮未 commit/push。正式状态与边界以 [本轮 TTS 记录](docs/TTS_REPAIR_STATUS.md) 为准；下方 9 月记录为历史证据。\\n\\nCodex 2026-09-13 三方整合：保持 zcode 的 DS 主脑 + StepFun 视觉与已批准人物/声线，补齐告别共同完成、Drive OAuth 刷新、Windows MCP 路径引号、窄范围唤醒误听确认及 TTS 正健康缓存修复与回归。Core 当前238项基线。公开说明见[当前源码交付](docs/DELIVERY_STATUS.md)，私人原始验收记录不入库；不是任意电脑完全等效的发布声明。\\n\\nCodex 2026-09-13：TTS会话恢复已实装并经所有者验证，获准配套推送主仓与独立语音仓。原CMD等待真实预热、运行期双看护恢复、退出清理及短负缓存生效；274项离线回归两轮、复合故障/快速重开及两轮真实声线播放通过。[交付证据与边界](docs/TTS_REPAIR_STATUS.md)。本次不重启健康窗口、不操作正式数据，亦不承诺故障恢复零间隙。\\n\\nCodex 2026-09-12：已接入退出专用告别第一版。正常关Godot（或原Esc退出入口）先播放已批准的4.1秒挥手、轻摇头及闭眼微笑，再退出并由原守护清理Core；重复关闭不重播，缺资源或动画停滞可降级退出。此轮未操作当前运行窗口，新代码在下次启动加载。[实装、隔离测试、恢复与限制](docs/FAREWELL_EXIT.md)。\\n\\nCodex 2026-09-12：已确认的思考动作第一版接入正式菜单「思考」及 agent thinking 状态；每轮完整播放一次9.5秒后回待机，身体74轨与两条完整辫子34轨使用同一烘焙动画，不运行实时求解器，也不延迟文字/语音回复。模型仍为1.4；本地资产SHA、恢复方法、测试与下一批录制说明见 [思考动作交付](apps/avatar-runtime/mocap/thinking/README.md)。\\n\\nCodex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已接入运行时，沿用模型外观1.4，不改官模结构或材质。实现为 `emotion_presets.gd`，公开功能与限制见 [PRD](PRD.md#3-godot-角色与动画文件)；私人渲染及回退二进制档案留在本地。\\n\\n| 范围 | 状态 | 说明 |\\n|---|---|---|\\n| 3D 桌面角色 | 已完成基础闭环 | 默认使用当前屏幕工作区大小的透明穿透画布；角色在固定光轴的 2× SubViewport 中渲染，再作为二维透明层拖动，避免离轴\\\"压扁\\\"和旧 560×760 窗口裁切；支持转身、缩放、位置保存与 `compact` 回退模式 |\\n| 高清截图 | 已接入（Codex，2026-09-08） | 聚焦角色且不在聊天输入框时按 F12，默认导出 2880×3480 透明 PNG 到 Godot 用户目录 `portraits`；不改变日常比例，不含连续录像，见 [`docs/plans/MODEL_OPTIMIZATION.md`](docs/plans/MODEL_OPTIMIZATION.md) |\\n| 当前外观与下一阶段 | 正式 1.4 五官 A2 + 保守 A-pose（Codex，2026-09-10） | 已验收实装，公开源码与版本清单在本仓库，受限资产独立本地冻结。`ANIME_AGENT_MODEL_LOOK=1.3` 回退旧外观；[档案、证据与完整恢复](model-versions/1.4/README.md)。下一阶段仍为小幅、少接触动捕。 |\\n| 倾听动作第一版 | 已验收冻结（Codex，2026-09-09；内部资产 FK v2） | 平顺抬臂、前倾增加4°、右手收近，肘腕与录音进退不变；新增无损动画 PNG 避免 GIF 瞳色失真。旧资产及官模 1.3 保留。[验收、复现与回退](apps/avatar-runtime/mocap/README.md)。不宣称通用无穿模。 |\\n| 角色菜单 | 已完成 | 点击角色打开聊天或互动菜单 |\\n| 退出告别 | 已接入；整合修复本地验证通过（Codex，2026-09-13） | 正常等待批准动作与本次告别语音共同结束，8秒异常兜底；资源SHA不变，详见[整合说明](docs/DELIVERY_STATUS.md) |\\n| 聊天界面 | 已完成并真实验证 | 底部半透明浮层，洛天依主题、气泡可滚动，支持新开/切换/删除会话与历史回载 |\\n| 文字聊天 | 已完成并真实验证 | 多会话；Godot → WebSocket → Core → 当前 DS 主脑 → Godot；本机最新 Qwen 配置提供独立视觉结果，隐私确认门禁保留 |\\n| 角色 Harness | 已完成两轮 | 洛天依身份、自我认知、结构化回复、表情与动作映射；2026-09-05 注入训练版新剧本（旧剧本保留可回退） |\\n| 歌曲知识 | 已完成种子库 | 20 首原创曲，本地检索后按需注入，不包含翻唱和歌词 |\\n| 表情与动作 | 已完成动作注册表；保守待机（Codex，2026-09-08） | 48 个形变槽；12.47 秒动捕保留躯干摇晃/转头，待机双臂恢复原先斜下外展姿态；贴腿原素材不覆盖，可关闭 `relaxed_arms` 回溯。通用防穿模未解决，第一阶段只逐条验收小幅动作，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |\\n| 本地记忆 | 基础存储/更正/跨会话可用；完整闭环待补 | SQLite消息与facts；当前评测发现top3召回遗漏、敏感项显式记住策略及遗忘执行入口缺口，见[2026-10-04评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md) |\\n| 语音转文字 | 管线可用，假死自愈已上线 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |\\n| TTS 语音输出 | 本轮恢复修复已本地激活 | GPT-SoVITS 真实声线、分片合成、打断及解说；瞬态故障有限等待恢复，旧回复被打断后不迟到播放，超时明确报错并保留文字 |\\n| Agent 能力层 | 已实现工具与权限框架；当前可靠性有阻断项 | 正向短任务有实证，但拒绝误批、多个待办覆盖、失败回执失真等尚未修复；当前判断见[全景评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md)，[旧考试记录](docs/TEST_REPORT_2026-09-06.md)不替代当前验收 |\\n| 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |\\n| Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |\\n| Idle 触发 | 已完成 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |\\n| 前端 UI 升级 | 已立项（方案阶段） | 当前聊天浮层与能力不匹配；方案见 [`docs/plans/UI_UPGRADE.md`](docs/plans/UI_UPGRADE.md)，为下一主战场 |\\n\\n## 零上下文接手\\n\\n新 Agent 不应根据旧聊天记录猜测项目状态。**先读 [`docs/HANDOFF.md`](docs/HANDOFF.md)（接手总纲）与 [`docs/AGENT_REPORT_2026-09-07.md`](docs/AGENT_REPORT_2026-09-07.md)（能力/训练全景快照）**，再读 [`AGENTS.md`](AGENTS.md) 与 [`docs/CONTRIBUTIONS.md`](docs/CONTRIBUTIONS.md)（归属声明），然后按任务查阅 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、[`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)、[`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md)、[`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md)、[`docs/plans/README.md`](docs/plans/README.md)（项目长远方案手册：所有 agent 的模型、动捕/物理、Agent/记忆、UI、声线与跨仓规划统一入口；旧方案只作历史档案）、[`model-versions/README.md`](model-versions/README.md)、[`docs/TESTING.md`](docs/TESTING.md)、[`docs/VERIFICATION_SPEC.md`](docs/VERIFICATION_SPEC.md) 与 [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)。当前机器的受限模型、工具和兄弟工作区位置集中记录在 [`docs/LOCAL_MACHINE.md`](docs/LOCAL_MACHINE.md)，其中不包含密钥、Cookie 或用户对话。\\n\\n## 一键启动\\n\\n首次准备请复制 `.env.example` 为 `.env` 并填写所选 Provider 的 Key，然后在仓库根目录双击 `start-anime-agent.cmd`，或执行 `powershell -NoProfile -ExecutionPolicy Bypass -File .\\\\scripts\\\\start-mvp.ps1`。启动器不依赖 pnpm，但依赖已安装的 `services/agent-core/.venv`、Godot 4.7.2 和本地模型 `apps/avatar-runtime/assets/luotianyi_v4.glb`；完整安装和验证命令见 [`docs/LOCAL_DEV.md`](docs/LOCAL_DEV.md)。\\n\\n## 技术栈\\n\\n| 层 | 技术 |\\n|---|---|\\n| Avatar Runtime | Godot 4.7.2 + GDScript + GLB |\\n| Agent Core | Python 3.12 + FastAPI + Uvicorn + WebSocket |\\n| LLM | GLM 5.3 Flash Coding API；DeepSeek 可切换；Mock 可离线调试 |\\n| Harness | 角色系统提示词 + JSON 输出契约 + 本地原创曲检索 + 记忆注入 |\\n| Agent 能力 | 工具循环 + allow/ask/deny 权限引擎 + MCP stdio 宿主 + 主动触发 |\\n| Voice | sounddevice + faster-whisper（STT）；GPT-SoVITS sidecar（TTS） |\\n| Persistence | SQLite WAL，默认 `%LOCALAPPDATA%\\\\AnimeAgent\\\\data` |\\n| Optional Desktop Shell | Tauri 2 + React 19 + TypeScript 5.9 + Vite 7 |\\n| Model Pipeline | Blender 5.2.1 LTS + MMD Tools 4.5.13 + VRM 4.5.0 |\\n\\n## 仓库边界\\n\\n`.env`、API Key、SQLite、日志、用户记忆、模型、纹理、PMX/VRM/Blend、中间渲染、依赖目录和下载凭据均不得进入 Git。洛天依运行模型因文件大小和再分发授权边界只保存在本地；仓库提供确定的路径、哈希、处理脚本和检查方法，使同一开发机上的其他 Agent 能直接继续，同时避免把受限资产写入公开历史。\\n\", \"binary_omitted\": false}"
+      },
+      "request_id": "avatar-chat-5100444",
+      "revision": 1,
+      "session_id": 349,
+      "status": "succeeded",
+      "task_id": "avatar-chat-5100444",
+      "tool": "mcp__github__get_file_contents"
+    },
+    {
+      "action_id": "8989844aef9b4e4c9bf8943df8a077cb",
+      "args_hash": "3e0566fc5c9a1850b88671f45a3b7e96a5faedbb075039042677a1d7235c9750",
+      "arguments": {
+        "maxResults": 5,
+        "query": "subject:\"[天依根因审计 20261007]\" newer_than:1d"
+      },
+      "confirmation_request_id": "avatar-chat-5461657",
+      "execution_id": "fda231ceb77d489eb0d0a36657d1dc73",
+      "expires": 1791373403.071026,
+      "receipt": {
+        "ok": true,
+        "output": "Error: invalid_grant"
+      },
+      "request_id": "avatar-chat-5263188",
+      "revision": 1,
+      "session_id": 349,
+      "status": "succeeded",
+      "task_id": "avatar-chat-5263188",
+      "tool": "mcp__gmail__search_emails"
+    },
+    {
+      "action_id": "30dba322748a4c65b9bfe437810d54bb",
+      "args_hash": "b9237e46256a508ec4476b3d6da142e04083dea1f7055037ec141131347dc7b2",
+      "arguments": {
+        "body": "合成审计对象，仅验证天依原生提案、确认、创建和读回。校验标记：CEDAR-5。不修改代码或业务数据。",
+        "method": "create",
+        "owner": "SummerTianYi",
+        "repo": "anime-agent-mvp",
+        "title": "[根因审计 20261007] RA-G02 连接器闭环"
+      },
+      "confirmation_request_id": "avatar-chat-6430941",
+      "execution_id": "0529feb52675486f99afcf624745c5c6",
+      "expires": 1791374441.5891492,
+      "receipt": {
+        "ok": true,
+        "output": "{\"id\":\"5744447898\",\"url\":\"https://github.com/SummerTianYi/anime-agent-mvp/issues/1\"}"
+      },
+      "request_id": "avatar-chat-6305995",
+      "revision": 1,
+      "session_id": 350,
+      "status": "succeeded",
+      "task_id": "avatar-chat-6305995",
+      "tool": "mcp__github__issue_write"
+    },
+    {
+      "action_id": "e5400e127dc9489dadc0301b6acf659a",
+      "args_hash": "5b0d0716014a82fab350bb40d39a0eefb854fea8aff61b34c9e15778fa167d36",
+      "arguments": {
+        "issue_number": 1,
+        "method": "get",
+        "owner": "SummerTianYi",
+        "repo": "anime-agent-mvp"
+      },
+      "confirmation_request_id": "avatar-chat-6768548",
+      "execution_id": "6e4f36b9588744cc89dc66b3f4090966",
+      "expires": 1791374715.1840029,
+      "receipt": {
+        "ok": true,
+        "output": "{\"number\":1,\"title\":\"[根因审计 20261007] RA-G02 连接器闭环\",\"body\":\"合成审计对象，仅验证天依原生提案、确认、创建和读回。校验标记：CEDAR-5。不修改代码或业务数据。\",\"state\":\"open\",\"html_url\":\"https://github.com/SummerTianYi/anime-agent-mvp/issues/1\",\"user\":{\"login\":\"SummerTianYi\",\"id\":148629672,\"profile_url\":\"https://github.com/SummerTianYi\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/148629672?v=4\"},\"author_association\":\"OWNER\",\"assignees\":[],\"reactions\":{\"total_count\":0,\"+1\":0,\"-1\":0,\"laugh\":0,\"confused\":0,\"heart\":0,\"hooray\":0,\"rocket\":0,\"eyes\":0},\"created_at\":\"2026-10-07T11:52:43Z\",\"updated_at\":\"2026-10-07T11:52:43Z\",\"has_parent\":false,\"has_children\":false,\"closed_by_pull_requests\":{\"total_count\":0,\"references\":[]}}"
+      },
+      "request_id": "avatar-chat-6575446",
+      "revision": 1,
+      "session_id": 350,
+      "status": "succeeded",
+      "task_id": "avatar-chat-6575446",
+      "tool": "mcp__github__issue_read"
+    },
+    {
+      "action_id": "369d89ee96e94e608f22871d44d03544",
+      "args_hash": "7add36f6f8891c528afe03c0c9cf06faa26cf378890393d626d358f87fc7e5a4",
+      "arguments": {
+        "maxResults": 5,
+        "query": "subject:\"[天依根因审计 20261007]\""
+      },
+      "confirmation_request_id": "avatar-chat-270488",
+      "execution_id": "1e56fc57c7e8464193cae5fef7e982e9",
+      "expires": 1791375782.5118103,
+      "receipt": {
+        "ok": true,
+        "output": ""
+      },
+      "request_id": "avatar-chat-169542",
+      "revision": 1,
+      "session_id": 351,
+      "status": "succeeded",
+      "task_id": "avatar-chat-169542",
+      "tool": "mcp__gmail__search_emails"
+    },
+    {
+      "action_id": "d4acf3127d5c4dc9b382061ead6f5253",
+      "args_hash": "fa8a316fc1d1a6df5b3cce1202641b6cc4236e3ff04ee7ab423bc10ec913644b",
+      "arguments": {
+        "body": "这是天依根因审计的合成测试邮件。校验标记：IRIS-200。无需回复。",
+        "subject": "[天依根因审计 20261007] RA-M02",
+        "to": [
+          "OWNER_TEST_MAILBOX"
+        ]
+      },
+      "confirmation_request_id": "avatar-chat-1147549",
+      "execution_id": "70ecedee4bb44ffea9142497f427a768",
+      "expires": 1791376698.5099173,
+      "receipt": {
+        "ok": true,
+        "output": "Email sent successfully with ID: 1a11656dc9c1716c"
+      },
+      "request_id": "avatar-chat-1089947",
+      "revision": 1,
+      "session_id": 352,
+      "status": "succeeded",
+      "task_id": "avatar-chat-1089947",
+      "tool": "mcp__gmail__send_email"
+    },
+    {
+      "action_id": "b4bbd31def26434fbaad3ff991a2fd68",
+      "args_hash": "d9fae2177307f8b9876ea6baf3f7d49cf301886f0ac65ac8c8c2a03cca08617d",
+      "arguments": {
+        "messageId": "1a11656dc9c1716c"
+      },
+      "confirmation_request_id": "avatar-chat-1256865",
+      "execution_id": "408ac654f45a4d8186e3032d9e6faebf",
+      "expires": 1791376823.9489915,
+      "receipt": {
+        "ok": true,
+        "output": "Thread ID: 1a11656dc9c1716c\nSubject: [天依根因审计 20261007] RA-M02\nFrom: OWNER_DISPLAY_NAME <OWNER_TEST_MAILBOX>\nTo: OWNER_TEST_MAILBOX\nDate: Wed, 7 Oct 2026 08:29:13 -0400\n\n这是天依根因审计的合成测试邮件。校验标记：IRIS-200。无需回复。"
+      },
+      "request_id": "avatar-chat-1210768",
+      "revision": 1,
+      "session_id": 352,
+      "status": "succeeded",
+      "task_id": "avatar-chat-1210768",
+      "tool": "mcp__gmail__read_email"
+    },
+    {
+      "action_id": "15016844a567455e915d4af1f7abfd07",
+      "args_hash": "ae2114930ed967fc815e253cda64b458977555f4ba6728fda1b4849494d30c25",
+      "arguments": {
+        "query": "13Z-axhrWz2pySEeESti7ukP1zEYAgX6g"
+      },
+      "confirmation_request_id": "avatar-chat-2591173",
+      "execution_id": "2832f6448b794681a17211bdcb99739e",
+      "expires": 1791378153.8506515,
+      "receipt": {
+        "error": "{'code': -32603, 'message': 'invalid_grant'}",
+        "ok": false,
+        "output": ""
+      },
+      "request_id": "avatar-chat-2540054",
+      "revision": 1,
+      "session_id": 355,
+      "status": "failed",
+      "task_id": "avatar-chat-2540054",
+      "tool": "mcp__drive__search"
+    },
+    {
+      "action_id": "ac056c8ee929427089db9fef057fd921",
+      "args_hash": "e4da93ee68b49da5a5e4a32d3507eef1728d434be97d8eaa7a8fa163750449b1",
+      "arguments": {
+        "content": "根因审计汇总（合成资料）\n========================\n\n来源 A：青岚计划  | 校验标记 A-IRIS | 预算 120 元 | 人数 3 人\n来源 B：白榆计划  | 校验标记 B-CEDAR | 预算 80 元 | 人数 2 人\n\n核对结果：\n- 校验标记：A-IRIS、B-CEDAR，两者不同，无冲突。\n- 预算总额：120 + 80 = 200 元。\n- 人数总额：3 + 2 = 5 人。",
+        "mode": "overwrite",
+        "path": "<PRODUCTION>/work/tianyi-notes/root-cause-audit-20261007/result.txt"
+      },
+      "confirmation_request_id": "avatar-chat-777916",
+      "execution_id": "36463e9e114e4e899db3fb343ad4cd1c",
+      "expires": 1791379480.4203618,
+      "receipt": {
+        "bytes_written": 374,
+        "mode": "overwrite",
+        "ok": true,
+        "path": "<PRODUCTION>\\work\\tianyi-notes\\root-cause-audit-20261007\\result.txt",
+        "sha256": "9b26e4ba52cf54ab3492b9f1481a3603bca37a24acba1301e593814d434b6317",
+        "verified_readback": true
+      },
+      "request_id": "avatar-chat-690447",
+      "revision": 1,
+      "session_id": 358,
+      "status": "succeeded",
+      "task_id": "avatar-chat-690447",
+      "tool": "write_file"
+    }
+  ],
+  "accounting_limits": "Only well-formed, request-associated provider.transport events are countable. Historical malformed events exist; this is an observed count, not provider billing proof. Title is requested in the same chat call by current main.py, not a separate title endpoint.",
+  "audio_events": [
+    {
+      "event_id": 6471,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:02:28",
+      "payload": {
+        "utteranceId": "utt-2b4711bbd195",
+        "playbackId": "b1f8ce3c48914fe8b3d5860c3e00eef7",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6473,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:02:28",
+      "payload": {
+        "utteranceId": "utt-2b4711bbd195",
+        "request_id": "avatar-chat-3402301"
+      }
+    },
+    {
+      "event_id": 6494,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:14:38",
+      "payload": {
+        "utteranceId": "utt-b122f161568d",
+        "playbackId": "93d84715b4d9429796b2ae7f9feae862",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6496,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:14:38",
+      "payload": {
+        "utteranceId": "utt-b122f161568d",
+        "request_id": "avatar-chat-4130840"
+      }
+    },
+    {
+      "event_id": 6501,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:14:45",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "6993fa55b3b147b286063a6215729143",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6503,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:14:46",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "dfa421c3176347b0bd25eedada81b558",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6505,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:14:58",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "18d5af9b99e0441897fc610eeaf6e9c0",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6507,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:02",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "37b9c941760144378a2e2739ea339983",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6509,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:07",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "9604cef082b34039adf7e293eac5cd80",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6511,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:12",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "b406c7e09c034c21aac8dc8d0badefa1",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6513,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:18",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "f896bbc5d8fc48b2a70a23e651b3c317",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6515,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:24",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "e99182dbfa8e4dafb4c539725afc505d",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6517,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:26",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "d3d4ad5326514d4ca86631e400a00ec1",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6519,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:31",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "53bde07863094ce792d392bfe7974345",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6521,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:33",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "1dac9569c5354d2988ec49e207b67f46",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6523,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:43",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "677db9ab5bad405bb9c1b03c3b667595",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6525,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:47",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "87cf4e70910b45578a93c56a719e06c3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6527,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:15:52",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "a6c4ae4cd0784fd3bdd7ff14adeefb03",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6529,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:02",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "299a97c92a8848b9bc0cf7dd32106c1c",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6531,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:06",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "09f5bd4059bd4737a88bab5fcc4364c8",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6533,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:17",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "810689af4b6e4f84944cebce92ccbb9c",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6535,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:24",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "b51994a6c079443780f2f9eb3dcd31df",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6537,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:26",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "2c45d5bbffb74c7db17b1b626d5a17b7",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6539,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:28",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "d559848991c74369bd3666d2024e634a",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6541,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:42",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "2707fef4977a4ccc8a1729239e10e3e3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6543,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:45",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "ccdec3313fe94df28916841d021a2ebd",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6545,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:53",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "9dc5067808d540efb1e22f2a923e72fd",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6547,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:16:54",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "playbackId": "62bd131645ed408b9d4ff190716615ce",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6549,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:16:54",
+      "payload": {
+        "utteranceId": "utt-16a021abd83d",
+        "request_id": "avatar-chat-4130840"
+      }
+    },
+    {
+      "event_id": 6555,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:19:02",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "playbackId": "517ff9bc92f2464eb4283352e1394794",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6557,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:19:11",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "playbackId": "3cf120532d2b413080d85a83a57b7326",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6559,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:19:14",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "playbackId": "a40891002fdd4ae7808fc357b0a07dcd",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6561,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:19:25",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "playbackId": "f7fb3c5a11754c888047223646c893d3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6563,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:19:27",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "playbackId": "0172d71bb2ba48d3adf5d167603bf6bd",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6565,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:19:36",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "playbackId": "cbfeb994d8644fe8be07cf0086ffc8d1",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6567,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:19:38",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "playbackId": "ae57987180534dfbaad165d5fec47a14",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6569,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:19:38",
+      "payload": {
+        "utteranceId": "utt-5fc279e54a34",
+        "request_id": "avatar-chat-4390217"
+      }
+    },
+    {
+      "event_id": 6583,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:23:34",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "59b79070a9464a7eb0b4aea275dc6216",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6585,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:23:44",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "1e85add5c4334821af273f5715220d2c",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6587,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:23:51",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "e97a9cc2f824443095bd780ec4cbdb7d",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6589,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:23:56",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "b76b0c7e53074adc87cc17f0730fe3df",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6591,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:08",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "62022941fdd84147a9397cf40a8b611b",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6593,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:10",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "8f398474cbca4512810f68c79ab8e0b0",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6595,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:15",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "c1bf34dd575c4370b2f138386b24076f",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6597,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:19",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "c8ccb7883656476f85f260f311a3a9a9",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6599,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:28",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "bb05a545c9134289b7ffd4b9beb67892",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6601,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:36",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "8bd55dc586ec4932ae84da92c239e811",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6603,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:42",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "93ecd33b932f45559951bdbda7158dea",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6605,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:50",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "0e23b6ce1c5d4c8db99f55b1bba61473",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6607,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:24:52",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "9c96b5c762ae4dd6a5ca66a4fc20f118",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6609,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:25:08",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "25865853332c4b1db18665610a772738",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6611,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:25:13",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "playbackId": "d1a138c36dd64c5c9c72160c812a88d8",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6613,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:25:13",
+      "payload": {
+        "utteranceId": "utt-96817cd34f45",
+        "request_id": "avatar-chat-4661864"
+      }
+    },
+    {
+      "event_id": 6642,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:31:52",
+      "payload": {
+        "utteranceId": "utt-1b5b75d96aaf",
+        "playbackId": "1efa29539f11480ba008986619063cdf",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6644,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:31:52",
+      "payload": {
+        "utteranceId": "utt-1b5b75d96aaf",
+        "request_id": "avatar-chat-5166904"
+      }
+    },
+    {
+      "event_id": 6655,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:33:30",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "521ff119eeaf4ccfaa08d54c0680c034",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6657,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:33:39",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "f0ce7b4bba7747f89d8ce9de32f18743",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6659,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:33:41",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "a9c67d3308064427bebdc4bd873aa1c8",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6661,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:34:02",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "a5adb21e893d45c6be4cbbd6d490b898",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6663,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:34:04",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "dde78563c8c34ca39e1b42384cab221b",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6665,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:34:08",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "15435ba49f124268963b12b5356a0720",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6667,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:34:10",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "5668779f96ba4f74bf96d916267311a5",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6669,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:34:15",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "playbackId": "a79876d013234057aec72315f6df110b",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6671,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:34:15",
+      "payload": {
+        "utteranceId": "utt-b394de6af2ea",
+        "request_id": "avatar-chat-5263188"
+      }
+    },
+    {
+      "event_id": 6678,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:36:53",
+      "payload": {
+        "utteranceId": "utt-c833b8a5b2e7",
+        "playbackId": "b22bedf298714fac869be129a72395c1",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6680,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:37:07",
+      "payload": {
+        "utteranceId": "utt-c833b8a5b2e7",
+        "playbackId": "4be05c99ff2e45258ba0e503b69d65a7",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6682,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:37:11",
+      "payload": {
+        "utteranceId": "utt-c833b8a5b2e7",
+        "playbackId": "ac9e5736e341489b9ed2caf4e838aa55",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6684,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:37:11",
+      "payload": {
+        "utteranceId": "utt-c833b8a5b2e7",
+        "request_id": "avatar-chat-5461657"
+      }
+    },
+    {
+      "event_id": 6690,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:41:32",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "fd5267ba022740758ecda05d5ed2e1d3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6692,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:41:38",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "a1bc2b3d7ab446a3b912d6aa8c463f70",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6694,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:41:44",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "a99457f4541b4731a6de93f5f877137e",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6696,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:41:52",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "191568af8dfe4b85b79649a84cf39b8b",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6698,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:42:03",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "c1ab4717f2994e5aabed56e4497ce4b9",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6700,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:42:11",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "6b88580d1c854799956ba7b9c538d7a0",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6702,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:42:15",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "6ec9cc94da56427ab3c6bf1fb6bc6e18",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6704,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:42:26",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "90c0b497449640bd9987a175fb92b7ec",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6706,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:42:29",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "4de2f7e3a34e4af8839b348b3c527681",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6708,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:42:31",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "867ec502c8344de792d026955944f7a9",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6710,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:42:33",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "playbackId": "b05b384e39ca44de8a84da3eb5cdd697",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6712,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:42:33",
+      "payload": {
+        "utteranceId": "utt-3118ea749c47",
+        "request_id": "avatar-chat-5742528"
+      }
+    },
+    {
+      "event_id": 6720,
+      "type": "speech.recovering",
+      "time": "2026-10-07 11:44:45",
+      "payload": {
+        "utteranceId": "utt-30fe1569afd5",
+        "request_id": "avatar-chat-5937548"
+      }
+    },
+    {
+      "event_id": 6721,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:44:50",
+      "payload": {
+        "utteranceId": "utt-30fe1569afd5",
+        "playbackId": "1a6b9512385c45ef94a45d7617b81757",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6722,
+      "type": "speech.unavailable",
+      "time": "2026-10-07 11:47:45",
+      "payload": {
+        "request_id": "avatar-chat-5937548",
+        "message": "语音服务恢复超时，文字回复已保留，请稍后重试"
+      }
+    },
+    {
+      "event_id": 6734,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:50:53",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "e9c3e19539024f9e82080895b9dd17d1",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6736,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:11",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "11150335035148f58950c77af7647e0e",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6738,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:15",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "70b86c79aafd43c3b5a8c22b1844924a",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6740,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:23",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "5248205a4de84450b82ca2e9c8c1f882",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6742,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:33",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "d51a73cf797543729eaf7deef81c4678",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6744,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:44",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "c3fe87df243c4adc86e596f3473aeb4d",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6746,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:46",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "d8928b1282e04e8e8dff555cac8c6406",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6748,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:52",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "4e9019b463b3488395fe190e47787524",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6750,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:53",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "8d17b5902ba84075ab7b4790865c1c62",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6752,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:51:58",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "b413d9659d434506af66b39f99241cbc",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6754,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:52:01",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "7b59dca34d2744b3a22b94d8fb27183a",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6756,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:52:04",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "playbackId": "d6c7c82069154799ae981ca69c0bb6ce",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6758,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:52:04",
+      "payload": {
+        "utteranceId": "utt-30b142cc1bf8",
+        "request_id": "avatar-chat-6305995"
+      }
+    },
+    {
+      "event_id": 6765,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:53:02",
+      "payload": {
+        "utteranceId": "utt-211e1aec84a8",
+        "playbackId": "944db911904c43889411ad2555153ab0",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6767,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:53:02",
+      "payload": {
+        "utteranceId": "utt-211e1aec84a8",
+        "request_id": "avatar-chat-6430941"
+      }
+    },
+    {
+      "event_id": 6778,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:55:27",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "983aa51fbe294b97a3c0dcb7bafcb36a",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6780,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:55:35",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "71a48bce06a0428c9a8b739e33a10a26",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6782,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:55:41",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "2e2978258aef4325b98f9d6dc992fe55",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6784,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:55:51",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "a9fcf5b9b0864ba0ac57a1d9f617eb2d",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6786,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:55:53",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "9f89e76843b34e25b107f71a8a4bc5d3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6788,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:56:01",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "bcb72f71cd7a49f4aba1f5d9730c762b",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6790,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:56:06",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "f2e16e90c4db4dda99bb6c55f4f8f743",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6792,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:56:11",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "playbackId": "f0840a66ee0843fa94bc8be18576d032",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6794,
+      "type": "speech.completed",
+      "time": "2026-10-07 11:56:11",
+      "payload": {
+        "utteranceId": "utt-2956baee5b27",
+        "request_id": "avatar-chat-6575446"
+      }
+    },
+    {
+      "event_id": 6808,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:58:49",
+      "payload": {
+        "utteranceId": "utt-d5558485b960",
+        "playbackId": "c9a6c0c9b2f24e85abc81f1dfbc18717",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6810,
+      "type": "speech.recovering",
+      "time": "2026-10-07 11:58:49",
+      "payload": {
+        "utteranceId": "utt-d5558485b960",
+        "request_id": "avatar-chat-6768548"
+      }
+    },
+    {
+      "event_id": 6811,
+      "type": "speech.receipt",
+      "time": "2026-10-07 11:58:51",
+      "payload": {
+        "utteranceId": "utt-d5558485b960",
+        "playbackId": "a6357469692741a8b184b32ebe235ae2",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6834,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:13:09",
+      "payload": {
+        "utteranceId": "utt-620848d8c1d2",
+        "playbackId": "39dd2868192649c989349e37eabf18e5",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6836,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:13:09",
+      "payload": {
+        "utteranceId": "utt-620848d8c1d2",
+        "request_id": "avatar-chat-169542"
+      }
+    },
+    {
+      "event_id": 6841,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:13:33",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "playbackId": "27fccab1e98a448ca2e6c0b58b0f7aa3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6843,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:13:45",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "playbackId": "b85ff7b0480948199e957c9a306142d6",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6845,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:13:49",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "playbackId": "7fe80dbb4d18434b894f02b7297a459a",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6847,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:14:01",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "playbackId": "e94219489f804db08839bf94a530a2e0",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6849,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:14:04",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "playbackId": "2e42e33f1dbe486d990e8b2b415b5aea",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6851,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:14:08",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "playbackId": "47c04e929fcd41938881e70cbce0f62e",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6853,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:14:12",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "playbackId": "6412cf5d0a52498089e4861b235e98c4",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6855,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:14:12",
+      "payload": {
+        "utteranceId": "utt-3fddf4fe7824",
+        "request_id": "avatar-chat-169542"
+      }
+    },
+    {
+      "event_id": 6864,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:14:51",
+      "payload": {
+        "utteranceId": "utt-938108d13eee",
+        "playbackId": "be70772f3d96414b834951a12907faef",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6866,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:14:51",
+      "payload": {
+        "utteranceId": "utt-938108d13eee",
+        "request_id": "avatar-chat-270488"
+      }
+    },
+    {
+      "event_id": 6871,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:14:59",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "073b85ba79fd470ab0444929ac82d482",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6873,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:05",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "3374c80348714f1a9b5474f826e7f5d7",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6875,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:08",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "d57bcf024b2e4258900a95c8a6475445",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6877,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:14",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "d2b442a231e340fcbbdd1b8ce2d576f2",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6879,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:23",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "8c93ba700b2e453eb755a31aa0609f31",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6881,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:30",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "dff4cdd24c2948c985d69f32b8de1eae",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6883,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:37",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "f8b50531bca64092bd1592de1bfae21b",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6885,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:46",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "cb5765efd3994824a8c8ac1362454719",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6887,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:15:48",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "playbackId": "de21ebe00cd34c3c8f812ba1c541cbee",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6889,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:15:48",
+      "payload": {
+        "utteranceId": "utt-888b1691e53e",
+        "request_id": "avatar-chat-270488"
+      }
+    },
+    {
+      "event_id": 6895,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:24",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "d926f51172294e379e46dcac119c76a7",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6897,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:31",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "2d948623618a45288c7fa9299cebccea",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6899,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:37",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "f7d9bf6a25a545f8841006766564fa15",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6901,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:41",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "8fa8ed4980f44ca6ab4535bd5a4a6f56",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6903,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:45",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "2c1241d5cdea46b7a62d556fbb9e8f49",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6905,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:47",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "e2cc4dcbb6214c6abb699e66334ecc35",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6907,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:53",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "30a32f4e607b4010a1de12754d3f9968",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6909,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:56",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "6d4a81cfbd1a4b43965a7af6c84fa2fc",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6911,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:16:59",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "7a4405b5de1244fb93a59d14df8cab78",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6913,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:17:07",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "playbackId": "026e1a37f718442eb6b0012ace7d0fc3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6915,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:17:07",
+      "payload": {
+        "utteranceId": "utt-d6764a2e2d1d",
+        "request_id": "avatar-chat-361125"
+      }
+    },
+    {
+      "event_id": 6921,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:19:28",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "7bccd4ab368d42a1991d2f601af47b83",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6923,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:19:32",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "381c39d1b475420683b83ba3cfbf7c12",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6925,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:19:45",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "3db0f72a3283463180837c96e54e9ebe",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6927,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:19:53",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "1f0a1f9b3d07439cb9e8d388066ec85f",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6929,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:19:57",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "55ef4b2a65f54771993866dfe0a35bd8",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6931,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:20:02",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "7a8f48523bc34978bffd772bb72c3ccc",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6933,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:20:03",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "1ded439bae9c4b6592cf8341be66fe30",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6935,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:20:11",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "c0bb44123c7a453db3bed4abdb0e1e4f",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6937,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:20:24",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "b3786386de3b4887b1418774679a7671",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6939,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:20:31",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "playbackId": "4df4bae93b3345329ea9bf308d0f9af7",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6941,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:20:31",
+      "payload": {
+        "utteranceId": "utt-160fa011ba65",
+        "request_id": "avatar-chat-553152"
+      }
+    },
+    {
+      "event_id": 6986,
+      "type": "speech.recovering",
+      "time": "2026-10-07 12:23:23",
+      "payload": {
+        "utteranceId": "utt-0533f8317420",
+        "request_id": "avatar-chat-782124"
+      }
+    },
+    {
+      "event_id": 6987,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:23:29",
+      "payload": {
+        "utteranceId": "utt-0533f8317420",
+        "playbackId": "8db0576c68e74ad5b89d57009aea94b3",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 6988,
+      "type": "speech.unavailable",
+      "time": "2026-10-07 12:26:23",
+      "payload": {
+        "request_id": "avatar-chat-782124",
+        "message": "语音服务恢复超时，文字回复已保留，请稍后重试"
+      }
+    },
+    {
+      "event_id": 7022,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:29:28",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "b7c55428635a47feab4d4c0b212b71f4",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7024,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:29:44",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "d9812b9363f94b27bbbcc7566a757192",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7026,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:29:46",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "f4bc47c369994a4e834e37d13cc2f1f4",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7028,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:29:54",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "playbackId": "281fbf0134be449b8c96329637febb55",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7030,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:29:54",
+      "payload": {
+        "utteranceId": "utt-39529fd834ef",
+        "request_id": "avatar-chat-1147549"
+      }
+    },
+    {
+      "event_id": 7055,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:31:16",
+      "payload": {
+        "utteranceId": "utt-4c64eaaaa096",
+        "playbackId": "abc87dcfd93b4ba794d1f76b31bc2b61",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7057,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:31:24",
+      "payload": {
+        "utteranceId": "utt-4c64eaaaa096",
+        "playbackId": "7816e478cced47a9a2ef67da796cf234",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7059,
+      "type": "speech.recovering",
+      "time": "2026-10-07 12:31:24",
+      "payload": {
+        "utteranceId": "utt-4c64eaaaa096",
+        "request_id": "avatar-chat-1256865"
+      }
+    },
+    {
+      "event_id": 7060,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:31:26",
+      "payload": {
+        "utteranceId": "utt-4c64eaaaa096",
+        "playbackId": "47b1cf97133a4bb08b85663c95a38ddd",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7071,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:32:51",
+      "payload": {
+        "utteranceId": "utt-b012763e56fb",
+        "playbackId": "508cb172f5f1462980ff1e8d4b018954",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7073,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:32:51",
+      "payload": {
+        "utteranceId": "utt-b012763e56fb",
+        "request_id": "avatar-chat-1344344"
+      }
+    },
+    {
+      "event_id": 7081,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:33:57",
+      "payload": {
+        "utteranceId": "utt-7fa3665692d4",
+        "playbackId": "f12eba44c7e542f48c330beb873fc53e",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7083,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:33:57",
+      "payload": {
+        "utteranceId": "utt-7fa3665692d4",
+        "request_id": "avatar-chat-1406874"
+      }
+    },
+    {
+      "event_id": 7092,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:36:34",
+      "payload": {
+        "utteranceId": "utt-07c1a2fe76aa",
+        "playbackId": "b6618b907c99432e956bd1de9519049c",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7094,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:36:34",
+      "payload": {
+        "utteranceId": "utt-07c1a2fe76aa",
+        "request_id": "avatar-chat-1575775"
+      }
+    },
+    {
+      "event_id": 7099,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:36:43",
+      "payload": {
+        "utteranceId": "utt-8b724a6fc377",
+        "playbackId": "81e48358939c481aa5631c60230598fd",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7101,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:36:53",
+      "payload": {
+        "utteranceId": "utt-8b724a6fc377",
+        "playbackId": "548fcbb55f6a4291861357a65838f218",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7103,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:36:54",
+      "payload": {
+        "utteranceId": "utt-8b724a6fc377",
+        "playbackId": "da9a3bddd385469594e0683dfafb02ee",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7105,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:36:54",
+      "payload": {
+        "utteranceId": "utt-8b724a6fc377",
+        "request_id": "avatar-chat-1575775"
+      }
+    },
+    {
+      "event_id": 7132,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:40:06",
+      "payload": {
+        "utteranceId": "utt-ed65da3065ce",
+        "playbackId": "07edbea5d98e4d6f8e58637ff9ab9931",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7134,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:40:18",
+      "payload": {
+        "utteranceId": "utt-ed65da3065ce",
+        "playbackId": "51d4504fbbec4c96959110256705940c",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7136,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:40:20",
+      "payload": {
+        "utteranceId": "utt-ed65da3065ce",
+        "playbackId": "315202b5ad5b4d3a9d2e169bd9c8352a",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7138,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:40:34",
+      "payload": {
+        "utteranceId": "utt-ed65da3065ce",
+        "playbackId": "3f1b372ce96e4c6197d1a9c85a62bd8e",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7140,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:40:38",
+      "payload": {
+        "utteranceId": "utt-ed65da3065ce",
+        "playbackId": "11db325c673b482eb3e02ffc66df6a88",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7142,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:40:44",
+      "payload": {
+        "utteranceId": "utt-ed65da3065ce",
+        "playbackId": "487fffdd4c9148fd9a3ebfb22f43573d",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7144,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:40:44",
+      "payload": {
+        "utteranceId": "utt-ed65da3065ce",
+        "request_id": "avatar-chat-1783867"
+      }
+    },
+    {
+      "event_id": 7150,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:44:45",
+      "payload": {
+        "utteranceId": "utt-3571690efd64",
+        "playbackId": "6eae5f5eb29a4b5cb3e037e6ffaeb54d",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7152,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:44:53",
+      "payload": {
+        "utteranceId": "utt-3571690efd64",
+        "playbackId": "8b7009f7826b4158a870877132303f2c",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7154,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:44:57",
+      "payload": {
+        "utteranceId": "utt-3571690efd64",
+        "playbackId": "77c0b10b726a4644b90d09305bde0f50",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7156,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:45:00",
+      "payload": {
+        "utteranceId": "utt-3571690efd64",
+        "playbackId": "8c888f8d6eb847808f69ccdb1173f25f",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7158,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:45:00",
+      "payload": {
+        "utteranceId": "utt-3571690efd64",
+        "request_id": "avatar-chat-2058221"
+      }
+    },
+    {
+      "event_id": 7169,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:52:41",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "playbackId": "e23de82309ac4f36b43f0b4955591f95",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7171,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:52:50",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "playbackId": "a69bab2c733c430a81518da693119750",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7173,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:52:52",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "playbackId": "e4f81cce50c4463dba30b5488cc92541",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7175,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:53:06",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "playbackId": "666ca3f28b6b424898f61b27db3fe922",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7177,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:53:09",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "playbackId": "26f015e2e4ed4d20aae0dd94a3efba13",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7179,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:53:14",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "playbackId": "6b1ce7dfa10147be8ed1f04f0bf9ec01",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7181,
+      "type": "speech.receipt",
+      "time": "2026-10-07 12:53:17",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "playbackId": "81d6d6652b6643da940c72f12d658fd9",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7183,
+      "type": "speech.completed",
+      "time": "2026-10-07 12:53:17",
+      "payload": {
+        "utteranceId": "utt-55fe19e29d41",
+        "request_id": "avatar-chat-2540054"
+      }
+    },
+    {
+      "event_id": 7279,
+      "type": "speech.receipt",
+      "time": "2026-10-07 13:14:19",
+      "payload": {
+        "utteranceId": "utt-51773a761074",
+        "playbackId": "e01bbb79848e4e5e9475219e9f6a3485",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7281,
+      "type": "speech.completed",
+      "time": "2026-10-07 13:14:19",
+      "payload": {
+        "utteranceId": "utt-51773a761074",
+        "request_id": "avatar-chat-690447"
+      }
+    },
+    {
+      "event_id": 7287,
+      "type": "speech.receipt",
+      "time": "2026-10-07 13:14:47",
+      "payload": {
+        "utteranceId": "utt-3a49017cfdf3",
+        "playbackId": "48284e9b8934494280fcdc2cc99df2bd",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7289,
+      "type": "speech.completed",
+      "time": "2026-10-07 13:14:47",
+      "payload": {
+        "utteranceId": "utt-3a49017cfdf3",
+        "request_id": "avatar-chat-690447"
+      }
+    },
+    {
+      "event_id": 7342,
+      "type": "speech.receipt",
+      "time": "2026-10-07 13:20:10",
+      "payload": {
+        "utteranceId": "utt-d6adc1b1e4e0",
+        "playbackId": "aa1a5d9c1cc84065af08b0ad63f6b84f",
+        "failed": false,
+        "interrupted": false
+      }
+    },
+    {
+      "event_id": 7344,
+      "type": "speech.completed",
+      "time": "2026-10-07 13:20:10",
+      "payload": {
+        "utteranceId": "utt-d6adc1b1e4e0",
+        "request_id": "avatar-chat-164945"
+      }
+    }
+  ]
+}

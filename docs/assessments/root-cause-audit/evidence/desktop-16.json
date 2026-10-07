@@ -1,0 +1,58 @@
+{
+  "session_id": 351,
+  "captured_utc": "2026-10-07T12:12:57.153182+00:00",
+  "messages": [
+    {
+      "id": 1291,
+      "role": "user",
+      "content": "[RA-M01R] 这是根因审计的独立测试会话。请在Gmail中仅搜索 subject:\"[天依根因审计 20261007]\"，最多5封，不查询其他邮件、不发送或修改邮件。请报告匹配数量；如果需要确认请走原生确认。",
+      "request_id": "avatar-chat-169542",
+      "created_at": "2026-10-07 12:12:56",
+      "conversation_id": 351
+    }
+  ],
+  "events": [
+    {
+      "id": 6827,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-169542"
+      },
+      "created_at": "2026-10-07 12:12:56"
+    },
+    {
+      "id": 6828,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-169542",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 12:12:56"
+    }
+  ],
+  "actions": [],
+  "facts": [],
+  "http_attempts_observed": 0,
+  "wire_calls": {},
+  "layer": "current-desktop input; passive read-only database evidence",
+  "human_audio": "not confirmed",
+  "actual_wire_context": "not recorded by current production telemetry; do not infer exact wire body from reconstructed prompt",
+  "unparseable_event_metadata": [],
+  "malformed_event_timestamp_rows_excluded": 24,
+  "snapshot_verification": {
+    "source_before": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "a766b7b1e8cb34abc21a4681b093583f5fb03d096e690adc74fcfc2b51165402"
+    },
+    "copy": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "a766b7b1e8cb34abc21a4681b093583f5fb03d096e690adc74fcfc2b51165402"
+    },
+    "source_after": {
+      "": "fe134fc704300376f1e3039d896a3cfb51b06ea69ad0caa194d165bf81548bc9",
+      "-wal": "a766b7b1e8cb34abc21a4681b093583f5fb03d096e690adc74fcfc2b51165402"
+    },
+    "method": "passive file copy; equal file sets and SHA256 in three scans; not an atomic SQLite backup"
+  }
+}

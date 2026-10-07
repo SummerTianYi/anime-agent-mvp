@@ -1,0 +1,837 @@
+{
+  "layer": "static actual source inventory; not functionality acceptance",
+  "source": "acc7bd4227c8e99a4adb7ed7266a8e1d06105ebd",
+  "routes": [
+    {
+      "kind": "on_event",
+      "name": "startup",
+      "handler": "_start_mcp_servers",
+      "line": 1789
+    },
+    {
+      "kind": "on_event",
+      "name": "shutdown",
+      "handler": "_stop_mcp_servers",
+      "line": 1805
+    },
+    {
+      "kind": "on_event",
+      "name": "startup",
+      "handler": "start_wake_word_listener",
+      "line": 1810
+    },
+    {
+      "kind": "post",
+      "name": "/wake-test",
+      "handler": "wake_test",
+      "line": 1842
+    },
+    {
+      "kind": "get",
+      "name": "/health/live",
+      "handler": "liveness",
+      "line": 1867
+    },
+    {
+      "kind": "get",
+      "name": "/health",
+      "handler": "health",
+      "line": 1880
+    },
+    {
+      "kind": "websocket",
+      "name": "/ws",
+      "handler": "websocket_endpoint",
+      "line": 1920
+    }
+  ],
+  "websocket_input_types": [
+    "avatar.command",
+    "avatar.interaction",
+    "chat.history.request",
+    "chat.message",
+    "client.hello",
+    "ping",
+    "session.delete",
+    "session.list.request",
+    "session.new",
+    "speech.failed",
+    "speech.finished",
+    "voice.cancel",
+    "voice.start",
+    "voice.stop"
+  ],
+  "mcp_enum_methods": [
+    {
+      "tool": "mcp__browser__browser_console_messages",
+      "argument": "level",
+      "values": [
+        "error",
+        "warning",
+        "info",
+        "debug"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__browser__browser_network_request",
+      "argument": "part",
+      "values": [
+        "request-headers",
+        "request-body",
+        "response-headers",
+        "response-body"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__browser__browser_take_screenshot",
+      "argument": "type",
+      "values": [
+        "png",
+        "jpeg",
+        "webp"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__browser__browser_take_screenshot",
+      "argument": "scale",
+      "values": [
+        "css",
+        "device"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__browser__browser_click",
+      "argument": "button",
+      "values": [
+        "left",
+        "right",
+        "middle"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__browser__browser_tabs",
+      "argument": "action",
+      "values": [
+        "list",
+        "new",
+        "close",
+        "select"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__add_comment_to_pending_review",
+      "argument": "side",
+      "values": [
+        "LEFT",
+        "RIGHT"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__add_comment_to_pending_review",
+      "argument": "startSide",
+      "values": [
+        "LEFT",
+        "RIGHT"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__add_comment_to_pending_review",
+      "argument": "subjectType",
+      "values": [
+        "FILE",
+        "LINE"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__add_issue_comment",
+      "argument": "reaction",
+      "values": [
+        "+1",
+        "-1",
+        "laugh",
+        "confused",
+        "heart",
+        "hooray",
+        "rocket",
+        "eyes"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__add_reply_to_pull_request_comment",
+      "argument": "reaction",
+      "values": [
+        "+1",
+        "-1",
+        "laugh",
+        "confused",
+        "heart",
+        "hooray",
+        "rocket",
+        "eyes"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__get_commit",
+      "argument": "detail",
+      "values": [
+        "none",
+        "stats",
+        "full_patch"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__issue_read",
+      "argument": "method",
+      "values": [
+        "get",
+        "get_comments",
+        "get_sub_issues",
+        "get_parent",
+        "get_labels"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__issue_write",
+      "argument": "method",
+      "values": [
+        "create",
+        "update"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__issue_write",
+      "argument": "state",
+      "values": [
+        "open",
+        "closed"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__issue_write",
+      "argument": "state_reason",
+      "values": [
+        "completed",
+        "not_planned",
+        "duplicate"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__list_issues",
+      "argument": "direction",
+      "values": [
+        "ASC",
+        "DESC"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__list_issues",
+      "argument": "orderBy",
+      "values": [
+        "CREATED_AT",
+        "UPDATED_AT",
+        "COMMENTS"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__list_issues",
+      "argument": "state",
+      "values": [
+        "OPEN",
+        "CLOSED"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__list_pull_requests",
+      "argument": "direction",
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__list_pull_requests",
+      "argument": "sort",
+      "values": [
+        "created",
+        "updated",
+        "popularity",
+        "long-running"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__list_pull_requests",
+      "argument": "state",
+      "values": [
+        "open",
+        "closed",
+        "all"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__list_repository_collaborators",
+      "argument": "affiliation",
+      "values": [
+        "outside",
+        "direct",
+        "all"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__merge_pull_request",
+      "argument": "merge_method",
+      "values": [
+        "merge",
+        "squash",
+        "rebase"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__pull_request_read",
+      "argument": "method",
+      "values": [
+        "get",
+        "get_diff",
+        "get_status",
+        "get_files",
+        "get_commits",
+        "get_review_comments",
+        "get_reviews",
+        "get_comments",
+        "get_check_runs"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__pull_request_review_write",
+      "argument": "event",
+      "values": [
+        "APPROVE",
+        "REQUEST_CHANGES",
+        "COMMENT"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__pull_request_review_write",
+      "argument": "method",
+      "values": [
+        "create",
+        "submit_pending",
+        "delete_pending",
+        "resolve_thread",
+        "unresolve_thread"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_code",
+      "argument": "order",
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_commits",
+      "argument": "order",
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_commits",
+      "argument": "sort",
+      "values": [
+        "author-date",
+        "committer-date"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_issues",
+      "argument": "order",
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_issues",
+      "argument": "sort",
+      "values": [
+        "comments",
+        "reactions",
+        "reactions-+1",
+        "reactions--1",
+        "reactions-smile",
+        "reactions-thinking_face",
+        "reactions-heart",
+        "reactions-tada",
+        "interactions",
+        "created",
+        "updated"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_pull_requests",
+      "argument": "order",
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_pull_requests",
+      "argument": "sort",
+      "values": [
+        "comments",
+        "reactions",
+        "reactions-+1",
+        "reactions--1",
+        "reactions-smile",
+        "reactions-thinking_face",
+        "reactions-heart",
+        "reactions-tada",
+        "interactions",
+        "created",
+        "updated"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_repositories",
+      "argument": "order",
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_repositories",
+      "argument": "sort",
+      "values": [
+        "stars",
+        "forks",
+        "help-wanted-issues",
+        "updated"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_users",
+      "argument": "order",
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__search_users",
+      "argument": "sort",
+      "values": [
+        "followers",
+        "repositories",
+        "joined"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__github__update_pull_request",
+      "argument": "state",
+      "values": [
+        "open",
+        "closed"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_search",
+      "argument": "search_depth",
+      "values": [
+        "basic",
+        "advanced",
+        "fast",
+        "ultra-fast"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_search",
+      "argument": "topic",
+      "values": [
+        "general"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_search",
+      "argument": "time_range",
+      "values": [
+        "day",
+        "week",
+        "month",
+        "year"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_extract",
+      "argument": "extract_depth",
+      "values": [
+        "basic",
+        "advanced"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_extract",
+      "argument": "format",
+      "values": [
+        "markdown",
+        "text"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_crawl",
+      "argument": "extract_depth",
+      "values": [
+        "basic",
+        "advanced"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_crawl",
+      "argument": "format",
+      "values": [
+        "markdown",
+        "text"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__search__tavily_research",
+      "argument": "model",
+      "values": [
+        "mini",
+        "pro",
+        "auto"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__send_email",
+      "argument": "mimeType",
+      "values": [
+        "text/plain",
+        "text/html",
+        "multipart/alternative"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__draft_email",
+      "argument": "mimeType",
+      "values": [
+        "text/plain",
+        "text/html",
+        "multipart/alternative"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__create_label",
+      "argument": "messageListVisibility",
+      "values": [
+        "show",
+        "hide"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__create_label",
+      "argument": "labelListVisibility",
+      "values": [
+        "labelShow",
+        "labelShowIfUnread",
+        "labelHide"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__update_label",
+      "argument": "messageListVisibility",
+      "values": [
+        "show",
+        "hide"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__update_label",
+      "argument": "labelListVisibility",
+      "values": [
+        "labelShow",
+        "labelShowIfUnread",
+        "labelHide"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__get_or_create_label",
+      "argument": "messageListVisibility",
+      "values": [
+        "show",
+        "hide"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__get_or_create_label",
+      "argument": "labelListVisibility",
+      "values": [
+        "labelShow",
+        "labelShowIfUnread",
+        "labelHide"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    },
+    {
+      "tool": "mcp__gmail__create_filter_from_template",
+      "argument": "template",
+      "values": [
+        "fromSender",
+        "withSubject",
+        "withAttachments",
+        "largeEmails",
+        "containingText",
+        "mailingList"
+      ],
+      "verification": "schema only; individual operations NOT executed"
+    }
+  ],
+  "godot_handlers": {
+    "interaction_ui.gd": [
+      "_init",
+      "_ready",
+      "set_canvas_origin",
+      "set_side_panel_direction",
+      "on_session_list",
+      "on_session_switched",
+      "on_chat_history",
+      "add_message",
+      "show_error",
+      "get_current_conversation_id",
+      "_upsert_session",
+      "_sync_session_options",
+      "_on_new_session_pressed",
+      "_on_delete_session_pressed",
+      "_on_card_delete_pressed",
+      "_show_delete_dialog",
+      "_hide_delete_dialog",
+      "_on_delete_overlay_input",
+      "_on_delete_confirmed",
+      "on_session_title",
+      "_session_title_of",
+      "on_session_deleted",
+      "on_wake_triggered",
+      "on_wake_idle",
+      "on_agent_tool",
+      "_record_tool_call",
+      "_reset_tool_activity",
+      "_append_tool_card",
+      "_append_tool_row",
+      "_tool_badge_parts",
+      "_effort_button_text",
+      "_effort_knob_texture",
+      "_skin_texture",
+      "_open_effort_popover",
+      "_hide_effort_popover",
+      "_on_effort_overlay_input",
+      "_on_effort_slider_changed",
+      "_toggle_history_page",
+      "_open_history_page",
+      "_close_history_page",
+      "_build_history_page",
+      "_refresh_history_list",
+      "_tz_bias_sec",
+      "_updated_utc",
+      "_day_start_utc",
+      "_history_group_of",
+      "_make_history_card",
+      "_make_trash_icon",
+      "_make_history_empty_state",
+      "_on_history_card_pressed",
+      "_build_backdrop",
+      "_build_menu",
+      "_build_chat",
+      "_build_chat_header",
+      "_build_composer",
+      "_build_interaction",
+      "_append_bubble",
+      "_make_yi_dot",
+      "_make_user_dot",
+      "_show_empty_hint",
+      "_remove_empty_hint",
+      "_clear_bubbles",
+      "_stick_scroll_if_needed",
+      "_scroll_to_bottom",
+      "_short_time",
+      "_make_avatar_texture",
+      "_make_panel",
+      "_make_label",
+      "_make_button",
+      "_make_accent_button",
+      "_open_chat",
+      "_open_interaction",
+      "toggle_menu",
+      "hide_all",
+      "_close_overlay",
+      "is_pointer_over_ui",
+      "get_visible_interaction_rect",
+      "_on_backdrop_input",
+      "_run_action",
+      "_on_chat_submitted",
+      "_send_current_message",
+      "_on_voice_pressed",
+      "_on_voice_down",
+      "_on_voice_up",
+      "on_voice_state",
+      "on_voice_hint",
+      "on_voice_transcript",
+      "_set_passthrough"
+    ],
+    "runtime.gd": [
+      "_ready",
+      "_process",
+      "_notification",
+      "request_exit",
+      "_finish_exit",
+      "_prepare_authored_motions",
+      "_load_authored_motion_clip",
+      "_use_reference_arm_tracks",
+      "_remap_animation_tracks",
+      "_bone_in_motion_layer",
+      "_motion_layer_sizes",
+      "_environment_flag",
+      "_play_authored_motion",
+      "_play_default_idle_motion",
+      "_cancel_authored_motion",
+      "_on_authored_motion_finished",
+      "_return_authored_motion",
+      "_resume_authored_motion",
+      "_set_voice_motion_state",
+      "_connect_core",
+      "_process_core_bridge",
+      "_schedule_core_reconnect",
+      "_create_interaction_ui",
+      "_handle_core_event",
+      "_set_agent_state",
+      "_apply_agent_state_face",
+      "_clear_mouth_shapes",
+      "_process_speaking_mouth",
+      "_input",
+      "capture_hd_portrait",
+      "handle_agent_event",
+      "send_chat_message",
+      "request_session_list",
+      "request_chat_history",
+      "request_new_session",
+      "request_delete_session",
+      "_core_connected",
+      "start_voice_recording",
+      "stop_voice_recording",
+      "cancel_voice_recording",
+      "_start_action",
+      "_apply_action_pose",
+      "_cache_action_axes",
+      "_bone_pose_origin",
+      "_axis_that_moves_toward",
+      "_to_bone_local_axis",
+      "_action_axis",
+      "_cache_deform_bone_mirrors",
+      "_sync_deform_bone_mirrors",
+      "_preserve_limb_readability",
+      "_constrain_limb_segment",
+      "_apply_pigtail_pose",
+      "_set_bone_offset",
+      "_restore_bone_poses",
+      "_find_skeleton",
+      "_find_animation_player",
+      "_cache_bones",
+      "_cache_motion_layers",
+      "_collect_bone_descendants",
+      "_find_mesh_instance",
+      "_cache_expressions",
+      "_configure_model_look",
+      "set_model_look_preview",
+      "set_model_look_version",
+      "_cache_model_look_materials",
+      "_create_model_look_material",
+      "_set_expression",
+      "_clear_emotions",
+      "_show_emotion_preset",
+      "_show_emotion",
+      "_show_mouth",
+      "_trigger_blink",
+      "_process_expressions",
+      "_expressions_are_neutral",
+      "_configure_desktop_window",
+      "_configure_avatar_render_surface",
+      "_avatar_composite_fov",
+      "_restore_window_position",
+      "_save_window_position",
+      "_apply_desktop_canvas",
+      "_clamp_avatar_screen_center",
+      "_sync_interaction_ui_origin",
+      "_sync_avatar_texture_rect",
+      "set_ui_overlay_active",
+      "_avatar_interaction_polygon",
+      "_update_mouse_passthrough",
+      "_set_hud_visible",
+      "_create_hud",
+      "_update_hud",
+      "_handle_avatar_speak",
+      "_cache_farewell_voice",
+      "_handle_speech_stop",
+      "_on_speech_finished",
+      "_finish_unplayable_farewell",
+      "_report_speech_finished",
+      "_send_speech_receipt"
+    ]
+  },
+  "api_calls": 0
+}
