@@ -1,0 +1,91 @@
+{
+  "layer": "real Windows idle samples + verified SQLite read-transaction snapshot",
+  "source_identity": {
+    "volume_serial": 3903461716,
+    "file_index": 2533274790580297
+  },
+  "snapshot_sha256": "8c95e5d5e831f77ab48305c1522bacda6530b142929b2d6b1011595cfa6a1a93",
+  "time_selection": {
+    "rule": "julianday, excludes unparseable timestamps",
+    "baseline_snapshot_sha256": "bbe22d0ed043fea6a000652997364e3619e4bfa63edcf8742a4fd48ec8c1ba07",
+    "baseline_event_id": 7469,
+    "malformed_timestamp_events_after_baseline": [],
+    "all_malformed_timestamp_count": 24
+  },
+  "observed_episode": {
+    "first_sample": "2026-10-07T15:46:52.865384+00:00",
+    "snapshot_utc": "2026-10-07T15:58:49.888852+00:00",
+    "last_input_tick": 972052421,
+    "max_idle_seconds": 673.188
+  },
+  "proactive_idle_events": 1,
+  "provider_transport_events_in_episode": 0,
+  "human_audio": "owner confirmed: 听到了，内容清楚",
+  "events": [
+    {
+      "id": 7498,
+      "event_type": "proactive.idle",
+      "payload": {
+        "idle_seconds": 600,
+        "line": "你安静了好一会儿，我还在桌面上等你呢，想聊天随时叫我～"
+      },
+      "created_at": "2026-10-07 15:56:50"
+    },
+    {
+      "id": 7499,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "proactive-idle"
+      },
+      "created_at": "2026-10-07 15:56:50"
+    },
+    {
+      "id": 7500,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "proactive-idle"
+      },
+      "created_at": "2026-10-07 15:56:53"
+    },
+    {
+      "id": 7501,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-1c17f86dfce1",
+        "playbackId": "5010aeb7f0a64340af5e4dfde3e4d722",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 15:56:59"
+    },
+    {
+      "id": 7502,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "proactive-idle"
+      },
+      "created_at": "2026-10-07 15:56:59"
+    },
+    {
+      "id": 7503,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-1c17f86dfce1",
+        "request_id": "proactive-idle"
+      },
+      "created_at": "2026-10-07 15:56:59"
+    },
+    {
+      "id": 7504,
+      "event_type": "proactive.skipped",
+      "payload": {
+        "trigger": "idle",
+        "reason": "already-reminded-this-idle"
+      },
+      "created_at": "2026-10-07 15:57:00"
+    }
+  ]
+}

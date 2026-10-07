@@ -1,0 +1,883 @@
+{
+  "schema": "r2-reviewed-trace-v1",
+  "layer": "current Godot task, diagnostic observation; not a synthetic replacement Core",
+  "requests": [
+    "r2-voice-voice-371493633",
+    "r2-voice-voice-395877735",
+    "r2-voice-voice-398950384",
+    "r2-voice-voice-410030378"
+  ],
+  "sources": [
+    {
+      "name": "trace-5836.jsonl",
+      "prefix_bytes": 267993,
+      "prefix_sha256": "45f3c97a5877f59ffb8ab163a447d50c2b856a299bf896e47be057b68a3504ad"
+    }
+  ],
+  "known_gaps": [
+    "Audio bytes were fingerprinted, not retained or listened to by the auditor; the requested phrase is not independent proof of each actual utterance."
+  ],
+  "human_audio": "not individually confirmed",
+  "records": [
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 47,
+      "epoch": 1791387953.643669,
+      "monotonic": 971996.328,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "stt.capture",
+      "data": {
+        "generation": 5,
+        "capture": {
+          "capture_id": "voice-371493633",
+          "generation": 5,
+          "session_id": 362,
+          "phase": "transcribing"
+        },
+        "audio_fingerprint": {
+          "bytes": 197228,
+          "sha256": "7d32e031a020132ffb878151900e0d1791848296c7bab1e16d4c6de99b68cb0a"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 48,
+      "epoch": 1791387953.643669,
+      "monotonic": 971996.328,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:45:53.643669+00:00",
+          "captureId": "voice-371493633",
+          "conversationId": 362,
+          "state": "transcribing"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 49,
+      "epoch": 1791387953.643669,
+      "monotonic": 971996.328,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:45:53.643669+00:00",
+        "captureId": "voice-371493633",
+        "conversationId": 362,
+        "state": "transcribing"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 50,
+      "epoch": 1791387953.6446679,
+      "monotonic": 971996.328,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "stt.raw.in",
+      "data": {
+        "args": [
+          {
+            "binary_bytes": 197228,
+            "sha256": "7d32e031a020132ffb878151900e0d1791848296c7bab1e16d4c6de99b68cb0a"
+          }
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 51,
+      "epoch": 1791387959.4432402,
+      "monotonic": 972002.125,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "stt.raw.out",
+      "data": "測試10月18日編號ABC 123總數170"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 52,
+      "epoch": 1791387959.444241,
+      "monotonic": 972002.125,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "stt.simplified.in",
+      "data": {
+        "args": [
+          "測試10月18日編號ABC 123總數170"
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 53,
+      "epoch": 1791387959.4487677,
+      "monotonic": 972002.14,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "stt.simplified.out",
+      "data": "测试10月18日编号ABC 123总数170"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 54,
+      "epoch": 1791387959.4497705,
+      "monotonic": 972002.14,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.transcript",
+          "timestamp": "2026-10-07T15:45:59.448767+00:00",
+          "captureId": "voice-371493633",
+          "conversationId": 362,
+          "text": "测试10月18日编号ABC 123总数170"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 55,
+      "epoch": 1791387959.4497705,
+      "monotonic": 972002.14,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.transcript",
+        "timestamp": "2026-10-07T15:45:59.448767+00:00",
+        "captureId": "voice-371493633",
+        "conversationId": 362,
+        "text": "测试10月18日编号ABC 123总数170"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 56,
+      "epoch": 1791387959.4507697,
+      "monotonic": 972002.14,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:45:59.450769+00:00",
+          "captureId": "voice-371493633",
+          "conversationId": 362,
+          "state": "idle"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 57,
+      "epoch": 1791387959.4517684,
+      "monotonic": 972002.14,
+      "trace": {
+        "request_id": "r2-voice-voice-371493633",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:45:59.450769+00:00",
+        "captureId": "voice-371493633",
+        "conversationId": 362,
+        "state": "idle"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 59,
+      "epoch": 1791387972.0960698,
+      "monotonic": 972014.781,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "stt.capture",
+      "data": {
+        "generation": 7,
+        "capture": {
+          "capture_id": "voice-395877735",
+          "generation": 7,
+          "session_id": 362,
+          "phase": "transcribing"
+        },
+        "audio_fingerprint": {
+          "bytes": 23340,
+          "sha256": "1ff5640f261a422fd0cfce574f6076010a57949e7a059bee0968647af97127e8"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 60,
+      "epoch": 1791387972.0970688,
+      "monotonic": 972014.781,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:46:12.097068+00:00",
+          "captureId": "voice-395877735",
+          "conversationId": 362,
+          "state": "transcribing"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 61,
+      "epoch": 1791387972.0970688,
+      "monotonic": 972014.781,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:46:12.097068+00:00",
+        "captureId": "voice-395877735",
+        "conversationId": 362,
+        "state": "transcribing"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 62,
+      "epoch": 1791387972.0970688,
+      "monotonic": 972014.781,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "stt.raw.in",
+      "data": {
+        "args": [
+          {
+            "binary_bytes": 23340,
+            "sha256": "1ff5640f261a422fd0cfce574f6076010a57949e7a059bee0968647af97127e8"
+          }
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 63,
+      "epoch": 1791387972.1900725,
+      "monotonic": 972014.875,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "stt.raw.exception",
+      "data": {
+        "type": "VoiceError",
+        "stack": "Traceback (most recent call last):\n  File \"{PRODUCTION}\\services\\agent-core\\agent_core\\_round02_observer.py\", line 172, in wrapped\n    result = original(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"{PRODUCTION}\\services\\agent-core\\agent_core\\voice.py\", line 191, in transcribe_wav\n    raise VoiceError(\"没有识别到清晰语音\")\nagent_core.voice.VoiceError: 没有识别到清晰语音\n"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 64,
+      "epoch": 1791387972.191064,
+      "monotonic": 972014.875,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.hint",
+          "timestamp": "2026-10-07T15:46:12.191063+00:00",
+          "captureId": "voice-395877735",
+          "conversationId": 362,
+          "message": "没有识别到清晰语音"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 65,
+      "epoch": 1791387972.191064,
+      "monotonic": 972014.875,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.hint",
+        "timestamp": "2026-10-07T15:46:12.191063+00:00",
+        "captureId": "voice-395877735",
+        "conversationId": 362,
+        "message": "没有识别到清晰语音"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 66,
+      "epoch": 1791387972.191064,
+      "monotonic": 972014.875,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:46:12.191063+00:00",
+          "captureId": "voice-395877735",
+          "conversationId": 362,
+          "state": "idle"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 67,
+      "epoch": 1791387972.191064,
+      "monotonic": 972014.875,
+      "trace": {
+        "request_id": "r2-voice-voice-395877735",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:46:12.191063+00:00",
+        "captureId": "voice-395877735",
+        "conversationId": 362,
+        "state": "idle"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 69,
+      "epoch": 1791387975.9328449,
+      "monotonic": 972018.625,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "stt.capture",
+      "data": {
+        "generation": 9,
+        "capture": {
+          "capture_id": "voice-398950384",
+          "generation": 9,
+          "session_id": 362,
+          "phase": "transcribing"
+        },
+        "audio_fingerprint": {
+          "bytes": 50796,
+          "sha256": "21f93b58fb8267cb7386870c2c094524f5a9cb98ab213d54934ed0080d331f78"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 70,
+      "epoch": 1791387975.9334075,
+      "monotonic": 972018.625,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:46:15.932844+00:00",
+          "captureId": "voice-398950384",
+          "conversationId": 362,
+          "state": "transcribing"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 71,
+      "epoch": 1791387975.9334075,
+      "monotonic": 972018.625,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:46:15.932844+00:00",
+        "captureId": "voice-398950384",
+        "conversationId": 362,
+        "state": "transcribing"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 72,
+      "epoch": 1791387975.9344163,
+      "monotonic": 972018.625,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "stt.raw.in",
+      "data": {
+        "args": [
+          {
+            "binary_bytes": 50796,
+            "sha256": "21f93b58fb8267cb7386870c2c094524f5a9cb98ab213d54934ed0080d331f78"
+          }
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 73,
+      "epoch": 1791387977.829835,
+      "monotonic": 972020.515,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "stt.raw.out",
+      "data": "175"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 74,
+      "epoch": 1791387977.8303633,
+      "monotonic": 972020.515,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "stt.simplified.in",
+      "data": {
+        "args": [
+          "175"
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 75,
+      "epoch": 1791387977.8313775,
+      "monotonic": 972020.515,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "stt.simplified.out",
+      "data": "175"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 76,
+      "epoch": 1791387977.8313775,
+      "monotonic": 972020.515,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.transcript",
+          "timestamp": "2026-10-07T15:46:17.831377+00:00",
+          "captureId": "voice-398950384",
+          "conversationId": 362,
+          "text": "175"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 77,
+      "epoch": 1791387977.8313775,
+      "monotonic": 972020.515,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.transcript",
+        "timestamp": "2026-10-07T15:46:17.831377+00:00",
+        "captureId": "voice-398950384",
+        "conversationId": 362,
+        "text": "175"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 78,
+      "epoch": 1791387977.8323762,
+      "monotonic": 972020.515,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:46:17.832376+00:00",
+          "captureId": "voice-398950384",
+          "conversationId": 362,
+          "state": "idle"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 79,
+      "epoch": 1791387977.8333774,
+      "monotonic": 972020.515,
+      "trace": {
+        "request_id": "r2-voice-voice-398950384",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:46:17.832376+00:00",
+        "captureId": "voice-398950384",
+        "conversationId": 362,
+        "state": "idle"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 81,
+      "epoch": 1791387992.3322372,
+      "monotonic": 972035.015,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "stt.capture",
+      "data": {
+        "generation": 11,
+        "capture": {
+          "capture_id": "voice-410030378",
+          "generation": 11,
+          "session_id": 362,
+          "phase": "transcribing"
+        },
+        "audio_fingerprint": {
+          "bytes": 221356,
+          "sha256": "95925b2917437e282b10cdeb2edaf8ff349641366136e1b042e454c6ebe21836"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 82,
+      "epoch": 1791387992.3332305,
+      "monotonic": 972035.015,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:46:32.333230+00:00",
+          "captureId": "voice-410030378",
+          "conversationId": 362,
+          "state": "transcribing"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 83,
+      "epoch": 1791387992.3332305,
+      "monotonic": 972035.015,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:46:32.333230+00:00",
+        "captureId": "voice-410030378",
+        "conversationId": 362,
+        "state": "transcribing"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 84,
+      "epoch": 1791387992.3342378,
+      "monotonic": 972035.015,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "stt.raw.in",
+      "data": {
+        "args": [
+          {
+            "binary_bytes": 221356,
+            "sha256": "95925b2917437e282b10cdeb2edaf8ff349641366136e1b042e454c6ebe21836"
+          }
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 85,
+      "epoch": 1791387994.9170911,
+      "monotonic": 972037.609,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "stt.raw.out",
+      "data": "審计测试10月18日编号ABC123总数175"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 86,
+      "epoch": 1791387994.9186068,
+      "monotonic": 972037.609,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "stt.simplified.in",
+      "data": {
+        "args": [
+          "審计测试10月18日编号ABC123总数175"
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 87,
+      "epoch": 1791387994.9196205,
+      "monotonic": 972037.609,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "stt.simplified.out",
+      "data": "审计测试10月18日编号ABC123总数175"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 88,
+      "epoch": 1791387994.9196205,
+      "monotonic": 972037.609,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.transcript",
+          "timestamp": "2026-10-07T15:46:34.919620+00:00",
+          "captureId": "voice-410030378",
+          "conversationId": 362,
+          "text": "审计测试10月18日编号ABC123总数175"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 89,
+      "epoch": 1791387994.9206235,
+      "monotonic": 972037.609,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.transcript",
+        "timestamp": "2026-10-07T15:46:34.919620+00:00",
+        "captureId": "voice-410030378",
+        "conversationId": 362,
+        "text": "审计测试10月18日编号ABC123总数175"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 90,
+      "epoch": 1791387994.9216185,
+      "monotonic": 972037.609,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "voice.state",
+          "timestamp": "2026-10-07T15:46:34.920623+00:00",
+          "captureId": "voice-410030378",
+          "conversationId": 362,
+          "state": "idle"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 5836,
+      "seq": 91,
+      "epoch": 1791387994.9216185,
+      "monotonic": 972037.609,
+      "trace": {
+        "request_id": "r2-voice-voice-410030378",
+        "session_id": 362
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "voice.state",
+        "timestamp": "2026-10-07T15:46:34.920623+00:00",
+        "captureId": "voice-410030378",
+        "conversationId": 362,
+        "state": "idle"
+      }
+    }
+  ]
+}

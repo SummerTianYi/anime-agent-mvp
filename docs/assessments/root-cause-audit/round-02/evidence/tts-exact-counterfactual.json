@@ -1,0 +1,43 @@
+{
+  "layer": "isolated deployed source print and HTTP classification, no network/GPU/Core process",
+  "live_request_id": "avatar-chat-1913607",
+  "source_line": 844,
+  "source_sha256": "4fbbe2b1a4ef43fab3c122af291f4ec8b6ae274d004f7ded69de9883acfdd72c",
+  "speech_sha256": "31b77cd18b09efb68db48a2725fc44dbe97f7c81d9679657c7b46817dd9d4fbc",
+  "print_cases": [
+    {
+      "text": "已经读取完毕 ✅",
+      "encoding": "gbk",
+      "errors": "surrogateescape",
+      "status": "UnicodeEncodeError",
+      "start": 7,
+      "end": 8,
+      "reason": "illegal multibyte sequence"
+    },
+    {
+      "text": "已经读取完毕",
+      "encoding": "gbk",
+      "errors": "surrogateescape",
+      "status": "printed",
+      "bytes": 34
+    },
+    {
+      "text": "已经读取完毕 ✅",
+      "encoding": "utf-8",
+      "errors": "surrogateescape",
+      "status": "printed",
+      "bytes": 53
+    }
+  ],
+  "http_classification": [
+    {
+      "http_status": 400,
+      "retryable": false
+    },
+    {
+      "http_status": 503,
+      "retryable": true
+    }
+  ],
+  "limits": "UTF-8 print success is not evidence that full synthesis of arbitrary emoji succeeds."
+}

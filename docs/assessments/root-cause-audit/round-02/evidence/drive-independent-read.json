@@ -1,0 +1,124 @@
+{
+  "actor": "Codex independent verification, NOT Tianyi execution",
+  "external_mutations": [],
+  "private": false,
+  "adapter_sha256": "20bc354c081919b193699466ea36db21fb0e4df6d8f4e46c36ffbbb4f855f2d7",
+  "rows": [
+    {
+      "server": "gmail",
+      "startup_error": "JSONDecodeError",
+      "message": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "server": "gmail",
+      "cleanup_root_still_running": 39864
+    },
+    {
+      "server": "gmail",
+      "cleanup": {
+        "root_returncode": 1,
+        "remaining_owned_children": [],
+        "cleanup_errors": []
+      }
+    },
+    {
+      "server": "drive",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "tools/call",
+        "params": {
+          "name": "search",
+          "arguments": {
+            "query": "R2-TIANYI-Drive-evidence"
+          }
+        }
+      },
+      "raw": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Found 1 files:\nR2-TIANYI-Drive-evidence.txt (text/plain)"
+            }
+          ],
+          "isError": false
+        },
+        "jsonrpc": "2.0",
+        "id": 3
+      },
+      "adapted_same_receipt": {
+        "ok": true,
+        "text": "Found 1 files:\nR2-TIANYI-Drive-evidence.txt (text/plain)"
+      }
+    },
+    {
+      "server": "drive",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "tools/call",
+        "params": {
+          "name": "search",
+          "arguments": {
+            "query": "R2-20261007-NONEXISTENT-91E7"
+          }
+        }
+      },
+      "raw": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Found 0 files:\n"
+            }
+          ],
+          "isError": false
+        },
+        "jsonrpc": "2.0",
+        "id": 5
+      },
+      "adapted_same_receipt": {
+        "ok": true,
+        "text": "Found 0 files:\n"
+      }
+    },
+    {
+      "server": "drive",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "method": "resources/read",
+        "params": {
+          "uri": "gdrive:///1A8qruMefQjK-q1Bca1zSnCzo2KhYSETH"
+        }
+      },
+      "raw": {
+        "result": {
+          "contents": [
+            {
+              "uri": "gdrive:///1A8qruMefQjK-q1Bca1zSnCzo2KhYSETH",
+              "mimeType": "text/plain",
+              "text": "[R2-MAIL] 合成附件：预算120，支出45，余额75。\n"
+            }
+          ]
+        },
+        "jsonrpc": "2.0",
+        "id": 7
+      }
+    },
+    {
+      "server": "drive",
+      "cleanup_root_still_running": 9836
+    },
+    {
+      "server": "drive",
+      "cleanup": {
+        "root_returncode": 1,
+        "remaining_owned_children": [],
+        "cleanup_errors": []
+      }
+    }
+  ],
+  "schema": "r2-independent-connector-receipts-v1"
+}

@@ -1,0 +1,4 @@
+{"case": "positive", "verdict": "PASS", "reasons": []}
+{"case": "unrelated-receipt", "verdict": "PASS", "reasons": []}
+{"case": "wrong-total", "verdict": "PASS", "reasons": []}
+{"case": "no-receipt", "verdict": "FAIL", "reasons": ["actual_read"]}

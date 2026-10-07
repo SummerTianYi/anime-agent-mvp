@@ -1,0 +1,7 @@
+{
+  "schema": "r2-retrospective-script-identity-v1",
+  "script": "scripts/root_cause_audit/round02_local_branches.py",
+  "sha256": "0eb6f9072e05e9b6906adf64c9300124d537de85246487889e0dff57b00b3f0f",
+  "related_evidence": "evidence/local-branches-01.json",
+  "binding_limit": "Hash collected after execution; file was not edited after execution in this task, but original report did not record script hash at runtime. Do not represent this as in-run cryptographic attestation."
+}

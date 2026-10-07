@@ -1,0 +1,89 @@
+{
+  "schema": "r2-memory-counterfactual-v1",
+  "layer": "actual AST and storage, temporary synthetic databases",
+  "observations": [
+    {
+      "appended_user_text": "",
+      "promotion": "pending",
+      "facts": [
+        {
+          "fact_id": 1,
+          "scope": "global",
+          "status": "confirmed",
+          "content": "R2-晨星项目预算120（合成审计项目事实）"
+        },
+        {
+          "fact_id": 2,
+          "scope": "global",
+          "status": "confirmed",
+          "content": "R2-暮云项目预算180；R2-暮云与R2-晨星是两个不同项目，不可互相替换晨星预算120"
+        },
+        {
+          "fact_id": 3,
+          "scope": "global",
+          "status": "confirmed",
+          "content": "R2-晨星项目截止日期是2026年10月18日"
+        },
+        {
+          "fact_id": 4,
+          "scope": "session",
+          "status": "pending",
+          "content": "R2-晨星项目预算175（更正旧值120）；R2-暮云预算180；R2-暮云与R2-晨星是两个不同项目不可互相替换；R2-晨星截止日期2026年10月18日"
+        }
+      ],
+      "other_session_recall": [
+        "R2-晨星项目截止日期是2026年10月18日",
+        "R2-暮云项目预算180；R2-暮云与R2-晨星是两个不同项目，不可互相替换晨星预算120",
+        "R2-晨星项目预算120（合成审计项目事实）"
+      ]
+    },
+    {
+      "appended_user_text": " 请记住。",
+      "promotion": "confirmed",
+      "facts": [
+        {
+          "fact_id": 1,
+          "scope": "global",
+          "status": "confirmed",
+          "content": "R2-晨星项目预算120（合成审计项目事实）"
+        },
+        {
+          "fact_id": 2,
+          "scope": "global",
+          "status": "superseded",
+          "content": "R2-暮云项目预算180；R2-暮云与R2-晨星是两个不同项目，不可互相替换晨星预算120"
+        },
+        {
+          "fact_id": 3,
+          "scope": "global",
+          "status": "confirmed",
+          "content": "R2-晨星项目截止日期是2026年10月18日"
+        },
+        {
+          "fact_id": 4,
+          "scope": "global",
+          "status": "confirmed",
+          "content": "R2-晨星项目预算175（更正旧值120）；R2-暮云预算180；R2-暮云与R2-晨星是两个不同项目不可互相替换；R2-晨星截止日期2026年10月18日"
+        }
+      ],
+      "other_session_recall": [
+        "R2-晨星项目预算175（更正旧值120）；R2-暮云预算180；R2-暮云与R2-晨星是两个不同项目不可互相替换；R2-晨星截止日期2026年10月18日",
+        "R2-晨星项目截止日期是2026年10月18日",
+        "R2-晨星项目预算120（合成审计项目事实）"
+      ]
+    }
+  ],
+  "model_api_calls": 0,
+  "production_database_reads": 0,
+  "source_sha256": {
+    "main.py": "7af0c89c3fd171c749c1fee5e94e42a414d68adfb98c39f7a2e9b7d0eca905fc",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b"
+  },
+  "input_trace_sha256": "e20cc08576d914b05119ec3117e01ff7677ae9e45226cd00615f1223810174d9",
+  "script_sha256": "aeac5874b99256e811ca020251cd28f59466cb468b8ec454ec560c6ad86bfedf",
+  "limits": [
+    "Does not rerun the model",
+    "Candidate held identical; only explicit remember marker changes",
+    "Temporary databases cleaned after capturing results"
+  ]
+}

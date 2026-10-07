@@ -1,0 +1,592 @@
+{
+  "layer": "isolated synthetic reviewer counterexamples",
+  "api_calls": 0,
+  "live_database_access": false,
+  "temporary_objects_cleaned": true,
+  "script_sha256": "1bc98737569cc8cd401693e584687ac247e16d31379217397489b7a57139ffde",
+  "source_hashes": {
+    "tools.py": "9f751b0c507dacad78b8ca6cfc4dd1bb0d83ab1f4137984f32cb07dfb9de54d7",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "harness.py": "f4b0a888d14bc2b20b994971be601cc72255c6a8976a0e271e2881770a170e25",
+    "main.py": "e64a26e426b1cf3c00447f2dc39fc775241114498e1c257ebdd86e3e66d3d3f5"
+  },
+  "rows": [
+    {
+      "case": "read-mixed-utf8",
+      "first_byte_hex": "41",
+      "next_offset": 65535,
+      "joined_tail": "AAAAAAAA甲END",
+      "expected_tail": "AAAAAAAA甲END",
+      "preserves_valid_suffix": true
+    },
+    {
+      "case": "read-mixed-utf8",
+      "first_byte_hex": "ff",
+      "next_offset": 65536,
+      "joined_tail": "AAAAAA���END",
+      "expected_tail": "AAAAAAAA甲END",
+      "preserves_valid_suffix": false
+    },
+    {
+      "case": "command-quoted-path",
+      "command": "\"C:\\R2\\r2_echo.exe\" --mode \"synthetic value\"",
+      "result": {
+        "ok": true,
+        "returncode": 0,
+        "output": "R2",
+        "note": "命令已按白名单执行，未经过 shell 管道"
+      },
+      "mock_calls": 1,
+      "argv": [
+        "C:\\R2\\r2_echo.exe",
+        "--mode",
+        "synthetic value"
+      ]
+    },
+    {
+      "case": "command-quoted-path",
+      "command": "\"C:\\R2 Fixture\\r2_echo.exe\" --mode \"synthetic value\"",
+      "result": {
+        "ok": false,
+        "error": "命令 r2 不在白名单内（ANIME_AGENT_ALLOWED_COMMANDS）"
+      },
+      "mock_calls": 0,
+      "argv": null
+    },
+    {
+      "case": "history-harness-window",
+      "roles": [
+        "system",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user",
+        "assistant",
+        "user"
+      ],
+      "contents_without_system": [
+        "R2-05",
+        "R2-06",
+        "R2-07",
+        "R2-08",
+        "R2-09",
+        "R2-10",
+        "R2-11",
+        "R2-12",
+        "R2-13",
+        "R2-14",
+        "R2-15",
+        "R2-16",
+        "R2-17",
+        "R2-18",
+        "R2-19",
+        "R2-20",
+        "R2-21",
+        "R2-22",
+        "R2-23",
+        "R2-24"
+      ],
+      "latest_occurrences": 1,
+      "exact_window": true
+    },
+    {
+      "case": "parse-reply-type",
+      "raw": "{\"reply\":\"R2正常\"}",
+      "parsed": {
+        "reply": "R2正常",
+        "emotion": "neutral",
+        "emotion_intensity": 0.35,
+        "gesture": "none",
+        "memory_candidate": null,
+        "session_title": null
+      }
+    },
+    {
+      "case": "parse-reply-type",
+      "raw": "{\"reply\":null}",
+      "parsed": {
+        "reply": "None",
+        "emotion": "neutral",
+        "emotion_intensity": 0.35,
+        "gesture": "none",
+        "memory_candidate": null,
+        "session_title": null
+      }
+    },
+    {
+      "case": "parse-reply-type",
+      "raw": "{\"reply\":175}",
+      "parsed": {
+        "reply": "175",
+        "emotion": "neutral",
+        "emotion_intensity": 0.35,
+        "gesture": "none",
+        "memory_candidate": null,
+        "session_title": null
+      }
+    },
+    {
+      "case": "parse-reply-type",
+      "raw": "{",
+      "parsed": {
+        "reply": "{",
+        "emotion": "neutral",
+        "emotion_intensity": 0.35,
+        "gesture": "none",
+        "memory_candidate": null,
+        "session_title": null
+      }
+    },
+    {
+      "case": "parse-reply-type",
+      "raw": "{\"reply\":\"\"}",
+      "parsed": {
+        "reply": "这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+        "emotion": "neutral",
+        "emotion_intensity": 0.35,
+        "gesture": "none",
+        "memory_candidate": null,
+        "session_title": null
+      }
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": "R2正常"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": "R2正常"
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete_with_tools",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": "R2正常"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": {
+          "content": "R2正常",
+          "tool_calls": [],
+          "raw": {
+            "content": "R2正常"
+          }
+        }
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false,
+            "tools": [],
+            "tool_choice": "auto"
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": null
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": "None"
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete_with_tools",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": null
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": {
+          "content": "",
+          "tool_calls": [],
+          "raw": {
+            "content": null
+          }
+        }
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false,
+            "tools": [],
+            "tool_choice": "auto"
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": ""
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "exception": "ProviderError",
+        "message": "R2-fake API 返回空回复"
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete_with_tools",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": ""
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": {
+          "content": "",
+          "tool_calls": [],
+          "raw": {
+            "content": ""
+          }
+        }
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false,
+            "tools": [],
+            "tool_choice": "auto"
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": 175
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": "175"
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete_with_tools",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": 175
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": {
+          "content": "175",
+          "tool_calls": [],
+          "raw": {
+            "content": 175
+          }
+        }
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false,
+            "tools": [],
+            "tool_choice": "auto"
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": [
+                {
+                  "text": "R2"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": "R2"
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete_with_tools",
+      "payload": {
+        "choices": [
+          {
+            "message": {
+              "content": [
+                {
+                  "text": "R2"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "value": {
+          "content": "R2",
+          "tool_calls": [],
+          "raw": {
+            "content": [
+              {
+                "text": "R2"
+              }
+            ]
+          }
+        }
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false,
+            "tools": [],
+            "tool_choice": "auto"
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete",
+      "payload": {
+        "choices": [
+          {
+            "message": null
+          }
+        ]
+      },
+      "outcome": {
+        "exception": "ProviderError",
+        "message": "R2-fake API 响应格式无法识别"
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false
+          }
+        }
+      ]
+    },
+    {
+      "case": "adapter-null-and-types",
+      "method": "complete_with_tools",
+      "payload": {
+        "choices": [
+          {
+            "message": null
+          }
+        ]
+      },
+      "outcome": {
+        "exception": "AttributeError",
+        "message": "'NoneType' object has no attribute 'get'"
+      },
+      "fake_transport_calls": [
+        {
+          "url": "https://r2.invalid/v1/chat/completions",
+          "body": {
+            "model": "R2-fake",
+            "messages": [
+              {
+                "role": "user",
+                "content": "R2"
+              }
+            ],
+            "stream": false,
+            "tools": [],
+            "tool_choice": "auto"
+          }
+        }
+      ]
+    }
+  ]
+}

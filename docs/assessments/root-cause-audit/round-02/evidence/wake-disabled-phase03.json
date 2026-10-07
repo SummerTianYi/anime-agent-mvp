@@ -1,0 +1,14 @@
+{
+  "layer": "formal Core health in verified desktop identity probe",
+  "source": "identity-glm-start/identity.json",
+  "utc": "2026-10-07T17:54:58.514052+00:00",
+  "core_pid": 27300,
+  "wake": {
+    "enabled": false,
+    "running": false,
+    "paused": false,
+    "recent_peak": 0
+  },
+  "source_snapshot_sha256": "de72ba3570a8a8cfe309ae994fd9891415086f4c7a78fb842a53a41ca44e532c",
+  "limits": "Configuration remains manual; background microphone never enabled for audit"
+}

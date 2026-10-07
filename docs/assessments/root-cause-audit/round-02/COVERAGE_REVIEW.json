@@ -1,0 +1,4687 @@
+{
+  "disabledScopeReview": {
+    "status": "Negative/disabled/scope classification only; product implementation and positive acceptance remain open",
+    "date": "2026-10-08",
+    "originalRows": [
+      {
+        "id": "EF04",
+        "state": "UNIMPLEMENTED_PARAMETER_CONTROL",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "main.py:1387 MODEL_REASONING_CONTROLS; :214-221/:266-275 request bodies",
+        "evidence": "Source map is empty for both named models and is not consumed; effort budgets are host task limits.",
+        "boundary": "Three effort frontend successes do not prove internal reasoning controls or provider-side thinking budget.",
+        "live": "No new live call needed for absence classification."
+      },
+      {
+        "id": "TA09",
+        "state": "UNIMPLEMENTED_CORE_RESOURCE_BRIDGE",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "mcp_host.py:112-145/:205-215; tools/gdrive/index.mjs:39-45/:125-145",
+        "evidence": "Core lists/calls tools only; independent Drive resources/read succeeds; frontend search exposes names but not body.",
+        "boundary": "Independent connector resource read is not Tianyi bridge execution; OAuth/materials ready.",
+        "live": "No additional OAuth or repeated body read needed."
+      },
+      {
+        "id": "VO05",
+        "state": "IMPLEMENTED_DISABLED_BY_MANUAL_MODE",
+        "closure": "STATIC_CLASSIFICATION_CLOSED_CURRENT_GENERATION_STATE_NEEDS_RECEIPT",
+        "entry": "main.py:735/:1698/:1810-1838/:1910-1915",
+        "evidence": "Manual startup returns before construction; existing VoiceInputTests.test_manual_mode_never_opens_background_listener:187 asserts listener/chat not called; STATE records manual maintained.",
+        "boundary": "Existing test only manual+no listener; source handles prior listener. Public exports reviewed do not include latest generation wake health/event.",
+        "live": "Reuse already captured current Core health wake.enabled=false and running=false or current-generation wake.disabled reason; do not start microphone/background wake."
+      },
+      {
+        "id": "NI01",
+        "state": "UNIMPLEMENTED_UNIVERSAL_COLLISION_GUARANTEE",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "docs/MOTION_PIPELINE.md:27/:32/:34/:76; runtime.gd:1322-1432",
+        "evidence": "Finite motion/pose controls explicitly exclude general collision solver and universal clearance.",
+        "boundary": "750 sampled frames and finite motions cannot prove all clothes/motions/proportions.",
+        "live": "No extra pose or model change needed to classify unsupported universal claim."
+      },
+      {
+        "id": "NI02",
+        "state": "DEFERRED_NO_FORMAL_LOGIN_ENTRY",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "docs/HANDOFF.md:126; start-anime-agent.cmd:3; scripts/start-mvp.ps1:50-52",
+        "evidence": "Formal route is manually invoked session launcher/guard, with no project login registration contract.",
+        "boundary": "Does not inspect or rule out unrelated machine registry/scheduled startup items.",
+        "live": "No registry query, login, reboot or registration needed."
+      },
+      {
+        "id": "NI03",
+        "state": "INTERNAL_FACT_APIS_WITHOUT_REVIEW_OR_FORGET_UI",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "storage.py:128-143/:306/:333; main.py:1353/:1515/:2019-2062; docs/HANDOFF.md:122",
+        "evidence": "Internal status/pending methods exist; formal UI/WS review/edit/forget route absent; chat deletion deletes messages/sessions only.",
+        "boundary": "Fact API or session deletion is not fact forgetting; pending near-duplicate merge remains a documented subgap.",
+        "live": "No private memory inspection/deletion needed; isolated API tests cannot close missing UI."
+      },
+      {
+        "id": "NI04",
+        "state": "UNIMPLEMENTED_GENERAL_DESKTOP_INPUT",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "docs/HANDOFF.md:126/:138; tools.py:448-545",
+        "evidence": "No registered general desktop keyboard/mouse capability; browser domain and Godot own input are separate.",
+        "boundary": "Browser click and native Godot shortcuts cannot be relabeled system-wide control.",
+        "live": "No system input trial or new permission needed."
+      },
+      {
+        "id": "NI05",
+        "state": "UNIMPLEMENTED_SPARK_PROVIDER",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "main.py:706-728; docs/HANDOFF.md:126",
+        "evidence": "Factory supports deepseek/glm/stepfun; unknown name yields Mock in isolated wiring report.",
+        "boundary": "Unknown-name mock control does not invoke or validate Spark; CSS avatar-spark decorative names irrelevant.",
+        "live": "No Spark credential/provider call needed."
+      },
+      {
+        "id": "NI06",
+        "state": "EXISTING_TAURI_CODE_NOT_FORMAL_LAUNCH_ROUTE",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "apps/desktop/src-tauri/src/main.rs:3-6; scripts/start-mvp.ps1:50-52; scripts/run-avatar-runtime.ps1:68-83",
+        "evidence": "Tauri program exists; formal CMD chain starts Godot.",
+        "boundary": "Not a claim that Tauri has no source, cannot build or has never been launched elsewhere.",
+        "live": "No alternate shell launch/build required for route classification."
+      },
+      {
+        "id": "NI07",
+        "state": "UNVERIFIED_UNBOUNDED_PORTABILITY_CLAIM",
+        "closure": "SCOPE_CLASSIFICATION_CLOSED_POSITIVE_ACCEPTANCE_OPEN",
+        "entry": "docs/DELIVERY_STATUS.md:3/:27/:31; production scripts/delivery/README.md:5-9",
+        "evidence": "Delivery scripts/layout exist, but fresh OS/second computer/non-NVIDIA equivalence not accepted; restricted resources and dependencies remain separate.",
+        "boundary": "Cannot mark absent implementation or portable PASS; unbounded arbitrary-computer claim has no finite universal test.",
+        "live": "Only if pursuing positive portability: declare target OS/hardware, clean second host/VM and required assets; this is separate bounded acceptance."
+      }
+    ],
+    "additionalEntries": [
+      {
+        "id": "NI-open_app",
+        "original256": false,
+        "state": "UNIMPLEMENTED_REGISTERED_APP_LAUNCH",
+        "closure": "CLASSIFICATION_CLOSED",
+        "entry": "docs/HANDOFF.md:126; tools.py:448-545",
+        "boundary": "run_command may launch an executable but is not a dedicated application discovery/authorization contract."
+      },
+      {
+        "id": "BM-AD03-factory-reload",
+        "original256": false,
+        "state": "CALLBACK_SUPPORTED_BUT_NOT_WIRED_IN_FACTORY",
+        "closure": "CLASSIFICATION_CLOSED",
+        "relatedOriginalId": "AD03",
+        "entry": "main.py:160/:170/:190-192/:384/:393/:504-506/:706-728",
+        "evidence": "wiring-counterfactuals-01.json: three real provider-name constructor spies omit reload_config; no post-assignment in source.",
+        "boundary": "Callback-based isolated tests prove class branch only; no live credential rotation and no inferred current running-object identity."
+      }
+    ],
+    "originalCount": 10,
+    "additionalCount": 2,
+    "wiringEvidence": {
+      "path": "evidence/wiring-counterfactuals-01.json",
+      "sha256": "f5b279bc821f265c6fb6c638e893c30c98a7f3bedbd38d2d1f15035ee9e14c83",
+      "scriptSha256": "79767bd48302f06871f361d53022803675a491df6140b92c364a6aac70c642f3",
+      "productionMainSha256": "7af0c89c3fd171c749c1fee5e94e42a414d68adfb98c39f7a2e9b7d0eca905fc",
+      "auditMainSha256": "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95",
+      "factoryCanonicalAstSha256": "d1466109468e162950d3c3e67f261955d7ba45b2b69ebcc28e411ae1665bb168",
+      "factoryAstMatches": true,
+      "executionOwner": "parent",
+      "independentRerun": false
+    },
+    "minimalLiveNeeds": [
+      {
+        "scope": "VO05 latest generation only",
+        "action": "Reuse health/wake.disabled receipt already captured by parent; no new listener or microphone action.",
+        "status": "state receipt not found in reviewed public exports"
+      },
+      {
+        "scope": "Other currently enabled capabilities",
+        "action": "Parent continues GLM same-question/frontend tool/UI batches and final original-config/diagnostic restoration; not closed by this N review.",
+        "status": "outside negative-classification closure"
+      },
+      {
+        "scope": "NI07 positive portability",
+        "action": "Only a declared target host/VM and assets can establish positive deployment acceptance; no new cross-host task inferred.",
+        "status": "separate future acceptance"
+      }
+    ],
+    "preserved": "184 rows +72 evidencedRows and existing counts remain unchanged; supplements are not added to original256 or called PASS",
+    "documentedSubgaps": [
+      "HANDOFF.md:121 continuous high-resolution recording/adaptive quality/derived textures remain unfinished; portrait_capture.gd:34 UPDATE_ONCE and :53 save_png are a single-image path, not continuous video.",
+      "Pending duplicate merge remains NI03 subgap; generic collision overlaps NI01. Do not turn roadmap omissions into new audit success requirements."
+    ]
+  },
+  "browserGroup1Review": {
+    "status": "Independent read-only evidence review; no frontend/model/network rerun",
+    "hashes": {
+      "browser-group1-trace.json": "87b8043bf3b892956e087d7a30fde2df88c31bcfaa3ccdd7a11dc20c5b4f3c61",
+      "browser-group1-state.json": "4282c7407c5d3a1a90d36d32f44025f2d17c3d1456aa31161e8fd41021f402f0",
+      "edge-counterfactuals-01.json": "9cf356c6e33c3ee31b802f951d80f64bd6bf7144748ca91dff2504977bdb2f5d",
+      "local-branches-01.json": "89b9a31ded3c9e74649788ee4dd8609cabfb68424e20037d4fd1549848824893"
+    },
+    "counts": {
+      "traceRequestIds": 8,
+      "traceRecords": 1274,
+      "pairedUniqueHttpExchanges": 13,
+      "mcpRawOut": 5,
+      "stateSessions": [
+        360,
+        361,
+        362,
+        363,
+        364,
+        365,
+        366,
+        367
+      ],
+      "stateMessages": 46,
+      "stateEvents": 512,
+      "stateActions": 9,
+      "stateCumulativeHttpAttempts": 43
+    },
+    "countBoundary": "State is a multi-session extraction, not B01 denominator; task calls include proposals/cached receipts.",
+    "specificToolEvidence": [
+      {
+        "id": "M-mcp__browser__browser_navigate",
+        "request": "avatar-chat-1292218",
+        "rawSeq": 419,
+        "scope": "V3 local A URL, title; navigation snapshot is a file link"
+      },
+      {
+        "id": "M-mcp__browser__browser_resize",
+        "request": "avatar-chat-1452487",
+        "rawSeq": 668,
+        "scope": "1024x768, actual readback in seq1121"
+      },
+      {
+        "id": "M-mcp__browser__browser_snapshot",
+        "request": "avatar-chat-1593821",
+        "rawSeq": 904,
+        "scope": "default {} full YAML text; no alternate parameter coverage"
+      },
+      {
+        "id": "M-mcp__browser__browser_evaluate",
+        "request": "avatar-chat-1731321",
+        "rawSeq": 1121,
+        "scope": "one read-only function; title/color/innerText/auditState"
+      },
+      {
+        "id": "M-mcp__browser__browser_find",
+        "request": "avatar-chat-2081817",
+        "rawSeq": 1417,
+        "scope": "literal text gives two matches; delivery still misstates waiting"
+      }
+    ],
+    "notExecutedInB01": [
+      "M-mcp__browser__browser_hover",
+      "M-mcp__browser__browser_console_messages"
+    ],
+    "counterexamples": [
+      {
+        "id": "R2-I09",
+        "severity": "MEDIUM",
+        "source": "services/agent-core/agent_core/main.py:1490",
+        "assignmentLine": 1494,
+        "inputSeq": 1242,
+        "input": {
+          "pending": [],
+          "taskExists": true,
+          "text": "继续"
+        },
+        "issue": "Host injects an awaiting-confirmation statement despite no pending action",
+        "independentMemoryAstConfirmed": true,
+        "sourceSha256": "e64a26e426b1cf3c00447f2dc39fc775241114498e1c257ebdd86e3e66d3d3f5",
+        "boundary": "Proves false host state statement, not unique cause of specific model answer"
+      },
+      {
+        "request": "avatar-chat-1986553",
+        "rawSeq": 1335,
+        "parseSeq": 1341,
+        "issue": "True native proposal followed by truncated JSON/finish_reason stop and parse fallback"
+      },
+      {
+        "request": "avatar-chat-2081817",
+        "rawSeq": 1423,
+        "parseSeq": 1428,
+        "issue": "Raw preface says executed while JSON reply says waiting; parser selects incorrect reply"
+      }
+    ],
+    "contextBoundary": {
+      "toolsEqual": true,
+      "toolCount": 105,
+      "toolsSha256": "f8aad7d1c0222c04702a63df333343ab26dbb2f79c00f3ce20926fddc06c5c5a",
+      "findExposedBoth": true,
+      "systemCharacters": [
+        8825,
+        3282
+      ],
+      "messageShapeCounts": [
+        12,
+        14
+      ],
+      "requestSeq": [
+        1249,
+        1316
+      ],
+      "messagesHashes": [
+        "0877ec8f7a013d5c8bfe9af597e347079e01e7a52b0652bdd0818d69dd1366bf",
+        "67327b8e6e1873a7c9b8411c9562268af3fcde642502cac178a17069668fc6c8"
+      ],
+      "limitation": "Whole canonical message hash does not reveal system component semantics; contrast changes multiple variables. Raw byte response hash cannot be recomputed from sanitized payload."
+    },
+    "diagnosticFixes": [
+      {
+        "name": "bytecode and source path",
+        "source": "round02_local_branches.py:23; round02_edge_counterfactuals.py:29",
+        "reviewed": true,
+        "boundary": "No new imported pyc; selected module path, not live Core handle identity"
+      },
+      {
+        "name": "post-sweep messages",
+        "source": "round02_local_branches.py:167",
+        "reviewed": true,
+        "evidence": "local-branches-01.json:491"
+      },
+      {
+        "name": "command semantic assertions",
+        "source": "round02_local_branches.py:130",
+        "reviewed": true,
+        "evidence": "local-branches-01.json:286"
+      },
+      {
+        "name": "replace-error residue",
+        "source": "round02_local_branches.py:91",
+        "reviewed": true,
+        "evidence": "local-branches-01.json:208",
+        "boundary": "Six-byte residue retained as defect; harness cleanup is not write_file cleanup"
+      }
+    ],
+    "scriptProvenance": {
+      "edgeSha256": "1bc98737569cc8cd401693e584687ac247e16d31379217397489b7a57139ffde",
+      "edgeMatchesEmbeddedHash": true,
+      "localCurrentSha256": "0eb6f9072e05e9b6906adf64c9300124d537de85246487889e0dff57b00b3f0f",
+      "localOutputMissingScriptSha256": true,
+      "continuationReviewedSha256": "975b8615d6e13ab88de4bb1010d3e644c25f243e0240df0cc75fc874af8fa3b1",
+      "continuationVerdict": "APPROVE diagnostic script only; execution owned by main executor"
+    },
+    "rootCauseScope": {
+      "R2-RC14": "Bad UTF8 plus page boundary only",
+      "R2-RC15": "Windows whitelist/tokenizer mismatch under subprocess mock",
+      "R2-RC16": "Actual AST adapter/parser type cases; not real provider null evidence",
+      "R2-RC17": "One synthetic os.replace PermissionError with intact target and tmp residue",
+      "RC02": "Separate no-pending confirm resets task from no-pending continue preserves task but injects false pending note"
+    }
+  },
+  "fixtureV3Review": {
+    "path": "docs/assessments/root-cause-audit/round-02/fixtures/fixture-v3.html",
+    "sha256": "8820ea9b0f6685e69bc74e9ed50a9dfaec6f28a3e4fec4a034123aa43cb033a3",
+    "layer": "source-only; page not run",
+    "boundary": "No external endpoints or persistent writes in source; relative GET/download remain explicit page actions.",
+    "findings": [
+      {
+        "id": "FV3-01",
+        "severity": "MEDIUM",
+        "line": 34,
+        "trigger": "fetch 200 then fetch TypeError",
+        "predicted": "networkStatus remains 200 while networkCount=2 and network=TypeError",
+        "minimalChange": "Reset status for new attempt/error; serialize or identify concurrent attempts"
+      },
+      {
+        "id": "FV3-02",
+        "severity": "MEDIUM",
+        "line": 24,
+        "trigger": "Click at t=0 and t=1 seconds",
+        "predicted": "First hide at t=2 seconds prematurely clears second visible period scheduled t=1.5..3",
+        "minimalChange": "Cancel earlier show/hide timers or explicitly restrict each fixture load to one attempt"
+      }
+    ],
+    "expectedClickSemantics": "dblclick increases left by 2 and double by 1; do not count keyboard activation as mouse button coverage"
+  },
+  "isolatedDesignsReview": {
+    "status": "PARTIALLY REPRODUCED by main executor in edge-counterfactuals-01/local-branches-01; see browserGroup1Review for exact scopes. Untested designs remain open; no capability-wide PASS.",
+    "preserve": "Existing 184 rows and 72 evidenced rows remain unchanged; no re-run of the 98 previously reviewed references",
+    "runCommand": {
+      "coverageId": "L-run_command",
+      "originalGroup": "184 unresolved, not original72",
+      "source": "services/agent-core/agent_core/tools.py:392",
+      "mock": "subprocess.run for every branch; never launch process",
+      "control": "run_command(r'\"C:\\R2\\r2_echo.exe\" --mode \"synthetic value\"')",
+      "counterexample": "run_command(r'\"C:\\R2 Fixture\\r2_echo.exe\" --mode \"synthetic value\"')",
+      "allowedCommands": "r2_echo.exe",
+      "predicted": "Pre-shlex split obtains r2 basename and rejects spaced directory",
+      "additionalAssertions": "ok/returncode/exact argv/shell=False/timeout=30 must be asserted, not only mock call counts"
+    },
+    "readFile": {
+      "coverageId": "L-read_file",
+      "source": "services/agent-core/agent_core/tools.py:94",
+      "existingPositive": "tests/test_harness_v1_adversarial.py:49 exact valid UTF8 continuation; not rerun",
+      "counterexample": "b'\\xff' + b'A' * 65534 + '甲END'.encode('utf-8')",
+      "invocations": "read_file(path,0), continue using next_offset",
+      "oracle": "joined page contents versus entire bytes.decode('utf-8',errors='replace')",
+      "predicted": "Earlier invalid byte selects fallback and causes additional loss of valid multibyte tail",
+      "boundary": "Invalid UTF8 file only; not ordinary valid UTF8 pagination failure"
+    },
+    "memory20": {
+      "coverageId": "ME06",
+      "source": "services/agent-core/agent_core/storage.py:188",
+      "isolation": "sqlite :memory: only, actual load_messages and actual build_messages",
+      "calls": [
+        "load_messages(20,1)",
+        "load_messages(20,2)",
+        "load_messages()",
+        "build_messages(history,'R2-CURRENT',extra_system='',request_session_title=False)"
+      ],
+      "expected": "Last20 per-session message rows in ID order, then one system row; CURRENT once; assistant JSON reply preserves content",
+      "boundary": "Recall/system extras/task cache are separate from message window"
+    },
+    "rawAdapter": {
+      "coverageIds": [
+        "PE03",
+        "AD01",
+        "AD02",
+        "AD05"
+      ],
+      "source": "services/agent-core/agent_core/main.py:210",
+      "isolation": "AST extract methods; no import main; async send stub returns synthetic wire",
+      "calls": [
+        "await complete(fake,messages)",
+        "await complete_with_tools(fake,messages,[])",
+        "CharacterHarness.parse_reply(raw)"
+      ],
+      "cases": [
+        "P01 valid string JSON reply",
+        "P02 message content null yields string None in complete",
+        "P03 reply null yields string None in parser",
+        "P04 message null error types differ",
+        "P05 empty string contract",
+        "P06 optional synthetic typed-block boundary; actual provider shape unverified"
+      ],
+      "boundary": "No real provider call or reasoning data; mock method body entry and raw output must remain distinguishable"
+    }
+  },
+  "schema": "round02-independent-coverage-review-v1",
+  "date": "2026-10-08",
+  "baseline": "837318335307c85bb288265d0b80b4c7256d46f0",
+  "scope": "184 original unresolved rows retained plus 72 original evidenced rows individually reviewed; 256 original IDs, not a capability PASS; independent read-only source review, not Tianyi execution",
+  "counts": {
+    "O": 28,
+    "N": 10,
+    "P": 93,
+    "R": 47,
+    "X": 6
+  },
+  "bucketCounts": {
+    "阻塞": {
+      "O": 5,
+      "P": 30,
+      "X": 5,
+      "R": 7
+    },
+    "未启用或未实现": {
+      "N": 10
+    },
+    "功能未验证": {
+      "O": 23,
+      "P": 63,
+      "R": 40,
+      "X": 1
+    }
+  },
+  "rows": [
+    {
+      "id": "AD06",
+      "bucket": "阻塞",
+      "name": "Anthropic视觉适配",
+      "source": "services/agent-core/agent_core/main.py:AnthropicCompatibleProvider; services/agent-core/agent_core/tools.py",
+      "kind": "O",
+      "evidence": "O-VISION",
+      "scenario": "合成R2画面走Anthropic视觉；事实来自视觉结果，主脑答案核对颜色/数值",
+      "need": "协议构造及thinking过滤已离线；本地HTML已备，现场纯合成画面由唯一操作者安排，非缺账号材料"
+    },
+    {
+      "id": "EF04",
+      "bucket": "未启用或未实现",
+      "name": "模型内部推理控制",
+      "source": "services/agent-core/agent_core/main.py:MODEL_REASONING_CONTROLS",
+      "kind": "N",
+      "evidence": "静态 main.py:1387",
+      "scenario": "两模型reasoning controls为空；区分effort任务预算与模型内部推理开关",
+      "need": "未实现，不能把effort三档验收代替；需产品/适配实现，不以外部Key阻塞"
+    },
+    {
+      "id": "TA09",
+      "bucket": "未启用或未实现",
+      "name": "MCP独立资源读取",
+      "source": "services/agent-core/agent_core/mcp_host.py; tools/gdrive/index.mjs",
+      "kind": "N",
+      "evidence": "静态 mcp_host.py:112,135,205；tools/gdrive/index.mjs:39,127",
+      "scenario": "Drive search找到名字不等于读正文；resources/read独立桥接缺失",
+      "need": "OAuth只读已恢复、文本已备；缺Core资源入口实现，不缺测试材料"
+    },
+    {
+      "id": "VO05",
+      "bucket": "未启用或未实现",
+      "name": "后台唤醒",
+      "source": "services/agent-core/agent_core/wake_word.py; services/agent-core/agent_core/main.py:start_wake_word_listener",
+      "kind": "N",
+      "evidence": "O-MANUAL",
+      "scenario": "保持manual：startup不建后台listener，voice.stop不重启",
+      "need": "当前有实现但明确禁用；不得为覆盖擅开后台唤醒"
+    },
+    {
+      "id": "PR01",
+      "bucket": "功能未验证",
+      "name": "上线问候",
+      "source": "services/agent-core/agent_core/main.py:_proactive_greeting",
+      "kind": "O",
+      "evidence": "O-GREET",
+      "scenario": "上线问候成功后才消耗冷却；失败不消耗；并发连接不重播",
+      "need": "已有离线具体断言；前台听感/静音时段仍需现场"
+    },
+    {
+      "id": "L-list_dir",
+      "bucket": "功能未验证",
+      "name": "list_dir",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "kind": "O",
+      "evidence": "O-LIST",
+      "scenario": "列R2目录，目录排前；不存在/越界根目录负例",
+      "need": "R2目录已备；隔离基本排序已通过，不等于前台交付"
+    },
+    {
+      "id": "L-screenshot",
+      "bucket": "阻塞",
+      "name": "screenshot",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "kind": "O",
+      "evidence": "O-DEGRADED",
+      "scenario": "只采R2合成窗口，校验文件/尺寸；依赖缺失显式错误",
+      "need": "已有断言仅mss缺失退化；真实成功路径待唯一操作者准备画面"
+    },
+    {
+      "id": "L-active_window",
+      "bucket": "阻塞",
+      "name": "active_window",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "kind": "O",
+      "evidence": "O-DEGRADED",
+      "scenario": "焦点置R2页后取进程/标题，焦点变化再对照",
+      "need": "既有断言仅非Windows退化；纯合成窗口可准备，不是账号阻塞"
+    },
+    {
+      "id": "L-clipboard_read",
+      "bucket": "阻塞",
+      "name": "clipboard_read",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "kind": "O",
+      "evidence": "O-DEGRADED",
+      "scenario": "专用R2剪贴板哨兵→取回原字符；原内容保全恢复",
+      "need": "既有断言仅pyperclip缺失；剪贴板设置是现场可逆准备"
+    },
+    {
+      "id": "L-look_at_screen",
+      "bucket": "阻塞",
+      "name": "look_at_screen",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "kind": "O",
+      "evidence": "O-VISION",
+      "scenario": "合成图红蓝块+175+日期，核对视觉响应、最终答案",
+      "need": "协议/超时注册有断言；需画面与当前视觉服务实调，不能借screenshot成功代验"
+    },
+    {
+      "id": "L-run_command",
+      "bucket": "功能未验证",
+      "name": "run_command",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "kind": "P",
+      "evidence": "无直接能力测试；S-GATE仅授权共享",
+      "scenario": "stub subprocess校验空白名单/拒绝token/超时unknown/输出截断；真实仅白名单无副作用命令",
+      "need": "检查当前白名单是配置核验，不默认为未启用；本轮不为测试扩大命令集"
+    },
+    {
+      "id": "L-read_tool_result",
+      "bucket": "功能未验证",
+      "name": "read_tool_result",
+      "source": "services/agent-core/agent_core/result_pages.py",
+      "kind": "O",
+      "evidence": "O-PAGES",
+      "scenario": "long.txt尾部R2-END-7319、offset续读；无效ref/另会话/负offset拒绝",
+      "need": "长文已备，相关页缓存隔离断言通过"
+    },
+    {
+      "id": "M-mcp__browser__browser_close",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_close",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "关闭最后一个R2标签；再list确认无旧页",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_resize",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_resize",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2页800×600→1024×768，读回innerWidth/Height",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_console_messages",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_console_messages",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "页内产生info/error哨兵，按level/all查询并区分清空前后",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_handle_dialog",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_handle_dialog",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "依次accept/dismiss confirm，prompt填R2值；核对页面结果",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_emulate_media",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_emulate_media",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "light/dark、reduce及null复位，用matchMedia独立读回",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_evaluate",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_evaluate",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "只读返回R2标题/算式175，核对数值和正文",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_file_upload",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_file_upload",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "upload.txt选择后核对文件名/大小；paths省略测试取消选择",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_drop",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_drop",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "分别paths文件与data MIME拖入，核对drop处理器结果",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_find",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_find",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2精确文字、regex、无匹配三例，核对节点定位",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_fill_form",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_fill_form",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "textbox/checkbox/radio/combobox/slider逐项填值后读回",
+      "need": "本地HTML已有；补具体状态/控件/路由即可，无新账号"
+    },
+    {
+      "id": "M-mcp__browser__browser_press_key",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_press_key",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2输入框Enter/Tab，与focus和提交计数对照",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_type",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_type",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "同输入框普通/slowly/submit，核对完整文本及提交次数",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_navigate",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_navigate",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "仅loopback fixture.html，核对URL和R2标记",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_navigate_back",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_navigate_back",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "先R2页A→B再back，核对A标记与URL",
+      "need": "本地HTML已有；补具体状态/控件/路由即可，无新账号"
+    },
+    {
+      "id": "M-mcp__browser__browser_network_requests",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_network_requests",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2页面发合成fetch，核对static true/false及过滤",
+      "need": "本地HTML已有；补具体状态/控件/路由即可，无新账号"
+    },
+    {
+      "id": "M-mcp__browser__browser_network_request",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_network_request",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "用上项真实index分别取请求/响应头体，核对nonce；无效index负例",
+      "need": "本地HTML已有；补具体状态/控件/路由即可，无新账号"
+    },
+    {
+      "id": "M-mcp__browser__browser_run_code_unsafe",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_run_code_unsafe",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "仅已登记页只读返回标题；不能由evaluate成功代替本工具",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_take_screenshot",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_take_screenshot",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2页png/jpeg/webp、css/device、元素/全页，检查文件和尺寸",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_snapshot",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_snapshot",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2页全页/target、depth和boxes，核对指定节点",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_click",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_click",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2按钮left/right/middle/doubleClick，核对独立计数",
+      "need": "本地HTML已有；补具体状态/控件/路由即可，无新账号"
+    },
+    {
+      "id": "M-mcp__browser__browser_drag",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_drag",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "页内源到目的位置，核对drop计数与目标文字",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_hover",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_hover",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "hover后展示专用提示，核对可见状态",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_select_option",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_select_option",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "单/多选控件选择后读回选值；未知option负例",
+      "need": "本地HTML已有；补具体状态/控件/路由即可，无新账号"
+    },
+    {
+      "id": "M-mcp__browser__browser_tabs",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_tabs",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "执行list→new→select→close，逐步绑定index与R2 URL",
+      "need": "loopback HTML与上传文件已备；实际天依调用/回读仍待执行"
+    },
+    {
+      "id": "M-mcp__browser__browser_wait_for",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_wait_for",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed @playwright/mcp (npx offline cache)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "等待R2标记出现/消失和短time，另有不满足超时控制",
+      "need": "本地HTML已有；补具体状态/控件/路由即可，无新账号"
+    },
+    {
+      "id": "M-mcp__github__add_comment_to_pending_review",
+      "bucket": "阻塞",
+      "name": "mcp__github__add_comment_to_pending_review",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "先pending review，再FILE和LINE/LEFT/RIGHT注释；读回thread与行号",
+      "need": "R2 PR diff+pending review是前置夹具，不是缺授权"
+    },
+    {
+      "id": "M-mcp__github__add_issue_comment",
+      "bucket": "阻塞",
+      "name": "mcp__github__add_issue_comment",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "同Issue正文、reaction、二者合并分别读回；另选PR一般评论",
+      "need": "R2 Issue/comment ID"
+    },
+    {
+      "id": "M-mcp__github__add_reply_to_pull_request_comment",
+      "bucket": "阻塞",
+      "name": "mcp__github__add_reply_to_pull_request_comment",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "已有review comment下reply/reaction/两者，核对父commentId",
+      "need": "R2 PR review thread与comment ID"
+    },
+    {
+      "id": "M-mcp__github__assign_copilot_to_issue",
+      "bucket": "阻塞",
+      "name": "mcp__github__assign_copilot_to_issue",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "X",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "仅R2 Issue分配Copilot，区分受理、任务开始和生成PR",
+      "need": "Copilot coding agent entitlement/启用待核，不是普通repo写权限"
+    },
+    {
+      "id": "M-mcp__github__create_branch",
+      "bucket": "阻塞",
+      "name": "mcp__github__create_branch",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "从登记base SHA创建R2分支，读回精确SHA；重复名负例",
+      "need": "专用私有仓已有"
+    },
+    {
+      "id": "M-mcp__github__create_or_update_file",
+      "bucket": "阻塞",
+      "name": "mcp__github__create_or_update_file",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "新建→带当前sha更新→过期sha拒绝；读回bytes",
+      "need": "专用分支/文件，sha由前次回读，不需新账号"
+    },
+    {
+      "id": "M-mcp__github__create_pull_request",
+      "bucket": "阻塞",
+      "name": "mcp__github__create_pull_request",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2 head/base差异建draft PR，再读回head/base/title",
+      "need": "准备分支差异后即可"
+    },
+    {
+      "id": "M-mcp__github__create_repository",
+      "bucket": "阻塞",
+      "name": "mcp__github__create_repository",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "原仓创建是Codex准备证据；天依同名冲突可作负例，成功需登记新的R2仓名",
+      "need": "额外仓对象不由已有仓成功自动授权；先在对象登记中明确"
+    },
+    {
+      "id": "M-mcp__github__delete_file",
+      "bucket": "阻塞",
+      "name": "mcp__github__delete_file",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "创建专用一次性文件→删除→404/目录确认",
+      "need": "同仓一次性文件夹具"
+    },
+    {
+      "id": "M-mcp__github__fork_repository",
+      "bucket": "阻塞",
+      "name": "mcp__github__fork_repository",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "X",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "已有仓不能兼作所有fork目的地；先明确允许源及独立fork落点",
+      "need": "需要可用且获授权的fork源/目标账户或组织；非夹具文本问题"
+    },
+    {
+      "id": "M-mcp__github__get_commit",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_commit",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "读fixture commit，detail=none/stats/full_patch核对同SHA差异",
+      "need": "既有fixture SHA可直接用"
+    },
+    {
+      "id": "M-mcp__github__get_file_contents",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_file_contents",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "同仓文件与目录、ref/sha；核对精确175/日期/正文完整",
+      "need": "旧前台已有调用且最终失败；不能称从未试过"
+    },
+    {
+      "id": "M-mcp__github__get_label",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_label",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2 label存在/不存在，核对名称和颜色",
+      "need": "登记专用label"
+    },
+    {
+      "id": "M-mcp__github__get_latest_release",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_latest_release",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2临时release最新/无release，区分404和有内容成功",
+      "need": "release是可准备对象，当前未登记；不要读真实业务release"
+    },
+    {
+      "id": "M-mcp__github__get_me",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_me",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "核对当前token身份与授权owner一致",
+      "need": "已有身份，别把tools/list当身份验证"
+    },
+    {
+      "id": "M-mcp__github__get_release_by_tag",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_release_by_tag",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "指定R2 tag release与不存在tag，核对ID和正文",
+      "need": "同仓release/tag夹具"
+    },
+    {
+      "id": "M-mcp__github__get_tag",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_tag",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2轻量/annotated tag返回目标SHA；不存在tag负例",
+      "need": "同仓tag夹具"
+    },
+    {
+      "id": "M-mcp__github__get_team_members",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_team_members",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "X",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "指定获准org/team非空成员与不存在team",
+      "need": "个人专用仓不提供组织/team实体；当前对象登记无该实体"
+    },
+    {
+      "id": "M-mcp__github__get_teams",
+      "bucket": "功能未验证",
+      "name": "mcp__github__get_teams",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "当前账号返回空列表也是合法空结果；非空团队路径单列",
+      "need": "非空需要组织成员资格，不因空而判权限失败"
+    },
+    {
+      "id": "M-mcp__github__list_branches",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_branches",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "base与R2 branch，perPage=1翻页，逐SHA核对",
+      "need": "分支夹具；不需新账号"
+    },
+    {
+      "id": "M-mcp__github__list_commits",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_commits",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "fixture及新增R2 commit，page/perPage/filter核对",
+      "need": "同仓两提交即可补"
+    },
+    {
+      "id": "M-mcp__github__list_issue_fields",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_issue_fields",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "repo级/省略repo的org级区分；不支持或空结果如实记录",
+      "need": "非空自定义字段需仓/组织支持，个人repo不保证"
+    },
+    {
+      "id": "M-mcp__github__list_issue_types",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_issue_types",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "repo级查询；有类型/空/不支持分别判，不硬填type",
+      "need": "正向非空分支依赖启用issue types的仓/组织"
+    },
+    {
+      "id": "M-mcp__github__list_issues",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_issues",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "两个R2 Issue不同状态，cursor下一页及筛选",
+      "need": "先准备R2 Issue；材料已授权"
+    },
+    {
+      "id": "M-mcp__github__list_pull_requests",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_pull_requests",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2 open/closed/draft PR，page和head/base过滤",
+      "need": "先准备PR，author过滤应走search工具"
+    },
+    {
+      "id": "M-mcp__github__list_releases",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_releases",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2 release列表及分页/空集合",
+      "need": "专用release夹具"
+    },
+    {
+      "id": "M-mcp__github__list_repository_collaborators",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_repository_collaborators",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "读专用仓collaborator，affiliation与分页；空结果不等于失败",
+      "need": "非空多协作者需要额外成员实体，非本轮硬门"
+    },
+    {
+      "id": "M-mcp__github__list_tags",
+      "bucket": "功能未验证",
+      "name": "mcp__github__list_tags",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "两个R2 tag核对列表及分页",
+      "need": "专用tag夹具"
+    },
+    {
+      "id": "M-mcp__github__merge_pull_request",
+      "bucket": "阻塞",
+      "name": "mcp__github__merge_pull_request",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "仅R2可弃分支PR，expectedHeadSha正确/过期；每种merge_method独立PR",
+      "need": "先建可合并差异，限定专用仓，不触生产main"
+    },
+    {
+      "id": "M-mcp__github__pull_request_read",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "按九method分别读取同一R2 PR，正文/文件/commit/thread/check不可互代",
+      "need": "PR基础夹具；reviews/check_runs非空各需对应前置对象"
+    },
+    {
+      "id": "M-mcp__github__pull_request_review_write",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "create无event→加注释→submit COMMENT；另pending删除、thread resolve/unresolve",
+      "need": "可在专用PR准备；APPROVE/REQUEST_CHANGES身份分支另列"
+    },
+    {
+      "id": "M-mcp__github__push_files",
+      "bucket": "阻塞",
+      "name": "mcp__github__push_files",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "两文件同commit，逐文件内容与同SHA核对",
+      "need": "专用branch+两合成文件"
+    },
+    {
+      "id": "M-mcp__github__request_copilot_review",
+      "bucket": "阻塞",
+      "name": "mcp__github__request_copilot_review",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "X",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "仅R2 PR请求Copilot review，核对受理与实际review分别状态",
+      "need": "Copilot review entitlement/仓启用待核，不可泛推普通review"
+    },
+    {
+      "id": "M-mcp__github__search_code",
+      "bucket": "功能未验证",
+      "name": "mcp__github__search_code",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "repo限定R2哨兵，核对path；索引延迟单列",
+      "need": "已有repo文本；新commit未索引不是工具协议失败"
+    },
+    {
+      "id": "M-mcp__github__search_commits",
+      "bucket": "功能未验证",
+      "name": "mcp__github__search_commits",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "repo限定fixture提交信息，核对SHA；按description默认分支限制",
+      "need": "fixture提交现成"
+    },
+    {
+      "id": "M-mcp__github__search_issues",
+      "bucket": "功能未验证",
+      "name": "mcp__github__search_issues",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "repo限定R2 exact/改写概念，匹配/无匹配分别核对",
+      "need": "专用Issue前置夹具"
+    },
+    {
+      "id": "M-mcp__github__search_pull_requests",
+      "bucket": "功能未验证",
+      "name": "mcp__github__search_pull_requests",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "repo限定R2 PR及author，核对结果号",
+      "need": "专用PR前置夹具"
+    },
+    {
+      "id": "M-mcp__github__search_repositories",
+      "bucket": "功能未验证",
+      "name": "mcp__github__search_repositories",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "owner+完整专用仓名，核对私有仓身份",
+      "need": "专用仓已建立"
+    },
+    {
+      "id": "M-mcp__github__search_users",
+      "bucket": "功能未验证",
+      "name": "mcp__github__search_users",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "只检索获准owner，核对login",
+      "need": "不需要新账号/材料"
+    },
+    {
+      "id": "M-mcp__github__sub_issue_write",
+      "bucket": "阻塞",
+      "name": "mcp__github__sub_issue_write",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "add/remove/reprioritize+replace_parent，见新增分支表",
+      "need": "两个父+两个子Issue前置夹具已在授权对象类别内"
+    },
+    {
+      "id": "M-mcp__github__update_pull_request",
+      "bucket": "阻塞",
+      "name": "mcp__github__update_pull_request",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2 PR改title/body/draft/state/base分别回读",
+      "need": "R2 PR和第二base分支夹具"
+    },
+    {
+      "id": "M-mcp__github__update_pull_request_branch",
+      "bucket": "阻塞",
+      "name": "mcp__github__update_pull_request_branch",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "base推进一次，expectedHeadSha正确/过期分开核对head",
+      "need": "R2分支差异/冲突是夹具准备，非缺账号"
+    },
+    {
+      "id": "M-mcp__search__tavily_search",
+      "bucket": "功能未验证",
+      "name": "mcp__search__tavily_search",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed tavily-mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "用公开中性问题+限定官方域名，核对可访问来源及片段，不预设动态答案",
+      "need": "服务Key/网络实际可用性待实调；tools/list不证明，无已证实缺材料"
+    },
+    {
+      "id": "M-mcp__search__tavily_extract",
+      "bucket": "功能未验证",
+      "name": "mcp__search__tavily_extract",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed tavily-mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "登记公开静态页面，核对已知正文哨兵和来源URL，markdown/text分开",
+      "need": "本地HTML不能被云服务访问；选已公开测试页面是准备工作"
+    },
+    {
+      "id": "M-mcp__search__tavily_crawl",
+      "bucket": "功能未验证",
+      "name": "mcp__search__tavily_crawl",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed tavily-mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "公开受控小站limit/depth=小值，核对每页URL/正文",
+      "need": "云端可访问小站及预算范围，不把loopback作为有效输入"
+    },
+    {
+      "id": "M-mcp__search__tavily_map",
+      "bucket": "功能未验证",
+      "name": "mcp__search__tavily_map",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed tavily-mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "同一公开小站限定domain/path，核对URL集合",
+      "need": "同crawl公开可达夹具；无正文不能算extract"
+    },
+    {
+      "id": "M-mcp__search__tavily_research",
+      "bucket": "功能未验证",
+      "name": "mcp__search__tavily_research",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; installed tavily-mcp (npx offline cache)",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "窄问题返回来源和实质结论，mini/pro/auto分支及任务超时单列",
+      "need": "research能力/额度待核；一次search成功不证明此工具可用"
+    },
+    {
+      "id": "M-mcp__gmail__draft_email",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__draft_email",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "草稿正文/plain/html/multipart+附件；核对draft状态且不误发送",
+      "need": "自有邮箱授权已有效；草稿不占发信8封"
+    },
+    {
+      "id": "M-mcp__gmail__modify_email",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__modify_email",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "单R2 message增删专用label/已读/垃圾箱再恢复，独立回读",
+      "need": "使用登记ID，不能扩大到普通邮件"
+    },
+    {
+      "id": "M-mcp__gmail__delete_email",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__delete_email",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "永久删除单个已登记可弃R2 message，定向read确认不存在",
+      "need": "先保全/登记该测试邮件，不再写缺授权"
+    },
+    {
+      "id": "M-mcp__gmail__list_email_labels",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__list_email_labels",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "列标签并核对R2标签ID；空集合/系统标签不混淆",
+      "need": "查询已授权，原阻塞由无readOnlyHint推定，不是真权限证据"
+    },
+    {
+      "id": "M-mcp__gmail__batch_modify_emails",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__batch_modify_emails",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "只给2个R2 IDs增删label，核对每个结果与未选第三封",
+      "need": "两测试message是夹具准备"
+    },
+    {
+      "id": "M-mcp__gmail__batch_delete_emails",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__batch_delete_emails",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "仅两个R2可弃ID批删，逐ID确认不存在，区分部分失败",
+      "need": "分配8封预算中的两封，不扩大范围"
+    },
+    {
+      "id": "M-mcp__gmail__create_label",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__create_label",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "建唯一R2标签，核对visibility两字段及ID",
+      "need": "对象授权已齐备"
+    },
+    {
+      "id": "M-mcp__gmail__update_label",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__update_label",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "改R2标签名称/visibility，旧名消失新名ID不变",
+      "need": "前置create_label，不是新授权"
+    },
+    {
+      "id": "M-mcp__gmail__delete_label",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__delete_label",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "删专用R2标签后list不再出现，邮件主体仍在",
+      "need": "前置专用label/邮件，别删系统/旧label"
+    },
+    {
+      "id": "M-mcp__gmail__get_or_create_label",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__get_or_create_label",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "不存在时create，再同名返回同ID且不重复",
+      "need": "一个R2 label名，测试两个业务分支"
+    },
+    {
+      "id": "M-mcp__gmail__create_filter",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__create_filter",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "criteria限定R2 subject/query，add/remove label分开；get回读",
+      "need": "前置专用label；forward分支另有目的地址验证条件"
+    },
+    {
+      "id": "M-mcp__gmail__list_filters",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__list_filters",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "列出本轮filter并核对ID，不展示普通filter细节",
+      "need": "现有授权；不因无readOnlyHint称业务写阻塞"
+    },
+    {
+      "id": "M-mcp__gmail__get_filter",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__get_filter",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "按已登记R2 filterId回读criteria/action",
+      "need": "前置create_filter"
+    },
+    {
+      "id": "M-mcp__gmail__delete_filter",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__delete_filter",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "删除R2 filter后get not-found/list移除",
+      "need": "前置filter夹具，现有具体授权"
+    },
+    {
+      "id": "M-mcp__gmail__create_filter_from_template",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__create_filter_from_template",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "withSubject/containingText可限定R2；六模板分列离线材料",
+      "need": "withAttachments/largeEmails无R2限制参数，不能在本轮范围直接在线扩大全邮箱"
+    },
+    {
+      "id": "M-mcp__gmail__download_attachment",
+      "bucket": "阻塞",
+      "name": "mcp__gmail__download_attachment",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）",
+      "scenario": "R2附件messageId+attachmentId存入本轮目录，核对bytes/hash",
+      "need": "attachment.txt已备，需前置发送并取得attachmentId"
+    },
+    {
+      "id": "AN-idle",
+      "bucket": "功能未验证",
+      "name": "idle",
+      "source": "apps/avatar-runtime/motion_registry.json; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-MOTION",
+      "scenario": "默认idle循环、上身轨不写下身、双17骨发束采样",
+      "need": "资产hash证据已有；runtime脚本可复用，本轮逐段视觉未验"
+    },
+    {
+      "id": "AN-pirouette",
+      "bucket": "功能未验证",
+      "name": "pirouette",
+      "source": "apps/avatar-runtime/motion_registry.json; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-MOTION",
+      "scenario": "交互打断idle、全身轨驱动、完成回idle",
+      "need": "已有轨迹断言源码；旋转不代表全程无穿模"
+    },
+    {
+      "id": "AN-listen",
+      "bucket": "功能未验证",
+      "name": "listen",
+      "source": "apps/avatar-runtime/motion_registry.json; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-MOTION,G-LISTEN",
+      "scenario": "recording保持末帧→松开反向安全返回，取消/重复状态",
+      "need": "真人录音阶段可观察；路径几何与听感分开"
+    },
+    {
+      "id": "AN-think",
+      "bucket": "功能未验证",
+      "name": "think",
+      "source": "apps/avatar-runtime/motion_registry.json; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-THINK",
+      "scenario": "thinking进入一次，不阻塞回复，录音抢占、34发束交还",
+      "need": "已有专门integration断言源码，需绑定当前资产版本执行"
+    },
+    {
+      "id": "AN-farewell",
+      "bucket": "功能未验证",
+      "name": "farewell",
+      "source": "apps/avatar-runtime/motion_registry.json; apps/avatar-runtime/runtime.gd",
+      "kind": "O",
+      "evidence": "G-FAREWELL,O-FAREWELL",
+      "scenario": "退出动作/自己语音join，重入不多退、旧request音频拒绝",
+      "need": "旧farewell_speech隔离已通过；普通动作菜单无farewell是设计"
+    },
+    {
+      "id": "AV-avatar.angry",
+      "bucket": "功能未验证",
+      "name": "avatar.angry",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "angry预设精确权重、强度边界、说话时嘴部释放",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.blink",
+      "bucket": "功能未验证",
+      "name": "avatar.blink",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "眨眼闭合再恢复原情绪，不覆盖表情名称",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.expression",
+      "bucket": "功能未验证",
+      "name": "avatar.expression",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "指定morph覆盖组合表情，value夹限/duration到期恢复；未知name",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.greet",
+      "bucket": "功能未验证",
+      "name": "avatar.greet",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无专门动作断言",
+      "scenario": "greet手势+笑眼组合时长，完成回idle",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.mouth_a",
+      "bucket": "功能未验证",
+      "name": "avatar.mouth_a",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无该口型专门断言",
+      "scenario": "あ权重0.9、定时释放、与speech嘴形互斥",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.mouth_e",
+      "bucket": "功能未验证",
+      "name": "avatar.mouth_e",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无该口型专门断言",
+      "scenario": "え权重0.9、定时释放、与speech嘴形互斥",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.mouth_i",
+      "bucket": "功能未验证",
+      "name": "avatar.mouth_i",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无该口型专门断言",
+      "scenario": "い权重0.9、定时释放、与speech嘴形互斥",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.mouth_o",
+      "bucket": "功能未验证",
+      "name": "avatar.mouth_o",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "お权重0.9覆盖tears口部，定时释放",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.mouth_u",
+      "bucket": "功能未验证",
+      "name": "avatar.mouth_u",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无该口型专门断言",
+      "scenario": "う权重0.9、定时释放、与speech嘴形互斥",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.nod",
+      "bucket": "功能未验证",
+      "name": "avatar.nod",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无专门动作断言",
+      "scenario": "nod幅度/时长、打断及回idle",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.reset",
+      "bucket": "功能未验证",
+      "name": "avatar.reset",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "reset清表情与偏转、恢复idle；关闭中不重入",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.smile",
+      "bucket": "功能未验证",
+      "name": "avatar.smile",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "笑い0.85替换angry；intensity夹限与到期",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.surprised",
+      "bucket": "功能未验证",
+      "name": "avatar.surprised",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "surprised精确权重、强度边界及状态切换",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.tears",
+      "bucket": "功能未验证",
+      "name": "avatar.tears",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-EMOTION",
+      "scenario": "tears精确权重、眨眼后保持、不同帧率到期",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.turn_left",
+      "bucket": "功能未验证",
+      "name": "avatar.turn_left",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "G-TEXT仅输入保护",
+      "scenario": "默认30度及自定义degrees，退出当前motion回idle",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.turn_right",
+      "bucket": "功能未验证",
+      "name": "avatar.turn_right",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无专门方向断言",
+      "scenario": "默认30度及自定义degrees，退出当前motion回idle",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.wave",
+      "bucket": "功能未验证",
+      "name": "avatar.wave",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无专门动作断言",
+      "scenario": "wave轨迹/持续2.35秒、打断及回idle",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "AV-avatar.wink",
+      "bucket": "功能未验证",
+      "name": "avatar.wink",
+      "source": "apps/avatar-runtime/runtime.gd; apps/avatar-runtime/emotion_presets.gd",
+      "kind": "P",
+      "evidence": "无专门动作断言",
+      "scenario": "右眼单眨+笑い，1.2秒后释放",
+      "need": "本地动画/表情对象已实现；可隔离采样morph/骨骼，逐项视觉仍待验，不能用注册名算通过"
+    },
+    {
+      "id": "UI-delete",
+      "bucket": "功能未验证",
+      "name": "delete",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "kind": "O",
+      "evidence": "G-SESSION",
+      "scenario": "当前/卡片删除、取消、单击确认绑定session ID",
+      "need": "旧Godot隔离通过 + O-SESSION后端实效；不据此删普通历史"
+    },
+    {
+      "id": "UI-search",
+      "bucket": "功能未验证",
+      "name": "search",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-SEARCH（弱断言）",
+      "scenario": "用两标题R2-AA/R2-BB过滤AA，断言仅AA卡片及无匹配空态",
+      "need": "既有count>=2不能证明BB已移除；加强夹具而非缺材料"
+    },
+    {
+      "id": "UI-voice-button",
+      "bucket": "功能未验证",
+      "name": "voice-button",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "kind": "O",
+      "evidence": "O-VOICE（Core），UI静态interaction_ui.gd:1345",
+      "scenario": "按住/松开→STT仅回填→用户编辑→发送；取消/切页不旧回填",
+      "need": "真人录音由主执行者进行；离线不代签音色/听感"
+    },
+    {
+      "id": "UI-drag",
+      "bucket": "功能未验证",
+      "name": "drag",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-CANVAS（源码可复用）",
+      "scenario": "短点开菜单/超过8px拖拽；边缘限制/重启位置保持",
+      "need": "已有桌面canvas测试源码，不在362清单，不将源码存在算本次PASS"
+    },
+    {
+      "id": "UI-scale",
+      "bucket": "功能未验证",
+      "name": "scale",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-CANVAS（仅默认比例）",
+      "scenario": "滚轮缩放上下限，UI悬浮不透传；比较官模比例",
+      "need": "现有默认尺寸断言不验滚轮边界；可离线造InputEvent"
+    },
+    {
+      "id": "UI-turn",
+      "bucket": "功能未验证",
+      "name": "turn",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-TEXT（输入焦点保护）",
+      "scenario": "左右键/鼠标转动及R复位，聊天输入焦点时不转",
+      "need": "旧焦点守卫通过，只验A不误触；其他输入分支待测"
+    },
+    {
+      "id": "UI-portrait",
+      "bucket": "功能未验证",
+      "name": "portrait",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "kind": "P",
+      "evidence": "G-PORTRAIT（源码可复用）",
+      "scenario": "F12有/无输入焦点；3x RGBA透明图、不改pose、重复不覆盖",
+      "need": "headless只验API；真实渲染需图形环境，当前未执行"
+    },
+    {
+      "id": "NI01",
+      "bucket": "未启用或未实现",
+      "name": "通用全身无穿模",
+      "source": "docs/MOTION_PIPELINE.md",
+      "kind": "N",
+      "evidence": "docs/HANDOFF.md:6,65；docs/MOTION_PIPELINE.md",
+      "scenario": "已装有限动作不保证任意衣发接触；不得推导全身通用无穿模",
+      "need": "未实现的通用能力；单动作资产/轨迹测试不能替代"
+    },
+    {
+      "id": "NI02",
+      "bucket": "未启用或未实现",
+      "name": "Windows登录自启",
+      "source": "docs/HANDOFF.md",
+      "kind": "N",
+      "evidence": "docs/HANDOFF.md:126",
+      "scenario": "正常Windows登录触发尚无正式入口；现有会话看护分开",
+      "need": "所有者暂缓，非环境缺权限；不注册任务/启动项"
+    },
+    {
+      "id": "NI03",
+      "bucket": "未启用或未实现",
+      "name": "待审记忆UI/遗忘入口",
+      "source": "docs/HANDOFF.md",
+      "kind": "N",
+      "evidence": "docs/HANDOFF.md:30；UI无记忆审阅菜单",
+      "scenario": "pending事实可存不等于用户能审阅/遗忘；需明确scope删除合同",
+      "need": "缺产品入口/实现；不能用delete_session冒充forget_fact"
+    },
+    {
+      "id": "NI04",
+      "bucket": "未启用或未实现",
+      "name": "键鼠自主控制",
+      "source": "docs/HANDOFF.md",
+      "kind": "N",
+      "evidence": "docs/HANDOFF.md:126,138",
+      "scenario": "任意桌面键鼠自主代理未实现；browser_click只是浏览器工具",
+      "need": "未实现且缓行；不能用MCP浏览器作用域扩大成桌面控制"
+    },
+    {
+      "id": "NI05",
+      "bucket": "未启用或未实现",
+      "name": "Spark适配器",
+      "source": "docs/HANDOFF.md",
+      "kind": "N",
+      "evidence": "docs/HANDOFF.md:126,139",
+      "scenario": "Spark adapter无注册执行路径",
+      "need": "未实现；不是当前模型Key材料缺失"
+    },
+    {
+      "id": "NI06",
+      "bucket": "未启用或未实现",
+      "name": "Tauri设置壳",
+      "source": "apps/desktop",
+      "kind": "N",
+      "evidence": "apps/desktop；正式入口scripts/start-mvp.ps1",
+      "scenario": "Tauri设置壳与现用Godot区分，不能将目录存在当启用",
+      "need": "正式链未启用；不替换当前壳"
+    },
+    {
+      "id": "NI07",
+      "bucket": "未启用或未实现",
+      "name": "任意电脑完全等效部署",
+      "source": "docs/DELIVERY_STATUS.md",
+      "kind": "N",
+      "evidence": "docs/DELIVERY_STATUS.md；docs/HANDOFF.md:6",
+      "scenario": "同机验收不证明任意硬件/离线跨机等效",
+      "need": "需另机安装/音频/GPU验收资源与打包实现；不是本轮夹具文件不足"
+    },
+    {
+      "id": "IPC-on_event-startup-_start_mcp_servers",
+      "bucket": "功能未验证",
+      "name": "on_event startup",
+      "source": "services/agent-core/agent_core/main.py:1789",
+      "kind": "O",
+      "evidence": "O-MCP-START（仅命令解析）",
+      "scenario": "启动成功/一个server失败/idle-watch异常应分别记录；tools/list不代表tools/call",
+      "need": "可stub start_from_env和start_idle_watch补回调测试；不实际启动MCP"
+    },
+    {
+      "id": "IPC-on_event-shutdown-_stop_mcp_servers",
+      "bucket": "功能未验证",
+      "name": "on_event shutdown",
+      "source": "services/agent-core/agent_core/main.py:1805",
+      "kind": "P",
+      "evidence": "无stop_all直接断言",
+      "scenario": "stub两server stop，逐个调用且重复shutdown有界",
+      "need": "内存host fixture；没有账号/桌面依赖"
+    },
+    {
+      "id": "IPC-on_event-startup-start_wake_word_listener",
+      "bucket": "功能未验证",
+      "name": "on_event startup",
+      "source": "services/agent-core/agent_core/main.py:1810",
+      "kind": "O",
+      "evidence": "O-MANUAL",
+      "scenario": "manual分支停止已有listener并置None；sweep空会话",
+      "need": "manual已覆盖；已有listener.stop分支与wake模式失败需离线夹具，不需开麦"
+    },
+    {
+      "id": "IPC-post-/wake-test-wake_test",
+      "bucket": "功能未验证",
+      "name": "post /wake-test",
+      "source": "services/agent-core/agent_core/main.py:1842",
+      "kind": "P",
+      "evidence": "无路由直接断言",
+      "scenario": "空body/合法16k WAV/重采样/坏WAV，stub_spawn确认样本长度",
+      "need": "合成WAV+TestClient，禁止以此绕开真实manual录音验收"
+    },
+    {
+      "id": "IPC-get-/health/live-liveness",
+      "bucket": "功能未验证",
+      "name": "get /health/live",
+      "source": "services/agent-core/agent_core/main.py:1867",
+      "kind": "O",
+      "evidence": "O-HEALTH",
+      "scenario": "TTS与模型探测均禁调用，仍200且pid正确",
+      "need": "362内已有具体断言；只支持liveness合同"
+    },
+    {
+      "id": "IPC-get-/health-health",
+      "bucket": "功能未验证",
+      "name": "get /health",
+      "source": "services/agent-core/agent_core/main.py:1880",
+      "kind": "O",
+      "evidence": "O-HEALTH",
+      "scenario": "TTS离线仍200且available=false；检查provider/tools/memory字段",
+      "need": "已有TTS离线断言；路径字符串不能证明SQLite句柄身份"
+    },
+    {
+      "id": "IPC-websocket-/ws-websocket_endpoint",
+      "bucket": "功能未验证",
+      "name": "websocket /ws",
+      "source": "services/agent-core/agent_core/main.py:1920",
+      "kind": "O",
+      "evidence": "O-SESSION,O-SPEECH（分事件）",
+      "scenario": "连接/hello/聊天/回执各事件；断开后owner录音失效",
+      "need": "已有若干事件链；非整个ws入口全状态通过"
+    },
+    {
+      "id": "WS-avatar.command",
+      "bucket": "功能未验证",
+      "name": "avatar.command",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "P",
+      "evidence": "无对应WS验证",
+      "scenario": "注册/未知命令、非dict payload及role目的地；AV各动作另测",
+      "need": "可替hub内存测试，命令转发成功不等于动画正确"
+    },
+    {
+      "id": "WS-avatar.interaction",
+      "bucket": "功能未验证",
+      "name": "avatar.interaction",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "P",
+      "evidence": "O-FAREWELL仅语音交付",
+      "scenario": "clicked菜单转发/invalid；exiting+speechLocal true/false及exit-ID",
+      "need": "本地可造WS/hub；UI角色菜单与本地退出不能合并"
+    },
+    {
+      "id": "WS-chat.history.request",
+      "bucket": "功能未验证",
+      "name": "chat.history.request",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-HEALTH,O-SESSION-STORE",
+      "scenario": "空库-1/指定会话/坏ID；只返所选会话并失效旧录音",
+      "need": "基本空库已有断言；跨会话/malformed组合可补内存"
+    },
+    {
+      "id": "WS-chat.message",
+      "bucket": "功能未验证",
+      "name": "chat.message",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SESSION,O-SPEECH,S-GATE",
+      "scenario": "原文、effort/confirmation、4000/4001、空串、无效会话、新消息打断",
+      "need": "已有正常链/打断；长度和坏ID缺直接断言，零模型fixture即可"
+    },
+    {
+      "id": "WS-client.hello",
+      "bucket": "功能未验证",
+      "name": "client.hello",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SESSION（握手前置）",
+      "scenario": "avatar/ui/unknown/空role，client.ready回显与角色定向",
+      "need": "已有avatar ready前置；不是强鉴权，其他role未穷尽"
+    },
+    {
+      "id": "WS-ping",
+      "bucket": "功能未验证",
+      "name": "ping",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SPEECH（pong断言）",
+      "scenario": "无效/旧speech receipt之后ping仍响应pong",
+      "need": "已有具体pong断言；可补独立ping未hello路径"
+    },
+    {
+      "id": "WS-session.delete",
+      "bucket": "功能未验证",
+      "name": "session.delete",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SESSION",
+      "scenario": "删除合成会话后列表/历史清空，新会话切换；未知ID错误",
+      "need": "已有隔离DB实效；当前UI真正点击仍独立"
+    },
+    {
+      "id": "WS-session.list.request",
+      "bucket": "功能未验证",
+      "name": "session.list.request",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SESSION-STORE（底层）",
+      "scenario": "R2空会话隐藏/首条消息后可见/更新时间排序，WS序列化ID字段",
+      "need": "底层列表已测，WS映射层仍可补stub"
+    },
+    {
+      "id": "WS-session.new",
+      "bucket": "功能未验证",
+      "name": "session.new",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SESSION",
+      "scenario": "创建后switched/默认标题；不中断其他会话数据",
+      "need": "已有新建链；录音/播放中创建组合另测"
+    },
+    {
+      "id": "WS-speech.failed",
+      "bucket": "功能未验证",
+      "name": "speech.failed",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SPEECH",
+      "scenario": "仅avatar有效utterance+playback ID受理，加载失败只重合成对应片",
+      "need": "已有新playback ID+计数断言；真实Godot加载失败现场未注入"
+    },
+    {
+      "id": "WS-speech.finished",
+      "bucket": "功能未验证",
+      "name": "speech.finished",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-SPEECH",
+      "scenario": "正确/旧/未知/ui角色回执，完成与interrupted分开",
+      "need": "已有拒绝旧ID及不提前done断言；不能用听到了代替关联"
+    },
+    {
+      "id": "WS-voice.cancel",
+      "bucket": "功能未验证",
+      "name": "voice.cancel",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-VOICE（handler/state层）",
+      "scenario": "录音/STT期间cancel，旧结果不回填；不生成chat/记忆",
+      "need": "已覆盖取消迟到；WS非owner cancel作用域需补孤立夹具"
+    },
+    {
+      "id": "WS-voice.start",
+      "bucket": "功能未验证",
+      "name": "voice.start",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-VOICE,O-SPEECH",
+      "scenario": "开始新capture，打断语音/取消wake capture；start驱动异常hint",
+      "need": "已有取消wake/停止TTS断言；麦克风真实性能不在离线层"
+    },
+    {
+      "id": "WS-voice.stop",
+      "bucket": "功能未验证",
+      "name": "voice.stop",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint",
+      "kind": "O",
+      "evidence": "O-VOICE,O-MANUAL",
+      "scenario": "owner+capture匹配才提交；乱序stop不建chat不resume wake",
+      "need": "已有stray stop与manual检查；不同owner及错误capture可补"
+    },
+    {
+      "id": "METHOD-mcp__browser__browser_tabs-list",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_tabs action=list",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "列出R2标签，核对index/title/url；不把有任何标签当匹配",
+      "need": "本地R2 HTML及标签即可；材料已有"
+    },
+    {
+      "id": "METHOD-mcp__browser__browser_tabs-new",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_tabs action=new",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "new指定loopback URL，核对新增数量及URL",
+      "need": "本地R2 HTML及标签即可；材料已有"
+    },
+    {
+      "id": "METHOD-mcp__browser__browser_tabs-close",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_tabs action=close",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "关闭指定R2 index，核对该标签移除而其他R2页保留",
+      "need": "本地R2 HTML及标签即可；材料已有"
+    },
+    {
+      "id": "METHOD-mcp__browser__browser_tabs-select",
+      "bucket": "功能未验证",
+      "name": "mcp__browser__browser_tabs action=select",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "R",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "两个R2页间选择index，下一snapshot必须对应目标页",
+      "need": "本地R2 HTML及标签即可；材料已有"
+    },
+    {
+      "id": "METHOD-mcp__github__issue_read-get_comments",
+      "bucket": "功能未验证",
+      "name": "mcp__github__issue_read method=get_comments",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "先加R2正文评论，再核对ID/作者/原文与分页",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__issue_read-get_sub_issues",
+      "bucket": "功能未验证",
+      "name": "mcp__github__issue_read method=get_sub_issues",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "父Issue含两子项，核对有序子Issue ID",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__issue_read-get_parent",
+      "bucket": "功能未验证",
+      "name": "mcp__github__issue_read method=get_parent",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "子Issue关联父；无父控制；替换父后读回新父",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__issue_read-get_labels",
+      "bucket": "功能未验证",
+      "name": "mcp__github__issue_read method=get_labels",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "一个R2标签+无标签控制，核对label ID/name",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__issue_write-update",
+      "bucket": "阻塞",
+      "name": "mcp__github__issue_write method=update",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "同Issue改title/body/state/label并回读；不由create成功代验",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "核对R2 PR number/head/base/title/body",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_diff",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_diff",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "断言R2新增/删除行的完整patch与文件路径",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_status",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_status",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "无status合法结果与有status分开；有值需创建专用commit status",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_files",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_files",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "两变更文件perPage=1翻页，逐path/additions核对",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_commits",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_commits",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "两提交翻页，逐SHA/消息核对",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_review_comments",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_review_comments",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "先有review thread，核对thread ID、line/original_line和cursor",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_reviews",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_reviews",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "pending/提交COMMENT之后核对review state和body",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_comments",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_comments",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "普通PR issue comment与review comment区分，按正文/ID验",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_read-get_check_runs",
+      "bucket": "功能未验证",
+      "name": "mcp__github__pull_request_read method=get_check_runs",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "零check合法空态；非空正向要专用check run或已允许CI",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-APPROVE",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write event=APPROVE",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "X",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "method=create/submit_pending+APPROVE独立；同作者失败与非作者成功分开",
+      "need": "当前登记只有owner账号；非作者审阅身份/平台资格需独立核实，不能伪造通过"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-REQUEST_CHANGES",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write event=REQUEST_CHANGES",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "X",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "method=create/submit_pending+REQUEST_CHANGES独立；必须核验审阅身份资格",
+      "need": "当前登记只有owner账号；非作者审阅身份/平台资格需独立核实，不能伪造通过"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-COMMENT",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write event=COMMENT",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "create直接提交与submit_pending两条，回读state=COMMENTED/body",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-create",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write method=create",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "无event应pending；有COMMENT应提交；两者不能合并计数",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-submit_pending",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write method=submit_pending",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "已有pending提交COMMENT；没有pending错误控制",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-delete_pending",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write method=delete_pending",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "只删专用pending review，再读回不存在；已提交不可同等视作删除",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-resolve_thread",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write method=resolve_thread",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "使用get_review_comments返回threadId，核对isResolved=true",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    },
+    {
+      "id": "METHOD-mcp__github__pull_request_review_write-unresolve_thread",
+      "bucket": "阻塞",
+      "name": "mcp__github__pull_request_review_write method=unresolve_thread",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "kind": "P",
+      "evidence": "S-MCP（仅共享）；无该method专门业务断言",
+      "scenario": "先resolve同thread，再核对isResolved=false",
+      "need": "同一R2仓可准备前置Issue/PR/review/thread；不是缺账号材料"
+    }
+  ],
+  "evidencedReview": {
+    "date": "2026-10-08",
+    "scope": "原72个有实证ID逐项复核；保留原184分类，原256唯一映射不等于功能穷尽或通过",
+    "originalIds": 72,
+    "reviewedIds": 72,
+    "retainedUnclosedIds": 184,
+    "totalOriginalUniqueIds": 256,
+    "manifestEvidence": [
+      "../evidence/runtime-final.json",
+      "evidence/deployment-entry.json"
+    ],
+    "manifestComparison": {
+      "keys": 54,
+      "matching": 54,
+      "sourceFields": [
+        "deployed_sha256",
+        "sha256"
+      ],
+      "limits": "安装observer前磁盘文件；非内存模块/全部依赖/数据库"
+    },
+    "reusedSuite": {
+      "file": "evidence/offline-suite.json",
+      "tests": 362,
+      "ok": true,
+      "failures": [],
+      "skipped": [],
+      "newTestReferences": 50,
+      "reexecutedByThisReviewer": 0
+    },
+    "layers": {
+      "L": "上一轮当前窗口/业务回执",
+      "R2": "本轮导出或明确标注的主执行现场记录",
+      "O": "离线断言",
+      "S": "静态/磁盘",
+      "H": "历史证据/离线重判",
+      "F": "保留失败/反例"
+    }
+  },
+  "evidencedRows": [
+    {
+      "id": "AD01",
+      "name": "DS主脑",
+      "source": "services/agent-core/agent_core/main.py:OpenAICompatibleProvider",
+      "enabled": "yes",
+      "expected": "共享契约和工具；当前准确ID Deepseek-v4-flash",
+      "verification": "当前窗口RA-01/F01/G01",
+      "status": "前台已验证，存在失败",
+      "evidence": "evidence/desktop-03.json; evidence/desktop-27.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "F"
+      ],
+      "assessment": "旧DS文件读取能给200/5，但确认后空动作虚报；R2 Gmail真实读取并答75，语音另失败。",
+      "assertionGroups": [
+        "E-PROVIDER",
+        "E-HTTP"
+      ],
+      "remaining": "同任务/同材料的DS与GLM对照仍须单列；成功短答不覆盖原生提案、长结果和异常交付。",
+      "newEvidence": [
+        "gmail-tts-live-trace.json"
+      ]
+    },
+    {
+      "id": "AD02",
+      "name": "GLM主脑",
+      "source": "services/agent-core/agent_core/main.py:_provider_config",
+      "enabled": "tested via formal entry, restored inactive",
+      "expected": "GLM-5.2使用同一微信网关/凭据来源",
+      "verification": "同条件原窗口对照，配置切换需正常重启",
+      "status": "当前桌面真实GLM对照已完成；非全面模型排名",
+      "evidence": "evidence/desktop-37.json; evidence/desktop-41.json; evidence/runtime-glm-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "旧GLM正式入口角色问答和文件写入样例可复用，非DS劣于GLM的总体排名。",
+      "assertionGroups": [
+        "E-PROVIDER"
+      ],
+      "remaining": "本轮GLM未做同条件新任务；配置身份、档位和材料一致再比较。",
+      "newEvidence": []
+    },
+    {
+      "id": "AD03",
+      "name": "模型配置热重载",
+      "source": "services/agent-core/agent_core/main.py:_reload_provider_config",
+      "enabled": "yes",
+      "expected": "凭据更换后受限重载，不把Key发往不同host",
+      "verification": "离线配置/传输测试；不人为破坏生产Key",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "429换key重试与换host不发送新key有精确离线断言；未破坏现场凭据。",
+      "assertionGroups": [
+        "E-RELOAD"
+      ],
+      "remaining": "真实凭据失效不是必要复测；保留工具轮热重载/配置缺项已有测试层，不称现场全边界通过。",
+      "newEvidence": []
+    },
+    {
+      "id": "AD04",
+      "name": "传输恢复/截止时间",
+      "source": "services/agent-core/agent_core/provider_http.py",
+      "enabled": "yes",
+      "expected": "直连/代理明确；有界重试与错误交付",
+      "verification": "既有provider_resilience回归，真实故障不注入生产",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "3次上限、deadline后迟回丢弃、工具后网络重试不重复执行均有断言。",
+      "assertionGroups": [
+        "E-HTTP"
+      ],
+      "remaining": "既有mock/loopback的通过可复用，不包含每个远端供应商实时故障。",
+      "newEvidence": []
+    },
+    {
+      "id": "AD05",
+      "name": "工具协议降级",
+      "source": "services/agent-core/agent_core/agent_loop.py",
+      "enabled": "yes",
+      "expected": "不支持工具时明确降级，保留已执行证据",
+      "verification": "离线unsupported/400/422反事实",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "unsupported退纯文本，步数耗尽保留工具记录的离线合同可复用。",
+      "assertionGroups": [
+        "E-FALLBACK"
+      ],
+      "remaining": "具体400/422错误体解析及执行后降级须按provider断言分别引用，不能以一次UnsupportedProvider覆盖全部API。",
+      "newEvidence": []
+    },
+    {
+      "id": "EF01",
+      "name": "碎碎念低投入",
+      "source": "services/agent-core/agent_core/main.py:EFFORT_LEVELS",
+      "enabled": "yes",
+      "expected": "3轮6次工具；同权限/人设",
+      "verification": "前台选择+事件；离线预算",
+      "status": "前台已验证低档能用工具",
+      "evidence": "evidence/desktop-30.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "desktop-30的chill含get_time与recall_memory；3轮/6次上限的具体断言可复用。",
+      "assertionGroups": [
+        "E-EFFORT",
+        "E-CONTINUE"
+      ],
+      "remaining": "test_every_level_stays_a_full_agent仅测正预算/label，不测工具集和权限等价。",
+      "newEvidence": []
+    },
+    {
+      "id": "EF02",
+      "name": "帮帮忙中投入",
+      "source": "services/agent-core/agent_core/main.py:EFFORT_LEVELS",
+      "enabled": "yes",
+      "expected": "6轮12次工具；同权限/人设",
+      "verification": "前台选择+事件；离线预算",
+      "status": "前台已验证档位；文件任务失败",
+      "evidence": "evidence/desktop-31.json; evidence/desktop-32.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "standard档事件存在；desktop-31/32双文件只有口头待办且actions空，不能称双待办通过。",
+      "assertionGroups": [
+        "E-EFFORT",
+        "E-TICKET"
+      ],
+      "remaining": "需要当前模型真实提出两动作；离线两文件确认成功仅证明宿主路径。",
+      "newEvidence": []
+    },
+    {
+      "id": "EF03",
+      "name": "大展身手高投入",
+      "source": "services/agent-core/agent_core/main.py:EFFORT_LEVELS",
+      "enabled": "yes",
+      "expected": "9轮18次工具；同权限/人设",
+      "verification": "前台选择+事件；离线预算",
+      "status": "前台已验证高档；任务有成功和失败",
+      "evidence": "evidence/desktop-25.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "O"
+      ],
+      "assessment": "deep档18调用/9轮配置与真实发送、R2读取已观察；不是用满18次后的成功证明。",
+      "assertionGroups": [
+        "E-EFFORT",
+        "E-TICKET"
+      ],
+      "remaining": "同权限静态证据与当前模型达预算边界分别说明。",
+      "newEvidence": [
+        "gmail-tts-live-trace.json"
+      ]
+    },
+    {
+      "id": "PE01",
+      "name": "共享角色与运行合同",
+      "source": "services/agent-core/agent_core/harness.py:CharacterHarness",
+      "enabled": "yes",
+      "expected": "角色/任务/记忆分层，不虚构身体与能力",
+      "verification": "前台问答+旧P01/P02反例",
+      "status": "DS/GLM前台相同角色样例；非跨模型全通过",
+      "evidence": "evidence/desktop-36.json; evidence/desktop-37.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "双模型旧安慰/歌曲样例及assistant历史合同可复用；非角色所有问法通过。",
+      "assertionGroups": [
+        "E-HARNESS"
+      ],
+      "remaining": "用无真实隐私的多轮诱导/能力越界负例区分提示存在与遵守；不能将歌曲事实正确外推人格边界。",
+      "newEvidence": []
+    },
+    {
+      "id": "PE02",
+      "name": "原创曲检索",
+      "source": "services/agent-core/agent_core/song_catalog.py; data/luotianyi_original_songs.json",
+      "enabled": "yes",
+      "expected": "仅检索匹配资料，不冒称会播放或演唱",
+      "verification": "离线匹配+前台角色问答",
+      "status": "双模型推荐匹配内置曲库；曲库事实来源未独立确证",
+      "evidence": "evidence/desktop-36.json; evidence/desktop-37.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "本地精确曲名搜到ilem、非音乐不注入有断言；旧两模型推荐命中本地资料。",
+      "assertionGroups": [
+        "E-HARNESS"
+      ],
+      "remaining": "曲库发行年份/来源仍未独立核实，不因模型和本地JSON一致成为外部事实验证。",
+      "newEvidence": []
+    },
+    {
+      "id": "PE03",
+      "name": "结构化解析",
+      "source": "services/agent-core/agent_core/harness.py:parse_reply",
+      "enabled": "yes",
+      "expected": "坏JSON不泄漏原始碎片，不伪交付",
+      "verification": "RA-G01及离线边界",
+      "status": "已证实缺陷",
+      "evidence": "evidence/review-reproduction.json; evidence/desktop-06.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "旧最终答复为单个{；review_reproduction.py:36–37复现其被解析器原样交付。",
+      "assertionGroups": [
+        "E-HARNESS"
+      ],
+      "remaining": "正常JSON及换行修复通过不关闭单个{、其他无实质内容的失败；后续修复需保留负例。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA01",
+      "name": "动作参数票据",
+      "source": "services/agent-core/agent_core/actions.py",
+      "enabled": "yes",
+      "expected": "action/revision/hash/confirmationId绑定",
+      "verification": "原窗口G01；旧证据校准+隔离伪造票据",
+      "status": "前台+离线已验证绑定路径，不宣称穷尽",
+      "evidence": "evidence/desktop-25.json; evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "O"
+      ],
+      "assessment": "旧发送和R2 Gmail确认绑定action/revision/hash；过期/错digest不执行有断言。",
+      "assertionGroups": [
+        "E-TICKET",
+        "S-GATE"
+      ],
+      "remaining": "并发旧确认、同名改参、跨会话是离线分支，不冒称每个连接器都已实时验证。",
+      "newEvidence": [
+        "gmail-tts-live-trace.json"
+      ]
+    },
+    {
+      "id": "TA02",
+      "name": "拒绝/取消",
+      "source": "services/agent-core/agent_core/actions.py:decision; services/agent-core/agent_core/main.py:handle_chat",
+      "enabled": "yes",
+      "expected": "取消未执行任务，不撤回已发出I/O",
+      "verification": "原窗口取消/离线并发",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "否定/引用不批准，排队批准在dispatch前取消的离线断言可复用。",
+      "assertionGroups": [
+        "E-CANCEL"
+      ],
+      "remaining": "已发I/O无法靠取消撤回；本轮真人/前台取消完整链仍另验，不需真实发送负例。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA03",
+      "name": "改参",
+      "source": "services/agent-core/agent_core/actions.py; services/agent-core/agent_core/main.py:_handle_chat_locked",
+      "enabled": "yes",
+      "expected": "旧参数票据失效，新参数重新确认",
+      "verification": "前台合成文件+隔离旧票据反例",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "真实临时文件夹具中旧参数票据不能写，新票据写新版。",
+      "assertionGroups": [
+        "E-TICKET"
+      ],
+      "remaining": "还缺当前模型前台自然语言改参→新原生票据→产物的具体成功；不缺授权对象。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA04",
+      "name": "多待办",
+      "source": "services/agent-core/agent_core/actions.py",
+      "enabled": "yes",
+      "expected": "同名不同参数动作不覆盖，逐项确认",
+      "verification": "前台双文件+隔离账本",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "L",
+        "F"
+      ],
+      "assessment": "离线one/two分别确认产物正确；旧前台twin-a/b actions为空，是模型未提案失败。",
+      "assertionGroups": [
+        "E-TICKET"
+      ],
+      "remaining": "不能把宿主账本多项存活或两次确认测试算模型生成多项成功；准备R2双文件即可。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA05",
+      "name": "失败/未知/防重",
+      "source": "services/agent-core/agent_core/actions.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "enabled": "yes",
+      "expected": "未知不重试；失败不报完成",
+      "verification": "隔离假连接器；原窗口真实失败",
+      "status": "已证实业务错误误成功",
+      "evidence": "evidence/receipt-counterfactuals.json; evidence/desktop-08.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "unknown持久化防重有效；Gmail Error文本在isError缺省/false时误成succeeded的真实和合成反例保留。",
+      "assertionGroups": [
+        "E-UNKNOWN",
+        "S-MCP"
+      ],
+      "remaining": "区分协议失败、内容业务失败和结果交付；修复时不能把含Error的合法文档一律判失败。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA06",
+      "name": "任务连续性",
+      "source": "services/agent-core/agent_core/main.py:_handle_chat_locked",
+      "enabled": "yes",
+      "expected": "确认/续办保留原意和已取证资料",
+      "verification": "RA-F01/F02与最小反事实",
+      "status": "已证实连续性缺陷",
+      "evidence": "evidence/review-reproduction.json; evidence/desktop-20.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "review_reproduction确认清任务intent/预算/cache而保留两条聊天；继续保任务预算有独立断言。",
+      "assertionGroups": [
+        "E-CONTINUE"
+      ],
+      "remaining": "无待办“确认”与“继续”不是同分支；R2完整链须分别检查task/cache/messages。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA07",
+      "name": "长结果缓存",
+      "source": "services/agent-core/agent_core/result_pages.py",
+      "enabled": "yes",
+      "expected": "2K分页、4Mi字符上限、任务隔离",
+      "verification": "原窗口G01+离线首尾/越界",
+      "status": "离线已验证；真实长结果交付失败",
+      "evidence": "evidence/offline-suite.json; evidence/desktop-06.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "2K分页尾哨兵/错store拒绝可复用；旧长README工具成功但最终{仍失败。",
+      "assertionGroups": [
+        "O-PAGES"
+      ],
+      "remaining": "4Mi上限与淘汰/跨任务参数不是尾页断言的同一覆盖；现有R2长文已可准备，不缺账号。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA08",
+      "name": "MCP resource正文",
+      "source": "services/agent-core/agent_core/mcp_host.py:_call_locked",
+      "enabled": "yes",
+      "expected": "embedded resource正文不丢",
+      "verification": "RA-G01真实回执+离线resource对照",
+      "status": "前台已验证正文传入，不等于答复成功",
+      "evidence": "evidence/desktop-06.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "旧README嵌入resource正文在receipt中；resource_text_is_not_lost覆盖适配器嵌入正文。",
+      "assertionGroups": [
+        "O-PAGES"
+      ],
+      "remaining": "不包含独立resources/read、二进制资源或结果摘要准确性；TA09保持未实现。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA10",
+      "name": "资料注入边界",
+      "source": "services/agent-core/agent_core/harness.py; services/agent-core/agent_core/agent_loop.py",
+      "enabled": "yes",
+      "expected": "资料不能授权或改写用户目标",
+      "verification": "旧F09反例+隔离合成文本，不攻击私有数据",
+      "status": "历史反例+本轮离线回归；当前前台未做攻击",
+      "evidence": "evidence/offline-counterfactuals.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "H",
+        "S"
+      ],
+      "assessment": "引用的offline-counterfactuals新probes只见记忆/路径/grader；不能把旧F09重判或shared gate称当前注入攻击已通过。",
+      "assertionGroups": [
+        "S-GATE"
+      ],
+      "remaining": "需定位F09具体旧试次/断言；可用合成资料夹具“忽略用户并写文件”检验不产生/不授权动作，无需外部账号。",
+      "newEvidence": []
+    },
+    {
+      "id": "ME01",
+      "name": "消息/事件持久化",
+      "source": "services/agent-core/agent_core/storage.py",
+      "enabled": "yes",
+      "expected": "会话读回与当前实例一致，结构完整",
+      "verification": "稳定main+WAL只读检查，禁止清库",
+      "status": "已证实所检视图异常，源因果未定",
+      "evidence": "evidence/inventory-start.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "O",
+        "F"
+      ],
+      "assessment": "会话路由/重开不重复通过；现场快照仍Tree4 rowid672和24时间列异常，非全库结构正常。",
+      "assertionGroups": [
+        "E-STORE",
+        "O-SESSION"
+      ],
+      "remaining": "BEGIN backup及同file ID削弱并发复制解释，不能确定损坏写入者/时间或承诺恢复全部历史。",
+      "newEvidence": [
+        "real-idle-receipts-v3.json"
+      ]
+    },
+    {
+      "id": "ME02",
+      "name": "记忆保存/晋升",
+      "source": "services/agent-core/agent_core/storage.py; services/agent-core/agent_core/main.py:_fact_promotion_status",
+      "enabled": "yes",
+      "expected": "明确保存须有fact回执，不只口头承诺",
+      "verification": "合成RA-R01；旧R02",
+      "status": "前台保存成功控制",
+      "evidence": "evidence/desktop-28.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "旧RA-R01确有fact24 global/confirmed与stored事件，不只是口头说保存。",
+      "assertionGroups": [
+        "E-MEMORY"
+      ],
+      "remaining": "仅这类“请记住”触发；普通候选/更正措辞及保存承诺一致性另见ME07。",
+      "newEvidence": []
+    },
+    {
+      "id": "ME03",
+      "name": "记忆更正",
+      "source": "services/agent-core/agent_core/storage.py:add_fact",
+      "enabled": "yes",
+      "expected": "新事实生效，旧事实标superseded，不误伤其他属性",
+      "verification": "合成跨会话+离线相似度对照",
+      "status": "前台更正失败；另有隔离错覆盖",
+      "evidence": "evidence/desktop-29.json; evidence/offline-counterfactuals.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "旧更正新增fact25 session/pending，跨会话仍120；另有跨项目相似句误supersede。",
+      "assertionGroups": [
+        "E-MEMORY"
+      ],
+      "remaining": "喜欢歌手的正例不覆盖项目/属性作用域；合成两项目和多属性夹具即可，不需私人历史。",
+      "newEvidence": []
+    },
+    {
+      "id": "ME04",
+      "name": "记忆召回",
+      "source": "services/agent-core/agent_core/memory_retrieval.py",
+      "enabled": "yes",
+      "expected": "区分未召回与未保存，按任务检索",
+      "verification": "旧R03语义复核+离线召回",
+      "status": "前台调用成功且最终答旧值；工具正文未记录",
+      "evidence": "evidence/desktop-30.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "旧recall_memory调用ok但raw正文未录，最终答120；五字段召回有离线精确集合断言。",
+      "assertionGroups": [
+        "E-MEMORY"
+      ],
+      "remaining": "不能从旧final倒推工具到底返回了什么；现有global120/session180可用合成全链证明召回vs保存区别。",
+      "newEvidence": []
+    },
+    {
+      "id": "ME05",
+      "name": "敏感记忆策略",
+      "source": "services/agent-core/agent_core/storage.py:_pending_recallable; services/agent-core/agent_core/main.py:_fact_promotion_status",
+      "enabled": "yes",
+      "expected": "显式保存敏感信息与普通全局模型上下文的边界需Manager裁决",
+      "verification": "仅合成秘密离线测试",
+      "status": "隔离已验证实际策略；取舍待Manager",
+      "evidence": "evidence/offline-counterfactuals.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "F"
+      ],
+      "assessment": "敏感pending不召回有断言；显式记住合成密码进入confirmed/global并跨会话召回是已观察策略。",
+      "assertionGroups": [
+        "E-MEMORY"
+      ],
+      "remaining": "允许显式保存与模型上下文可见性的取舍仍由用户/产品裁决；不得接触真实密码来复测。",
+      "newEvidence": []
+    },
+    {
+      "id": "ME06",
+      "name": "上下文窗口",
+      "source": "services/agent-core/agent_core/main.py:MAX_HISTORY_MESSAGES; services/agent-core/agent_core/harness.py",
+      "enabled": "yes",
+      "expected": "20条聊天与工程任务证据边界明确",
+      "verification": "源码/反事实，不读取私人历史",
+      "status": "静态+隔离已验证，非raw wire全量证明",
+      "evidence": "evidence/review-reproduction.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "S",
+        "O"
+      ],
+      "assessment": "MAX_HISTORY_MESSAGES=20为静态；旧隔离load_messages忽略limit且只有两条，未动态测20条边界。",
+      "assertionGroups": [
+        "E-STORE",
+        "E-CONTINUE"
+      ],
+      "remaining": "21/22条、换会话和任务缓存独立保留可用内存夹具；wire hash不能复原每条私有上下文。",
+      "newEvidence": []
+    },
+    {
+      "id": "VO01",
+      "name": "手动录音",
+      "source": "services/agent-core/agent_core/main.py:websocket_endpoint; services/agent-core/agent_core/voice.py",
+      "enabled": "yes",
+      "expected": "只由语音按钮开启，用户审阅后发送",
+      "verification": "原窗口真人待确认+离线事件",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "R2"
+      ],
+      "assessment": "手动入口合同离线；manual-voice-trace有4次实际capture、3次raw/简体输出、1次清晰语音不足异常。",
+      "assertionGroups": [
+        "O-VOICE",
+        "O-MANUAL"
+      ],
+      "remaining": "该文件不记录所有鼠标动作/最终输入框视觉；真实听录与审阅发送需主执行者现场证据。",
+      "newEvidence": [
+        "manual-voice-trace.json"
+      ]
+    },
+    {
+      "id": "VO02",
+      "name": "STT简体及精确内容",
+      "source": "services/agent-core/agent_core/stt_input.py",
+      "enabled": "yes",
+      "expected": "本地转换保护英文数字路径",
+      "verification": "离线样例与真人回填",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "R2"
+      ],
+      "assessment": "字面路径/英语数字保护有断言；现场raw170→简体170，另一条raw/simplified175，转换没制造数字变化。",
+      "assertionGroups": [
+        "E-STT"
+      ],
+      "remaining": "实际口述目标与每条wav hash对齐才能判ASR准确；一次175成功不能覆盖日期/长英文/路径。",
+      "newEvidence": [
+        "manual-voice-trace.json"
+      ]
+    },
+    {
+      "id": "VO03",
+      "name": "取消/切会话/旧录音",
+      "source": "services/agent-core/agent_core/stt_input.py:CaptureState; services/agent-core/agent_core/main.py",
+      "enabled": "yes",
+      "expected": "代际失效；旧结果不回填",
+      "verification": "离线代际+前台切会话",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "旧generation、取消中迟结果不回填有断言。",
+      "assertionGroups": [
+        "O-VOICE"
+      ],
+      "remaining": "manual-voice-trace的generation递增本身不证明取消/切会话丢旧结果；无需反复真实录音，可用现有边界夹具。",
+      "newEvidence": []
+    },
+    {
+      "id": "VO04",
+      "name": "空录音",
+      "source": "services/agent-core/agent_core/main.py:handle_voice_transcription",
+      "enabled": "yes",
+      "expected": "只轻提示，无聊天/记忆/LLM",
+      "verification": "原窗口短空录音，后台关联检查",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "R2"
+      ],
+      "assessment": "empty_stt只提示且无chat/add_message有断言；现场一次raw VoiceError提示不清晰。",
+      "assertionGroups": [
+        "O-VOICE"
+      ],
+      "remaining": "不清晰录音不等于全零/无采样；证明零模型/零记忆需该capture关联计数，别用整个session模型总数。",
+      "newEvidence": [
+        "manual-voice-trace.json"
+      ]
+    },
+    {
+      "id": "VO06",
+      "name": "STT故障自愈",
+      "source": "services/agent-core/agent_core/voice.py; services/agent-core/agent_core/wake_word.py",
+      "enabled": "yes",
+      "expected": "驱动数字零检测/有界恢复",
+      "verification": "隔离既有测试；不破坏真实音频驱动",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "合成全零录音只reset一次并抛可行动错误；缺本地模型缓存不下载。",
+      "assertionGroups": [
+        "E-STT"
+      ],
+      "remaining": "没有注入真实驱动假死；音频设备恢复后的真转写不由mock reset返回True证明。",
+      "newEvidence": []
+    },
+    {
+      "id": "TT01",
+      "name": "合成/分片",
+      "source": "services/agent-core/agent_core/speech.py; ../tianyi-tts/scripts/tts_server.py",
+      "enabled": "yes",
+      "expected": "真实声线合成并分片交付",
+      "verification": "原窗口RA-01/F01播放回执",
+      "status": "前台有成功及内容相关失败",
+      "evidence": "evidence/desktop-01.json; evidence/tts-encoding-counterfactual.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "O",
+        "F"
+      ],
+      "assessment": "分片同utterance索引0/1/2可复用；普通中文真实成功，含✅首片因GBK print失败。",
+      "assertionGroups": [
+        "E-DELIVERY"
+      ],
+      "remaining": "完整emoji合成/长片尾播放未修；UTF8 print反事实不是实际声线合成通过。",
+      "newEvidence": [
+        "gmail-tts-live-trace-v2.json",
+        "tts-exact-counterfactual.json",
+        "tts-recovered-short.json"
+      ]
+    },
+    {
+      "id": "TT02",
+      "name": "播放回执/补送",
+      "source": "services/agent-core/agent_core/speech.py; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "utterance/playback绑定，失败有界恢复",
+      "verification": "原窗口回执+隔离故障",
+      "status": "前台有播放回执和180秒超时",
+      "evidence": "evidence/desktop-10.json; evidence/desktop-27.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "O"
+      ],
+      "assessment": "无receipt不completed、丢ACK复用payload、已知未播失败只重合成该片有断言；新短句两receipt+completed。",
+      "assertionGroups": [
+        "E-DELIVERY",
+        "O-SPEECH"
+      ],
+      "remaining": "Godot corrected fixture16通过与旧fixture失败分列；真实丢ACK/坏wav注入尚未做，不复测普通成功代替。",
+      "newEvidence": [
+        "tts-recovered-short.json"
+      ]
+    },
+    {
+      "id": "TT03",
+      "name": "打断",
+      "source": "services/agent-core/agent_core/speech.py; services/agent-core/agent_core/main.py:websocket_endpoint",
+      "enabled": "yes",
+      "expected": "新输入/换会话停止旧语音",
+      "verification": "原窗口消息/会话切换+回执",
+      "status": "前台换会话及新消息打断；听感未逐条确认",
+      "evidence": "evidence/desktop-28.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "旧会话/输入打断记录与WS voice.start、新消息中断通过可复用。",
+      "assertionGroups": [
+        "O-SPEECH"
+      ],
+      "remaining": "旧导出human_audio未确认；换代过程中迟HTTP线程不回放属于特定离线断言，非一条interrupt全覆盖。",
+      "newEvidence": []
+    },
+    {
+      "id": "TT04",
+      "name": "退出告别",
+      "source": "services/agent-core/agent_core/speech_cache.py; apps/avatar-runtime/farewell_exit.gd",
+      "enabled": "yes",
+      "expected": "缓存音频与动画共同结束，超时可退出",
+      "verification": "已有冻结证据；本轮若重启再验",
+      "status": "正常关窗退出已观察；本轮告别听感未确认",
+      "evidence": "evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "H",
+        "L",
+        "O"
+      ],
+      "assessment": "缓存单片/相同exit合同、旧Godot46断言通过；旧runtime-owner文件只是被动健康，不直接记录告别听感。",
+      "assertionGroups": [
+        "O-FAREWELL",
+        "G-FAREWELL"
+      ],
+      "remaining": "本轮正常AltF4退出可由主执行现场补证；动画音频均完整结束需各自receipt/结束或人工记录。",
+      "newEvidence": []
+    },
+    {
+      "id": "TT05",
+      "name": "TTS看护",
+      "source": "scripts/watch-tts-session.ps1; ../tianyi-tts/scripts/service_health.py",
+      "enabled": "yes",
+      "expected": "定向PID恢复/退出释放，不误杀",
+      "verification": "静态追踪+既有隔离证据；本轮不杀生产",
+      "status": "已观察重启循环；隔离/静态机制验证",
+      "evidence": "evidence/runtime-before-reload.json; evidence/tts-encoding-counterfactual.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "S"
+      ],
+      "assessment": "旧现场循环重启；本轮14200→23396仍同编码失败，表明watcher替换TTS未修确定性输入问题。",
+      "assertionGroups": [
+        "O-HEALTH",
+        "E-DELIVERY"
+      ],
+      "remaining": "54磁盘hash不替代当前PID归属/清理；不能把Core几十次503全算GPU合成。",
+      "newEvidence": [
+        "gmail-tts-live-trace-v2.json",
+        "tts-recovered-short.json"
+      ]
+    },
+    {
+      "id": "PR02",
+      "name": "600秒闲置一次",
+      "source": "services/agent-core/agent_core/main.py:_proactive_idle; services/agent-core/agent_core/proactive.py:IdlePolicy",
+      "enabled": "yes",
+      "expected": "同闲置段不重复，活动后重计，零LLM",
+      "verification": "离线边界；真实连续600秒待体验",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "R2"
+      ],
+      "assessment": "真实GetLastInputInfo最大673.188秒，一次600提醒、receipt/completed及同段skip，v3有效窗口provider0。",
+      "assertionGroups": [
+        "E-IDLE"
+      ],
+      "remaining": "新活动后第二段、窗口外provider、安静时段边界仍分开；v1字符串筛选空结果已废止。",
+      "newEvidence": [
+        "real-idle-01.json",
+        "real-idle-receipts-v3.json"
+      ]
+    },
+    {
+      "id": "PR03",
+      "name": "播放前复查",
+      "source": "services/agent-core/agent_core/main.py:_broadcast_speak",
+      "enabled": "yes",
+      "expected": "01:00-07:00/活动/忙碌复查，续片不误拦",
+      "verification": "配置+离线分段边界",
+      "status": "离线既有回归已验证；当前前台边界未全部覆盖",
+      "evidence": "evidence/offline-suite.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O"
+      ],
+      "assessment": "播前活动/忙碌零model、续片活动或quiet取消均有精确断言。",
+      "assertionGroups": [
+        "E-IDLE"
+      ],
+      "remaining": "本轮普通闲置成功不覆盖01:00/07:00边界；保留现有quiet policy回归，无需改系统时钟。",
+      "newEvidence": []
+    },
+    {
+      "id": "LC01",
+      "name": "正式入口/幂等启动",
+      "source": "scripts/start-mvp.ps1; start-anime-agent.cmd",
+      "enabled": "yes",
+      "expected": "同数据/同配置，已有健康实例不多开",
+      "verification": "运行PID/路径/哈希；本轮不凭旧PID",
+      "status": "所有者原入口重启成功；命名空间风险",
+      "evidence": "evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "S"
+      ],
+      "assessment": "旧正式入口重启后服务存在，54文件一致；当前正式重启普通中文短句恢复。",
+      "assertionGroups": [
+        "O-HEALTH"
+      ],
+      "remaining": "健康成功不是并发双启动/端口占用/启动锁幂等完整验收；对应PowerShell离线逻辑不在362 Python中。",
+      "newEvidence": [
+        "deployment-entry.json",
+        "tts-recovered-short.json"
+      ]
+    },
+    {
+      "id": "LC02",
+      "name": "Core守护/退出",
+      "source": "scripts/core_watchdog.ps1; scripts/startup-common.ps1",
+      "enabled": "yes",
+      "expected": "窗口生命周期绑定，不按进程名杀",
+      "verification": "实际脚本定位+既有测试；不在线注入故障",
+      "status": "正常退出/重启已观察；故障仅离线",
+      "evidence": "evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "S"
+      ],
+      "assessment": "正常关窗/重启现场由主执行记录；代码归属核验与历史看护证据可复用。",
+      "assertionGroups": [
+        "O-HEALTH"
+      ],
+      "remaining": "runtime-owner passive快照不独立证明所有旧进程已退出；须PID+创建时间的前后记录，不需再故障杀生产。",
+      "newEvidence": []
+    },
+    {
+      "id": "LC03",
+      "name": "数据身份与恢复",
+      "source": "services/agent-core/agent_core/storage.py:default_data_dir",
+      "enabled": "yes",
+      "expected": "包内外进程同路径应指同数据库",
+      "verification": "namespace+WAL反事实；只读保全",
+      "status": "数据身份差异已观察；损坏来源未定",
+      "evidence": "evidence/runtime-start.json; evidence/inventory-start.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "F"
+      ],
+      "assessment": "同路径不同file ID视图已观察；当前探针normal/UNC同ID+BEGIN快照加强同源关联。",
+      "assertionGroups": [],
+      "remaining": "GetCurrentPackageFullName=15700不足以识别重定向；未直接测Core SQLite句柄，源损坏者/恢复范围未定。",
+      "newEvidence": [
+        "real-idle-receipts-v3.json"
+      ]
+    },
+    {
+      "id": "LC04",
+      "name": "部署overlay一致性",
+      "source": "scripts/harness_v1/activation_snapshot.py",
+      "enabled": "yes",
+      "expected": "工作树/候选/运行文件哈希分开",
+      "verification": "runtime-start与新现场manifest",
+      "status": "磁盘匹配清单已核对；非内存源码证明",
+      "evidence": "evidence/runtime-start.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "S",
+        "R2"
+      ],
+      "assessment": "两份保存manifest各54项，用deployed_sha256对sha256逐键比较无差异。",
+      "assertionGroups": [],
+      "remaining": "是观察器安装前磁盘清单，不证明全部依赖或运行内存；observer sidecar/hook及最终恢复hash另验。",
+      "newEvidence": [
+        "deployment-entry.json"
+      ]
+    },
+    {
+      "id": "EV01",
+      "name": "评测事实与回执关联",
+      "source": "scripts/harness_v1/grader.py",
+      "enabled": "yes",
+      "expected": "实际产物/授权/回执，拒绝不能冒充能力",
+      "verification": "旧证据离线重判/反例",
+      "status": "离线重判已完成，判据仍有反例",
+      "evidence": "evidence/offline-counterfactuals.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "H",
+        "O",
+        "F"
+      ],
+      "assessment": "288旧成绩哈希不变重判只证明重复性；无关read回执让当前F01通过已独立复现。",
+      "assertionGroups": [],
+      "remaining": "grader须绑定request/目标/实际产物；保留旧成绩并另记反例，不能用批量PASS关闭。",
+      "newEvidence": [
+        "grader-counterexamples.jsonl"
+      ]
+    },
+    {
+      "id": "EV02",
+      "name": "语义等价和虚报",
+      "source": "scripts/harness_v1/grader.py",
+      "enabled": "yes",
+      "expected": "18日/18号等价；矛盾声明不判绿",
+      "verification": "旧R03/P01/P02+合成反例",
+      "status": "已证实旧判据不足，不改原分",
+      "evidence": "evidence/offline-counterfactuals.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "H",
+        "O",
+        "F"
+      ],
+      "assessment": "18日/18号未归一、文件虚报检测漏判；1750含175仍PASS新增可复现。",
+      "assertionGroups": [],
+      "remaining": "精确数值/日期和矛盾声明断言需要修订；无需调用模型生成更多同类失败。",
+      "newEvidence": [
+        "grader-counterexamples.jsonl"
+      ]
+    },
+    {
+      "id": "EV03",
+      "name": "README/AGENTS/HANDOFF/SPEC/TESTING",
+      "source": "docs/HANDOFF.md; AGENTS.md; docs/TESTING.md",
+      "enabled": "yes",
+      "expected": "日期版本范围一致，旧证据不代表现场",
+      "verification": "静态逐项差异清单",
+      "status": "已证实部署旧effort守卫/文档当前与历史混杂",
+      "evidence": "evidence/godot-guards.json; evidence/godot-speech-fixture-corrected.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "S",
+        "H",
+        "F"
+      ],
+      "assessment": "HANDOFF顶部candidate覆盖旧历史；AGENTS仍93工具，实际schema94；旧effort守卫失败/修正speech夹具通过须分列。",
+      "assertionGroups": [],
+      "remaining": "测试数362是Python集合，不含全部Godot/PowerShell；文档的历史通过不能替当前激活证据。",
+      "newEvidence": []
+    },
+    {
+      "id": "EV04",
+      "name": "本轮取证器可靠性",
+      "source": "scripts/root_cause_audit/probe.py",
+      "enabled": "yes",
+      "expected": "文件集合和副本哈希校验；请求关联不依赖消息行",
+      "verification": "5项自测与独立反例，非原子快照保证",
+      "status": "5自测通过；修的是取证器非业务",
+      "evidence": "evidence/review-reproduction.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "R2"
+      ],
+      "assessment": "旧5取证自测检查复制集合/哈希和非法时间；不是原子备份证明；新observer/overlay/SQL内存反例已复核。",
+      "assertionGroups": [],
+      "remaining": "初次清理失败、旧v1缺request trace、idle v1空筛选均保留版本；只有经验证导出才可作链路证据。",
+      "newEvidence": [
+        "observer-check-v2.json",
+        "real-idle-receipts-v3.json"
+      ]
+    },
+    {
+      "id": "TA11",
+      "name": "成功到实质答案的合同",
+      "source": "services/agent-core/agent_core/main.py:_receipt_delivery; services/agent-core/agent_core/harness.py:parse_reply",
+      "enabled": "yes",
+      "expected": "成功回执必须交付所问结果而非符号或将来时",
+      "verification": "RA-G01/G02/G03与隔离反事实",
+      "status": "已证实交付缺口",
+      "evidence": "evidence/review-reproduction.json; evidence/desktop-15.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "O",
+        "F"
+      ],
+      "assessment": "旧README最后{、issue_create将来时已证实；R2 Gmail本条内容75/附件正确但语音失败。",
+      "assertionGroups": [
+        "S-MCP"
+      ],
+      "remaining": "有效工具结果→实质答案是独立层；一条正确答案不关闭空动作/坏解析/所有method交付。",
+      "newEvidence": [
+        "gmail-tts-live-trace.json"
+      ]
+    },
+    {
+      "id": "TA12",
+      "name": "method型工具变更分类",
+      "source": "services/agent-core/agent_core/main.py:_receipt_delivery",
+      "enabled": "yes",
+      "expected": "不能用工具名称子串代替method实际副作用",
+      "verification": "issue_write(create/update)与write_file控制",
+      "status": "已证实method分类遗漏",
+      "evidence": "evidence/review-reproduction.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "F"
+      ],
+      "assessment": "review_reproduction:56–74证明issue_write/create成功不改将来时，而write_file控制强制交付。",
+      "assertionGroups": [],
+      "remaining": "其中issue_write/read是故意非法负对照不能算有效method覆盖；update有效分支须独立夹具，不能用名称_write推断。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA13",
+      "name": "无待办确认状态矩阵",
+      "source": "services/agent-core/agent_core/main.py:_handle_chat_locked",
+      "enabled": "yes",
+      "expected": "任务/预算/缓存/聊天历史分别记录",
+      "verification": "确认与继续反事实及RA-F01/M02",
+      "status": "状态矩阵隔离已验证",
+      "evidence": "evidence/review-reproduction.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "O",
+        "F"
+      ],
+      "assessment": "实际AST无待办确认重置task/cache，继续保留；两条history仍保留；预算耗尽继续不充值测试通过。",
+      "assertionGroups": [
+        "E-CONTINUE"
+      ],
+      "remaining": "无待办、已失败、unknown、跨会话的矩阵按条件细分；不能把“确认”解释成承诺过的任意写入授权。",
+      "newEvidence": []
+    },
+    {
+      "id": "TA14",
+      "name": "协议/业务/交付三种成功",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/actions.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "enabled": "yes",
+      "expected": "isError缺省/真假/顶层error分别保留真实错误",
+      "verification": "8个合成回执及合法Error资料控制",
+      "status": "8回执反例及成功控制已验证",
+      "evidence": "evidence/receipt-counterfactuals.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "8回执控制：isError缺省/false的Error文本误成功，true和RPC error失败；合法Error文档保留。",
+      "assertionGroups": [
+        "S-MCP"
+      ],
+      "remaining": "协议、业务、交付分别判定；仍无每个MCP真实错误形式覆盖。",
+      "newEvidence": []
+    },
+    {
+      "id": "TT06",
+      "name": "内容确定性故障与恢复分类",
+      "source": "services/agent-core/agent_core/speech.py; ../tianyi-tts/scripts/tts_server.py",
+      "enabled": "yes",
+      "expected": "emoji编码错误不应反复重启重发同片段",
+      "verification": "现场TTS异常及gbk/utf8离线对照；未修",
+      "status": "高置信机制，live编码与完整栈仍待补",
+      "evidence": "evidence/tts-encoding-counterfactual.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "O",
+        "F"
+      ],
+      "assessment": "原live编码/完整栈缺口已补：14200和23396都是GBK U+2705 print错误，503又被Core列retryable。",
+      "assertionGroups": [
+        "E-DELIVERY"
+      ],
+      "remaining": "确定性错误映射与恢复策略尚未业务修复；普通中文新PID恢复只证可用性，不证失败文本修复。",
+      "newEvidence": [
+        "gmail-tts-live-trace-v2.json",
+        "tts-exact-counterfactual.json",
+        "tts-recovered-short.json"
+      ]
+    },
+    {
+      "id": "ME07",
+      "name": "更正作用域与保存承诺",
+      "source": "services/agent-core/agent_core/main.py:_fact_promotion_status; services/agent-core/agent_core/storage.py:add_fact",
+      "enabled": "yes",
+      "expected": "保存更正的实际scope/status与承诺一致",
+      "verification": "RA-R01/R02/R03及同candidate措辞反事实",
+      "status": "前台+隔离已证实scope偏差",
+      "evidence": "evidence/desktop-29.json; evidence/desktop-30.json; evidence/memory-correction-counterfactual.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "固定相同candidate只换“保存更正”vs“记住更正”产生session/pending vsglobal/confirmed不同作用域。",
+      "assertionGroups": [
+        "E-MEMORY"
+      ],
+      "remaining": "“已更正”的自然语言承诺与实际scope/status不一致仍开放；两项目多属性保留夹具，无需真私人记忆。",
+      "newEvidence": []
+    },
+    {
+      "id": "L-get_time",
+      "name": "get_time",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "enabled": "yes",
+      "expected": "依schema/根目录/确认执行；核对产物而非调用名",
+      "verification": "受控本地夹具；隐私工具不触碰真实私人画面/剪贴板",
+      "status": "前台时间工具成功",
+      "evidence": "evidence/desktop-30.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "旧chill真实调用ok；本地断言local_time格式与中文weekday。",
+      "assertionGroups": [
+        "E-FILE"
+      ],
+      "remaining": "未验证用户指定时区/UTC换日准确性；不能从格式正则证明时间真值。",
+      "newEvidence": []
+    },
+    {
+      "id": "L-read_file",
+      "name": "read_file",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "enabled": "yes",
+      "expected": "依schema/根目录/确认执行；核对产物而非调用名",
+      "verification": "受控本地夹具；隐私工具不触碰真实私人画面/剪贴板",
+      "status": "前台部分验证",
+      "evidence": "evidence/desktop-03.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "旧两合成文件最终标记/200/5正确，工具事件ok；UTF8读取和越界拒绝回归可复用。",
+      "assertionGroups": [
+        "E-FILE"
+      ],
+      "remaining": "旧缺raw正文不可证明精确wire；junction解析mock反例、长尾/缺失/编码边界分列，R2材料已就绪。",
+      "newEvidence": []
+    },
+    {
+      "id": "L-write_file",
+      "name": "write_file",
+      "source": "services/agent-core/agent_core/tools.py; services/agent-core/agent_core/permissions.py",
+      "enabled": "yes",
+      "expected": "依schema/根目录/确认执行；核对产物而非调用名",
+      "verification": "受控本地夹具；隐私工具不触碰真实私人画面/剪贴板",
+      "status": "DS口头待办失败；GLM原生确认后产物正确",
+      "evidence": "evidence/desktop-04.json; evidence/desktop-41.json; evidence/artifacts-final.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "DS口头确认后无产物失败；GLM原生票据后374字节sha及artifacts-final独立产物成功。",
+      "assertionGroups": [
+        "E-FILE",
+        "E-TICKET"
+      ],
+      "remaining": "覆盖/append/错root各自有离线测试，不能用单个真实write代表所有mode；R2文件可继续。",
+      "newEvidence": []
+    },
+    {
+      "id": "L-recall_memory",
+      "name": "recall_memory",
+      "source": "services/agent-core/agent_core/main.py:run_tool",
+      "enabled": "yes",
+      "expected": "仅当前任务缓存或授权可见记忆",
+      "verification": "隔离合成材料；前台关联",
+      "status": "前台调用成功且最终答旧值；工具正文未记录",
+      "evidence": "evidence/desktop-30.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "旧事件ok且最终120；没有旧raw正文，不能指认工具内返回哪条。",
+      "assertionGroups": [
+        "E-MEMORY"
+      ],
+      "remaining": "按session/scope/候选状态准备合成对照；不把无词重叠fallback当相关性成功。",
+      "newEvidence": []
+    },
+    {
+      "id": "M-mcp__github__issue_read",
+      "name": "mcp__github__issue_read",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "enabled": "yes",
+      "expected": "Get information about a specific issue in a GitHub repository.",
+      "verification": "逐项schema已登记；共享initialize/ASK/回执实现；真实操作另需指定对象，不将tools/list当鉴权成功",
+      "status": "前台get成功但回答损坏精确日期",
+      "evidence": "evidence/desktop-15.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "F"
+      ],
+      "assessment": "仅method=get已实读回；receipt标题20261007而final两次日期错误，精确字段交付失败。",
+      "assertionGroups": [
+        "S-MCP"
+      ],
+      "remaining": "get_comments等method属于前184待办；只需已授权专用Issue，不缺账号。",
+      "newEvidence": []
+    },
+    {
+      "id": "M-mcp__github__issue_write",
+      "name": "mcp__github__issue_write",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/github-mcp-server.exe (local ignored binary)",
+      "enabled": "yes",
+      "expected": "Create a new or update an existing issue in a GitHub repository.",
+      "verification": "逐项schema已登记；共享initialize/ASK/回执实现；真实操作另需指定对象，不将tools/list当鉴权成功",
+      "status": "前台create成功但最终未交付完成",
+      "evidence": "evidence/desktop-12.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "F"
+      ],
+      "assessment": "仅method=create原生确认后有Issue ID/URL，final仍将来时；不是update成功。",
+      "assertionGroups": [
+        "S-MCP",
+        "E-TICKET"
+      ],
+      "remaining": "前台update/labels/assignee等组合未验证；新私有仓和对象准备可做，不能全工具升级。",
+      "newEvidence": []
+    },
+    {
+      "id": "M-mcp__gmail__send_email",
+      "name": "mcp__gmail__send_email",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "enabled": "yes",
+      "expected": "Sends a new email",
+      "verification": "逐项schema已登记；共享initialize/ASK/回执实现；真实操作另需指定对象，不将tools/list当鉴权成功",
+      "status": "一次真实发信成功；先前无动作虚报保留",
+      "evidence": "evidence/desktop-20.json; evidence/desktop-25.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "F"
+      ],
+      "assessment": "旧desktop-25真实send ID可由desktop-27读回交叉支持；desktop-20只有search旧动作却虚报发信仍保留。",
+      "assertionGroups": [
+        "S-MCP",
+        "E-TICKET"
+      ],
+      "remaining": "本轮Codex准备邮件非天依发送；8封额度内真实发送/回复/HTML/附件分列，不把一次read成功当send。",
+      "newEvidence": []
+    },
+    {
+      "id": "M-mcp__gmail__read_email",
+      "name": "mcp__gmail__read_email",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "enabled": "yes",
+      "expected": "Retrieves the content of a specific email",
+      "verification": "逐项schema已登记；共享initialize/ASK/回执实现；真实操作另需指定对象，不将tools/list当鉴权成功",
+      "status": "前台定向真实读回正确",
+      "evidence": "evidence/desktop-27.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2"
+      ],
+      "assessment": "旧指定ID读回；本轮确认后raw正文及附件名，final75正确，TTS另失败。",
+      "assertionGroups": [
+        "S-MCP"
+      ],
+      "remaining": "不存在ID/权限等负例未由这次成功覆盖；独立MCP initialize失败是另一条环境路径。",
+      "newEvidence": [
+        "gmail-tts-live-trace.json"
+      ]
+    },
+    {
+      "id": "M-mcp__gmail__search_emails",
+      "name": "mcp__gmail__search_emails",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gmail-mcp.cmd -> installed @gongrzhe/server-gmail-autoauth-mcp@1.1.11",
+      "enabled": "yes",
+      "expected": "Searches for emails using Gmail search syntax",
+      "verification": "逐项schema已登记；共享initialize/ASK/回执实现；真实操作另需指定对象，不将tools/list当鉴权成功",
+      "status": "前台OAuth失败与重登后成功/空结果缺口",
+      "evidence": "evidence/desktop-08.json; evidence/desktop-18.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "F"
+      ],
+      "assessment": "旧invalid_grant文字误成功；重登后空output不确定零封/适配丢失，不能计正向非空检索通过。",
+      "assertionGroups": [
+        "S-MCP"
+      ],
+      "remaining": "用既有R2主题做正负搜索并保raw/计数，账号对象已就绪。",
+      "newEvidence": []
+    },
+    {
+      "id": "M-mcp__drive__search",
+      "name": "mcp__drive__search",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/permissions.py; tools/gdrive/index.mjs",
+      "enabled": "yes",
+      "expected": "Search for files in Google Drive",
+      "verification": "逐项schema已登记；共享initialize/ASK/回执实现；真实操作另需指定对象，不将tools/list当鉴权成功",
+      "status": "前台已执行，OAuth invalid_grant；正文未读取",
+      "evidence": "evidence/desktop-35.json; evidence/drive-fixture-provenance.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "R2",
+        "F"
+      ],
+      "assessment": "旧前台RPC invalid_grant正确交付；OAuth恢复后的独立Drive3读已报告成功。主执行新报session365前台search成功并明确无法读正文，本实例尚未读到该前台导出。",
+      "assertionGroups": [
+        "S-MCP"
+      ],
+      "remaining": "search正/负/正文仍分层；即使365名称检索成功，direct resources/read不升级TA09，不能猜75。",
+      "newEvidence": []
+    },
+    {
+      "id": "UI-menu",
+      "name": "menu",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "点击打开聊天/互动",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "前台观察到基本路径；边界未穷尽",
+      "evidence": "evidence/desktop-27.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "S"
+      ],
+      "assessment": "旧导出支持前台聊天流程，但JSON没有菜单打开/关闭的像素或点击断言。",
+      "assertionGroups": [],
+      "remaining": "可复用主执行旧观察；补明确打开/关闭/失焦/重入状态，本地UI夹具不需外部账号。",
+      "newEvidence": []
+    },
+    {
+      "id": "UI-text",
+      "name": "text",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "文本正常输入/显示/发送",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "前台观察到基本路径；边界未穷尽",
+      "evidence": "evidence/desktop-27.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "H",
+        "O"
+      ],
+      "assessment": "真实文本请求/回复；Godot verify_text_input证明输入聚焦A键不转角色。",
+      "assertionGroups": [
+        "G-TEXT",
+        "O-SESSION"
+      ],
+      "remaining": "不代表中文IME、长度4000/4001、空输入及全部快捷键；用合成输入即可。",
+      "newEvidence": []
+    },
+    {
+      "id": "UI-history",
+      "name": "history",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "旧会话回载",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "原窗口重启后旧审计会话可见；未读取私人历史",
+      "evidence": "evidence/runtime-glm-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "H",
+        "O"
+      ],
+      "assessment": "旧启动后session可读是基本路径；sessionUI隔离卡片/list有断言，非真人任意历史审核。",
+      "assertionGroups": [
+        "G-SESSION",
+        "O-SESSION-STORE"
+      ],
+      "remaining": "旧私人历史不需读；用R2两会话检验顺序/内容和旧异步响应。",
+      "newEvidence": []
+    },
+    {
+      "id": "UI-new-session",
+      "name": "new-session",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "新会话不清旧历史",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "前台观察到基本路径；边界未穷尽",
+      "evidence": "evidence/desktop-27.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O"
+      ],
+      "assessment": "WS新建/首轮标题/临时DB保留旧session通过；旧前台基本路径可复用。",
+      "assertionGroups": [
+        "O-SESSION",
+        "O-SESSION-STORE"
+      ],
+      "remaining": "异步旧回复不得回填、空新会话隐藏等具体分支分开，不能以sessionId存在即全项通过。",
+      "newEvidence": []
+    },
+    {
+      "id": "UI-switch",
+      "name": "switch",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "切会话不串回填/播放",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "前台观察到基本路径；边界未穷尽",
+      "evidence": "evidence/desktop-27.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "H",
+        "O"
+      ],
+      "assessment": "旧切会话观察及speech中断/历史卡片离线合同可复用。",
+      "assertionGroups": [
+        "O-SPEECH",
+        "G-SESSION"
+      ],
+      "remaining": "新旧请求乱序、录音转写迟到和pending票据作用域需各自夹具，generation递增本身不足。",
+      "newEvidence": []
+    },
+    {
+      "id": "UI-effort",
+      "name": "effort",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "三档名称/事件正确",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "前台观察到基本路径；边界未穷尽",
+      "evidence": "evidence/desktop-27.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "O",
+        "F"
+      ],
+      "assessment": "旧chat.effort可证档位；godot-guards实际verify_effort_ui失败，不能算该守卫PASS。",
+      "assertionGroups": [
+        "E-EFFORT"
+      ],
+      "remaining": "旧守卫依赖文案低投入；修的是守卫还是业务必须区分，真实输出/权限与档位分别判。",
+      "newEvidence": []
+    },
+    {
+      "id": "UI-tool-card",
+      "name": "tool-card",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "真实动作及票据可见",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "前台观察到基本路径；边界未穷尽",
+      "evidence": "evidence/desktop-27.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "H",
+        "L"
+      ],
+      "assessment": "verify_tool_activity验证本地/GitHub徽标、失败✗、计数、换轮清卡；非原生票据payload断言。",
+      "assertionGroups": [
+        "S-GATE"
+      ],
+      "remaining": "原生确认按钮/actionId/revision/hash需另看R2 trace及Godot交互，不能用活动卡当授权卡验收。",
+      "newEvidence": [
+        "gmail-tts-live-trace.json"
+      ]
+    },
+    {
+      "id": "UI-exit",
+      "name": "exit",
+      "source": "apps/avatar-runtime/interaction_ui.gd; apps/avatar-runtime/runtime.gd",
+      "enabled": "yes",
+      "expected": "告别后正常退出",
+      "verification": "原窗口现场+现有Godot守卫分列",
+      "status": "前台观察到基本路径；边界未穷尽",
+      "evidence": "evidence/desktop-27.json; evidence/runtime-owner-restarted-confirmed.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "H",
+        "L",
+        "O"
+      ],
+      "assessment": "Godot farewell46断言、Core匹配exit结算可复用；正常AltF4由主执行观察。",
+      "assertionGroups": [
+        "O-FAREWELL",
+        "G-FAREWELL"
+      ],
+      "remaining": "runtime-owner passive健康不是退出后PID全清；本轮告别音频听感与当前任务需另记录。",
+      "newEvidence": []
+    },
+    {
+      "id": "METHOD-mcp__github__issue_read-get",
+      "name": "mcp__github__issue_read method=get",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "enabled": "yes",
+      "expected": "按实际method识别副作用；每个操作需要具体测试对象",
+      "verification": "schema逐method枚举；授权/回执共享实现另有隔离对照，真实业务写入未经批准不执行",
+      "status": "前台get成功但回答损坏精确日期",
+      "evidence": "evidence/desktop-15.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "F"
+      ],
+      "assessment": "get本分支真实业务成功，标题日期在最终交付损坏。",
+      "assertionGroups": [
+        "S-MCP"
+      ],
+      "remaining": "应保留读取成功/精确回答失败双状态；已授权R2 Issue可复验，不映射其他method。",
+      "newEvidence": []
+    },
+    {
+      "id": "METHOD-mcp__github__issue_write-create",
+      "name": "mcp__github__issue_write method=create",
+      "source": "services/agent-core/agent_core/mcp_host.py; services/agent-core/agent_core/main.py:_receipt_delivery",
+      "enabled": "yes",
+      "expected": "按实际method识别副作用；每个操作需要具体测试对象",
+      "verification": "schema逐method枚举；授权/回执共享实现另有隔离对照，真实业务写入未经批准不执行",
+      "status": "前台create成功但最终未交付完成",
+      "evidence": "evidence/desktop-12.json",
+      "bucket": "有实证（按层次，非全部通过）",
+      "layers": [
+        "L",
+        "F"
+      ],
+      "assessment": "create本分支收到ID/URL；原生动作曾需二次确认，最终只说将执行。",
+      "assertionGroups": [
+        "S-MCP",
+        "E-TICKET"
+      ],
+      "remaining": "创建事实与用户可用结果交付分开；不因已有Issue就把动作陈述失败抹掉。",
+      "newEvidence": []
+    }
+  ],
+  "evidencedCatalog": {
+    "E-PROVIDER": {
+      "ids": [
+        {
+          "id": "test_wechat_glm.WeChatGlmTests.test_factory_uses_shared_endpoint_and_key",
+          "line": 22,
+          "file": "services/agent-core/tests/test_wechat_glm.py"
+        },
+        {
+          "id": "test_wechat_glm.WeChatGlmTests.test_missing_shared_key_never_falls_back_to_old_glm_key",
+          "line": 36,
+          "file": "services/agent-core/tests/test_wechat_glm.py"
+        }
+      ],
+      "assertion": "factory精确比较OpenAICompatibleProvider、共享endpoint/GLM-5.2/fake-shared；缺共享key返回空，不回退旧key。",
+      "limit": "配置构建层；不调用真实模型，也不证明LLM回答质量。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-RELOAD": {
+      "ids": [
+        {
+          "id": "test_provider_reload.ProviderHotReloadTests.test_429_reloads_env_and_retries_with_new_key",
+          "line": 77,
+          "file": "services/agent-core/tests/test_provider_reload.py"
+        },
+        {
+          "id": "test_provider_resilience.ProviderResilienceTests.test_changed_host_does_not_send_new_credential_to_old_host",
+          "line": 214,
+          "file": "services/agent-core/tests/test_provider_resilience.py"
+        }
+      ],
+      "assertion": "429后恰两次请求、Bearer由old换new；host变化401只调用一次且保留旧credential。",
+      "limit": "传输替身，非实时改生产key。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-HTTP": {
+      "ids": [
+        {
+          "id": "test_provider_resilience.ProviderResilienceTests.test_three_attempt_limit_and_same_instance_recovers_later",
+          "line": 58,
+          "file": "services/agent-core/tests/test_provider_resilience.py"
+        },
+        {
+          "id": "test_provider_resilience.ProviderResilienceTests.test_deadline_covers_slow_worker_and_late_result_is_discarded",
+          "line": 111,
+          "file": "services/agent-core/tests/test_provider_resilience.py"
+        },
+        {
+          "id": "test_provider_resilience.ProviderResilienceTests.test_post_tool_network_retry_does_not_execute_tool_twice",
+          "line": 163,
+          "file": "services/agent-core/tests/test_provider_resilience.py"
+        }
+      ],
+      "assertion": "3次失败后同实例下一轮恢复；慢线程deadline后丢late；工具后重试请求体一致且executor一次。",
+      "limit": "所列为mock transport；其他loopback在362中另列，不等于远端每种故障。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-FALLBACK": {
+      "ids": [
+        {
+          "id": "test_agent_loop.AgentLoopTests.test_tools_unsupported_degrades_to_plain",
+          "line": 130,
+          "file": "services/agent-core/tests/test_agent_loop.py"
+        },
+        {
+          "id": "test_agent_loop.AgentLoopTests.test_step_limit_triggers_plain_finalize_with_summary",
+          "line": 114,
+          "file": "services/agent-core/tests/test_agent_loop.py"
+        }
+      ],
+      "assertion": "UnsupportedProvider变degraded/steps空/plain一次；max_steps=3后plain的system含工具执行记录。",
+      "limit": "不证明400/422所有body都被各provider正确归类。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-EFFORT": {
+      "ids": [
+        {
+          "id": "test_effort.EffortLadderTest.test_step_ladder_is_3_6_9",
+          "line": 35,
+          "file": "services/agent-core/tests/test_effort.py"
+        },
+        {
+          "id": "test_effort.EffortLadderTest.test_every_level_stays_a_full_agent",
+          "line": 40,
+          "file": "services/agent-core/tests/test_effort.py"
+        }
+      ],
+      "assertion": "精确3/6/9阶梯；every_level_stays_a_full_agent实际仅验证max_steps>=1且有label。",
+      "limit": "名称/注释不能代替工具schema和权限相等断言；6次不充值见E-CONTINUE。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-HARNESS": {
+      "ids": [
+        {
+          "id": "test_harness.SongCatalogTests.test_exact_title_retrieval_finds_creator",
+          "line": 17,
+          "file": "services/agent-core/tests/test_harness.py"
+        },
+        {
+          "id": "test_harness.SongCatalogTests.test_non_music_prompt_does_not_inject_song_records",
+          "line": 29,
+          "file": "services/agent-core/tests/test_harness.py"
+        },
+        {
+          "id": "test_harness.SongCatalogTests.test_assistant_history_is_normalized_to_output_contract",
+          "line": 45,
+          "file": "services/agent-core/tests/test_harness.py"
+        },
+        {
+          "id": "test_harness_v1_integration.ContextTests.test_raw_newlines_and_stray_brace_do_not_discard_valid_reply",
+          "line": 140,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        }
+      ],
+      "assertion": "精确曲名首位且creator含ilem；非音乐无歌曲context；assistant历史转JSON合同；坏尾括号+换行修复保留reply。",
+      "limit": "本地语料匹配不核实曲库事实；坏JSON单个{反例未被这些正常控制关闭。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-TICKET": {
+      "ids": [
+        {
+          "id": "test_harness_v1_adversarial.AdversarialTests.test_expired_approval_and_wrong_parameter_digest_never_execute",
+          "line": 29,
+          "file": "services/agent-core/tests/test_harness_v1_adversarial.py"
+        },
+        {
+          "id": "test_harness_v1_actions.ActionsTests.test_revision_is_not_reusable_and_multiple_actions_survive",
+          "line": 45,
+          "file": "services/agent-core/tests/test_harness_v1_actions.py"
+        },
+        {
+          "id": "test_harness_v1_integration.MainActionTests.test_two_actions_confirm_separately_with_real_artifacts",
+          "line": 43,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_harness_v1_integration.MainActionTests.test_changed_params_invalidate_old_ticket",
+          "line": 80,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        }
+      ],
+      "assertion": "过期/改digest不执行；多票据revision不同；临时文件one/two逐次确认；旧参数ticket无产物、新ticket写新版。",
+      "limit": "Core/ActionLedger/临时产物集成；模型和外部连接器为替身，非自然语言稳定生成票据。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-UNKNOWN": {
+      "ids": [
+        {
+          "id": "test_harness_v1_actions.ActionsTests.test_unknown_persists_and_blocks_new_task_rephrase",
+          "line": 77,
+          "file": "services/agent-core/tests/test_harness_v1_actions.py"
+        },
+        {
+          "id": "test_harness_v1_actions.ActionsTests.test_crash_during_execution_restores_unknown",
+          "line": 88,
+          "file": "services/agent-core/tests/test_harness_v1_actions.py"
+        }
+      ],
+      "assertion": "超时存unknown；重建ledger/换task复用同action且不重派；执行中恢复为unknown。",
+      "limit": "不验证任意真实外部服务是否已产生副作用；保持未知不能擅自重复。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-CANCEL": {
+      "ids": [
+        {
+          "id": "test_harness_v1_review.IndependentReviewTests.test_p1_cancel_received_before_dispatch_revokes_queued_approval",
+          "line": 230,
+          "file": "services/agent-core/tests/test_harness_v1_review.py"
+        },
+        {
+          "id": "test_harness_v1_actions.ActionsTests.test_negative_and_quoted_affirmative_never_approve",
+          "line": 21,
+          "file": "services/agent-core/tests/test_harness_v1_actions.py"
+        }
+      ],
+      "assertion": "否定、引用、改参混合词不approve；dispatch之前取消排队批准使executor无作用。",
+      "limit": "精确取消时序；已经发出的I/O不能据此撤回。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-CONTINUE": {
+      "ids": [
+        {
+          "id": "test_harness_v1_review.IndependentReviewTests.test_p1_no_pending_continue_does_not_refill_call_budget_or_effort",
+          "line": 374,
+          "file": "services/agent-core/tests/test_harness_v1_review.py"
+        },
+        {
+          "id": "test_harness_v1_review.IndependentReviewTests.test_p1_no_pending_continue_does_not_refill_round_budget",
+          "line": 390,
+          "file": "services/agent-core/tests/test_harness_v1_review.py"
+        }
+      ],
+      "assertion": "低档六调用耗尽后继续+deep不补次数、不换task、不多调plain；三轮耗尽后继续不增加模型轮。",
+      "limit": "continue路径；无待办确认由review_reproduction实际AST另证，不能混算。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-MEMORY": {
+      "ids": [
+        {
+          "id": "test_memory_promotion.PromotionPolicyTests.test_explicit_remember_forces_confirmed",
+          "line": 9,
+          "file": "services/agent-core/tests/test_memory_promotion.py"
+        },
+        {
+          "id": "test_memory_promotion.PromotionPolicyTests.test_plain_event_stays_pending",
+          "line": 22,
+          "file": "services/agent-core/tests/test_memory_promotion.py"
+        },
+        {
+          "id": "test_storage.FactSupersessionTests.test_confirmed_contradiction_supersedes_old",
+          "line": 202,
+          "file": "services/agent-core/tests/test_storage.py"
+        },
+        {
+          "id": "test_storage.FactSupersessionTests.test_session_facts_do_not_conflict_with_global",
+          "line": 217,
+          "file": "services/agent-core/tests/test_storage.py"
+        },
+        {
+          "id": "test_storage.FactSupersessionTests.test_sensitive_pending_fact_stays_hidden",
+          "line": 237,
+          "file": "services/agent-core/tests/test_storage.py"
+        },
+        {
+          "id": "test_harness_v1_integration.ContextTests.test_multifield_recall_not_strongest_only",
+          "line": 129,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_memory_retrieval.FactsStorageTests.test_confirmed_global_fact_recallable_across_sessions",
+          "line": 49,
+          "file": "services/agent-core/tests/test_memory_retrieval.py"
+        }
+      ],
+      "assertion": "显式记住confirmed/普通话pending；同属性更正旧superseded；不同scope并存；敏感pending不召回；五字段集合精确召回及global跨session。",
+      "limit": "正常控制不覆盖同词不同项目误覆盖、保存更正措辞和显式敏感保存策略。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-STORE": {
+      "ids": [
+        {
+          "id": "test_storage.FreshDatabaseTests.test_explicit_conversation_id_routes_message",
+          "line": 43,
+          "file": "services/agent-core/tests/test_storage.py"
+        },
+        {
+          "id": "test_storage.LegacyMigrationTests.test_reopening_does_not_duplicate_sessions",
+          "line": 126,
+          "file": "services/agent-core/tests/test_storage.py"
+        }
+      ],
+      "assertion": "两conversation各读自己消息；reopen保同session且只有一条消息。",
+      "limit": "临时干净库，不证明生产库结构正常或20条窗口边界。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-STT": {
+      "ids": [
+        {
+          "id": "test_harness_v1_integration.VoiceInputTests.test_simplify_preserves_literals_english_numbers_and_paths",
+          "line": 152,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_voice_selfheal.RecorderWedgeTests.test_all_zero_recording_resets_device_once_and_raises_actionable_error",
+          "line": 60,
+          "file": "services/agent-core/tests/test_voice_selfheal.py"
+        },
+        {
+          "id": "test_voice_offline.OfflineVoiceTests.test_missing_cache_is_an_explicit_error_not_a_network_download",
+          "line": 22,
+          "file": "services/agent-core/tests/test_voice_offline.py"
+        }
+      ],
+      "assertion": "转换简体但精确保留路径/英文数字/引号/URL；全零只reset一次并提示假死；缺模型只调用local_files_only一次且抛错。",
+      "limit": "音频采样和Whisper均用替身；不证明当前硬件/口述准确率或真实驱动恢复。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-IDLE": {
+      "ids": [
+        {
+          "id": "test_harness_v1_integration.IdleEpisodeTests.test_600_boundary_once_even_after_long_wait_then_reset",
+          "line": 198,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_harness_v1_integration.IdlePlaybackTests.test_activity_or_quiet_hours_cancels_remaining_parts",
+          "line": 248,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_harness_v1_adversarial.AdversarialTests.test_idle_preplayback_activity_or_busy_prevents_audio_without_llm",
+          "line": 64,
+          "file": "services/agent-core/tests/test_harness_v1_adversarial.py"
+        }
+      ],
+      "assertion": "599不提醒/600提醒/10000同段不重复/活动后新段可；续片活动或quiet只允许第一条；播前活动/忙碌不播且model零调用。",
+      "limit": "policy/clock/hub替身；真实600已另记，quiet准确时钟边界仍独立。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-DELIVERY": {
+      "ids": [
+        {
+          "id": "test_speech_delivery.DeliveryTests.test_no_receipt_is_failure_not_completed",
+          "line": 29,
+          "file": "services/agent-core/tests/test_speech_delivery.py"
+        },
+        {
+          "id": "test_speech_delivery.DeliveryTests.test_lost_ack_same_id_then_receipt_completes",
+          "line": 39,
+          "file": "services/agent-core/tests/test_speech_delivery.py"
+        },
+        {
+          "id": "test_speech_delivery.DeliveryTests.test_explicit_unplayed_failure_resynthesizes_only_that_part",
+          "line": 47,
+          "file": "services/agent-core/tests/test_speech_delivery.py"
+        },
+        {
+          "id": "test_speech_parts.StreamingSpeechTests.test_multi_part_streams_same_utterance_id",
+          "line": 85,
+          "file": "services/agent-core/tests/test_speech_parts.py"
+        },
+        {
+          "id": "test_speech_wait_recovery.RecoveryTests.test_recovery_deadline_is_bounded",
+          "line": 58,
+          "file": "services/agent-core/tests/test_speech_wait_recovery.py"
+        },
+        {
+          "id": "test_speech_wait_recovery.RetryClassificationTests.test_http_status_classification",
+          "line": 105,
+          "file": "services/agent-core/tests/test_speech_wait_recovery.py"
+        }
+      ],
+      "assertion": "缺receipt三次同playback且只合成一次；丢ACK原payload复送；未播失败只重合成首片；三片同utterance；deadline退出；400不可重试/503可重试。",
+      "limit": "播放器与TTS均为替身；503分类当前把确定性编码错误也重试，测试通过不代表策略满足新故障。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    },
+    "E-FILE": {
+      "ids": [
+        {
+          "id": "test_tools.ToolRegistryTests.test_get_time_returns_parseable_fields",
+          "line": 51,
+          "file": "services/agent-core/tests/test_tools.py"
+        },
+        {
+          "id": "test_tools.ReadFileTests.test_reads_utf8_file",
+          "line": 59,
+          "file": "services/agent-core/tests/test_tools.py"
+        },
+        {
+          "id": "test_tools.ReadFileTests.test_rejects_path_outside_allowed_roots",
+          "line": 83,
+          "file": "services/agent-core/tests/test_tools.py"
+        },
+        {
+          "id": "test_write_file.WriteRootTests.test_special_chars_and_emoji_roundtrip",
+          "line": 37,
+          "file": "services/agent-core/tests/test_write_file.py"
+        }
+      ],
+      "assertion": "get_time字段格式/weekday；UTF8读文件含天依；Program Files根外拒绝；特殊字/emoji写回逐字符相等。",
+      "limit": "时间格式不校验时钟真值；路径字符串负例不覆盖junction重定向；本地I/O不代替模型调用链。",
+      "layer": "本轮362通过记录；本实例只读对应断言，不重复运行"
+    }
+  },
+  "catalog": {
+    "S-GATE": {
+      "ids": [
+        {
+          "id": "test_agent_gate.GateIntegrationTests.test_ask_decision_parks_call_without_execution",
+          "line": 109,
+          "file": "services/agent-core/tests/test_agent_gate.py"
+        },
+        {
+          "id": "test_agent_gate.GateIntegrationTests.test_denied_tool_never_reaches_executor_and_reports_back",
+          "line": 75,
+          "file": "services/agent-core/tests/test_agent_gate.py"
+        },
+        {
+          "id": "test_agent_gate.ActionReceiptScopeTests.test_same_tool_new_parameters_need_new_confirmation",
+          "line": 166,
+          "file": "services/agent-core/tests/test_agent_gate.py"
+        }
+      ],
+      "assertion": "ASK不执行、DENY不触executor、同工具新参数须新确认。",
+      "limit": "仅共享权限合同，不覆盖任意MCP参数或真实授权。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "S-MCP": {
+      "ids": [
+        {
+          "id": "test_harness_v1_review.IndependentReviewTests.test_p1_mcp_same_id_reverse_request_is_not_a_success_receipt",
+          "line": 279,
+          "file": "services/agent-core/tests/test_harness_v1_review.py"
+        },
+        {
+          "id": "test_harness_v1_review.IndependentReviewTests.test_p1_mcp_missing_result_cannot_be_accepted_as_success",
+          "line": 294,
+          "file": "services/agent-core/tests/test_harness_v1_review.py"
+        },
+        {
+          "id": "test_harness_v1_review.IndependentReviewTests.test_control_valid_mcp_success_receipt_is_preserved",
+          "line": 302,
+          "file": "services/agent-core/tests/test_harness_v1_review.py"
+        }
+      ],
+      "assertion": "内存JSON-RPC：反向同ID请求/缺result不变成功；有效result保留succeeded、ok及FIXTURE_ACCEPTED交付。",
+      "limit": "server名fixture；不运行94工具任何真实业务操作。各M/METHOD行没有专属业务PASS。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-VISION": {
+      "ids": [
+        {
+          "id": "test_vision_request.VisionRequestTest.test_anthropic_branch_builds_messages_shape",
+          "line": 21,
+          "file": "services/agent-core/tests/test_vision_request.py"
+        },
+        {
+          "id": "test_vision_request.VisionTextTest.test_anthropic_payload_skips_thinking_blocks",
+          "line": 41,
+          "file": "services/agent-core/tests/test_vision_request.py"
+        },
+        {
+          "id": "test_vision_request.VisionRequestTest.test_openai_branch_keeps_chat_completions_shape",
+          "line": 11,
+          "file": "services/agent-core/tests/test_vision_request.py"
+        },
+        {
+          "id": "test_tools.PerToolTimeout.test_look_at_screen_registered_with_extended_timeout",
+          "line": 195,
+          "file": "services/agent-core/tests/test_tools.py"
+        }
+      ],
+      "assertion": "Anthropic路径/messages、image/media_type及协议值；thinking被滤；OpenAI image_url形状；视觉timeout>=60秒。",
+      "limit": "未拍真实屏幕、未验证服务视觉准确度；合成sk-test是测试字面量。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-LIST": {
+      "ids": [
+        {
+          "id": "test_tools.ListDirTests.test_lists_entries_dirs_first",
+          "line": 108,
+          "file": "services/agent-core/tests/test_tools.py"
+        },
+        {
+          "id": "test_tools.ListDirTests.test_missing_directory",
+          "line": 120,
+          "file": "services/agent-core/tests/test_tools.py"
+        }
+      ],
+      "assertion": "临时目录含sub和a.txt，ok且sub排序0；不存在目录ok=false。",
+      "limit": "只支持本地函数；天依选工具与最终答复未覆盖。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-DEGRADED": {
+      "ids": [
+        {
+          "id": "test_tools.DegradedToolTests.test_screenshot_without_mss",
+          "line": 127,
+          "file": "services/agent-core/tests/test_tools.py"
+        },
+        {
+          "id": "test_tools.DegradedToolTests.test_clipboard_without_pyperclip",
+          "line": 139,
+          "file": "services/agent-core/tests/test_tools.py"
+        },
+        {
+          "id": "test_tools.DegradedToolTests.test_active_window_off_windows",
+          "line": 151,
+          "file": "services/agent-core/tests/test_tools.py"
+        }
+      ],
+      "assertion": "禁mss/pyperclip或模拟posix时ok=false。",
+      "limit": "只有退化反例，不能当三个隐私工具成功覆盖。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-PAGES": {
+      "ids": [
+        {
+          "id": "test_harness_v1_integration.ContextTests.test_pages_preserve_tail_and_reject_other_session",
+          "line": 120,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_harness_v1_integration.ContextTests.test_resource_text_is_not_lost",
+          "line": 113,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        }
+      ],
+      "assertion": "长结果truncated=true，尾页含TAIL-73921；另store/负offset拒绝；内嵌resource文本保留。",
+      "limit": "内嵌resource结果解析不等于MCP resources/read实现。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-GREET": {
+      "ids": [
+        {
+          "id": "test_speech_delivery.SceneSuccessTests.test_failed_greeting_does_not_consume_cooldown",
+          "line": 117,
+          "file": "services/agent-core/tests/test_speech_delivery.py"
+        },
+        {
+          "id": "test_speech_delivery.SceneSuccessTests.test_greeting_marks_after_playback_idle_not_remarked_after_playback",
+          "line": 126,
+          "file": "services/agent-core/tests/test_speech_delivery.py"
+        },
+        {
+          "id": "test_speech_delivery.SceneSuccessTests.test_concurrent_greetings_not_duplicate",
+          "line": 139,
+          "file": "services/agent-core/tests/test_speech_delivery.py"
+        }
+      ],
+      "assertion": "失败不mark，成功后mark一次；并发greeting+idle总speak一次。",
+      "limit": "_speak_reply为AsyncMock，非真人听感。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-MCP-START": {
+      "ids": [
+        {
+          "id": "test_mcp_command_quotes.McpQuotedCommandTests.test_quoted_portable_executable_and_script",
+          "line": 19,
+          "file": "services/agent-core/tests/test_mcp_command_quotes.py"
+        },
+        {
+          "id": "test_mcp_command_quotes.McpQuotedCommandTests.test_empty_argument_preserved",
+          "line": 23,
+          "file": "services/agent-core/tests/test_mcp_command_quotes.py"
+        },
+        {
+          "id": "test_mcp_command_quotes.McpQuotedCommandTests.test_backslashes_are_not_posix_escapes",
+          "line": 32,
+          "file": "services/agent-core/tests/test_mcp_command_quotes.py"
+        }
+      ],
+      "assertion": "start_from_env读取含空格/Unicode/空参数的命令，检查拆分结果。",
+      "limit": "McpServer.start被替换为仅设置started；不证明initialize/stop_all或startup回调异常路径。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-HEALTH": {
+      "ids": [
+        {
+          "id": "test_liveness.LivenessTests.test_liveness_does_not_probe_speech_or_llm",
+          "line": 12,
+          "file": "services/agent-core/tests/test_liveness.py"
+        },
+        {
+          "id": "test_liveness.LivenessTests.test_detailed_health_remains_compatible_when_speech_offline",
+          "line": 27,
+          "file": "services/agent-core/tests/test_liveness.py"
+        },
+        {
+          "id": "test_liveness.LivenessTests.test_fresh_start_history_has_integer_empty_session_id",
+          "line": 36,
+          "file": "services/agent-core/tests/test_liveness.py"
+        }
+      ],
+      "assertion": "live为200/status/pid正确且speech/LLM未调用；health离线available=false；空history conversationId=-1/messages=[]。",
+      "limit": "TestClient与patched依赖；健康200不证明工具、模型、DB物理身份正确。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-SESSION": {
+      "ids": [
+        {
+          "id": "test_main_ws.SessionLifecycleTests.test_first_chat_titles_session_then_delete_full_chain",
+          "line": 82,
+          "file": "services/agent-core/tests/test_main_ws.py"
+        },
+        {
+          "id": "test_main_ws.SessionLifecycleTests.test_title_falls_back_to_user_text_when_model_omits",
+          "line": 120,
+          "file": "services/agent-core/tests/test_main_ws.py"
+        },
+        {
+          "id": "test_main_ws.SessionLifecycleTests.test_delete_unknown_session_reports_error",
+          "line": 131,
+          "file": "services/agent-core/tests/test_main_ws.py"
+        }
+      ],
+      "assertion": "WS新建、chat response/sessionId、仅首轮命名、实际临时DB删行及新会话；无模型title回退；未知删除core.error。",
+      "limit": "ScriptedProvider+临时DB；不覆盖真实LLM/4001长度、所有角色、输入畸形。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-SESSION-STORE": {
+      "ids": [
+        {
+          "id": "test_session_visibility.SessionVisibilityTests.test_empty_session_hidden_from_list",
+          "line": 19,
+          "file": "services/agent-core/tests/test_session_visibility.py"
+        },
+        {
+          "id": "test_session_visibility.SessionVisibilityTests.test_first_message_makes_session_visible",
+          "line": 24,
+          "file": "services/agent-core/tests/test_session_visibility.py"
+        },
+        {
+          "id": "test_session_visibility.SessionVisibilityTests.test_sweep_removes_empty_keeps_content",
+          "line": 30,
+          "file": "services/agent-core/tests/test_session_visibility.py"
+        },
+        {
+          "id": "test_session_visibility.SessionVisibilityTests.test_ordering_by_activity",
+          "line": 40,
+          "file": "services/agent-core/tests/test_session_visibility.py"
+        }
+      ],
+      "assertion": "空session不列出、第一条消息可见、sweep保留有内容、按活动排序。",
+      "limit": "底层storage层；WS序列化映射及Godot显示另验。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-VOICE": {
+      "ids": [
+        {
+          "id": "test_harness_v1_integration.VoiceInputTests.test_generation_old_result_cannot_fill_after_cancel_or_new",
+          "line": 159,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_harness_v1_integration.VoiceInputTests.test_empty_stt_only_hint_no_brain_or_history",
+          "line": 166,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_harness_v1_integration.VoiceInputTests.test_cancel_during_stt_discards_late_output",
+          "line": 177,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_channel_exclusivity.VoiceStartCancelWiringTests.test_voice_start_calls_cancel_utterance_capture",
+          "line": 255,
+          "file": "services/agent-core/tests/test_channel_exclusivity.py"
+        }
+      ],
+      "assertion": "旧generation无效，空STT只hint、不调用chat/add_message，取消中STT无transcript，voice.start调用取消wake捕获。",
+      "limit": "不接麦克风；CaptureState/handler/部分WS层分开，不能代签真人录音。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-MANUAL": {
+      "ids": [
+        {
+          "id": "test_harness_v1_integration.VoiceInputTests.test_manual_mode_never_opens_background_listener",
+          "line": 187,
+          "file": "services/agent-core/tests/test_harness_v1_integration.py"
+        },
+        {
+          "id": "test_voice_consistency.WakeReArmTests.test_manual_mode_keeps_background_wake_stopped_after_transcript",
+          "line": 163,
+          "file": "services/agent-core/tests/test_voice_consistency.py"
+        },
+        {
+          "id": "test_voice_consistency.WakeReArmTests.test_stray_stop_never_rearms_listener_or_creates_chat",
+          "line": 194,
+          "file": "services/agent-core/tests/test_voice_consistency.py"
+        }
+      ],
+      "assertion": "manual不构造WakeWordListener、不调用chat；转写后resume_count=0且paused；乱序stop无transcript/chat。",
+      "limit": "证明禁用合同，不授权启用背景唤醒。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-SPEECH": {
+      "ids": [
+        {
+          "id": "test_speech_ws.SpeechWSTests.test_voice_start_interrupts_speech",
+          "line": 130,
+          "file": "services/agent-core/tests/test_speech_ws.py"
+        },
+        {
+          "id": "test_speech_ws.SpeechWSTests.test_speech_finished_unknown_id_is_ignored",
+          "line": 168,
+          "file": "services/agent-core/tests/test_speech_ws.py"
+        },
+        {
+          "id": "test_speech_ws.SpeechWSTests.test_stale_or_ui_receipt_cannot_complete_avatar_playback",
+          "line": 176,
+          "file": "services/agent-core/tests/test_speech_ws.py"
+        },
+        {
+          "id": "test_speech_ws.SpeechWSTests.test_load_failure_retries_with_new_playback_id",
+          "line": 196,
+          "file": "services/agent-core/tests/test_speech_ws.py"
+        },
+        {
+          "id": "test_speech_ws.SpeechWSTests.test_new_chat_message_interrupts_current_playback",
+          "line": 149,
+          "file": "services/agent-core/tests/test_speech_ws.py"
+        }
+      ],
+      "assertion": "语音开始/新消息interrupt；旧/unknown/ui receipt不done且能pong；load failure重试同utterance新playback、synth_count=2。",
+      "limit": "stub声频+WS，非当前Godot/真实TTS实物播放。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "O-FAREWELL": {
+      "ids": [
+        {
+          "id": "test_farewell_delivery.FarewellDeliveryTests.test_cached_audio_echoes_request_and_single_part_contract",
+          "line": 41,
+          "file": "services/agent-core/tests/test_farewell_delivery.py"
+        },
+        {
+          "id": "test_farewell_delivery.FarewellDeliveryTests.test_disabled_voice_settles_only_matching_exit",
+          "line": 33,
+          "file": "services/agent-core/tests/test_farewell_delivery.py"
+        },
+        {
+          "id": "test_farewell_delivery.FarewellDeliveryTests.test_synthesis_failure_explicitly_settles",
+          "line": 56,
+          "file": "services/agent-core/tests/test_farewell_delivery.py"
+        }
+      ],
+      "assertion": "cache交付request及单片合同；禁用voice仅settle匹配exit；合成失败显式settle。",
+      "limit": "不涵盖所有avatar.interaction角色/字段组合；真实退出动画另验。",
+      "layer": "本轮362通过记录；本审查只读断言"
+    },
+    "G-SESSION": {
+      "source": "apps/avatar-runtime/verify_session_ui.gd:20",
+      "layer": "历史godot-guards.json中通过",
+      "assertion": "会话list及title更新、单击删除弹框、cancel、card ID=8、确认路径断线报错、session.deleted移除/置-1。",
+      "limit": "没有真实后端删除；后端由O-SESSION另证。",
+      "ids": []
+    },
+    "G-SEARCH": {
+      "source": "apps/avatar-runtime/verify_session_ui.gd:113",
+      "layer": "历史运行通过但搜索断言不足",
+      "assertion": "打开/日期组至少2、调用过滤后child_count>=2、关闭。",
+      "limit": "未断言不匹配标题被剔除：未过滤且保留两卡也可满足>=2；应逐卡ID比对及无结果负例。",
+      "ids": []
+    },
+    "G-TEXT": {
+      "source": "apps/avatar-runtime/verify_text_input.gd:32",
+      "layer": "历史godot-guards.json中通过",
+      "assertion": "输入聚焦时模拟A键，avatar yaw未改变。",
+      "limit": "不覆盖所有快捷键或真实中文输入；OS exact-input是另模式。",
+      "ids": []
+    },
+    "G-CANVAS": {
+      "source": "apps/avatar-runtime/verify_desktop_canvas.gd:23",
+      "layer": "仅审源码，未在本轮362或godot-guards执行",
+      "assertion": "默认desktop、14点交互轮廓、1920×2320→960×1160、移动二维合成120×80、官模hash。",
+      "limit": "不能证明实际拖拽阈值/保存位置/滚轮极限。",
+      "ids": []
+    },
+    "G-PORTRAIT": {
+      "source": "apps/avatar-runtime/verify_hd_capture.gd:40",
+      "layer": "仅审源码，未在本轮执行",
+      "assertion": "焦点阻止F12，无焦点调用；有渲染模式还验3x RGBA、透明、pose不变、忙碌拒绝。",
+      "limit": "headless在61行提前成功，仅接口；渲染和导出验证不可混算。",
+      "ids": []
+    },
+    "G-EMOTION": {
+      "source": "apps/avatar-runtime/verify_emotion_presets.gd:14",
+      "layer": "仅审源码，未在本轮执行",
+      "assertion": "surprised/angry/tears精确morph、切换/到期/invalid强度、说话嘴部释放、blink、smile/reset/expression/mouth_o覆盖。",
+      "limit": "其他四口型、wave/nod/greet/wink和所有视觉观感无该测试专属断言。",
+      "ids": []
+    },
+    "G-MOTION": {
+      "source": "apps/avatar-runtime/verify_motion_runtime.gd:31",
+      "layer": "仅审源码，未在本轮执行",
+      "assertion": "idle/pirouette/listen存在、17骨双辫、idle上下身隔离/循环、pirouette中断、listen保持/反向/回idle。",
+      "limit": "源码预期不等于运行PASS；asset hash不证明runtime、通用无穿模。",
+      "ids": []
+    },
+    "G-LISTEN": {
+      "source": "apps/avatar-runtime/mocap/verify_listen_path.gd:16",
+      "layer": "仅审源码，未在本轮执行",
+      "assertion": "倾听进入/保持/返回路径采样及接触安全检查。",
+      "limit": "仅具体动作与阈值，不泛化其他动作/身体比例。",
+      "ids": []
+    },
+    "G-THINK": {
+      "source": "apps/avatar-runtime/mocap/thinking/verify_integration.gd:58",
+      "layer": "仅审源码，未在本轮执行",
+      "assertion": "34发束交还idle、thinking仅一次、同状态不重启、reply不等待动作、录音抢占。",
+      "limit": "需当前限定资产；源码存在不算本轮PASS。",
+      "ids": []
+    },
+    "G-FAREWELL": {
+      "source": "apps/avatar-runtime/verify_farewell_speech.gd:46",
+      "layer": "历史godot-guards.json中通过",
+      "assertion": "拒绝旧exit、不截断动画/音频、join只退一次、乱序/重复/坏count拒绝、官模与动作hash。",
+      "limit": "历史隔离，不是本轮逐段视觉；verify_farewell.gd另含无跳变/4.1秒退出断言。",
+      "ids": []
+    }
+  }
+}

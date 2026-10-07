@@ -1,0 +1,19 @@
+{
+  "layer": "isolated synthetic; no model/network/desktop",
+  "observer_checks": [
+    "wire response excludes private reasoning",
+    "wire preserves raw answer and finish reason",
+    "request context represented without private body",
+    "nested typed reasoning excluded",
+    "same return object",
+    "same exception object",
+    "one original call per wrapper",
+    "disable leaves trace unchanged",
+    "nonobject control safely disables",
+    "unmarked leaves trace unchanged"
+  ],
+  "tests": 116,
+  "ok": true,
+  "seconds": 41.297,
+  "failures": []
+}

@@ -1,0 +1,15 @@
+{
+  "layer": "isolated file copies; real runtime not launched",
+  "ok": true,
+  "checks": [
+    "apply changes only copied entries and observer files",
+    "patched entries compile",
+    "restore returns exact original bytes",
+    "observer removed",
+    "control disabled"
+  ],
+  "original_hashes": [
+    "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95",
+    "ef5e8a276d103ecc77dc04876fe483a755b0a5421e089ae2fcb41261ad62a135"
+  ]
+}

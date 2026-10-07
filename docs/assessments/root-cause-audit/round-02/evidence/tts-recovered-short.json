@@ -1,0 +1,1383 @@
+{
+  "schema": "r2-reviewed-trace-v1",
+  "layer": "current Godot task, diagnostic observation; not a synthetic replacement Core",
+  "requests": [
+    "avatar-chat-242243"
+  ],
+  "sources": [
+    {
+      "name": "trace-23404.jsonl",
+      "prefix_bytes": 121505,
+      "prefix_sha256": "afbad1ee6f340bb26209b078a6f21d4f5c09224813546dca5a69455f1fcdf8d7"
+    },
+    {
+      "name": "trace-30624.jsonl",
+      "prefix_bytes": 2898,
+      "prefix_sha256": "67d9bd996135e09c9861d83fbb607d425231294ca51657b3d0725cbd392437b5"
+    }
+  ],
+  "known_gaps": [],
+  "human_audio": "not individually confirmed",
+  "records": [
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 2,
+      "epoch": 1791389871.5487888,
+      "monotonic": 973914.234,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "input",
+      "data": {
+        "text": "[R2-RECOVER] 只用普通中文回复：已经恢复。不调用工具，不保存记忆，不添加表情符号。",
+        "args": [
+          "deep",
+          null
+        ],
+        "kwargs": {},
+        "before": {
+          "task": null,
+          "cache_identity": null,
+          "cache_refs": [],
+          "cache_chars": 0,
+          "shown_confirmation": null,
+          "pending_head": null,
+          "actions": []
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 3,
+      "epoch": 1791389871.5537946,
+      "monotonic": 973914.234,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "agent.state",
+        "payload": {
+          "state": "thinking",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 4,
+      "epoch": 1791389871.5537946,
+      "monotonic": 973914.234,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "agent.state",
+          "timestamp": "2026-10-07T16:17:51.553794+00:00",
+          "state": "thinking",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 5,
+      "epoch": 1791389871.554795,
+      "monotonic": 973914.234,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "agent.state",
+        "timestamp": "2026-10-07T16:17:51.553794+00:00",
+        "state": "thinking",
+        "request_id": "avatar-chat-242243"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 6,
+      "epoch": 1791389871.554795,
+      "monotonic": 973914.234,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.message.in",
+      "data": {
+        "args": [
+          "user",
+          "[R2-RECOVER] 只用普通中文回复：已经恢复。不调用工具，不保存记忆，不添加表情符号。",
+          "avatar-chat-242243",
+          364
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 7,
+      "epoch": 1791389871.5571892,
+      "monotonic": 973914.25,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.message.out",
+      "data": 364
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 8,
+      "epoch": 1791389871.558695,
+      "monotonic": 973914.25,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "chat.effort",
+        "payload": {
+          "request_id": "avatar-chat-242243",
+          "effort": "deep"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 9,
+      "epoch": 1791389871.5667014,
+      "monotonic": 973914.25,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "model.http.request",
+      "data": {
+        "exchange": "831894994e674ba99f09956a153ec126",
+        "body": {
+          "model": "Deepseek-v4-flash",
+          "tool_choice": "auto",
+          "stream": false,
+          "messages_sha256": "a8f4b8dd4a8206c010ef5ee35d3e847f2f48a00f76c251d978ffd5fcdabc8747",
+          "messages_bytes": 9922,
+          "message_shapes": [
+            {
+              "role": "system",
+              "keys": [
+                "content",
+                "role"
+              ],
+              "content_chars": 3071
+            },
+            {
+              "role": "user",
+              "keys": [
+                "content",
+                "role"
+              ],
+              "content_chars": 147
+            },
+            {
+              "role": "assistant",
+              "keys": [
+                "content",
+                "role"
+              ],
+              "content_chars": 237
+            },
+            {
+              "role": "user",
+              "keys": [
+                "content",
+                "role"
+              ],
+              "content_chars": 2
+            },
+            {
+              "role": "assistant",
+              "keys": [
+                "content",
+                "role"
+              ],
+              "content_chars": 402
+            },
+            {
+              "role": "user",
+              "keys": [
+                "content",
+                "role"
+              ],
+              "content_chars": 47
+            }
+          ]
+        },
+        "tools_count": 105,
+        "tools_sha256": "f8aad7d1c0222c04702a63df333343ab26dbb2f79c00f3ce20926fddc06c5c5a",
+        "tool_names": [
+          "get_time",
+          "read_file",
+          "list_dir",
+          "screenshot",
+          "active_window",
+          "clipboard_read",
+          "look_at_screen",
+          "run_command",
+          "write_file",
+          "read_tool_result",
+          "recall_memory",
+          "mcp__browser__browser_close",
+          "mcp__browser__browser_resize",
+          "mcp__browser__browser_console_messages",
+          "mcp__browser__browser_handle_dialog",
+          "mcp__browser__browser_emulate_media",
+          "mcp__browser__browser_evaluate",
+          "mcp__browser__browser_file_upload",
+          "mcp__browser__browser_drop",
+          "mcp__browser__browser_find",
+          "mcp__browser__browser_fill_form",
+          "mcp__browser__browser_press_key",
+          "mcp__browser__browser_type",
+          "mcp__browser__browser_navigate",
+          "mcp__browser__browser_navigate_back",
+          "mcp__browser__browser_network_requests",
+          "mcp__browser__browser_network_request",
+          "mcp__browser__browser_run_code_unsafe",
+          "mcp__browser__browser_take_screenshot",
+          "mcp__browser__browser_snapshot",
+          "mcp__browser__browser_click",
+          "mcp__browser__browser_drag",
+          "mcp__browser__browser_hover",
+          "mcp__browser__browser_select_option",
+          "mcp__browser__browser_tabs",
+          "mcp__browser__browser_wait_for",
+          "mcp__github__add_comment_to_pending_review",
+          "mcp__github__add_issue_comment",
+          "mcp__github__add_reply_to_pull_request_comment",
+          "mcp__github__assign_copilot_to_issue",
+          "mcp__github__create_branch",
+          "mcp__github__create_or_update_file",
+          "mcp__github__create_pull_request",
+          "mcp__github__create_repository",
+          "mcp__github__delete_file",
+          "mcp__github__fork_repository",
+          "mcp__github__get_commit",
+          "mcp__github__get_file_contents",
+          "mcp__github__get_label",
+          "mcp__github__get_latest_release",
+          "mcp__github__get_me",
+          "mcp__github__get_release_by_tag",
+          "mcp__github__get_tag",
+          "mcp__github__get_team_members",
+          "mcp__github__get_teams",
+          "mcp__github__issue_read",
+          "mcp__github__issue_write",
+          "mcp__github__list_branches",
+          "mcp__github__list_commits",
+          "mcp__github__list_issue_fields",
+          "mcp__github__list_issue_types",
+          "mcp__github__list_issues",
+          "mcp__github__list_pull_requests",
+          "mcp__github__list_releases",
+          "mcp__github__list_repository_collaborators",
+          "mcp__github__list_tags",
+          "mcp__github__merge_pull_request",
+          "mcp__github__pull_request_read",
+          "mcp__github__pull_request_review_write",
+          "mcp__github__push_files",
+          "mcp__github__request_copilot_review",
+          "mcp__github__search_code",
+          "mcp__github__search_commits",
+          "mcp__github__search_issues",
+          "mcp__github__search_pull_requests",
+          "mcp__github__search_repositories",
+          "mcp__github__search_users",
+          "mcp__github__sub_issue_write",
+          "mcp__github__update_pull_request",
+          "mcp__github__update_pull_request_branch",
+          "mcp__search__tavily_search",
+          "mcp__search__tavily_extract",
+          "mcp__search__tavily_crawl",
+          "mcp__search__tavily_map",
+          "mcp__search__tavily_research",
+          "mcp__gmail__send_email",
+          "mcp__gmail__draft_email",
+          "mcp__gmail__read_email",
+          "mcp__gmail__search_emails",
+          "mcp__gmail__modify_email",
+          "mcp__gmail__delete_email",
+          "mcp__gmail__list_email_labels",
+          "mcp__gmail__batch_modify_emails",
+          "mcp__gmail__batch_delete_emails",
+          "mcp__gmail__create_label",
+          "mcp__gmail__update_label",
+          "mcp__gmail__delete_label",
+          "mcp__gmail__get_or_create_label",
+          "mcp__gmail__create_filter",
+          "mcp__gmail__list_filters",
+          "mcp__gmail__get_filter",
+          "mcp__gmail__delete_filter",
+          "mcp__gmail__create_filter_from_template",
+          "mcp__gmail__download_attachment",
+          "mcp__drive__search"
+        ]
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 10,
+      "epoch": 1791389876.5788908,
+      "monotonic": 973919.265,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.client.in",
+      "data": {
+        "text": "嗯…",
+        "args": [
+          1.0
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 30624,
+      "seq": 2,
+      "epoch": 1791389876.6204367,
+      "monotonic": 973919.312,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.sidecar.in",
+      "data": {
+        "text": "嗯…",
+        "stdout_encoding": "gbk",
+        "stderr_encoding": "gbk",
+        "stdout_errors": "surrogateescape",
+        "stdout_isatty": false,
+        "utf8_mode": 0
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 11,
+      "epoch": 1791389877.6969538,
+      "monotonic": 973920.375,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "model.http.response",
+      "data": {
+        "exchange": "831894994e674ba99f09956a153ec126",
+        "raw_bytes_sha256": "f70d343c01ec907910ad4db1e9d7b89a15051b7a3b09e06fb8d5fcf558899ae5",
+        "raw_bytes": 645,
+        "payload_without_private_reasoning": {
+          "id": "169089f3e1b143e29d1ecb455a642963",
+          "model": "Deepseek-v4-flash",
+          "object": "chat.completion",
+          "created": 1791389876,
+          "usage": {
+            "prompt_tokens": 27627,
+            "total_tokens": 27674,
+            "completion_tokens": 47,
+            "prompt_tokens_details": {
+              "cached_tokens": 1280
+            },
+            "reasoning_tokens": 0
+          },
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": "stop",
+              "message": {
+                "role": "assistant",
+                "content": "{\"reply\": \"已经恢复。请告诉我接下来需要做什么。\", \"emotion\": \"neutral\", \"emotion_intensity\": 0.35, \"gesture\": \"none\", \"memory_candidate\": null}",
+                "tool_calls": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 12,
+      "epoch": 1791389877.6994789,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "provider.transport",
+        "payload": {
+          "call_id": "44d6ef90d2444f4190623b224d10ea29",
+          "request_id": "avatar-chat-242243",
+          "provider": "deepseek",
+          "host": "chatapi.weixin.qq.com",
+          "route": "direct",
+          "attempt": 1,
+          "outcome": "ok",
+          "elapsed_ms": 6140
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 13,
+      "epoch": 1791389877.7004726,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "provider.adapted.out",
+      "data": {
+        "content": "{\"reply\": \"已经恢复。请告诉我接下来需要做什么。\", \"emotion\": \"neutral\", \"emotion_intensity\": 0.35, \"gesture\": \"none\", \"memory_candidate\": null}",
+        "tool_calls": []
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 14,
+      "epoch": 1791389877.7004726,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "loop.out",
+      "data": {
+        "text": "{\"reply\": \"已经恢复。请告诉我接下来需要做什么。\", \"emotion\": \"neutral\", \"emotion_intensity\": 0.35, \"gesture\": \"none\", \"memory_candidate\": null}",
+        "steps": [],
+        "degraded": false,
+        "hit_step_limit": false,
+        "rounds": 1
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 15,
+      "epoch": 1791389877.701475,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "parse.in",
+      "data": {
+        "args": [
+          "{\"reply\": \"已经恢复。请告诉我接下来需要做什么。\", \"emotion\": \"neutral\", \"emotion_intensity\": 0.35, \"gesture\": \"none\", \"memory_candidate\": null}"
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 16,
+      "epoch": 1791389877.701475,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "parse.out",
+      "data": {
+        "reply": "已经恢复。请告诉我接下来需要做什么。",
+        "emotion": "neutral",
+        "emotion_intensity": 0.35,
+        "gesture": "none",
+        "memory_candidate": null,
+        "session_title": null
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 17,
+      "epoch": 1791389877.7024782,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "delivery.in",
+      "data": {
+        "args": [
+          364,
+          {
+            "id": "avatar-chat-242243",
+            "intent": "[R2-RECOVER] 只用普通中文回复：已经恢复。不调用工具，不保存记忆，不添加表情符号。",
+            "blocked": false,
+            "budget": {
+              "label": "大展身手",
+              "investment": "高",
+              "max_steps": 9,
+              "max_calls": 18
+            },
+            "calls_used": 0,
+            "rounds_used": 1
+          },
+          "已经恢复。请告诉我接下来需要做什么。"
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 18,
+      "epoch": 1791389877.7024782,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "delivery.out",
+      "data": "已经恢复。请告诉我接下来需要做什么。"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 19,
+      "epoch": 1791389877.703473,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "voice.normalize.in",
+      "data": {
+        "args": [
+          "已经恢复。请告诉我接下来需要做什么。"
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 20,
+      "epoch": 1791389877.703473,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "voice.normalize.out",
+      "data": "已经恢复。请告诉我接下来需要做什么。"
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 21,
+      "epoch": 1791389877.703473,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.message.in",
+      "data": {
+        "args": [
+          "assistant",
+          "已经恢复。请告诉我接下来需要做什么。",
+          "avatar-chat-242243",
+          364
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 22,
+      "epoch": 1791389877.7044716,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.message.out",
+      "data": 364
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 23,
+      "epoch": 1791389877.7044716,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "permission.pending",
+          "timestamp": "2026-10-07T16:17:57.704471+00:00",
+          "conversationId": 364,
+          "actions": []
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 24,
+      "epoch": 1791389877.7044716,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "permission.pending",
+        "timestamp": "2026-10-07T16:17:57.704471+00:00",
+        "conversationId": 364,
+        "actions": []
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 25,
+      "epoch": 1791389877.7044716,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "chat.response",
+          "timestamp": "2026-10-07T16:17:57.704471+00:00",
+          "conversationId": 364,
+          "text": "已经恢复。请告诉我接下来需要做什么。",
+          "emotion": "neutral",
+          "emotion_intensity": 0.35,
+          "gesture": "none",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 26,
+      "epoch": 1791389877.705472,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "chat.response",
+        "timestamp": "2026-10-07T16:17:57.704471+00:00",
+        "conversationId": 364,
+        "text": "已经恢复。请告诉我接下来需要做什么。",
+        "emotion": "neutral",
+        "emotion_intensity": 0.35,
+        "gesture": "none",
+        "request_id": "avatar-chat-242243"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 27,
+      "epoch": 1791389877.705472,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "turn.final",
+      "data": {
+        "task": {
+          "id": "avatar-chat-242243",
+          "intent": "[R2-RECOVER] 只用普通中文回复：已经恢复。不调用工具，不保存记忆，不添加表情符号。",
+          "blocked": false,
+          "budget": {
+            "label": "大展身手",
+            "investment": "高",
+            "max_steps": 9,
+            "max_calls": 18
+          },
+          "calls_used": 0,
+          "rounds_used": 1
+        },
+        "cache_identity": 1715739306768,
+        "cache_refs": [],
+        "cache_chars": 0,
+        "shown_confirmation": {},
+        "pending_head": null,
+        "actions": [
+          {
+            "action_id": "c085f51ae81a469291e6823e89c0dafb",
+            "args_hash": "7862d34004fe7b6321c1ee6ac66e369dc36ddcf4aa2f697d887dd6cd14bc4ee5",
+            "arguments": {
+              "messageId": "1a1170bf8fa1edf8"
+            },
+            "confirmation_request_id": "avatar-chat-1913607",
+            "execution_id": "85912a4ee09b4d148aeb2f4c1f86faa2",
+            "expires": 1791389992.9253407,
+            "receipt": {
+              "ok": true,
+              "output": "Thread ID: 1a1170bf8fa1edf8\nSubject: [R2-20261007] Fixture inbox 01\nFrom: OWNER_TEST_MAILBOX\nTo: OWNER_TEST_MAILBOX\nDate: Wed, 7 Oct 2026 11:47:02 -0400\n\n[R2-MAIL] Synthetic audit fixture only.\nBudget=120; spent=45; remaining=75.\nDate=2026-10-18. Phrase=blue-paper-crane.\n\n\nAttachments (1):\n- R2-attachment.txt (text/plain, 0 KB, ID: ANGjdJ81TLA1gFjGtXyVaFfMxtfV9vsR2AHkyPtiGAsqQ8bct8k3MPTGZnd1vB_VcHDAjzzzHq3Qr9dzzCk4IZAg-aeYila898z-OzxsRSEQYg80jZGjp18ogIYxxnqvyq35PAGvU3uWQkwIv__f67amiKuKtUPqyQu5KDjiMJvEH6ricCAEYMdvEPALxJWJziMDC14Ltg4fHwKLyIProhyjcAzdfhJkTHomhat4lCWpUYgzdr7oHEp4-C8N8xoPSBSdpOCv17jKIiiCX5crHnLKha8Q6WfR6GrPi6yEwwNmNeqrUolpy_facpdCzVEZ08O6imqbhQEsMdXmLaVd2o6ZS6h_mRwE2k1YoQrepS_fylIjD_aXba_LSQLwba76cPRAmBOdkeLuWnNCTQfr)"
+            },
+            "request_id": "avatar-chat-1811727",
+            "revision": 1,
+            "session_id": 364,
+            "status": "succeeded",
+            "task_id": "avatar-chat-1811727",
+            "tool": "mcp__gmail__read_email"
+          }
+        ]
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 28,
+      "epoch": 1791389877.7064748,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "agent.state",
+        "payload": {
+          "state": "idle",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 29,
+      "epoch": 1791389877.7064748,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "agent.state",
+          "timestamp": "2026-10-07T16:17:57.706474+00:00",
+          "state": "idle",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 30,
+      "epoch": 1791389877.7064748,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "agent.state",
+        "timestamp": "2026-10-07T16:17:57.706474+00:00",
+        "state": "idle",
+        "request_id": "avatar-chat-242243"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 31,
+      "epoch": 1791389877.7089925,
+      "monotonic": 973920.39,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.client.in",
+      "data": {
+        "text": "已经恢复。",
+        "args": [
+          1.0
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 30624,
+      "seq": 3,
+      "epoch": 1791389880.1819463,
+      "monotonic": 973922.859,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.sidecar.out",
+      "data": {
+        "ok": true,
+        "audioPath": "{TTS}\\out\\spool\\utt_ff3be02d15da43fb866363b85a88526c.wav",
+        "durationMs": 980,
+        "sampleRate": 32000
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 32,
+      "epoch": 1791389880.1894667,
+      "monotonic": 973922.875,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.client.out",
+      "data": {
+        "audioPath": "{TTS}\\out\\spool\\utt_ff3be02d15da43fb866363b85a88526c.wav",
+        "durationMs": 980,
+        "sampleRate": 32000
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 30624,
+      "seq": 4,
+      "epoch": 1791389880.1904671,
+      "monotonic": 973922.875,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.sidecar.in",
+      "data": {
+        "text": "已经恢复。",
+        "stdout_encoding": "gbk",
+        "stderr_encoding": "gbk",
+        "stdout_errors": "surrogateescape",
+        "stdout_isatty": false,
+        "utf8_mode": 0
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 30624,
+      "seq": 5,
+      "epoch": 1791389881.9929838,
+      "monotonic": 973924.671,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.sidecar.out",
+      "data": {
+        "ok": true,
+        "audioPath": "{TTS}\\out\\spool\\utt_589c12cf94204116bbecac6ca4d8df33.wav",
+        "durationMs": 1500,
+        "sampleRate": 32000
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 33,
+      "epoch": 1791389881.9969828,
+      "monotonic": 973924.687,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.client.out",
+      "data": {
+        "audioPath": "{TTS}\\out\\spool\\utt_589c12cf94204116bbecac6ca4d8df33.wav",
+        "durationMs": 1500,
+        "sampleRate": 32000
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 34,
+      "epoch": 1791389881.9979844,
+      "monotonic": 973924.687,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "avatar.speak",
+          "timestamp": "2026-10-07T16:18:01.997984+00:00",
+          "utteranceId": "utt-8890c93f6da7",
+          "playbackId": "e371ebe98f694313842b213fcf6131bd",
+          "text": "已经恢复。",
+          "audioPath": "{TTS}\\out\\spool\\utt_589c12cf94204116bbecac6ca4d8df33.wav",
+          "durationMs": 1500,
+          "sampleRate": 32000,
+          "requestId": "avatar-chat-242243",
+          "partIndex": 0,
+          "partCount": 2
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 35,
+      "epoch": 1791389881.99849,
+      "monotonic": 973924.687,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "avatar.speak",
+        "timestamp": "2026-10-07T16:18:01.997984+00:00",
+        "utteranceId": "utt-8890c93f6da7",
+        "playbackId": "e371ebe98f694313842b213fcf6131bd",
+        "text": "已经恢复。",
+        "audioPath": "{TTS}\\out\\spool\\utt_589c12cf94204116bbecac6ca4d8df33.wav",
+        "durationMs": 1500,
+        "sampleRate": 32000,
+        "requestId": "avatar-chat-242243",
+        "partIndex": 0,
+        "partCount": 2
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 36,
+      "epoch": 1791389881.9994974,
+      "monotonic": 973924.687,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "agent.state",
+        "payload": {
+          "state": "speaking",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 37,
+      "epoch": 1791389881.9994974,
+      "monotonic": 973924.687,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "agent.state",
+          "timestamp": "2026-10-07T16:18:01.999497+00:00",
+          "state": "speaking",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 38,
+      "epoch": 1791389881.9994974,
+      "monotonic": 973924.687,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "agent.state",
+        "timestamp": "2026-10-07T16:18:01.999497+00:00",
+        "state": "speaking",
+        "request_id": "avatar-chat-242243"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 39,
+      "epoch": 1791389882.0004978,
+      "monotonic": 973924.687,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.client.in",
+      "data": {
+        "text": "请告诉我接下来需要做什么。",
+        "args": [
+          1.0
+        ],
+        "kwargs": {}
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 30624,
+      "seq": 6,
+      "epoch": 1791389882.0442302,
+      "monotonic": 973924.734,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.sidecar.in",
+      "data": {
+        "text": "请告诉我接下来需要做什么。",
+        "stdout_encoding": "gbk",
+        "stderr_encoding": "gbk",
+        "stdout_errors": "surrogateescape",
+        "stdout_isatty": false,
+        "utf8_mode": 0
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 40,
+      "epoch": 1791389883.5060337,
+      "monotonic": 973926.187,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "speech.receipt",
+        "payload": {
+          "utteranceId": "utt-8890c93f6da7",
+          "playbackId": "e371ebe98f694313842b213fcf6131bd",
+          "failed": false,
+          "interrupted": false
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 30624,
+      "seq": 7,
+      "epoch": 1791389884.7458367,
+      "monotonic": 973927.437,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.sidecar.out",
+      "data": {
+        "ok": true,
+        "audioPath": "{TTS}\\out\\spool\\utt_2f9dde5ce5914e30a787b60a3dadc408.wav",
+        "durationMs": 2300,
+        "sampleRate": 32000
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 41,
+      "epoch": 1791389884.7503545,
+      "monotonic": 973927.437,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "tts.client.out",
+      "data": {
+        "audioPath": "{TTS}\\out\\spool\\utt_2f9dde5ce5914e30a787b60a3dadc408.wav",
+        "durationMs": 2300,
+        "sampleRate": 32000
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 42,
+      "epoch": 1791389884.7503545,
+      "monotonic": 973927.437,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "avatar.speak",
+          "timestamp": "2026-10-07T16:18:04.750354+00:00",
+          "utteranceId": "utt-8890c93f6da7",
+          "playbackId": "1443e27e45b04818bdeaaa3aef819fd9",
+          "text": "请告诉我接下来需要做什么。",
+          "audioPath": "{TTS}\\out\\spool\\utt_2f9dde5ce5914e30a787b60a3dadc408.wav",
+          "durationMs": 2300,
+          "sampleRate": 32000,
+          "requestId": "avatar-chat-242243",
+          "partIndex": 1,
+          "partCount": 2
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 43,
+      "epoch": 1791389884.7513545,
+      "monotonic": 973927.437,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "avatar.speak",
+        "timestamp": "2026-10-07T16:18:04.750354+00:00",
+        "utteranceId": "utt-8890c93f6da7",
+        "playbackId": "1443e27e45b04818bdeaaa3aef819fd9",
+        "text": "请告诉我接下来需要做什么。",
+        "audioPath": "{TTS}\\out\\spool\\utt_2f9dde5ce5914e30a787b60a3dadc408.wav",
+        "durationMs": 2300,
+        "sampleRate": 32000,
+        "requestId": "avatar-chat-242243",
+        "partIndex": 1,
+        "partCount": 2
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 44,
+      "epoch": 1791389884.7523522,
+      "monotonic": 973927.437,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "agent.state",
+        "payload": {
+          "state": "speaking",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 45,
+      "epoch": 1791389884.7523522,
+      "monotonic": 973927.437,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "agent.state",
+          "timestamp": "2026-10-07T16:18:04.752352+00:00",
+          "state": "speaking",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 46,
+      "epoch": 1791389884.7523522,
+      "monotonic": 973927.437,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "agent.state",
+        "timestamp": "2026-10-07T16:18:04.752352+00:00",
+        "state": "speaking",
+        "request_id": "avatar-chat-242243"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 47,
+      "epoch": 1791389887.0687432,
+      "monotonic": 973929.75,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "speech.receipt",
+        "payload": {
+          "utteranceId": "utt-8890c93f6da7",
+          "playbackId": "1443e27e45b04818bdeaaa3aef819fd9",
+          "failed": false,
+          "interrupted": false
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 48,
+      "epoch": 1791389887.0697517,
+      "monotonic": 973929.75,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "agent.state",
+        "payload": {
+          "state": "idle",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 49,
+      "epoch": 1791389887.0707617,
+      "monotonic": 973929.75,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.outgoing",
+      "data": {
+        "roles": [
+          "avatar",
+          "ui"
+        ],
+        "event": {
+          "type": "agent.state",
+          "timestamp": "2026-10-07T16:18:07.070761+00:00",
+          "state": "idle",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 50,
+      "epoch": 1791389887.0707617,
+      "monotonic": 973929.75,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "godot.direct",
+      "data": {
+        "type": "agent.state",
+        "timestamp": "2026-10-07T16:18:07.070761+00:00",
+        "state": "idle",
+        "request_id": "avatar-chat-242243"
+      }
+    },
+    {
+      "version": "r2-observer-v2",
+      "pid": 23404,
+      "seq": 51,
+      "epoch": 1791389887.0717597,
+      "monotonic": 973929.75,
+      "trace": {
+        "request_id": "avatar-chat-242243",
+        "session_id": 364
+      },
+      "stage": "state.event",
+      "data": {
+        "event_type": "speech.completed",
+        "payload": {
+          "utteranceId": "utt-8890c93f6da7",
+          "request_id": "avatar-chat-242243"
+        }
+      }
+    }
+  ]
+}

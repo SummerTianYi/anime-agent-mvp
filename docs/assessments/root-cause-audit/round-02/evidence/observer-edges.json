@@ -1,0 +1,13 @@
+{
+  "layer": "isolated synthetic observer counterexamples; no Core/TTS/service calls",
+  "checks": [
+    "None/closed stdout preserves original call, return object and TRACE reset",
+    "original exception object and TRACE reset preserved",
+    "same text keeps both candidates, never attributes latest as certain",
+    "malformed JSONL rows do not discard valid matches or block synthesis",
+    "non-object and invalid expiry control disable safely",
+    "unhashable event identifiers do not change business outcome"
+  ],
+  "ok": true,
+  "observer_sha256": "4cc6d05e91b7230bcf032b1e4bdcbcca1d79faacf6a64b2820981caec8d6605d"
+}

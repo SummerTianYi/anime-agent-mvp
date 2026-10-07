@@ -1,0 +1,517 @@
+{
+  "layer": "isolated direct implementation branches, not frontend acceptance",
+  "api_calls": 0,
+  "live_database_access": false,
+  "temporary_objects_cleaned": true,
+  "source_hashes": {
+    "tools.py": "9f751b0c507dacad78b8ca6cfc4dd1bb0d83ab1f4137984f32cb07dfb9de54d7",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b"
+  },
+  "rows": [
+    {
+      "case": "read-byte-boundary",
+      "observed": {
+        "first_offset": 0,
+        "next_offset": 65535,
+        "second_text": "蓝色纸鹤-END",
+        "joined_sha256": "6700b09719a1b2ab73b710f05ad169e19c3297a4a51229e8aee29cd4ff4e5589"
+      },
+      "expected": "next=65535; exact joined UTF-8 payload",
+      "matched": true
+    },
+    {
+      "case": "read-offset--1",
+      "observed": {
+        "ok": false,
+        "error": "offset必须是非负字节偏移"
+      },
+      "expected": "reject invalid byte offset",
+      "matched": true
+    },
+    {
+      "case": "read-offset-True",
+      "observed": {
+        "ok": false,
+        "error": "offset必须是非负字节偏移"
+      },
+      "expected": "reject invalid byte offset",
+      "matched": true
+    },
+    {
+      "case": "read-offset-'0'",
+      "observed": {
+        "ok": false,
+        "error": "offset必须是非负字节偏移"
+      },
+      "expected": "reject invalid byte offset",
+      "matched": true
+    },
+    {
+      "case": "read-offset-65552",
+      "observed": {
+        "ok": false,
+        "error": "offset超出文件大小"
+      },
+      "expected": "reject invalid byte offset",
+      "matched": true
+    },
+    {
+      "case": "read-eof",
+      "observed": {
+        "ok": true,
+        "path": "{TEMP_R2}\\boundary.txt",
+        "size": 65551,
+        "content": "",
+        "offset": 65551,
+        "next_offset": null,
+        "truncated": false,
+        "note": "如有next_offset，用read_file(path,offset=next_offset)续取；偏移以字节计"
+      },
+      "expected": "empty successful end, no next offset",
+      "matched": true
+    },
+    {
+      "case": "read-mid-character",
+      "observed": {
+        "ok": true,
+        "path": "{TEMP_R2}\\boundary.txt",
+        "size": 65551,
+        "content": "��色纸鹤-END",
+        "offset": 65536,
+        "next_offset": null,
+        "truncated": false,
+        "note": "如有next_offset，用read_file(path,offset=next_offset)续取；偏移以字节计"
+      },
+      "expected": "document observed decoding; not claimed rejected",
+      "matched": true
+    },
+    {
+      "case": "read-missing",
+      "observed": {
+        "ok": false,
+        "error": "文件不存在：{TEMP_R2}\\absent.txt"
+      },
+      "expected": "missing file rejected",
+      "matched": true
+    },
+    {
+      "case": "list-cap-sort",
+      "observed": {
+        "count": 200,
+        "first": {
+          "name": "Z-dir",
+          "type": "dir",
+          "size": null
+        },
+        "last": {
+          "name": "f198.txt",
+          "type": "file",
+          "size": 2
+        },
+        "truncated": true
+      },
+      "expected": "200 entries, directories first, truncation explicit",
+      "matched": true
+    },
+    {
+      "case": "write-append-missing",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "path": "{TEMP_R2}\\write.txt",
+          "mode": "append",
+          "bytes_written": 3,
+          "sha256": "71530d4c49f12c489dcfc7d6d1b46d53546ca05bfd1775392c9a42b9b7944bbb",
+          "verified_readback": true
+        },
+        "readback": "乙"
+      },
+      "expected": "乙",
+      "matched": true
+    },
+    {
+      "case": "write-append-no-newline",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "path": "{TEMP_R2}\\write.txt",
+          "mode": "append",
+          "bytes_written": 7,
+          "sha256": "083dc4488876df55ba6002090210b3f7ede5586d0c26c9770504332e867d8710",
+          "verified_readback": true
+        },
+        "readback": "甲\n乙"
+      },
+      "expected": "甲\n乙",
+      "matched": true
+    },
+    {
+      "case": "write-append-existing-newline",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "path": "{TEMP_R2}\\write.txt",
+          "mode": "append",
+          "bytes_written": 8,
+          "sha256": "eb9ced2ab8158a3e730b71fc804aff9749923a38142c7770041ee003d61e463c",
+          "verified_readback": true
+        },
+        "readback": "甲\n乙"
+      },
+      "expected": "甲\n乙",
+      "matched": true
+    },
+    {
+      "case": "write-append-content-newline",
+      "observed": {
+        "receipt": {
+          "ok": true,
+          "path": "{TEMP_R2}\\write.txt",
+          "mode": "append",
+          "bytes_written": 7,
+          "sha256": "083dc4488876df55ba6002090210b3f7ede5586d0c26c9770504332e867d8710",
+          "verified_readback": true
+        },
+        "readback": "甲\n乙"
+      },
+      "expected": "甲\n乙",
+      "matched": true
+    },
+    {
+      "case": "write-bad-mode",
+      "observed": {
+        "ok": false,
+        "error": "无效 mode：erase（仅 overwrite / append）"
+      },
+      "expected": "reject without mutation",
+      "matched": true
+    },
+    {
+      "case": "write-bad-type",
+      "observed": {
+        "ok": false,
+        "error": "content 必须是字符串"
+      },
+      "expected": "reject without mutation",
+      "matched": true
+    },
+    {
+      "case": "write-oversize",
+      "observed": {
+        "ok": false,
+        "error": "内容过大（262145 字节，上限 262144）"
+      },
+      "expected": "reject without mutation",
+      "matched": true
+    },
+    {
+      "case": "write-replace-error",
+      "observed": {
+        "receipt": {
+          "ok": false,
+          "error": "写入失败：R2 synthetic denial"
+        },
+        "temporary_residue": [
+          {
+            "name": "write.txt.tmp-1791391634664",
+            "bytes": 6
+          }
+        ],
+        "cleanup_owner": "this isolated harness after observation, not write_file"
+      },
+      "expected": "error and original intact; report any temporary residue",
+      "matched": true
+    },
+    {
+      "case": "command-disabled",
+      "observed": {
+        "result": {
+          "ok": false,
+          "error": "命令执行未启用（未配置 ANIME_AGENT_ALLOWED_COMMANDS）"
+        },
+        "mock_calls": 0
+      },
+      "expected": "no subprocess",
+      "matched": true
+    },
+    {
+      "case": "command-empty",
+      "observed": {
+        "result": {
+          "ok": false,
+          "error": "空命令"
+        },
+        "mock_calls": 0
+      },
+      "expected": "no subprocess",
+      "matched": true
+    },
+    {
+      "case": "command-not-allowed",
+      "observed": {
+        "result": {
+          "ok": false,
+          "error": "命令 other 不在白名单内（ANIME_AGENT_ALLOWED_COMMANDS）"
+        },
+        "mock_calls": 0
+      },
+      "expected": "no subprocess",
+      "matched": true
+    },
+    {
+      "case": "command-metachar",
+      "observed": {
+        "result": {
+          "ok": false,
+          "error": "命令包含不允许的 shell 特殊字符"
+        },
+        "mock_calls": 0
+      },
+      "expected": "no subprocess",
+      "matched": true
+    },
+    {
+      "case": "command-parse-error",
+      "observed": {
+        "result": {
+          "ok": false,
+          "error": "命令解析失败：No closing quotation"
+        },
+        "mock_calls": 0
+      },
+      "expected": "no subprocess",
+      "matched": true
+    },
+    {
+      "case": "command-success",
+      "observed": {
+        "result": {
+          "ok": true,
+          "returncode": 0,
+          "output": "175",
+          "note": "命令已按白名单执行，未经过 shell 管道"
+        },
+        "mock_calls": 1,
+        "argv": [
+          "python",
+          "-c",
+          "print(175)"
+        ],
+        "kwargs": {
+          "capture_output": true,
+          "text": true,
+          "timeout": 30.0,
+          "shell": false
+        }
+      },
+      "expected": "mock subprocess only",
+      "matched": true
+    },
+    {
+      "case": "command-nonzero",
+      "observed": {
+        "result": {
+          "ok": false,
+          "returncode": 2,
+          "output": "R2 stderr",
+          "note": "命令已按白名单执行，未经过 shell 管道"
+        },
+        "mock_calls": 1,
+        "argv": [
+          "python",
+          "--version"
+        ],
+        "kwargs": {
+          "capture_output": true,
+          "text": true,
+          "timeout": 30.0,
+          "shell": false
+        }
+      },
+      "expected": "mock subprocess only",
+      "matched": true
+    },
+    {
+      "case": "command-truncated",
+      "observed": {
+        "result": {
+          "ok": true,
+          "returncode": 0,
+          "output": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR…（输出已截断）",
+          "note": "命令已按白名单执行，未经过 shell 管道"
+        },
+        "mock_calls": 1,
+        "argv": [
+          "python",
+          "--version"
+        ],
+        "kwargs": {
+          "capture_output": true,
+          "text": true,
+          "timeout": 30.0,
+          "shell": false
+        }
+      },
+      "expected": "mock subprocess only",
+      "matched": true
+    },
+    {
+      "case": "command-missing-exe",
+      "observed": {
+        "result": {
+          "ok": false,
+          "error": "找不到可执行文件：python"
+        },
+        "mock_calls": 1,
+        "argv": [
+          "python",
+          "--version"
+        ],
+        "kwargs": {
+          "capture_output": true,
+          "text": true,
+          "timeout": 30.0,
+          "shell": false
+        }
+      },
+      "expected": "mock subprocess only",
+      "matched": true
+    },
+    {
+      "case": "command-timeout",
+      "observed": {
+        "result": {
+          "ok": false,
+          "outcome": "unknown",
+          "error": "命令执行超时（30.0s），副作用未知"
+        },
+        "mock_calls": 1,
+        "argv": [
+          "python",
+          "--version"
+        ],
+        "kwargs": {
+          "capture_output": true,
+          "text": true,
+          "timeout": 30.0,
+          "shell": false
+        }
+      },
+      "expected": "mock subprocess only",
+      "matched": true
+    },
+    {
+      "case": "history-20-window",
+      "observed": [
+        {
+          "role": "assistant",
+          "content": "R2-A-05"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-06"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-07"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-08"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-09"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-10"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-11"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-12"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-13"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-14"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-15"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-16"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-17"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-18"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-19"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-20"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-21"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-22"
+        },
+        {
+          "role": "assistant",
+          "content": "R2-A-23"
+        },
+        {
+          "role": "user",
+          "content": "R2-A-24"
+        }
+      ],
+      "expected": "exact A05..A24, ordered and no B",
+      "matched": true
+    },
+    {
+      "case": "empty-session-isolation",
+      "observed": {
+        "listed_before": [
+          3,
+          2
+        ],
+        "listed_after": [
+          3,
+          2
+        ],
+        "swept": [
+          1,
+          4
+        ],
+        "messages_a": 25,
+        "messages_b": [
+          {
+            "role": "user",
+            "content": "R2-B-ONLY"
+          }
+        ]
+      },
+      "expected": "empty hidden and swept, both populated sessions and messages retained",
+      "matched": true
+    }
+  ]
+}

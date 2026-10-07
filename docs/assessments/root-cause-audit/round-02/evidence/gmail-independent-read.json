@@ -1,0 +1,144 @@
+{
+  "actor": "Codex independent verification, NOT Tianyi execution",
+  "external_mutations": [],
+  "private": false,
+  "adapter_sha256": "20bc354c081919b193699466ea36db21fb0e4df6d8f4e46c36ffbbb4f855f2d7",
+  "rows": [
+    {
+      "server": "gmail",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "tools/call",
+        "params": {
+          "name": "search_emails",
+          "arguments": {
+            "query": "subject:\"[R2-20261007] Fixture inbox 01\"",
+            "maxResults": 3
+          }
+        }
+      },
+      "raw": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "ID: 1a1170bf8fa1edf8\nSubject: [R2-20261007] Fixture inbox 01\nFrom: OWNER_TEST_MAILBOX\nDate: Wed, 7 Oct 2026 11:47:02 -0400\n"
+            }
+          ]
+        },
+        "jsonrpc": "2.0",
+        "id": 3
+      },
+      "adapted_same_receipt": {
+        "ok": true,
+        "text": "ID: 1a1170bf8fa1edf8\nSubject: [R2-20261007] Fixture inbox 01\nFrom: OWNER_TEST_MAILBOX\nDate: Wed, 7 Oct 2026 11:47:02 -0400\n"
+      }
+    },
+    {
+      "server": "gmail",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "tools/call",
+        "params": {
+          "name": "read_email",
+          "arguments": {
+            "messageId": "1a1170bf8fa1edf8"
+          }
+        }
+      },
+      "raw": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Thread ID: 1a1170bf8fa1edf8\nSubject: [R2-20261007] Fixture inbox 01\nFrom: OWNER_TEST_MAILBOX\nTo: OWNER_TEST_MAILBOX\nDate: Wed, 7 Oct 2026 11:47:02 -0400\n\n[R2-MAIL] Synthetic audit fixture only.\nBudget=120; spent=45; remaining=75.\nDate=2026-10-18. Phrase=blue-paper-crane.\n\n\nAttachments (1):\n- R2-attachment.txt (text/plain, 0 KB, ID: ANGjdJ8vKwNBw10SEF84s6RPGJ2Lq9A2JQrx3uPJcpqCW5O2qSw4MXB898nfc7eUMoY1DIfsqr5hYwT4esJEWnaKpy1G9RNP3cTSVS_VhyzTA2da-2N9vPIULqWS9sy7MWwtGzi_iPF6_IaQJKNJw9BxxHZ3yeSqOCLoSl5C5YiwkR2DR1zMErJr3wlm0EBlhVpjMjV2jPqnsuqGrU3G3MEH5rT3Mtv6IDDDgMAf3bcS5I8NP-TJgsqKlhvQsMAE3ncitMQXqhu3hRlHakXz5ros_z30jLzoBf27PM3lIjyKjBoRR-fX57zYDhtxfLqcLqMhdndW16rs2e0INVdyIKwhe0EubDbbAiYhvqsHZaRe8UOlcIXI12xd4kofl-WUSGYA-QhyI_gnTt3jxXKS)"
+            }
+          ]
+        },
+        "jsonrpc": "2.0",
+        "id": 5
+      },
+      "adapted_same_receipt": {
+        "ok": true,
+        "text": "Thread ID: 1a1170bf8fa1edf8\nSubject: [R2-20261007] Fixture inbox 01\nFrom: OWNER_TEST_MAILBOX\nTo: OWNER_TEST_MAILBOX\nDate: Wed, 7 Oct 2026 11:47:02 -0400\n\n[R2-MAIL] Synthetic audit fixture only.\nBudget=120; spent=45; remaining=75.\nDate=2026-10-18. Phrase=blue-paper-crane.\n\n\nAttachments (1):\n- R2-attachment.txt (text/plain, 0 KB, ID: ANGjdJ8vKwNBw10SEF84s6RPGJ2Lq9A2JQrx3uPJcpqCW5O2qSw4MXB898nfc7eUMoY1DIfsqr5hYwT4esJEWnaKpy1G9RNP3cTSVS_VhyzTA2da-2N9vPIULqWS9sy7MWwtGzi_iPF6_IaQJKNJw9BxxHZ3yeSqOCLoSl5C5YiwkR2DR1zMErJr3wlm0EBlhVpjMjV2jPqnsuqGrU3G3MEH5rT3Mtv6IDDDgMAf3bcS5I8NP-TJgsqKlhvQsMAE3ncitMQXqhu3hRlHakXz5ros_z30jLzoBf27PM3lIjyKjBoRR-fX57zYDhtxfLqcLqMhdndW16rs2e0INVdyIKwhe0EubDbbAiYhvqsHZaRe8UOlcIXI12xd4kofl-WUSGYA-QhyI_gnTt3jxXKS)"
+      }
+    },
+    {
+      "server": "gmail",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 7,
+        "method": "tools/call",
+        "params": {
+          "name": "search_emails",
+          "arguments": {
+            "query": "subject:R2-20261007-NONEXISTENT-91E7",
+            "maxResults": 1
+          }
+        }
+      },
+      "raw": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": ""
+            }
+          ]
+        },
+        "jsonrpc": "2.0",
+        "id": 7
+      },
+      "adapted_same_receipt": {
+        "ok": true,
+        "text": ""
+      }
+    },
+    {
+      "server": "gmail",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 9,
+        "method": "tools/call",
+        "params": {
+          "name": "read_email",
+          "arguments": {
+            "messageId": "r2-invalid-message-91e7"
+          }
+        }
+      },
+      "raw": {
+        "result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Error: Invalid id value"
+            }
+          ]
+        },
+        "jsonrpc": "2.0",
+        "id": 9
+      },
+      "adapted_same_receipt": {
+        "ok": true,
+        "text": "Error: Invalid id value"
+      }
+    },
+    {
+      "server": "gmail",
+      "cleanup_root_still_running": 30008
+    },
+    {
+      "server": "gmail",
+      "cleanup": {
+        "root_returncode": 1,
+        "remaining_owned_children": [],
+        "cleanup_errors": []
+      }
+    }
+  ],
+  "working_directory": "{PRODUCTION}/services/agent-core",
+  "layer": "Codex independent real connector + same-receipt adapter replay; not Tianyi"
+}

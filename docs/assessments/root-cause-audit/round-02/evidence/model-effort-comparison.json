@@ -1,0 +1,303 @@
+{
+  "schema": "r2-model-effort-comparison-v1",
+  "source_evidence": [
+    "effort-frontend-trace.json",
+    "glm-compare-trace.json"
+  ],
+  "initial_conditions": "Four fresh synthetic sessions, unchanged file and global memory. High-tier DS/GLM initial wire messages hash and tools hash identical. Process restart and model differ.",
+  "limits": [
+    "One task; no model ranking",
+    "No internal reasoning control inferred",
+    "Human hearing not individually confirmed"
+  ],
+  "observations": [
+    {
+      "request_id": "avatar-chat-714244",
+      "session_id": 369,
+      "model": "Deepseek-v4-flash",
+      "http_requests": 2,
+      "first_context_sha256": "7b118e1baad18bfd88f78a58f58c779f2448622462909291114c916bba3975d4",
+      "message_shapes": [
+        {
+          "role": "system",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 3498
+        },
+        {
+          "role": "user",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 210
+        }
+      ],
+      "tool_count": 105,
+      "tools_sha256": "6efb9c57aac3bf1fb4733ee0ebe26fe7c0fb5c5518202a409d4105a273e53caf",
+      "request_body_keys": [
+        "model",
+        "tools",
+        "tool_choice",
+        "stream",
+        "messages_sha256",
+        "messages_bytes",
+        "message_shapes"
+      ],
+      "task": {
+        "id": "avatar-chat-714244",
+        "intent": "[R2-COMPARE] 请读取 {PRODUCTION}/work/tianyi-exam-t1/R2-20261007/short.txt，给出文件日期、两项数值的总和、约定物件。只依据本次读取回执，用一句简短中文回答，不保存记忆。",
+        "blocked": false,
+        "budget": {
+          "label": "碎碎念",
+          "investment": "低",
+          "max_steps": 3,
+          "max_calls": 6
+        },
+        "calls_used": 1,
+        "rounds_used": 2
+      },
+      "reply": "文件日期为2026-10-18，两项数值总和为175，约定物件是蓝色纸鹤。",
+      "playback": [
+        {
+          "event_type": "speech.receipt",
+          "payload": {
+            "utteranceId": "utt-21bc11d53f28",
+            "playbackId": "b4914c6c70ff49ba903a6ac8781edeef",
+            "failed": false,
+            "interrupted": false
+          }
+        },
+        {
+          "event_type": "speech.completed",
+          "payload": {
+            "utteranceId": "utt-21bc11d53f28",
+            "request_id": "avatar-chat-714244"
+          }
+        }
+      ]
+    },
+    {
+      "request_id": "avatar-chat-797486",
+      "session_id": 370,
+      "model": "Deepseek-v4-flash",
+      "http_requests": 2,
+      "first_context_sha256": "a55766a5d61e2ce4c7707e679dd01bb80a0de9ac6cfddb658d1b940f55ec570c",
+      "message_shapes": [
+        {
+          "role": "system",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 3499
+        },
+        {
+          "role": "user",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 210
+        }
+      ],
+      "tool_count": 105,
+      "tools_sha256": "6efb9c57aac3bf1fb4733ee0ebe26fe7c0fb5c5518202a409d4105a273e53caf",
+      "request_body_keys": [
+        "model",
+        "tools",
+        "tool_choice",
+        "stream",
+        "messages_sha256",
+        "messages_bytes",
+        "message_shapes"
+      ],
+      "task": {
+        "id": "avatar-chat-797486",
+        "intent": "[R2-COMPARE] 请读取 {PRODUCTION}/work/tianyi-exam-t1/R2-20261007/short.txt，给出文件日期、两项数值的总和、约定物件。只依据本次读取回执，用一句简短中文回答，不保存记忆。",
+        "blocked": false,
+        "budget": {
+          "label": "帮帮忙",
+          "investment": "中",
+          "max_steps": 6,
+          "max_calls": 12
+        },
+        "calls_used": 1,
+        "rounds_used": 2
+      },
+      "reply": "文件日期2026-10-18，两项数值之和为175，约定物件是蓝色纸鹤。",
+      "playback": [
+        {
+          "event_type": "speech.receipt",
+          "payload": {
+            "utteranceId": "utt-871e9e0ab7c1",
+            "playbackId": "320e15617ad142d3a87fe86e1490e9db",
+            "failed": false,
+            "interrupted": false
+          }
+        },
+        {
+          "event_type": "speech.completed",
+          "payload": {
+            "utteranceId": "utt-871e9e0ab7c1",
+            "request_id": "avatar-chat-797486"
+          }
+        }
+      ]
+    },
+    {
+      "request_id": "avatar-chat-874772",
+      "session_id": 371,
+      "model": "Deepseek-v4-flash",
+      "http_requests": 2,
+      "first_context_sha256": "16916d10eddc2e499a721b7e88b3d2568be6785d59a41b7cffe605f1dc6a88b8",
+      "message_shapes": [
+        {
+          "role": "system",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 3500
+        },
+        {
+          "role": "user",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 210
+        }
+      ],
+      "tool_count": 105,
+      "tools_sha256": "6efb9c57aac3bf1fb4733ee0ebe26fe7c0fb5c5518202a409d4105a273e53caf",
+      "request_body_keys": [
+        "model",
+        "tools",
+        "tool_choice",
+        "stream",
+        "messages_sha256",
+        "messages_bytes",
+        "message_shapes"
+      ],
+      "task": {
+        "id": "avatar-chat-874772",
+        "intent": "[R2-COMPARE] 请读取 {PRODUCTION}/work/tianyi-exam-t1/R2-20261007/short.txt，给出文件日期、两项数值的总和、约定物件。只依据本次读取回执，用一句简短中文回答，不保存记忆。",
+        "blocked": false,
+        "budget": {
+          "label": "大展身手",
+          "investment": "高",
+          "max_steps": 9,
+          "max_calls": 18
+        },
+        "calls_used": 1,
+        "rounds_used": 2
+      },
+      "reply": "文件日期2026年10月18日，两项数值合计175，约定物件是蓝色纸鹤。",
+      "playback": [
+        {
+          "event_type": "speech.receipt",
+          "payload": {
+            "utteranceId": "utt-e1e349b700e4",
+            "playbackId": "e9b7cd84da18415eb83826de9cb46bd0",
+            "failed": false,
+            "interrupted": false
+          }
+        },
+        {
+          "event_type": "speech.completed",
+          "payload": {
+            "utteranceId": "utt-e1e349b700e4",
+            "request_id": "avatar-chat-874772"
+          }
+        }
+      ]
+    },
+    {
+      "request_id": "avatar-chat-99457",
+      "session_id": 372,
+      "model": "GLM-5.2",
+      "http_requests": 2,
+      "first_context_sha256": "16916d10eddc2e499a721b7e88b3d2568be6785d59a41b7cffe605f1dc6a88b8",
+      "message_shapes": [
+        {
+          "role": "system",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 3500
+        },
+        {
+          "role": "user",
+          "keys": [
+            "content",
+            "role"
+          ],
+          "content_chars": 210
+        }
+      ],
+      "tool_count": 105,
+      "tools_sha256": "6efb9c57aac3bf1fb4733ee0ebe26fe7c0fb5c5518202a409d4105a273e53caf",
+      "request_body_keys": [
+        "model",
+        "tools",
+        "tool_choice",
+        "stream",
+        "messages_sha256",
+        "messages_bytes",
+        "message_shapes"
+      ],
+      "task": {
+        "id": "avatar-chat-99457",
+        "intent": "[R2-COMPARE] 请读取 {PRODUCTION}/work/tianyi-exam-t1/R2-20261007/short.txt，给出文件日期、两项数值的总和、约定物件。只依据本次读取回执，用一句简短中文回答，不保存记忆。",
+        "blocked": false,
+        "budget": {
+          "label": "大展身手",
+          "investment": "高",
+          "max_steps": 9,
+          "max_calls": 18
+        },
+        "calls_used": 1,
+        "rounds_used": 2
+      },
+      "reply": "文件日期为2026-10-18，两项数值合计175颗星，约定物件是蓝色纸鹤。",
+      "playback": [
+        {
+          "event_type": "speech.receipt",
+          "payload": {
+            "utteranceId": "utt-2674e7d13558",
+            "playbackId": "ec2d803beab542fca8541e89cccf0438",
+            "failed": false,
+            "interrupted": false
+          }
+        },
+        {
+          "event_type": "speech.completed",
+          "payload": {
+            "utteranceId": "utt-2674e7d13558",
+            "request_id": "avatar-chat-99457"
+          }
+        },
+        {
+          "event_type": "speech.receipt",
+          "payload": {
+            "utteranceId": "utt-87e7d1fc648d",
+            "playbackId": "024dd6b191074b199f5823ed9119e016",
+            "failed": false,
+            "interrupted": false
+          }
+        },
+        {
+          "event_type": "speech.completed",
+          "payload": {
+            "utteranceId": "utt-87e7d1fc648d",
+            "request_id": "avatar-chat-99457"
+          }
+        }
+      ]
+    }
+  ]
+}

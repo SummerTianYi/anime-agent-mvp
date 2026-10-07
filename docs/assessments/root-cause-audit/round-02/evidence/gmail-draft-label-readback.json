@@ -1,0 +1,23 @@
+{
+  "layer": "Codex independent Gmail API readback; not Tianyi execution",
+  "requests": 4,
+  "label": {
+    "id": "Label_1",
+    "name": "R2-20261007-Audit",
+    "type": "user"
+  },
+  "draft_id": "r-7540607348453029159",
+  "message_id": "1a1178f7d42d19da",
+  "labels": [
+    "DRAFT"
+  ],
+  "subject": "[R2-20261007] Draft 02",
+  "recipient_matches_authorized_self": true,
+  "attachments": [
+    {
+      "filename": "attachment.txt",
+      "bytes": 60,
+      "sha256": "e3f857710db9f95e301315f504a1b4d7c4a69b1721278331cca204034d7f1d4a"
+    }
+  ]
+}

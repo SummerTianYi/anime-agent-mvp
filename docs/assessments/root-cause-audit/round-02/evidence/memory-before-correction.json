@@ -1,0 +1,35 @@
+{
+  "before_snapshot": "de72ba3570a8a8cfe309ae994fd9891415086f4c7a78fb842a53a41ca44e532c",
+  "after_snapshot": "aeae3e8d0a3c357338e287cde455c39e7f0645577320fb9a129414724f7035ec",
+  "source_identity": {
+    "volume": 3903461716,
+    "file_index": 2533274790580297
+  },
+  "preexisting_fact_changes": [],
+  "registered_new_facts": [
+    {
+      "fact_id": 26,
+      "session_id": 372,
+      "scope": "global",
+      "status": "confirmed",
+      "source_request_id": "avatar-chat-238442",
+      "content": "R2-晨星项目预算120（合成审计项目事实）"
+    },
+    {
+      "fact_id": 27,
+      "session_id": 372,
+      "scope": "global",
+      "status": "confirmed",
+      "source_request_id": "avatar-chat-290712",
+      "content": "R2-暮云项目预算180；R2-暮云与R2-晨星是两个不同项目，不可互相替换晨星预算120"
+    },
+    {
+      "fact_id": 28,
+      "session_id": 372,
+      "scope": "global",
+      "status": "confirmed",
+      "source_request_id": "avatar-chat-342648",
+      "content": "R2-晨星项目截止日期是2026年10月18日"
+    }
+  ]
+}

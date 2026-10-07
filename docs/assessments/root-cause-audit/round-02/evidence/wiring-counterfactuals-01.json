@@ -1,0 +1,102 @@
+{
+  "schema": "r2-wiring-counterfactuals-v1",
+  "layer": "isolated source with synthetic dependencies",
+  "observations": [
+    {
+      "case": "actual-library-loader-shape",
+      "result": {
+        "ok": false,
+        "error": "窗口查询失败：R2 synthetic loader has no DLL named GetForegroundWindow"
+      },
+      "calls": [
+        "loader_lookup:GetForegroundWindow"
+      ]
+    },
+    {
+      "case": "selected-user32-counterfactual",
+      "result": {
+        "ok": true,
+        "title": "R2 synthetic window"
+      },
+      "calls": [
+        "GetForegroundWindow",
+        "GetWindowTextLengthW",
+        "GetWindowTextW"
+      ]
+    },
+    {
+      "case": "factory-wiring",
+      "provider": "deepseek",
+      "synthetic_key_present": true,
+      "kind": "openai",
+      "constructor_keywords": [
+        "api_key",
+        "base_url",
+        "model",
+        "name",
+        "on_transport_event",
+        "proxy_mode",
+        "timeout_seconds"
+      ],
+      "reload_config_supplied": false
+    },
+    {
+      "case": "factory-wiring",
+      "provider": "glm",
+      "synthetic_key_present": true,
+      "kind": "openai",
+      "constructor_keywords": [
+        "api_key",
+        "base_url",
+        "model",
+        "name",
+        "on_transport_event",
+        "proxy_mode",
+        "timeout_seconds"
+      ],
+      "reload_config_supplied": false
+    },
+    {
+      "case": "factory-wiring",
+      "provider": "stepfun",
+      "synthetic_key_present": true,
+      "kind": "anthropic",
+      "constructor_keywords": [
+        "api_key",
+        "base_url",
+        "model",
+        "name",
+        "timeout_seconds"
+      ],
+      "reload_config_supplied": false
+    },
+    {
+      "case": "factory-wiring",
+      "provider": "glm",
+      "synthetic_key_present": false,
+      "kind": "mock",
+      "constructor_keywords": [],
+      "reload_config_supplied": false
+    },
+    {
+      "case": "factory-wiring",
+      "provider": "unknown",
+      "synthetic_key_present": true,
+      "kind": "mock",
+      "constructor_keywords": [],
+      "reload_config_supplied": false
+    }
+  ],
+  "model_api_calls": 0,
+  "real_foreground_queries": 0,
+  "limits": [
+    "Does not inspect the running provider object",
+    "User32 control substitutes the library object; no production fix",
+    "Factory probe does not trigger live credential reload"
+  ],
+  "source_sha256": {
+    "main.py": "7af0c89c3fd171c749c1fee5e94e42a414d68adfb98c39f7a2e9b7d0eca905fc",
+    "tools.py": "9f751b0c507dacad78b8ca6cfc4dd1bb0d83ab1f4137984f32cb07dfb9de54d7"
+  },
+  "script_sha256": "79767bd48302f06871f361d53022803675a491df6140b92c364a6aac70c642f3"
+}

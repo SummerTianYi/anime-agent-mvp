@@ -1,0 +1,120 @@
+{
+  "schema": "round02-desktop-v1",
+  "layer": "current Godot foreground input + verified SQLite transaction snapshot",
+  "sessions": [
+    360
+  ],
+  "messages": [
+    {
+      "id": 1339,
+      "role": "user",
+      "content": "[R2-START] 这是第二轮根因审计的独立测试会话。请只回复：你好，我在。不要调用工具，不要保存记忆。",
+      "request_id": "avatar-chat-6152094",
+      "created_at": "2026-10-07 14:59:43",
+      "conversation_id": 360
+    },
+    {
+      "id": 1340,
+      "role": "assistant",
+      "content": "你好，我在。",
+      "request_id": "avatar-chat-6152094",
+      "created_at": "2026-10-07 14:59:49",
+      "conversation_id": 360
+    }
+  ],
+  "events": [
+    {
+      "id": 7353,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-6152094"
+      },
+      "created_at": "2026-10-07 14:59:43"
+    },
+    {
+      "id": 7354,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-6152094",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 14:59:43"
+    },
+    {
+      "id": 7355,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "1a26da679e1240bcbd65b650f02bfacd",
+        "request_id": "avatar-chat-6152094",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6203
+      },
+      "created_at": "2026-10-07 14:59:49"
+    },
+    {
+      "id": 7356,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-6152094"
+      },
+      "created_at": "2026-10-07 14:59:49"
+    },
+    {
+      "id": 7357,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-6152094"
+      },
+      "created_at": "2026-10-07 14:59:55"
+    },
+    {
+      "id": 7359,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-6152094"
+      },
+      "created_at": "2026-10-07 14:59:58"
+    },
+    {
+      "id": 7360,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-d332f276e576",
+        "request_id": "avatar-chat-6152094"
+      },
+      "created_at": "2026-10-07 14:59:58"
+    },
+    {
+      "id": 7358,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-d332f276e576",
+        "playbackId": "8b0317b2a79441ea87cfc76228e40d7f",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 14:59:58"
+    }
+  ],
+  "facts": [],
+  "actions": [],
+  "snapshot_sha256": "5d061236742102ae5f6aec8bdd2fdb57d3105c5391c90a004d06c8b6d8ef8303",
+  "source_identity": {
+    "volume_serial": 3903461716,
+    "file_index": 2533274790580297
+  },
+  "captured_utc": "2026-10-07T15:00:30.971981+00:00",
+  "human_audio": "owner-confirmed-clear",
+  "http_attempts_observed": 1,
+  "calls": {
+    "1a26da679e1240bcbd65b650f02bfacd": 1
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "marker": "R2-20261007",
+  "actor": "Codex setup, not Tianyi execution",
+  "github": {
+    "repo": "SummerTianYi/tianyi-audit-round02-20261007",
+    "private": true,
+    "file": "r2-fixture.txt",
+    "commit": "4be028cba40a7de38c36d4b8110a7400b1c8046f",
+    "blob": "198f26c3a222dcb6590b36f811db17fa814c8b15"
+  },
+  "drive": {
+    "folder": "14W3ajQ82dn2atuaCJKLJeISS8S0zGkMf",
+    "file": "1A8qruMefQjK-q1Bca1zSnCzo2KhYSETH",
+    "title": "R2-TIANYI-Drive-evidence.txt"
+  },
+  "gmail": {
+    "owner_authorized_self_only": true,
+    "max_messages": 8,
+    "created_messages": 1,
+    "messages": [
+      {
+        "id": "1a1170bf8fa1edf8",
+        "threadId": "1a1170bf8fa1edf8",
+        "subject": "[R2-20261007] Fixture inbox 01",
+        "actor": "Codex preparation",
+        "attachment": "R2-attachment.txt"
+      }
+    ]
+  },
+  "oauth": {
+    "gmail_profile_ok": true,
+    "drive_before": "invalid_grant",
+    "drive_after": "read-only, account matches Gmail",
+    "owner_completed_consent": true
+  },
+  "cleanup": "Preserve pending final registered-object cleanup; no normal data touched."
+}

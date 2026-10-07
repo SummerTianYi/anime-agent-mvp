@@ -1,0 +1,33 @@
+{
+  "marker": "R2-20261007",
+  "root": "{PRODUCTION}/work/tianyi-exam-t1/R2-20261007",
+  "files": [
+    {
+      "name": "short.txt",
+      "bytes": 139,
+      "sha256": "baf1cb769cb57a83dd42c559e9720424ac90ea5fbf0773a06be441a0b1ec5fb2"
+    },
+    {
+      "name": "long.txt",
+      "bytes": 14463,
+      "sha256": "f4d5f2887f8a5131eac7c697a0028654c563a275e36eef346b8df218b61fee67"
+    },
+    {
+      "name": "attachment.txt",
+      "bytes": 60,
+      "sha256": "e3f857710db9f95e301315f504a1b4d7c4a69b1721278331cca204034d7f1d4a"
+    },
+    {
+      "name": "upload.txt",
+      "bytes": 22,
+      "sha256": "1a217238712add9d4871dd49ee83ed7dc492f19ceaacacf029b0cc7d7429eda9"
+    },
+    {
+      "name": "fixture.html",
+      "bytes": 1344,
+      "sha256": "bf8636655534a46c7ebb8673d454b9d2a9e9c4e0b09227a72945518645d8b9d5"
+    }
+  ],
+  "creation_actor": "Codex fixture preparation, not Tianyi execution",
+  "cleanup": "preserve until final disposition; only registered R2 objects"
+}

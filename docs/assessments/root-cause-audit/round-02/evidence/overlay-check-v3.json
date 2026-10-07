@@ -1,0 +1,16 @@
+{
+  "layer": "temporary copies only, no runtime launched",
+  "ok": true,
+  "checks": [
+    "explicit v3 observer installed with exact manifest/sidecar identity",
+    "duplicate apply rejected without changing entries",
+    "mixed before/after entries restore exact bytes, remove sidecars and disable control"
+  ],
+  "source_entry_hashes": {
+    "core": "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95",
+    "tts": "ef5e8a276d103ecc77dc04876fe483a755b0a5421e089ae2fcb41261ad62a135"
+  },
+  "observer_sha256": "77b2f610ec795e7263a3df5def20503b2b9927a0fd547e66c868ebe96af824fd",
+  "overlay_sha256": "41da48f37d9ecbd5d56f1e0901eba4518a3427dec578666bf5c5ab0e58119066",
+  "script_sha256": "2252788e76743f3e48fc58d749b957cf54a8df0d14c5a64665c1424394e52c3d"
+}

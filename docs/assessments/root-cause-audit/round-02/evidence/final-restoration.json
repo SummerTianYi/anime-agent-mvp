@@ -1,0 +1,205 @@
+{
+  "schema": "r2-final-restoration-v1",
+  "utc": "2026-10-07T18:31:07.291826+00:00",
+  "core_live": {
+    "status": "ok",
+    "service": "anime-agent-core",
+    "pid": 35860,
+    "roles": {
+      "avatar": 1,
+      "ui": 0
+    }
+  },
+  "core_health": {
+    "status": "ok",
+    "service": "anime-agent-core",
+    "version": "0.2.0",
+    "timestamp": "2026-10-07T18:31:07.312729+00:00",
+    "clients": 1,
+    "roles": {
+      "avatar": 1,
+      "ui": 0
+    },
+    "llm": {
+      "provider": "deepseek",
+      "runtime": "deepseek",
+      "configured": true,
+      "model": "Deepseek-v4-flash"
+    },
+    "memory": {
+      "path": "C:\\Users\\26052\\AppData\\Local\\AnimeAgent\\data\\anime-agent.sqlite3",
+      "enabled": true
+    },
+    "tools": {
+      "enabled": true,
+      "count": 9
+    },
+    "tts": {
+      "enabled": true,
+      "narrate": true,
+      "service": "http://127.0.0.1:8770",
+      "playbackProtocol": 2,
+      "farewellCachedLines": 3,
+      "speechPending": false,
+      "available": true
+    },
+    "wake": {
+      "enabled": false,
+      "running": false,
+      "paused": false,
+      "recent_peak": 0
+    }
+  },
+  "tts_health": {
+    "service": "tianyi-tts",
+    "protocol": 1,
+    "pid": 20216,
+    "ok": true,
+    "phase": "ready",
+    "busySeconds": 0,
+    "uptimeSeconds": 212.875,
+    "consecutiveFailures": 0,
+    "device": "cuda",
+    "reference": "data/segments/seg00199.wav",
+    "synthCount": 5,
+    "selfCheck": {
+      "enabled": true,
+      "threshold": 0.9,
+      "takes": 6,
+      "retries": 1
+    }
+  },
+  "identity": {
+    "volume_serial": 3903461716,
+    "file_index": 2533274790580297,
+    "watermarks_equal": true,
+    "snapshot_sha256": "ec8e282dbb4a45f3158a3795d78e8b5e63e7ff12bca2be2892924698694a938e"
+  },
+  "env_sha256": "55050b08961a662af55a94297d5c464fa705f81d0db8bd4db53f072413f4fbda",
+  "entry_restoration": {
+    "utc": "2026-10-07T18:26:21.908293+00:00",
+    "restored": [
+      {
+        "component": "core",
+        "sha256": "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95"
+      },
+      {
+        "component": "tts",
+        "sha256": "ef5e8a276d103ecc77dc04876fe483a755b0a5421e089ae2fcb41261ad62a135"
+      }
+    ]
+  },
+  "diagnostics_enabled": false,
+  "temporary_sidecars_removed": true,
+  "godot_window": 22677148,
+  "messages": [
+    {
+      "id": 1438,
+      "role": "user",
+      "content": "[R2-FINAL] 恢复检查。只回复“我在，可以继续聊天。”，不要工具，不保存记忆。",
+      "request_id": "avatar-chat-183787",
+      "created_at": "2026-10-07 18:30:21",
+      "conversation_id": 375
+    },
+    {
+      "id": 1439,
+      "role": "assistant",
+      "content": "我在，可以继续聊天。",
+      "request_id": "avatar-chat-183787",
+      "created_at": "2026-10-07 18:30:27",
+      "conversation_id": 375
+    }
+  ],
+  "events": [
+    {
+      "id": 8701,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "thinking",
+        "request_id": "avatar-chat-183787"
+      },
+      "created_at": "2026-10-07 18:30:21"
+    },
+    {
+      "id": 8702,
+      "event_type": "chat.effort",
+      "payload": {
+        "request_id": "avatar-chat-183787",
+        "effort": "deep"
+      },
+      "created_at": "2026-10-07 18:30:21"
+    },
+    {
+      "id": 8703,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "348b988f45e54f2a852ae51919499577",
+        "request_id": "avatar-chat-183787",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 5766
+      },
+      "created_at": "2026-10-07 18:30:27"
+    },
+    {
+      "id": 8704,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-183787"
+      },
+      "created_at": "2026-10-07 18:30:27"
+    },
+    {
+      "id": 8705,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "speaking",
+        "request_id": "avatar-chat-183787"
+      },
+      "created_at": "2026-10-07 18:30:30"
+    },
+    {
+      "id": 8707,
+      "event_type": "agent.state",
+      "payload": {
+        "state": "idle",
+        "request_id": "avatar-chat-183787"
+      },
+      "created_at": "2026-10-07 18:30:33"
+    },
+    {
+      "id": 8708,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-d3f33c6656be",
+        "request_id": "avatar-chat-183787"
+      },
+      "created_at": "2026-10-07 18:30:33"
+    },
+    {
+      "id": 8706,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-d3f33c6656be",
+        "playbackId": "9b948a3220e9485db0c93a47a5827887",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-07 18:30:33"
+    }
+  ],
+  "http_attempts_observed": 86,
+  "mail_sent": 1,
+  "mail_authorized_max": 8,
+  "human_audio": "final short dialogue not separately human-confirmed; opening and real idle already confirmed",
+  "fixture_server": "PID36916 creation00:32:30.837423 and exact R2 directory verified; terminated 02:31",
+  "checks": {
+    "docs_consistency": "Core venv DOCS_CONSISTENCY_OK; system Python initially undercounted imports as211, preserved as environment failure",
+    "secret_scan": "89 files checked against actual credential values: no secret matches; public OAuth token_uri and synthetic sentinel exceptions",
+    "over_50MB": 0
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "r2-continuation-counterfactual-v1",
+  "layer": "isolated actual AST predicate and literal; no live model causal intervention",
+  "source_sha256": "e64a26e426b1cf3c00447f2dc39fc775241114498e1c257ebdd86e3e66d3d3f5",
+  "script_sha256": "975b8615d6e13ab88de4bb1010d3e644c25f243e0240df0cc75fc874af8fa3b1",
+  "source_lines": [
+    1490,
+    1494
+  ],
+  "condition": "pending or (task and re.fullmatch('\\\\s*(?:请)?(?:继续|继续吧|继续执行|接着做|go on|continue)[!。！\\\\s]*', text, re.I))",
+  "preceding_branch_boundary": "cases exclude approve/decline/edit; pending continuation reaches this elif",
+  "model_api_calls": 0,
+  "observations": [
+    {
+      "case": "no-pending-continue",
+      "pending": [],
+      "task": {
+        "id": "R2-task"
+      },
+      "text": "继续",
+      "selected": true,
+      "confirm_note": "既有操作仍待确认，本条消息没有授予执行权限。保留所有待办；确认必须绑定展示的参数版本。",
+      "false_pending_statement": true
+    },
+    {
+      "case": "pending-continue",
+      "pending": [
+        {
+          "id": "R2-action"
+        }
+      ],
+      "task": {
+        "id": "R2-task"
+      },
+      "text": "继续",
+      "selected": true,
+      "confirm_note": "既有操作仍待确认，本条消息没有授予执行权限。保留所有待办；确认必须绑定展示的参数版本。",
+      "false_pending_statement": false
+    },
+    {
+      "case": "no-task-continue",
+      "pending": [],
+      "task": null,
+      "text": "继续",
+      "selected": false,
+      "confirm_note": "",
+      "false_pending_statement": false
+    },
+    {
+      "case": "no-pending-new-instruction",
+      "pending": [],
+      "task": {
+        "id": "R2-task"
+      },
+      "text": "R2请读取合成页面",
+      "selected": false,
+      "confirm_note": "",
+      "false_pending_statement": false
+    },
+    {
+      "case": "no-pending-go-on",
+      "pending": [],
+      "task": {
+        "id": "R2-task"
+      },
+      "text": "go on",
+      "selected": true,
+      "confirm_note": "既有操作仍待确认，本条消息没有授予执行权限。保留所有待办；确认必须绑定展示的参数版本。",
+      "false_pending_statement": true
+    }
+  ]
+}

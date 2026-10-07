@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><title>R2 合成审计页面 V3</title>
+<style>body{background:#e4efff;color:#102030;font:24px sans-serif;padding:30px}label,button,input,select{font:inherit;margin:8px}.star{color:#c00}#drag{background:orange;padding:15px;width:180px}#drop{border:3px dashed blue;padding:20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}</style>
+<h1>R2 合成画面 V3</h1><p>蓝色纸鹤 175 · 日期 2026-10-18 · 红星：<span class="star">★</span></p>
+<p id="page-marker"></p><p id="clipboard">R2-CLIPBOARD-蓝色纸鹤-7319</p><div class="grid"><section>
+<form id="form"><label>名字<input id="name" aria-label="测试名字"></label><br>
+<label><input id="check" type="checkbox">同意合成测试</label><br>
+<label><input type="radio" name="choice" value="A" checked>方案A</label><label><input type="radio" name="choice" value="B">方案B</label><br>
+<select id="color" aria-label="测试颜色"><option value="blue">蓝</option><option value="red">红</option></select>
+<select id="multi" aria-label="测试多选" multiple><option value="A">甲</option><option value="B">乙</option><option value="C">丙</option></select><input id="slider" type="range" min="0" max="100" value="25" aria-label="测试滑块"><button type="submit">提交</button></form>
+<p id="result" aria-live="polite">等待输入</p>
+<button id="alert">显示提示</button><button id="confirm">确认对话框</button><button id="prompt">输入对话框</button>
+<p id="dialog-result">尚未触发对话框</p></section><section>
+<input id="upload" type="file" aria-label="上传测试附件"><p id="upload-result">尚未上传</p>
+<a download href="attachment.txt">下载测试附件</a> · <a id="next" href="fixture-v3.html?page=B">打开合成B页</a>
+<div id="drag" draggable="true">橙色拖动块</div><div id="drop">蓝色目标区</div>
+<button id="hover" title="R2悬停提示">悬停测试</button><span id="hover-result">未悬停</span><button id="delayed">延迟显示并隐藏</button><span id="delayed-result"></span><button id="clicks" type="button">点击计数</button><span id="click-result"></span><button id="fetch">读取合成网络数据</button><p id="network-result">等待网络测试</p>
+</section></div>
+<script>
+let submits = 0, networkCount = 0, networkStatus = null; const clicks = {left:0,right:0,middle:0,double:0};
+const byId = id => document.getElementById(id);
+byId('page-marker').textContent = '合成页面 '+(new URL(location.href).searchParams.get('page')||'A');
+byId('hover').onmouseenter = () => byId('hover-result').textContent = 'R2-HOVER-7319'; byId('hover').onmouseleave = () => byId('hover-result').textContent = '未悬停';
+byId('delayed').onclick = () => {setTimeout(()=>{byId('delayed-result').textContent='R2-DELAY-7319';setTimeout(()=>byId('delayed-result').textContent='',1500)},500)};
+byId('clicks').onmousedown = e => {e.preventDefault(); clicks[e.button===0?'left':e.button===1?'middle':'right']++;byId('click-result').textContent=JSON.stringify(clicks)}; byId('clicks').oncontextmenu=e=>e.preventDefault(); byId('clicks').ondblclick=()=>{clicks.double++;byId('click-result').textContent=JSON.stringify(clicks)};
+byId('form').addEventListener('submit', event => { event.preventDefault(); submits++; byId('result').textContent = '已提交：' + byId('name').value + '，次数=' + submits; });
+byId('alert').onclick = () => alert('R2提示');
+byId('confirm').onclick = () => { byId('dialog-result').textContent = 'R2确认=' + confirm('R2确认对话框'); };
+byId('prompt').onclick = () => { byId('dialog-result').textContent = 'R2输入=' + prompt('R2输入对话框','R2-default'); };
+byId('upload').onchange = () => { byId('upload-result').textContent = JSON.stringify(Array.from(byId('upload').files).map(file => ({name:file.name,size:file.size}))); };
+byId('drag').ondragstart = event => event.dataTransfer.setData('text/plain','R2-drag-7319');
+byId('drop').ondragover = event => event.preventDefault();
+byId('drop').ondrop = event => { event.preventDefault(); byId('drop').textContent = JSON.stringify({text:event.dataTransfer.getData('text/plain'),files:Array.from(event.dataTransfer.files).map(file=>({name:file.name,size:file.size}))}); };
+byId('fetch').onclick = async () => { try {networkCount++; const response = await fetch('short.txt?marker=R2-7319'); networkStatus=response.status; byId('network-result').textContent = await response.text(); } catch (error) {byId('network-result').textContent = error.name;} };
+window.auditState = () => ({marker:'R2-7319',page:new URL(location.href).searchParams.get('page')||'A',name:byId('name').value,checked:byId('check').checked,choice:document.querySelector('input[name=choice]:checked').value,color:byId('color').value,slider:byId('slider').value,submits,clicks,hover:byId('hover-result').textContent,multi:Array.from(byId('multi').selectedOptions).map(o=>o.value),networkCount,networkStatus,network:byId('network-result').textContent,dialog:byId('dialog-result').textContent,upload:byId('upload-result').textContent,drop:byId('drop').textContent,width:innerWidth,height:innerHeight});
+console.info('R2 synthetic info'); console.error('R2 synthetic error');
+</script></html>
