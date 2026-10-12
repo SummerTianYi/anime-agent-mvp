@@ -1,0 +1,54 @@
+{
+  "scope": "isolated actual source; no desktop, models or active services",
+  "source_sha256": {
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "67a3326b11cea07bf339bf56f71da5e7bae2b00ae60d92ca593cc83d4557d0e9",
+    "harness.py": "cf7984db9c594de03d364ec45d67391e9a6f849e0681d32d2e04c9f75d68d2b1",
+    "main.py": "8b5fdbc36faf0f5dd9a4f5f7d5e35e1b22b3d88488d3c49d43c1e5f19706dc83",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "2987d5844c5a7e9f4156648c747f3b7c24d0cd1a8f1f48e554e8b7804cf9a1e4",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "tests": 4,
+  "passed": false,
+  "failures": [
+    {
+      "test": "test_followup_delivery.FollowupDeliveryTests.test_allowed_executor_exception_retains_unknown_without_success_prose",
+      "trace_sha256": "a6df14e5b94ad8e38e8a0d8a269d8e71937ca90324eb004b3fadeba99dd9f8c2",
+      "exception": "AssertionError: '全部操作已经成功完成' unexpectedly found in '全部操作已经成功完成'"
+    },
+    {
+      "test": "test_followup_delivery.FollowupDeliveryTests.test_invalid_result_reference_is_saved_and_delivered",
+      "trace_sha256": "27d60b8d05339342023cb094d269602b55c262d7aea01410a5d3f29064f3bddc",
+      "exception": "AssertionError: '全部操作已经成功完成' unexpectedly found in '全部操作已经成功完成'"
+    }
+  ],
+  "errors": [
+    {
+      "test": "test_followup_delivery.FollowupDeliveryTests.test_result_reference_types_fail_without_throwing (ref=[])",
+      "trace_sha256": "3a0996ad63111f1bcaa13d1e0e426aa60f3a0566b656148157bbc20c43619884",
+      "exception": "TypeError: unhashable type: 'list'"
+    },
+    {
+      "test": "test_followup_delivery.FollowupDeliveryTests.test_result_reference_types_fail_without_throwing (ref={})",
+      "trace_sha256": "d29ce37ca93b01881c57172108d2884d54ff5f7f87c02cf98a4cdd6d40d8f026",
+      "exception": "TypeError: unhashable type: 'dict'"
+    }
+  ],
+  "skipped": [],
+  "model_calls": 0
+}

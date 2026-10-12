@@ -1,0 +1,68 @@
+{
+  "transports": 26,
+  "by_model": {
+    "Deepseek-v4-flash": 17,
+    "GLM-5.2": 9
+  },
+  "response_count": 25,
+  "transport_errors": [
+    {
+      "index": 24,
+      "model": "GLM-5.2",
+      "request_id": "GLM-5.2-3-operation-request",
+      "error_type": "TimeoutError"
+    }
+  ],
+  "cases": 18,
+  "reopened_cases": 18,
+  "persisted_messages": 60,
+  "synthetic_effects": 3,
+  "initial_input_hashes": {
+    "Deepseek-v4-flash-1-operation": "6d15a493208a7d515fbd3d120ae08b9deefa22e41484427dbc63f99b528543c6",
+    "Deepseek-v4-flash-1-explanation": "cc98b5cb7de9840413d6cffdc7f65b3a0a72ba922c8ca2e962b3c5edb5180c51",
+    "Deepseek-v4-flash-1-clarification": "b1f82c52641a18c8ac0a71e5bec0e0f1368451de110a44af6e5f18b91ee5222a",
+    "GLM-5.2-1-operation": "6d15a493208a7d515fbd3d120ae08b9deefa22e41484427dbc63f99b528543c6",
+    "GLM-5.2-1-explanation": "cc98b5cb7de9840413d6cffdc7f65b3a0a72ba922c8ca2e962b3c5edb5180c51",
+    "GLM-5.2-1-clarification": "b1f82c52641a18c8ac0a71e5bec0e0f1368451de110a44af6e5f18b91ee5222a",
+    "Deepseek-v4-flash-2-operation": "6d15a493208a7d515fbd3d120ae08b9deefa22e41484427dbc63f99b528543c6",
+    "Deepseek-v4-flash-2-explanation": "cc98b5cb7de9840413d6cffdc7f65b3a0a72ba922c8ca2e962b3c5edb5180c51",
+    "Deepseek-v4-flash-2-clarification": "b1f82c52641a18c8ac0a71e5bec0e0f1368451de110a44af6e5f18b91ee5222a",
+    "GLM-5.2-2-operation": "6d15a493208a7d515fbd3d120ae08b9deefa22e41484427dbc63f99b528543c6",
+    "GLM-5.2-2-explanation": "cc98b5cb7de9840413d6cffdc7f65b3a0a72ba922c8ca2e962b3c5edb5180c51",
+    "GLM-5.2-2-clarification": "b1f82c52641a18c8ac0a71e5bec0e0f1368451de110a44af6e5f18b91ee5222a",
+    "Deepseek-v4-flash-3-operation": "6d15a493208a7d515fbd3d120ae08b9deefa22e41484427dbc63f99b528543c6",
+    "Deepseek-v4-flash-3-explanation": "cc98b5cb7de9840413d6cffdc7f65b3a0a72ba922c8ca2e962b3c5edb5180c51",
+    "Deepseek-v4-flash-3-clarification": "b1f82c52641a18c8ac0a71e5bec0e0f1368451de110a44af6e5f18b91ee5222a",
+    "GLM-5.2-3-operation": "6d15a493208a7d515fbd3d120ae08b9deefa22e41484427dbc63f99b528543c6",
+    "GLM-5.2-3-explanation": "cc98b5cb7de9840413d6cffdc7f65b3a0a72ba922c8ca2e962b3c5edb5180c51",
+    "GLM-5.2-3-clarification": "b1f82c52641a18c8ac0a71e5bec0e0f1368451de110a44af6e5f18b91ee5222a"
+  },
+  "matched_initial_inputs": {
+    "operation": true,
+    "explanation": true,
+    "clarification": true
+  },
+  "model_case_execution_order": [
+    "Deepseek-v4-flash-1-operation",
+    "Deepseek-v4-flash-1-explanation",
+    "Deepseek-v4-flash-1-clarification",
+    "GLM-5.2-1-operation",
+    "GLM-5.2-1-explanation",
+    "GLM-5.2-1-clarification",
+    "Deepseek-v4-flash-2-operation",
+    "Deepseek-v4-flash-2-explanation",
+    "Deepseek-v4-flash-2-clarification",
+    "GLM-5.2-2-operation",
+    "GLM-5.2-2-explanation",
+    "GLM-5.2-2-clarification",
+    "Deepseek-v4-flash-3-operation",
+    "Deepseek-v4-flash-3-explanation",
+    "Deepseek-v4-flash-3-clarification",
+    "GLM-5.2-3-operation",
+    "GLM-5.2-3-explanation",
+    "GLM-5.2-3-clarification"
+  ],
+  "repeated_cases": 0,
+  "real_external_mutations": 0,
+  "desktop_actions": 0
+}

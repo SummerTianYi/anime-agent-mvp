@@ -1,0 +1,40 @@
+{
+  "scope": "Git/source status only; no current service health or database access",
+  "original_candidates": {
+    "tianyi-repair-batch-01": {
+      "head": "d0ff796a61cbbd10eb3af1cd9ba28775253891e2",
+      "status": ""
+    },
+    "tianyi-tts-repair-batch-01": {
+      "head": "ea5c4abf04518c684a3da5c56994ff8f6f927d49",
+      "status": ""
+    }
+  },
+  "production": {
+    "anime-agent-mvp": {
+      "head": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+      "dirty_entries": 85
+    },
+    "tianyi-tts": {
+      "head": "3814b4c9d32bb17c3638cf851e5649d9c7d17fa7",
+      "dirty_entries": 7
+    }
+  },
+  "publication": {
+    "visibility": "both PRIVATE",
+    "branch": "codex/root-cause-repair-batch01-followup-20261012",
+    "baseline_push": "owner explicitly approved",
+    "baseline_connector_readback": true,
+    "main_merge": false,
+    "deployment": false
+  },
+  "prepublication_baseline_scan": {
+    "main_commits": 2,
+    "main_blobs": 48,
+    "main_bytes": 1176236,
+    "tts_commits": 2,
+    "tts_blobs": 7,
+    "tts_bytes": 30863,
+    "findings": []
+  }
+}

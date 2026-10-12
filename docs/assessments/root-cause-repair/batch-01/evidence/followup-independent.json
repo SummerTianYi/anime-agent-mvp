@@ -1,0 +1,38 @@
+{
+  "kind": "independent isolated follow-up review; not desktop or model acceptance",
+  "baseline_commit": "d0ff796a61cbbd10eb3af1cd9ba28775253891e2",
+  "source_sha256": {
+    "main.py": "9cee91a4de5f4a97873812c2fb6e04c2b1bcc4197333168ef65e373fae9c7db3",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7"
+  },
+  "sources_stable_during_run": true,
+  "runner_sha256": "480738928e55a5df5f53ab01a8d0dab1c9ebbfb848acb661fc438e5d69f1717a",
+  "tests_run": 15,
+  "assertions_executed": 100,
+  "assertions_by_test": {
+    "test_a4_no_calls_false_pending_remains_reproducible": 4,
+    "test_a4_read_success_extra_write_remains_reproducible": 5,
+    "test_allow_exception_is_unknown_and_not_repeated": 7,
+    "test_cancellation_is_not_converted_to_unknown": 4,
+    "test_control_explicit_ticket_double_click_then_fresh_ticket": 5,
+    "test_existing_failed_and_unknown_receipts_stay_guarded": 7,
+    "test_invalid_reference_is_a_durable_failure": 27,
+    "test_long_read_tail_and_substantive_summary_survive": 5,
+    "test_ordinary_chat_keeps_old_pending": 5,
+    "test_p1_cancel_received_before_dispatch_revokes_queued_approval": 4,
+    "test_p1_no_pending_continue_does_not_refill_call_budget_or_effort": 7,
+    "test_p1_no_pending_continue_does_not_refill_round_budget": 6,
+    "test_p1_reused_unknown_receipt_blocks_resend_and_false_success": 6,
+    "test_p1_unbound_duplicate_cannot_authorize_next_parameters": 4,
+    "test_process_explanation_and_quote_are_preserved": 4
+  },
+  "failed_tests": [],
+  "error_tests": [],
+  "checks_passed": true,
+  "a4_status": "unresolved: both counterexamples are deliberately asserted to remain visible",
+  "real_model_calls": 0,
+  "desktop_actions": 0,
+  "filesystem_database_reads": 0,
+  "isolation": "existing fixture audit guard denies network, filesystem DBs, writes, subprocesses and .env reads"
+}

@@ -1,0 +1,114 @@
+{
+  "reviewer": "Codex independent Python reviewer",
+  "completed_at_utc": "2026-10-12T15:00:53Z",
+  "conclusion": "approve_scoped_python_changes_after_runner_fixes",
+  "scope": {
+    "core_head": "d0ff796a61cbbd10eb3af1cd9ba28775253891e2",
+    "tts_head": "ea5c4abf04518c684a3da5c56994ff8f6f927d49",
+    "core": "ALLOW execution/pagination exception receipt, non-string result references, follow-up test runners",
+    "tts": "Existing safe logging, typed encoding errors, retry/recovery health changes",
+    "business_code_edits_by_reviewer": false,
+    "production_database_access": false,
+    "desktop_or_godot_operations": false,
+    "active_core_or_tts_connections": false,
+    "real_model_calls": 0,
+    "real_connector_calls": 0,
+    "real_clipboard_or_screen_access": false,
+    "test_environment": "Temporary SQLite stores and synthetic providers/tools; TTS fixture uses a temporary spool and an ephemeral local HTTP server"
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "title": "Hiding a local tool schema did not prevent execution",
+      "status": "fixed_and_independently_verified",
+      "original_evidence": "With only an MCP schema advertised, a synthetic provider returned clipboard_read. A harmless replacement callback was invoked and its synthetic marker reached the next provider request. No real clipboard was read.",
+      "fix": "followup_models.py now clears tool_registry and wraps execution with selected_synthetic_execute restricted to the selected synthetic MCP names.",
+      "verification": "The same unexpected clipboard_read request through the actual Core now produces a failed receipt, invokes the callback zero times, sends no private marker to the next provider request, and cannot be overridden by synthetic success prose."
+    },
+    {
+      "severity": "HIGH",
+      "title": "Raw tool-turn messages could expose reasoning in evidence",
+      "status": "fixed_and_independently_verified",
+      "original_evidence": "A synthetic assistant tool-call message containing reasoning_content is preserved in the next Core request; the original runner recorded these messages without projection.",
+      "fix": "followup_models.py applies public_messages to both request messages and response messages.",
+      "verification": "Executed the actual ObservedProvider class with an in-memory transport substitute. Reasoning fields and thinking content blocks were removed from both directions; visible text and tool arguments were preserved; original request bytes and returned response bytes were unchanged."
+    }
+  ],
+  "verification": {
+    "isolated_core_and_runner_tests": {
+      "total": 9,
+      "passed": 9,
+      "breakdown": {
+        "existing_followup_delivery_tests": 4,
+        "allow_cancelled_error_propagates": 1,
+        "pagination_exception_records_unknown_for_correct_session": 1,
+        "original_runner_counterexample_reproduced": 1,
+        "fixed_runner_blocks_schema_external_callback": 1,
+        "actual_observer_request_and_response_projection": 1
+      },
+      "interpretation": "The original counterexample test passes by confirming the former defect; the fixed-runner test separately confirms its closure."
+    },
+    "check_followup_projection": "PASS: FOLLOWUP_PROJECTION_OK and FOLLOWUP_ISOLATION_OK",
+    "tts_logging_recovery_tests": {"total": 5, "passed": 5},
+    "git_diff_check": {"core": "PASS", "tts": "PASS"},
+    "static_analysis_availability": {"ruff": false, "mypy": false, "pylint": false, "black": false},
+    "environment_note": "An initial TTS test attempt used an interpreter missing pypinyin and failed at import. Re-running with the existing TTS virtual environment passed; no installation or environment mutation was performed."
+  },
+  "reviewed_core_sha256": {
+    "services/agent-core/agent_core/main.py": "9cee91a4de5f4a97873812c2fb6e04c2b1bcc4197333168ef65e373fae9c7db3",
+    "services/agent-core/agent_core/result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "services/agent-core/tests/test_followup_delivery.py": "711b0fe12940685f5617cc2ae8f86ab45d81a083ee6c7f0c769728246a6d1aef",
+    "docs/assessments/root-cause-repair/batch-01/repro/followup_models.py": "c5c6c93383c299065fd470b33fc9bb2bddd5e8affffcbeea28b0184047f6f1a0",
+    "docs/assessments/root-cause-repair/batch-01/repro/followup_regressions.py": "94e4d2a5ed9cd0906a001ecb50f6ec85524c8c187c787031396cf4fd144e5513",
+    "docs/assessments/root-cause-repair/batch-01/repro/check_followup_projection.py": "5222c4db59e7c92a55051795fc40f01fc71ab652e1a17357d81aff7edb47213d"
+  },
+  "reviewed_tts_sha256": {
+    "scripts/safe_logging.py": "0ac4a44d50de31dab9aa2fd9f70b1ceb5bc67b13ed81e2d69dc2b80288c2ae2d",
+    "scripts/service_health.py": "de2ceb31092a71b258d70cee895f500912f38073efed662496df591c0751b226",
+    "scripts/tts_server.py": "1781af67886016c12f93ae4469efb44dabf2e2c7dfd3d0faf81b47b5aa3a308c",
+    "tests/test_logging_recovery.py": "bd8656b22ad8c46fb6b735f0133c8e811bab9167dcb747ae439985ca26c86d50"
+  },
+  "limitations": [
+    "Approval covers the reviewed source hashes and isolated Python behavior, not deployment or complete product acceptance.",
+    "A4 free-text false-pending behavior remains unresolved; no fix or acceptance is claimed.",
+    "No additional real-model run was performed, and the reported 18-case model transcript was not independently re-audited by this reviewer.",
+    "Public export of previously captured private records is the main agent's subsequent step; its output is not covered by this source-only review."
+  ],
+  "export_review": {
+    "completed_at_utc": "2026-10-12T15:04:27Z",
+    "conclusion": "PASS for this exported synthetic evidence snapshot",
+    "initial_review_evidence_sha256": "ee1c7371cedc38b91218927d3abfbbcff9ae22ae95791028523c204c450ffbda",
+    "scope_note": "This subsequent review adds privacy and publication checks of the exported evidence. It supplements the initial source-only limitations above; it does not independently validate model answer quality or real-world effects.",
+    "export_script_sha256": "00d6f8e878221c8ae7bf71fad3e56eaad024dfe836cd267d00b00480029819ea",
+    "exported_artifact_sha256": {
+      "followup-models.json": "d7fbe48bf919b365f58e5fd056c50fa6a5eb1ecb91a7de4691e0d76d40a4fb5e",
+      "followup-model-summary.json": "d2e665d1902700f3090927601659826f7ed28611c9a773019d9a174714845d76",
+      "followup-core-full.json": "103546478526f62e0dac66bf5a9af8017fcde5119312443fbc275e79ff335ea8",
+      "followup-mechanism-before.json": "d3113466286f8bfd175a9479c62ab7fb45e17c663a47ec5f052fba1ba7247a05",
+      "followup-mechanism-after.json": "c1a2eb50b40b293464a47b6eb23f9ea44bbdc31bba6d3f2302f1d6a55a1aaf80"
+    },
+    "actual_export_counts": {
+      "transports": 26,
+      "cases": 18,
+      "reopened_messages": 60,
+      "observed_response_tool_names": ["mcp__github__issue_write"]
+    },
+    "all_five_artifacts_scan": {
+      "forbidden_reasoning_or_credential_keys": 0,
+      "thinking_or_redacted_thinking_blocks": 0,
+      "serialized_reasoning_field_markers": 0,
+      "openai_github_google_aws_key_patterns": 0,
+      "bearer_private_key_or_jwt_patterns": 0,
+      "machine_specific_windows_user_paths": 0
+    },
+    "synthetic_export_verification": {
+      "request_and_response_reasoning_removed": true,
+      "private_input_bytes_unchanged": true,
+      "second_export_refuses_existing_evidence": true,
+      "previous_output_bytes_unchanged_after_refusal": true
+    },
+    "exception_trace_boundary": "The exporter retains the last exception line while hashing the full trace. The current exported synthetic failure records passed the same credential/path scan; this approval does not treat the script as a universal redactor for arbitrary future exceptions.",
+    "real_model_core_tts_or_connector_calls_during_export_review": 0,
+    "sensitive_body_text_emitted_by_review": false
+  }
+}
