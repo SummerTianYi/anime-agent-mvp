@@ -31,6 +31,8 @@ class ResultPages:
                 **self.read(ref,0), "instruction":"内容未读完。用read_tool_result及ref/offset续取；total_chars是完整长度。"}
 
     def read(self, ref, offset=0):
+        if not isinstance(ref, str):
+            return {"ok":False,"outcome":"failed","error":"ref必须是当前任务回执提供的字符串"}
         if ref not in self.items:
             return {"ok":False,"error":"引用不属于当前任务或已过期；不能跨会话读取"}
         raw = self.items[ref]

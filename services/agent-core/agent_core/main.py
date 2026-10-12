@@ -1367,18 +1367,26 @@ async def run_tool(name: str, arguments: dict) -> dict:
         task.setdefault("tool_failures", []).append(failure)
         return {"ok":False,**failure}
     pages = _result_pages.setdefault(session, ResultPages())
-    if name == "read_tool_result":
-        result = {"ok":True, **pages.read(arguments.get("ref",""), arguments.get("offset",0))}
-    elif name == "recall_memory":
-        facts = memory.recall_facts(session)
-        picked = retrieve_task_memories(str(arguments.get("query","")), facts)
-        result = {"ok":True,"memories":picked,"available_count":len(facts),"recalled_count":len(picked),
-                "note":"未召回不等于未保存；这里只包含本会话可见记忆"}
-    else:
-        result = await _execute_authorized_tool(name, arguments)
+    try:
+        if name == "read_tool_result":
+            result = {"ok":True, **pages.read(arguments.get("ref",""), arguments.get("offset",0))}
+        elif name == "recall_memory":
+            facts = memory.recall_facts(session)
+            picked = retrieve_task_memories(str(arguments.get("query","")), facts)
+            result = {"ok":True,"memories":picked,"available_count":len(facts),"recalled_count":len(picked),
+                    "note":"未召回不等于未保存；这里只包含本会话可见记忆"}
+        else:
+            result = await _execute_authorized_tool(name, arguments)
+        packed_result = result if name == "read_tool_result" else pages.pack(result)
+    except Exception as exc:
+        # AgentStep alone is not a delivery receipt. Persist unexpected ALLOW
+        # failures before the model can contradict them in its final answer.
+        # Dispatch may have happened: do not mislabel an exception as no effect.
+        result = {"ok":False,"outcome":"unknown",
+                  "error":f"工具回执未能完成（{type(exc).__name__}）；结果未知，未自动重试"}
+        packed_result = result
     # Retain ALLOW results before the model gets a chance to fail its follow-up.
     # This is a read receipt, not a new authorization or an executable ticket.
-    packed_result = result if name == "read_tool_result" else pages.pack(result)
     record = {"tool":name,"arguments":arguments,"result":result,"delivery_result":packed_result,"session_id":session,
               "task_id":task["id"],"request_id":REQUEST_ID.get()}
     task.setdefault("tool_results", []).append(record)
