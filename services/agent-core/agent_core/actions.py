@@ -138,6 +138,9 @@ class ActionLedger:
 
     def result(self, item):
         result = copy.deepcopy(item["receipt"] or {"ok":False})
+        # Keep the original MCP envelope durably in receipt; the model consumes
+        # its normalized output, not duplicate text/blob copies from the wire.
+        result.pop("raw_result", None)
         result.update(action_id=item["action_id"], revision=item["revision"], args_hash=item["args_hash"],
                       outcome=item["status"], execution_id=item.get("execution_id"),
                       confirmation_request_id=item.get("confirmation_request_id"))

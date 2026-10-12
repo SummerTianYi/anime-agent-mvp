@@ -1,0 +1,33 @@
+{
+  "kind": "isolated mechanism regression; not desktop acceptance",
+  "source_module_sha256": "da3a01ce8b184880b13350e370903089e088d5f49d6780c76b1f688ae3e78d95",
+  "tests_run": 24,
+  "failures": [
+    "test_repair_batch01.ConnectorContractTests.test_issue_write_unknown_method_is_denied_even_by_allow_rule",
+    "test_repair_batch01.ConnectorContractTests.test_known_gmail_business_error_is_failure_with_raw_receipt",
+    "test_repair_batch01.ConnectorContractTests.test_unconfirmed_mutation_error_and_partial_batch_are_unknown",
+    "test_repair_batch01.PhysicalPathTests.test_junction_escape_denied_but_authorized_root_alias_works",
+    "test_repair_batch01.SpeechErrorContractTests.test_typed_encoding_503_is_not_retried_but_legacy_503_is",
+    "test_repair_batch01.TaskDeliveryTests.test_allowed_read_result_survives_later_model_failure",
+    "test_repair_batch01.TaskDeliveryTests.test_confirmation_punctuation_and_stale_explicit_ticket_keep_task",
+    "test_repair_batch01.TaskDeliveryTests.test_confirmed_write_survives_answer_timeout_and_reconfirmation",
+    "test_repair_batch01.TaskDeliveryTests.test_continue_without_pending_keeps_goal_without_false_pending_context",
+    "test_repair_batch01.TaskDeliveryTests.test_empty_controls_never_establish_a_task_or_call_model",
+    "test_repair_batch01.TaskDeliveryTests.test_issue_write_cannot_release_false_model_completion",
+    "test_repair_batch01.TaskDeliveryTests.test_malformed_answer_recovers_successful_read",
+    "test_repair_batch01.TaskDeliveryTests.test_no_pending_confirmation_preserves_goal_budget_pages_and_skips_model",
+    "test_repair_batch01.TaskDeliveryTests.test_pending_receipt_survives_answer_timeout",
+    "test_repair_batch01.TaskDeliveryTests.test_provider_first_failure_retains_error_event_and_history",
+    "test_repair_batch01.TaskDeliveryTests.test_readonly_result_is_delivered_after_answer_timeout",
+    "test_repair_batch01.TaskDeliveryTests.test_unknown_receipt_is_not_erased_by_answer_timeout"
+  ],
+  "errors": [
+    "test_repair_batch01.ConnectorContractTests.test_empty_gmail_search_is_successful_empty",
+    "test_repair_batch01.ConnectorContractTests.test_malformed_method_is_denied_without_raising",
+    "test_repair_batch01.PhysicalPathTests.test_default_desktop_compatibility_never_expands_explicit_or_write_roots"
+  ],
+  "skipped": [],
+  "success": false,
+  "real_model_calls": 0,
+  "desktop_actions": 0
+}

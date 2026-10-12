@@ -19,8 +19,8 @@ allow-list roots check inside tools.py is the real boundary for those).
 
 from __future__ import annotations
 
-import os
 from dataclasses import dataclass, field
+from .tool_contracts import invalid_method
 
 READ_ONLY_TOOLS = ("get_time", "read_file", "list_dir", "screenshot", "active_window", "clipboard_read", "read_tool_result", "recall_memory")
 WRITE_TOOLS = ("write_file",)
@@ -160,6 +160,8 @@ class PermissionEngine:
     def evaluate(self, request: ActionRequest) -> PolicyDecision:
         if not isinstance(request.arguments, dict):
             return PolicyDecision(DENY, "malformed-request", "arguments must be a dict")
+        if invalid_method(request.tool, request.arguments):
+            return PolicyDecision(DENY, "unknown-method", "未识别的工具 method；尚未发送请求")
         for key_path, value, is_path_key in _iter_strings(request.arguments):
             if _path_traversal(value):
                 return PolicyDecision(
@@ -169,25 +171,16 @@ class PermissionEngine:
             # write scope is known here: an outside-roots write is denied
             # outright instead of wasting a user confirmation on it. Only
             # path-like keys are checked against the write roots.
-            from .tools import _write_roots
-            from pathlib import Path as _P
+            from .tools import _write_roots, _resolve_write_path
             roots = _write_roots()
             if not roots:
                 return PolicyDecision(DENY, "write-disabled", "写入功能未启用")
             for key_path, value, is_path_key in _iter_strings(request.arguments):
                 if not is_path_key:
                     continue
-                candidate = _P(os.path.expandvars(os.path.expanduser(str(value or ""))))
-                lexical = os.path.normcase(os.path.normpath(str(candidate)))
-                resolved = os.path.normcase(str(candidate.resolve()))
-                inside = any(
-                    lexical.startswith(os.path.normcase(str(r.resolve())) + os.sep)
-                    or lexical == os.path.normcase(str(r.resolve()))
-                    or resolved.startswith(os.path.normcase(str(r.resolve())) + os.sep)
-                    or resolved == os.path.normcase(str(r.resolve()))
-                    for r in roots
-                )
-                if not inside:
+                try:
+                    _resolve_write_path(value)
+                except (ValueError, OSError, RuntimeError):
                     return PolicyDecision(
                         DENY, "write-roots", f"参数 {key_path} 不在允许写入的目录内"
                     )

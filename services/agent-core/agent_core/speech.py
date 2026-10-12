@@ -9,6 +9,7 @@ caller falls back to the pre-E-phase text-only flow.
 from __future__ import annotations
 
 import asyncio
+import http.client
 import json
 import logging
 import os
@@ -154,6 +155,13 @@ class SpeechClient:
             # Codex: warming/busy/crashed inference is recoverable; bad input
             # and authentication are not. Never log response bodies or text.
             retryable = exc.code in {408, 429, 500, 502, 503, 504}
+            try:
+                detail = json.loads(exc.read(8192))
+                if (isinstance(detail, dict) and detail.get("error_type") in {"encoding", "invalid_input"}
+                        and detail.get("retryable") is False):
+                    retryable = False
+            except (ValueError, TypeError, OSError, http.client.HTTPException):
+                pass  # Older sidecars keep their bounded status-code recovery.
             logger.warning("TTS synthesis HTTP %s (retryable=%s)", exc.code, retryable)
             raise SpeechUnavailable(f"TTS 服务暂不可用（HTTP {exc.code}）", retryable=retryable) from exc
         except (urllib.error.URLError, TimeoutError, OSError) as exc:

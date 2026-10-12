@@ -164,7 +164,8 @@ class McpServer:
         if "structuredContent" in result:
             parts.append(json.dumps(result["structuredContent"], ensure_ascii=False))
         text = "\n".join(parts)
-        return {"ok": not result.get("isError", False), "text": text}
+        from .tool_contracts import normalize_mcp_result
+        return normalize_mcp_result(self.name, tool, result, text)
 
     async def stop(self) -> None:
         if self.process is not None and self.process.returncode is None:

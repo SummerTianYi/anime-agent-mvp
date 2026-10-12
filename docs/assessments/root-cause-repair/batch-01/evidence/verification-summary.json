@@ -1,0 +1,20 @@
+{
+  "layer": "offline candidate only",
+  "core_tests": 387,
+  "tts_tests": 43,
+  "docs_consistency": "DOCS_CONSISTENCY_OK",
+  "source_sha256": {
+    "services/agent-core/agent_core/main.py": "6a52da34071673414daf02060a8031f51fb11633f30b63bba3fdda319ff2f970",
+    "services/agent-core/agent_core/actions.py": "3518dc95200cde21ca23af607af4122a28efeb21e54a05f6e6888164c7c36694",
+    "services/agent-core/agent_core/agent_loop.py": "67a3326b11cea07bf339bf56f71da5e7bae2b00ae60d92ca593cc83d4557d0e9",
+    "services/agent-core/agent_core/harness.py": "cf7984db9c594de03d364ec45d67391e9a6f849e0681d32d2e04c9f75d68d2b1",
+    "services/agent-core/agent_core/mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "services/agent-core/agent_core/permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "services/agent-core/agent_core/speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "services/agent-core/agent_core/tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "services/agent-core/agent_core/tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5"
+  },
+  "real_model_calls": 0,
+  "real_tts_calls": 0,
+  "desktop_validation": "not performed"
+}

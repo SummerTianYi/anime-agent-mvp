@@ -50,7 +50,33 @@ def _allowed_roots() -> list[Path]:
         os.getenv("TEMP", ""),
         os.getcwd(),
     ]
-    return [Path(item) for item in defaults if item]
+    return [Path(item) for item in defaults if item] + _default_desktop_roots()
+
+
+def _default_desktop_roots() -> list[Path]:
+    """Preserve Windows' registered Desktop redirection in the DEFAULT read scope.
+
+    Never discover roots by following arbitrary directory links. Explicit read
+    roots and all write roots bypass this compatibility rule entirely.
+    """
+    if os.name != "nt":
+        return []
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER,
+                r"Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders") as key:
+            value, kind = winreg.QueryValueEx(key, "Desktop")
+        if kind not in (winreg.REG_SZ, winreg.REG_EXPAND_SZ) or not isinstance(value, str):
+            return []
+        desktop = Path(os.path.expandvars(value))
+        # Do not implicitly grant network shares through this compatibility path.
+        if desktop.is_absolute() and not str(desktop).startswith("\\\\"):
+            resolved = desktop.resolve()
+            if not str(resolved).startswith("\\\\"):
+                return [resolved]
+    except (OSError, ValueError, RuntimeError):
+        pass
+    return []
 
 
 def _inside_allowed_roots(candidate: str, roots: list[Path]) -> bool:
@@ -70,15 +96,13 @@ def _resolve_path(raw: Any) -> Path:
     if not path.is_absolute():
         raise ValueError("必须是绝对路径")
     roots = _allowed_roots()
+    resolved = path.resolve()
     if roots:
-        # Dual check: the lexical path keeps redirected folders (Desktop is a
-        # junction on this machine) usable, while the resolved physical path
-        # still blocks ".." and symlink escapes into system areas.
-        lexical = os.path.normcase(os.path.normpath(str(path)))
-        resolved = os.path.normcase(str(path.resolve()))
-        if not (_inside_allowed_roots(lexical, roots) or _inside_allowed_roots(resolved, roots)):
+        # Resolve BOTH the configured roots and the target. A root may itself
+        # be a legitimate redirected folder; a child junction cannot escape it.
+        if not _inside_allowed_roots(os.path.normcase(str(resolved)), roots):
             raise ValueError("路径超出允许范围（可用 ANIME_AGENT_TOOLS_ROOTS 调整）")
-    return path.resolve()
+    return resolved
 
 
 def get_time() -> dict[str, Any]:
@@ -228,11 +252,10 @@ def _resolve_write_path(raw: Any) -> Path:
     roots = _write_roots()
     if not roots:
         raise ValueError("写入功能未启用（未配置 ANIME_AGENT_WRITE_ROOTS）")
-    lexical = os.path.normcase(os.path.normpath(str(path)))
-    resolved = os.path.normcase(str(path.resolve()))
-    if not (_inside_allowed_roots(lexical, roots) or _inside_allowed_roots(resolved, roots)):
+    resolved = path.resolve()
+    if not _inside_allowed_roots(os.path.normcase(str(resolved)), roots):
         raise ValueError("路径超出允许写入范围")
-    return path.resolve()
+    return resolved
 
 
 def write_file(path: Any, content: Any, mode: Any = "overwrite") -> dict[str, Any]:

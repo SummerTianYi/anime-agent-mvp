@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-12T10:16:05.721317+00:00",
+  "source_mutations": [],
+  "desktop_observed": false,
+  "deployment_process_association": "not established",
+  "repositories": {
+    "main": {
+      "head": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+      "dirty_entries": 85,
+      "source_files_backed_up": 174
+    },
+    "tts": {
+      "head": "3814b4c9d32bb17c3638cf851e5649d9c7d17fa7",
+      "dirty_entries": 7,
+      "source_files_backed_up": 19
+    }
+  },
+  "health": {
+    "core": {
+      "unavailable": true,
+      "error_type": "URLError"
+    },
+    "tts_health": {
+      "unavailable": true,
+      "error_type": "URLError"
+    }
+  },
+  "database": {
+    "path_source": "configuration only",
+    "namespace_equal": false,
+    "identity_stable": null,
+    "snapshot_method": null,
+    "snapshot_sha256": null,
+    "quick_check_ok": false,
+    "error_type": "RuntimeError",
+    "quick_check_messages": 0
+  }
+}

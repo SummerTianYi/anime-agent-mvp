@@ -1,0 +1,76 @@
+[
+  {
+    "run": "baseline-tests.txt",
+    "sha256": "add8a09377d1c3d11f75edb48f868e733c38e6e76714ba12c0de6c11d91167d2",
+    "raw_preserved_private": true,
+    "tests": 362,
+    "seconds": 67.346,
+    "passed": true
+  },
+  {
+    "run": "before-regressions.txt",
+    "sha256": "46a454cc33528c0add0fb622f9c5711c9a14fa53ee2e878b090d64e7e8e28d97",
+    "raw_preserved_private": true,
+    "tests": 22,
+    "seconds": 23.23,
+    "passed": false,
+    "evidence_exclusion": "Wrong Windows PYTHONPATH imported production package; not candidate evidence. Replaced by explicit-source baseline/candidate JSON."
+  },
+  {
+    "run": "after-regressions.txt",
+    "sha256": "c022c25c51999fece74e211b871add13cf8427a1c5f7cf4bc607233d1db2619c",
+    "raw_preserved_private": true,
+    "tests": 14,
+    "seconds": 3.762,
+    "passed": false,
+    "evidence_exclusion": "Wrong Windows PYTHONPATH imported production package; not candidate evidence. Replaced by explicit-source baseline/candidate JSON."
+  },
+  {
+    "run": "candidate-regressions.txt",
+    "sha256": "9beb0be0e6178c727b8bb7ff2c3867e0ab8952079ce6db9119e6c754c382a94f",
+    "raw_preserved_private": true,
+    "tests": 14,
+    "seconds": 8.512,
+    "passed": true
+  },
+  {
+    "run": "candidate-suite.txt",
+    "sha256": "7490c74ef8643ec24e98252a0efcc4662fd54a647d14bd49a370d8cd49623bdd",
+    "raw_preserved_private": true,
+    "tests": 376,
+    "seconds": 83.738,
+    "passed": false
+  },
+  {
+    "run": "final-suite.txt",
+    "sha256": "2330fe3d4dc0cc2f05f01438c9b2d2dd710e4cd255e6d8bd6aa094e8c0c7d869",
+    "raw_preserved_private": true,
+    "tests": 386,
+    "seconds": 91.355,
+    "passed": true
+  },
+  {
+    "run": "final-suite-v2.txt",
+    "sha256": "8b1723d7e956d4057a6686ee5784d7b97fb89fa9e7c122e5528a08a7c8d05e3d",
+    "raw_preserved_private": true,
+    "tests": 387,
+    "seconds": 90.956,
+    "passed": true
+  },
+  {
+    "run": "tts-tests.txt",
+    "sha256": "12aebeb655034932cda1106572c7f57dcd0ff77e45e89703c0917a179eedaa58",
+    "raw_preserved_private": true,
+    "tests": 42,
+    "seconds": 36.523,
+    "passed": true
+  },
+  {
+    "run": "tts-final-tests.txt",
+    "sha256": "82a44013bc120661d6f61db2a40377e3777dd1dc5ce3b2f5e707e4c1dde9df4e",
+    "raw_preserved_private": true,
+    "tests": 43,
+    "seconds": 37.694,
+    "passed": true
+  }
+]

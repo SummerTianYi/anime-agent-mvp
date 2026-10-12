@@ -1,0 +1,11 @@
+{
+  "kind": "isolated mechanism regression; not desktop acceptance",
+  "source_module_sha256": "4a1295a647478c8a283e9e6243be81de80b588c71c9875997b504033c4151067",
+  "tests_run": 24,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "success": true,
+  "real_model_calls": 0,
+  "desktop_actions": 0
+}

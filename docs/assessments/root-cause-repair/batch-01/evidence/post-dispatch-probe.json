@@ -1,0 +1,30 @@
+{
+  "layer": "isolated actual functions; no desktop or live services",
+  "sources_sha256": {
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0"
+  },
+  "model_calls": 0,
+  "normal_write": {
+    "ok": true,
+    "verified": true
+  },
+  "write_then_read_failure": {
+    "outcome": "unknown",
+    "artifact": "CLOSURE-written"
+  },
+  "late_worker": {
+    "returned": {
+      "ok": false,
+      "outcome": "unknown",
+      "error": "工具 synthetic 执行超时，结果未知"
+    },
+    "artifact_before_release": false,
+    "artifact_after": "CLOSURE-late"
+  },
+  "limits": [
+    "Does not execute ActionLedger or Godot routing.",
+    "No proof of live deployment or database identity.",
+    "No deadline race stress test."
+  ],
+  "fixture_cleanup_owner": "probe TemporaryDirectory, not product write_file"
+}

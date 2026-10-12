@@ -1,0 +1,14 @@
+{
+  "package": "@gongrzhe/server-gmail-autoauth-mcp",
+  "version": "1.1.11",
+  "index_sha256": "b3bdcf99498b9b28881c70f95f53944b56cdb306e38ec0ea57e47c502ec1d4d2",
+  "inspection_only": true,
+  "business_api_calls": 0,
+  "evidence_lines": {
+    "read_success_header": 555,
+    "search_success_header": 587,
+    "batch_retry": 474,
+    "attachment_error": 990,
+    "error_envelope": 1005
+  }
+}

@@ -54,6 +54,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+2026-10-12 Codex：[首批根因修复候选](assessments/root-cause-repair/batch-01/REPORT.md)在独立实现分支完成任务/回执、连接器、物理路径与配套TTS日志分类修复，Core387项及TTS43项离线回归通过。生产未替换；当前桌面执行器故障，DB普通/物理路径身份不一致，双模型可见可听及历史重开验收未完成。下一步只按该报告/STATE恢复现场，不重跑259项或覆盖生产dirty tree；A4自由正文仍是缺口。
+
 2026-10-07 Codex：[全能力根因审查候选](assessments/root-cause-audit/REPORT.md)优先描述本轮现场观察，保留以下历史里程碑。覆盖登记256项，包含失败、阻塞和未验证；不能将历史“已上线”理解为所有场景可靠。生产业务/提示词未改，临时GLM对照已恢复DS；下一轮修改需Manager裁决。
 
 2026-10-02 Codex：本机接口改为 DS 文本 + Qwen3.8-Flash 视觉并实测联通。修复 STT/TTS 缓存加载意外联网、瞬态故障丢失语音、分段取消及恢复进程快照竞态，保留原能力与权限门禁。当前候选/激活状态以本文件顶部及 [TTS 记录](TTS_REPAIR_STATUS.md) 为准；实际麦克风对话等待恢复窗口后由所有者配合验收。
@@ -145,7 +147,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 362 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 387 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -240,7 +242,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 362 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 387 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

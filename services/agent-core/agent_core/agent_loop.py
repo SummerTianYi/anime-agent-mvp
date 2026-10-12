@@ -29,6 +29,7 @@ class AgentStep:
     arguments: dict[str, Any]
     ok: bool
     summary: str
+    outcome: str = ""
 
 
 @dataclass(slots=True)
@@ -57,9 +58,10 @@ def _fallback_messages(
     """
     if not steps:
         return list(messages)
-    lines = "\n".join(
-        f"- {step.tool}: {'成功' if step.ok else '失败'} {step.summary}" for step in steps
-    )
+    labels = {"succeeded":"成功", "failed":"失败", "unknown":"结果未知", "awaiting_confirmation":"待确认，未执行",
+              "cancelled":"已取消，未执行", "expired":"授权过期，未执行"}
+    lines = "\n".join(f"- {step.tool}: {labels.get(step.outcome, '成功' if step.ok else '未完成')} {step.summary}"
+                      for step in steps)
     summary = f"【工具执行记录】\n{lines}"
     if messages and str(messages[0].get("role")) == "system":
         merged = [dict(messages[0])]
@@ -147,6 +149,7 @@ async def run_agent_loop(
                     tool=name,
                     arguments=arguments,
                     ok=bool(result.get("ok")),
+                    outcome=str(result.get("outcome") or ("succeeded" if result.get("ok") else "failed")),
                     summary=_truncate(
                         json.dumps(result, ensure_ascii=False, default=str),
                         TOOL_RESULT_CHAR_LIMIT,
