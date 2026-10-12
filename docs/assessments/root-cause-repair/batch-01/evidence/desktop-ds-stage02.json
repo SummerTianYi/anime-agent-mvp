@@ -1,0 +1,1816 @@
+{
+  "snapshot_sha256": "322ddddd2be1aed86651a19e12e0458938f2f9311bce30c8dd8ea76ce33ecd80",
+  "namespace_equal": true,
+  "quick_check": [
+    "ok"
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "【B01-DS-01 桌面对话】天依，请用一句简短的话告诉我你在，并祝我晚上好。",
+      "request_id": "avatar-chat-75769",
+      "created_at": "2026-10-12 11:00:02",
+      "conversation_id": 2
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "我在呢～晚上好，愿你今晚被温柔和好梦包围。",
+      "request_id": "avatar-chat-75769",
+      "created_at": "2026-10-12 11:00:09",
+      "conversation_id": 2
+    },
+    {
+      "id": 3,
+      "role": "user",
+      "content": "确认。",
+      "request_id": "avatar-chat-295292",
+      "created_at": "2026-10-12 11:03:42",
+      "conversation_id": 2
+    },
+    {
+      "id": 4,
+      "role": "assistant",
+      "content": "当前没有待确认操作，本次没有执行新操作。",
+      "request_id": "avatar-chat-295292",
+      "created_at": "2026-10-12 11:03:42",
+      "conversation_id": 2
+    },
+    {
+      "id": 5,
+      "role": "user",
+      "content": "【B01-DS-02 文件验收】请调用 write_file，在 <B01_TEST_ROOT>/ds.txt 新建合成测试文件，内容为 B01-DS-02 文件验收成功。请先给出原生操作确认，完成后读回并告诉我实际结果。",
+      "request_id": "avatar-chat-452054",
+      "created_at": "2026-10-12 11:06:18",
+      "conversation_id": 2
+    },
+    {
+      "id": 6,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n<B01_TEST_ROOT>/ds.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"<B01_TEST_ROOT>/ds.txt\", \"content\": \"B01-DS-02 文件验收成功\", \"mode\": \"overwrite\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-452054",
+      "created_at": "2026-10-12 11:06:26",
+      "conversation_id": 2
+    },
+    {
+      "id": 7,
+      "role": "user",
+      "content": "【B01-VOICE-02】请只回复这句话：晚上好，我是天依，这是声音测试。",
+      "request_id": "avatar-chat-516980",
+      "created_at": "2026-10-12 11:07:23",
+      "conversation_id": 2
+    },
+    {
+      "id": 8,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n<B01_TEST_ROOT>/ds.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"<B01_TEST_ROOT>/ds.txt\", \"content\": \"B01-DS-02 文件验收成功\", \"mode\": \"overwrite\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-516980",
+      "created_at": "2026-10-12 11:07:29",
+      "conversation_id": 2
+    },
+    {
+      "id": 9,
+      "role": "user",
+      "content": "【B01-VOICE-03】请只回复：晚上好，我是天依，这是声音测试。",
+      "request_id": "avatar-chat-578271",
+      "created_at": "2026-10-12 11:08:25",
+      "conversation_id": 3
+    },
+    {
+      "id": 10,
+      "role": "assistant",
+      "content": "晚上好，我是天依，这是声音测试。",
+      "request_id": "avatar-chat-578271",
+      "created_at": "2026-10-12 11:08:30",
+      "conversation_id": 3
+    },
+    {
+      "id": 11,
+      "role": "user",
+      "content": "确认。",
+      "request_id": "avatar-chat-718945",
+      "created_at": "2026-10-12 11:10:45",
+      "conversation_id": 2
+    },
+    {
+      "id": 12,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n<B01_TEST_ROOT>/ds.txt：执行成功",
+      "request_id": "avatar-chat-718945",
+      "created_at": "2026-10-12 11:10:51",
+      "conversation_id": 2
+    },
+    {
+      "id": 13,
+      "role": "user",
+      "content": "【B01-DS-03】请把 <OUTSIDE_TEST_ROOT>/ds03.txt 写为“天依测试，总数一百七十五。”，先给我原生确认；执行后读回并告诉我内容。",
+      "request_id": "avatar-chat-423777",
+      "created_at": "2026-10-12 11:28:54",
+      "conversation_id": 2
+    },
+    {
+      "id": 14,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\nwrite_file：未完成；权限拒绝（write-roots）：参数 path 不在允许写入的目录内\nread_file：未完成；路径超出允许范围（可用 ANIME_AGENT_TOOLS_ROOTS 调整）\nread_file：执行失败；{\"ok\": false, \"error\": \"路径超出允许范围（可用 ANIME_AGENT_TOOLS_ROOTS 调整）\"}",
+      "request_id": "avatar-chat-423777",
+      "created_at": "2026-10-12 11:29:41",
+      "conversation_id": 2
+    },
+    {
+      "id": 15,
+      "role": "user",
+      "content": "【B01-DS-04】正确路径是 <B01_TEST_ROOT>/ds04.txt。请写入“天依测试，总数一百七十五。”，先给原生确认，完成后读回原文。",
+      "request_id": "avatar-chat-536342",
+      "created_at": "2026-10-12 11:30:47",
+      "conversation_id": 2
+    },
+    {
+      "id": 16,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n<B01_TEST_ROOT>/ds04.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"<B01_TEST_ROOT>/ds04.txt\", \"content\": \"天依测试，总数一百七十五。\", \"mode\": \"overwrite\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-536342",
+      "created_at": "2026-10-12 11:30:56",
+      "conversation_id": 2
+    },
+    {
+      "id": 17,
+      "role": "user",
+      "content": "【B01-DS-05】先保留这个文件待办，不执行也不取消。现在只说一句：晚上好，今天也辛苦啦！✅",
+      "request_id": "avatar-chat-591551",
+      "created_at": "2026-10-12 11:31:42",
+      "conversation_id": 2
+    },
+    {
+      "id": 18,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n<B01_TEST_ROOT>/ds04.txt：已取消，未执行",
+      "request_id": "avatar-chat-591551",
+      "created_at": "2026-10-12 11:31:48",
+      "conversation_id": 2
+    },
+    {
+      "id": 19,
+      "role": "user",
+      "content": "【B01-DS-GMAIL】这是合成只读检查：请用 Gmail search_emails 查询 subject:B01-NO-MATCH-20261012-175，再用 read_email 读取合成无效ID B01_INVALID_ID。需要确认时给原生待办；最后分别告诉我查询是否为空、读取是否失败，不发送或修改邮件。",
+      "request_id": "avatar-chat-789875",
+      "created_at": "2026-10-12 11:35:01",
+      "conversation_id": 4
+    },
+    {
+      "id": 20,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\nmcp__gmail__search_emails：待确认，尚未执行\nmcp__gmail__read_email：待确认，尚未执行\n下一项待确认参数：{\"query\": \"subject:B01-NO-MATCH-20261012-175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-789875",
+      "created_at": "2026-10-12 11:35:11",
+      "conversation_id": 4
+    },
+    {
+      "id": 21,
+      "role": "user",
+      "content": "确认。",
+      "request_id": "avatar-chat-844955",
+      "created_at": "2026-10-12 11:35:56",
+      "conversation_id": 4
+    },
+    {
+      "id": 22,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\nmcp__gmail__search_emails：执行成功；查询成功，没有匹配的邮件（0 条）。\nmcp__gmail__read_email：待确认，尚未执行\n下一项待确认参数：{\"messageId\": \"B01_INVALID_ID\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "request_id": "avatar-chat-844955",
+      "created_at": "2026-10-12 11:36:12",
+      "conversation_id": 4
+    },
+    {
+      "id": 23,
+      "role": "user",
+      "content": "确认。",
+      "request_id": "avatar-chat-997781",
+      "created_at": "2026-10-12 11:38:28",
+      "conversation_id": 4
+    },
+    {
+      "id": 24,
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\nmcp__gmail__read_email：执行失败；Error: Invalid id value",
+      "request_id": "avatar-chat-997781",
+      "created_at": "2026-10-12 11:38:37",
+      "conversation_id": 4
+    }
+  ],
+  "events": [
+    {
+      "id": 7,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-d08f02c5afaa",
+        "request_id": "proactive-avatar-connect"
+      },
+      "created_at": "2026-10-12 10:58:54"
+    },
+    {
+      "id": 10,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-d724e696cfdc",
+        "request_id": "avatar-chat-75769-think"
+      },
+      "created_at": "2026-10-12 11:00:07"
+    },
+    {
+      "id": 11,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "9bc8e33a1c684c0a8cf6f01785fa7796",
+        "request_id": "avatar-chat-75769",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6828
+      },
+      "created_at": "2026-10-12 11:00:09"
+    },
+    {
+      "id": 12,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-75769",
+        "request_id": "avatar-chat-75769",
+        "source": "reply",
+        "actions": []
+      },
+      "created_at": "2026-10-12 11:00:09"
+    },
+    {
+      "id": 14,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-dba3f7d29fa6",
+        "request_id": "avatar-chat-75769"
+      },
+      "created_at": "2026-10-12 11:00:09"
+    },
+    {
+      "id": 16,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-dba3f7d29fa6",
+        "playbackId": "4aeede8f4dd142dab09bb2797ed4903c",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:02:06"
+    },
+    {
+      "id": 18,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-dba3f7d29fa6",
+        "request_id": "avatar-chat-75769"
+      },
+      "created_at": "2026-10-12 11:02:06"
+    },
+    {
+      "id": 22,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-75769",
+        "request_id": "avatar-chat-295292",
+        "source": "reply",
+        "actions": []
+      },
+      "created_at": "2026-10-12 11:03:42"
+    },
+    {
+      "id": 25,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-50c26d7250f9",
+        "playbackId": "795b045301ee447498d0297037deb150",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:03:49"
+    },
+    {
+      "id": 27,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-50c26d7250f9",
+        "request_id": "avatar-chat-295292"
+      },
+      "created_at": "2026-10-12 11:03:49"
+    },
+    {
+      "id": 30,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "a89623af7fbe4047a8640f6da21b159a",
+        "request_id": "avatar-chat-452054",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6140
+      },
+      "created_at": "2026-10-12 11:06:24"
+    },
+    {
+      "id": 32,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 2,
+        "request_id": "avatar-chat-452054",
+        "action_id": "a84e72547cb04e7e82555d7540cb81f6",
+        "revision": 1,
+        "args_hash": "7abe5323856121aedc862f495b451427c7be4078401bcd7b0636a8bf01a62387",
+        "tool": "write_file",
+        "arguments": {
+          "path": "<B01_TEST_ROOT>/ds.txt",
+          "content": "B01-DS-02 文件验收成功",
+          "mode": "overwrite"
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-12 11:06:24"
+    },
+    {
+      "id": 34,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "30c7b01be6254637963c57b53b402047",
+        "request_id": "avatar-chat-452054",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 1610
+      },
+      "created_at": "2026-10-12 11:06:26"
+    },
+    {
+      "id": 36,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-452054",
+        "request_id": "avatar-chat-452054",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "a84e72547cb04e7e82555d7540cb81f6",
+            "revision": 1,
+            "args_hash": "7abe5323856121aedc862f495b451427c7be4078401bcd7b0636a8bf01a62387"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:06:26"
+    },
+    {
+      "id": 39,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-cb5af3aa5a38",
+        "playbackId": "2d13a3f9a4a54febb289b93c87169c20",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:06:33"
+    },
+    {
+      "id": 40,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-cb5af3aa5a38",
+        "request_id": "avatar-chat-452054"
+      },
+      "created_at": "2026-10-12 11:06:36"
+    },
+    {
+      "id": 41,
+      "event_type": "speech.interrupted",
+      "payload": {
+        "utteranceId": "utt-cb5af3aa5a38",
+        "reason": "new-message"
+      },
+      "created_at": "2026-10-12 11:07:23"
+    },
+    {
+      "id": 44,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "cb315db52c0646f4a363ea8db5f1d5ad",
+        "request_id": "avatar-chat-516980",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6016
+      },
+      "created_at": "2026-10-12 11:07:29"
+    },
+    {
+      "id": 45,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-452054",
+        "request_id": "avatar-chat-516980",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "a84e72547cb04e7e82555d7540cb81f6",
+            "revision": 1,
+            "args_hash": "7abe5323856121aedc862f495b451427c7be4078401bcd7b0636a8bf01a62387"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:07:29"
+    },
+    {
+      "id": 48,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-42ef99a718a4",
+        "request_id": "avatar-chat-516980"
+      },
+      "created_at": "2026-10-12 11:07:35"
+    },
+    {
+      "id": 49,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-42ef99a718a4",
+        "playbackId": "3dbbbe8742384c3a9ece45d866c321b2",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:07:36"
+    },
+    {
+      "id": 50,
+      "event_type": "speech.interrupted",
+      "payload": {
+        "utteranceId": "utt-42ef99a718a4",
+        "reason": "session-switch"
+      },
+      "created_at": "2026-10-12 11:08:01"
+    },
+    {
+      "id": 53,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-5db334dbd575",
+        "request_id": "avatar-chat-578271-think"
+      },
+      "created_at": "2026-10-12 11:08:30"
+    },
+    {
+      "id": 54,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "ff3bea3680aa499cafa5ad38d7d7bb94",
+        "request_id": "avatar-chat-578271",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 5938
+      },
+      "created_at": "2026-10-12 11:08:30"
+    },
+    {
+      "id": 55,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 3,
+        "task_id": "avatar-chat-578271",
+        "request_id": "avatar-chat-578271",
+        "source": "reply",
+        "actions": []
+      },
+      "created_at": "2026-10-12 11:08:30"
+    },
+    {
+      "id": 57,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-9802b1544e19",
+        "request_id": "avatar-chat-578271"
+      },
+      "created_at": "2026-10-12 11:08:31"
+    },
+    {
+      "id": 59,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-9802b1544e19",
+        "playbackId": "fadeb918e77e469f9b8d0669c654c02c",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:08:41"
+    },
+    {
+      "id": 61,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-9802b1544e19",
+        "request_id": "avatar-chat-578271"
+      },
+      "created_at": "2026-10-12 11:08:41"
+    },
+    {
+      "id": 63,
+      "event_type": "permission.confirmed",
+      "payload": {
+        "session_id": 2,
+        "request_id": "avatar-chat-718945",
+        "tool": "write_file",
+        "result": {
+          "ok": true,
+          "path": "<B01_TEST_ROOT>\\ds.txt",
+          "mode": "overwrite",
+          "bytes_written": 28,
+          "sha256": "8798e4db2546af0db18618d4fd081a0e06f9e1e5731905508214a0812be7daad",
+          "verified_readback": true,
+          "action_id": "a84e72547cb04e7e82555d7540cb81f6",
+          "revision": 1,
+          "args_hash": "7abe5323856121aedc862f495b451427c7be4078401bcd7b0636a8bf01a62387",
+          "outcome": "succeeded",
+          "execution_id": "26d0ea85ee0c4ddaa2831628c6a7a0b2",
+          "confirmation_request_id": "avatar-chat-718945"
+        },
+        "action_id": "a84e72547cb04e7e82555d7540cb81f6",
+        "args_hash": "7abe5323856121aedc862f495b451427c7be4078401bcd7b0636a8bf01a62387",
+        "revision": 1.0
+      },
+      "created_at": "2026-10-12 11:10:45"
+    },
+    {
+      "id": 65,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "674b6ebe26de41269342eb431eefbca4",
+        "request_id": "avatar-chat-718945",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 5703
+      },
+      "created_at": "2026-10-12 11:10:51"
+    },
+    {
+      "id": 66,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-452054",
+        "request_id": "avatar-chat-718945",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "a84e72547cb04e7e82555d7540cb81f6",
+            "revision": 1,
+            "args_hash": "7abe5323856121aedc862f495b451427c7be4078401bcd7b0636a8bf01a62387"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:10:51"
+    },
+    {
+      "id": 69,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-00d8c9dc2b40",
+        "playbackId": "a58875209d074f39874a9a0aa98ecc3a",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:11:01"
+    },
+    {
+      "id": 71,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-00d8c9dc2b40",
+        "playbackId": "1313b6d367184ec380363201dc7823c4",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:11:09"
+    },
+    {
+      "id": 73,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-00d8c9dc2b40",
+        "playbackId": "11be24a187ae441e824d35e5e756ab26",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:11:20"
+    },
+    {
+      "id": 75,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-00d8c9dc2b40",
+        "playbackId": "5ff3c2f6c036423080b39416c3e4dcf4",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:11:32"
+    },
+    {
+      "id": 77,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-00d8c9dc2b40",
+        "playbackId": "290bf18239f540b78d33bcca7cd001d7",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:11:44"
+    },
+    {
+      "id": 79,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-00d8c9dc2b40",
+        "playbackId": "89f7b2000fd04851886a250846e47f34",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:11:47"
+    },
+    {
+      "id": 81,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-00d8c9dc2b40",
+        "request_id": "avatar-chat-718945"
+      },
+      "created_at": "2026-10-12 11:11:47"
+    },
+    {
+      "id": 89,
+      "event_type": "speech.recovering",
+      "payload": {
+        "utteranceId": "utt-88d5b0d470af",
+        "request_id": "proactive-avatar-connect"
+      },
+      "created_at": "2026-10-12 11:21:57"
+    },
+    {
+      "id": 91,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-88d5b0d470af",
+        "playbackId": "344be1c350e04f4da25324c8151f03cd",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:23:03"
+    },
+    {
+      "id": 93,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-88d5b0d470af",
+        "playbackId": "d535f5f042e6435a815b5e4a891fd7d1",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:23:08"
+    },
+    {
+      "id": 95,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-88d5b0d470af",
+        "request_id": "proactive-avatar-connect"
+      },
+      "created_at": "2026-10-12 11:23:08"
+    },
+    {
+      "id": 100,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-df08eaa58515",
+        "playbackId": "514927b32f9c45598fd16cdcf3f84986",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:29:05"
+    },
+    {
+      "id": 102,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-df08eaa58515",
+        "request_id": "avatar-chat-423777-think"
+      },
+      "created_at": "2026-10-12 11:29:05"
+    },
+    {
+      "id": 103,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "f66ab1d205774a978fe7f03b51d2bfe4",
+        "request_id": "avatar-chat-423777",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 32829
+      },
+      "created_at": "2026-10-12 11:29:27"
+    },
+    {
+      "id": 107,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-890f01668f40",
+        "playbackId": "8c25cd6465b2443eb7aaab79e616b085",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:29:32"
+    },
+    {
+      "id": 109,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-890f01668f40",
+        "request_id": "avatar-chat-423777"
+      },
+      "created_at": "2026-10-12 11:29:32"
+    },
+    {
+      "id": 110,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "ad37dca803d0418e886e1c94f3d60c30",
+        "request_id": "avatar-chat-423777",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6250
+      },
+      "created_at": "2026-10-12 11:29:34"
+    },
+    {
+      "id": 112,
+      "event_type": "tool.result",
+      "payload": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "<OUTSIDE_TEST_ROOT>/ds03.txt"
+        },
+        "result": {
+          "ok": false,
+          "error": "路径超出允许范围（可用 ANIME_AGENT_TOOLS_ROOTS 调整）"
+        },
+        "delivery_result": {
+          "ok": false,
+          "error": "路径超出允许范围（可用 ANIME_AGENT_TOOLS_ROOTS 调整）"
+        },
+        "session_id": 2,
+        "task_id": "avatar-chat-423777",
+        "request_id": "avatar-chat-423777"
+      },
+      "created_at": "2026-10-12 11:29:34"
+    },
+    {
+      "id": 115,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b15b4d73d501",
+        "playbackId": "ffa71b9bdbc34d879c9065e5aa426ac3",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:29:39"
+    },
+    {
+      "id": 117,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-b15b4d73d501",
+        "request_id": "avatar-chat-423777"
+      },
+      "created_at": "2026-10-12 11:29:39"
+    },
+    {
+      "id": 118,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "dd20404b09f748b7b308c7784056aa6e",
+        "request_id": "avatar-chat-423777",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 7547
+      },
+      "created_at": "2026-10-12 11:29:41"
+    },
+    {
+      "id": 120,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-423777",
+        "request_id": "avatar-chat-423777",
+        "source": "reply",
+        "actions": []
+      },
+      "created_at": "2026-10-12 11:29:41"
+    },
+    {
+      "id": 123,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "b15c1d4f918f4810b0b9fd0b24224f39",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:29:47"
+    },
+    {
+      "id": 125,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "f568293f3bfc423fae443c1212e0b7ad",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:29:55"
+    },
+    {
+      "id": 127,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "b6b2abfee8f84b8992fc3458142940d6",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:30:07"
+    },
+    {
+      "id": 129,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "db61acb351e3411587512f56d6bc591b",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:30:09"
+    },
+    {
+      "id": 131,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "fe0453a6f2a9463d899660bc84358024",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:30:23"
+    },
+    {
+      "id": 133,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "ef6df16cb6b544aab7b205579b17a55f",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:30:25"
+    },
+    {
+      "id": 135,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "682cf319fdb14eb98768a6d9c942171d",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:30:29"
+    },
+    {
+      "id": 137,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "playbackId": "c84e2e095f46430a8adb0b96f585e4d7",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:30:43"
+    },
+    {
+      "id": 139,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-b71b2103d1a6",
+        "request_id": "avatar-chat-423777"
+      },
+      "created_at": "2026-10-12 11:30:43"
+    },
+    {
+      "id": 142,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "cd0954fb67e04a08a9621ec6955222e8",
+        "request_id": "avatar-chat-536342",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6453
+      },
+      "created_at": "2026-10-12 11:30:53"
+    },
+    {
+      "id": 144,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 2,
+        "request_id": "avatar-chat-536342",
+        "action_id": "4b4216ad00e546f5a92b4f75d4212235",
+        "revision": 1,
+        "args_hash": "3c4acd6905121bf3a0a49692905b983fae75bee3b5dc20f4968eb08c586c32b8",
+        "tool": "write_file",
+        "arguments": {
+          "path": "<B01_TEST_ROOT>/ds04.txt",
+          "content": "天依测试，总数一百七十五。",
+          "mode": "overwrite"
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-12 11:30:53"
+    },
+    {
+      "id": 146,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "dc81ca62f241475585746b4d160b414b",
+        "request_id": "avatar-chat-536342",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 2375
+      },
+      "created_at": "2026-10-12 11:30:56"
+    },
+    {
+      "id": 148,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-536342",
+        "request_id": "avatar-chat-536342",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "4b4216ad00e546f5a92b4f75d4212235",
+            "revision": 1,
+            "args_hash": "3c4acd6905121bf3a0a49692905b983fae75bee3b5dc20f4968eb08c586c32b8"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:30:56"
+    },
+    {
+      "id": 151,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-9a2362b43ef8",
+        "playbackId": "3fbe426383a4422583fa0ee37382f56e",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:31:04"
+    },
+    {
+      "id": 153,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-9a2362b43ef8",
+        "playbackId": "62422b9775f04b4091c6817d2d90dc93",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:31:06"
+    },
+    {
+      "id": 155,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-9a2362b43ef8",
+        "playbackId": "0e0cea06032e4502a7be40864a6aecd4",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:31:17"
+    },
+    {
+      "id": 157,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-9a2362b43ef8",
+        "playbackId": "50b636f8bfed43eda2e672997181feaf",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:31:25"
+    },
+    {
+      "id": 159,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-9a2362b43ef8",
+        "playbackId": "20bd8e7d80ea4d5cb472d1905f3ae206",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:31:37"
+    },
+    {
+      "id": 161,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-9a2362b43ef8",
+        "playbackId": "2aae818f79e2425d91edbe16101d2932",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:31:41"
+    },
+    {
+      "id": 163,
+      "event_type": "speech.interrupted",
+      "payload": {
+        "utteranceId": "utt-9a2362b43ef8",
+        "reason": "new-message"
+      },
+      "created_at": "2026-10-12 11:31:42"
+    },
+    {
+      "id": 166,
+      "event_type": "permission.declined",
+      "payload": {
+        "session_id": 2,
+        "request_id": "avatar-chat-591551",
+        "actions": [
+          {
+            "action_id": "4b4216ad00e546f5a92b4f75d4212235",
+            "revision": 1,
+            "args_hash": "3c4acd6905121bf3a0a49692905b983fae75bee3b5dc20f4968eb08c586c32b8"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:31:42"
+    },
+    {
+      "id": 168,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "f12e91069ac54eab951a49aed15b10c8",
+        "request_id": "avatar-chat-591551",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6172
+      },
+      "created_at": "2026-10-12 11:31:48"
+    },
+    {
+      "id": 169,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "avatar-chat-536342",
+        "request_id": "avatar-chat-591551",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "4b4216ad00e546f5a92b4f75d4212235",
+            "revision": 1,
+            "args_hash": "3c4acd6905121bf3a0a49692905b983fae75bee3b5dc20f4968eb08c586c32b8"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:31:48"
+    },
+    {
+      "id": 172,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-a96e0278da0f",
+        "playbackId": "3c2c22380f974c42b27f964c2f9552bf",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:31:57"
+    },
+    {
+      "id": 174,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-a96e0278da0f",
+        "playbackId": "34aaf99919fd489db38ef002e5fa2629",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:32:01"
+    },
+    {
+      "id": 176,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-a96e0278da0f",
+        "playbackId": "97098ee5b6784fcd84cfbf8b60accfe2",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:32:11"
+    },
+    {
+      "id": 178,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-a96e0278da0f",
+        "playbackId": "89d6b8729ca44b75a6f9be49d5a0ef6b",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:32:23"
+    },
+    {
+      "id": 180,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-a96e0278da0f",
+        "playbackId": "3fb4206e890e4467a86e23c2edc1a751",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:32:38"
+    },
+    {
+      "id": 182,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-a96e0278da0f",
+        "playbackId": "d3cb1740712346458efc140a45c4900e",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:32:42"
+    },
+    {
+      "id": 184,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-a96e0278da0f",
+        "request_id": "avatar-chat-591551"
+      },
+      "created_at": "2026-10-12 11:32:42"
+    },
+    {
+      "id": 187,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "2501233f2039482b9b737dff7d44784b",
+        "request_id": "avatar-chat-789875",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 8156
+      },
+      "created_at": "2026-10-12 11:35:09"
+    },
+    {
+      "id": 189,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 4,
+        "request_id": "avatar-chat-789875",
+        "action_id": "18eccb3a353747798cd81a1af4c0842d",
+        "revision": 1,
+        "args_hash": "d41be17a22bde99047ee09e09d380464847d01198786e67f1f4944d1cdf20548",
+        "tool": "mcp__gmail__search_emails",
+        "arguments": {
+          "query": "subject:B01-NO-MATCH-20261012-175"
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-12 11:35:09"
+    },
+    {
+      "id": 192,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 4,
+        "request_id": "avatar-chat-789875",
+        "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+        "revision": 1,
+        "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9",
+        "tool": "mcp__gmail__read_email",
+        "arguments": {
+          "messageId": "B01_INVALID_ID"
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-12 11:35:09"
+    },
+    {
+      "id": 194,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "b483111b03ea44c2ae080f640e6948e4",
+        "request_id": "avatar-chat-789875",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 2453
+      },
+      "created_at": "2026-10-12 11:35:11"
+    },
+    {
+      "id": 196,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 4,
+        "task_id": "avatar-chat-789875",
+        "request_id": "avatar-chat-789875",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "18eccb3a353747798cd81a1af4c0842d",
+            "revision": 1,
+            "args_hash": "d41be17a22bde99047ee09e09d380464847d01198786e67f1f4944d1cdf20548"
+          },
+          {
+            "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+            "revision": 1,
+            "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:35:11"
+    },
+    {
+      "id": 199,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-ce43a7e50902",
+        "playbackId": "9df4b68f330c43a7badb2b92c8d9f62b",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:35:17"
+    },
+    {
+      "id": 201,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-ce43a7e50902",
+        "playbackId": "e8b8d1f5a7e24306b7011cfb534a1f8c",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:35:26"
+    },
+    {
+      "id": 203,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-ce43a7e50902",
+        "playbackId": "9f3531c24a5a4d1fa8a463e03e16f711",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:35:34"
+    },
+    {
+      "id": 205,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-ce43a7e50902",
+        "playbackId": "18edfcc2b85542d5a5f7f5e6cdcdd4dd",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:35:38"
+    },
+    {
+      "id": 207,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-ce43a7e50902",
+        "playbackId": "dfaf15a1384d4947a5e5360640b6847f",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:35:51"
+    },
+    {
+      "id": 209,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-ce43a7e50902",
+        "playbackId": "e0644ff4fbed44e9824f31cf16da09ba",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:35:54"
+    },
+    {
+      "id": 210,
+      "event_type": "speech.interrupted",
+      "payload": {
+        "utteranceId": "utt-ce43a7e50902",
+        "reason": "new-message"
+      },
+      "created_at": "2026-10-12 11:35:56"
+    },
+    {
+      "id": 212,
+      "event_type": "permission.confirmed",
+      "payload": {
+        "session_id": 4,
+        "request_id": "avatar-chat-844955",
+        "tool": "mcp__gmail__search_emails",
+        "result": {
+          "ok": true,
+          "outcome": "succeeded",
+          "result_kind": "empty",
+          "output": "查询成功，没有匹配的邮件（0 条）。",
+          "action_id": "18eccb3a353747798cd81a1af4c0842d",
+          "revision": 1,
+          "args_hash": "d41be17a22bde99047ee09e09d380464847d01198786e67f1f4944d1cdf20548",
+          "execution_id": "1f015e3eaf7643ae920c3512248567bc",
+          "confirmation_request_id": "avatar-chat-844955"
+        },
+        "action_id": "18eccb3a353747798cd81a1af4c0842d",
+        "args_hash": "d41be17a22bde99047ee09e09d380464847d01198786e67f1f4944d1cdf20548",
+        "revision": 1.0
+      },
+      "created_at": "2026-10-12 11:35:57"
+    },
+    {
+      "id": 214,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "31388df7f9e54f9fb0da1c1a74b4c6f6",
+        "request_id": "avatar-chat-844955",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6297
+      },
+      "created_at": "2026-10-12 11:36:03"
+    },
+    {
+      "id": 219,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "5d86d76a39974d1f81a5d93d8ed2d658",
+        "request_id": "avatar-chat-844955",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 5547
+      },
+      "created_at": "2026-10-12 11:36:09"
+    },
+    {
+      "id": 221,
+      "event_type": "permission.ask",
+      "payload": {
+        "session_id": 4,
+        "request_id": "avatar-chat-844955",
+        "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+        "revision": 1,
+        "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9",
+        "tool": "mcp__gmail__read_email",
+        "arguments": {
+          "messageId": "B01_INVALID_ID"
+        },
+        "outcome": "awaiting_confirmation"
+      },
+      "created_at": "2026-10-12 11:36:09"
+    },
+    {
+      "id": 223,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-986c7c4d5fc1",
+        "playbackId": "3711869a432d4b6c99eb396e1a132720",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:10"
+    },
+    {
+      "id": 225,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-986c7c4d5fc1",
+        "request_id": "avatar-chat-844955"
+      },
+      "created_at": "2026-10-12 11:36:10"
+    },
+    {
+      "id": 226,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "429c1104bdad4102a824261989d32362",
+        "request_id": "avatar-chat-844955",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 3312
+      },
+      "created_at": "2026-10-12 11:36:12"
+    },
+    {
+      "id": 228,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 4,
+        "task_id": "avatar-chat-789875",
+        "request_id": "avatar-chat-844955",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "18eccb3a353747798cd81a1af4c0842d",
+            "revision": 1,
+            "args_hash": "d41be17a22bde99047ee09e09d380464847d01198786e67f1f4944d1cdf20548"
+          },
+          {
+            "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+            "revision": 1,
+            "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:36:12"
+    },
+    {
+      "id": 231,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "7245298414db46e7908c33fc1ed8ac0c",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:20"
+    },
+    {
+      "id": 233,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "1a19a2b88c3441799e63ad78bc857b73",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:27"
+    },
+    {
+      "id": 235,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "a4656011061c4bbaacc441aa36d239e8",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:30"
+    },
+    {
+      "id": 237,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "edccdb87163e4985806e8dfa4a5be45e",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:39"
+    },
+    {
+      "id": 239,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "07238c1545574411b020846912a83fb7",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:47"
+    },
+    {
+      "id": 241,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "771c3a1354934acc90b639e8a3d6568d",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:50"
+    },
+    {
+      "id": 243,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "546da02b2ef64176a178d92b792a83f5",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:53"
+    },
+    {
+      "id": 245,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "playbackId": "249237cd1008472eb356365d16ae4e7d",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:36:55"
+    },
+    {
+      "id": 247,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-b098e006f97c",
+        "request_id": "avatar-chat-844955"
+      },
+      "created_at": "2026-10-12 11:36:55"
+    },
+    {
+      "id": 249,
+      "event_type": "permission.confirmed",
+      "payload": {
+        "session_id": 4,
+        "request_id": "avatar-chat-997781",
+        "tool": "mcp__gmail__read_email",
+        "result": {
+          "ok": false,
+          "outcome": "failed",
+          "result_kind": "business_error",
+          "error": "Error: Invalid id value",
+          "output": "Error: Invalid id value",
+          "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+          "revision": 1,
+          "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9",
+          "execution_id": "4d54d57d56c34b59b80863060d48ea5a",
+          "confirmation_request_id": "avatar-chat-997781"
+        },
+        "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+        "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9",
+        "revision": 1.0
+      },
+      "created_at": "2026-10-12 11:38:31"
+    },
+    {
+      "id": 251,
+      "event_type": "provider.transport",
+      "payload": {
+        "call_id": "59021aa1944b4357bd868d43e5b32e61",
+        "request_id": "avatar-chat-997781",
+        "provider": "deepseek",
+        "host": "chatapi.weixin.qq.com",
+        "route": "direct",
+        "attempt": 1,
+        "outcome": "ok",
+        "elapsed_ms": 6640
+      },
+      "created_at": "2026-10-12 11:38:37"
+    },
+    {
+      "id": 252,
+      "event_type": "chat.delivery",
+      "payload": {
+        "session_id": 4,
+        "task_id": "avatar-chat-789875",
+        "request_id": "avatar-chat-997781",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "18eccb3a353747798cd81a1af4c0842d",
+            "revision": 1,
+            "args_hash": "d41be17a22bde99047ee09e09d380464847d01198786e67f1f4944d1cdf20548"
+          },
+          {
+            "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+            "revision": 1,
+            "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9"
+          }
+        ]
+      },
+      "created_at": "2026-10-12 11:38:37"
+    },
+    {
+      "id": 255,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-31208aae3c7e",
+        "playbackId": "25e75e9ef8c74161b5b2a89c043e782e",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:38:45"
+    },
+    {
+      "id": 257,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-31208aae3c7e",
+        "playbackId": "47b8b23f523a4051a70236c0311f693b",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:38:52"
+    },
+    {
+      "id": 259,
+      "event_type": "speech.receipt",
+      "payload": {
+        "utteranceId": "utt-31208aae3c7e",
+        "playbackId": "b02d9a9a79804065b54a431abeceb9ff",
+        "failed": false,
+        "interrupted": false
+      },
+      "created_at": "2026-10-12 11:38:55"
+    },
+    {
+      "id": 261,
+      "event_type": "speech.completed",
+      "payload": {
+        "utteranceId": "utt-31208aae3c7e",
+        "request_id": "avatar-chat-997781"
+      },
+      "created_at": "2026-10-12 11:38:55"
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "a84e72547cb04e7e82555d7540cb81f6",
+      "args_hash": "7abe5323856121aedc862f495b451427c7be4078401bcd7b0636a8bf01a62387",
+      "arguments": {
+        "content": "B01-DS-02 文件验收成功",
+        "mode": "overwrite",
+        "path": "<B01_TEST_ROOT>/ds.txt"
+      },
+      "confirmation_request_id": "avatar-chat-718945",
+      "execution_id": "26d0ea85ee0c4ddaa2831628c6a7a0b2",
+      "expires": 1791803784.9742482,
+      "receipt": {
+        "bytes_written": 28,
+        "mode": "overwrite",
+        "ok": true,
+        "path": "<B01_TEST_ROOT>\\ds.txt",
+        "sha256": "8798e4db2546af0db18618d4fd081a0e06f9e1e5731905508214a0812be7daad",
+        "verified_readback": true
+      },
+      "request_id": "avatar-chat-452054",
+      "revision": 1,
+      "session_id": 2,
+      "status": "succeeded",
+      "task_id": "avatar-chat-452054",
+      "tool": "write_file"
+    },
+    {
+      "action_id": "4b4216ad00e546f5a92b4f75d4212235",
+      "args_hash": "3c4acd6905121bf3a0a49692905b983fae75bee3b5dc20f4968eb08c586c32b8",
+      "arguments": {
+        "content": "天依测试，总数一百七十五。",
+        "mode": "overwrite",
+        "path": "<B01_TEST_ROOT>/ds04.txt"
+      },
+      "expires": 1791805253.991725,
+      "receipt": null,
+      "request_id": "avatar-chat-536342",
+      "revision": 1,
+      "session_id": 2,
+      "status": "cancelled",
+      "task_id": "avatar-chat-536342",
+      "tool": "write_file"
+    },
+    {
+      "action_id": "18eccb3a353747798cd81a1af4c0842d",
+      "args_hash": "d41be17a22bde99047ee09e09d380464847d01198786e67f1f4944d1cdf20548",
+      "arguments": {
+        "query": "subject:B01-NO-MATCH-20261012-175"
+      },
+      "confirmation_request_id": "avatar-chat-844955",
+      "execution_id": "1f015e3eaf7643ae920c3512248567bc",
+      "expires": 1791805509.2153697,
+      "receipt": {
+        "ok": true,
+        "outcome": "succeeded",
+        "output": "查询成功，没有匹配的邮件（0 条）。",
+        "raw_result": {
+          "content": [
+            {
+              "text": "",
+              "type": "text"
+            }
+          ]
+        },
+        "result_kind": "empty"
+      },
+      "request_id": "avatar-chat-789875",
+      "revision": 1,
+      "session_id": 4,
+      "status": "succeeded",
+      "task_id": "avatar-chat-789875",
+      "tool": "mcp__gmail__search_emails"
+    },
+    {
+      "action_id": "b15b988d1eee470cb536eb1a9c281bb9",
+      "args_hash": "1fd9dca07a7008d579767792a74eae74e275350215ce60975751973292732ec9",
+      "arguments": {
+        "messageId": "B01_INVALID_ID"
+      },
+      "confirmation_request_id": "avatar-chat-997781",
+      "execution_id": "4d54d57d56c34b59b80863060d48ea5a",
+      "expires": 1791805509.2183766,
+      "receipt": {
+        "error": "Error: Invalid id value",
+        "ok": false,
+        "outcome": "failed",
+        "output": "Error: Invalid id value",
+        "raw_result": {
+          "content": [
+            {
+              "text": "Error: Invalid id value",
+              "type": "text"
+            }
+          ]
+        },
+        "result_kind": "business_error"
+      },
+      "request_id": "avatar-chat-789875",
+      "revision": 1,
+      "session_id": 4,
+      "status": "failed",
+      "task_id": "avatar-chat-789875",
+      "tool": "mcp__gmail__read_email"
+    }
+  ],
+  "human_listening": {
+    "B01-DS-01": "not heard or unclear",
+    "B01-VOICE-03": "heard clearly; explicit owner reply"
+  },
+  "model_transport_calls": 18,
+  "desktop_entry": "formal start-anime-agent.cmd; one visible Godot avatar",
+  "history_ui": "sessions listed and original file conversation reopened after formal restart at 19:21",
+  "scope": "synthetic persistent test database only; not original production data"
+}

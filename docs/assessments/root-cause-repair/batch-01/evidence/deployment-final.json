@@ -1,0 +1,127 @@
+{
+  "captured_utc": "2026-10-12T12:26:33.149789+00:00",
+  "kind": "final read-only verification, not a substitute for Tianyi tool execution",
+  "godot": {
+    "pid": 21368,
+    "window_id": 2232366,
+    "count_from_tasklist": 1,
+    "entry": "candidate start-anime-agent.cmd"
+  },
+  "health": {
+    "status": "ok",
+    "roles": {
+      "avatar": 1,
+      "ui": 0
+    },
+    "llm": {
+      "provider": "deepseek",
+      "runtime": "deepseek",
+      "configured": true,
+      "model": "Deepseek-v4-flash"
+    },
+    "memory": {
+      "path": "D:\\TianyiRepair\\batch-01-20261012\\data\\anime-agent.sqlite3",
+      "enabled": true
+    },
+    "tts": {
+      "enabled": true,
+      "narrate": true,
+      "service": "http://127.0.0.1:8770",
+      "playbackProtocol": 2,
+      "farewellCachedLines": 3,
+      "speechPending": false,
+      "available": true
+    }
+  },
+  "tts_health": {
+    "ok": true,
+    "synthCount": 83
+  },
+  "database_identity": {
+    "same_physical_file": true,
+    "identity_stable": true,
+    "watermarks_equal": true,
+    "snapshot_method": "SQLite backup from an explicit read transaction in verified unpackaged namespace",
+    "quick_check": [
+      "ok"
+    ],
+    "snapshot_sha256": "52918ab94ba068887961b38ecbc60c458187b1afb38b8d8cb45ba176f6fc8ca7",
+    "source_watermarks": {
+      "sessions": [
+        9,
+        7
+      ],
+      "messages": [
+        62,
+        62
+      ],
+      "events": [
+        814,
+        814
+      ],
+      "facts": [
+        null,
+        0
+      ]
+    }
+  },
+  "normal_file_id": {
+    "volume_serial": 1186728374,
+    "file_index": 3096224745464177
+  },
+  "unc_file_id": {
+    "volume_serial": 1186728374,
+    "file_index": 3096224745464177
+  },
+  "history_ui": "19:21 DS file reopened after restart; 20:06 GLM history reopened after restore/restart; 20:26 latest GitHub title-update session listed and reopened",
+  "model_calls": 44,
+  "providers": {
+    "deepseek": 30,
+    "glm": 14
+  },
+  "outcomes": {
+    "ok": 40,
+    "deadline_exceeded": 4
+  },
+  "message_count": 62,
+  "action_count": 11,
+  "pending_actions": [],
+  "speech_completed_count": 40,
+  "non_superseded_interruptions": 10,
+  "post_interrupt_receipts": 0,
+  "failed_speech_receipts": 0,
+  "files": {
+    "ds.txt": {
+      "exists": true,
+      "bytes": 28,
+      "sha256": "8798e4db2546af0db18618d4fd081a0e06f9e1e5731905508214a0812be7daad"
+    },
+    "ds04.txt": {
+      "exists": false
+    },
+    "glm02.txt": {
+      "exists": true,
+      "bytes": 39,
+      "sha256": "f3da88e07e499533d2d121420874c2b17c2eb94e54180765a4df00ae36eaef90"
+    },
+    "ds-final.txt": {
+      "exists": true,
+      "bytes": 39,
+      "sha256": "f3da88e07e499533d2d121420874c2b17c2eb94e54180765a4df00ae36eaef90"
+    }
+  },
+  "github_independent_readonly": {
+    "body": "[R2-20261007] Synthetic audit issue prepared by Codex, not Tianyi.\n\nFixture date: 2026-10-18. Budget: 120. Spent: 45. Remainder: 75.\nOnly registered R2 operations are allowed; no production code or user data.\n",
+    "labels": [],
+    "number": 1,
+    "state": "open",
+    "title": "[R2-20261007] Updated fixture 01 — 2026-10-18 [B01-DS]"
+  },
+  "github_execution": {
+    "actor": "Tianyi via Godot native confirmation",
+    "request_id": "avatar-chat-1111102",
+    "action_id": "af6ed4c90326460c83550a62ec64f3e9",
+    "execution_id": "e6155d2a2ea843a88f4afe20c3a59597"
+  },
+  "retention": "all registered files, test history and title marker retained; no cleanup or production database access"
+}

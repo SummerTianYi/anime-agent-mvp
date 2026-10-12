@@ -38,6 +38,13 @@ def decision(text):
     if payload and (payload.group(1) in {"写成","写入","保存为","改成","改为"}
                     or re.search(r"发送|发(?:一封)?邮件|写|保存|记录|草拟|新建|追加", control[:payload.start()])):
         control = control[:payload.end()-1]
+    # Negating cancellation preserves the ticket; it never approves execution.
+    # An explicit hold may also say "不执行也不取消". Mask only that hold's
+    # execution pause; any remaining refusal (e.g. "不要发送") still revokes.
+    control = re.sub(
+        r"(保留[^。！？；;\n]*待办[^。！？；;\n]*?)(?:暂时|暂|先)?不执行(?:也|，也|、也)(?:不|不要|别)取消",
+        r"\1暂缓", control)
+    control = re.sub(r"(?<!不得)(?<!不能)(?<!不是)(?<!不可能)(?:不要|别|不)取消", "保留", control)
     normalized = re.sub(r"[\s。！!，,；;]", "", control).lower()
     if (re.search(r"不同意|不确认|不要|(?<!分)别(?:执行|写|发)|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许", normalized)
             or re.search(r"\b(?:no|cancel|stop)\b|\b(?:don't|don’t|do\s+not)\s+(?:send|write|execute|run)\b", control.lower())):

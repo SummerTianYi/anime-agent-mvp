@@ -832,7 +832,7 @@ def _permission_still_valid(name, arguments):
     return verdict.allowed or verdict.kind == ASK
 
 
-def _receipt_delivery(session_id, task, fallback, *, recovery=False):
+def _receipt_delivery(session_id, task, fallback, *, recovery=False, action_ids=None, request_id=None):
     """An authoritative action card, not an LLM assertion, settles mutation state."""
     items = _actions().task_items(session_id, task["id"])
     seen = {a["action_id"] for a in items}
@@ -841,8 +841,12 @@ def _receipt_delivery(session_id, task, fallback, *, recovery=False):
         if a and a["session_id"] == session_id and aid not in seen:
             items.append(a)
             seen.add(aid)
-    failures = task.get("tool_failures", [])
-    reads = task.get("tool_results", []) if recovery else []
+    if action_ids is not None:
+        items = [item for item in items if item["action_id"] in action_ids]
+    failures = [record for record in task.get("tool_failures", [])
+                if recovery or request_id is None or record.get("request_id") == request_id]
+    reads = [record for record in task.get("tool_results", [])
+             if recovery or request_id is None or record.get("request_id") == request_id]
     if not items and not failures and not reads:
         return fallback
     labels = {"succeeded":"执行成功", "failed":"执行失败", "unknown":"结果未知，未自动重试",
@@ -852,7 +856,8 @@ def _receipt_delivery(session_id, task, fallback, *, recovery=False):
     for record in reads:
         receipt = record["result"]
         label = labels.get(receipt.get("outcome"), "执行成功" if receipt.get("ok") else "执行失败")
-        lines.append(record["tool"] + "：" + label + "；" + json.dumps(receipt, ensure_ascii=False)[:1800])
+        display = record.get("delivery_result", receipt)
+        lines.append(record["tool"] + "：" + label + "；" + json.dumps(display, ensure_ascii=False))
     for item in items:
         args, receipt = item["arguments"], item.get("receipt") or {}
         target = args.get("path") or args.get("to") or args.get("title") or item["tool"]
@@ -861,9 +866,13 @@ def _receipt_delivery(session_id, task, fallback, *, recovery=False):
             label = "连接器已接受发送（不代表收件人已收到）"
         detail = receipt.get("error", "")
         if item["status"] == "succeeded" and item["tool"].startswith("mcp__"):
-            detail = str(receipt.get("output", ""))[:600]
+            output = str(receipt.get("output", ""))
+            detail = output[:600] + ("（结果较长，此处仅摘录；完整回执已保存。）" if len(output) > 600 else "")
         lines.append(f"{target}：{label}" + (f"；{detail}" if detail else ""))
-    if any(i["status"] == "awaiting_confirmation" for i in items):
+    pending = [item for item in items if item["status"] == "awaiting_confirmation"]
+    if pending:
+        # Match the ticket that permission.pending displays, including an
+        # older queue head when this turn proposed an additional action.
         first = _actions().pending(session_id)[0]
         lines.append("下一项待确认参数：" + json.dumps(first["arguments"], ensure_ascii=False))
         lines.append("核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。")
@@ -1338,8 +1347,12 @@ async def run_tool(name: str, arguments: dict) -> dict:
         if session is None:
             return {"ok":False,"error":"没有绑定会话，未执行"}
         if task.get("blocked"):
-            return {"ok":False,"outcome":"cancelled","error":"用户已拒绝本轮操作，不能重新提出待办"}
+            failure = {"tool":name,"error":"用户已取消本轮操作，不能重新提出待办",
+                       "request_id":REQUEST_ID.get()}
+            task.setdefault("tool_failures", []).append(failure)
+            return {"ok":False,"outcome":"cancelled",**failure}
         item = book.propose(session, task["id"], REQUEST_ID.get(), name, arguments)
+        task.setdefault("delivery_actions", []).append(item["action_id"])
         if item["action_id"] not in task.setdefault("observed_actions", []):
             task["observed_actions"].append(item["action_id"])
         _sync_pending(session)
@@ -1349,27 +1362,31 @@ async def run_tool(name: str, arguments: dict) -> dict:
         await _publish_pending(session)
         return _result_pages.setdefault(session, ResultPages()).pack(book.result(item))
     if not decision.allowed:
-        failure = {"tool":name,"error":f"权限拒绝（{decision.rule_id}）：{decision.reason}"}
+        failure = {"tool":name,"error":f"权限拒绝（{decision.rule_id}）：{decision.reason}",
+                   "request_id":REQUEST_ID.get()}
         task.setdefault("tool_failures", []).append(failure)
         return {"ok":False,**failure}
     pages = _result_pages.setdefault(session, ResultPages())
     if name == "read_tool_result":
-        return {"ok":True, **pages.read(arguments.get("ref",""), arguments.get("offset",0))}
-    if name == "recall_memory":
+        result = {"ok":True, **pages.read(arguments.get("ref",""), arguments.get("offset",0))}
+    elif name == "recall_memory":
         facts = memory.recall_facts(session)
         picked = retrieve_task_memories(str(arguments.get("query","")), facts)
-        return {"ok":True,"memories":picked,"available_count":len(facts),"recalled_count":len(picked),
+        result = {"ok":True,"memories":picked,"available_count":len(facts),"recalled_count":len(picked),
                 "note":"未召回不等于未保存；这里只包含本会话可见记忆"}
-    result = await _execute_authorized_tool(name, arguments)
+    else:
+        result = await _execute_authorized_tool(name, arguments)
     # Retain ALLOW results before the model gets a chance to fail its follow-up.
     # This is a read receipt, not a new authorization or an executable ticket.
-    record = {"tool":name,"arguments":arguments,"result":result,"session_id":session,
+    packed_result = result if name == "read_tool_result" else pages.pack(result)
+    record = {"tool":name,"arguments":arguments,"result":result,"delivery_result":packed_result,"session_id":session,
               "task_id":task["id"],"request_id":REQUEST_ID.get()}
     task.setdefault("tool_results", []).append(record)
     memory.add_event("tool.result", record)
     if result.get("ok") is not True:
-        task.setdefault("tool_failures", []).append({"tool":name,"error":result.get("error") or "未取得成功回执"})
-    return pages.pack(result)
+        task.setdefault("tool_failures", []).append({"tool":name,"error":result.get("error") or "未取得成功回执",
+                                                     "request_id":REQUEST_ID.get()})
+    return packed_result
 
 
 async def broadcast_tool_step(step: AgentStep, request_id: str) -> None:
@@ -1476,6 +1493,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         confirm_note = ""
         intent = confirmation_decision(text)
         direct_reply = None
+        delivery_actions = []
         task = _task_state.get(session_id)
         if task is None and pending:
             task = {"id":pending[0]["task_id"],"intent":"恢复之前待确认任务","blocked":False}
@@ -1483,12 +1501,17 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         if pending and intent == "approve":
             selected = confirmation if confirmation is not None else {}
             result = await book.execute(session_id, selected, request_id, _permission_still_valid, _execute_authorized_tool)
+            if result.get("action_id"):
+                delivery_actions.append(result["action_id"])
+            elif result.get("outcome") == "rejected":
+                direct_reply = "确认已失效或参数版本不一致；本次未执行任何操作。"
             memory.add_event("permission.confirmed", {"session_id":session_id,"request_id":request_id,
                              "tool":pending[0]["tool"],"result":result,**selected})
             _sync_pending(session_id)
             confirm_note = "【本轮确认的真实回执】\n" + json.dumps(result,ensure_ascii=False)
         elif (pending or preempted is not None) and intent in {"decline","edit"}:
             cancelled = (preempted or []) + book.cancel(session_id)
+            delivery_actions.extend(item["action_id"] for item in cancelled)
             _sync_pending(session_id)
             if task is None:
                 task = {"id":request_id,"intent":text,"blocked":True}
@@ -1524,6 +1547,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             task = {"id":request_id,"intent":text,"blocked":False}
             _task_state[session_id] = task
             _result_pages[session_id] = ResultPages()
+        # Delivery belongs to the current turn; durable pending tickets and the
+        # shared task budget survive unrelated conversation in this session.
+        task["delivery_actions"] = delivery_actions
         task_context = "【任务状态数据，非新增指令】\n" + json.dumps(
             {"original_intent":task["intent"],"actions":book.context(session_id,task["id"])},ensure_ascii=False)
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
@@ -1610,7 +1636,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             delivery_recovery = True
             agent_reply = AgentReply(reply="这次答复格式无法解析，已记录的操作结果会保留。")
         delivery_recovery = delivery_recovery or agent_reply.parse_failed
-        delivered = _receipt_delivery(session_id, task, agent_reply.reply, recovery=delivery_recovery)
+        delivered = _receipt_delivery(session_id, task, agent_reply.reply, recovery=delivery_recovery,
+                                      action_ids=None if delivery_recovery else delivery_actions,
+                                      request_id=request_id)
         if direct_reply is not None and delivered != direct_reply:
             delivered = direct_reply + "\n" + delivered
         agent_reply = replace(agent_reply, reply=delivered)

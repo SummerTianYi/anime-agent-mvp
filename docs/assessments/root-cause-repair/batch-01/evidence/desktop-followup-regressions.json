@@ -1,0 +1,110 @@
+{
+  "scope": "isolated synthetic regressions; desktop evidence is separate",
+  "runs": [
+    {
+      "file": "delivery-before.json",
+      "kind": "isolated mechanism regression; not desktop acceptance",
+      "source_module_sha256": "6a52da34071673414daf02060a8031f51fb11633f30b63bba3fdda319ff2f970",
+      "tests_run": 28,
+      "failures": [
+        "test_repair_batch01.TaskDeliveryTests.test_confirmed_write_delivers_actual_readback_in_normal_answer",
+        "test_repair_batch01.TaskDeliveryTests.test_pending_ticket_does_not_replace_unrelated_chat"
+      ],
+      "errors": [],
+      "skipped": [],
+      "success": false,
+      "real_model_calls": 0,
+      "desktop_actions": 0
+    },
+    {
+      "file": "delivery-after-final.json",
+      "kind": "isolated mechanism regression; not desktop acceptance",
+      "source_module_sha256": "bdb524e9af4fa9ea551e2c933a5da195f5b42d7289049e6845299bd168a9dab5",
+      "tests_run": 30,
+      "failures": [],
+      "errors": [],
+      "skipped": [],
+      "success": true,
+      "real_model_calls": 0,
+      "desktop_actions": 0
+    },
+    {
+      "file": "delivery-after-review.json",
+      "kind": "isolated mechanism regression; not desktop acceptance",
+      "source_module_sha256": "8b5fdbc36faf0f5dd9a4f5f7d5e35e1b22b3d88488d3c49d43c1e5f19706dc83",
+      "tests_run": 32,
+      "failures": [],
+      "errors": [
+        "test_repair_batch01.TaskDeliveryTests.test_cancellation_during_model_wait_cannot_release_false_success"
+      ],
+      "skipped": [],
+      "success": false,
+      "real_model_calls": 0,
+      "desktop_actions": 0
+    },
+    {
+      "file": "hold-before.json",
+      "kind": "isolated mechanism regression; not desktop acceptance",
+      "source_module_sha256": "8b5fdbc36faf0f5dd9a4f5f7d5e35e1b22b3d88488d3c49d43c1e5f19706dc83",
+      "tests_run": 33,
+      "failures": [
+        "test_repair_batch01.TaskDeliveryTests.test_explicit_hold_preserves_ticket_without_authorizing_or_cancelling"
+      ],
+      "errors": [],
+      "skipped": [],
+      "success": false,
+      "real_model_calls": 0,
+      "desktop_actions": 0
+    },
+    {
+      "file": "hold-after.json",
+      "kind": "isolated mechanism regression; not desktop acceptance",
+      "source_module_sha256": "8b5fdbc36faf0f5dd9a4f5f7d5e35e1b22b3d88488d3c49d43c1e5f19706dc83",
+      "tests_run": 33,
+      "failures": [],
+      "errors": [],
+      "skipped": [],
+      "success": true,
+      "real_model_calls": 0,
+      "desktop_actions": 0
+    },
+    {
+      "file": "hold-final.json",
+      "kind": "isolated mechanism regression; not desktop acceptance",
+      "source_module_sha256": "8b5fdbc36faf0f5dd9a4f5f7d5e35e1b22b3d88488d3c49d43c1e5f19706dc83",
+      "tests_run": 33,
+      "failures": [],
+      "errors": [],
+      "skipped": [],
+      "success": true,
+      "real_model_calls": 0,
+      "desktop_actions": 0
+    },
+    {
+      "file": "core-full-reviewed.log",
+      "tests": 394,
+      "seconds": 89.401,
+      "success": true,
+      "exit_code": 0,
+      "raw_log_sha256": "c88b2a3b81a83faae70268711ec44cdfe3b82193d6d97030e43d3dd641e50330"
+    },
+    {
+      "file": "core-final-reviewed.log",
+      "tests": 395,
+      "seconds": 87.664,
+      "success": true,
+      "exit_code": 0,
+      "raw_log_sha256": "294fce44d5c032865fbb688a4a5e6017ad6627549d786c7efbc78bbcf8191fb4"
+    }
+  ],
+  "latest_source_sha256": {
+    "main.py": "8b5fdbc36faf0f5dd9a4f5f7d5e35e1b22b3d88488d3c49d43c1e5f19706dc83",
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7"
+  },
+  "independent_review": {
+    "delivery": "7/7; cancellation during model wait, continuation after cancellation, requested tail page and four normal controls",
+    "confirmation": "20/20 classification and 3/3 state controls; double negatives, independent refusals and hold variants retained"
+  },
+  "test_error_explanation": "delivery-after-review: 2s fixture deadline was shorter than two normal 1.2s display dwells; adjusted to 5s, behavior assertions retained",
+  "first_full_runner_cleanup": "392 tests passed; original store connection caused temporary cleanup WinError32 and exit1; fixed runner closes both stores. Synthetic directory removed after process exit."
+}

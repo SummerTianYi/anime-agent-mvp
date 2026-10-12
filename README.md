@@ -1,6 +1,6 @@
 # Anime Agent MVP
 
-Codex 2026-10-12：[首批底层根因修复候选](docs/assessments/root-cause-repair/batch-01/REPORT.md)修复任务/回执、连接器合同、物理路径及配套TTS日志恢复。Core 387项隔离回归、TTS 43项通过；生产未替换，真实Godot双模型/语音/历史验收仍待桌面执行器恢复，不能视为正式上线。
+Codex 2026-10-12：[首批底层根因修复候选](docs/assessments/root-cause-repair/batch-01/REPORT.md)修复任务/回执、连接器合同、物理路径及配套TTS日志恢复。Core395项隔离回归、TTS43项通过；正式新开Godot，独立持久测试数据下已有DS/GLM文件、Gmail、正常聊天及重启历史证据，DS声音试听获真人确认，GLM实际写入后补答超时仍交付成功回执。已恢复Deepseek配置。生产源码/原数据库未覆盖；A4自由正文仍未闭环，首批部分验收通过。
 
 Codex 2026-10-04：本分支为 [Harness V1 candidate](docs/assessments/harness-v1/REPORT.md)，不是main正式发行；共享双模型任务执行与手动语音/600秒提醒/投入档位修复。桌面实际激活和人工反馈以报告为准。
 

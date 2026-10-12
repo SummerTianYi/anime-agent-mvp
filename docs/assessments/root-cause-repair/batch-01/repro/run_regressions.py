@@ -20,6 +20,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--source-root',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--private-log',type=Path,help='Optional local-only diagnostic output; never publish without review')
     args=parser.parse_args()
     repo=Path(__file__).resolve().parents[5]
     package=(args.source_root/'services'/'agent-core').resolve()
@@ -47,6 +48,8 @@ def main():
                 'skipped':[(case.id(),reason) for case,reason in result.skipped],
                 'success':result.wasSuccessful(),'real_model_calls':0,'desktop_actions':0}
         args.output.write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8')
+        if args.private_log:
+            args.private_log.write_text(output.getvalue(),encoding='utf-8')
         print(json.dumps(record,ensure_ascii=False))
         # The concise JSON records failures without exporting model prompts,
         # filesystem names from temporary fixtures, or synthesized stack dumps.

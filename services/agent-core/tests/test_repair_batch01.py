@@ -1,4 +1,5 @@
 """Batch 01 mechanism regressions: synthetic state only, no desktop/API claims."""
+import asyncio
 import io
 import http.client
 from contextlib import closing
@@ -164,6 +165,114 @@ class TaskDeliveryTests(unittest.IsolatedAsyncioTestCase):
         await core.handle_chat("请说明参数","pending-timeout",self.sid)
         self.assertIn("待确认",self.final())
         self.assertFalse((self.root/"pending.txt").exists())
+
+    async def test_pending_ticket_does_not_replace_unrelated_chat(self):
+        ticket = await self.proposal("pending.txt", "B01")
+        task = core._task_state[self.sid]
+        core.provider.complete.return_value = '{"reply":"晚上好，我是天依，这是声音测试。"}'
+        await core.handle_chat("请说一句晚上好", "chat-with-pending", self.sid)
+        self.assertIn("晚上好，我是天依", self.final())
+        self.assertIs(core._task_state[self.sid], task)
+        self.assertEqual(core._sync_pending(self.sid)[0]["action_id"], ticket["action_id"])
+        self.assertFalse((self.root/"pending.txt").exists())
+
+    async def test_confirmed_write_delivers_actual_readback_in_normal_answer(self):
+        await self.proposal("mixed.txt", "B01 actual content 175")
+        async def answer(*unused):
+            await core.run_tool("read_file", {"path": str(self.root/"mixed.txt")})
+            return '{"reply":"全部成功，包括没有执行的额外操作。"}'
+        core.provider.complete.side_effect = answer
+        await core.handle_chat("确认", "write-and-readback", self.sid)
+        self.assertIn("执行成功", self.final())
+        self.assertIn("B01 actual content 175", self.final())
+        self.assertNotIn("没有执行的额外操作", self.final())
+
+    async def test_reused_pending_action_is_still_delivered_in_current_turn(self):
+        ticket = await self.proposal("pending.txt", "B01")
+        async def answer(*unused):
+            await self.proposal("pending.txt", "B01")
+            return '{"reply":"全部成功。"}'
+        core.provider.complete.side_effect = answer
+        await core.handle_chat("说明当前文件状态", "reuse-ticket", self.sid)
+        self.assertIn("待确认", self.final())
+        self.assertNotIn("全部成功", self.final())
+        self.assertEqual(len(core._actions().records), 1)
+        self.assertEqual(core._sync_pending(self.sid)[0]["action_id"], ticket["action_id"])
+
+    async def test_stale_confirmation_cannot_deliver_model_success(self):
+        await self.proposal("pending.txt", "B01")
+        await core.handle_chat("确认", "bad-ticket", self.sid, confirmation={"action_id":"stale"})
+        self.assertIn("未执行任何操作", self.final())
+        self.assertNotIn("全部成功", self.final())
+        core.provider.complete.assert_not_awaited()
+        self.assertFalse((self.root/"pending.txt").exists())
+
+    async def test_mixed_long_readback_exposes_existing_pagination(self):
+        await self.proposal("long.txt", "B01 " * 800)
+        async def answer(*unused):
+            await core.run_tool("read_file", {"path":str(self.root/"long.txt")})
+            return '{"reply":"全部成功。"}'
+        core.provider.complete.side_effect = answer
+        await core.handle_chat("确认", "long-readback", self.sid)
+        self.assertIn('"truncated": true', self.final())
+        record = core._task_state[self.sid]["tool_results"][-1]
+        ref = record["delivery_result"]["ref"]
+        self.assertIn(ref, self.final())
+        self.assertTrue(core._result_pages[self.sid].read(ref, 2000)["content"])
+
+    async def test_mixed_readback_delivers_requested_tail_page(self):
+        await self.proposal("long-tail.txt", "B01 " * 800 + "TAIL-REVIEW-175")
+        async def answer(*unused):
+            first = await core.run_tool("read_file", {"path":str(self.root/"long-tail.txt")})
+            await core.run_tool("read_tool_result", {"ref":first["ref"],"offset":first["total_chars"]-500})
+            return '{"reply":"尾部是TAIL-REVIEW-175，全部成功。"}'
+        core.provider.complete.side_effect = answer
+        await core.handle_chat("确认", "tail-readback", self.sid)
+        self.assertIn("TAIL-REVIEW-175", self.final())
+        self.assertNotIn("全部成功", self.final())
+
+    async def test_cancellation_during_model_wait_cannot_release_false_success(self):
+        await self.proposal("pending.txt", "B01")
+        started, release = asyncio.Event(), asyncio.Event()
+        async def answer(*unused):
+            if core.REQUEST_ID.get() == "slow-turn":
+                started.set()
+                await release.wait()
+                await self.proposal("forbidden.txt", "must not write")
+            return '{"reply":"全部成功。"}'
+        core.provider.complete.side_effect = answer
+        slow = asyncio.create_task(core.handle_chat("说明当前操作", "slow-turn", self.sid))
+        await asyncio.wait_for(started.wait(), 2)
+        cancelled = asyncio.create_task(core.handle_chat("取消", "cancel-turn", self.sid))
+        await asyncio.sleep(0)
+        self.assertTrue(core._task_state[self.sid]["blocked"])
+        release.set()
+        # Both turns retain the normal visible-reply dwell (up to 1.2s each).
+        await asyncio.wait_for(asyncio.gather(slow, cancelled), 5)
+        answers = [row[0] for row in self.store.connection.execute(
+            "SELECT content FROM messages WHERE request_id='slow-turn' AND role='assistant'")]
+        self.assertEqual(len(answers), 1)
+        self.assertNotIn("全部成功", answers[0])
+        self.assertIn("取消", answers[0])
+        self.assertFalse((self.root/"forbidden.txt").exists())
+
+    async def test_explicit_hold_preserves_ticket_without_authorizing_or_cancelling(self):
+        from agent_core.actions import decision
+        item = await self.proposal("held.txt", "B01 hold")
+        text = "先保留这个文件待办，不执行也不取消。现在只说一句：晚上好。"
+        self.assertEqual(decision(text), "other")
+        self.assertEqual(decision("不要取消这个待办"), "other")
+        self.assertEqual(decision("保留待办，不执行，也不要取消。"), "other")
+        self.assertEqual(decision("保留待办，不执行，也别取消。"), "other")
+        self.assertEqual(decision("保留待办记录，但取消这个操作"), "decline")
+        self.assertEqual(decision("保留待办，不取消，但不要发送"), "decline")
+        for refusal in ("现在不得不取消这个待办。", "现在不能不取消这个待办。",
+                        "保留文件待办，不取消。发邮件这项不执行。",
+                        "保留文件待办，不取消；发邮件这项不执行。"):
+            self.assertEqual(decision(refusal), "decline")
+        await core.handle_chat(text, "hold-pending", self.sid)
+        self.assertEqual(core._sync_pending(self.sid)[0]["action_id"], item["action_id"])
+        self.assertFalse((self.root/"held.txt").exists())
 
 
 class ConnectorContractTests(unittest.IsolatedAsyncioTestCase):
