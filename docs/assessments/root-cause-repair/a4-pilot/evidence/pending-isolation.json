@@ -1,0 +1,11 @@
+{
+  "scope": "synthetic sentinel + isolated disposable import only; zero external/model calls",
+  "exit": 0,
+  "output": "test_public_entry_replaces_inherited_wrong_configuration (__main__.IsolationTests.test_public_entry_replaces_inherited_wrong_configuration) ... ok\ntest_valid_isolation_runs_real_discovery (__main__.IsolationTests.test_valid_isolation_runs_real_discovery) ... ok\ntest_wrong_configuration_is_rejected_before_import (__main__.IsolationTests.test_wrong_configuration_is_rejected_before_import) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 2.791s\n\nOK\n",
+  "source_sha256": {
+    "scripts/check_docs_consistency.py": "d1660a0a9fc2561db0de73687100d37f01c980d27b626b59c18261aaf999f9a2",
+    "scripts/test_check_docs_isolation.py": "adcfebbdf063aa9044f70de6ccc01027e6fd684bcdfd8e333419eb459b986a2c"
+  },
+  "review": "Independent Python review: no blocking finding; scripts and real synthetic probes inspected",
+  "previous_incident": "Unchanged; no production DB opened, inspected or restored in this follow-up"
+}

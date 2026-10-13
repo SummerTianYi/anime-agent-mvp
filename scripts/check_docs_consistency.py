@@ -8,7 +8,7 @@ status updates were manual. This script makes the mechanical parts of that
 drift impossible to miss: it reconciles documentation claims against code
 reality and exits non-zero on any mismatch.
 
-Checks (all offline, no API calls, no side effects):
+Checks (offline; import-time storage is confined to a disposable child process):
   1. Test-count claims in current-status docs match the actual number of
      unittest cases discoverable under services/agent-core/tests.
   2. Every environment variable read by agent_core code appears in
@@ -22,8 +22,12 @@ Run from the repository root with the agent-core venv:
 from __future__ import annotations
 
 import ast
+import os
 import re
+import secrets
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -52,14 +56,82 @@ COUNT_PATTERNS = [
 # System-provided variables that code may read but .env.example must not list.
 ENV_EXEMPT = {"LOCALAPPDATA", "USERPROFILE", "APPDATA", "SYSTEMROOT", "TEMP", "TMP", "PATH", "HOME"}
 
+ISOLATED_CONFIG = "LLM_PROVIDER=mock\nANIME_AGENT_TTS=0\nANIME_AGENT_WAKE_WORD=0\n"
+
+
+def prepare_isolation(root: Path) -> dict[str, str]:
+    """Called only for a newly allocated TemporaryDirectory; never use caller paths."""
+    root = root.resolve(strict=True)
+    nonce = secrets.token_hex(24)
+    (root / "data").mkdir()
+    (root / "isolated.env").write_text(ISOLATED_CONFIG, encoding="utf-8")
+    (root / "owner").write_text(nonce, encoding="ascii")
+    environment = {k: v for k, v in os.environ.items() if not k.startswith(
+        ("ANIME_AGENT_", "LLM_", "DEEPSEEK_", "GLM_", "STEPFUN_", "DOCS_CHECK_"))}
+    environment.update(DOCS_CHECK_ROOT=str(root), DOCS_CHECK_NONCE=nonce,
+        ANIME_AGENT_DATA_DIR=str(root / "data"), ANIME_AGENT_CONFIG_PATH=str(root / "isolated.env"),
+        LLM_PROVIDER="mock", ANIME_AGENT_TTS="0", ANIME_AGENT_WAKE_WORD="0",
+        ANIME_AGENT_MCP_SERVERS="", ANIME_AGENT_ALLOWED_COMMANDS="",
+        ANIME_AGENT_VOICE_INPUT_MODE="manual", PYTHONDONTWRITEBYTECODE="1", PYTHONUTF8="1")
+    return environment
+
+
+def verify_isolation() -> Path:
+    raw_root, nonce = os.environ.get("DOCS_CHECK_ROOT", ""), os.environ.get("DOCS_CHECK_NONCE", "")
+    if not raw_root or not nonce:
+        raise RuntimeError("missing dedicated isolation context")
+    root = Path(raw_root).resolve(strict=True)
+    expected = {"ANIME_AGENT_DATA_DIR": str(root / "data"),
+                "ANIME_AGENT_CONFIG_PATH": str(root / "isolated.env"),
+                "LLM_PROVIDER": "mock", "ANIME_AGENT_TTS": "0", "ANIME_AGENT_WAKE_WORD": "0",
+                "ANIME_AGENT_MCP_SERVERS": "", "ANIME_AGENT_ALLOWED_COMMANDS": "",
+                "ANIME_AGENT_VOICE_INPUT_MODE": "manual"}
+    # Compare before opening any configuration or database. An inherited bad
+    # path must never become the object of a read, even to validate it.
+    if any(os.environ.get(k) != v for k, v in expected.items()):
+        raise RuntimeError("isolation environment mismatch")
+    for name in ("owner", "data", "isolated.env"):
+        if (root / name).resolve(strict=True) != root / name:
+            raise RuntimeError("isolation path redirected")
+    if (root / "owner").read_text(encoding="ascii") != nonce or (root / "isolated.env").read_text(encoding="utf-8") != ISOLATED_CONFIG:
+        raise RuntimeError("isolation files mismatch")
+    return root
+
+
+def install_import_guard(root: Path) -> None:
+    """Fail closed if a discovered module attempts ambient storage or I/O."""
+    def contained(value):
+        return Path(os.fsdecode(value)).resolve().is_relative_to(root)
+
+    def audit(event, args):
+        if event == "sqlite3.connect":
+            if args[0] != ":memory:" and not contained(args[0]):
+                raise RuntimeError("documentation import attempted non-isolated database")
+        elif event == "open" and isinstance(args[0], (str, bytes, os.PathLike)):
+            path, mode, flags = args
+            name = Path(os.fsdecode(path)).name
+            private_config = (name.startswith(".env") and name != ".env.example") or name.endswith(".env")
+            writing = bool(flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND))
+            if (private_config or writing) and not contained(path):
+                raise RuntimeError("documentation import attempted non-isolated file")
+        elif event in {"os.mkdir", "os.remove", "os.rmdir"} and not contained(args[0]):
+            raise RuntimeError("documentation import attempted non-isolated mutation")
+        elif event in {"socket.connect", "subprocess.Popen", "os.system"}:
+            raise RuntimeError("documentation import attempted external I/O")
+    sys.addaudithook(audit)
+
 
 def discover_test_count() -> int:
+    verify_isolation()
     # Mirrors the proven TESTING.md invocation (cd services\agent-core;
     # python -m unittest discover -s tests): "agent-core" is not a legal
     # package name, so tests are discovered as top-level modules.
     sys.path.insert(0, str(CORE))
     try:
-        suite = unittest.TestLoader().discover(str(CORE / "tests"))
+        loader = unittest.TestLoader()
+        suite = loader.discover(str(CORE / "tests"))
+        if loader.errors:
+            raise RuntimeError("test discovery failed; refusing an incomplete count")
     finally:
         sys.path.pop(0)
     return suite.countTestCases()
@@ -106,6 +178,7 @@ def example_env_vars() -> set[str]:
 
 
 def registered_tools() -> set[str]:
+    verify_isolation()
     sys.path.insert(0, str(CORE))
     try:
         from agent_core.tools import build_tool_registry
@@ -120,7 +193,7 @@ def documented_tools() -> set[str]:
     return set(re.findall(r"`([a-z_]+)`", text))
 
 
-def main() -> int:
+def run_checks() -> int:
     failures: list[str] = []
     actual = discover_test_count()
     print(f"[1] actual unittest cases: {actual}")
@@ -157,6 +230,30 @@ def main() -> int:
         return 1
     print("DOCS_CONSISTENCY_OK")
     return 0
+
+
+def main() -> int:
+    try:
+        if sys.argv[1:] == ["--isolated"]:
+            root = verify_isolation()
+            if "agent_core.main" in sys.modules:
+                raise RuntimeError("Core was imported before isolation verification")
+            sys.dont_write_bytecode = True
+            install_import_guard(root)
+            result = run_checks()
+            print("DOCS_ISOLATION_OK")
+            return result
+        if sys.argv[1:]:
+            raise RuntimeError("unsupported documentation-check arguments")
+        # A child guarantees imported modules cannot retain SQLite handles
+        # while the parent removes its dedicated temporary directory on Windows.
+        with tempfile.TemporaryDirectory(prefix="anime-agent-docs-") as temporary:
+            environment = prepare_isolation(Path(temporary))
+            return subprocess.run([sys.executable, "-I", "-B", str(Path(__file__).resolve()), "--isolated"],
+                                  env=environment, cwd=REPO, check=False).returncode
+    except (OSError, RuntimeError) as exc:
+        print("DOCS_ISOLATION_FAIL: " + str(exc))
+        return 2
 
 
 if __name__ == "__main__":
