@@ -114,4 +114,6 @@ export PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1
 
 没有前端、Godot 或 TTS 业务修改，本轮不运行桌面/声音/真实外部业务验收，不将历史桌面证据冒充本轮结果。候选代码不部署、不合并 main，停在 Manager 验收点。
 
-最终公开检查入口得到 `DOCS_CONSISTENCY_OK`、`DOCS_ISOLATION_OK`；隔离哨兵 3 项通过，`git diff --check` 通过。独立审查和计数不替代缺失的最后一例模型验收。最终提交及远端回读由交付消息提供固定 SHA 链接，Git 中的报告与证据是该提交快照。
+最终公开检查入口得到 `DOCS_CONSISTENCY_OK`、`DOCS_ISOLATION_OK`；隔离哨兵 3 项通过，`git diff --check` 通过。业务提交 `994db70e35ef05f54fae0abbc9231ec45bccb0f4` 的干净 clone 经两个零上下文实例完成白纸交接，均为 8/8，核对结果、预算和未部署边界，见 [交接证据](evidence/file-handoff.json)。第二实例另发现 HANDOFF 代码地图的旧 Idle“未开工”文字与已实现清单不一致，属既有文档陈旧项，本轮不改。
+
+独立审查和计数不替代缺失的最后一例模型验收。后续提交只补本交接记录，业务源码不变；最终提交及远端回读由交付消息提供固定 SHA 链接，Git 中的报告与证据是该提交快照。
