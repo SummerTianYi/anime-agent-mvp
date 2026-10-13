@@ -1,5 +1,7 @@
 # Anime Agent MVP
 
+Codex 2026-10-14：[文件任务跨模型交付](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK.md)完成窄范围实现，Core451及独立24+14项通过。最终同源六例真提案/正确写入均通过；DS三例、GLM两例完整读回交付，GLM末例因30次HTTP硬上限未读回，六例验收部分完成。保留跨轮状态与原授权机制，A4其他开放项不关闭；未部署，停在Manager验收。
+
 Codex 2026-10-14：[已有待办的跨轮进度修复](docs/assessments/root-cause-repair/a4-pilot/PENDING_STATUS.md)完成，Core431隔离回归、独立13例通过。状态按会话/任务完整账本交付，保留普通聊天及现有撤权流程；文档检查入口先行独立隔离修正。本项通过仅指此窄范围，不关闭A4其他缺陷；零真实模型/外部业务调用，未部署，停在Manager验收。此前数据库影响未知记录保留。
 
 Codex 2026-10-13：[A4 小范围控制链试验](docs/assessments/root-cause-repair/a4-pilot/REPORT.md)完成局部实现与验证，Core418项隔离回归通过，但独立对抗仍4/14失败。首轮双模型6/10，记录23次请求入口（底层重定向计数不可追溯）；不扩样、不建议集成，停在Manager验收。未部署、未操作当前Godot/Core/TTS进程；文档检查遗漏隔离，默认数据库初始化影响未核验，详见报告。以下保留历史记录。
@@ -55,7 +57,7 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 本地记忆 | 基础存储/更正/跨会话可用；完整闭环待补 | SQLite消息与facts；当前评测发现top3召回遗漏、敏感项显式记住策略及遗忘执行入口缺口，见[2026-10-04评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md) |
 | 语音转文字 | V1 candidate：手动录音与本地简体回填 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
 | TTS 语音输出 | 本轮恢复修复已本地激活 | GPT-SoVITS 真实声线、分片合成、打断及解说；瞬态故障有限等待恢复，旧回复被打断后不迟到播放，超时明确报错并保留文字 |
-| Agent 能力层 | A4 pilot 未通过，待Manager验收 | 参数版本授权、多个待办、真实回执、长结果与资源正文、共享人格/投入预算已实现；双模型实测与已知缺口见[候选报告](docs/assessments/harness-v1/REPORT.md)。不是全任务可靠性承诺；最新[A4试验](docs/assessments/root-cause-repair/a4-pilot/REPORT.md)仍有自由正文绕过，不建议集成。 |
+| Agent 能力层 | 文件链候选部分验收，A4仍开放 | 原授权/账本/回执保留；[文件任务](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK.md)最终DS 3/3、GLM 2/3完整通过，末例受30次HTTP硬上限阻塞。已有跨轮状态修复保留；[A4原报告](docs/assessments/root-cause-repair/a4-pilot/REPORT.md)其他自由正文问题仍开放，不能整体集成放行。 |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
 | Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |
 | Idle 触发 | V1 candidate：连续600秒、同段一次 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |

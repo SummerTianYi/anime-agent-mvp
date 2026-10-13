@@ -1,0 +1,296 @@
+{
+  "baseline_commit": "509e69b9e64b901a221364c3e16823df9fe6dd0d",
+  "final_source_sha256": {
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "main.py": "ecc4491e8bddda797b81fb51ec7f629cc1cd963e7fdf459239bd0a272150302d",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "models": [
+    {
+      "evidence": "file-live-ds-1.json",
+      "model": "Deepseek-v4-flash",
+      "variant": 1,
+      "passed": false,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": false,
+        "correct_write": false,
+        "actual_read": false,
+        "receipt_bound": true,
+        "complete_delivery": false,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": false,
+        "source_unchanged": true
+      },
+      "http_attempts": 1,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": false
+      },
+      "db_sha256": "9faf09ad7317f004dbc5dffabb2b415ed31c6087919fc63d09d87b75b78ceb3e"
+    },
+    {
+      "evidence": "file-live-ds-1-fixed.json",
+      "model": "Deepseek-v4-flash",
+      "variant": 1,
+      "passed": true,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": true,
+        "correct_write": true,
+        "actual_read": true,
+        "receipt_bound": true,
+        "complete_delivery": true,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": true,
+        "source_unchanged": true
+      },
+      "http_attempts": 5,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": false
+      },
+      "db_sha256": "990878978912367a84d4a50f82408ad47e48eda2bc5496ed24db320d86d09aa4"
+    },
+    {
+      "evidence": "file-live-ds-1-release.json",
+      "model": "Deepseek-v4-flash",
+      "variant": 1,
+      "passed": true,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": true,
+        "correct_write": true,
+        "actual_read": true,
+        "receipt_bound": true,
+        "complete_delivery": true,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": true,
+        "source_unchanged": true
+      },
+      "http_attempts": 5,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": true
+      },
+      "db_sha256": "acd5af95495c4d52a1cfc372306fefad3241f2db5cba2ba4976f7f164d4279fa"
+    },
+    {
+      "evidence": "file-live-ds-2-release.json",
+      "model": "Deepseek-v4-flash",
+      "variant": 2,
+      "passed": true,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": true,
+        "correct_write": true,
+        "actual_read": true,
+        "receipt_bound": true,
+        "complete_delivery": true,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": true,
+        "source_unchanged": true
+      },
+      "http_attempts": 4,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": true
+      },
+      "db_sha256": "f683e8b81cc1e56a816ad28914196a8d16a63307f76fd1a020ead6a8c5b9129c"
+    },
+    {
+      "evidence": "file-live-ds-3-release.json",
+      "model": "Deepseek-v4-flash",
+      "variant": 3,
+      "passed": true,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": true,
+        "correct_write": true,
+        "actual_read": true,
+        "receipt_bound": true,
+        "complete_delivery": true,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": true,
+        "source_unchanged": true
+      },
+      "http_attempts": 4,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": true
+      },
+      "db_sha256": "9ed5117e4212499858967eaf4a38c37739206f41ab24be89cd68d1759fe48915"
+    },
+    {
+      "evidence": "file-live-glm-1.json",
+      "model": "GLM-5.2",
+      "variant": 1,
+      "passed": false,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": false,
+        "correct_write": false,
+        "actual_read": false,
+        "receipt_bound": true,
+        "complete_delivery": false,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": false,
+        "source_unchanged": true
+      },
+      "http_attempts": 2,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": false
+      },
+      "db_sha256": "0bc716eb50cd674086bcd07844907321d4d1e2b8ab27c6ff0ed5f4b02a8b9459"
+    },
+    {
+      "evidence": "file-live-glm-1-release.json",
+      "model": "GLM-5.2",
+      "variant": 1,
+      "passed": true,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": true,
+        "correct_write": true,
+        "actual_read": true,
+        "receipt_bound": true,
+        "complete_delivery": true,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": true,
+        "source_unchanged": true
+      },
+      "http_attempts": 5,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": true
+      },
+      "db_sha256": "4cab9de81be55a2f02a76bf3ef51aa0311e0742c3fd203fd5a2a7e802362f7cd"
+    },
+    {
+      "evidence": "file-live-glm-2-release.json",
+      "model": "GLM-5.2",
+      "variant": 2,
+      "passed": true,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": true,
+        "correct_write": true,
+        "actual_read": true,
+        "receipt_bound": true,
+        "complete_delivery": true,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": true,
+        "source_unchanged": true
+      },
+      "http_attempts": 3,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": true
+      },
+      "db_sha256": "4812ffefbbbd096676a4bf97a29871cb804bf52af29ab30078ae7ab2e9f3263d"
+    },
+    {
+      "evidence": "file-live-glm-3-release.json",
+      "model": "GLM-5.2",
+      "variant": 3,
+      "passed": false,
+      "checks": {
+        "no_preconfirm_effect": true,
+        "real_proposal": true,
+        "correct_write": true,
+        "actual_read": false,
+        "receipt_bound": true,
+        "complete_delivery": false,
+        "no_duplicate_write": true,
+        "truthful_progress": true,
+        "history_reopened": true,
+        "ledger_reopened": true,
+        "reads_reopened": false,
+        "source_unchanged": true
+      },
+      "http_attempts": 1,
+      "reopen": {
+        "messages_equal": true,
+        "actions_equal": true,
+        "reads_equal": true,
+        "database_bytes_unchanged": true,
+        "source_matches_final": true
+      },
+      "db_sha256": "25dd96d41fc500bda45bb7041bdfd3439ba2571b3aa434ce6feb7cf13e532da1"
+    }
+  ],
+  "http_attempts": 30,
+  "scope": "synthetic task records only; read-only reopening of this task test databases",
+  "remaining_cap": 0,
+  "final_source_passes": 5
+}

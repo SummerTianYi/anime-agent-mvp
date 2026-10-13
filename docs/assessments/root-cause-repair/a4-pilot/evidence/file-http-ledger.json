@@ -1,0 +1,155 @@
+{
+  "cap": 30,
+  "attempts": [
+    {
+      "index": 1,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 2,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 3,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 4,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 5,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 6,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 7,
+      "model": "GLM-5.2",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 8,
+      "model": "GLM-5.2",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 9,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 10,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 11,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 12,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 13,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 14,
+      "model": "GLM-5.2",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 15,
+      "model": "GLM-5.2",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 16,
+      "model": "GLM-5.2",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 17,
+      "model": "GLM-5.2",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 18,
+      "model": "GLM-5.2",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 19,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-2-request"
+    },
+    {
+      "index": 20,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-2-confirm"
+    },
+    {
+      "index": 21,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-2-confirm"
+    },
+    {
+      "index": 22,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-2-confirm"
+    },
+    {
+      "index": 23,
+      "model": "GLM-5.2",
+      "request_id": "file-2-request"
+    },
+    {
+      "index": 24,
+      "model": "GLM-5.2",
+      "request_id": "file-2-confirm"
+    },
+    {
+      "index": 25,
+      "model": "GLM-5.2",
+      "request_id": "file-2-confirm"
+    },
+    {
+      "index": 26,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-3-request"
+    },
+    {
+      "index": 27,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-3-confirm"
+    },
+    {
+      "index": 28,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-3-confirm"
+    },
+    {
+      "index": 29,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-3-confirm"
+    },
+    {
+      "index": 30,
+      "model": "GLM-5.2",
+      "request_id": "file-3-request"
+    }
+  ]
+}

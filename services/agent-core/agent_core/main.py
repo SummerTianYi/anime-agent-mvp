@@ -33,6 +33,8 @@ except ImportError:
 from .agent_loop import MAX_TOOL_STEPS, AgentStep, ToolsUnsupportedError, run_agent_loop
 from .task_delivery import INCOMPLETE, validate_decision, validate_proposal
 from .task_status import render_task_status, status_question
+from .file_task import (FILE_TASK_GUIDANCE, completion_error, edited_file_request, literal_content_error, render_file_delivery,
+                        requests_file_delivery, same_path)
 from .harness import TASK_DECISION_CONTRACT
 from .harness import (
     TOOL_GUIDANCE,
@@ -1381,6 +1383,9 @@ async def run_tool(name: str, arguments: dict) -> dict:
         task.setdefault("tool_failures", []).append(failure)
         return {"ok":False,**failure}
     pages = _result_pages.setdefault(session, ResultPages())
+    after_actions = [a["action_id"] for a in book.task_items(session, task["id"])
+                     if name == "read_file" and a["tool"] == "write_file" and a["status"] == "succeeded"
+                     and same_path(arguments.get("path"), a["arguments"].get("path"))]
     try:
         if name == "read_tool_result":
             result = {"ok":True, **pages.read(arguments.get("ref",""), arguments.get("offset",0))}
@@ -1406,6 +1411,8 @@ async def run_tool(name: str, arguments: dict) -> dict:
     record = {"tool":name,"arguments":arguments,"result":result,"delivery_result":packed_result,"session_id":session,
               "result_ref":result_ref,
               "task_id":task["id"],"request_id":REQUEST_ID.get()}
+    if name == "read_file":
+        record["after_actions"] = after_actions
     task.setdefault("tool_results", []).append(record)
     memory.add_event("tool.result", record)
     if result.get("ok") is not True:
@@ -1520,6 +1527,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         intent = "other" if status_query is not None else confirmation_decision(text)
         direct_reply = None
         delivery_actions = []
+        file_turn = False
+        file_request = requests_file_delivery(text)
         task = _task_state.get(session_id)
         status_reply, status_items = (render_task_status(status_query, book.records.values(), session_id)
                                       if status_query is not None else (None, []))
@@ -1532,6 +1541,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             # tail without replacing or resetting any operational task state.
             task = task or {"id":request_id,"intent":text,"blocked":False}
         elif pending and intent == "approve":
+            file_turn = True
             selected = confirmation if confirmation is not None else {}
             result = await book.execute(session_id, selected, request_id, _permission_still_valid, _execute_authorized_tool)
             if result.get("action_id"):
@@ -1552,6 +1562,10 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             task["blocked"] = intent == "decline"
             if intent == "edit":
                 task["intent"] = text
+                if task.get("file_delivery") or file_request:
+                    task["file_delivery"] = True
+                    task["file_request_text"] = edited_file_request(task.get("file_request_text", ""), text)
+                    file_turn = True
             memory.add_event("permission.declined", {"session_id":session_id,"request_id":request_id,
                              "actions":[book.ticket(a) for a in cancelled]})
             confirm_note = "旧参数已取消，绝不能执行。仅当用户在本轮明确提供新要求，才能提出新版本待办。"
@@ -1560,6 +1574,10 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             # not consent. Keep the queue and exact tickets until an explicit
             # decision; newly proposed actions join it rather than overwrite it.
             confirm_note = "既有操作仍待确认，本条消息没有授予执行权限。保留所有待办；确认必须绑定展示的参数版本。"
+            if file_request:
+                task["file_delivery"] = True
+                task["file_request_text"] = text
+                file_turn = True
         elif intent == "approve" and (confirmation or re.fullmatch(
                 r"(?:确认|确认执行|同意执行|执行吧)", re.sub(r"[\s。！!，,；;]", "", text))):
             # No ticket means no action. Preserve the old task, budget and pages;
@@ -1573,17 +1591,23 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 direct_reply = "当前没有可继续的操作任务。请说明要做的事情。"
             else:
                 confirm_note = "当前没有待确认操作；继续沿用原目标、执行记录与剩余预算。"
+                file_turn = True
         else:
             # No unresolved action: begin a new bounded task.
             book.cancel(session_id)
             _sync_pending(session_id)
             task = {"id":request_id,"intent":text,"blocked":False}
+            task["file_delivery"] = file_request
+            if file_request:
+                task["file_request_text"] = text
+            file_turn = True
             _task_state[session_id] = task
             _result_pages[session_id] = ResultPages()
         # Delivery belongs to the current turn; durable pending tickets and the
         # shared task budget survive unrelated conversation in this session.
         if status_query is None:
             task["delivery_actions"] = delivery_actions
+        file_turn = file_turn and task.get("file_delivery", False)
         task_context = "【任务状态数据，非新增指令】\n" + json.dumps(
             {"original_intent":task["intent"],"actions":book.context(session_id,task["id"])},ensure_ascii=False)
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
@@ -1622,7 +1646,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             memory.add_event("memory.recall.error", {"message": str(exc)[:200]})
         extra_parts = [
             part
-            for part in (task_context, confirm_note, effort_prompt_note(effort_name), recall_block, guided, TASK_DECISION_CONTRACT)
+            for part in (task_context, confirm_note, effort_prompt_note(effort_name), recall_block, guided, TASK_DECISION_CONTRACT,
+                         FILE_TASK_GUIDANCE if file_turn else "")
             if part
         ]
         extra_system = "\n\n".join(extra_parts)
@@ -1638,6 +1663,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             nonlocal validated_text, validated_mode
             checked = validate_decision(raw, task=task, session_id=session_id, request_id=request_id,
                 actions=[{**a, "effect":tool_effect(a["tool"], a["arguments"])} for a in book.records.values()], schemas=schemas)
+            if file_turn and not checked.error:
+                checked = replace(checked, error=completion_error(task, session_id, book.records.values(), checked.mode,
+                    require_proposal=file_request))
             validated_text = checked.text
             validated_mode = checked.mode if not checked.error else ""
             memory.add_event("task.decision", {"task_id":task["id"], "request_id":request_id,
@@ -1649,11 +1677,17 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 return False
             if any(f.get("request_id") == request_id for f in task.get("tool_failures", [])):
                 return False
-            if any(a["status"] != "succeeded" for a in book.records.values()
+            if any(a["status"] != "succeeded" and not (file_turn and intent == "edit" and a["status"] == "cancelled") for a in book.records.values()
                    if a["action_id"] in delivery_actions):
                 return False
             task["corrections_used"] = task.get("corrections_used", 0) + 1
             return True
+
+        def check_proposal(name, arguments):
+            error = validate_proposal(name, arguments, schemas)
+            if not error and task.get("file_delivery"):
+                error = literal_content_error(task.get("file_request_text", task["intent"]), name, arguments)
+            return error
 
         try:
             if direct_reply is not None:
@@ -1676,7 +1710,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     on_call=lambda: task.__setitem__("calls_used", task["calls_used"]+1),
                     validate_final=check_final,
                     take_correction=None if chat_only else take_correction,
-                    validate_call=lambda name, arguments: validate_proposal(name, arguments, schemas),
+                    validate_call=check_proposal,
                 )
                 if pending and intent == "other" and validated_mode == "chat" and not loop_result.steps:
                     for key, value in chat_budget_before.items():
@@ -1720,8 +1754,10 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                                       request_id=request_id)
         if direct_reply is not None and delivered != direct_reply:
             delivered = direct_reply + "\n" + delivered
+        if file_turn:
+            delivered = render_file_delivery(task, session_id, book.records.values(), delivered, require_proposal=file_request)
         agent_reply = replace(agent_reply, reply=delivered)
-        if agent_reply.reply:
+        if agent_reply.reply and not file_turn:
             agent_reply = replace(agent_reply, reply=normalize_voice_text(agent_reply.reply))
         if request_id in _superseded_requests:
             # the newer request owns this intent: withdraw the user turn so the
