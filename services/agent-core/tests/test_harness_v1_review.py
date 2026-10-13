@@ -126,6 +126,12 @@ class IndependentReviewTests(unittest.IsolatedAsyncioTestCase):
             "type": "function",
             "function": {"name": "get_time", "parameters": {"type": "object", "properties": {}}},
         }]
+        # Core now requires proposals to name advertised tools. Preserve these
+        # synthetic permission/unknown/budget probes by registering their tools.
+        self.core.tools_schema.extend([
+            {"type": "function", "function": {"name": name, "parameters": {"type": "object"}}}
+            for name in ("write_file", "mcp__fixture__send_email")
+        ])
         self.core.provider = SimpleNamespace(
             complete_with_tools=AsyncMock(return_value={"content": _reply()}),
             complete=AsyncMock(return_value=_reply()),

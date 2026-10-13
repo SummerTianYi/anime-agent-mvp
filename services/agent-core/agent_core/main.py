@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import io
 import json
 import os
@@ -30,6 +31,8 @@ except ImportError:
     pass
 
 from .agent_loop import MAX_TOOL_STEPS, AgentStep, ToolsUnsupportedError, run_agent_loop
+from .task_delivery import INCOMPLETE, validate_decision, validate_proposal
+from .harness import TASK_DECISION_CONTRACT
 from .harness import (
     TOOL_GUIDANCE,
     AgentReply,
@@ -146,7 +149,8 @@ class MockProvider:
             (item["content"] for item in reversed(messages) if item["role"] == "user"),
             "",
         )
-        return f"我听到了：{user_text}\n\n当前没有配置可用的模型 API Key，正在使用本地 Mock 回复。"
+        return json.dumps({"decision":{"mode":"chat"}, "reply":
+            f"我听到了：{user_text}\n\n当前没有配置可用的模型 API Key，正在使用本地 Mock 回复。"}, ensure_ascii=False)
 
 
 class OpenAICompatibleProvider:
@@ -865,6 +869,13 @@ def _receipt_delivery(session_id, task, fallback, *, recovery=False, action_ids=
         if item["status"] == "succeeded" and item["tool"].endswith("send_email"):
             label = "连接器已接受发送（不代表收件人已收到）"
         detail = receipt.get("error", "")
+        if item["status"] == "succeeded" and item["tool"] == "write_file" and receipt.get("verified_readback") is True:
+            detail = "写后读回校验通过；SHA256=" + str(receipt.get("sha256", ""))
+            content = args.get("content")
+            if args.get("mode", "overwrite") == "overwrite" and isinstance(content, str):
+                encoded = content.encode("utf-8")
+                if hashlib.sha256(encoded).hexdigest() == receipt.get("sha256") and len(encoded) == receipt.get("bytes_written"):
+                    detail += "；校验时实际内容：" + content
         if item["status"] == "succeeded" and item["tool"].startswith("mcp__"):
             output = str(receipt.get("output", ""))
             detail = output[:600] + ("（结果较长，此处仅摘录；完整回执已保存。）" if len(output) > 600 else "")
@@ -876,11 +887,12 @@ def _receipt_delivery(session_id, task, fallback, *, recovery=False, action_ids=
         first = _actions().pending(session_id)[0]
         lines.append("下一项待确认参数：" + json.dumps(first["arguments"], ensure_ascii=False))
         lines.append("核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。")
-    # Read-only connector successes may carry the requested substantive answer.
+    # Only a validated decision may supply a substantive read summary. All
+    # action status continues to come from this host renderer.
     mutations = [i for i in items if tool_effect(i["tool"], i["arguments"]) != "read"]
     if recovery or failures or mutations or any(i["status"] != "succeeded" for i in items):
         return "我核对了实际执行记录：\n" + "\n".join(lines)
-    return fallback
+    return fallback or "我核对了实际执行记录：\n" + "\n".join(lines)
 
 # zcode (phase B 记忆接入): preference-style memory candidates auto-confirm;
 # anything else (files, people, locations, commands) stays pending for the
@@ -1352,6 +1364,7 @@ async def run_tool(name: str, arguments: dict) -> dict:
             task.setdefault("tool_failures", []).append(failure)
             return {"ok":False,"outcome":"cancelled",**failure}
         item = book.propose(session, task["id"], REQUEST_ID.get(), name, arguments)
+        task["needs_proposal"] = False
         task.setdefault("delivery_actions", []).append(item["action_id"])
         if item["action_id"] not in task.setdefault("observed_actions", []):
             task["observed_actions"].append(item["action_id"])
@@ -1387,7 +1400,10 @@ async def run_tool(name: str, arguments: dict) -> dict:
         packed_result = result
     # Retain ALLOW results before the model gets a chance to fail its follow-up.
     # This is a read receipt, not a new authorization or an executable ticket.
+    result_ref = f"{task['id']}:read:{len(task.get('tool_results', [])) + 1}"
+    packed_result = {**packed_result, "result_ref": result_ref}
     record = {"tool":name,"arguments":arguments,"result":result,"delivery_result":packed_result,"session_id":session,
+              "result_ref":result_ref,
               "task_id":task["id"],"request_id":REQUEST_ID.get()}
     task.setdefault("tool_results", []).append(record)
     memory.add_event("tool.result", record)
@@ -1594,7 +1610,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             memory.add_event("memory.recall.error", {"message": str(exc)[:200]})
         extra_parts = [
             part
-            for part in (task_context, confirm_note, effort_prompt_note(effort_name), recall_block, guided)
+            for part in (task_context, confirm_note, effort_prompt_note(effort_name), recall_block, guided, TASK_DECISION_CONTRACT)
             if part
         ]
         extra_system = "\n\n".join(extra_parts)
@@ -1602,10 +1618,33 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             conversation_history, text, extra_system=extra_system, request_session_title=is_first_exchange
         )
         delivery_recovery = False
+        validated_text = ""
+        schemas = {s["function"]["name"]: s["function"].get("parameters", {}) for s in effective_tools_schema}
+
+        def check_final(raw):
+            nonlocal validated_text
+            checked = validate_decision(raw, task=task, session_id=session_id, request_id=request_id,
+                actions=[{**a, "effect":tool_effect(a["tool"], a["arguments"])} for a in book.records.values()], schemas=schemas)
+            validated_text = checked.text
+            memory.add_event("task.decision", {"task_id":task["id"], "request_id":request_id,
+                "mode":checked.mode, "accepted":not checked.error, "error":checked.error})
+            return checked.error
+
+        def take_correction():
+            if task.get("corrections_used", 0) >= 1 or task.get("blocked"):
+                return False
+            if any(f.get("request_id") == request_id for f in task.get("tool_failures", [])):
+                return False
+            if any(a["status"] != "succeeded" for a in book.records.values()
+                   if a["action_id"] in delivery_actions):
+                return False
+            task["corrections_used"] = task.get("corrections_used", 0) + 1
+            return True
+
         try:
             if direct_reply is not None:
                 raw_reply = json.dumps({"reply":direct_reply}, ensure_ascii=False)
-            elif effective_tools_schema:
+            else:
                 loop_result = await run_agent_loop(
                     provider,
                     messages,
@@ -1616,6 +1655,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                     max_calls=max(0, int(task["budget"]["max_calls"])-task["calls_used"]),
                     on_round=lambda: task.__setitem__("rounds_used", task["rounds_used"]+1),
                     on_call=lambda: task.__setitem__("calls_used", task["calls_used"]+1),
+                    validate_final=check_final,
+                    take_correction=take_correction,
+                    validate_call=lambda name, arguments: validate_proposal(name, arguments, schemas),
                 )
                 if loop_result.degraded and hasattr(provider, "complete_with_tools"):
                     memory.add_event("agent.tools.unsupported", {"request_id": request_id})
@@ -1630,13 +1672,16 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                         },
                     )
                 raw_reply = loop_result.text
-            else:
-                raw_reply = await provider.complete(messages)
+                if loop_result.host_delivery:
+                    raw_reply = json.dumps({"reply":INCOMPLETE}, ensure_ascii=False)
+                    validated_text = INCOMPLETE
+                    delivery_recovery = True
         except ProviderError as exc:
             memory.add_event("core.error", {"message": str(exc), "request_id": request_id})
             await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc), request_id=request_id))
             delivery_recovery = True
             raw_reply = json.dumps({"reply":"这次模型答复未能完成。已记录的操作结果会保留，不会因此重新执行。"}, ensure_ascii=False)
+            validated_text = "这次模型答复未能完成，任务未完成。已记录的操作结果会保留，不会因此重新执行。"
 
         try:
             agent_reply = harness.parse_reply(raw_reply)
@@ -1644,7 +1689,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             delivery_recovery = True
             agent_reply = AgentReply(reply="这次答复格式无法解析，已记录的操作结果会保留。")
         delivery_recovery = delivery_recovery or agent_reply.parse_failed
-        delivered = _receipt_delivery(session_id, task, agent_reply.reply, recovery=delivery_recovery,
+        delivered = _receipt_delivery(session_id, task, direct_reply if direct_reply is not None else validated_text,
+                                      recovery=delivery_recovery,
                                       action_ids=None if delivery_recovery else delivery_actions,
                                       request_id=request_id)
         if direct_reply is not None and delivered != direct_reply:

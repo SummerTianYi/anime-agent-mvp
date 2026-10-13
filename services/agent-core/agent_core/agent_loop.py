@@ -2,10 +2,9 @@
 
 Drives a Provider through tool-call rounds: the model may request tools,
 the executor runs them, results are fed back as "tool" messages, and the
-final answer is expected to satisfy the character JSON contract exactly as
-before. Providers without ``complete_with_tools`` (and the mock provider)
-fall back to a single plain completion, byte-identical to the pre-loop
-baseline, so a broken or tool-incapable endpoint can never regress chat.
+Core validates the final task decision independently of presentation fields.
+Providers without tools use the same bounded decision contract. Standalone
+callers may omit the validator for backwards-compatible plain completion.
 """
 
 from __future__ import annotations
@@ -39,6 +38,8 @@ class AgentLoopResult:
     degraded: bool = False
     hit_step_limit: bool = False
     rounds: int = 0
+    decision_error: str = ""
+    host_delivery: bool = False
 
 
 def _truncate(text: str, limit: int) -> str:
@@ -81,6 +82,9 @@ async def run_agent_loop(
     max_calls: int = 18,
     on_round: Callable[[], None] | None = None,
     on_call: Callable[[], None] | None = None,
+    validate_final: Callable[[str], str] | None = None,
+    take_correction: Callable[[], bool] | None = None,
+    validate_call: Callable[[str, dict[str, Any]], str] | None = None,
 ) -> AgentLoopResult:
     conversation: list[dict[str, Any]] = [dict(item) for item in messages]
     steps: list[AgentStep] = []
@@ -89,38 +93,72 @@ async def run_agent_loop(
     degraded = not supports_tools
     exhausted = False
     rounds = 0
+    decision_error = ""
 
-    if supports_tools and (max_steps <= 0 or max_calls <= 0):
+    def accepted(text):
+        nonlocal decision_error
+        decision_error = validate_final(text) if validate_final is not None else ""
+        return not decision_error
+
+    def correct(text, *, append_text=True):
+        if take_correction is None or not take_correction():
+            return False
+        if append_text:
+            conversation.append({"role": "assistant", "content": text})
+        # One system message remains compatible with both deployed providers.
+        note = ("\n【宿主纠正】" + decision_error +
+                "。保留原任务目标和剩余预算；这是唯一一次纠正机会。需要操作请使用真实tool_calls；"
+                "聊天/解释用chat，缺参用clarify，报告引用真实结果。不要用口头确认代替提案。")
+        if conversation and conversation[0].get("role") == "system":
+            conversation[0] = {**conversation[0], "content": str(conversation[0].get("content", "")) + note}
+        else:
+            conversation.insert(0, {"role": "system", "content": note})
+        return True
+
+    if (supports_tools or validate_final is not None) and (max_steps <= 0 or max_calls <= 0):
         return AgentLoopResult(text="本任务的工具预算已用完，没有执行新的操作。已有回执与产物仍保留；新任务需明确提出。",
-                               hit_step_limit=True)
+                               hit_step_limit=True, host_delivery=validate_final is not None)
 
-    if supports_tools:
+    if supports_tools or validate_final is not None:
         exhausted = True
         for _ in range(max_steps):
             rounds += 1
             if on_round is not None:
                 on_round()
             try:
-                turn = await provider.complete_with_tools(conversation, tools_schema)
+                turn = (await provider.complete_with_tools(conversation, tools_schema) if supports_tools
+                        else {"content": await provider.complete(conversation)})
             except ToolsUnsupportedError:
                 degraded = True
-                exhausted = False
-                break
+                if validate_final is None:
+                    exhausted = False
+                    break
+                supports_tools = False
+                continue
             calls = turn.get("tool_calls") or []
             if not calls:
                 text = str(turn.get("content") or "").strip()
-                if text:
+                if text and accepted(text):
                     final_text = text
+                elif not text and validate_final is not None:
+                    accepted(text)
+                    if rounds < max_steps and correct(text):
+                        continue
+                elif rounds < max_steps and correct(text):
+                    continue
                 exhausted = False
                 break
             raw_message = turn.get("raw") or {"role": "assistant", "content": None}
             conversation.append(raw_message)
+            invalid_proposal = False
+            pending_proposal = False
             # A pathological provider batch cannot create an unbounded executor loop.
             for index, call in enumerate(calls[:max(0, max_calls-len(steps))]):
                 if on_call is not None:
                     on_call()
                 name = str(call.get("name", "")).strip()
-                arguments = call.get("arguments") or {}
+                arguments = call.get("arguments", {})
+                argument_error = validate_call(name, arguments) if validate_call is not None else ""
                 allowed = True
                 if permission_gate is not None:
                     try:
@@ -132,7 +170,11 @@ async def run_agent_loop(
                         allowed = False
                         rule_id = "gate-error"
                         reason = str(exc)[:200]
-                if allowed:
+                if argument_error:
+                    invalid_proposal = True
+                    decision_error = argument_error
+                    result = {"ok": False, "error": argument_error, "outcome": "invalid_proposal"}
+                elif allowed:
                     try:
                         if len(steps) >= max_calls:
                             result = {"ok":False,"error":"本轮工具调用预算已用完；未执行","outcome":"budget_exhausted"}
@@ -145,6 +187,7 @@ async def run_agent_loop(
                         "ok": False,
                         "error": f"权限拒绝（{rule_id}）：{reason}",
                     }
+                pending_proposal = pending_proposal or bool(result.get("needs_confirmation"))
                 step = AgentStep(
                     tool=name,
                     arguments=arguments,
@@ -165,19 +208,27 @@ async def run_agent_loop(
                         "content": step.summary,
                     }
                 )
-            if any(json.loads(s.summary).get("needs_confirmation") for s in steps[-len(calls):]
-                   if s.summary.startswith("{") and len(s.summary) < TOOL_RESULT_CHAR_LIMIT):
+            if pending_proposal:
+                exhausted = False
+                if validate_final is not None:
+                    return AgentLoopResult(text="", steps=steps, rounds=rounds, host_delivery=True)
+                break
+            if invalid_proposal:
+                if rounds < max_steps and correct("", append_text=False):
+                    continue
                 exhausted = False
                 break
             if len(steps) >= max_calls:
                 break
 
-    if final_text is None:
+    if final_text is None and validate_final is None:
         final_text = await provider.complete(_fallback_messages(messages, steps))
     return AgentLoopResult(
-        text=final_text,
+        text=final_text or "",
         steps=steps,
         degraded=degraded,
         hit_step_limit=exhausted,
         rounds=rounds,
+        decision_error=decision_error,
+        host_delivery=validate_final is not None and final_text is None,
     )

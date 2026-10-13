@@ -66,7 +66,8 @@ class TaskDeliveryTests(unittest.IsolatedAsyncioTestCase):
                 ("mcp__github__issue_read",{"method":"get"}),("mcp__drive__search",{}))):
             await core.handle_chat("B01 new query "+str(index),"new-"+str(index),self.sid)
             await core.run_tool(name,args)
-            core.provider.complete.return_value='{"reply":"两份材料的结论是合计一百七十五。"}'
+            core.provider.complete.return_value=json.dumps({"reply":"两份材料的结论是合计一百七十五。",
+                "decision":{"mode":"report","action_refs":[core._sync_pending(self.sid)[0]["action_id"]]}})
             with patch.object(core,"_execute_authorized_tool",AsyncMock(return_value={"ok":True,"output":"x"*9000+"total 175"})):
                 await core.handle_chat("确认","summary-"+str(index),self.sid)
             self.assertIn("两份材料的结论",self.final())
@@ -143,7 +144,8 @@ class TaskDeliveryTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_normal_read_answer_is_preserved(self):
         await core.run_tool("mcp__gmail__read_email",{"messageId":"synthetic"})
-        core.provider.complete.return_value='{"reply":"合计一百七十五。"}'
+        core.provider.complete.return_value=json.dumps({"reply":"合计一百七十五。",
+            "decision":{"mode":"report","action_refs":[core._sync_pending(self.sid)[0]["action_id"]]}})
         with patch.object(core,"_execute_authorized_tool",AsyncMock(return_value={"ok":True,"output":"total 175"})):
             await core.handle_chat("确认","normal-read",self.sid)
         self.assertIn("合计一百七十五",self.final())
@@ -169,7 +171,7 @@ class TaskDeliveryTests(unittest.IsolatedAsyncioTestCase):
     async def test_pending_ticket_does_not_replace_unrelated_chat(self):
         ticket = await self.proposal("pending.txt", "B01")
         task = core._task_state[self.sid]
-        core.provider.complete.return_value = '{"reply":"晚上好，我是天依，这是声音测试。"}'
+        core.provider.complete.return_value = '{"decision":{"mode":"chat"},"reply":"晚上好，我是天依，这是声音测试。"}'
         await core.handle_chat("请说一句晚上好", "chat-with-pending", self.sid)
         self.assertIn("晚上好，我是天依", self.final())
         self.assertIs(core._task_state[self.sid], task)

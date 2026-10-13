@@ -1,0 +1,70 @@
+{
+  "scope": "isolated actual source; no desktop, models or active services",
+  "source_sha256": {
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "67a3326b11cea07bf339bf56f71da5e7bae2b00ae60d92ca593cc83d4557d0e9",
+    "harness.py": "cf7984db9c594de03d364ec45d67391e9a6f849e0681d32d2e04c9f75d68d2b1",
+    "main.py": "9cee91a4de5f4a97873812c2fb6e04c2b1bcc4197333168ef65e373fae9c7db3",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "tests": 14,
+  "passed": false,
+  "failures": [
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_act_cannot_escape_to_chat_during_correction",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 71, in test_act_cannot_escape_to_chat_during_correction\n    self.assertIn(\"尚未完成\", answer)\nAssertionError: '尚未完成' not found in '这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。'\n"
+    },
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_failed_and_cross_session_action_reference_cannot_supply_success",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 110, in test_failed_and_cross_session_action_reference_cannot_supply_success\n    self.assertNotIn(\"已经成功\", answer)\nAssertionError: '已经成功' unexpectedly found in '已经成功'\n"
+    },
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_fake_missing_field_cannot_escape_to_clarification",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 129, in test_fake_missing_field_cannot_escape_to_clarification\n    self.assertIn(\"尚未完成\", answer)\nAssertionError: '尚未完成' not found in '全部完成'\n"
+    },
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_historical_glm_no_call_failures_do_not_make_fake_pending",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 46, in test_historical_glm_no_call_failures_do_not_make_fake_pending\n    self.assertNotIn(\"确认后我就\", answer)\nAssertionError: '确认后我就' unexpectedly found in '好，我来提出这项待确认的写入操作：\\n\\n**更新 Issue 标题（GitHub issue_write）**\\n- 仓库：SummerTianYi/tianyi-audit-round02-20261007\\n- Issue：#1\\n- 操作：将标题更新为「[B01-FOLLOWUP] synthetic title」\\n- 其余字段不变\\n\\n这是一项会修改 GitHub Issue 的写入操作。确认后我就调用 issue_write 执行。'\n"
+    },
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_missing_parameters_use_schema_and_no_ticket",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 122, in test_missing_parameters_use_schema_and_no_ticket\n    self.assertIn(\"path\", answer)\nAssertionError: 'path' not found in '我已经写好了'\n"
+    },
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_read_then_legacy_false_write_not_delivered",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 91, in test_read_then_legacy_false_write_not_delivered\n    self.assertNotIn(\"标题改好了\", answer)\nAssertionError: '标题改好了' unexpectedly found in '只读结果合计175；我还把标题改好了。'\n"
+    },
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_single_correction_can_form_real_ticket_then_complete",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 54, in test_single_correction_can_form_real_ticket_then_complete\n    self.assertIn(\"待确认\", answer)\nAssertionError: '待确认' not found in '我等你确认'\n"
+    },
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_wrong_or_cross_task_reference_is_not_evidence",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 104, in test_wrong_or_cross_task_reference_is_not_evidence\n    self.assertNotIn(\"已经完成\", answer)\nAssertionError: '已经完成' unexpectedly found in '已经完成'\n"
+    }
+  ],
+  "errors": [
+    {
+      "test": "test_a4_pilot.A4PilotTests.test_continue_keeps_goal_budget_and_one_correction",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\services\\agent-core\\tests\\test_a4_pilot.py\", line 84, in test_continue_keeps_goal_budget_and_one_correction\n    self.assertEqual(task[\"corrections_used\"], 1)\n                     ~~~~^^^^^^^^^^^^^^^^^^^^\nKeyError: 'corrections_used'\n"
+    }
+  ],
+  "skipped": [],
+  "model_calls": 0
+}

@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-13",
+  "action": "scripts/check_docs_consistency.py executed from candidate root with PYTHONUTF8 but without explicit ANIME_AGENT_DATA_DIR/ANIME_AGENT_CONFIG_PATH",
+  "check_result": "DOCS_CONSISTENCY_OK; 418 discovered tests",
+  "source_evidence": [
+    "check_docs_consistency.discover_test_count imports tests using unittest discovery",
+    "test_a4_pilot imports agent_core.main",
+    "agent_core.main top level constructs MemoryStore",
+    "MemoryStore creates its default directory, connects SQLite, sets WAL and runs migration initialization"
+  ],
+  "observed_environment": {"ANIME_AGENT_DATA_DIR": "unset", "ANIME_AGENT_CONFIG_PATH": "unset"},
+  "default_database_untouched_proven": false,
+  "default_database_is_active_production_database": "not inspected; unknown",
+  "business_test_data_written_to_default_database": "no intentional test execution by the documentation guard; initialization effects unverified",
+  "response": "Informed user; stopped non-isolated dynamic checks; no default database inspection or attempted restoration; recorded for Manager acceptance"
+}

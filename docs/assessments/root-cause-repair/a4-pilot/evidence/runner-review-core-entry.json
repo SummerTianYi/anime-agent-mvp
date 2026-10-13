@@ -1,0 +1,65 @@
+{
+  "scope": "independent offline synthetic review; no real HTTP/production DB/services",
+  "source_sha256": {
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": "d10b44dafd3ba25b35b7bb2d3a1c6d61d282975e6f77f606c8ed64dc996c5676",
+    "services/agent-core/agent_core/task_delivery.py": "ed1497729eeb422f9fa63ed4a7fa4376b296c667d005407e655d1ee9790f15df",
+    "services/agent-core/agent_core/agent_loop.py": "4f75692ecc3f7b93c2a2f0e922006a314b96a6c6caa7a91f5ab75f8d7dc73939"
+  },
+  "probes": {
+    "invalid_mode": [
+      {
+        "input_type": "list",
+        "handled": false,
+        "exception_type": "TypeError"
+      },
+      {
+        "input_type": "dict",
+        "handled": false,
+        "exception_type": "TypeError"
+      }
+    ],
+    "clarification_accepts_chat": {
+      "scenario": "clarification",
+      "grader_passed": true
+    },
+    "explanation_accepts_irrelevant_chat": {
+      "scenario": "explanation",
+      "grader_passed": true
+    },
+    "summary_missing_date_and_stages": {
+      "scenario": "summary",
+      "grader_passed": true
+    },
+    "content_projection": {
+      "embedded_marker_preserved": true
+    },
+    "redirect_count": {
+      "prior_attempts": 59,
+      "observed_ledger_count": 60,
+      "http_dispatches_in_memory": 2,
+      "blocked": false,
+      "cap_would_be_exceeded": true
+    },
+    "exhausted_delivery": {
+      "host_delivery": false,
+      "hit_step_limit": true,
+      "nonempty_loop_text": true
+    },
+    "actual_core_entry": [
+      {
+        "case": "invalid_mode",
+        "exception_type": "TypeError",
+        "assistant_count": 0,
+        "assistant_nonempty": false,
+        "provider_calls": 1
+      },
+      {
+        "case": "exhausted_budget",
+        "exception_type": null,
+        "assistant_count": 1,
+        "assistant_nonempty": false,
+        "provider_calls": 0
+      }
+    ]
+  }
+}

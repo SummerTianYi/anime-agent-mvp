@@ -1,0 +1,145 @@
+{
+  "scope": "independent offline synthetic review; no real HTTP/production DB/services",
+  "source_sha256": {
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": "d10b44dafd3ba25b35b7bb2d3a1c6d61d282975e6f77f606c8ed64dc996c5676",
+    "services/agent-core/agent_core/task_delivery.py": "ed1497729eeb422f9fa63ed4a7fa4376b296c667d005407e655d1ee9790f15df",
+    "services/agent-core/agent_core/agent_loop.py": "4f75692ecc3f7b93c2a2f0e922006a314b96a6c6caa7a91f5ab75f8d7dc73939"
+  },
+  "probes": {
+    "invalid_mode": [
+      {
+        "input_type": "list",
+        "handled": false,
+        "exception_type": "TypeError"
+      },
+      {
+        "input_type": "dict",
+        "handled": false,
+        "exception_type": "TypeError"
+      }
+    ],
+    "clarification_accepts_chat": {
+      "scenario": "clarification",
+      "grader_passed": true
+    },
+    "explanation_accepts_irrelevant_chat": {
+      "scenario": "explanation",
+      "grader_passed": true
+    },
+    "summary_missing_date_and_stages": {
+      "scenario": "summary",
+      "grader_passed": true
+    },
+    "content_projection": {
+      "embedded_marker_preserved": true
+    },
+    "redirect_count": {
+      "prior_attempts": 59,
+      "observed_ledger_count": 60,
+      "http_dispatches_in_memory": 2,
+      "blocked": false,
+      "cap_would_be_exceeded": true
+    },
+    "exhausted_delivery": {
+      "host_delivery": false,
+      "hit_step_limit": true,
+      "nonempty_loop_text": true
+    },
+    "historical_metadata_only": {
+      "case_count": 10,
+      "call_count": 23,
+      "cases": [
+        {
+          "id": "Deepseek-v4-flash-1-issue",
+          "scenario": "issue",
+          "passed": false,
+          "transport_count": 2,
+          "reopened_ok": true,
+          "input_normalized_sha256": "f08e0074190a0c2509a3886dee83be3ac08a4b7e54954735fb002dfc8da8604b",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "GLM-5.2-1-issue",
+          "scenario": "issue",
+          "passed": true,
+          "transport_count": 4,
+          "reopened_ok": true,
+          "input_normalized_sha256": "f08e0074190a0c2509a3886dee83be3ac08a4b7e54954735fb002dfc8da8604b",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "Deepseek-v4-flash-1-file",
+          "scenario": "file",
+          "passed": false,
+          "transport_count": 3,
+          "reopened_ok": true,
+          "input_normalized_sha256": "a357771a2a4c9979f210a1a3201b5d0e16efc0341164fdaac2877286e1bd5809",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "GLM-5.2-1-file",
+          "scenario": "file",
+          "passed": true,
+          "transport_count": 5,
+          "reopened_ok": true,
+          "input_normalized_sha256": "a357771a2a4c9979f210a1a3201b5d0e16efc0341164fdaac2877286e1bd5809",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "Deepseek-v4-flash-1-summary",
+          "scenario": "summary",
+          "passed": true,
+          "transport_count": 2,
+          "reopened_ok": true,
+          "input_normalized_sha256": "bd9e51664ec93d4b6c31b8e2c6a1302b661db0bccbb51511fe9aa42017d5a20e",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "GLM-5.2-1-summary",
+          "scenario": "summary",
+          "passed": true,
+          "transport_count": 2,
+          "reopened_ok": true,
+          "input_normalized_sha256": "bd9e51664ec93d4b6c31b8e2c6a1302b661db0bccbb51511fe9aa42017d5a20e",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "Deepseek-v4-flash-1-explanation",
+          "scenario": "explanation",
+          "passed": true,
+          "transport_count": 1,
+          "reopened_ok": true,
+          "input_normalized_sha256": "9e8c64a9c2c5a2b04dca72f17347bd0fa3bdc4defe845874c8fb46260094a599",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "GLM-5.2-1-explanation",
+          "scenario": "explanation",
+          "passed": false,
+          "transport_count": 2,
+          "reopened_ok": true,
+          "input_normalized_sha256": "9e8c64a9c2c5a2b04dca72f17347bd0fa3bdc4defe845874c8fb46260094a599",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "Deepseek-v4-flash-1-clarification",
+          "scenario": "clarification",
+          "passed": true,
+          "transport_count": 1,
+          "reopened_ok": true,
+          "input_normalized_sha256": "541eacaeccc500aa883ec7eb85986884dfe40777788f3348ab4f4907c0058daa",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        },
+        {
+          "id": "GLM-5.2-1-clarification",
+          "scenario": "clarification",
+          "passed": false,
+          "transport_count": 1,
+          "reopened_ok": true,
+          "input_normalized_sha256": "541eacaeccc500aa883ec7eb85986884dfe40777788f3348ab4f4907c0058daa",
+          "initial_state_sha256": "35632665e5af8304430a9d89c229ea4625bd68a731544f533e3df4e8aed7b3be"
+        }
+      ]
+    }
+  }
+}

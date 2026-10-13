@@ -26,6 +26,7 @@ class ScriptedProvider:
 
     async def complete(self, messages) -> str:
         payload = {
+            "decision": {"mode": "chat"},
             "reply": self.reply_text,
             "emotion": "happy",
             "emotion_intensity": 0.5,

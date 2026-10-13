@@ -54,6 +54,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+Codex 2026-10-13：[A4 小范围控制链试验](assessments/root-cause-repair/a4-pilot/REPORT.md)完成局部实现与验证，Core418项隔离回归通过，但独立对抗仍4/14失败。首轮双模型6/10，记录23次请求入口（底层重定向计数不可追溯）；不扩样、不建议集成，停在Manager验收。未部署、未操作当前Godot/Core/TTS进程；文档检查遗漏隔离，默认数据库初始化影响未核验，详见报告。以下保留历史记录。
+
 2026-10-12 Codex 后台续作：[FOLLOWUP](assessments/root-cause-repair/batch-01/FOLLOWUP.md)为最新候选停点。新增ALLOW异常回执修复通过Core399及独立反例；TTS43通过且运行代码未改。固定双模型验证DS三次真票据、GLM两次假待办及一次超时，A4仍开放，整批未通过。两私仓独立候选分支获所有者授权推送；不操作或替换当前Godot/Core/TTS，不部署、不合并main。下段是上次桌面历史。
 
 2026-10-12 Codex：[首批根因修复候选](assessments/root-cause-repair/batch-01/REPORT.md)在独立分支修复任务/回执、连接器、物理路径、配套TTS日志恢复及现场发现的交付/否定解析问题。Core395项及TTS43项离线回归通过；正式Godot与独立持久测试库已完成DS/GLM文件、Gmail空结果/业务失败、正常聊天及重启历史代表验收，DS声音试听获真人明确确认，GLM实际写入后补答超时仍交付成功回执。已逐字节恢复Deepseek配置并正常重开。生产源码、配置和原数据库不覆盖；A4自由正文未闭环，首批部分通过。真实停点以该报告/STATE为准，不重跑259项。
@@ -149,7 +151,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 399 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 418 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -244,7 +246,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 399 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 418 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

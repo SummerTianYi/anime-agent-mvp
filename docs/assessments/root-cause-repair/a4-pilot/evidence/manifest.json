@@ -1,0 +1,114 @@
+{
+  "baseline_commit": "463cbdd647cda728e5e4bded928f59216a3d2cb1",
+  "final_business_sha256": {
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "main.py": "7b87538c5eb2fb006c4dc879fbb4c4655ea39ad886e319bc709d386bd438dd6c",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "first_live_business_sha256": {
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "4f75692ecc3f7b93c2a2f0e922006a314b96a6c6caa7a91f5ab75f8d7dc73939",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "main.py": "b7af19605e7ae13653c9cf8b87f133ad17eeebfcd66c81fe2c50262011ea7929",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "ed1497729eeb422f9fa63ed4a7fa4376b296c667d005407e655d1ee9790f15df",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "history": [
+    {
+      "case": "Deepseek-v4-flash-1-issue",
+      "messages": 6,
+      "same_as_first_reopen": true,
+      "db_sha256": "bbef58579e59d8709f1d62db7440260ffd0bd20edd62f9c8d4e32afa2aec24ff"
+    },
+    {
+      "case": "GLM-5.2-1-issue",
+      "messages": 6,
+      "same_as_first_reopen": true,
+      "db_sha256": "a5cc97c15e7378ae681735459b6cba93913956eba57209734e0e6776f6af429d"
+    },
+    {
+      "case": "Deepseek-v4-flash-1-file",
+      "messages": 6,
+      "same_as_first_reopen": true,
+      "db_sha256": "7e76dd948c3554add9d9c9568d5c9c055e6a18077c7d28cf1c0a7c323baff384"
+    },
+    {
+      "case": "GLM-5.2-1-file",
+      "messages": 6,
+      "same_as_first_reopen": true,
+      "db_sha256": "bf58450bc255adb0db944f5ead48c57bdf86911a4938a75fcf752381fea39045"
+    },
+    {
+      "case": "Deepseek-v4-flash-1-summary",
+      "messages": 2,
+      "same_as_first_reopen": true,
+      "db_sha256": "207192df1d588457ce4056890c7de0ee02a72adc2ff06c61d8d6c5a93dea8c4a"
+    },
+    {
+      "case": "GLM-5.2-1-summary",
+      "messages": 2,
+      "same_as_first_reopen": true,
+      "db_sha256": "8505d14250df7591777228ccd5d22530593bfc26bb81dc1dab91a6e47af73c5e"
+    },
+    {
+      "case": "Deepseek-v4-flash-1-explanation",
+      "messages": 2,
+      "same_as_first_reopen": true,
+      "db_sha256": "80c56af3f5f62e04d25933102fca3eaf7dfbea3e4748a50e3461255b7a854aeb"
+    },
+    {
+      "case": "GLM-5.2-1-explanation",
+      "messages": 2,
+      "same_as_first_reopen": true,
+      "db_sha256": "7104ec98cb11ab2b54015b69cd39d29d93f1261412d99d00a30d7240a75764cf"
+    },
+    {
+      "case": "Deepseek-v4-flash-1-clarification",
+      "messages": 2,
+      "same_as_first_reopen": true,
+      "db_sha256": "97ee7c92bc68a28b7df7854a41fbc0c6771db03602e7e8130a14b34d803c3427"
+    },
+    {
+      "case": "GLM-5.2-1-clarification",
+      "messages": 2,
+      "same_as_first_reopen": true,
+      "db_sha256": "2c729f3bafd84c041f98ee33ac6896d9890c81d5984a36683c602992e18a4a5c"
+    }
+  ],
+  "history_all_equal": true
+}
