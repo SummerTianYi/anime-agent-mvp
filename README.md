@@ -1,5 +1,7 @@
 # Anime Agent MVP
 
+Codex 2026-10-14：[已有待办的跨轮进度修复](docs/assessments/root-cause-repair/a4-pilot/PENDING_STATUS.md)完成，Core431隔离回归、独立13例通过。状态按会话/任务完整账本交付，保留普通聊天及现有撤权流程；文档检查入口先行独立隔离修正。本项通过仅指此窄范围，不关闭A4其他缺陷；零真实模型/外部业务调用，未部署，停在Manager验收。此前数据库影响未知记录保留。
+
 Codex 2026-10-13：[A4 小范围控制链试验](docs/assessments/root-cause-repair/a4-pilot/REPORT.md)完成局部实现与验证，Core418项隔离回归通过，但独立对抗仍4/14失败。首轮双模型6/10，记录23次请求入口（底层重定向计数不可追溯）；不扩样、不建议集成，停在Manager验收。未部署、未操作当前Godot/Core/TTS进程；文档检查遗漏隔离，默认数据库初始化影响未核验，详见报告。以下保留历史记录。
 
 Codex 2026-10-12 后台续作：[最新FOLLOWUP](docs/assessments/root-cause-repair/batch-01/FOLLOWUP.md)。Core399项回归与独立对抗支持局部异常回执修复，TTS43项通过。GLM假待办仍复现，本批未通过；独立分支可远程审查，未部署、未操作当前桌面。下段保留上次桌面历史。

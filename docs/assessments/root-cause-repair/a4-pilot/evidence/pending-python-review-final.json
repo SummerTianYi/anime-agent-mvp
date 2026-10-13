@@ -1,0 +1,59 @@
+{
+  "verdict": "approve_no_blocking_findings",
+  "scope": "Final hold-prefix delta only; no other phrasing expansion; existing in-memory audit fixture",
+  "supersedes_for_current_hashes": "pending-python-review.json",
+  "previous_evidence_preserved": true,
+  "reviewed_delta": {
+    "main_and_replay_unchanged": true,
+    "task_status_only_removed_hold_prefix_substitution": true,
+    "independent_script_only_added_hold_revocation_case": true,
+    "regular_test_change": "Moved hold-prefixed sentence from read-only query inputs to queued-revocation controls"
+  },
+  "source_hashes_before": {
+    "services/agent-core/agent_core/main.py": "0b8f14efdec380dd8dcc825cd9ad015f0bfa0a9d8b539faaf3b4892389f17eb9",
+    "services/agent-core/agent_core/task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "services/agent-core/tests/test_pending_status.py": "532e0587d520c2af251a5dd3f28a45b4269ff363ecf14e49c395c7f90b3fc0cb",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_replay.py": "e9b024b439ddad8735230e798938cba24ac01d41b2de1426652cc8ffb6e25975",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_review.py": "136ab79018bef3cd4a318b1438b389dfdd40906243279408c620635a85a4d409"
+  },
+  "source_hashes_after": {
+    "services/agent-core/agent_core/main.py": "0b8f14efdec380dd8dcc825cd9ad015f0bfa0a9d8b539faaf3b4892389f17eb9",
+    "services/agent-core/agent_core/task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "services/agent-core/tests/test_pending_status.py": "532e0587d520c2af251a5dd3f28a45b4269ff363ecf14e49c395c7f90b3fc0cb",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_replay.py": "e9b024b439ddad8735230e798938cba24ac01d41b2de1426652cc8ffb6e25975",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_review.py": "136ab79018bef3cd4a318b1438b389dfdd40906243279408c620635a85a4d409"
+  },
+  "source_stable": true,
+  "syntax_checked_files": [
+    "services/agent-core/agent_core/main.py",
+    "services/agent-core/agent_core/task_status.py",
+    "services/agent-core/tests/test_pending_status.py",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_replay.py",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_review.py"
+  ],
+  "targeted_test": {
+    "name": "test_hold_before_status_revokes_queued_approval",
+    "tests_run": 1,
+    "failures": 0,
+    "errors": 0,
+    "passed": true,
+    "checks": [
+      {
+        "requirement": "revocation received before dispatch prevents queued approved mutation",
+        "passed": true
+      },
+      {
+        "requirement": "compound cancellation retains cancelled receipt",
+        "passed": true
+      }
+    ],
+    "blocked_io": [],
+    "before_unlock_statuses": [
+      "cancelled"
+    ]
+  },
+  "actual_core_root": "D:/UserData/Administrator/Documents/Codex/2026-10-12/tianyi-repair-batch01-followup/services/agent-core",
+  "real_model_calls": 0,
+  "external_business_calls": 0,
+  "verified": true
+}

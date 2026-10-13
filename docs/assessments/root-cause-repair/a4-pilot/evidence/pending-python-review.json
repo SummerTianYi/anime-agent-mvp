@@ -1,0 +1,97 @@
+{
+  "scope": "Python review; existing in-memory fixture only; no direct Core import",
+  "verdict": "approve_no_blocking_findings",
+  "resolved_findings": [
+    "historical replay swallowed status-turn exceptions and could pass",
+    "independent runner inherited an unbound fixture source root",
+    "independent acceptance and per-case evidence could contradict actual failures"
+  ],
+  "source_hashes_before": {
+    "services/agent-core/agent_core/main.py": "0b8f14efdec380dd8dcc825cd9ad015f0bfa0a9d8b539faaf3b4892389f17eb9",
+    "services/agent-core/agent_core/task_status.py": "c7a0292069392c451366f2a6316b047d081957e4f037d8a89a592a78b7700b3d",
+    "services/agent-core/tests/test_pending_status.py": "3bc0fef506cb92b34b999fb158773cae30d6beb5c771493e70c12661b2b0925d",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_replay.py": "e9b024b439ddad8735230e798938cba24ac01d41b2de1426652cc8ffb6e25975",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_review.py": "221746aac9adeb383d88836b258264492e1250f2f276331051d01f3f3b2cd672"
+  },
+  "source_hashes_after": {
+    "services/agent-core/agent_core/main.py": "0b8f14efdec380dd8dcc825cd9ad015f0bfa0a9d8b539faaf3b4892389f17eb9",
+    "services/agent-core/agent_core/task_status.py": "c7a0292069392c451366f2a6316b047d081957e4f037d8a89a592a78b7700b3d",
+    "services/agent-core/tests/test_pending_status.py": "3bc0fef506cb92b34b999fb158773cae30d6beb5c771493e70c12661b2b0925d",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_replay.py": "e9b024b439ddad8735230e798938cba24ac01d41b2de1426652cc8ffb6e25975",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_review.py": "221746aac9adeb383d88836b258264492e1250f2f276331051d01f3f3b2cd672"
+  },
+  "source_stable": true,
+  "root_binding_verified": true,
+  "actual_core_root": "D:/UserData/Administrator/Documents/Codex/2026-10-12/tianyi-repair-batch01-followup/services/agent-core",
+  "historical_false_pass_reproduced": true,
+  "updated_gate_rejects_exception": true,
+  "normal_case_passes": true,
+  "probes": [
+    {
+      "injected_failure": true,
+      "unittest_passed": true,
+      "acceptance_checks": {
+        "two_real_chat_turns": true,
+        "no_hidden_exception": false,
+        "pending_answer_delivered": false,
+        "pending_action_preserved": true,
+        "query_did_not_call_model_or_executor": true
+      },
+      "accepted": false,
+      "blocked_io": [],
+      "status_turn_exception": {
+        "type": "RuntimeError",
+        "message": "SYNTHETIC_REVIEW_STATUS_FAILURE"
+      }
+    },
+    {
+      "injected_failure": false,
+      "unittest_passed": true,
+      "acceptance_checks": {
+        "two_real_chat_turns": true,
+        "no_hidden_exception": true,
+        "pending_answer_delivered": true,
+        "pending_action_preserved": true,
+        "query_did_not_call_model_or_executor": true
+      },
+      "accepted": true,
+      "blocked_io": [],
+      "status_turn_exception": null
+    }
+  ],
+  "independent_case_projection": [
+    {
+      "case": "normal",
+      "passed": true,
+      "expected": true
+    },
+    {
+      "case": "fixture-error",
+      "passed": false,
+      "expected": false
+    },
+    {
+      "case": "empty-checks",
+      "passed": false,
+      "expected": false
+    },
+    {
+      "case": "blocked-io",
+      "passed": false,
+      "expected": false
+    },
+    {
+      "case": "missing-teardown",
+      "passed": false,
+      "expected": false
+    },
+    {
+      "case": "subtest-error",
+      "passed": false,
+      "expected": false
+    }
+  ],
+  "verified": true,
+  "real_model_calls": 0,
+  "external_business_calls": 0
+}

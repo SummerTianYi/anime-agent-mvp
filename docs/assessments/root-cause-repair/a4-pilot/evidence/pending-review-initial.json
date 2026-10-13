@@ -1,0 +1,2009 @@
+{
+  "scope": "independent offline pending-status review; handle_chat; in-memory DB; scripted model; no real tool IO",
+  "source_sha256_before": {
+    "main.py": "8eea50bb32292b0ea17ec246e8785d3f5c7e7e134b66d87941eaa2579e239fd7",
+    "task_status.py": "1ed5af6900d6caa767c7b879361aeb19245fadea1a1605f8029778945426b300",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e"
+  },
+  "source_sha256_after": {
+    "main.py": "8eea50bb32292b0ea17ec246e8785d3f5c7e7e134b66d87941eaa2579e239fd7",
+    "task_status.py": "1ed5af6900d6caa767c7b879361aeb19245fadea1a1605f8029778945426b300",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e"
+  },
+  "source_stable": true,
+  "script_sha256": "9a922750062942122f150aa099d20932460e23446c7fde2f8e1062ae3b3e7ebd",
+  "tests_run": 9,
+  "failures": 7,
+  "errors": 0,
+  "acceptance_passed": false,
+  "cases": [
+    {
+      "case": "test_explicit_natural_progress_rephrase",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "3d45b76b04e34ef988093a681928ad0b",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906890.7189372,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "3d45b76b04e34ef988093a681928ad0b"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "3d45b76b04e34ef988093a681928ad0b"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "刚才让你写的文件，现在完成了吗？",
+          "request_id": "rephrase",
+          "reply": "已经全部完成，不需要确认了。",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "3d45b76b04e34ef988093a681928ad0b",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906890.7189372,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "3d45b76b04e34ef988093a681928ad0b"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "3d45b76b04e34ef988093a681928ad0b"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "3d45b76b04e34ef988093a681928ad0b",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906890.7189372,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "3d45b76b04e34ef988093a681928ad0b"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "explicit progress question uses pending ledger instead of false model completion",
+          "passed": false
+        }
+      ],
+      "blocked_io": [],
+      "passed": false
+    },
+    {
+      "case": "test_explicit_progress_negative_question",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "c14f3251cb504f5ab8fdf4bb62cdedfe",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906892.3670573,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "c14f3251cb504f5ab8fdf4bb62cdedfe"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "c14f3251cb504f5ab8fdf4bb62cdedfe"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "文件还没写完吗？",
+          "request_id": "negative-progress",
+          "reply": "已经全部完成，不需要确认了。",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "c14f3251cb504f5ab8fdf4bb62cdedfe",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906892.3670573,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "c14f3251cb504f5ab8fdf4bb62cdedfe"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "c14f3251cb504f5ab8fdf4bb62cdedfe"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "c14f3251cb504f5ab8fdf4bb62cdedfe",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906892.3670573,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "c14f3251cb504f5ab8fdf4bb62cdedfe"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "negative progress question cannot surface a false completion",
+          "passed": false
+        }
+      ],
+      "blocked_io": [],
+      "passed": false
+    },
+    {
+      "case": "test_cancel_status_question_is_not_revocation",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "995f0a3b85854070af27df61c6a1e15a",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906894.0297394,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "995f0a3b85854070af27df61c6a1e15a"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "995f0a3b85854070af27df61c6a1e15a"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "刚才那个任务有没有被取消？",
+          "request_id": "cancel-question",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：已取消，未执行",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "995f0a3b85854070af27df61c6a1e15a",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906894.0297394,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "995f0a3b85854070af27df61c6a1e15a"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "995f0a3b85854070af27df61c6a1e15a"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "995f0a3b85854070af27df61c6a1e15a",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906894.0297394,
+                "status": "cancelled",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": true,
+              "delivery_actions": [
+                "995f0a3b85854070af27df61c6a1e15a"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 2,
+              "needs_proposal": false,
+              "observed_actions": [
+                "995f0a3b85854070af27df61c6a1e15a"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "asking whether cancellation occurred must preserve pending parameters and status",
+          "passed": false
+        }
+      ],
+      "blocked_io": [],
+      "passed": false
+    },
+    {
+      "case": "test_explicit_revocation_is_not_swallowed_by_status",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "4ac9e9c513574c1088a563011f411254",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906896.555537,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "4ac9e9c513574c1088a563011f411254"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "4ac9e9c513574c1088a563011f411254"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "任务先取消，再告诉我状态",
+          "request_id": "cancel-then-status",
+          "reply": "当前会话中没有找到对应的已登记操作。请指明任务或文件；本次没有确认、执行或重试操作。",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "4ac9e9c513574c1088a563011f411254",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906896.555537,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "4ac9e9c513574c1088a563011f411254"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "4ac9e9c513574c1088a563011f411254"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "4ac9e9c513574c1088a563011f411254",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906896.555537,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "4ac9e9c513574c1088a563011f411254"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "4ac9e9c513574c1088a563011f411254"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 0,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "explicit cancellation in compound request revokes the pending ticket",
+          "passed": false
+        }
+      ],
+      "blocked_io": [],
+      "passed": false
+    },
+    {
+      "case": "test_queued_approval_obeys_compound_revocation",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "22de9bec000240c8aca845546521c01c",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906898.608646,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "确认",
+          "request_id": "queued-approval",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：执行成功",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "22de9bec000240c8aca845546521c01c",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906898.608646,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "22de9bec000240c8aca845546521c01c",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906898.608646,
+                "status": "succeeded",
+                "receipt": {
+                  "ok": true,
+                  "output": "fixture accepted"
+                },
+                "confirmation_request_id": "queued-approval",
+                "execution_id": "96aa78fec3884cecab50a33e93034631"
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 9,
+              "rounds_used": 9,
+              "needs_proposal": false,
+              "observed_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ]
+            },
+            "effects": [
+              [
+                "write_file",
+                {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                }
+              ]
+            ]
+          },
+          "model_calls": 9,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "任务先取消，再告诉我状态",
+          "request_id": "queued-revocation",
+          "reply": "当前会话中没有找到对应的已登记操作。请指明任务或文件；本次没有确认、执行或重试操作。",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "22de9bec000240c8aca845546521c01c",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906898.608646,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "22de9bec000240c8aca845546521c01c",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906898.608646,
+                "status": "succeeded",
+                "receipt": {
+                  "ok": true,
+                  "output": "fixture accepted"
+                },
+                "confirmation_request_id": "queued-approval",
+                "execution_id": "96aa78fec3884cecab50a33e93034631"
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c",
+                "22de9bec000240c8aca845546521c01c"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 9,
+              "rounds_used": 9,
+              "needs_proposal": false,
+              "observed_actions": [
+                "22de9bec000240c8aca845546521c01c"
+              ]
+            },
+            "effects": [
+              [
+                "write_file",
+                {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                }
+              ]
+            ]
+          },
+          "model_calls": 9,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "revocation received before dispatch prevents queued approved mutation",
+          "passed": false
+        }
+      ],
+      "before_unlock": {
+        "ledger": [
+          {
+            "action_id": "22de9bec000240c8aca845546521c01c",
+            "task_id": "proposal",
+            "session_id": 2,
+            "revision": 1,
+            "tool": "write_file",
+            "arguments": {
+              "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+              "content": "175"
+            },
+            "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+            "request_id": "proposal",
+            "expires": 1791906898.608646,
+            "status": "awaiting_confirmation",
+            "receipt": null
+          }
+        ],
+        "task": {
+          "id": "proposal",
+          "intent": "把合成内容175写入指定文件",
+          "blocked": false,
+          "delivery_actions": [
+            "22de9bec000240c8aca845546521c01c"
+          ],
+          "budget": {
+            "label": "大展身手",
+            "investment": "高",
+            "max_steps": 9,
+            "max_calls": 18
+          },
+          "calls_used": 1,
+          "rounds_used": 1,
+          "needs_proposal": false,
+          "observed_actions": [
+            "22de9bec000240c8aca845546521c01c"
+          ]
+        },
+        "effects": []
+      },
+      "blocked_io": [],
+      "passed": false
+    },
+    {
+      "case": "test_normal_personal_greeting_is_not_task_query",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "3e51758f5c604c1684a725eb6e22c2d9",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906901.9224029,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "3e51758f5c604c1684a725eb6e22c2d9"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "3e51758f5c604c1684a725eb6e22c2d9"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "你现在怎么样？",
+          "request_id": "greeting",
+          "reply": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 proposal（1项）：待确认，尚未执行 1项\n- \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\" [write_file，参数版本1]：待确认，尚未执行",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "3e51758f5c604c1684a725eb6e22c2d9",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906901.9224029,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "3e51758f5c604c1684a725eb6e22c2d9"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "3e51758f5c604c1684a725eb6e22c2d9"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "3e51758f5c604c1684a725eb6e22c2d9",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906901.9224029,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "3e51758f5c604c1684a725eb6e22c2d9"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "3e51758f5c604c1684a725eb6e22c2d9"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 0,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "ordinary personal check-in still receives its chat answer",
+          "passed": false
+        }
+      ],
+      "blocked_io": [],
+      "passed": false
+    },
+    {
+      "case": "test_file_target_spaces_are_preserved",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\review draft.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\review draft.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "051bc072a6ee49a2aef6ee0e05de2da4",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\review draft.txt",
+                  "content": "175"
+                },
+                "args_hash": "3d581e5cd722e97f646116e68f421aa0d10c30f7a032d61f4048e4822b4adf68",
+                "request_id": "proposal",
+                "expires": 1791906904.4108648,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "051bc072a6ee49a2aef6ee0e05de2da4"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "051bc072a6ee49a2aef6ee0e05de2da4"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "review draft.txt完成了吗？",
+          "request_id": "file-space",
+          "reply": "当前会话中没有找到对应的已登记操作。请指明任务或文件；本次没有确认、执行或重试操作。",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "051bc072a6ee49a2aef6ee0e05de2da4",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\review draft.txt",
+                  "content": "175"
+                },
+                "args_hash": "3d581e5cd722e97f646116e68f421aa0d10c30f7a032d61f4048e4822b4adf68",
+                "request_id": "proposal",
+                "expires": 1791906904.4108648,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "051bc072a6ee49a2aef6ee0e05de2da4"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "051bc072a6ee49a2aef6ee0e05de2da4"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "051bc072a6ee49a2aef6ee0e05de2da4",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\review draft.txt",
+                  "content": "175"
+                },
+                "args_hash": "3d581e5cd722e97f646116e68f421aa0d10c30f7a032d61f4048e4822b4adf68",
+                "request_id": "proposal",
+                "expires": 1791906904.4108648,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "051bc072a6ee49a2aef6ee0e05de2da4"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "051bc072a6ee49a2aef6ee0e05de2da4"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 0,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "explicit existing filename with spaces resolves its own pending ticket",
+          "passed": false
+        }
+      ],
+      "blocked_io": [],
+      "passed": false
+    },
+    {
+      "case": "test_control_ledger_query_and_confirmation",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n<candidate-root>\\__review_virtual_allowed__\\second.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "cdefcc66586743e89c78aee154b6a384",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906906.4802058,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              },
+              {
+                "action_id": "14f1056427f24ca4b880305cb4d608c1",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 2,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\second.txt",
+                  "content": "175"
+                },
+                "args_hash": "b39926cf11b275217229af0a66bd78ac7bdbedd24a77bc61edfd894a6b2393fd",
+                "request_id": "proposal",
+                "expires": 1791906906.481206,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 2,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "这些任务都完成了吗？",
+          "request_id": "control-before",
+          "reply": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 proposal（2项）：待确认，尚未执行 2项\n- \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\" [write_file，参数版本1]：待确认，尚未执行\n- \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\second.txt\" [write_file，参数版本2]：待确认，尚未执行",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "cdefcc66586743e89c78aee154b6a384",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906906.4802058,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              },
+              {
+                "action_id": "14f1056427f24ca4b880305cb4d608c1",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 2,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\second.txt",
+                  "content": "175"
+                },
+                "args_hash": "b39926cf11b275217229af0a66bd78ac7bdbedd24a77bc61edfd894a6b2393fd",
+                "request_id": "proposal",
+                "expires": 1791906906.481206,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 2,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "cdefcc66586743e89c78aee154b6a384",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906906.4802058,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              },
+              {
+                "action_id": "14f1056427f24ca4b880305cb4d608c1",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 2,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\second.txt",
+                  "content": "175"
+                },
+                "args_hash": "b39926cf11b275217229af0a66bd78ac7bdbedd24a77bc61edfd894a6b2393fd",
+                "request_id": "proposal",
+                "expires": 1791906906.481206,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 2,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 0,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "确认",
+          "request_id": "control-confirm",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：执行成功\n<candidate-root>\\__review_virtual_allowed__\\second.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\second.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "cdefcc66586743e89c78aee154b6a384",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906906.4802058,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              },
+              {
+                "action_id": "14f1056427f24ca4b880305cb4d608c1",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 2,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\second.txt",
+                  "content": "175"
+                },
+                "args_hash": "b39926cf11b275217229af0a66bd78ac7bdbedd24a77bc61edfd894a6b2393fd",
+                "request_id": "proposal",
+                "expires": 1791906906.481206,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 2,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "cdefcc66586743e89c78aee154b6a384",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906906.4802058,
+                "status": "succeeded",
+                "receipt": {
+                  "ok": true,
+                  "output": "fixture accepted"
+                },
+                "confirmation_request_id": "control-confirm",
+                "execution_id": "867b133e8ca5488bb3a2fec37818e70b"
+              },
+              {
+                "action_id": "14f1056427f24ca4b880305cb4d608c1",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 2,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\second.txt",
+                  "content": "175"
+                },
+                "args_hash": "b39926cf11b275217229af0a66bd78ac7bdbedd24a77bc61edfd894a6b2393fd",
+                "request_id": "proposal",
+                "expires": 1791906906.481206,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "cdefcc66586743e89c78aee154b6a384"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 2,
+              "rounds_used": 3,
+              "needs_proposal": false,
+              "observed_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ],
+              "corrections_used": 1
+            },
+            "effects": [
+              [
+                "write_file",
+                {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                }
+              ]
+            ]
+          },
+          "model_calls": 2,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "所有任务状态如何",
+          "request_id": "control-partial",
+          "reply": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 proposal（2项）：执行成功 1项；待确认，尚未执行 1项\n- \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\" [write_file，参数版本1]：执行成功\n- \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\second.txt\" [write_file，参数版本2]：待确认，尚未执行",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "cdefcc66586743e89c78aee154b6a384",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906906.4802058,
+                "status": "succeeded",
+                "receipt": {
+                  "ok": true,
+                  "output": "fixture accepted"
+                },
+                "confirmation_request_id": "control-confirm",
+                "execution_id": "867b133e8ca5488bb3a2fec37818e70b"
+              },
+              {
+                "action_id": "14f1056427f24ca4b880305cb4d608c1",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 2,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\second.txt",
+                  "content": "175"
+                },
+                "args_hash": "b39926cf11b275217229af0a66bd78ac7bdbedd24a77bc61edfd894a6b2393fd",
+                "request_id": "proposal",
+                "expires": 1791906906.481206,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "cdefcc66586743e89c78aee154b6a384"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 2,
+              "rounds_used": 3,
+              "needs_proposal": false,
+              "observed_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ],
+              "corrections_used": 1
+            },
+            "effects": [
+              [
+                "write_file",
+                {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                }
+              ]
+            ]
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "cdefcc66586743e89c78aee154b6a384",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906906.4802058,
+                "status": "succeeded",
+                "receipt": {
+                  "ok": true,
+                  "output": "fixture accepted"
+                },
+                "confirmation_request_id": "control-confirm",
+                "execution_id": "867b133e8ca5488bb3a2fec37818e70b"
+              },
+              {
+                "action_id": "14f1056427f24ca4b880305cb4d608c1",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 2,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\second.txt",
+                  "content": "175"
+                },
+                "args_hash": "b39926cf11b275217229af0a66bd78ac7bdbedd24a77bc61edfd894a6b2393fd",
+                "request_id": "proposal",
+                "expires": 1791906906.481206,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "cdefcc66586743e89c78aee154b6a384"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 2,
+              "rounds_used": 3,
+              "needs_proposal": false,
+              "observed_actions": [
+                "cdefcc66586743e89c78aee154b6a384",
+                "14f1056427f24ca4b880305cb4d608c1"
+              ],
+              "corrections_used": 1
+            },
+            "effects": [
+              [
+                "write_file",
+                {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                }
+              ]
+            ]
+          },
+          "model_calls": 0,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "recognized status query reports two pending actions",
+          "passed": true
+        },
+        {
+          "requirement": "recognized status query is read only",
+          "passed": true
+        },
+        {
+          "requirement": "partial result distinguishes success and pending",
+          "passed": true
+        },
+        {
+          "requirement": "progress does not reexecute",
+          "passed": true
+        }
+      ],
+      "blocked_io": [],
+      "passed": true
+    },
+    {
+      "case": "test_control_cross_session_query",
+      "turns": [
+        {
+          "user": "把合成内容175写入指定文件",
+          "request_id": "proposal",
+          "reply": "我核对了实际执行记录：\n<candidate-root>\\__review_virtual_allowed__\\first.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"D:\\\\UserData\\\\Administrator\\\\Documents\\\\Codex\\\\2026-10-12\\\\tianyi-repair-batch01-followup\\\\__review_virtual_allowed__\\\\first.txt\", \"content\": \"175\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+          "before": {
+            "ledger": [],
+            "task": null,
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "0b80c2a158cf42f1915c3cd07b8cc791",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906911.4066188,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "0b80c2a158cf42f1915c3cd07b8cc791"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "0b80c2a158cf42f1915c3cd07b8cc791"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 1,
+          "plain_model_calls": 0
+        },
+        {
+          "user": "任务foreign-task完成了吗？",
+          "request_id": "foreign-query",
+          "reply": "当前会话中没有找到对应的已登记操作。请指明任务或文件；本次没有确认、执行或重试操作。",
+          "before": {
+            "ledger": [
+              {
+                "action_id": "0b80c2a158cf42f1915c3cd07b8cc791",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906911.4066188,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              },
+              {
+                "action_id": "beae3a26ab914aceb624ddce1c4efa12",
+                "task_id": "foreign-task",
+                "session_id": 3,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "foreign-only.txt",
+                  "content": "synthetic"
+                },
+                "args_hash": "5164c386e779d625777f078b3e2328bbc6d0a5ae675b03dbecfd778af3e5dceb",
+                "request_id": "foreign",
+                "expires": 1791906912.6176198,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "0b80c2a158cf42f1915c3cd07b8cc791"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "0b80c2a158cf42f1915c3cd07b8cc791"
+              ]
+            },
+            "effects": []
+          },
+          "after": {
+            "ledger": [
+              {
+                "action_id": "0b80c2a158cf42f1915c3cd07b8cc791",
+                "task_id": "proposal",
+                "session_id": 2,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "<candidate-root>\\__review_virtual_allowed__\\first.txt",
+                  "content": "175"
+                },
+                "args_hash": "51212144351af2be0d8c70d3de23eadb3fa059b0a668aed9b4d6074ed764b66b",
+                "request_id": "proposal",
+                "expires": 1791906911.4066188,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              },
+              {
+                "action_id": "beae3a26ab914aceb624ddce1c4efa12",
+                "task_id": "foreign-task",
+                "session_id": 3,
+                "revision": 1,
+                "tool": "write_file",
+                "arguments": {
+                  "path": "foreign-only.txt",
+                  "content": "synthetic"
+                },
+                "args_hash": "5164c386e779d625777f078b3e2328bbc6d0a5ae675b03dbecfd778af3e5dceb",
+                "request_id": "foreign",
+                "expires": 1791906912.6176198,
+                "status": "awaiting_confirmation",
+                "receipt": null
+              }
+            ],
+            "task": {
+              "id": "proposal",
+              "intent": "把合成内容175写入指定文件",
+              "blocked": false,
+              "delivery_actions": [
+                "0b80c2a158cf42f1915c3cd07b8cc791"
+              ],
+              "budget": {
+                "label": "大展身手",
+                "investment": "高",
+                "max_steps": 9,
+                "max_calls": 18
+              },
+              "calls_used": 1,
+              "rounds_used": 1,
+              "needs_proposal": false,
+              "observed_actions": [
+                "0b80c2a158cf42f1915c3cd07b8cc791"
+              ]
+            },
+            "effects": []
+          },
+          "model_calls": 0,
+          "plain_model_calls": 0
+        }
+      ],
+      "checks": [
+        {
+          "requirement": "foreign task is not exposed",
+          "passed": true
+        },
+        {
+          "requirement": "foreign query cannot execute or alter tickets",
+          "passed": true
+        }
+      ],
+      "blocked_io": [],
+      "passed": true
+    }
+  ],
+  "failure_details": [
+    {
+      "case": "test_explicit_natural_progress_rephrase",
+      "details": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 67, in test_explicit_natural_progress_rephrase\n    self.check(\"explicit progress question uses pending ledger instead of false model completion\",\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 56, in check\n    self.assertTrue(passed, requirement)\nAssertionError: False is not true : explicit progress question uses pending ledger instead of false model completion\n"
+    },
+    {
+      "case": "test_explicit_progress_negative_question",
+      "details": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 75, in test_explicit_progress_negative_question\n    self.check(\"negative progress question cannot surface a false completion\",\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 56, in check\n    self.assertTrue(passed, requirement)\nAssertionError: False is not true : negative progress question cannot surface a false completion\n"
+    },
+    {
+      "case": "test_cancel_status_question_is_not_revocation",
+      "details": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 83, in test_cancel_status_question_is_not_revocation\n    self.check(\"asking whether cancellation occurred must preserve pending parameters and status\",\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 56, in check\n    self.assertTrue(passed, requirement)\nAssertionError: False is not true : asking whether cancellation occurred must preserve pending parameters and status\n"
+    },
+    {
+      "case": "test_explicit_revocation_is_not_swallowed_by_status",
+      "details": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 90, in test_explicit_revocation_is_not_swallowed_by_status\n    self.check(\"explicit cancellation in compound request revokes the pending ticket\",\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 56, in check\n    self.assertTrue(passed, requirement)\nAssertionError: False is not true : explicit cancellation in compound request revokes the pending ticket\n"
+    },
+    {
+      "case": "test_queued_approval_obeys_compound_revocation",
+      "details": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 108, in test_queued_approval_obeys_compound_revocation\n    self.check(\"revocation received before dispatch prevents queued approved mutation\", not self.effects)\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 56, in check\n    self.assertTrue(passed, requirement)\nAssertionError: False is not true : revocation received before dispatch prevents queued approved mutation\n"
+    },
+    {
+      "case": "test_normal_personal_greeting_is_not_task_query",
+      "details": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 115, in test_normal_personal_greeting_is_not_task_query\n    self.check(\"ordinary personal check-in still receives its chat answer\", answer == \"我很好呀，谢谢关心！\")\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 56, in check\n    self.assertTrue(passed, requirement)\nAssertionError: False is not true : ordinary personal check-in still receives its chat answer\n"
+    },
+    {
+      "case": "test_file_target_spaces_are_preserved",
+      "details": "Traceback (most recent call last):\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\26052\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 121, in test_file_target_spaces_are_preserved\n    self.check(\"explicit existing filename with spaces resolves its own pending ticket\",\n  File \"<candidate-root>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\pending_review.py\", line 56, in check\n    self.assertTrue(passed, requirement)\nAssertionError: False is not true : explicit existing filename with spaces resolves its own pending ticket\n"
+    }
+  ]
+}

@@ -32,6 +32,7 @@ except ImportError:
 
 from .agent_loop import MAX_TOOL_STEPS, AgentStep, ToolsUnsupportedError, run_agent_loop
 from .task_delivery import INCOMPLETE, validate_decision, validate_proposal
+from .task_status import render_task_status, status_question
 from .harness import TASK_DECISION_CONTRACT
 from .harness import (
     TOOL_GUIDANCE,
@@ -1472,10 +1473,10 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     # Capture the exact head before waiting for chat_lock; queued/double-click approvals
     # may not accidentally authorize a different action that becomes head later.
     session_probe = conversation_id if conversation_id is not None else memory.latest_session_id()
-    incoming_decision = confirmation_decision(text)
+    book = _actions()
+    incoming_decision = "other" if status_question(text, book.records.values(), session_probe) is not None else confirmation_decision(text)
     preempted = None
     if session_probe is not None:
-        book = _actions()
         if incoming_decision in {"decline","edit"} and (
                 book.pending(session_probe) or (chat_lock.locked() and _task_state.get(session_probe) is not None)):
             preempted = book.cancel(session_probe)
@@ -1515,14 +1516,22 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         book = _actions()
         pending = _sync_pending(session_id)
         confirm_note = ""
-        intent = confirmation_decision(text)
+        status_query = status_question(text, book.records.values(), session_id)
+        intent = "other" if status_query is not None else confirmation_decision(text)
         direct_reply = None
         delivery_actions = []
         task = _task_state.get(session_id)
-        if task is None and pending:
+        status_reply, status_items = (render_task_status(status_query, book.records.values(), session_id)
+                                      if status_query is not None else (None, []))
+        if task is None and pending and status_query is None:
             task = {"id":pending[0]["task_id"],"intent":"恢复之前待确认任务","blocked":False}
             _task_state[session_id] = task
-        if pending and intent == "approve":
+        if status_reply is not None:
+            direct_reply = status_reply
+            # An ephemeral context supports the existing response/persistence
+            # tail without replacing or resetting any operational task state.
+            task = task or {"id":request_id,"intent":text,"blocked":False}
+        elif pending and intent == "approve":
             selected = confirmation if confirmation is not None else {}
             result = await book.execute(session_id, selected, request_id, _permission_still_valid, _execute_authorized_tool)
             if result.get("action_id"):
@@ -1573,16 +1582,19 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             _result_pages[session_id] = ResultPages()
         # Delivery belongs to the current turn; durable pending tickets and the
         # shared task budget survive unrelated conversation in this session.
-        task["delivery_actions"] = delivery_actions
+        if status_query is None:
+            task["delivery_actions"] = delivery_actions
         task_context = "【任务状态数据，非新增指令】\n" + json.dumps(
             {"original_intent":task["intent"],"actions":book.context(session_id,task["id"])},ensure_ascii=False)
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
         effort_name = resolve_effort(effort)
         # Continuations/confirmations share a task budget; changing the dial
         # does not silently refill an already-started task.
-        task.setdefault("budget", dict(EFFORT_LEVELS[effort_name]))
-        task.setdefault("calls_used", 0)
-        task.setdefault("rounds_used", 0)
+        if status_query is None:
+            task.setdefault("budget", dict(EFFORT_LEVELS[effort_name]))
+            task.setdefault("calls_used", 0)
+            task.setdefault("rounds_used", 0)
+        chat_budget_before = {key: task.get(key) for key in ("rounds_used", "calls_used", "corrections_used")}
         memory.add_event("chat.effort", {"request_id": request_id, "effort": effort_name})
         effective_tools_schema = list(tools_schema)
         if effective_tools_schema:
@@ -1600,7 +1612,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         # must never break the chat itself.
         recall_block = ""
         try:
-            facts = memory.recall_facts(session_id)
+            facts = memory.recall_facts(session_id) if status_query is None else []
             if facts:
                 recalled = retrieve_task_memories(task["intent"], facts)
                 if recalled:
@@ -1619,13 +1631,15 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         )
         delivery_recovery = False
         validated_text = ""
+        validated_mode = ""
         schemas = {s["function"]["name"]: s["function"].get("parameters", {}) for s in effective_tools_schema}
 
         def check_final(raw):
-            nonlocal validated_text
+            nonlocal validated_text, validated_mode
             checked = validate_decision(raw, task=task, session_id=session_id, request_id=request_id,
                 actions=[{**a, "effect":tool_effect(a["tool"], a["arguments"])} for a in book.records.values()], schemas=schemas)
             validated_text = checked.text
+            validated_mode = checked.mode if not checked.error else ""
             memory.add_event("task.decision", {"task_id":task["id"], "request_id":request_id,
                 "mode":checked.mode, "accepted":not checked.error, "error":checked.error})
             return checked.error
@@ -1645,20 +1659,31 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             if direct_reply is not None:
                 raw_reply = json.dumps({"reply":direct_reply}, ensure_ascii=False)
             else:
+                # Plain chat can still answer when an existing task has no
+                # operation budget left. It receives no tools and one turn.
+                chat_only = bool(pending and intent == "other" and (
+                    task["rounds_used"] >= int(task["budget"]["max_steps"]) or
+                    task["calls_used"] >= int(task["budget"]["max_calls"])))
                 loop_result = await run_agent_loop(
                     provider,
                     messages,
-                    effective_tools_schema,
+                    [] if chat_only else effective_tools_schema,
                     run_tool,
                     on_step=_make_loop_step_handler(request_id),
-                    max_steps=max(0, int(task["budget"]["max_steps"])-task["rounds_used"]),
-                    max_calls=max(0, int(task["budget"]["max_calls"])-task["calls_used"]),
-                    on_round=lambda: task.__setitem__("rounds_used", task["rounds_used"]+1),
+                    max_steps=1 if chat_only else max(0, int(task["budget"]["max_steps"])-task["rounds_used"]),
+                    max_calls=1 if chat_only else max(0, int(task["budget"]["max_calls"])-task["calls_used"]),
+                    on_round=None if chat_only else lambda: task.__setitem__("rounds_used", task["rounds_used"]+1),
                     on_call=lambda: task.__setitem__("calls_used", task["calls_used"]+1),
                     validate_final=check_final,
-                    take_correction=take_correction,
+                    take_correction=None if chat_only else take_correction,
                     validate_call=lambda name, arguments: validate_proposal(name, arguments, schemas),
                 )
+                if pending and intent == "other" and validated_mode == "chat" and not loop_result.steps:
+                    for key, value in chat_budget_before.items():
+                        if value is None:
+                            task.pop(key, None)
+                        else:
+                            task[key] = value
                 if loop_result.degraded and hasattr(provider, "complete_with_tools"):
                     memory.add_event("agent.tools.unsupported", {"request_id": request_id})
                 if loop_result.steps:
@@ -1689,7 +1714,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             delivery_recovery = True
             agent_reply = AgentReply(reply="这次答复格式无法解析，已记录的操作结果会保留。")
         delivery_recovery = delivery_recovery or agent_reply.parse_failed
-        delivered = _receipt_delivery(session_id, task, direct_reply if direct_reply is not None else validated_text,
+        delivered = status_reply if status_reply is not None else _receipt_delivery(session_id, task, direct_reply if direct_reply is not None else validated_text,
                                       recovery=delivery_recovery,
                                       action_ids=None if delivery_recovery else delivery_actions,
                                       request_id=request_id)
@@ -1708,9 +1733,12 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             await _withdraw_session_if_empty(session_id)
             return
         memory.add_message("assistant", agent_reply.reply, request_id, session_id)
-        memory.add_event("chat.delivery", {"session_id":session_id,"task_id":task["id"],
-                         "request_id":request_id,"source":"receipt_recovery" if delivery_recovery else "reply",
-                         "actions":[book.ticket(a) for a in book.task_items(session_id,task["id"])]})
+        status_task_ids = list(dict.fromkeys(item["task_id"] for item in status_items))
+        memory.add_event("chat.delivery", {"session_id":session_id,
+                         "task_id":(status_task_ids[0] if len(status_task_ids) == 1 else None) if status_reply is not None else task["id"],
+                         **({"task_ids":status_task_ids} if status_reply is not None else {}),
+                         "request_id":request_id,"source":"task_status" if status_reply is not None else "receipt_recovery" if delivery_recovery else "reply",
+                         "actions":[book.ticket(a) for a in (status_items if status_reply is not None else book.task_items(session_id,task["id"]))]})
         await _publish_pending(session_id)
         if is_first_exchange:
             title = agent_reply.session_title or default_title(text)

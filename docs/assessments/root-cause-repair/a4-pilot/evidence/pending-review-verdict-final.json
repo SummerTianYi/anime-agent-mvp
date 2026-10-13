@@ -1,0 +1,106 @@
+{
+  "verdict": "APPROVE",
+  "scope": "Narrow pending-task progress-query fix; all known independent counterexamples and controls",
+  "final_business_evidence": "pending-review-final-03.json",
+  "tests_run": 13,
+  "failures": 0,
+  "errors": 0,
+  "source_stable": true,
+  "actual_core_root": "D:/UserData/Administrator/Documents/Codex/2026-10-12/tianyi-repair-batch01-followup/services/agent-core",
+  "source_root_verified": true,
+  "root_binding_negative_control": "Final run supplied HARNESS_REVIEW_CORE_ROOT=D:/__invalid_review_override__; script overrode it before fixture import and verified the real candidate root.",
+  "real_model_calls": 0,
+  "real_external_calls": 0,
+  "source_sha256": {
+    "main.py": "0b8f14efdec380dd8dcc825cd9ad015f0bfa0a9d8b539faaf3b4892389f17eb9",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "actions.py": "acc5e339c703fd494a1402161ba1f6d9feb6c31fc408107496bab9f63abeb8d7",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e"
+  },
+  "review_script_final_run_sha256": "136ab79018bef3cd4a318b1438b389dfdd40906243279408c620635a85a4d409",
+  "review_script_current_sha256": "136ab79018bef3cd4a318b1438b389dfdd40906243279408c620635a85a4d409",
+  "finding_counts": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 0,
+    "LOW": 0
+  },
+  "resolved_findings": [
+    {
+      "initial_severity": "HIGH",
+      "issue": "Explicit progress variants could still surface decision.chat false completion",
+      "evidence": [
+        "pending-review-initial.json",
+        "pending-review-final.json",
+        "pending-review-verbs-initial.json"
+      ]
+    },
+    {
+      "initial_severity": "HIGH",
+      "issue": "Compound revocation recognized as task or filename query could allow an already queued approval to execute",
+      "evidence": [
+        "pending-review-initial.json",
+        "pending-review-file-revocation-initial.json",
+        "pending-review-hold-initial.json"
+      ]
+    },
+    {
+      "initial_severity": "MEDIUM",
+      "issue": "Question about cancellation mistakenly revoked a real pending ticket",
+      "evidence": [
+        "pending-review-initial.json"
+      ]
+    },
+    {
+      "initial_severity": "MEDIUM",
+      "issue": "Ordinary personal greeting was replaced by task-ledger status",
+      "evidence": [
+        "pending-review-initial.json"
+      ]
+    },
+    {
+      "initial_severity": "MEDIUM",
+      "issue": "Filename internal spaces prevented finding an existing ticket",
+      "evidence": [
+        "pending-review-initial.json"
+      ]
+    }
+  ],
+  "covered_controls": [
+    "pre-confirmation progress",
+    "confirmed and partially completed actions",
+    "two pending actions",
+    "cross-session isolation",
+    "ordinary chat and preserved budget",
+    "no repeated executor calls on progress",
+    "literal filenames with cancellation words",
+    "quoted and absolute Windows file targets",
+    "compound cancellation before turn-lock release",
+    "explicit hold/revocation before status inquiry prevents queued dispatch"
+  ],
+  "history_preserved": [
+    "pending-review-initial.json",
+    "pending-review-file-revocation-initial.json",
+    "pending-review-final.json",
+    "pending-review-verbs-initial.json",
+    "pending-review-hold-initial.json",
+    "pending-review-final-02.json",
+    "pending-review-verdict.json"
+  ],
+  "historical_root_binding_limit": "Earlier initial/final/verb evidence lacked an explicit actual_core_root record and forced fixture root. These files remain unchanged. Final-02 and final-03 pin and verify the candidate root despite an invalid inherited override.",
+  "limits": [
+    "Finite natural-language regressions, not proof for every possible paraphrase.",
+    "Original no-ticket false declarations and read-report write claims remain outside this repair scope.",
+    "No live provider, production database, desktop runtime or real external operation tested."
+  ],
+  "prior_verdict": {
+    "verdict": "WARNING",
+    "file": "pending-review-verdict.json",
+    "reason": "12-case approval superseded by reproduced hold-before-status revocation failure; prior evidence remains intact."
+  },
+  "acceptance_passed": true,
+  "unresolved_findings": [],
+  "checks_recorded": 37,
+  "evidence_projection_validation": "Five pure-memory cases verify runtime errors, empty checks, blocked IO and absent teardown cannot pass; normal control passes. Final 13-case run includes the corrected projector."
+}
