@@ -1,0 +1,400 @@
+{
+  "protocol": "provider-chat-file-compatibility-v1",
+  "offline": true,
+  "variant": 1,
+  "source_sha256": {
+    "actions.py": "b85c51f46967436d3093508a61ac8085db9a3727a9341b1d638f4cd6cb24e894",
+    "agent_loop.py": "3ee95f468fe71b864c904ec29f5ec325647423cb7c4c166281dbd2cce13c5039",
+    "email_task.py": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "general_reply_check.py": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "a9ca55441d7aca689539d233623e6e70e72bf77b29cf7f6a8d345f8c6ff4fc80",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_correction.py": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "provider_response.py": "adc73ffd4e02cb1c3aa2676e154debecda02839e421570439b69758ce584c6be",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "verified_task.py": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "runner_sha256": {
+    "file_models.py": "84fee46137e3c66164a26dcfbb4fb7342a390f8ac98cda7ded5bc11ed476627f",
+    "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69"
+  },
+  "tool_schema_sha256": "0524705a47eb78d7afdf4332717e2884bedf81998ddf13a53855a7fdb9904449",
+  "provider": "deepseek",
+  "budget": {
+    "max_steps": 6,
+    "max_calls": 12,
+    "corrections": 1,
+    "timeout_seconds": 45
+  },
+  "initial_state_sha256": "7fd983247e4b7672a8d18500bee55e5c090f1e9cc89fd52aac5e848f1a1011a1",
+  "transport_cap": 48,
+  "calls": [],
+  "turns": [
+    {
+      "input": "请创建文件 <isolated-evidence>/final-offline/files/delivery note.txt，写入后实际读取该文件并展示完整内容。内容如下（两行，末尾无换行）：\n第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+      "request_id": "file-1-request",
+      "answer": "我核对了实际执行记录：\n<isolated-evidence>\\final-offline\\files\\delivery note.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"<isolated-evidence>\\\\final-offline\\\\files\\\\delivery note.txt\", \"content\": \"第一行：合成记录青竹 175\\n第二行：7月12日，长度3cm\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。\n文件任务尚未完成：写入及随后独立读取、完整交付尚未全部核验。",
+      "pending": [
+        {
+          "action_id": "137edd23a5a245ed975c5177fe1870ba",
+          "revision": 1,
+          "args_hash": "4a2edf8f4875118d2ac4176b23622cc28599f2c6a7e4d295aa51ec1a9eddd301"
+        }
+      ]
+    },
+    {
+      "input": "确认",
+      "request_id": "file-1-confirm",
+      "answer": "文件任务已完成：确认后写入成功，并已实际调用 read_file 读回核对。\n文件：<isolated-evidence>\\final-offline\\files\\delivery note.txt（读取记录 file-1-request:read:1）\n完整内容：\n第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+      "pending": []
+    },
+    {
+      "input": "确认",
+      "request_id": "file-1-duplicate",
+      "answer": "当前没有待确认操作，本次没有执行新操作。",
+      "pending": []
+    },
+    {
+      "input": "刚才那个任务现在怎么样？",
+      "request_id": "file-1-status",
+      "answer": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 file-1-request（1项）：执行成功 1项\n- \"<isolated-evidence>\\\\final-offline\\\\files\\\\delivery note.txt\" [write_file，参数版本1]：执行成功",
+      "pending": []
+    }
+  ],
+  "effects": [
+    {
+      "tool": "write_file",
+      "arguments": {
+        "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+        "content": "第一行：合成记录青竹 175\n第二行：7月12日，长度3cm"
+      },
+      "request_id": "file-1-confirm"
+    },
+    {
+      "tool": "read_file",
+      "arguments": {
+        "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt"
+      },
+      "request_id": "file-1-confirm"
+    }
+  ],
+  "checks": {
+    "normal_chat": true,
+    "no_preconfirm_effect": true,
+    "real_proposal": true,
+    "correct_write": true,
+    "actual_read": true,
+    "receipt_bound": true,
+    "complete_delivery": true,
+    "no_duplicate_write": true,
+    "truthful_progress": true,
+    "history_reopened": true,
+    "ledger_reopened": true,
+    "reads_reopened": true,
+    "source_unchanged": true
+  },
+  "transport": [],
+  "model": "controlled-provider",
+  "input_normalized_sha256": "8240252bd29dc156b51cfc64ce83eea6d231733308569d514df7bc064a613aa7",
+  "expected": {
+    "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+    "content": "第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+    "sha256": "2974be7fb3b8804e4311f1c36c37d2c35df0811064d34c6e8466acaed22547cd"
+  },
+  "session_id": 2,
+  "chat": {
+    "input": "天依，晚上好。请用中文简单打个招呼。",
+    "request_id": "file-1-chat",
+    "answer": "晚上好，一起聊音乐吧。",
+    "pending": []
+  },
+  "actions": [
+    {
+      "action_id": "137edd23a5a245ed975c5177fe1870ba",
+      "task_id": "file-1-request",
+      "session_id": 2,
+      "revision": 1,
+      "tool": "write_file",
+      "arguments": {
+        "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+        "content": "第一行：合成记录青竹 175\n第二行：7月12日，长度3cm"
+      },
+      "args_hash": "4a2edf8f4875118d2ac4176b23622cc28599f2c6a7e4d295aa51ec1a9eddd301",
+      "request_id": "file-1-request",
+      "expires": 1791991046.4147215,
+      "status": "succeeded",
+      "receipt": {
+        "ok": true,
+        "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+        "mode": "overwrite",
+        "bytes_written": 68,
+        "sha256": "2974be7fb3b8804e4311f1c36c37d2c35df0811064d34c6e8466acaed22547cd",
+        "verified_readback": true
+      },
+      "confirmation_request_id": "file-1-confirm",
+      "execution_id": "ccfbbb1353304320a08ecf1f0a7b32c5"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "file-1-request",
+      "intent": "请创建文件 <isolated-evidence>/final-offline/files/delivery note.txt，写入后实际读取该文件并展示完整内容。内容如下（两行，末尾无换行）：\n第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+      "blocked": false,
+      "file_delivery": true,
+      "file_request_text": "请创建文件 <isolated-evidence>/final-offline/files/delivery note.txt，写入后实际读取该文件并展示完整内容。内容如下（两行，末尾无换行）：\n第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+      "delivery_actions": [],
+      "budget": {
+        "label": "帮帮忙",
+        "investment": "中",
+        "max_steps": 6,
+        "max_calls": 12
+      },
+      "calls_used": 2,
+      "rounds_used": 3,
+      "needs_proposal": false,
+      "observed_actions": [
+        "137edd23a5a245ed975c5177fe1870ba"
+      ],
+      "tool_results": [
+        {
+          "tool": "read_file",
+          "arguments": {
+            "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt"
+          },
+          "result": {
+            "ok": true,
+            "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+            "size": 68,
+            "content": "第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+            "offset": 0,
+            "next_offset": null,
+            "truncated": false,
+            "note": "如有next_offset，用read_file(path,offset=next_offset)续取；偏移以字节计"
+          },
+          "delivery_result": {
+            "ok": true,
+            "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+            "size": 68,
+            "content": "第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+            "offset": 0,
+            "next_offset": null,
+            "truncated": false,
+            "note": "如有next_offset，用read_file(path,offset=next_offset)续取；偏移以字节计",
+            "result_ref": "file-1-request:read:1"
+          },
+          "session_id": 2,
+          "task_id": "file-1-request",
+          "request_id": "file-1-confirm",
+          "result_ref": "file-1-request:read:1",
+          "after_actions": [
+            "137edd23a5a245ed975c5177fe1870ba"
+          ]
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": "天依，晚上好。请用中文简单打个招呼。"
+    },
+    {
+      "role": "assistant",
+      "content": "晚上好，一起聊音乐吧。"
+    },
+    {
+      "role": "user",
+      "content": "请创建文件 <isolated-evidence>/final-offline/files/delivery note.txt，写入后实际读取该文件并展示完整内容。内容如下（两行，末尾无换行）：\n第一行：合成记录青竹 175\n第二行：7月12日，长度3cm"
+    },
+    {
+      "role": "assistant",
+      "content": "我核对了实际执行记录：\n<isolated-evidence>\\final-offline\\files\\delivery note.txt：待确认，尚未执行\n下一项待确认参数：{\"path\": \"<isolated-evidence>\\\\final-offline\\\\files\\\\delivery note.txt\", \"content\": \"第一行：合成记录青竹 175\\n第二行：7月12日，长度3cm\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。\n文件任务尚未完成：写入及随后独立读取、完整交付尚未全部核验。"
+    },
+    {
+      "role": "user",
+      "content": "确认"
+    },
+    {
+      "role": "assistant",
+      "content": "文件任务已完成：确认后写入成功，并已实际调用 read_file 读回核对。\n文件：<isolated-evidence>\\final-offline\\files\\delivery note.txt（读取记录 file-1-request:read:1）\n完整内容：\n第一行：合成记录青竹 175\n第二行：7月12日，长度3cm"
+    },
+    {
+      "role": "user",
+      "content": "确认"
+    },
+    {
+      "role": "assistant",
+      "content": "当前没有待确认操作，本次没有执行新操作。"
+    },
+    {
+      "role": "user",
+      "content": "刚才那个任务现在怎么样？"
+    },
+    {
+      "role": "assistant",
+      "content": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 file-1-request（1项）：执行成功 1项\n- \"<isolated-evidence>\\\\final-offline\\\\files\\\\delivery note.txt\" [write_file，参数版本1]：执行成功"
+    }
+  ],
+  "events": [
+    {
+      "type": "task.decision",
+      "payload": {
+        "task_id": "file-1-chat",
+        "request_id": "file-1-chat",
+        "mode": "chat",
+        "accepted": true,
+        "error": ""
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "file-1-chat",
+        "request_id": "file-1-chat",
+        "source": "reply",
+        "actions": []
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "file-1-request",
+        "request_id": "file-1-request",
+        "source": "receipt_recovery",
+        "actions": [
+          {
+            "action_id": "137edd23a5a245ed975c5177fe1870ba",
+            "revision": 1,
+            "args_hash": "4a2edf8f4875118d2ac4176b23622cc28599f2c6a7e4d295aa51ec1a9eddd301"
+          }
+        ]
+      }
+    },
+    {
+      "type": "tool.result",
+      "payload": {
+        "tool": "read_file",
+        "arguments": {
+          "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt"
+        },
+        "result": {
+          "ok": true,
+          "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+          "size": 68,
+          "content": "第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+          "offset": 0,
+          "next_offset": null,
+          "truncated": false,
+          "note": "如有next_offset，用read_file(path,offset=next_offset)续取；偏移以字节计"
+        },
+        "delivery_result": {
+          "ok": true,
+          "path": "<isolated-evidence>\\final-offline\\files\\delivery note.txt",
+          "size": 68,
+          "content": "第一行：合成记录青竹 175\n第二行：7月12日，长度3cm",
+          "offset": 0,
+          "next_offset": null,
+          "truncated": false,
+          "note": "如有next_offset，用read_file(path,offset=next_offset)续取；偏移以字节计",
+          "result_ref": "file-1-request:read:1"
+        },
+        "session_id": 2,
+        "task_id": "file-1-request",
+        "request_id": "file-1-confirm",
+        "result_ref": "file-1-request:read:1",
+        "after_actions": [
+          "137edd23a5a245ed975c5177fe1870ba"
+        ]
+      }
+    },
+    {
+      "type": "task.decision",
+      "payload": {
+        "task_id": "file-1-request",
+        "request_id": "file-1-confirm",
+        "mode": "report",
+        "accepted": true,
+        "error": ""
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "file-1-request",
+        "request_id": "file-1-confirm",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "137edd23a5a245ed975c5177fe1870ba",
+            "revision": 1,
+            "args_hash": "4a2edf8f4875118d2ac4176b23622cc28599f2c6a7e4d295aa51ec1a9eddd301"
+          }
+        ]
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "file-1-request",
+        "request_id": "file-1-duplicate",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "137edd23a5a245ed975c5177fe1870ba",
+            "revision": 1,
+            "args_hash": "4a2edf8f4875118d2ac4176b23622cc28599f2c6a7e4d295aa51ec1a9eddd301"
+          }
+        ]
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "file-1-request",
+        "task_ids": [
+          "file-1-request"
+        ],
+        "request_id": "file-1-status",
+        "source": "task_status",
+        "actions": [
+          {
+            "action_id": "137edd23a5a245ed975c5177fe1870ba",
+            "revision": 1,
+            "args_hash": "4a2edf8f4875118d2ac4176b23622cc28599f2c6a7e4d295aa51ec1a9eddd301"
+          }
+        ]
+      }
+    }
+  ],
+  "elapsed_seconds": 4.406,
+  "http_attempts": 0,
+  "shared_http_attempts": 0,
+  "cumulative_http_attempts": 0,
+  "passed": true,
+  "failure_category": null
+}

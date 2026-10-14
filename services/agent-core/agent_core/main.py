@@ -33,7 +33,7 @@ except ImportError:
 from .agent_loop import MAX_TOOL_STEPS, AgentStep, ToolsUnsupportedError, run_agent_loop
 from .task_delivery import INCOMPLETE, validate_decision, validate_proposal
 from .task_status import render_task_status, status_question
-from . import verified_task, issue_task, memory_correction
+from . import verified_task, issue_task, memory_correction, provider_response
 from .harness import TASK_DECISION_CONTRACT
 from .harness import (
     TOOL_GUIDANCE,
@@ -132,6 +132,25 @@ AVATAR_EVENTS = {
 
 class ProviderError(RuntimeError):
     """An expected provider failure safe to show in the local UI."""
+
+
+async def _tools_rejected(exc: urllib.error.HTTPError) -> bool:
+    """Inspect a bounded error body off-loop; never expose its contents."""
+    def inspect():
+        try:
+            if exc.code not in {400, 404, 422}:
+                return False
+            raw = exc.read(16385)
+            return len(raw) <= 16384 and provider_response.tools_unsupported(raw)
+        finally:
+            # Closing a response can wait for the reader's lock too. Keep both
+            # operations in the worker, even if the caller has timed out.
+            exc.close()
+
+    try:
+        return await asyncio.wait_for(asyncio.to_thread(inspect), timeout=2)
+    except (*TRANSPORT_ERRORS, ValueError, TimeoutError):
+        return False
 
 
 class ChatProvider(Protocol):
@@ -249,18 +268,10 @@ class OpenAICompatibleProvider:
             raise ProviderError(network_message(self.name, exc)) from exc
 
         try:
-            payload = json.loads(response_bytes.decode("utf-8"))
-            content = payload["choices"][0]["message"]["content"]
-        except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
-            raise ProviderError(f"{self.name} API 响应格式无法识别") from exc
-
-        if isinstance(content, list):
-            content = "".join(
-                str(part.get("text", ""))
-                for part in content
-                if isinstance(part, dict)
-            )
-        text = str(content).strip()
+            turn = provider_response.openai(provider_response.load_json(response_bytes))
+        except provider_response.ResponseProtocolError as exc:
+            raise ProviderError(f"{self.name} {exc}") from exc
+        text = turn["content"]
         if not text:
             raise ProviderError(f"{self.name} API 返回空回复")
         return text
@@ -294,8 +305,7 @@ class OpenAICompatibleProvider:
         try:
             response_bytes = await self._send_with_config_reload(request)
         except urllib.error.HTTPError as exc:
-            exc.close()
-            if exc.code in {400, 404, 422}:
+            if await _tools_rejected(exc):
                 raise ToolsUnsupportedError(
                     f"{self.name} rejected the tools payload (HTTP {exc.code})"
                 ) from exc
@@ -306,43 +316,9 @@ class OpenAICompatibleProvider:
             raise ProviderError(network_message(self.name, exc)) from exc
 
         try:
-            payload = json.loads(response_bytes.decode("utf-8"))
-            message = payload["choices"][0]["message"]
-        except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
-            raise ProviderError(f"{self.name} API 响应格式无法识别") from exc
-
-        content = message.get("content")
-        if isinstance(content, list):
-            content = "".join(
-                str(part.get("text", ""))
-                for part in content
-                if isinstance(part, dict)
-            )
-        text = str(content).strip() if content else ""
-
-        tool_calls: list[dict] = []
-        for index, call in enumerate(message.get("tool_calls") or []):
-            function = call.get("function") or {}
-            raw_arguments = function.get("arguments")
-            if isinstance(raw_arguments, str):
-                try:
-                    arguments = json.loads(raw_arguments)
-                except json.JSONDecodeError:
-                    arguments = {}
-            elif isinstance(raw_arguments, dict):
-                arguments = raw_arguments
-            else:
-                arguments = {}
-            if not isinstance(arguments, dict):
-                arguments = {}
-            tool_calls.append(
-                {
-                    "id": str(call.get("id") or f"call_{index}"),
-                    "name": str(function.get("name", "")).strip(),
-                    "arguments": arguments,
-                }
-            )
-        return {"content": text, "tool_calls": tool_calls, "raw": message}
+            return provider_response.openai(provider_response.load_json(response_bytes))
+        except provider_response.ResponseProtocolError as exc:
+            raise ProviderError(f"{self.name} {exc}") from exc
 
     @staticmethod
     def _http_error_detail(exc: urllib.error.HTTPError) -> str:
@@ -410,15 +386,11 @@ class AnthropicCompatibleProvider:
         self.api_key = api_key
         self.configured = bool(api_key)
 
-    @staticmethod
-    def _arguments_from(raw: Any) -> dict:
-        if isinstance(raw, str):
-            try:
-                parsed = json.loads(raw)
-            except json.JSONDecodeError:
-                return {}
-            return parsed if isinstance(parsed, dict) else {}
-        return raw if isinstance(raw, dict) else {}
+    def _arguments_from(self, raw: Any) -> dict:
+        try:
+            return provider_response.arguments(raw)
+        except provider_response.ResponseProtocolError as exc:
+            raise ProviderError(f"{self.name} {exc}") from exc
 
     def _to_anthropic_messages(self, messages: list[dict]) -> tuple[str, list[dict]]:
         """OpenAI-shaped conversation -> (system, Anthropic messages).
@@ -541,59 +513,30 @@ class AnthropicCompatibleProvider:
         return " ".join(str(message).split())[:240]
 
     def _parse_response(self, payload: dict) -> dict:
-        content = payload.get("content")
-        if not isinstance(content, list):
-            raise ProviderError(f"{self.name} API 响应格式无法识别")
-        text = "".join(
-            str(block.get("text", ""))
-            for block in content
-            if isinstance(block, dict) and block.get("type") == "text"
-        ).strip()
-        tool_calls: list[dict] = []
-        for index, block in enumerate(content):
-            if isinstance(block, dict) and block.get("type") == "tool_use":
-                tool_calls.append(
-                    {
-                        "id": str(block.get("id") or f"call_{index}"),
-                        "name": str(block.get("name", "")).strip(),
-                        "arguments": self._arguments_from(block.get("input")),
-                    }
-                )
-        raw: dict = {"role": "assistant", "content": text or None}
-        if tool_calls:
-            raw["tool_calls"] = [
-                {
-                    "id": call["id"],
-                    "type": "function",
-                    "function": {
-                        "name": call["name"],
-                        "arguments": json.dumps(call["arguments"], ensure_ascii=False),
-                    },
-                }
-                for call in tool_calls
-            ]
-        return {"content": text, "tool_calls": tool_calls, "raw": raw}
+        try:
+            return provider_response.anthropic(payload)
+        except provider_response.ResponseProtocolError as exc:
+            raise ProviderError(f"{self.name} {exc}") from exc
 
     async def _post(self, body: dict, tools: bool) -> dict:
         request = self._build_request(body)
         try:
             response_bytes = await self._send_with_config_reload(request)
         except urllib.error.HTTPError as exc:
-            if tools and exc.code in {400, 404, 422}:
+            unsupported = await _tools_rejected(exc)
+            if tools and unsupported:
                 raise ToolsUnsupportedError(
                     f"{self.name} rejected the tools payload (HTTP {exc.code})"
                 ) from exc
-            detail = self._http_error_detail(exc)
-            suffix = f"：{detail}" if detail else ""
             raise ProviderError(
-                f"{self.name} API 返回 HTTP {exc.code}{suffix}"
+                f"{self.name} API 返回 HTTP {exc.code}，请检查服务状态或接口额度。"
             ) from exc
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             raise ProviderError(f"无法连接 {self.name} API") from exc
         try:
-            payload = json.loads(response_bytes.decode("utf-8"))
-        except json.JSONDecodeError as exc:
-            raise ProviderError(f"{self.name} API 响应格式无法识别") from exc
+            payload = provider_response.load_json(response_bytes)
+        except provider_response.ResponseProtocolError as exc:
+            raise ProviderError(f"{self.name} {exc}") from exc
         return self._parse_response(payload)
 
     async def complete(self, messages: list[dict[str, str]]) -> str:

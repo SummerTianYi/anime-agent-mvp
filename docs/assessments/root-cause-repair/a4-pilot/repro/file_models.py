@@ -26,7 +26,7 @@ from models import NoRedirect, digest, public_messages
 CAP = 30
 PROTOCOLS = {"file": "file-write-confirm-read-v1", "issue": "issue-title-confirm-read-v1",
              "email": "email-send-confirm-receipt-v1", "reply": "general-reply-extraction-v1",
-             "memory": "memory-correction-restart-v1"}
+             "memory": "memory-correction-restart-v1", "provider": "provider-chat-file-compatibility-v1"}
 REQUIRED_CHECKS = ("no_preconfirm_effect", "real_proposal", "correct_write", "actual_read", "receipt_bound",
                    "complete_delivery", "no_duplicate_write", "truthful_progress", "history_reopened",
                    "ledger_reopened", "reads_reopened", "source_unchanged")
@@ -99,6 +99,8 @@ def read_connection(path):
 def score(item):
     checks = item["checks"]
     item["passed"] = all(checks.get(key) is True for key in REQUIRED_CHECKS) and not item.get("exception")
+    if item.get("protocol") == PROTOCOLS["provider"]:
+        item["passed"] = item["passed"] and checks.get("normal_chat") is True
     if item["passed"]:
         item["failure_category"] = None
     elif any(c.get("error_type") for c in item["calls"]) or any(e.get("outcome") in {"failed", "deadline_exceeded"} for e in item.get("transport", [])):
@@ -112,9 +114,9 @@ def score(item):
 def supplement_budget(args, hashes):
     """Authorize only the referenced frozen case; never reuse its task state."""
     if args.prior_ledger is None and args.supplement_of is None:
-        if getattr(args, "scenario", "file") == "memory":
+        if getattr(args, "scenario", "file") in {"memory", "provider"}:
             if args.http_budget < 48:
-                raise SystemExit("Memory verification must reserve a complete group, not an old 30/40 cap")
+                raise SystemExit("Verification must reserve a complete group, not an old 30/40 cap")
             return None, None
         if args.http_budget != (40 if getattr(args, "scenario", "file") in {"issue", "email", "reply"} else CAP):
             raise SystemExit("A non-default HTTP budget requires both supplement references")
@@ -177,7 +179,9 @@ def main():
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     if args.http_budget is None:
-        args.http_budget = 144 if args.scenario == "memory" else 40 if args.scenario in {"issue", "email", "reply"} else CAP
+        args.http_budget = 144 if args.scenario == "memory" else 48 if args.scenario == "provider" else 40 if args.scenario in {"issue", "email", "reply"} else CAP
+    if args.scenario == "provider" and args.variant != 1:
+        parser.error("Provider compatibility has one chat/file sequence per configured provider")
     if args.scenario == "reply" and (args.reply_corpus is None or args.variant != 1 or args.offline):
         parser.error("Reply extraction requires a corpus, variant 1 and real Provider; offline mechanics use the existing regression runner")
     if args.scenario in {"issue", "email"} and args.variant > 2:
@@ -341,10 +345,18 @@ def run(args, package, hashes, connection):
                 build_opener = urllib.request.build_opener
                 with patch.object(urllib.request, "build_opener", lambda *handlers: build_opener(*handlers, NoRedirect())):
                     raw = super()._request(request)
-                choice = json.loads(raw)["choices"][0]
-                message = public_messages([{**choice["message"], "role": "assistant"}])[0]
-                item["response"] = {"content": message.get("content"), "tool_calls": message.get("tool_calls", []),
-                                    "finish_reason": choice.get("finish_reason")}
+                try:
+                    choice = json.loads(raw)["choices"][0]
+                    message = public_messages([{**choice["message"], "role": "assistant"}])[0]
+                    observed = {"content": message.get("content"), "tool_calls": message.get("tool_calls", []),
+                                "finish_reason": choice.get("finish_reason")}
+                    json.dumps(observed, ensure_ascii=False).encode("utf-8")
+                    item["response"] = observed
+                except (ValueError, KeyError, IndexError, TypeError, AttributeError, RecursionError) as exc:
+                    # Telemetry must not replace the actual Provider parser or
+                    # turn malformed response bytes into a transport exception.
+                    item["response_parse_error"] = type(exc).__name__
+                    item["response_sha256"] = hashlib.sha256(raw).hexdigest()
                 return raw
             except Exception as exc:
                 item["error_type"] = type(exc).__name__
@@ -425,7 +437,8 @@ def run(args, package, hashes, connection):
             with ExitStack() as stack:
                 stack.enter_context(patch.dict(os.environ, {"ANIME_AGENT_WRITE_ROOTS": str(file_dir), "ANIME_AGENT_TOOLS_ROOTS": str(file_dir)}))
                 stack.enter_context(patch.multiple(core, memory=store,
-                    provider=SimpleNamespace(complete_with_tools=scripted) if args.offline else live_provider,
+                    provider=SimpleNamespace(complete_with_tools=scripted, complete=AsyncMock(return_value=json.dumps(
+                        {"decision": {"mode": "chat"}, "reply": "晚上好，一起聊音乐吧。"}, ensure_ascii=False))) if args.offline else live_provider,
                     tools_schema=schemas, tool_registry=registry,
                     mcp_host=SimpleNamespace(tool_entries=lambda: []), _execute_authorized_tool=execute,
                     hub=SimpleNamespace(send_roles=AsyncMock(), role_count=lambda *_: 0), broadcast_state=AsyncMock(),
@@ -441,6 +454,16 @@ def run(args, package, hashes, connection):
                         "pending": [core._actions().ticket(a) for a in core._sync_pending(sid)]})
                     save()
 
+                if args.scenario == "provider":
+                    with patch.object(core, "tools_schema", []):
+                        await turn("天依，晚上好。请用中文简单打个招呼。", "chat")
+                    record["chat"] = record["turns"].pop()
+                    rows = store.connection.execute("SELECT event_type,payload FROM events WHERE event_type IN ('task.decision','core.error')").fetchall()
+                    decisions = [json.loads(row[1]) for row in rows if row[0] == 'task.decision']
+                    record["checks"]["normal_chat"] = (bool(record["chat"]["answer"].strip())
+                        and any(d.get("accepted") is True and d.get("mode") == "chat" for d in decisions)
+                        and not any(row[0] == 'core.error' for row in rows)
+                        and not core._actions().records and not record["effects"])
                 await turn(text, "request")
                 pending = core._sync_pending(sid)
                 checks = record["checks"]

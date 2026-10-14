@@ -1,0 +1,105 @@
+{
+  "cap": 48,
+  "attempts": [
+    {
+      "index": 1,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-chat"
+    },
+    {
+      "index": 2,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 3,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 4,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 5,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 6,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 7,
+      "model": "GLM-5.2",
+      "request_id": "file-1-chat"
+    },
+    {
+      "index": 8,
+      "model": "GLM-5.2",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 9,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-chat"
+    },
+    {
+      "index": 10,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 11,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 12,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 13,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 14,
+      "model": "Deepseek-v4-flash",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 15,
+      "model": "GLM-5.2",
+      "request_id": "file-1-chat"
+    },
+    {
+      "index": 16,
+      "model": "GLM-5.2",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 17,
+      "model": "GLM-5.2",
+      "request_id": "file-1-request"
+    },
+    {
+      "index": 18,
+      "model": "GLM-5.2",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 19,
+      "model": "GLM-5.2",
+      "request_id": "file-1-confirm"
+    },
+    {
+      "index": 20,
+      "model": "GLM-5.2",
+      "request_id": "file-1-confirm"
+    }
+  ]
+}

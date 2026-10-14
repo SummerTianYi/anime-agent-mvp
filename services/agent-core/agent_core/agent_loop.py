@@ -152,13 +152,18 @@ async def run_agent_loop(
             conversation.append(raw_message)
             invalid_proposal = False
             pending_proposal = False
+            # Adapters validate wire structure first. Validate the entire batch's
+            # tool contracts before dispatch, including calls beyond this turn's
+            # execution budget; a malformed tail must not permit a partial write.
+            proposal_errors = [validate_call(call["name"], call["arguments"]) for call in calls] if validate_call else []
+            batch_error = next((error for error in proposal_errors if error), "")
             # A pathological provider batch cannot create an unbounded executor loop.
             for index, call in enumerate(calls[:max(0, max_calls-len(steps))]):
                 if on_call is not None:
                     on_call()
                 name = str(call.get("name", "")).strip()
                 arguments = call.get("arguments", {})
-                argument_error = validate_call(name, arguments) if validate_call is not None else ""
+                argument_error = batch_error
                 allowed = True
                 if permission_gate is not None:
                     try:

@@ -1,0 +1,466 @@
+{
+  "run": "red.json",
+  "scope": "isolated actual source; no desktop, models or active services",
+  "source_sha256": {
+    "actions.py": "b85c51f46967436d3093508a61ac8085db9a3727a9341b1d638f4cd6cb24e894",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "email_task.py": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "general_reply_check.py": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "ae4e1a3e0be7e5cae89cf3b79c3e18e63f9760d179d29c6c494dfd3f2e624904",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_correction.py": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "verified_task.py": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "tests": 19,
+  "passed": false,
+  "failures": [
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=False, content=None)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=False, content=7)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=False, content=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=False, content={'text': 'DO_NOT_LEAK'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=True, content=None)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=True, content='')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=True, content='  ')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=True, content=7)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=True, content=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='openai', tools=True, content={'text': 'DO_NOT_LEAK'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=False, content=7)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=False, content=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=False, content={'text': 'DO_NOT_LEAK'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=True, content=None)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=True, content='')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=True, content='  ')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=True, content=7)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=True, content=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_empty_and_bad_text_not_normal_response (dialect='anthropic', tools=True, content={'text': 'DO_NOT_LEAK'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 75, in test_empty_and_bad_text_not_normal_response\n    await self.rejected(dialect, response(dialect, content), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_openai_text_blocks (blocks=[None], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 81, in test_bad_openai_text_blocks\n    await self.rejected('openai', response('openai', blocks), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_openai_text_blocks (blocks=['DO_NOT_LEAK'], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 81, in test_bad_openai_text_blocks\n    await self.rejected('openai', response('openai', blocks), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_openai_text_blocks (blocks=[{'text': None}], tools=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 81, in test_bad_openai_text_blocks\n    await self.rejected('openai', response('openai', blocks), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_openai_text_blocks (blocks=[{'text': None}], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 81, in test_bad_openai_text_blocks\n    await self.rejected('openai', response('openai', blocks), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_openai_text_blocks (blocks=[{'text': 17}], tools=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 81, in test_bad_openai_text_blocks\n    await self.rejected('openai', response('openai', blocks), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_openai_text_blocks (blocks=[{'text': 17}], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 81, in test_bad_openai_text_blocks\n    await self.rejected('openai', response('openai', blocks), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_openai_text_blocks (blocks=[{}], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 81, in test_bad_openai_text_blocks\n    await self.rejected('openai', response('openai', blocks), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_anthropic_blocks (blocks=[None], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 88, in test_bad_anthropic_blocks\n    await self.rejected('anthropic', encode({'content': blocks}), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_anthropic_blocks (blocks=[7], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 88, in test_bad_anthropic_blocks\n    await self.rejected('anthropic', encode({'content': blocks}), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_anthropic_blocks (blocks=[{}], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 88, in test_bad_anthropic_blocks\n    await self.rejected('anthropic', encode({'content': blocks}), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_anthropic_blocks (blocks=[{'type': 'text', 'text': None}], tools=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 88, in test_bad_anthropic_blocks\n    await self.rejected('anthropic', encode({'content': blocks}), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_anthropic_blocks (blocks=[{'type': 'text', 'text': None}], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 88, in test_bad_anthropic_blocks\n    await self.rejected('anthropic', encode({'content': blocks}), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_anthropic_blocks (blocks=[{'type': 'unknown', 'text': 'DO_NOT_LEAK'}], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 88, in test_bad_anthropic_blocks\n    await self.rejected('anthropic', encode({'content': blocks}), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_anthropic_blocks (blocks=[{'type': 'thinking', 'thinking': 'internal'}], tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 88, in test_bad_anthropic_blocks\n    await self.rejected('anthropic', encode({'content': blocks}), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='{DO_NOT_LEAK')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='null')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='[]')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='[1]')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='42')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments=None)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments=[])",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments=7)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='{\"value\":NaN}')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='{\"value\":Infinity}')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='openai', arguments='{\"x\":1,\"x\":2}')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='{DO_NOT_LEAK')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='null')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='[]')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='[1]')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='42')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments=None)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments=[])",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments=7)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='{\"value\":NaN}')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='{\"value\":Infinity}')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_tool_arguments_never_become_empty_object (dialect='anthropic', arguments='{\"x\":1,\"x\":2}')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 95, in test_invalid_tool_arguments_never_become_empty_object\n    await self.rejected(dialect, response(dialect, calls=[call(arguments)]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (calls=False)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 101, in test_bad_tool_envelopes\n    await self.rejected('openai', encode({'choices': [{'message': {'content': None, 'tool_calls': calls}}]}))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (calls={})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 101, in test_bad_tool_envelopes\n    await self.rejected('openai', encode({'choices': [{'message': {'content': None, 'tool_calls': calls}}]}))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (calls=[{'id': 'x', 'function': None}])",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 101, in test_bad_tool_envelopes\n    await self.rejected('openai', encode({'choices': [{'message': {'content': None, 'tool_calls': calls}}]}))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (calls=[{'id': 'x', 'function': {'name': 'get_time'}}])",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 101, in test_bad_tool_envelopes\n    await self.rejected('openai', encode({'choices': [{'message': {'content': None, 'tool_calls': calls}}]}))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='openai', bad={'id': 'synthetic-call', 'name': None, 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='openai', bad={'id': 'synthetic-call', 'name': 4, 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='openai', bad={'id': 'synthetic-call', 'name': '', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='openai', bad={'id': None, 'name': 'get_time', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='openai', bad={'id': 7, 'name': 'get_time', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='openai', bad={'id': '', 'name': 'get_time', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='anthropic', bad={'id': 'synthetic-call', 'name': None, 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='anthropic', bad={'id': 'synthetic-call', 'name': 4, 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='anthropic', bad={'id': 'synthetic-call', 'name': '', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='anthropic', bad={'id': None, 'name': 'get_time', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='anthropic', bad={'id': 7, 'name': 'get_time', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (dialect='anthropic', bad={'id': '', 'name': 'get_time', 'arguments': {}})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 106, in test_bad_tool_envelopes\n    await self.rejected(dialect, response(dialect, calls=[bad]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_duplicate_call_ids_rejected_before_any_call (dialect='openai')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 111, in test_duplicate_call_ids_rejected_before_any_call\n    await self.rejected(dialect, response(dialect, calls=[call({}), call({})]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_duplicate_call_ids_rejected_before_any_call (dialect='anthropic')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 111, in test_duplicate_call_ids_rejected_before_any_call\n    await self.rejected(dialect, response(dialect, calls=[call({}), call({})]))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 46, in rejected\n    with self.assertRaises(self.core.ProviderError) as raised:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProviderError not raised\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_handle_chat_mixed_valid_and_corrupt_batch_no_partial_effect",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 157, in test_handle_chat_mixed_valid_and_corrupt_batch_no_partial_effect\n    self.assertEqual(self.book.records, before)\nAssertionError: {'463799b13cc545659caeb474291f646f': {'act[426 chars]one}} != {}\nDiff is 989 characters long. Set self.maxDiff to None to see it.\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_schema_invalid_tail_prevents_front_half_proposal",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 169, in test_schema_invalid_tail_prevents_front_half_proposal\n    self.assertEqual(self.book.records, before)\nAssertionError: {'51e5dac0351c48f4b96f92f955385b09': {'act[418 chars]one}} != {}\nDiff is 981 characters long. Set self.maxDiff to None to see it.\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_actual_handle_chat_normal_wire_text",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 209, in test_actual_handle_chat_normal_wire_text\n    await self.chat('你好', 'normal-' + dialect)\n  File \"<repo>\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 182, in chat\n    await asyncio.wait_for(self.core.handle_chat(text, request_id, self.sid, **kwargs), timeout=10)\n  File \"<python>\\Lib\\asyncio\\tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 1601, in handle_chat\n    await _handle_chat_locked(text, request_id, session_probe if correction_plan is not None else conversation_id,\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 1834, in _handle_chat_locked\n    loop_result = await run_agent_loop(\n                  ^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\agent_loop.py\", line 129, in run_agent_loop\n    turn = (await provider.complete_with_tools(conversation, tools_schema) if supports_tools\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 295, in complete_with_tools\n    response_bytes = await self._send_with_config_reload(request)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 211, in _send_with_config_reload\n    return await self._transport.send(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\provider_http.py\", line 162, in send\n    result = await self._once(send, request)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\provider_http.py\", line 127, in _once\n    return await asyncio.shield(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\threads.py\", line 25, in to_thread\n    return await loop.run_in_executor(None, func_call)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\concurrent\\futures\\thread.py\", line 59, in run\n    result = self.fn(*self.args, **self.kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 38, in wire\n    raise AssertionError('unexpected retry/fallback')\nAssertionError: unexpected retry/fallback\n"
+    }
+  ],
+  "errors": [
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='openai', tools=False, raw=b'\\xff')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 50, in rejected\n    await provider.complete([{'role': 'user', 'content': '合成测试'}])\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 252, in complete\n    payload = json.loads(response_bytes.decode(\"utf-8\"))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='openai', tools=True, raw=b'\\xff')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 309, in complete_with_tools\n    payload = json.loads(response_bytes.decode(\"utf-8\"))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=False, raw=b'\\xff')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 50, in rejected\n    await provider.complete([{'role': 'user', 'content': '合成测试'}])\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 610, in complete\n    turn = await self._post(body, tools=False)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 594, in _post\n    payload = json.loads(response_bytes.decode(\"utf-8\"))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=False, raw=b'null')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 50, in rejected\n    await provider.complete([{'role': 'user', 'content': '合成测试'}])\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 610, in complete\n    turn = await self._post(body, tools=False)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 597, in _post\n    return self._parse_response(payload)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 544, in _parse_response\n    content = payload.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=False, raw=b'[]')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 50, in rejected\n    await provider.complete([{'role': 'user', 'content': '合成测试'}])\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 610, in complete\n    turn = await self._post(body, tools=False)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 597, in _post\n    return self._parse_response(payload)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 544, in _parse_response\n    content = payload.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=False, raw=b'42')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 50, in rejected\n    await provider.complete([{'role': 'user', 'content': '合成测试'}])\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 610, in complete\n    turn = await self._post(body, tools=False)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 597, in _post\n    return self._parse_response(payload)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 544, in _parse_response\n    content = payload.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'int' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=True, raw=b'\\xff')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 628, in complete_with_tools\n    return await self._post(body, tools=True)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 594, in _post\n    payload = json.loads(response_bytes.decode(\"utf-8\"))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=True, raw=b'null')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 628, in complete_with_tools\n    return await self._post(body, tools=True)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 597, in _post\n    return self._parse_response(payload)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 544, in _parse_response\n    content = payload.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=True, raw=b'[]')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 628, in complete_with_tools\n    return await self._post(body, tools=True)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 597, in _post\n    return self._parse_response(payload)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 544, in _parse_response\n    content = payload.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_invalid_bytes_and_top_level_both_adapters_both_methods (dialect='anthropic', tools=True, raw=b'42')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 60, in test_invalid_bytes_and_top_level_both_adapters_both_methods\n    await self.rejected(dialect, raw, tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 628, in complete_with_tools\n    return await self._post(body, tools=True)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 597, in _post\n    return self._parse_response(payload)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 544, in _parse_response\n    content = payload.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'int' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_openai_message_and_choices_shapes (payload={'choices': [{'message': None}]}, tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 68, in test_openai_message_and_choices_shapes\n    await self.rejected('openai', encode(payload), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 314, in complete_with_tools\n    content = message.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_openai_message_and_choices_shapes (payload={'choices': [{'message': []}]}, tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 68, in test_openai_message_and_choices_shapes\n    await self.rejected('openai', encode(payload), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 314, in complete_with_tools\n    content = message.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_openai_message_and_choices_shapes (payload={'choices': [{'message': 'DO_NOT_LEAK'}]}, tools=True)",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 68, in test_openai_message_and_choices_shapes\n    await self.rejected('openai', encode(payload), tools)\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 314, in complete_with_tools\n    content = message.get(\"content\")\n              ^^^^^^^^^^^\nAttributeError: 'str' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (calls='DO_NOT_LEAK')",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 101, in test_bad_tool_envelopes\n    await self.rejected('openai', encode({'choices': [{'message': {'content': None, 'tool_calls': calls}}]}))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 325, in complete_with_tools\n    function = call.get(\"function\") or {}\n               ^^^^^^^^\nAttributeError: 'str' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (calls=[None])",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 101, in test_bad_tool_envelopes\n    await self.rejected('openai', encode({'choices': [{'message': {'content': None, 'tool_calls': calls}}]}))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 325, in complete_with_tools\n    function = call.get(\"function\") or {}\n               ^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_bad_tool_envelopes (calls=[7])",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 101, in test_bad_tool_envelopes\n    await self.rejected('openai', encode({'choices': [{'message': {'content': None, 'tool_calls': calls}}]}))\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 48, in rejected\n    await provider.complete_with_tools([{'role': 'user', 'content': '合成测试'}], self.core.tools_schema)\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 325, in complete_with_tools\n    function = call.get(\"function\") or {}\n               ^^^^^^^^\nAttributeError: 'int' object has no attribute 'get'\n"
+    },
+    {
+      "test": "test_provider_response_boundary.ProviderResponseBoundaryTests.test_handle_chat_bad_response_no_new_action_no_fallback",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_provider_response_boundary.py\", line 143, in test_handle_chat_bad_response_no_new_action_no_fallback\n    await self.chat('请处理合成任务', 'bad-' + dialect)\n  File \"<repo>\\services\\agent-core\\tests\\test_harness_v1_review.py\", line 182, in chat\n    await asyncio.wait_for(self.core.handle_chat(text, request_id, self.sid, **kwargs), timeout=10)\n  File \"<python>\\Lib\\asyncio\\tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 1601, in handle_chat\n    await _handle_chat_locked(text, request_id, session_probe if correction_plan is not None else conversation_id,\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 1834, in _handle_chat_locked\n    loop_result = await run_agent_loop(\n                  ^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\agent_loop.py\", line 129, in run_agent_loop\n    turn = (await provider.complete_with_tools(conversation, tools_schema) if supports_tools\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\agent_core\\main.py\", line 309, in complete_with_tools\n    payload = json.loads(response_bytes.decode(\"utf-8\"))\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+    }
+  ],
+  "skipped": [],
+  "model_calls": 0,
+  "observations": [
+    {
+      "case": "test_openai_bad_supplement_keeps_success_receipt",
+      "dialect": "openai",
+      "status": "succeeded",
+      "effects": 1,
+      "answer": "我核对了实际执行记录：\naudit@example.invalid：连接器已接受发送（不代表收件人已收到）；fixture accepted",
+      "wire_requests": 2
+    },
+    {
+      "case": "test_anthropic_bad_supplement_keeps_success_receipt",
+      "dialect": "anthropic",
+      "status": "succeeded",
+      "effects": 1,
+      "answer": "我核对了实际执行记录：\naudit@example.invalid：连接器已接受发送（不代表收件人已收到）；fixture accepted",
+      "wire_requests": 2
+    },
+    {
+      "case": "test_openai_bad_supplement_keeps_unknown",
+      "dialect": "openai",
+      "status": "unknown",
+      "effects": 1,
+      "answer": "我核对了实际执行记录：\naudit@example.invalid：结果未知，未自动重试；执行结果未知（TimeoutError）；禁止自动重试",
+      "wire_requests": 2
+    },
+    {
+      "case": "test_anthropic_bad_supplement_keeps_unknown",
+      "dialect": "anthropic",
+      "status": "unknown",
+      "effects": 1,
+      "answer": "我核对了实际执行记录：\naudit@example.invalid：结果未知，未自动重试；执行结果未知（TimeoutError）；禁止自动重试",
+      "wire_requests": 2
+    }
+  ],
+  "elapsed_seconds": 14.959
+}

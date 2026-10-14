@@ -1,0 +1,1600 @@
+{
+  "baseline": "e72bb06419cea50fefb5604181930a713779c4c3",
+  "comparison": "Git blob and working file normalized CRLF to LF",
+  "passed": true,
+  "checks": [
+    {
+      "path": "services/agent-core/agent_core/storage.py",
+      "unchanged": true,
+      "normalized_sha256": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa"
+    },
+    {
+      "path": "services/agent-core/agent_core/memory_correction.py",
+      "unchanged": true,
+      "normalized_sha256": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66"
+    },
+    {
+      "path": "services/agent-core/agent_core/actions.py",
+      "unchanged": true,
+      "normalized_sha256": "b85c51f46967436d3093508a61ac8085db9a3727a9341b1d638f4cd6cb24e894"
+    },
+    {
+      "path": "services/agent-core/agent_core/harness.py",
+      "unchanged": true,
+      "normalized_sha256": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899"
+    },
+    {
+      "path": "services/agent-core/agent_core/task_delivery.py",
+      "unchanged": true,
+      "normalized_sha256": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b"
+    },
+    {
+      "path": "services/agent-core/agent_core/verified_task.py",
+      "unchanged": true,
+      "normalized_sha256": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7"
+    },
+    {
+      "path": "services/agent-core/agent_core/file_task.py",
+      "unchanged": true,
+      "normalized_sha256": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d"
+    },
+    {
+      "path": "services/agent-core/agent_core/issue_task.py",
+      "unchanged": true,
+      "normalized_sha256": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8"
+    },
+    {
+      "path": "services/agent-core/agent_core/email_task.py",
+      "unchanged": true,
+      "normalized_sha256": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438"
+    },
+    {
+      "path": "services/agent-core/agent_core/permissions.py",
+      "unchanged": true,
+      "normalized_sha256": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5"
+    },
+    {
+      "path": "services/agent-core/agent_core/tools.py",
+      "unchanged": true,
+      "normalized_sha256": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0"
+    },
+    {
+      "path": "services/agent-core/agent_core/general_reply_check.py",
+      "unchanged": true,
+      "normalized_sha256": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION.md",
+      "unchanged": true,
+      "normalized_sha256": "8e30244591be36cc181e088e27a0238a509d1e984512c5d00fa023b7ae6ff6d4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION_FOLLOWUP.md",
+      "unchanged": true,
+      "normalized_sha256": "5eb7cf1f193efce456f0787b65422b87a815dd85add1c34662ff41af9ee1fdf4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/GENERAL_REPLY_CHECK.md",
+      "unchanged": true,
+      "normalized_sha256": "28e53b9679c576175f16f8b42e5b7ef477fd87a97f12ce322f157e7eb7ffe257"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/BASELINE_CLOSURE.md",
+      "unchanged": true,
+      "normalized_sha256": "3dbedf1d3b3f97633a55ade0e1dbac7c5e2886745fa02fc4f180a1de5c697c59"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-after-continuation.json",
+      "unchanged": true,
+      "normalized_sha256": "733571ccc78b42394c89e4fb6fd7e78530b962698bd611e479a105b65119a220"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-after.json",
+      "unchanged": true,
+      "normalized_sha256": "acfddcbf8affe729df64af647fca47c640d3364dabded003bc41ac422962e6f3"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-before.json",
+      "unchanged": true,
+      "normalized_sha256": "6a6535ac2760a4e75ebf5907fdc0c98bbdea3a88c3cf2ead86db768983774c8e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-boundary-final.json",
+      "unchanged": true,
+      "normalized_sha256": "4238b59502a544a945a2b966413cf05a46d40f617228c066c253c27b64a13999"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-email-final.json",
+      "unchanged": true,
+      "normalized_sha256": "acd2e543166657e97cff4c468820a9315a7004a34fb69ea2498ec4e7b56c0156"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-file-final.json",
+      "unchanged": true,
+      "normalized_sha256": "6e9a591ee1c8326376db0cf5d2d10db2b9d24d5b98c5af365551c398b2dfa851"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-harness-final.json",
+      "unchanged": true,
+      "normalized_sha256": "366708d5a2b901b4d8d1575a7134ea59d076bfa707773a7e14c84c1631ee9d8f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-independent-before.json",
+      "unchanged": true,
+      "normalized_sha256": "ba8afd05353d66dbef1a99eb50d2dee70d90d08f014c1e39dd6cbdab1ade0ce9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-independent-final.json",
+      "unchanged": true,
+      "normalized_sha256": "a5d03993e8a145d07c4ade23a582ea313335f882724f62f2e420c48b1806bf73"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-independent-history.json",
+      "unchanged": true,
+      "normalized_sha256": "5bc4bc114047ddb582eb24304846009e1f85e23b6eebf06b9f20909e6cf48e35"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-independent-review.json",
+      "unchanged": true,
+      "normalized_sha256": "50b10dd0976c60ba511b6363fa9ae0897ab49d712ca6df872521c6cfe05fa77f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-issue-final.json",
+      "unchanged": true,
+      "normalized_sha256": "0806ecf41dc77f34bda832a1418778dc716d4d9ad8487f1c469b38f86b4763b3"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "a85d2de561c90f485da94fe98fbc47935fa0cd930e10c28ff93299e504a7f164"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-pending-final.json",
+      "unchanged": true,
+      "normalized_sha256": "a9e7974d7dadc002139ddebe0bd8838fe72d48cdce88679619ad3b8c4205d5d0"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-replay.json",
+      "unchanged": true,
+      "normalized_sha256": "d58518fba63a98f4118aecf096365ee32c3e0f0ef8ab98002af509779c8d654d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-traces.json",
+      "unchanged": true,
+      "normalized_sha256": "4c157e5f810d1a2faeb3051e286463c1f160d26260c86c26bf3812981f2d9ba1"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/core-baseline.json",
+      "unchanged": true,
+      "normalized_sha256": "2384690c1fe5f3067e016deb9eafabd6049caab437f5ca9421e97d2cd5db67d6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/core-final.json",
+      "unchanged": true,
+      "normalized_sha256": "3c67bc11d2cf34a9cfd3d52ae1d624608604315383400d92dc8f40db653d8eee"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-after-v1.json",
+      "unchanged": true,
+      "normalized_sha256": "701c304547fe250b3a7186d599d993194f0051d8d51003162bc9ea0d34ec2df4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-after-v3.json",
+      "unchanged": true,
+      "normalized_sha256": "1c0f643ebce2385512abdcd51dfcc7dd9d606a41826ab9c3b8b26c190c90fde4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-baseline-file.json",
+      "unchanged": true,
+      "normalized_sha256": "66506dec7e1be2e81b5d7d07a9885bd53046b28e0753d238cd0dae2460bf4391"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-baseline-issue.json",
+      "unchanged": true,
+      "normalized_sha256": "7a54383b8df8b44b09420e83b78d21bd4575ed42fed2f42a7d9e4f0ab697a969"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-before-fixture-shortfall.json",
+      "unchanged": true,
+      "normalized_sha256": "ac4e0cd8a8d73193188272882d369a76a6bec134de74c2f7b70378c56b376ee9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-before.json",
+      "unchanged": true,
+      "normalized_sha256": "2138f3ef40ccd4a4809a076bddc2ad6413a64bfc44efa7fb3286909f6130b583"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-connector-contract.json",
+      "unchanged": true,
+      "normalized_sha256": "7eaa320d44dc712b49bbb0c1be276b2c080b2d5d4b065217fc46411b171ff9b1"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-core-before-feedback.json",
+      "unchanged": true,
+      "normalized_sha256": "5445ff2b1a2c95ebe735dddfd4f474e0ae21c1206d5111f9c64e791a4e7be1af"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-core-final.json",
+      "unchanged": true,
+      "normalized_sha256": "3d2429b91ed190bbf45d5b46633a541d00043954e9b7699f589286413e8e2e32"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-export-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "f1446482806aee14a0a5cee90d71c66ad9bbd9ff59e9484e012abc289dcb990a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-feedback-regression.json",
+      "unchanged": true,
+      "normalized_sha256": "2dadb89bc5eacdb1201071d04cf8570fcd0c96e57682f08edbfc7d66bae18fdb"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-handoff.json",
+      "unchanged": true,
+      "normalized_sha256": "a85b8e8149d76d61cdb2149a119f5431dfc415324ebe2ccdd2316acd92efbdb0"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-http-ledger.json",
+      "unchanged": true,
+      "normalized_sha256": "9cb3ee79039c2132c77a2f3377299159071612df166f38ea5d689048d064816b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-independent-01-natural.json",
+      "unchanged": true,
+      "normalized_sha256": "7ea447a1750bef0a4bf15617512c31a1b6eab73c9b42ab9a624864015a6e2e5c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-independent-02-expanded.json",
+      "unchanged": true,
+      "normalized_sha256": "3087f0ce540c2afd5bb9709d49ef46d7bfd4269e255500d0d3a05cb7cd4b3a78"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-independent-03-edit-order.json",
+      "unchanged": true,
+      "normalized_sha256": "188b5dee724e64a5da6bd56ab8b8e98f00a36cd575ddce03c01ce38254c09fd6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-independent-04-body-edit.json",
+      "unchanged": true,
+      "normalized_sha256": "41b01d9e376b1a10a788b1018e211188d5f6041d905c5192a48d7ff6e6e97085"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-independent-05-final.json",
+      "unchanged": true,
+      "normalized_sha256": "89e87f43881a7859794e8cdd1078b5c5056d3ac0768d8901fc99eaff8c4cadb8"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-independent-06-feedback.json",
+      "unchanged": true,
+      "normalized_sha256": "db14d08fa662464f2b377b8a7d66c7a53569875a2242843dae75edee03a78022"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-live-ds-1-feedback.json",
+      "unchanged": true,
+      "normalized_sha256": "183076fe9b4a3c41c1b6e6e5911703117e5a8dbc0468e00fbd20d5393200421b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-live-ds-1.json",
+      "unchanged": true,
+      "normalized_sha256": "833274c607d7992d2dba73717e16506c0376f48e9388e56e30d5657a3d2a8adb"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-live-ds-2.json",
+      "unchanged": true,
+      "normalized_sha256": "f914c37a485866a5a4e5ae89ad5d12e7185fd573b2b4dbe35aa75764da91214d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-live-glm-1.json",
+      "unchanged": true,
+      "normalized_sha256": "75da021e5ea3c57da66226d1b59205f4d0761464400fe4166d18391d9692a700"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-live-glm-2.json",
+      "unchanged": true,
+      "normalized_sha256": "19c8f5664c1632c0f7f670d5b1b8e8c329eb5232635a58a190e108137e8c8db2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-offline-before-feedback-variant2.json",
+      "unchanged": true,
+      "normalized_sha256": "48ffbc798e9ee6f0a7827011ed9507591489637d2249d7d4385b7ca3d52fa92d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-offline-before-feedback.json",
+      "unchanged": true,
+      "normalized_sha256": "2e0322531344c713ea79860800327b0ca6e52207323bdf6a009b7eb47662fcf9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-offline-final.json",
+      "unchanged": true,
+      "normalized_sha256": "a755aec66e98358dc105cc0da95e7d637f7162cbdac995926a3a5fdbe1d31a35"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-offline-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "271e5f0d3fee0460c80db9442aa4d9acb7ff7bfaacb012fed783d1fe985cf52b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-offline-variant2.json",
+      "unchanged": true,
+      "normalized_sha256": "bb43789323a56e6042c71f1d8a348ba95520c8c15c1b0919efb6a2d9d1dd8cb7"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-publication-check.json",
+      "unchanged": true,
+      "normalized_sha256": "59dda6ad1fd710bb7adec844cc1c99f3055a3758d8c9343e773ec376f9b30492"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-publication-final.json",
+      "unchanged": true,
+      "normalized_sha256": "a124460d2f30c71994c7b64850fe5698e90e692b52f6efe4096874b6fa796a1c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-runner-review-after.json",
+      "unchanged": true,
+      "normalized_sha256": "1972e22325d0c6bd75d16c0f70f2b47fb31374583b7df7d0915da8f9d28f81e6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-runner-review-before.json",
+      "unchanged": true,
+      "normalized_sha256": "88c6ac5c176fa9a7b65895cf48729984903c73b496c72a0042d3b8a8d3e6fa6f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-runner-review-first-live-failure.json",
+      "unchanged": true,
+      "normalized_sha256": "c2ffe4045b961662f20b82183af5ac4bad2c97b00d0a85e6d914489473f0aa83"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/email-runner-review-live.json",
+      "unchanged": true,
+      "normalized_sha256": "f4017081bb000a7b8b73fb7f06f91fd44d309994bc5a1b14e0eb29b938111f6b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/execution-deviation.json",
+      "unchanged": true,
+      "normalized_sha256": "bbd6f81b9dc3ab0fbba3cdb54585211e3ba43df8afb75a3503c1aa36acf991b4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-baseline.json",
+      "unchanged": true,
+      "normalized_sha256": "62765d53e6bb97679bbb0306a4617db7cd240c83d6a9bbac339dbdcb0bfaaf3d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-before.json",
+      "unchanged": true,
+      "normalized_sha256": "d95f37fc45228557d99f062d08fe550b030ded5f8b36cc40fba82d8d3494b5b5"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-core-final.json",
+      "unchanged": true,
+      "normalized_sha256": "c5be9e7809e16d1d66c3d71eba2602988477d8b9d01c41b67c4981d2b1d9d569"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-handoff.json",
+      "unchanged": true,
+      "normalized_sha256": "d675551a0c4ac45b776d3c846c0f40b78a1cdc5e833faa686fc038f7d9e632a6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-http-ledger.json",
+      "unchanged": true,
+      "normalized_sha256": "be9a7c5a652568e79e7f4c40453a273a8766a2a38026c1e2662fffdba0386e4a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-1-fixed.json",
+      "unchanged": true,
+      "normalized_sha256": "62590ca38f3adc92a838f8b59166947e2833c940f8c6091b012705abc5f306d0"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-1-release.json",
+      "unchanged": true,
+      "normalized_sha256": "231f55fd9717f2eff266f0bb926e44ece982272b0eeeba74a9d5b64e3a679950"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-1.json",
+      "unchanged": true,
+      "normalized_sha256": "aa1684ded05213c1c54368b5f7aea62d3520f9d65230bc9863a765550c018802"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-2-release.json",
+      "unchanged": true,
+      "normalized_sha256": "cfe2b75577f685364e077a5132aed65bf0aa0b0ad2a62a12240758b8eb85fd75"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-3-release.json",
+      "unchanged": true,
+      "normalized_sha256": "ce5070ece312a2e49fff2dac3dc37e68e839b3562570100b0e4b81ccd39fe88b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-1-release.json",
+      "unchanged": true,
+      "normalized_sha256": "171c55a43760817b472d753489fa143fbe63e6e515e1cd7b442b59261c525e4c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-1.json",
+      "unchanged": true,
+      "normalized_sha256": "455e201c9a2bd6ef06ce2b60fc03649683fb43841d92273e10408c88157c077d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-2-release.json",
+      "unchanged": true,
+      "normalized_sha256": "982fd53558652c43dd925fe679fb02995e3f50d993a2a9476146e1efc5523064"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-3-release.json",
+      "unchanged": true,
+      "normalized_sha256": "d1196684a6fbf9989d5cb7559e859486e5efd04f3c4da30ec051092fad29769d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "5734d43d4d7194ac7285d052621623b8457fcbacb2e26667b9a336db07f1432d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-offline-final.json",
+      "unchanged": true,
+      "normalized_sha256": "cdcb487acc7ef78a30165fe085f063799cf0996ed376471840d0e7ee8185be3c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-preparation-edit.json",
+      "unchanged": true,
+      "normalized_sha256": "c39e6dee70b202d8a6b5c72e861eceff0c1bf6c20297eb58ce45c87c8aab4afa"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-preparation-nonfile.json",
+      "unchanged": true,
+      "normalized_sha256": "44462f53c198eca388a3df03d601a591b4aa0d4f71b9c49a115b1762f35525ce"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-final.json",
+      "unchanged": true,
+      "normalized_sha256": "99d4585f8706a0963acd5ca1c273d1deb6ae06e54a81fb8cd98af9fc6e8a4c12"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-first.json",
+      "unchanged": true,
+      "normalized_sha256": "74f811d861588c1fb681f25563af3abb31fb1b28481e9f784f50ef53d21e2db2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-grader-first.json",
+      "unchanged": true,
+      "normalized_sha256": "1cc298780eb0e786a2cbda57f946d088655c9f4a787e126c7b7f764ed337321c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-guidance-final.json",
+      "unchanged": true,
+      "normalized_sha256": "8009c5336917d0a510ad6d868a4552c61fe6a2449dc962706f2b2cd2ddd7126f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-literal-edit-first.json",
+      "unchanged": true,
+      "normalized_sha256": "0502e1b4f047405138b5c35f23ea6096ebb5f97c863049137a9df3dd5d319a1e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-literal-final.json",
+      "unchanged": true,
+      "normalized_sha256": "d35b778303ade2d2d135069c7e031b70d08a402edb39f91a9338099d9414938b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-task-final.json",
+      "unchanged": true,
+      "normalized_sha256": "9a187d1b24276d69b86a063869baeec37c9e884617e2eda9ea976000ef09233e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-complete-final.json",
+      "unchanged": true,
+      "normalized_sha256": "2f715cf8080e425645586e5da7f31813e34263fb3cf0ebfa4bcc67185d4d602f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-final.json",
+      "unchanged": true,
+      "normalized_sha256": "f02e1c8a29e6038af64cf0ede941b2a6bc2648c7b62306883670be840e24658d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-first.json",
+      "unchanged": true,
+      "normalized_sha256": "22442eac424b9fea7fb28ee6765552feac39650d4292cb017550ac3e2cf84623"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-guidance-final.json",
+      "unchanged": true,
+      "normalized_sha256": "1ed41d5a13e4c29c397c5141a1bab040558c51497ba0d89b1d9adb0d20194bd2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-literal-edit.json",
+      "unchanged": true,
+      "normalized_sha256": "b338717894868e184bc3132e6c216ebbe3801cb945e3fffc7d8f1ba8a656cfc6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-literal-final.json",
+      "unchanged": true,
+      "normalized_sha256": "e83dafd558b2cffa8eee43f405b28f1c76abb924339a0ace11ad830cefc94f0e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-literal-first.json",
+      "unchanged": true,
+      "normalized_sha256": "9e455444335c8ae7333194a9a45304a0d0f386327408e67ade24efcbd094c669"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-path-edit.json",
+      "unchanged": true,
+      "normalized_sha256": "ea28622aece5f7cd8736adf81c688a7c9f5103f3d4d2a8686af75ff2092e9564"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-second.json",
+      "unchanged": true,
+      "normalized_sha256": "a81504377e04d9ec8c8e1d1e9a5de9088b18390aba7d5a90afb734614c81d222"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-claim.json",
+      "unchanged": true,
+      "normalized_sha256": "20e01b88ffcb9c24049cc6f4363918e27484249c2904242ee8e96875695d124f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-code-review.json",
+      "unchanged": true,
+      "normalized_sha256": "293ab42d1eb4702efbeb33b9c3962afc5c15d7b5fefb773e25a45d176bbf542e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-freeze.json",
+      "unchanged": true,
+      "normalized_sha256": "05a72d675dc81da51ee93f3a3fa743bd418c88668183d8d9f6fdc02cfa5cc722"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-glm-3.json",
+      "unchanged": true,
+      "normalized_sha256": "f80e27cf11f9b050e2d5982a62295d6dcba5314c420bcd7007f2705cc9e2f1c0"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-handoff.json",
+      "unchanged": true,
+      "normalized_sha256": "23978ade7b69a02980d2e36f8692d3fb15dd4235494e964bcd2ceb82aa52df6f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-http-ledger.json",
+      "unchanged": true,
+      "normalized_sha256": "cc6e9e2afb22a29de1a2aa9adc53e85b71d3334f5050be90a5fe51385a382400"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "1413c9592dbe592f9028540daeff8896f67c66fccb6bad3475aef822b069a278"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-offline.json",
+      "unchanged": true,
+      "normalized_sha256": "49f32ed84001c7af32766f1d3f507fddc68b80a4874cafeeb9e710737e6d5b55"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-review-fixture-first.json",
+      "unchanged": true,
+      "normalized_sha256": "c953c8373298b8318906fbdb9e7e396b0afb36e822c190d958587496c1b5a414"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-review-live.json",
+      "unchanged": true,
+      "normalized_sha256": "951724f9858dd2895e5a6aa05dc2f11408c9aa5164fe43cb9f4fab18733c3572"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-review-offline.json",
+      "unchanged": true,
+      "normalized_sha256": "ecf8134475c5ae951f255a26512875e989e6bc78bd153c1286c386736f4013d6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/file-target-before-guidance.json",
+      "unchanged": true,
+      "normalized_sha256": "e8e517a75788ff4403bd09d67252e0858aba1fce361e692e821aa671bee14eba"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-ds-final-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "5f79e18b721d20e93edaffd019093869708e3e3cd094eb7254d7ef2e7c36cb09"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-ds-holdout.json",
+      "unchanged": true,
+      "normalized_sha256": "dc110f2c7426fd9a25041dcd7f8a7353dcd4b2b8e9435b5123ba299b434649b9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-ds-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "1e1a2357b407eccfddabbb7a7158d18bc6601b4602cd8c3df559ef76a99d3218"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-glm-holdout.json",
+      "unchanged": true,
+      "normalized_sha256": "4313c894156ffbb027fed814cbeecaff70eb81f8121b389ebdea450a94b6d66a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-glm-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "48ebe7496cb790c9a80c03441b67d66da4f7893345e992c979571181eeb89b98"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-glm-remaining.json",
+      "unchanged": true,
+      "normalized_sha256": "ea208e67213f44a12b0abfe44b5a54dcbf63deebfdcc1effc344067ea13a510f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-http-ledger.json",
+      "unchanged": true,
+      "normalized_sha256": "175aa80d147b0ee364b7e6532450e207bacf9e6c1456cc693d43c909592c38fd"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-independent-01.json",
+      "unchanged": true,
+      "normalized_sha256": "f03c380346e003a82a76dc4140bc041d30dfb0b69303bdc01624ccca0de6fc8b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-independent-02.json",
+      "unchanged": true,
+      "normalized_sha256": "b071b1f0a26b255d6b5cf9d4fe6b9a973b1aa63f92c1efa5b3aea00228d3a016"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-independent-03.json",
+      "unchanged": true,
+      "normalized_sha256": "32a5b7e901c826e2944903ca138260b3ffc62f7d2ea4413f41936bb1f711dbf2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-independent-04.json",
+      "unchanged": true,
+      "normalized_sha256": "6e2abd01a9dc893981fac583baab6b129d921345ed37b8bce80f9f2067bc2403"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-independent-final.json",
+      "unchanged": true,
+      "normalized_sha256": "3c34c01602eee57e54cc95416df6222d8150b7cbe0ed128c300d7d48fd311ff6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-independent-migration.json",
+      "unchanged": true,
+      "normalized_sha256": "c15e6c147e526f3952817cd987a39eefa851aa0e17bd8324df4ea0afd30f67d9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-independent-review-code.json",
+      "unchanged": true,
+      "normalized_sha256": "b84b002333093d509e42ddcec4fcba27cd04d1260cc8b9df77119d02a28416e5"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-mechanics-final.json",
+      "unchanged": true,
+      "normalized_sha256": "e49187ac000e36da6e36e48420f08abc8bc80b91ada6946983f92f1e43e5fb16"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-mechanics-first.json",
+      "unchanged": true,
+      "normalized_sha256": "0435842b05f44bb8318b961111f77d48dfecf2c2caf9b2eab930a682af57448c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-reanalysis.json",
+      "unchanged": true,
+      "normalized_sha256": "a40d2e3ce087295ecafd2db3516c88a4c24204d007a0207fe317a1fabd7afa20"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-runner-offline.json",
+      "unchanged": true,
+      "normalized_sha256": "4ae308253e5f5dc688c238ceb8d662796cb2167304fc99cbaeba0923c5f95ede"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-summary.json",
+      "unchanged": true,
+      "normalized_sha256": "f1ed6299dbab5d6d6f0e73fbc365c961f3cea727c8ddb1e378bcdc53e416ed2a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/general-typed-final.json",
+      "unchanged": true,
+      "normalized_sha256": "62ccd9c2d84dfdec173ac025cee90d0c1948a0c23d551e048d4b5f0670980cc7"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/independent-final.json",
+      "unchanged": true,
+      "normalized_sha256": "280440dbea00191c7ac0c5b1cd7dbec05122c0afedc5118d2cc42d1e3fbf575c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/independent-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "8e6f3ecf416a29dace561e87dffe0abcbcbd135a8eb1a01866672a025eed30e5"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-a4-final.json",
+      "unchanged": true,
+      "normalized_sha256": "4a094f9304378bba47b9960a9738f7f912a5f603ebe03262ef659d6c078471a7"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-baseline-file.json",
+      "unchanged": true,
+      "normalized_sha256": "9a10387a4974fae8c7b26870eb4e1c2c81c5e08cc2f012c82d9982f3535b49c9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-evidence-export.json",
+      "unchanged": true,
+      "normalized_sha256": "4e03a4db21fc6774ce268b2333d1ee27e7110e18256f612efbdd49813a80e35d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-file-after1.json",
+      "unchanged": true,
+      "normalized_sha256": "742dfd90bf50cf2deed43bcee9dddb192150f684c06efc54f7707749f91d0f46"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-final-checks.json",
+      "unchanged": true,
+      "normalized_sha256": "14d559ca39474c5dc89b9419d7b260f7e850c5246db665e98f7b3b7f55ce42f4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-full-final.json",
+      "unchanged": true,
+      "normalized_sha256": "d345531884f73e72c650801df8230f10994190ad5dd4897f653bab4222f2591f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-full1.json",
+      "unchanged": true,
+      "normalized_sha256": "2e9e160463d3cd27754f54d0e5d53701e87e026cd810ecaed41a34d415c0edde"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-green1.json",
+      "unchanged": true,
+      "normalized_sha256": "96ca7ee07744c7071b4e2f9668ff97de178373caaf540dfc8c78e82972269b45"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-green2.json",
+      "unchanged": true,
+      "normalized_sha256": "57a59e0227aefe7396d7b635aa2f0cde6e4f49a4c6fb5bf8b0dc14d85f548c63"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-handoff.json",
+      "unchanged": true,
+      "normalized_sha256": "7e60ee32e1b2020d7c84e686e5ed092c77ed8924be9d1744e642b744b9f18abf"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-http-ledger.json",
+      "unchanged": true,
+      "normalized_sha256": "a248e64ff46969fe21650745b599dc0dbf45e2b2e3dc11d25848e9c70fadc9f5"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-1.json",
+      "unchanged": true,
+      "normalized_sha256": "0f2012732fcc3364840d0b837be038787c2e0b17184a588a82662d142e60d1a3"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-2.json",
+      "unchanged": true,
+      "normalized_sha256": "1637b8756ccf925420fc12eb0d8675b06802e3058e80a29a5b4dbe35cc78f037"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-3-binding.json",
+      "unchanged": true,
+      "normalized_sha256": "4d3e031116d6730ffddd8b7c9587842171047cba701aa8718413efd112d51d90"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-3.json",
+      "unchanged": true,
+      "normalized_sha256": "1cf056515c3b4ff7449dc3fe97a92edbb056077b2ae68969ca22ffb6adfdcdd5"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-4-binding.json",
+      "unchanged": true,
+      "normalized_sha256": "aeb2e05dbad0f0d07a1acb05b693dca84cb3ac5b917af756cdd1322de7910659"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-4.json",
+      "unchanged": true,
+      "normalized_sha256": "f622a6709f83b63eb54f36b03e79f004f0376d55468d1c568e82f89851488427"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-5-binding.json",
+      "unchanged": true,
+      "normalized_sha256": "cfb8d6ed54a0000ca251a67f6f1c7798dc2edd0af53b59ea81248cbcff55b18b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-5.json",
+      "unchanged": true,
+      "normalized_sha256": "7fef21fa35cd6396fd9b31c2bda0b38bc4fb204ce1c99de6b73f39b96775b178"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-closure.json",
+      "unchanged": true,
+      "normalized_sha256": "f7e48fd3d0b22e116b1c62b0443ebd5ab52963128739e70c767ce9304706b63c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-scope-2.json",
+      "unchanged": true,
+      "normalized_sha256": "ca2deb04edce20e57aae59311f2bec090289e1b0cf4e3efdf89047083b806059"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-scope-3.json",
+      "unchanged": true,
+      "normalized_sha256": "064f91c378ea07dde297098c341887bc214f3bf0dcf89fc715e18be1f38d01d2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-scope.json",
+      "unchanged": true,
+      "normalized_sha256": "69ce5fb12e9f8122b234560f14b264abb809d5b698852703265973b87f97b32c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-ds-1.json",
+      "unchanged": true,
+      "normalized_sha256": "03356140d7a2b861024886a9c0fe4ea2401c40f30085ba828a34e05c8c2070ee"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-ds-2.json",
+      "unchanged": true,
+      "normalized_sha256": "9cb949e5ff0af1940bfe3b6d74128b0b63aba8c42d6419dcadf599125aaf41f4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-glm-1.json",
+      "unchanged": true,
+      "normalized_sha256": "c8aff8577a41f6b10d776996fdf4b73d8b31e9e67ec6aa4cc7fb2aae5cbc494e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-glm-2.json",
+      "unchanged": true,
+      "normalized_sha256": "712272f15f9bbae194bc58a3e29775466f42a497864d86d36651f532ef002daa"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-red.json",
+      "unchanged": true,
+      "normalized_sha256": "19d44f1e9b03fdf7f90a75369b325959b76b0782457b35b209978a6fb5e32e0a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-ds2-failure.json",
+      "unchanged": true,
+      "normalized_sha256": "925b1dbce719f51f1e856a2b85c078c1dd4dcc4f22f2cf5bc4d730877b500924"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-final-binding.json",
+      "unchanged": true,
+      "normalized_sha256": "2cca77125dabe818f9f2f3b202e95655c67ed9eeabdaeb92513531aa5f24b47e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-final.json",
+      "unchanged": true,
+      "normalized_sha256": "4587cae0dd68ea2cb50d6151d6d70efcb53d0d9a0a90cbd5e907d554f391b6e7"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-fourth.json",
+      "unchanged": true,
+      "normalized_sha256": "78c51128281ac855cd49cc67b8bd6343303abc6bf91ae55d02347eb7035c74a4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-live-final.json",
+      "unchanged": true,
+      "normalized_sha256": "398c08ef95afb03c7e9c2bd593fc495ead294c50d083641c1732e05049978c1a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-offline-not-live.json",
+      "unchanged": true,
+      "normalized_sha256": "10d3480ffbbc888daee8e1e97d53110e602426913ae83643d9b9a76d3229107a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-second.json",
+      "unchanged": true,
+      "normalized_sha256": "95e96fa1133409520819791e2b2c0711931f79b61ef5735a87a6367b3b62184c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-third.json",
+      "unchanged": true,
+      "normalized_sha256": "d17f9bfdb17511c4805cd492f0e338881dfefdc9bf697474f7c3f6b903e4ee96"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-source-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "6fa32065ee2aa67822c07d3ac23e8243c262105fed426d0b8fd5f97399d40d77"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-supplement-ds-2.json",
+      "unchanged": true,
+      "normalized_sha256": "491a2be88fe0e22201a0dd9a31507b2139a21c4eb5b7a1d2a7087d58199e6eb2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-supplement-final-checks.json",
+      "unchanged": true,
+      "normalized_sha256": "d8b2ce81f561ea9c823583512c946499c407d7e48e4eaae463e4175b6750099a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-supplement-freeze.json",
+      "unchanged": true,
+      "normalized_sha256": "9c96ca6cfc0054fe3f3ea9701fd78c283b235330e6d44a7fb9b588085c164944"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-supplement-http-ledger.json",
+      "unchanged": true,
+      "normalized_sha256": "f36a603884f06632be24a11d60e9ee2444941e8718c5f2ad5766e8c0e0091067"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-supplement-independent.json",
+      "unchanged": true,
+      "normalized_sha256": "76426d5d60bbc1a3f1372837c247e9ab6a62611cf5f352e3a66f74e37d43ca62"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-supplement-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "1614f97e2e0551b5a7fb717034d4f7f218c7ccab3cd6f0d3e618ff401f034f74"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "a5e3394477e16c34aeba9499941252de222ffaceea30e63e6d08e061c1b4101f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-after1.json",
+      "unchanged": true,
+      "normalized_sha256": "a1099e92f71f27c6880596d89a60c6b5a96757f59f99def35b874398b17122ff"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-after2.json",
+      "unchanged": true,
+      "normalized_sha256": "9ec8f789b11d9fb7fbd9dc8cd0a7ac927a6d2d03f3a2ef0fb2618c73f0961a3c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-after3.json",
+      "unchanged": true,
+      "normalized_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-before-memory_promotion.json",
+      "unchanged": true,
+      "normalized_sha256": "b64cda4153b9726e77d2511a4d8c7df90b7162c0977f0a7643d02aebd9dde623"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-before-memory_retrieval.json",
+      "unchanged": true,
+      "normalized_sha256": "4d9a2420a9a90d129c3302c9e41a3a1e5e01dd0ce2f22b745fb48d07ba505a50"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-before-storage.json",
+      "unchanged": true,
+      "normalized_sha256": "d9b3dc32ce78b81742d79ac7818103be321b1f7fbaad27df7b25cb85cc4bd53e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-frozen-memory.json",
+      "unchanged": true,
+      "normalized_sha256": "fd1636eef14fd1f5e155e8083a1e7775f80ff8cfb1331d69f1ee80db24b31ff4"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-oracle-memory.json",
+      "unchanged": true,
+      "normalized_sha256": "d08c322e85f2817119d120f2187e69eca93155868b092156a636d347fa3fd573"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-preservation.json",
+      "unchanged": true,
+      "normalized_sha256": "7c0f1dd04f7b47918660d2278ccd9585bd2979992fc8af4634bf51961cb5cc1a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-reviewed-memory.json",
+      "unchanged": true,
+      "normalized_sha256": "f16b686a34bebb1ca8ae38fbece375f4ccb94e0fb4e6a95a29439645a60c1657"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-summary.json",
+      "unchanged": true,
+      "normalized_sha256": "3401ab4032c680e1ec28018e5d6c15b27c87c0f42667434318c8516dd5e770b9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_a4_pilot.json",
+      "unchanged": true,
+      "normalized_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_agent_loop.json",
+      "unchanged": true,
+      "normalized_sha256": "7cae54e91cca4bb1b1fe4830d82af293f0d355ceb4d3fd2f35527e6bf22db694"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_baseline_closureall.json",
+      "unchanged": true,
+      "normalized_sha256": "eed99170707019b057c603aeb0285536ee4672de52db91f039757c13f6220fff"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_channel_exclusivity.json",
+      "unchanged": true,
+      "normalized_sha256": "39e1dc6730da544968b240105c3d7855fb52dede3851d63e74054569629770ed"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_effort.json",
+      "unchanged": true,
+      "normalized_sha256": "43a076c47f30dc411156b513ba86d9af9a1b5f5714df0af90cb5aeb6b8c22327"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_emailall.json",
+      "unchanged": true,
+      "normalized_sha256": "d3c6ec1d6d249ae6454b2def919c9c33feedf4b866d1b96f3dfe01ac09fc5f74"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_file_task.json",
+      "unchanged": true,
+      "normalized_sha256": "554df427a9026c5903685aada741c6a59cb89ee58ab8eb189f7b7694e07649f8"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_followup_delivery.json",
+      "unchanged": true,
+      "normalized_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_harnessall.json",
+      "unchanged": true,
+      "normalized_sha256": "20d442dc1228f350c737c6af3db885b06483a119ed237c508f5278a98733f4d0"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_issueall.json",
+      "unchanged": true,
+      "normalized_sha256": "1a109f217e7c5029637527492945f5924c622fa3195a35fc0490c53b16211b29"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_main_ws.json",
+      "unchanged": true,
+      "normalized_sha256": "40aa410fc6ee65fb02c4da8ae0c80ebedc14659d61c2287ec6124ee7144f3414"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_memoryall.json",
+      "unchanged": true,
+      "normalized_sha256": "6eabb415768f7082137ff76ae95aee0ed9fc4d2a00e829ca4403edbba36ac98f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_pending_status.json",
+      "unchanged": true,
+      "normalized_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_permissions.json",
+      "unchanged": true,
+      "normalized_sha256": "7b3e2d8e24dc9397774524fa9bb5c30d591807ed1c43b1f5286d0c10745cf9cc"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_session_visibility.json",
+      "unchanged": true,
+      "normalized_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_storage.json",
+      "unchanged": true,
+      "normalized_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-baseline.json",
+      "unchanged": true,
+      "normalized_sha256": "deba656e6b449eddf5318121e88dceb6f330089fb731b1895ba23ea37a683e7f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-final-regressions.json",
+      "unchanged": true,
+      "normalized_sha256": "96b05779d5cb340fce975e2bf017d8deb0033f3d37eb50540141366da413490f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-independent-conclusion.json",
+      "unchanged": true,
+      "normalized_sha256": "d71ba3966b4a9637a0d478ef7eda443c2a646a2f97183ad825b913bc18b516b1"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "0d4829d67a2fe203e9025828021ceb8180cc7d089786d18c0b4d8af87f7acdbb"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-preservation.json",
+      "unchanged": true,
+      "normalized_sha256": "9e76250fb5d9bc9402fd730854680b244d3703f219b12822bbf5985f1764d7bb"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-primary-green.json",
+      "unchanged": true,
+      "normalized_sha256": "afb3fd9e69481086385df04dc2684af09ff3b1a5abfbc6ff884c6f2907abf605"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-red.json",
+      "unchanged": true,
+      "normalized_sha256": "a9054c4f8a53ff0e44ba8432df64aad2c9885c3856459bfa7e2f869a53a7c05a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-followup-review-runs.json",
+      "unchanged": true,
+      "normalized_sha256": "24caf611658282867808df3e006c4478649f1cb7190c8fbc13df0c2f6df447fa"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-ds1-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "13239c037267ae33f6fe241279afb9b52547e791ff6fa519c948b5324032bf2d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-ds1-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "99c8a3a85f0a87690dfc92af27e3fd1817965bf0b3758f32b1f598c7b4453de8"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "b01996d590def306643e0e1ba4b2fe32e396278cfa9ec793f9d36a510dd0a55b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-model.json.eval-7e3b6ded3dac.json",
+      "unchanged": true,
+      "normalized_sha256": "431a6fe6ba8ee210d01a6b3b32a07d5983c75142be55f895b9a482979d27b1d8"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-model.json.presentation-review.json",
+      "unchanged": true,
+      "normalized_sha256": "4a1f44c221127ad9c5f118bf68232dadba46745b6bc2bf642bc915ae3d053779"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "82df0595091432be019203f3d7be7eeead67a777101feb96831ed998a2f8fed6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-restart-model.json.eval-7e3b6ded3dac.json",
+      "unchanged": true,
+      "normalized_sha256": "742efe4ba60409ed50a762571cb0c29e4702564493406912cfed9db46782a0ea"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-restart-model.json.presentation-review.json",
+      "unchanged": true,
+      "normalized_sha256": "63b157675824c3a707aae47013ecd4312b987b8f67fe8277af09459b83d79614"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds2-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "277c7349c9b25897c377cd65427e63b66de82e95da48f5b65ade52c42915a826"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds2-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "006f51041454d0706e61c28e95a6a4e7a8af54416a67f7c74f187d606e5a978c"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds3-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "b4961380b79977de622bf94fc5544440b52f4a0a50134585f20a9708f288b39a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds3-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "6439f094fcdf9d8ba970a9dfc0d574fdeb65f7599660554469a7bad2e0d45b4f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "1a7c8f5b6ee264cf0523968d34527913305738b2d17564787dc5586f57df7de9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-model.json.eval-7e3b6ded3dac.json",
+      "unchanged": true,
+      "normalized_sha256": "4b1caf935bbf962dccdcb5c3fd1b92a0604845d2ab933fee78f78585a94c72d6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-model.json.presentation-review.json",
+      "unchanged": true,
+      "normalized_sha256": "b6946b6f2f082779a71d1720157129f4c20f856567d600a8a80b8fa22051cc6f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "4df1103ade297ebd6e0d6d23739819159fe6390d2263113bdc58c56ff02c3271"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-restart-model.json.eval-7e3b6ded3dac.json",
+      "unchanged": true,
+      "normalized_sha256": "d542cb3c6d6819331518f3988ffc56d5d1171eb116b78233e4c5e92cef36ac8b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm2-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "62fdd07d728f016740d35b1232cacb7823f610bea0a72f8eb1133ca6a054b76e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm2-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "f8cf92b79545c6c2e19e784c2b901bb1a68cb9db29089049b32c4fc4005b6e38"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm3-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "4364c3578029e9bbae0c4339fff23ffcc49caab526ef8cef326d548ba76e3038"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm3-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "c30966383346f1ebda81db3d4bdbe67a08cdb49872efc6670ce88389c617be21"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-glm1-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "ef99b5e7eabd76a38ce69798501214593505e7910c5b62545305a522f7f227e5"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-http-ledger.json",
+      "unchanged": true,
+      "normalized_sha256": "f2302880f9c78680082515fc3a982dd5abb46c9d31b87104a723771907aada20"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-manifest.json",
+      "unchanged": true,
+      "normalized_sha256": "c854841c2fd17d6f3fed3d5a447148eacdf966a196b01f2d32c9156709a92252"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v1-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "a7110e3df09b90297b9b56543192248c8815ef30ff52f31f59b3c312b2cc4e31"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v1-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "22f0c7ad41879012a0aeef82f110aab21149f093d9b48c95636e9e19e3a956b9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v2-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "417eebc3b2b640a8c918d1d1518d7053b19181272b1ceb14128f87dfb454730d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v2-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "4c51b5452bde53f0587a76ff0b066cd22159c43e31c29813d6c819429792c9d6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v3-memory-model.json",
+      "unchanged": true,
+      "normalized_sha256": "1596f1033347e41868f23d8d58148b8c3d8c396c0afcc856fd9ad5a496e3e9d7"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v3-memory-restart-model.json",
+      "unchanged": true,
+      "normalized_sha256": "f78137005dc2d8c81f30a8db324765f71dd57df249ccd492d686103155b41c8f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_a4_pilot.json",
+      "unchanged": true,
+      "normalized_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_agent_loop.json",
+      "unchanged": true,
+      "normalized_sha256": "a36366d1330944a9548f31874e398cba49f61a5ecfe725270a55d304120a8a0a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_baseline_closureall.json",
+      "unchanged": true,
+      "normalized_sha256": "a17b50cf51468e61294555747ad7a0cc7dd22fdd6581313b046aafdb3eb8b84f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_channel_exclusivity.json",
+      "unchanged": true,
+      "normalized_sha256": "daef8bd42634b99db893c7c1ad422e256e7d5d65e3318828851ec7a7f24d330f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_effort.json",
+      "unchanged": true,
+      "normalized_sha256": "889a82951c3d4254bd8d2d61be3691bb646f271e7bd56d597ca1761278ba97b2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_emailall.json",
+      "unchanged": true,
+      "normalized_sha256": "9990a394f7434222a78ceb7d7a8207306922431fc44ab00f4df2aa9095cc71d1"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_file_task.json",
+      "unchanged": true,
+      "normalized_sha256": "4f2a3dbad672694d8f854fad9b391f3e141ec3160b06d02cf4e3ea31c804d8db"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_followup_delivery.json",
+      "unchanged": true,
+      "normalized_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_harnessall.json",
+      "unchanged": true,
+      "normalized_sha256": "05c30c7bc17abf3ecfe78e8075a0beee78789103657f288c8b33f39b620b5f1a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_issueall.json",
+      "unchanged": true,
+      "normalized_sha256": "43df0744e88381557447ab8efa3f876d45096ab9db4be83675a2e4e5855f5302"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_main_ws.json",
+      "unchanged": true,
+      "normalized_sha256": "6651f456cfb3f61b715a0507be9961540a8893bca9b4aadc4bf0207a6104e8bc"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_memoryall.json",
+      "unchanged": true,
+      "normalized_sha256": "d8c4aafb403dd0ec8d975e3047b7862e71104fccbf4edbbfdd669bcd9b9c94f7"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_pending_status.json",
+      "unchanged": true,
+      "normalized_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_permissions.json",
+      "unchanged": true,
+      "normalized_sha256": "af1f4e6cdd43623877bf0b9d356ca38b2df85512773911e3a2c71a29af7abf49"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_session_visibility.json",
+      "unchanged": true,
+      "normalized_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_storage.json",
+      "unchanged": true,
+      "normalized_sha256": "d002d0d897cfee5cc75a65a9d2d7f74260180854d8778f658e42b4c984f45cad"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-repro-before-valid.json",
+      "unchanged": true,
+      "normalized_sha256": "43b641cd916bc1c75948650f96ec7970c13988666366ab78b2f5e5ef3032ab7a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-repro-before.json",
+      "unchanged": true,
+      "normalized_sha256": "24faccecccb9141e27efac994a0a44ffa44fce1a08a5f8d56eefbcb43ae521ea"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-delivery-final.json",
+      "unchanged": true,
+      "normalized_sha256": "1e2fc8260a21e61ae06ae29bc29b0c1a23652c321a147fce66a32e6152ac5710"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-final.json",
+      "unchanged": true,
+      "normalized_sha256": "4a07f644bba095e5a8228a8f12cafd51fe86ec37fe028f9ea9004617ca7c7cab"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-glm1-presentation-regrade.json",
+      "unchanged": true,
+      "normalized_sha256": "5a27d4b85e30f55eca2be9bb2ca0dda7d0712f2405d055e7cc77fac6f9429299"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-live-ds1.json",
+      "unchanged": true,
+      "normalized_sha256": "11835a191faeaf20605f213ed457b18e7f15e1177b7c75871f8604418bbd226a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-live-final.json",
+      "unchanged": true,
+      "normalized_sha256": "3be2e9a00224ea8e42fcc2a81dab7b69dbcc9c03446a0cd95db51813e7d43dbf"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-live-partial.json",
+      "unchanged": true,
+      "normalized_sha256": "1d8f67f3bba53afb2e3d80f4ed6b9da730f171746ea69d519c3da3d4dd20e35a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-oracle-host-receipt.json",
+      "unchanged": true,
+      "normalized_sha256": "9a330d8cdaa89d400a291323077cfc302e82c9062ee531ebccfab06c228f010d"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-presentation-final.json",
+      "unchanged": true,
+      "normalized_sha256": "90d028940df0ceda96def0899cd1f6f397d06d16988b53596bed0351c514bf65"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-presentation-sidecar.json",
+      "unchanged": true,
+      "normalized_sha256": "139a14a84c622f55094e2a53cecf0764b6b69f790d238c18dea953256bdba393"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run02.json",
+      "unchanged": true,
+      "normalized_sha256": "59c8601aebe3011bd5471517e6d49a4e26e5e8dfff737667d04c0037764ce816"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run03.json",
+      "unchanged": true,
+      "normalized_sha256": "c0a82ec5f0d2ad1bd84e4c13ea1f1bb42190f45a0597f1b0c4b79f56bd749e59"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run04.json",
+      "unchanged": true,
+      "normalized_sha256": "c7b71cf530ec293f5d2fe7264a76d52b3e169492319779fe93ff20f09af69779"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run05.json",
+      "unchanged": true,
+      "normalized_sha256": "e67aab07cd85236e5d94fabe0d5f040a5da7d5a409692dd2e31499b37206482b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run06.json",
+      "unchanged": true,
+      "normalized_sha256": "ae465dd3ac1b28b3d8bade91a3405589f68850ffffa4ef10988235f0b9ffd9c1"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run07.json",
+      "unchanged": true,
+      "normalized_sha256": "659dea5cb393f97502bec8b7ba1f15b050f94ba3509b5a1073d3a06a5502d6be"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run08.json",
+      "unchanged": true,
+      "normalized_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run09.json",
+      "unchanged": true,
+      "normalized_sha256": "c31a1f8ef7c196b5a7110d6fe73f60ce287ab158c20eee96ac2b54e3c504dcc0"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run10.json",
+      "unchanged": true,
+      "normalized_sha256": "243d253b52afe7c6d8c2dffad38f92f313be0eb0c580a5a55655cfc01016ad10"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run11.json",
+      "unchanged": true,
+      "normalized_sha256": "3cb622ecdf0562350f789fec3af8fb45c1799adb6306855fc834c110670a44aa"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run12.json",
+      "unchanged": true,
+      "normalized_sha256": "6d70ac263b23c51dcd820034db632bdc332d886b5dc6aa93e45dbbe2c717b6c7"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-time-receipt-final.json",
+      "unchanged": true,
+      "normalized_sha256": "988b36d0d55c906a22fbbbbce8528ad882091ba22cf6de968a889b18349e0d16"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-time-receipt.json",
+      "unchanged": true,
+      "normalized_sha256": "7ec80038722a51b24b1a6c280efbfccf1c683a146ce645920cd2b33db269aa12"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-runner-final.json",
+      "unchanged": true,
+      "normalized_sha256": "66c71b09d023b1d81fffa0d3ba61c63331c5bab5414c8f379a05502a5aaf3d49"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-runner-reevaluation.json",
+      "unchanged": true,
+      "normalized_sha256": "1d6018eec486e8a2094d155580586eab36cd372e2d094969e4198943237e25bf"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/models-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "5cfd92e8d7fac004de3371b7089198e506a5b6a485a7075e5bc879b4ec182090"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/offline-fixture.json",
+      "unchanged": true,
+      "normalized_sha256": "6c8da505c0aba0ae39c18ed577f08fcd0628c1e22b42d8f2db10bdecdfbbd8a2"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-after-final.json",
+      "unchanged": true,
+      "normalized_sha256": "0cadfc4feffa9690136a598ef60e3e1dcfa9d74b94ffc463a3a445e445633455"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-after.json",
+      "unchanged": true,
+      "normalized_sha256": "02f09bbcfe20ab2e73c35f765f186f054c4bfdec9442eb42e9afd1ca0766ed24"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-before.json",
+      "unchanged": true,
+      "normalized_sha256": "4259acbf4bd8487a71d011f6960e1bd9bf8908554ca0cdaf5e63facf26fb8d48"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-core-final.json",
+      "unchanged": true,
+      "normalized_sha256": "53ee9d9d394644576c4a2a153084974d16dd7d655331c17d29b60215c4376f71"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-isolation.json",
+      "unchanged": true,
+      "normalized_sha256": "9d24a6290299b2dc02f9767e8b1f9e9aff5bb7dc31600896f9fb8c385fd69b37"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-python-review-final.json",
+      "unchanged": true,
+      "normalized_sha256": "3f61ebb9047ba3436e5a23fcc210536fcf04789e7b353b1f2a902825a2f10fdd"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-python-review.json",
+      "unchanged": true,
+      "normalized_sha256": "df2451991321760633a6b3b858855659159fa180d6de1e650d5cac24e9dad85b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-file-revocation-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "cd9858803270e4560e4dac00151f39a2ab885c590fb02ed3621aa50f2d8c78af"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-final-02.json",
+      "unchanged": true,
+      "normalized_sha256": "f4851ef8acc5b82c6020c5c2c53006f21b04c420e633138025b625d290b2644b"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-final-03.json",
+      "unchanged": true,
+      "normalized_sha256": "91ed4b1a14f862fefd4c2c629268fde245a5d1ce4865dbcdc54dcee0c11f46d6"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-final.json",
+      "unchanged": true,
+      "normalized_sha256": "27370b5474ca5274d4f1a42a2fd775110d880d720b0939e2cbe2af0d0ce0f23e"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-hold-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "78285a7441664c915739b2bab019c82bc89004a1ff771892f713fcfc10789923"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "4a3437b46caf59fc9b2305f7a1bc57f0d873fc5cd3bda44a9a8406925f656e6a"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-verbs-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "2a746563e0b4d901418f750a7f84bd09faec95d88b4b5f241ca201af272e7a82"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-verdict-final.json",
+      "unchanged": true,
+      "normalized_sha256": "6cd1653b7c9297e864c51c495897d190c496be26bbc1861a901c2cf23ead6679"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-verdict.json",
+      "unchanged": true,
+      "normalized_sha256": "6753ebb2537b4f0a3d0e03c4dd3dc662205b2ee9cbf133073a8a13583366f0c9"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-target-first.json",
+      "unchanged": true,
+      "normalized_sha256": "efb655993aaec07be7006d59db1e770c2ffdb2a9d2eacd2e84bcc63acea58567"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-validation-final.json",
+      "unchanged": true,
+      "normalized_sha256": "f6d002cbe9d0e96444be08e19ce5e737b69c33cdd239798c9f4bbff8d886e983"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/preparation.json",
+      "unchanged": true,
+      "normalized_sha256": "66f68cb494f0ec38b0eb28bc5557f40c4776678cb38cbd5888c45195abd14d15"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-core-entry.json",
+      "unchanged": true,
+      "normalized_sha256": "b9e9ea50a7e88e842002e87d54c69c0395e5bb6291333eb5f06ccebfcd200891"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final-01.json",
+      "unchanged": true,
+      "normalized_sha256": "325d342f1c0b55f26cbcf3ffd2aab924e0b0b72e1452be4ca75101d24775bcb8"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final-02.json",
+      "unchanged": true,
+      "normalized_sha256": "0fe470be374c1352fefbef2b84a64b45bed5db7e5c8665effaff99b80668a104"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final-export.json",
+      "unchanged": true,
+      "normalized_sha256": "c0f2c8d6d7cc75ab709ec29b76e01f2d240aa11e6b4d374387728cbb3a5b72a1"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final.json",
+      "unchanged": true,
+      "normalized_sha256": "2b91b331b4095d4a36f0f1d14fd9a03355bd4ef03789a37b0fceb12fc6749ed3"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-frozen.json",
+      "unchanged": true,
+      "normalized_sha256": "8867e1dd0683559c380763c46d5ec00079443329033bc3800f556d0b47d16553"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-initial.json",
+      "unchanged": true,
+      "normalized_sha256": "eec92fa3484184e9c1fb1dd4ad5ffdcbd4766dd796d37369810b3cb6c1c5cf00"
+    },
+    {
+      "path": "docs/assessments/root-cause-repair/a4-pilot/evidence/static-checks.json",
+      "unchanged": true,
+      "normalized_sha256": "789391cc5a9ed1530c4f20d16e3825f61e53daaedd60a3656b10d5e02829afa2"
+    }
+  ],
+  "storage_migration": false,
+  "production_data_or_services_used": false,
+  "old_live_model_cases_repeated": false
+}

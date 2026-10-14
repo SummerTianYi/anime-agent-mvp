@@ -1,0 +1,7 @@
+{
+  "passed": false,
+  "stage": "old file_runner_review.py before JSON output",
+  "failure": "literal_probes extracts current check_proposal without verified_task in namespace; NameError",
+  "classification": "Historical AST review fixture no longer matches pre-existing task code, not Provider regression.",
+  "replacement": "Current shared email_runner_review 38 checks plus provider offline scenario and independent actual observer test."
+}
