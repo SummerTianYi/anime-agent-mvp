@@ -42,6 +42,31 @@ def runner_hashes():
             for name in ("file_models.py", "models.py")}
 
 
+def protocol_runner_hashes(scenario):
+    hashes = runner_hashes()
+    if scenario == "issue":
+        hashes["issue_model_case.py"] = hashlib.sha256(Path(__file__).with_name("issue_model_case.py").read_bytes()).hexdigest()
+        fixture = Path(__file__).resolve().parents[5] / "services/agent-core/tests/issue_fixture.py"
+        hashes["issue_fixture.py"] = hashlib.sha256(fixture.read_bytes()).hexdigest()
+    return hashes
+
+
+def validate_issue_ledger(args, ledger):
+    """The new protocol uses one existing-format ledger, including expansion."""
+    if [a.get("index") for a in ledger["attempts"]] != list(range(1, len(ledger["attempts"]) + 1)):
+        raise RuntimeError("Non-contiguous Issue HTTP ledger")
+    if args.variant > 1 and not args.offline:
+        reports = [json.loads(p.read_text(encoding="utf-8")) for p in args.initial_report]
+        if ({(r.get("provider"), r.get("model")) for r in reports} !=
+                {("deepseek", "Deepseek-v4-flash"), ("glm", "GLM-5.2")}):
+            raise RuntimeError("Expansion needs the two requested providers and models")
+        for report in reports:
+            if not report.get("calls") or report.get("ledger_path") != str(args.ledger):
+                raise RuntimeError("Initial results must belong to this shared Issue ledger")
+            if any({k: c[k] for k in ("index", "model", "request_id")} not in ledger["attempts"] for c in report["calls"]):
+                raise RuntimeError("Initial HTTP attempts missing from shared Issue ledger")
+
+
 def read_connection(path):
     # Only connection fields are selected; never load private runtime settings
     # into Core or include credentials/endpoint URLs in evidence.
@@ -70,9 +95,11 @@ def score(item):
 def supplement_budget(args, hashes):
     """Authorize only the referenced frozen case; never reuse its task state."""
     if args.prior_ledger is None and args.supplement_of is None:
-        if args.http_budget != CAP:
+        if args.http_budget != (40 if getattr(args, "scenario", "file") == "issue" else CAP):
             raise SystemExit("A non-default HTTP budget requires both supplement references")
         return None, None
+    if getattr(args, "scenario", "file") != "file":
+        raise SystemExit("File supplement references cannot fund another protocol")
     if args.prior_ledger is None or args.supplement_of is None or not 1 <= args.http_budget <= 8:
         raise SystemExit("Supplement requires prior ledger, interrupted case and 1..8 HTTP attempts")
     args.prior_ledger = args.prior_ledger.resolve()
@@ -119,12 +146,17 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--variant", type=int, choices=SAMPLES, default=1)
+    parser.add_argument("--scenario", choices=("file", "issue"), default="file")
     parser.add_argument("--initial-report", type=Path, action="append", default=[])
-    parser.add_argument("--http-budget", type=int, default=CAP)
+    parser.add_argument("--http-budget", type=int)
     parser.add_argument("--prior-ledger", type=Path)
     parser.add_argument("--supplement-of", type=Path)
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
+    if args.http_budget is None:
+        args.http_budget = 40 if args.scenario == "issue" else CAP
+    if args.scenario == "issue" and args.variant > 2:
+        parser.error("Issue protocol has only two variants")
     if not args.offline and args.private_config is None:
         parser.error("Live verification requires an explicitly selected connection config")
     args.source_root = args.source_root.resolve()
@@ -138,9 +170,12 @@ def main():
     if args.variant > 1 and not args.offline and args.reference_case is None:
         initial = [json.loads(p.read_text(encoding="utf-8")) for p in args.initial_report]
         if (len(initial) != 2 or not all(r.get("passed") and not r.get("offline") and r.get("variant") == 1
-                                       and r.get("source_sha256") == hashes and r.get("runner_sha256") == runner_hashes() for r in initial)
+                                       and r.get("source_sha256") == hashes and r.get("runner_sha256") == protocol_runner_hashes(args.scenario)
+                                       and r.get("protocol") == ("issue-title-confirm-read-v1" if args.scenario == "issue" else "file-write-confirm-read-v1") for r in initial)
                 or len({r["model"] for r in initial}) != 2
                 or len({r["input_normalized_sha256"] for r in initial}) != 1
+                or len({digest(r.get("budget")) for r in initial}) != 1
+                or len({r.get("initial_state_sha256") for r in initial}) != 1
                 or len({r["tool_schema_sha256"] for r in initial}) != 1):
             raise SystemExit("Expansion requires both equivalent initial cases passing on this source")
     sys.dont_write_bytecode = True
@@ -201,17 +236,29 @@ def run(args, package, hashes, connection):
     core.memory.close()
     registry = {k: v for k, v in core.tool_registry.items() if k in {"write_file", "read_file"}}
     schemas = openai_tools_schema(registry)
-    ledger = args.supplement_ledger or (json.loads(args.ledger.read_text(encoding="utf-8")) if args.ledger.exists() else {"cap": CAP, "attempts": []})
+    issue_case = None
+    if args.scenario == "issue":
+        sys.path.insert(0, str(package / "tests"))
+        from issue_model_case import IssueCase
+        issue_case = IssueCase(args, core)
+        schemas = issue_case.schemas
+    ledger = args.supplement_ledger or (json.loads(args.ledger.read_text(encoding="utf-8")) if args.ledger.exists() else {"cap": args.http_budget, "attempts": []})
     if ledger.get("cap") != args.http_budget or not isinstance(ledger.get("attempts"), list) or len(ledger["attempts"]) > args.http_budget:
         raise RuntimeError("Invalid shared request ledger")
-    output = args.data_dir / "file-model.json"
-    record = {"protocol": "file-write-confirm-read-v1", "offline": args.offline, "variant": args.variant,
-        "source_sha256": hashes, "runner_sha256": runner_hashes(), "tool_schema_sha256": digest(schemas), "provider": args.provider,
+    if issue_case:
+        validate_issue_ledger(args, ledger)
+    if issue_case and not args.offline and ledger["cap"] - len(ledger["attempts"]) < 18:
+        raise RuntimeError("Reserve 18 HTTP slots for a complete six-round case including transport retries")
+    output = args.data_dir / ("issue-model.json" if issue_case else "file-model.json")
+    record = {"protocol": "issue-title-confirm-read-v1" if issue_case else "file-write-confirm-read-v1", "offline": args.offline, "variant": args.variant,
+        "source_sha256": hashes, "runner_sha256": protocol_runner_hashes(args.scenario), "tool_schema_sha256": digest(schemas), "provider": args.provider,
         "budget": {"max_steps": 6, "max_calls": 12, "corrections": 1, "timeout_seconds": 45},
         "initial_state_sha256": digest({"target_file": None, "messages": [], "actions": []}),
         "transport_cap": ledger["cap"], "calls": [], "turns": [], "effects": [], "checks": {}, "transport": []}
     if args.reference_case is not None:
         record["supplement"] = ledger["supplement"]
+    if issue_case:
+        record["ledger_path"] = str(args.ledger)
     mutex = threading.RLock()
 
     def save():
@@ -255,6 +302,8 @@ def run(args, package, hashes, connection):
             base_url, model, api_key = core._provider_config(args.provider)
         if not api_key or not model or not base_url.startswith("https://"):
             raise RuntimeError("Missing or unsupported connection config; no request sent")
+        if issue_case and model != {"deepseek": "Deepseek-v4-flash", "glm": "GLM-5.2"}[args.provider]:
+            raise RuntimeError("Configured model is not the requested Issue verification model; no request sent")
         if args.reference_case is not None and model != args.reference_case["model"]:
             raise RuntimeError("Supplement model differs from the referenced case; no request sent")
         record["model"] = model
@@ -268,6 +317,8 @@ def run(args, package, hashes, connection):
     text = f"请创建文件 {path.as_posix()}，写入后实际读取该文件并展示完整内容。内容如下（两行，末尾无换行）：\n{content}"
     record["input_normalized_sha256"] = digest(text.replace(path.as_posix(), "<isolated-file>"))
     record["expected"] = {"path": str(path), "content": content, "sha256": hashlib.sha256(content.encode()).hexdigest()}
+    if issue_case:
+        record.update(issue_case.metadata())
     if args.reference_case is not None:
         keys = ("budget", "initial_state_sha256", "tool_schema_sha256", "input_normalized_sha256")
         if any(record[k] != args.reference_case[k] for k in keys):
@@ -354,13 +405,14 @@ def run(args, package, hashes, connection):
             reopened.close()
 
     try:
-        loop.run_until_complete(exercise())
+        loop.run_until_complete(issue_case.exercise(record, None if args.offline else live_provider, save) if issue_case else exercise())
     finally:
         # A timed-out HTTP worker can finish later. Keep the ledger lock and
         # event loop alive until its final telemetry has been saved.
         loop.run_until_complete(loop.shutdown_default_executor())
         loop.close()
-    record["checks"]["source_unchanged"] = source_hashes(package) == hashes
+    record["checks"]["source_unchanged"] = (source_hashes(package) == hashes
+        and protocol_runner_hashes(args.scenario) == record["runner_sha256"])
     record["http_attempts"] = len(record["calls"])
     record["shared_http_attempts"] = len(ledger["attempts"])
     record["cumulative_http_attempts"] = ledger.get("prior_attempts", 0) + len(ledger["attempts"])
@@ -370,7 +422,10 @@ def run(args, package, hashes, connection):
             and hashlib.sha256(args.supplement_of.read_bytes()).hexdigest() == record["supplement"]["interrupted_case_sha256"])
         if not record["prior_evidence_unchanged"]:
             record["exception"] = "PriorEvidenceChanged"
-    score(record)
+    if issue_case:
+        issue_case.score(record)
+    else:
+        score(record)
     save()
     print(json.dumps({k: record[k] for k in ("model", "variant", "passed", "failure_category", "checks", "http_attempts", "shared_http_attempts")}, ensure_ascii=False))
     return 0 if record["passed"] else 1

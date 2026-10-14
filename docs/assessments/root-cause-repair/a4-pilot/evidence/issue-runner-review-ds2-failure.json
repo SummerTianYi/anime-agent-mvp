@@ -1,0 +1,55 @@
+{
+  "scope": "Read-only independent failed DS2 evidence verification; task failure preserved",
+  "evidence_verified": true,
+  "task_passed": false,
+  "failure_category": "connection_or_protocol",
+  "real_http_attempts_by_reviewer": 0,
+  "reviewed_case_http_attempts": 3,
+  "report": "<issue-phase>\\live-ds-2\\issue-model.json",
+  "report_sha256_before": "e226ae1f38154fe9233b99f27b70faceff87719169a59b5cb68edc006a951835",
+  "report_sha256_after": "e226ae1f38154fe9233b99f27b70faceff87719169a59b5cb68edc006a951835",
+  "ledger_state": "Case membership checked only; shared ledger may still be running; no ledger hash frozen",
+  "checks": [
+    {
+      "case": "live_source_and_runner_bound",
+      "passed": true,
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_receipts_same_session_task",
+      "passed": true,
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_shared_40_attempt_ledger_membership",
+      "passed": true,
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_readonly_database_matches_all_evidence",
+      "passed": true,
+      "database_sha256": "74fbda0456f5cb008eb8c4564d5f4c059bbb561be1d990e4d34adafa6aac2b1c",
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "failed_case_remains_failed_for_connection",
+      "passed": true,
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "failed_case_no_write_proposal_effect_or_state_change",
+      "passed": true,
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "failed_case_timeout_after_preread_before_update",
+      "passed": true,
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "failed_case_no_false_completion_or_duplicate_request",
+      "passed": true,
+      "report": "<issue-phase>\\live-ds-2\\issue-model.json"
+    }
+  ]
+}

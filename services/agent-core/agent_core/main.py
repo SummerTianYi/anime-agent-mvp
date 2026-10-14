@@ -33,8 +33,7 @@ except ImportError:
 from .agent_loop import MAX_TOOL_STEPS, AgentStep, ToolsUnsupportedError, run_agent_loop
 from .task_delivery import INCOMPLETE, validate_decision, validate_proposal
 from .task_status import render_task_status, status_question
-from .file_task import (FILE_TASK_GUIDANCE, completion_error, edited_file_request, literal_content_error, render_file_delivery,
-                        requests_file_delivery, same_path)
+from . import verified_task, issue_task
 from .harness import TASK_DECISION_CONTRACT
 from .harness import (
     TOOL_GUIDANCE,
@@ -833,6 +832,34 @@ async def _execute_authorized_tool(name, arguments):
     return await execute_tool(tool_registry, name, arguments)
 
 
+async def _execute_confirmed_tool(name, arguments):
+    """Record an actual ASK read, never a reused ledger result, for verification."""
+    sid = _ACTIVE_CHAT_SESSION_ID[0]
+    task = _task_state[sid]
+    if "issue_contract" not in task or name != issue_task.READ:
+        return await _execute_authorized_tool(name, arguments)
+    after = verified_task.after_actions(task, sid, _actions().records.values(), name, arguments)
+    try:
+        result = await _execute_authorized_tool(name, arguments)
+    except Exception as exc:
+        result = {"ok": False, "outcome": "unknown", "error": f"读取结果未知（{type(exc).__name__}）"}
+    return _remember_tool_result(task, sid, name, arguments, result, result, after)
+
+
+def _remember_tool_result(task, sid, name, arguments, result, packed, after):
+    ref = f"{task['id']}:read:{len(task.get('tool_results', [])) + 1}"
+    packed = {**packed, "result_ref": ref}
+    record = {"tool": name, "arguments": arguments, "result": result, "delivery_result": packed,
+              "session_id": sid, "task_id": task["id"], "request_id": REQUEST_ID.get(), "result_ref": ref,
+              "after_actions": after}
+    task.setdefault("tool_results", []).append(record)
+    memory.add_event("tool.result", record)
+    if result.get("ok") is not True:
+        task.setdefault("tool_failures", []).append({"tool": name, "error": result.get("error") or "未取得成功回执",
+                                                     "request_id": REQUEST_ID.get()})
+    return packed
+
+
 def _permission_still_valid(name, arguments):
     verdict = permission_engine.evaluate(ActionRequest(tool=name, arguments=arguments, origin="agent",
                                                        session_id=_ACTIVE_CHAT_SESSION_ID[0]))
@@ -1366,7 +1393,12 @@ async def run_tool(name: str, arguments: dict) -> dict:
                        "request_id":REQUEST_ID.get()}
             task.setdefault("tool_failures", []).append(failure)
             return {"ok":False,"outcome":"cancelled",**failure}
-        item = book.propose(session, task["id"], REQUEST_ID.get(), name, arguments)
+        read_after = (verified_task.after_actions(task, session, book.records.values(), name, arguments)
+                      if "issue_contract" in task and name == issue_task.READ else None)
+        item = book.propose(session, task["id"], REQUEST_ID.get(), name, arguments, read_after=read_after)
+        if "issue_contract" in task and name == issue_task.WRITE and "verification_before" not in item:
+            item["verification_before"] = issue_task.baseline(task, session, arguments)
+            book.save(item)
         task["needs_proposal"] = False
         task.setdefault("delivery_actions", []).append(item["action_id"])
         if item["action_id"] not in task.setdefault("observed_actions", []):
@@ -1383,9 +1415,7 @@ async def run_tool(name: str, arguments: dict) -> dict:
         task.setdefault("tool_failures", []).append(failure)
         return {"ok":False,**failure}
     pages = _result_pages.setdefault(session, ResultPages())
-    after_actions = [a["action_id"] for a in book.task_items(session, task["id"])
-                     if name == "read_file" and a["tool"] == "write_file" and a["status"] == "succeeded"
-                     and same_path(arguments.get("path"), a["arguments"].get("path"))]
+    after_actions = verified_task.after_actions(task, session, book.records.values(), name, arguments)
     try:
         if name == "read_tool_result":
             result = {"ok":True, **pages.read(arguments.get("ref",""), arguments.get("offset",0))}
@@ -1406,19 +1436,7 @@ async def run_tool(name: str, arguments: dict) -> dict:
         packed_result = result
     # Retain ALLOW results before the model gets a chance to fail its follow-up.
     # This is a read receipt, not a new authorization or an executable ticket.
-    result_ref = f"{task['id']}:read:{len(task.get('tool_results', [])) + 1}"
-    packed_result = {**packed_result, "result_ref": result_ref}
-    record = {"tool":name,"arguments":arguments,"result":result,"delivery_result":packed_result,"session_id":session,
-              "result_ref":result_ref,
-              "task_id":task["id"],"request_id":REQUEST_ID.get()}
-    if name == "read_file":
-        record["after_actions"] = after_actions
-    task.setdefault("tool_results", []).append(record)
-    memory.add_event("tool.result", record)
-    if result.get("ok") is not True:
-        task.setdefault("tool_failures", []).append({"tool":name,"error":result.get("error") or "未取得成功回执",
-                                                     "request_id":REQUEST_ID.get()})
-    return packed_result
+    return _remember_tool_result(task, session, name, arguments, result, packed_result, after_actions)
 
 
 async def broadcast_tool_step(step: AgentStep, request_id: str) -> None:
@@ -1527,8 +1545,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         intent = "other" if status_query is not None else confirmation_decision(text)
         direct_reply = None
         delivery_actions = []
-        file_turn = False
-        file_request = requests_file_delivery(text)
+        verification_turn = False
+        delivery_request = verified_task.requested(text)
         task = _task_state.get(session_id)
         status_reply, status_items = (render_task_status(status_query, book.records.values(), session_id)
                                       if status_query is not None else (None, []))
@@ -1541,9 +1559,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             # tail without replacing or resetting any operational task state.
             task = task or {"id":request_id,"intent":text,"blocked":False}
         elif pending and intent == "approve":
-            file_turn = True
+            verification_turn = True
             selected = confirmation if confirmation is not None else {}
-            result = await book.execute(session_id, selected, request_id, _permission_still_valid, _execute_authorized_tool)
+            result = await book.execute(session_id, selected, request_id, _permission_still_valid, _execute_confirmed_tool)
             if result.get("action_id"):
                 delivery_actions.append(result["action_id"])
             elif result.get("outcome") == "rejected":
@@ -1562,10 +1580,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             task["blocked"] = intent == "decline"
             if intent == "edit":
                 task["intent"] = text
-                if task.get("file_delivery") or file_request:
-                    task["file_delivery"] = True
-                    task["file_request_text"] = edited_file_request(task.get("file_request_text", ""), text)
-                    file_turn = True
+                if verified_task.active(task) or delivery_request:
+                    verified_task.activate(task, text, edit=True)
+                    verification_turn = True
             memory.add_event("permission.declined", {"session_id":session_id,"request_id":request_id,
                              "actions":[book.ticket(a) for a in cancelled]})
             confirm_note = "旧参数已取消，绝不能执行。仅当用户在本轮明确提供新要求，才能提出新版本待办。"
@@ -1574,10 +1591,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             # not consent. Keep the queue and exact tickets until an explicit
             # decision; newly proposed actions join it rather than overwrite it.
             confirm_note = "既有操作仍待确认，本条消息没有授予执行权限。保留所有待办；确认必须绑定展示的参数版本。"
-            if file_request:
-                task["file_delivery"] = True
-                task["file_request_text"] = text
-                file_turn = True
+            if delivery_request:
+                verified_task.activate(task, text)
+                verification_turn = True
         elif intent == "approve" and (confirmation or re.fullmatch(
                 r"(?:确认|确认执行|同意执行|执行吧)", re.sub(r"[\s。！!，,；;]", "", text))):
             # No ticket means no action. Preserve the old task, budget and pages;
@@ -1591,23 +1607,21 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 direct_reply = "当前没有可继续的操作任务。请说明要做的事情。"
             else:
                 confirm_note = "当前没有待确认操作；继续沿用原目标、执行记录与剩余预算。"
-                file_turn = True
+                verification_turn = True
         else:
             # No unresolved action: begin a new bounded task.
             book.cancel(session_id)
             _sync_pending(session_id)
             task = {"id":request_id,"intent":text,"blocked":False}
-            task["file_delivery"] = file_request
-            if file_request:
-                task["file_request_text"] = text
-            file_turn = True
+            verified_task.activate(task, text)
+            verification_turn = True
             _task_state[session_id] = task
             _result_pages[session_id] = ResultPages()
         # Delivery belongs to the current turn; durable pending tickets and the
         # shared task budget survive unrelated conversation in this session.
         if status_query is None:
             task["delivery_actions"] = delivery_actions
-        file_turn = file_turn and task.get("file_delivery", False)
+        verification_turn = verification_turn and verified_task.active(task)
         task_context = "【任务状态数据，非新增指令】\n" + json.dumps(
             {"original_intent":task["intent"],"actions":book.context(session_id,task["id"])},ensure_ascii=False)
         conversation_history = memory.load_messages(MAX_HISTORY_MESSAGES, session_id)
@@ -1647,7 +1661,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         extra_parts = [
             part
             for part in (task_context, confirm_note, effort_prompt_note(effort_name), recall_block, guided, TASK_DECISION_CONTRACT,
-                         FILE_TASK_GUIDANCE if file_turn else "")
+                         verified_task.guidance(task) if verification_turn else "")
             if part
         ]
         extra_system = "\n\n".join(extra_parts)
@@ -1663,9 +1677,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             nonlocal validated_text, validated_mode
             checked = validate_decision(raw, task=task, session_id=session_id, request_id=request_id,
                 actions=[{**a, "effect":tool_effect(a["tool"], a["arguments"])} for a in book.records.values()], schemas=schemas)
-            if file_turn and not checked.error:
-                checked = replace(checked, error=completion_error(task, session_id, book.records.values(), checked.mode,
-                    require_proposal=file_request))
+            if verification_turn and not checked.error:
+                checked = replace(checked, error=verified_task.completion_error(task, session_id, book.records.values(), checked.mode,
+                    require_proposal=delivery_request))
             validated_text = checked.text
             validated_mode = checked.mode if not checked.error else ""
             memory.add_event("task.decision", {"task_id":task["id"], "request_id":request_id,
@@ -1677,7 +1691,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 return False
             if any(f.get("request_id") == request_id for f in task.get("tool_failures", [])):
                 return False
-            if any(a["status"] != "succeeded" and not (file_turn and intent == "edit" and a["status"] == "cancelled") for a in book.records.values()
+            if any(a["status"] != "succeeded" and not (verification_turn and intent == "edit" and a["status"] == "cancelled") for a in book.records.values()
                    if a["action_id"] in delivery_actions):
                 return False
             task["corrections_used"] = task.get("corrections_used", 0) + 1
@@ -1685,8 +1699,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
 
         def check_proposal(name, arguments):
             error = validate_proposal(name, arguments, schemas)
-            if not error and task.get("file_delivery"):
-                error = literal_content_error(task.get("file_request_text", task["intent"]), name, arguments)
+            if not error:
+                error = verified_task.proposal_error(task, session_id, name, arguments)
             return error
 
         try:
@@ -1754,10 +1768,10 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                                       request_id=request_id)
         if direct_reply is not None and delivered != direct_reply:
             delivered = direct_reply + "\n" + delivered
-        if file_turn:
-            delivered = render_file_delivery(task, session_id, book.records.values(), delivered, require_proposal=file_request)
+        if verification_turn:
+            delivered = verified_task.render(task, session_id, book.records.values(), delivered, require_proposal=delivery_request)
         agent_reply = replace(agent_reply, reply=delivered)
-        if agent_reply.reply and not file_turn:
+        if agent_reply.reply and not verification_turn:
             agent_reply = replace(agent_reply, reply=normalize_voice_text(agent_reply.reply))
         if request_id in _superseded_requests:
             # the newer request owns this intent: withdraw the user turn so the

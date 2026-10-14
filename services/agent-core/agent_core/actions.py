@@ -90,17 +90,27 @@ class ActionLedger:
     def task_items(self, session, task):
         return [r for r in self.records.values() if r["session_id"] == session and r["task_id"] == task]
 
-    def propose(self, session, task, request_id, tool, arguments):
+    def propose(self, session, task, request_id, tool, arguments, *, read_after=None):
+        # Only a verified read may get a new receipt generation. Write hashes,
+        # tickets and UNKNOWN protection retain their original deduplication.
+        if read_after is not None:
+            from .tool_contracts import tool_effect
+            if tool_effect(tool, arguments) != "read":
+                raise ValueError("Freshness generations are restricted to reads")
         fingerprint = args_hash(tool, arguments)
         # UNKNOWN is session-wide across task changes: a casual rephrase cannot resend.
         for item in self.records.values():
             if item["session_id"] == session and item["args_hash"] == fingerprint:
+                if read_after is not None and item.get("read_after") != read_after:
+                    continue
                 if item["status"] in {"unknown", "executing"} or item["task_id"] == task:
                     return item
         revision = 1 + max((r["revision"] for r in self.task_items(session, task) if r["tool"] == tool), default=0)
         item = dict(action_id=uuid.uuid4().hex, task_id=task, session_id=session, revision=revision,
                     tool=tool, arguments=copy.deepcopy(arguments), args_hash=fingerprint,
                     request_id=request_id, expires=time.time()+600, status="awaiting_confirmation", receipt=None)
+        if read_after is not None:
+            item["read_after"] = list(read_after)
         self.records[item["action_id"]] = item
         self.save(item)
         return item

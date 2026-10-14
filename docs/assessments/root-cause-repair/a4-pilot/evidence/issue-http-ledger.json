@@ -1,0 +1,110 @@
+{
+  "cap": 40,
+  "attempts": [
+    {
+      "index": 1,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-1-request"
+    },
+    {
+      "index": 2,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-1-confirm-1"
+    },
+    {
+      "index": 3,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-1-confirm-1"
+    },
+    {
+      "index": 4,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-1-confirm-2"
+    },
+    {
+      "index": 5,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-1-confirm-2"
+    },
+    {
+      "index": 6,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-1-confirm-3"
+    },
+    {
+      "index": 7,
+      "model": "GLM-5.2",
+      "request_id": "issue-1-request"
+    },
+    {
+      "index": 8,
+      "model": "GLM-5.2",
+      "request_id": "issue-1-confirm-1"
+    },
+    {
+      "index": 9,
+      "model": "GLM-5.2",
+      "request_id": "issue-1-confirm-2"
+    },
+    {
+      "index": 10,
+      "model": "GLM-5.2",
+      "request_id": "issue-1-confirm-3"
+    },
+    {
+      "index": 11,
+      "model": "GLM-5.2",
+      "request_id": "issue-1-confirm-3"
+    },
+    {
+      "index": 12,
+      "model": "GLM-5.2",
+      "request_id": "issue-1-confirm-3"
+    },
+    {
+      "index": 13,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-2-request"
+    },
+    {
+      "index": 14,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-2-confirm-1"
+    },
+    {
+      "index": 15,
+      "model": "Deepseek-v4-flash",
+      "request_id": "issue-2-confirm-1"
+    },
+    {
+      "index": 16,
+      "model": "GLM-5.2",
+      "request_id": "issue-2-request"
+    },
+    {
+      "index": 17,
+      "model": "GLM-5.2",
+      "request_id": "issue-2-confirm-1"
+    },
+    {
+      "index": 18,
+      "model": "GLM-5.2",
+      "request_id": "issue-2-confirm-2"
+    },
+    {
+      "index": 19,
+      "model": "GLM-5.2",
+      "request_id": "issue-2-confirm-2"
+    },
+    {
+      "index": 20,
+      "model": "GLM-5.2",
+      "request_id": "issue-2-confirm-3"
+    },
+    {
+      "index": 21,
+      "model": "GLM-5.2",
+      "request_id": "issue-2-confirm-3"
+    }
+  ]
+}

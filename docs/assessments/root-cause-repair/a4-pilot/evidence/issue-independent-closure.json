@@ -1,0 +1,38 @@
+{
+  "scope": "Read-only closure increment: failed-report assertions, frozen ledger, four-case accounting, confirmation/read timing and report consistency. Prior 21+3 business tests reused.",
+  "reviewed_sha256_before_public_path_redaction": {
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_runner_review.py": "b61ff99e2fc85b2848522d2e9f718339647656641a3bd4b6a88da6ecbf72160a",
+    "docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md": "e49a4bdb5838d6253679bfca746cd81520c8e684d934abfb34fd0c111432fe9f",
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-live-final.json": "a75d2f4828d9fe259fe43edcf4ccc4bde18e54eac1b1f6031b7ed2c08771c177",
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-5-binding.json": "ff4b222ec743aaa23ef5c71246f608c3cc2f0f02eef1c2e4bcbae93fa3530149"
+  },
+  "checks": {
+    "prior_business_and_test_hashes_unchanged": true,
+    "review_source_matches_final_live_binding": true,
+    "original_report_hashes_match": true,
+    "ledger_hash_and_unlocked_snapshot": true,
+    "four_reports_cover_all_21_of_40_attempts": true,
+    "three_tasks_pass_one_task_fails": true,
+    "success_effect_order_is_read_write_fresh_read": true,
+    "ds2_timeout_has_no_write_or_state_change": true,
+    "final_review_assertions_remain_44_of_44": true,
+    "document_reports_partial_3_of_4_and_21_of_40": true,
+    "document_scope_command_matches_parser": true
+  },
+  "passed": true,
+  "unresolved_findings": [],
+  "corrected_document_finding": "Removed unsupported --source-root option from issue_review.py reproduction command; no code change.",
+  "task_acceptance": {
+    "passed": 3,
+    "total": 4,
+    "all_tasks_passed": false,
+    "http_attempts": 21,
+    "http_cap": 40,
+    "failed_case": "Deepseek-v4-flash variant 2: timeout before update proposal, no write, original issue unchanged"
+  },
+  "public_export_note": "This review binds pre-export original bytes. Parent will preserve them under the isolated phase evidence-originals directory, then redact only local root paths and record original-to-public SHA256 in an export manifest. Existing raw-report hashes continue to bind local originals. That later export is not asserted complete by this review.",
+  "reviewer_model_calls": 0,
+  "reviewer_external_business_calls": 0,
+  "core_imported_by_reviewer": false,
+  "databases_opened_by_reviewer": false
+}

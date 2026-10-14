@@ -1,0 +1,21 @@
+{
+  "staged_files": 53,
+  "compile_json_secret_size_scan": true,
+  "old_materials_unchanged_except_runner": 95,
+  "same_source_schema_budget": true,
+  "live_cases": 4,
+  "passing_live_cases": 3,
+  "http_attempts": 21,
+  "docs_consistency": true,
+  "docs_isolation": true,
+  "staged_diff_check": true,
+  "ignored_review": "Only four pre-existing __pycache__ directories; not staged",
+  "export_manifest_verified": 34,
+  "reviewer_test_whitespace_only": {
+    "before_sha256": "250c71568e2149b403cc62f15cb200cf836180e5fc8c5fc7ae1b23fd07a0c0a7",
+    "after_sha256": "7c0e91b1876a3fb6b453de48e68a3b51eea5a018aa70ddefef8e8f3e92aa85ad",
+    "ast_equal": true,
+    "reason": "Remove trailing blank line required by git diff --check; no business/runner/schema change"
+  },
+  "not_run": "No Godot/TS/TTS or desktop service checks: no corresponding source changes and background-only scope"
+}

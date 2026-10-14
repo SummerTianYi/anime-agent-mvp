@@ -54,6 +54,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+Codex 2026-10-14：[Issue仅改标题并重读核验](assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md)完成窄范围实现，复用文件授权/执行/交付链，新增目标与字段约束、读取代次和前后核验。后台合成MCP实测3/4：DS/GLM首轮及GLM扩样通过，DS扩样在更新提案前连接超时，零写入且不冒充完成；21/40次HTTP，未重跑失败。文件相关回归保持，A4其他开放项不关闭，未部署，停在Manager验收。
+
 Codex 2026-10-14：[GLM第三文件样例补验](assessments/root-cause-repair/a4-pilot/FILE_TASK_SUPPLEMENT.md)通过。业务冻结87ca474，仅新增显式补验预算入口；一次新初态任务的真提案、正确写入、独立读取和完整交付均通过，新增4次HTTP、累计34/38。原5/6记录不变，本次1/1单列，文件流程具备本范围收尾条件；A4其他开放项保留，不部署，停在Manager验收。
 
 Codex 2026-10-14：[文件任务跨模型交付](assessments/root-cause-repair/a4-pilot/FILE_TASK.md)完成窄范围实现，Core451及独立24+14项通过。最终同源六例真提案/正确写入均通过；DS三例、GLM两例完整读回交付，GLM末例因30次HTTP硬上限未读回，六例验收部分完成。保留跨轮状态与原授权机制，A4其他开放项不关闭；未部署，停在Manager验收。
@@ -157,7 +159,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 451 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 485 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -252,7 +254,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 451 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 当前发现 485 项；最新全量及最终定向复验版本区别见 Issue 报告，不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

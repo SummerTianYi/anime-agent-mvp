@@ -1,0 +1,265 @@
+{
+  "scope": "independent actual CLI gates, actual observer/transport, actual isolated offline runner",
+  "real_http_attempts": 0,
+  "source_sha256_before": {
+    "services/agent-core/agent_core/actions.py": "cfb3a312dd49cca8babb945667ce25fbc95bc12c262ba4b3e493b291644044ff",
+    "services/agent-core/agent_core/agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "services/agent-core/agent_core/file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "services/agent-core/agent_core/harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "services/agent-core/agent_core/issue_task.py": "e39b26bce527b308dc8b4ea80f5b19a61dd2458bebe7f6dd4f4632f59958b8ca",
+    "services/agent-core/agent_core/main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "services/agent-core/agent_core/mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "services/agent-core/agent_core/memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "services/agent-core/agent_core/permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "services/agent-core/agent_core/proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "services/agent-core/agent_core/provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "services/agent-core/agent_core/result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "services/agent-core/agent_core/song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "services/agent-core/agent_core/speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "services/agent-core/agent_core/speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "services/agent-core/agent_core/storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "services/agent-core/agent_core/stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "services/agent-core/agent_core/task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "services/agent-core/agent_core/task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "services/agent-core/agent_core/tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "services/agent-core/agent_core/tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "services/agent-core/agent_core/verified_task.py": "43e46c1972a1070b8dfc5b70e33db22bec06f73f0a91a4056b07042c1d216703",
+    "services/agent-core/agent_core/voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "services/agent-core/agent_core/voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "services/agent-core/agent_core/wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "services/agent-core/agent_core/__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py": "bd1bc17ceec6db01e140ffe2725b749fa5c124d3562eee3a06ebde9b0b7175f2",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_model_case.py": "0354f71d55ab737c07a194e05e2d3ac174f5c25f99977292b5b4b434a27987c5",
+    "services/agent-core/tests/issue_fixture.py": "d3803ff08859a8d8a907ce4ff53d4b1dee676d683c91cb1ab3777e4084f794ba",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_runner_review.py": "afac335baf71bad275bac68b1a6282b83316c876f74c66f02a4a18d47ee7df01"
+  },
+  "source_sha256_after": {
+    "services/agent-core/agent_core/actions.py": "cfb3a312dd49cca8babb945667ce25fbc95bc12c262ba4b3e493b291644044ff",
+    "services/agent-core/agent_core/agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "services/agent-core/agent_core/file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "services/agent-core/agent_core/harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "services/agent-core/agent_core/issue_task.py": "e2cd20734f43f9e85ab80d03dd0cb45a54de472abfd77bbb1e907599d48da874",
+    "services/agent-core/agent_core/main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "services/agent-core/agent_core/mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "services/agent-core/agent_core/memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "services/agent-core/agent_core/permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "services/agent-core/agent_core/proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "services/agent-core/agent_core/provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "services/agent-core/agent_core/result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "services/agent-core/agent_core/song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "services/agent-core/agent_core/speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "services/agent-core/agent_core/speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "services/agent-core/agent_core/storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "services/agent-core/agent_core/stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "services/agent-core/agent_core/task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "services/agent-core/agent_core/task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "services/agent-core/agent_core/tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "services/agent-core/agent_core/tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "services/agent-core/agent_core/verified_task.py": "43e46c1972a1070b8dfc5b70e33db22bec06f73f0a91a4056b07042c1d216703",
+    "services/agent-core/agent_core/voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "services/agent-core/agent_core/voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "services/agent-core/agent_core/wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "services/agent-core/agent_core/__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py": "5d22d56a0724e94b447f8204d7c4b5ccf86e8b141485d25d1c0cacb4be796821",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_model_case.py": "0354f71d55ab737c07a194e05e2d3ac174f5c25f99977292b5b4b434a27987c5",
+    "services/agent-core/tests/issue_fixture.py": "d3803ff08859a8d8a907ce4ff53d4b1dee676d683c91cb1ab3777e4084f794ba",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_runner_review.py": "afac335baf71bad275bac68b1a6282b83316c876f74c66f02a4a18d47ee7df01"
+  },
+  "static_tools_available": [],
+  "checks": [
+    {
+      "case": "file_default_cap",
+      "passed": true,
+      "observed": {
+        "reached": true,
+        "cap": 30,
+        "scenario": "file"
+      }
+    },
+    {
+      "case": "issue_default_cap",
+      "passed": true,
+      "observed": {
+        "reached": true,
+        "cap": 40,
+        "scenario": "issue"
+      }
+    },
+    {
+      "case": "variant2_rejects_unrelated_models",
+      "passed": true,
+      "observed": {
+        "reached": false,
+        "rejection": "Expansion needs the two requested providers and models"
+      },
+      "real_http_attempts": 0
+    },
+    {
+      "case": "variant2_rejects_same_provider",
+      "passed": true,
+      "observed": {
+        "reached": false,
+        "rejection": "Expansion needs the two requested providers and models"
+      },
+      "real_http_attempts": 0
+    },
+    {
+      "case": "variant2_rejects_initial_state_mismatch",
+      "passed": false,
+      "observed": {
+        "reached": true,
+        "cap": 40,
+        "scenario": "issue"
+      },
+      "real_http_attempts": 0
+    },
+    {
+      "case": "variant2_rejects_reports_outside_current_ledger",
+      "passed": true,
+      "observed": {
+        "reached": false,
+        "rejection": "Initial results must belong to this shared Issue ledger"
+      },
+      "real_http_attempts": 0
+    },
+    {
+      "case": "variant2_rejects_failed_initial",
+      "passed": true,
+      "observed": {
+        "reached": false,
+        "rejection": "Expansion requires both equivalent initial cases passing on this source"
+      },
+      "real_http_attempts": 0
+    },
+    {
+      "case": "variant2_rejects_offline_initial",
+      "passed": true,
+      "observed": {
+        "reached": false,
+        "rejection": "Expansion requires both equivalent initial cases passing on this source"
+      },
+      "real_http_attempts": 0
+    },
+    {
+      "case": "fixture_behavior_bound_in_runner_hash",
+      "passed": true,
+      "hash_keys": [
+        "file_models.py",
+        "issue_fixture.py",
+        "issue_model_case.py",
+        "models.py"
+      ]
+    },
+    {
+      "case": "safety_failure_separate_from_connection",
+      "passed": true,
+      "observed_category": "permission_or_receipt"
+    },
+    {
+      "case": "task_failure_separate_from_connection",
+      "passed": true,
+      "observed_category": "proposal_or_task"
+    },
+    {
+      "case": "connection_failure_classified",
+      "passed": true,
+      "observed_category": "connection_or_protocol"
+    },
+    {
+      "case": "incomplete_check_set_rejected",
+      "passed": true
+    },
+    {
+      "case": "reserve_18_before_complete_case",
+      "passed": true,
+      "observed": [
+        {
+          "used": 0,
+          "rejected": false
+        },
+        {
+          "used": 22,
+          "rejected": false
+        },
+        {
+          "used": 23,
+          "rejected": true
+        },
+        {
+          "used": 40,
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "case": "connection_fields_only",
+      "passed": true
+    },
+    {
+      "case": "isolation_guard_rejects_fallback_io",
+      "passed": true,
+      "blocked": [
+        "external_database",
+        "other_config",
+        "external_write",
+        "offline_socket",
+        "subprocess"
+      ],
+      "actual_external_io": 0
+    },
+    {
+      "case": "redirect_and_hard_cap",
+      "passed": true,
+      "dispatches_in_memory": 1,
+      "attempts": 30,
+      "blocked": [
+        "HTTPError",
+        "RuntimeError"
+      ],
+      "save_counts": [
+        30,
+        30
+      ]
+    },
+    {
+      "case": "persistence_failure_blocks_dispatch",
+      "passed": true
+    },
+    {
+      "case": "correction_and_transport_retries_share_ledger",
+      "passed": true,
+      "correction_model_rounds": 2,
+      "correction_http_attempts": 6
+    },
+    {
+      "case": "six_round_three_attempt_maximum_is_18",
+      "passed": true,
+      "observed_attempts": 18
+    },
+    {
+      "case": "file_actual_isolated_offline_runner",
+      "passed": true,
+      "returncode": 0,
+      "report": "D:\\TianyiRepair\\issue-runner-review-third-20261014\\file-offline\\file-model.json",
+      "report_sha256": "34496af04491e3c4fbcc957d8fb6405f63826499eec22eaea85a5abc660a12bc",
+      "stdout": "{\"model\": \"controlled-provider\", \"variant\": 1, \"passed\": true, \"failure_category\": null, \"checks\": {\"no_preconfirm_effect\": true, \"real_proposal\": true, \"correct_write\": true, \"actual_read\": true, \"receipt_bound\": true, \"complete_delivery\": true, \"no_duplicate_write\": true, \"truthful_progress\": true, \"history_reopened\": true, \"ledger_reopened\": true, \"reads_reopened\": true, \"source_unchanged\": true}, \"http_attempts\": 0, \"shared_http_attempts\": 0}\n",
+      "stderr": ""
+    },
+    {
+      "case": "issue_actual_isolated_offline_runner",
+      "passed": false,
+      "returncode": 1,
+      "report": "D:\\TianyiRepair\\issue-runner-review-third-20261014\\issue-offline\\issue-model.json",
+      "report_sha256": "80e487043b625af3b288f178aed54cb8d0cf708fb65366f5018d486de3bb02f3",
+      "stdout": "{\"model\": \"controlled-provider\", \"variant\": 1, \"passed\": false, \"failure_category\": \"proposal_or_task\", \"checks\": {\"no_preconfirm_effect\": true, \"real_proposal\": true, \"correct_update\": true, \"preserved_fields\": true, \"fresh_read\": true, \"receipt_bound\": true, \"complete_delivery\": true, \"no_duplicate_write\": true, \"truthful_progress\": true, \"history_reopened\": true, \"ledger_reopened\": true, \"reads_reopened\": true, \"source_unchanged\": false}, \"http_attempts\": 0, \"shared_http_attempts\": 0}\n",
+      "stderr": ""
+    },
+    {
+      "case": "reviewed_source_unchanged_during_review",
+      "passed": false
+    }
+  ],
+  "passed": false
+}
