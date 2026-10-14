@@ -1,0 +1,40 @@
+{
+  "reviewed_commit": "205491b2f8c4a32d0d9b695629464b101cc383de",
+  "clone": "D:/TianyiRepair/file-supplement-20261014/handoff-clone",
+  "method": "Two fresh independent contexts, read-only clean-clone HANDOFF section 7",
+  "reviewers": [
+    {"agent": "supplement_handoff_one", "passed": true, "answers_correct": 8, "clean_before_and_after": true},
+    {"agent": "supplement_handoff_two", "passed": true, "answers_correct": 8, "clean_before_and_after": true}
+  ],
+  "answers_verified": [
+    "Windows local Luo Tianyi companion; Godot visible and Python Core mandatory; historical M1/M2 and current M3",
+    "Codex foundation, Claude interaction, zcode capabilities, owner voice and acceptance; preserve ownership",
+    "Preserve frozen chat/voice/tools/permission/audit/MCP/memory/visual capabilities",
+    "This task is read-only handoff of the one GLM supplement; stop at Manager, no further model runs",
+    "Local character companion with perception, memory and authorized safe actions",
+    "Deletion capability must first pass scoped workbench exams and receive actual permission",
+    "A write_file bug requires isolated related baseline and minimal verified fix; not authorized in this frozen supplement",
+    "Locate authorized assets and check hashes, use .env.example for private configuration without exposing secrets"
+  ],
+  "evidence_conclusion": {
+    "original_final_cohort": "5/6, unchanged",
+    "new_supplement": "1/1, twelve original checks pass",
+    "new_http_indices": [31, 32, 33, 34],
+    "cumulative_http": 34,
+    "cumulative_cap": 38,
+    "unused_allowance": 4,
+    "further_runs_this_supplement": "not authorized; complete task stopped",
+    "A4_overall": "still open",
+    "deployment": "none; no main merge or current Godot/Core/TTS operation"
+  },
+  "hash_note": "Reviewer one verified original Windows CRLF JSON SHA256 by in-memory LF-to-CRLF reconstruction; Git baseline contents unchanged. Follow-up report documents the distinct raw-local versus Git-blob hash scopes.",
+  "reviewer_side_effects": "No file edits, tests, Core imports, model/HTTP calls, private config or database reads",
+  "main_gates": {
+    "public_docs_check": "DOCS_CONSISTENCY_OK; DOCS_ISOLATION_OK",
+    "unit_tests_rerun": false,
+    "unit_test_discovery_only": 451,
+    "git_diff_check": "pass",
+    "staged_secret_hits": 0,
+    "staged_files_above_50MB": 0
+  }
+}

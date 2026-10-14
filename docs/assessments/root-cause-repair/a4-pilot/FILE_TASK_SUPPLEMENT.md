@@ -55,6 +55,8 @@
 
 样本常量、必须检查列表、`score`、`read_connection`、`audit`、`exercise` AST 与基线一致。原 72 份材料及原本机账本字节未变，详见 [冻结记录](evidence/file-supplement-freeze.json) 与 manifest。数据库、凭据、端点及模型推理不入库。
 
+哈希口径：`original_local_file_sha256` 及关联账本/中断例 SHA256 绑定本机原始文件字节；部分 JSON 由 Windows 文本流写成 CRLF，Git 入库会规范化为 LF，因此不能拿该本机字节哈希直接校验 clean clone 的 LF 文件。业务 Python 文件为 LF，冻结业务哈希一致；远端回读以固定提交的 Git blob SHA 核对，JSON 内容与历史状态另按解析值核验。
+
 ## 离线验证与独立复核
 
 在真实请求前，补验预算入口的可控 Provider 完整流程 12/12 通过、零 HTTP，见 [离线对照](evidence/file-supplement-offline.json)。独立 `file_supplement_review` 对实际 runner AST 和内存 HTTP 做 **35/35** 检查：31–38 计数、第 9 次封顶、重试逐次计数、保存失败不分发、禁止重定向、迟到线程无账本回滚、旧材料不可覆盖、第二次领取拒绝、模型/合同不一致拒绝，以及隔离守卫。见 [预算与隔离复核](evidence/file-supplement-review-offline.json)。
@@ -82,3 +84,5 @@ export PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1
 每次拒绝覆盖既有输出。仍只读取已获准模型连接字段，导入 Core 前配置独立数据/合成配置、Mock、禁 TTS/wake/MCP；真实运行仅将所选 Provider 接入隔离聊天入口，文件工具仅能访问专用测试根。持久测试库在 `D:/TianyiRepair/file-supplement-20261014/live-glm-3/db`，仅本轮合成数据，未重开原任务数据库。
 
 本次无已知剩余验收阻塞，文件流程可以提交 Manager 收尾。原 A4 范围外自由正文漏洞、未覆盖问法、进程崩溃后的任务计划恢复，以及上轮默认数据库影响未知记录均继续保留。不据此承诺任意文件请求或任意模型可靠。没有部署、合并 main、启动或操作当前 Godot/Core/TTS；TTS 版本与生产数据保持不动。
+
+提交 `205491b2f8c4a32d0d9b695629464b101cc383de` 的干净 clone 已由两个独立零上下文实例完成白纸交接，均 8/8，见 [交接记录](evidence/file-supplement-handoff.json)。后续仅补交接记录及哈希口径说明，runner/业务不变。公开隔离文档检查通过；仅发现测试数为 451，没有重跑其测试。最终提交、候选分支推送及远端回读的固定 SHA 见交付消息。
