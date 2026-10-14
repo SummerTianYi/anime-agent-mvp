@@ -1,0 +1,139 @@
+{
+  "scope": "Independent review of this general reply extraction pilot, strict host binding, and the minimal existing-runner adapter. No runtime integration or overall system acceptance.",
+  "baseline": "6a1d5233f1138152bcecf1b3dac39c108d030b97",
+  "source_sha256": {
+    "services/agent-core/agent_core/general_reply_check.py": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+    "services/agent-core/agent_core/main.py": "4165ad519e9ecdc56041782567cf0fbeaf306682bc64de557f48d91f4c16932e",
+    "services/agent-core/agent_core/task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "services/agent-core/tests/test_general_reply_review.py": "773461d5197826135a9cb35a3186b809fb372c0e5c15c1e764c7f30671e3319e",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/general_model_case.py": "45c52de49b5ea5b0bc9187a42c6228fd9e7e4b5e8f236a0371fd2bda6976cdb5",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py": "bbc1e56ca46fbf76d077207d7599a8c7b553a7c063dc680c04684ffbf8040d2a",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/general_holdout.json": "b4f9082531c50e8e59fa4890823b9743f8d5ca98a3b51615239548994030c0a8"
+  },
+  "verification": {
+    "independent_program_tests": 14,
+    "passed": true,
+    "model_calls": 0,
+    "compile_files": 4,
+    "diff_check_passed": true,
+    "static_tools_unavailable": [
+      "ruff",
+      "mypy",
+      "pylint",
+      "black",
+      "bandit"
+    ],
+    "latest_runner_evidence": "general-independent-04.json"
+  },
+  "closed_findings": [
+    {
+      "issue": "Duplicate JSON keys overwrote uncertain=true and allowed ambiguous output",
+      "fix": "Unique key decoding rejects duplicates",
+      "initial_evidence": [
+        "general-independent-01.json",
+        "general-independent-02.json"
+      ],
+      "verified": "general-independent-03.json"
+    },
+    {
+      "issue": "A real successful get_time ALLOW receipt had no supported object binding",
+      "fix": "Exact target.tool plus every actual tool parameter; empty/wrong tool targets remain inadmissible",
+      "initial_evidence": [
+        "general-independent-02.json"
+      ],
+      "verified": "general-independent-03.json"
+    },
+    {
+      "severity": "HIGH",
+      "issue": "Reply runner returned and closed its event loop before a timed-out HTTP worker's telemetry finished, allowing premature ledger lock release",
+      "fix": "Reuse shutdown_default_executor before close and final source/runner hash verification",
+      "verified": "general-independent-04.json",
+      "negative_control": "Actual AST branch with only its drain removed returns before the controlled worker finishes"
+    },
+    {
+      "issue": "New public extraction/binding interfaces and the CheckResult claim tuple were unannotated",
+      "fix": "Protocol, aliases, public input/return signatures and typed tuple; execution bodies and extraction prompt unchanged",
+      "verified": {
+        "scope": "Same review closure; no new model request, test execution, corpus input change, or runtime integration.",
+        "live_checker_sha256": "c2174c19925af36d599a6967f487e521d8a79b3ed6f2540796380c52dcd91619",
+        "typed_checker_sha256": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+        "annotation_projection_original_sha256": "c2174c19925af36d599a6967f487e521d8a79b3ed6f2540796380c52dcd91619",
+        "prompt_sha256": "ca415dc16901ae11cc137ad6991f2cd4c8a02eeb04cd26db1ace2a422fa1f803",
+        "verification": {
+          "annotation_projection_exact": true,
+          "prompt_unchanged": true,
+          "typed_regression_record_bound": true,
+          "label_change_only_subject": true,
+          "original_corpus_preserved": true,
+          "reanalysis_matches_independent": true,
+          "existing_business_unchanged": true
+        },
+        "provided_regression_record": {
+          "path": "D:/TianyiRepair/general-reply-20261014/typed-final.json",
+          "sha256": "27ea9627719556c1fe51f7271030782cfd00f2bbc91fde2e7407ee82e9bdcff1",
+          "tests": 19,
+          "passed": true,
+          "model_calls": 0
+        },
+        "offline_reanalysis": {
+          "path": "general-reanalysis.json",
+          "sha256": "575aa2f6a6f7c75e4f6ed0f7a55261d172104c5566f11d395eedd0d162328d40",
+          "strict_passes": {
+            "deepseek": 9,
+            "glm": 5
+          },
+          "original_corpus_path": "../repro/general_initial_original.json",
+          "original_corpus_sha256": "7146b0048d583dc3c3af6aefd40741dbdf425afa911ef5fb356757578ab1f37b",
+          "future_corpus_sha256": "ace1993d637e0dd4c05e4dcb10b28d4df5ab4a93cd871cb10e801416c2fb55af"
+        }
+      }
+    }
+  ],
+  "findings": [],
+  "boundaries": {
+    "main_and_task_delivery_unchanged_from_baseline": true,
+    "checker_imported_by_main": false,
+    "publication_order_verified": false,
+    "memory_side_effects_verified": false,
+    "runtime_false_pending_and_completion_closed": false,
+    "claim_recognition_proven_by_controlled_tests": false,
+    "private_config_or_production_database_accessed": false,
+    "live_model_calls_by_this_reviewer": 0
+  },
+  "live_evidence_review": "Completed in general-independent-final.json: six original live reports retained; manual strict DS9/11 and GLM5/11. Annotation-only final source is separately bound.",
+  "verdict": "Block runtime adoption. The offline host contract has passed its scoped probes; this is an unintegrated diagnostic prototype and cannot close A4.",
+  "annotation_only_closure": {
+    "scope": "Same review closure; no new model request, test execution, corpus input change, or runtime integration.",
+    "live_checker_sha256": "c2174c19925af36d599a6967f487e521d8a79b3ed6f2540796380c52dcd91619",
+    "typed_checker_sha256": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+    "annotation_projection_original_sha256": "c2174c19925af36d599a6967f487e521d8a79b3ed6f2540796380c52dcd91619",
+    "prompt_sha256": "ca415dc16901ae11cc137ad6991f2cd4c8a02eeb04cd26db1ace2a422fa1f803",
+    "verification": {
+      "annotation_projection_exact": true,
+      "prompt_unchanged": true,
+      "typed_regression_record_bound": true,
+      "label_change_only_subject": true,
+      "original_corpus_preserved": true,
+      "reanalysis_matches_independent": true,
+      "existing_business_unchanged": true
+    },
+    "provided_regression_record": {
+      "path": "D:/TianyiRepair/general-reply-20261014/typed-final.json",
+      "sha256": "27ea9627719556c1fe51f7271030782cfd00f2bbc91fde2e7407ee82e9bdcff1",
+      "tests": 19,
+      "passed": true,
+      "model_calls": 0
+    },
+    "offline_reanalysis": {
+      "path": "general-reanalysis.json",
+      "sha256": "575aa2f6a6f7c75e4f6ed0f7a55261d172104c5566f11d395eedd0d162328d40",
+      "strict_passes": {
+        "deepseek": 9,
+        "glm": 5
+      },
+      "original_corpus_path": "../repro/general_initial_original.json",
+      "original_corpus_sha256": "7146b0048d583dc3c3af6aefd40741dbdf425afa911ef5fb356757578ab1f37b",
+      "future_corpus_sha256": "ace1993d637e0dd4c05e4dcb10b28d4df5ab4a93cd871cb10e801416c2fb55af"
+    }
+  }
+}

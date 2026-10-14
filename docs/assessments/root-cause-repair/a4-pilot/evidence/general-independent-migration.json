@@ -1,0 +1,33 @@
+{
+  "scope": "Only this independent review's three closed synthetic data directories were moved; original runner evidence and recorded paths unchanged.",
+  "moves": [
+    {
+      "source": "D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\work\\general-independent-01",
+      "target": "D:\\TianyiRepair\\general-reply-20261014\\review-01",
+      "entry_count": 57,
+      "tree_sha256": "c3da91706a2fe9912bd7f420e37085b17cff7699ffd3bcb9eebc13bc2f185def",
+      "source_removed": true,
+      "target_verified": true,
+      "tree_unchanged": true
+    },
+    {
+      "source": "D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\work\\general-independent-02",
+      "target": "D:\\TianyiRepair\\general-reply-20261014\\review-02",
+      "entry_count": 61,
+      "tree_sha256": "fbff2c8921e816634fecfaf39feda5f7cba1c7079d0677c1668f636182317abe",
+      "source_removed": true,
+      "target_verified": true,
+      "tree_unchanged": true
+    },
+    {
+      "source": "D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\work\\general-independent-03",
+      "target": "D:\\TianyiRepair\\general-reply-20261014\\review-03",
+      "entry_count": 61,
+      "tree_sha256": "ab91b673ceeb62726019579a51246eb190cf2ab609a89f60ad0c67c567a4636d",
+      "source_removed": true,
+      "target_verified": true,
+      "tree_unchanged": true
+    }
+  ],
+  "model_calls": 0
+}

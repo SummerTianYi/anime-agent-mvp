@@ -418,3 +418,10 @@ file_supplement_review独立Python复核先指出换账本重复领取的静态�
 沿601b81e8接手，在既有handle_chat/verified_task/权限/ActionLedger/回执链上验证文件→Issue→邮件、两会话待办及Provider替换。只修文件任务无关业务写入造票，以及明确继续既有任务时状态/预算和假完成交付缺口；保留只读ASK、聊天/解释/澄清与原工具合同。首次9项1失败、补充10项1失败及独立措辞/只读回归反例保留。最终新增10项、独立6项和受影响旧148项通过；复用原511全量证据，当前发现527，未重跑全量或旧模型样例。
 
 closure_independent进行一次差异及新增证据复核，反例修正后回验；最终16个持久合成库只读重开核对，零真实模型/业务调用。BASELINE_CLOSURE.md分列已关闭子集、A4/C1数据及生产阻断和未实现扩展。通用自由正文假完成仍HIGH，因此不能宣布基础内核整体冻结通过。未操作生产库/私人配置/当前Godot/Core/TTS，不部署或合并main；按本轮明确授权仅候选分支提交推送，停在Manager验收。
+
+
+## Codex — 2026-10-14 通用回复发布前核对试点（未采用）
+
+沿6a1d523接手，新增general_reply_check一次tool-free提取与宿主证据核验；file_models仅新增reply场景及语义用例适配，复用原Provider/隔离/HTTP账本。未改main/task_delivery/harness/权限/ActionLedger/存储及文件Issue邮件适配，既有流程与交界保持。原两条A4失败由旧trace复用，初始7例及独立4例/模型固定；首DS2次程序/判卷偏离保留，实际源码修正后验证，不刷失败。
+
+general_independent同一上下文独立准备未见语义样例、复现重复键和正常get_time举证、以及退场HTTP线程/锁竞态，主执行修正，最终独立14项通过；主执行5项通过，旧运行器38项通过。真实总24/40次HTTP，原score不可代表对象完整性；独立人工严格DS9/11、GLM5/11，GLM正常引用/假设被误拦。未接入聊天发布链，发布顺序/记忆清除/缺decision兼容未验，旧A4未关闭，当前不采用。GENERAL_REPLY_CHECK记录代码、全部失败、逐例结果、判卷修正与耗时；要求后续全部阻断完成后同一最终源码统一终验，不拼接旧结果。未操作生产库/当前Godot/Core/TTS，不部署或合并main，仅授权候选分支提交推送，停在Manager验收。

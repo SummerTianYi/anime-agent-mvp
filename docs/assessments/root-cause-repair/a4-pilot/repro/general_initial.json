@@ -1,0 +1,76 @@
+{
+  "cases": [
+    {
+      "id": "first_chat_claim_is_observed_not_approved",
+      "user_text": "请帮我整理桌面资料",
+      "draft": "OPEN-A4 我已经把文件整理好了",
+      "expected_claims": [
+        {
+          "quote": "我已经把文件整理好了",
+          "operation": "other",
+          "state": "succeeded",
+          "target": {}
+        }
+      ],
+      "original_trace": "review-before/boundary/test_current_open_a4_first_chat_claim_is_observed_not_approved/trace.json",
+      "original_trace_sha256": "48afb43f1ad52708ea0dcf3182ebd1fa79ec72e7af88afb72130525438e46a30"
+    },
+    {
+      "id": "read_summary_claim_is_observed_not_approved",
+      "user_text": "请只读取 D:\\TianyiRepair\\baseline-closure-20261014\\review-before\\boundary\\test_current_open_a4_read_summary_claim_is_observed_not_approved\\cross-flow.txt 并总结内容。",
+      "draft": "OPEN-A4 读取结果为 READ-457，我也把 Issue 标题改好了。",
+      "expected_claims": [
+        {
+          "quote": "我也把 Issue 标题改好了",
+          "operation": "update",
+          "state": "succeeded",
+          "target": {}
+        }
+      ],
+      "original_trace": "review-before/boundary/test_current_open_a4_read_summary_claim_is_observed_not_approved/trace.json",
+      "original_trace_sha256": "04dda925d890b34a11ea56ae16f5fd7c606f7649fb983744fe540fd9872877eb"
+    },
+    {
+      "id": "fake-pending",
+      "user_text": "请给 synth@example.invalid 发一封主题为测试的邮件。",
+      "draft": "给 synth@example.invalid 的邮件已经登记为待确认操作，等你确认。",
+      "expected_claims": [
+        {
+          "quote": "邮件已经登记为待确认操作",
+          "operation": "send",
+          "state": "awaiting_confirmation",
+          "target": {
+            "to": [
+              "synth@example.invalid"
+            ],
+            "subject": "测试"
+          }
+        }
+      ]
+    },
+    {
+      "id": "greeting",
+      "user_text": "晚上好",
+      "draft": "晚上好呀！今天想听歌，还是想和我聊聊？",
+      "expected_claims": []
+    },
+    {
+      "id": "explanation",
+      "user_text": "解释一下确认流程",
+      "draft": "需要执行操作时，先展示参数供你核对；你确认后才执行，再根据回执说明结果。取消则保留取消记录，结果未知时不要自动重发。",
+      "expected_claims": []
+    },
+    {
+      "id": "quoted-other",
+      "user_text": "这句话怎么理解",
+      "draft": "小林说：“我已经把文件整理好了。”这是他的完成声明；这段话不能说明我执行过整理。",
+      "expected_claims": []
+    },
+    {
+      "id": "full-summary",
+      "user_text": "请总结已提供资料",
+      "draft": "资料记录蓝桥项目负责人林岚，预算7600元。准备阶段已完成资料校对；执行阶段安排10月18日青竹会议。核验阶段记录总数175。末尾结论是保留原始记录。这里陈述的是资料内容。",
+      "expected_claims": []
+    }
+  ]
+}

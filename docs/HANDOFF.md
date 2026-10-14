@@ -54,6 +54,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+Codex 2026-10-14：[通用回复发布前核对试点](assessments/root-cause-repair/a4-pilot/GENERAL_REPLY_CHECK.md)未通过采用门禁：新增受限提取/记录核验模块及原运行器reply入口，未接入handle_chat。人工严格DS9/11、GLM5/11，24/40次HTTP；GLM格式/空响应与超时导致正常引用/假设误拦，旧A4仍开放。程序19项和原预算/隔离38项通过，发现546项但本轮未全量执行。既有文件/Issue/邮件/交界源码保持；后续全部阻断解决后必须同一最终版本统一重验已修功能和组合，不拼接旧版本结果。未部署、未合并main，停在Manager验收。
+
 Codex 2026-10-14：[三条基础流程交界收口](assessments/root-cause-repair/a4-pilot/BASELINE_CLOSURE.md)完成所测交界修正与验证：新增10项及一次独立6项通过，受影响旧回归148项通过，其余复用邮件最终511项基线；当前发现527个测试，未重跑全量。只修改文件任务无关写调用门禁和既有任务继续分支，Provider替换保留票据、预算、成功/unknown防重放。零真实模型与外部业务调用。A4通用自由正文假完成仍为HIGH阻断，故本轮整体通过条件未满足，不能冻结基础操作内核整体通过；下一步仅处理通用操作声明与真实证据的绑定合同。未部署、未合并main，停在Manager验收。
 
 Codex 2026-10-14：[单收件人纯文本邮件](assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)完成窄范围实现与后台合成 Gmail 验收。复用既有任务/授权/账本/回执，新增邮件目标及逐字参数约束、原生消息 ID 核验和默认 MIME 去重兼容。最终同源 DS、GLM 各两例均通过；首次 DS 正文改写失败保留，修正反馈后重新验证，阶段共15/40次HTTP。只证明发送请求被合成服务受理一次，不证明真实发信、送达、已读或A4整体关闭；未部署，停在Manager验收。首次模型版本Core510项全量、最终反馈定向25项及独立16项通过；白纸交接指出最终全量缺口后，冻结源码新跑Core511/511通过，零模型调用。当前Godot/Core/TTS及生产数据未动。
@@ -165,7 +167,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现527；本轮复用511基线并重验受影响148项、新增16项，未重跑527全量 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现546；本轮仅新增19项及运行器38项，未执行全量终验；后续同一最终源码统一重验 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -260,7 +262,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 当前发现527；邮件最终511全量证据保留，本轮仅重验受影响148项及新增16项，不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 当前发现546；历史证据保留，本轮仅19项及运行器38项，不当作全量终验，不触碰生产库或真实外部业务 |
 
 ## 10. 灾备与回滚
 

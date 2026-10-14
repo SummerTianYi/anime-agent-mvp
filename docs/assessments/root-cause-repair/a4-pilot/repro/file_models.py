@@ -24,7 +24,7 @@ from models import NoRedirect, digest, public_messages
 
 CAP = 30
 PROTOCOLS = {"file": "file-write-confirm-read-v1", "issue": "issue-title-confirm-read-v1",
-             "email": "email-send-confirm-receipt-v1"}
+             "email": "email-send-confirm-receipt-v1", "reply": "general-reply-extraction-v1"}
 REQUIRED_CHECKS = ("no_preconfirm_effect", "real_proposal", "correct_write", "actual_read", "receipt_bound",
                    "complete_delivery", "no_duplicate_write", "truthful_progress", "history_reopened",
                    "ledger_reopened", "reads_reopened", "source_unchanged")
@@ -46,6 +46,9 @@ def runner_hashes():
 
 def protocol_runner_hashes(scenario):
     hashes = runner_hashes()
+    if scenario == "reply":
+        helper = Path(__file__).with_name("general_model_case.py")
+        hashes[helper.name] = hashlib.sha256(helper.read_bytes()).hexdigest()
     if scenario in {"issue", "email"}:
         name = scenario + "_model_case.py"
         hashes[name] = hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
@@ -100,7 +103,7 @@ def score(item):
 def supplement_budget(args, hashes):
     """Authorize only the referenced frozen case; never reuse its task state."""
     if args.prior_ledger is None and args.supplement_of is None:
-        if args.http_budget != (40 if getattr(args, "scenario", "file") in {"issue", "email"} else CAP):
+        if args.http_budget != (40 if getattr(args, "scenario", "file") in {"issue", "email", "reply"} else CAP):
             raise SystemExit("A non-default HTTP budget requires both supplement references")
         return None, None
     if getattr(args, "scenario", "file") != "file":
@@ -151,7 +154,8 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--variant", type=int, choices=SAMPLES, default=1)
-    parser.add_argument("--scenario", choices=("file", "issue", "email"), default="file")
+    parser.add_argument("--scenario", choices=("file", "issue", "email", "reply"), default="file")
+    parser.add_argument("--reply-corpus", type=Path)
     parser.add_argument("--initial-report", type=Path, action="append", default=[])
     parser.add_argument("--http-budget", type=int)
     parser.add_argument("--prior-ledger", type=Path)
@@ -159,7 +163,9 @@ def main():
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     if args.http_budget is None:
-        args.http_budget = 40 if args.scenario in {"issue", "email"} else CAP
+        args.http_budget = 40 if args.scenario in {"issue", "email", "reply"} else CAP
+    if args.scenario == "reply" and (args.reply_corpus is None or args.variant != 1 or args.offline):
+        parser.error("Reply extraction requires a corpus, variant 1 and real Provider; offline mechanics use the existing regression runner")
     if args.scenario in {"issue", "email"} and args.variant > 2:
         parser.error("Issue and Email protocols have only two variants")
     if not args.offline and args.private_config is None:
@@ -320,6 +326,24 @@ def run(args, package, hashes, connection):
         live_provider = ObservedProvider(name=args.provider, base_url=base_url, model=model, api_key=api_key,
             timeout_seconds=45, proxy_mode=connection.get("LLM_PROXY_MODE", "auto"),
             on_transport_event=lambda event: record["transport"].append({k: v for k, v in event.items() if k != "host"}))
+    if args.scenario == "reply":
+        from general_model_case import exercise as check_cases
+        try:
+            result = loop.run_until_complete(check_cases(args, live_provider, record, save))
+        finally:
+            # Reuse the existing drain: cancellation of await does not stop HTTP.
+            # Keep the ledger lock until final worker telemetry is persisted.
+            loop.run_until_complete(loop.shutdown_default_executor())
+            loop.close()
+        record["checks"]["source_unchanged"] = (source_hashes(package) == hashes
+            and protocol_runner_hashes(args.scenario) == record["runner_sha256"])
+        if not record["checks"]["source_unchanged"]:
+            record["passed"] = False
+            result = 1
+        save()
+        print(json.dumps({"passed": record["passed"], "cases": len(record["cases"]),
+                          "calls": len(record["calls"]), "used": len(ledger["attempts"]), "cap": ledger["cap"]}))
+        return result
     filename, content = SAMPLES[args.variant]
     file_dir = args.data_dir / "files"
     file_dir.mkdir()

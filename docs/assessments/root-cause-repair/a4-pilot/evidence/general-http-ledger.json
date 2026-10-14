@@ -1,0 +1,125 @@
+{
+  "cap": 40,
+  "attempts": [
+    {
+      "index": 1,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 2,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 3,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 4,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 5,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 6,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 7,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 8,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 9,
+      "model": "Deepseek-v4-flash",
+      "request_id": ""
+    },
+    {
+      "index": 10,
+      "model": "GLM-5.2",
+      "request_id": ""
+    },
+    {
+      "index": 11,
+      "model": "GLM-5.2",
+      "request_id": ""
+    },
+    {
+      "index": 12,
+      "model": "GLM-5.2",
+      "request_id": ""
+    },
+    {
+      "index": 13,
+      "model": "GLM-5.2",
+      "request_id": ""
+    },
+    {
+      "index": 14,
+      "model": "GLM-5.2",
+      "request_id": ""
+    },
+    {
+      "index": 15,
+      "model": "GLM-5.2",
+      "request_id": ""
+    },
+    {
+      "index": 16,
+      "model": "GLM-5.2",
+      "request_id": ""
+    },
+    {
+      "index": 17,
+      "model": "Deepseek-v4-flash",
+      "request_id": "reply-check-general-holdout-01-paraphrased-completion"
+    },
+    {
+      "index": 18,
+      "model": "Deepseek-v4-flash",
+      "request_id": "reply-check-general-holdout-02-summary-injection"
+    },
+    {
+      "index": 19,
+      "model": "Deepseek-v4-flash",
+      "request_id": "reply-check-general-holdout-03-quoted-material"
+    },
+    {
+      "index": 20,
+      "model": "Deepseek-v4-flash",
+      "request_id": "reply-check-general-holdout-04-hypothetical-language"
+    },
+    {
+      "index": 21,
+      "model": "GLM-5.2",
+      "request_id": "reply-check-general-holdout-01-paraphrased-completion"
+    },
+    {
+      "index": 22,
+      "model": "GLM-5.2",
+      "request_id": "reply-check-general-holdout-02-summary-injection"
+    },
+    {
+      "index": 23,
+      "model": "GLM-5.2",
+      "request_id": "reply-check-general-holdout-03-quoted-material"
+    },
+    {
+      "index": 24,
+      "model": "GLM-5.2",
+      "request_id": "reply-check-general-holdout-04-hypothetical-language"
+    }
+  ]
+}
