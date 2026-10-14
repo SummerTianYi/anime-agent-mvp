@@ -1,0 +1,363 @@
+{
+  "scope": "One independent evidence review, including original intermediate evidence and final-source main-executor evidence",
+  "interpretation": "after-continuation is an intermediate state before independent-counterexample repairs. boundary-final is the final-source 10-test result matching the independent final source hashes.",
+  "mode": "ro&immutable=1",
+  "intermediate_after_continuation": {
+    "scope": "Only new after-continuation synthetic databases; read-only immutable; no application imports",
+    "mode": "ro&immutable=1",
+    "reviewer_probe_notes": [
+      "Initial read-only query named session_id; corrected to actual conversation_id without any database writes."
+    ],
+    "cases": [
+      {
+        "case": "test_cancel_edit_isolated_between_issue_and_email_sessions",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "11c863790c955026f6d8b8cd434d782a82a04f99e17c0dfba6ad4a5991d421f7",
+        "trace_sha256": "6e2cfb1f8110e9cf5f90555e89fecd33acd89e70580fc475460623e593760359",
+        "actions": 4,
+        "messages": 14,
+        "events": 36,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 1,
+          "mcp__gmail__send_email": 1
+        }
+      },
+      {
+        "case": "test_cross_flow_duplicate_tool_must_not_create_unrelated_ticket",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "bd52bbf0b1e514783ce04dbf74b8aa61410945cb23f6e813daeed5d5ed322122",
+        "trace_sha256": "4a326f437540f79dcbc90c036eb23a2e409191048e73f6da5e363f0e3f82ea09",
+        "actions": 1,
+        "messages": 6,
+        "events": 12,
+        "effects_by_tool": {
+          "mcp__gmail__send_email": 1
+        }
+      },
+      {
+        "case": "test_plain_chat_explanations_and_required_clarification_after_flow",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "cb24bf7da9e3cae72fd953c162a980288e58d51c126197f93a54d95e7958c43f",
+        "trace_sha256": "6533ef0cff30b25507bd88fdd755e1c09f743403ab7c87d64e74b91a0c20a9d3",
+        "actions": 1,
+        "messages": 14,
+        "events": 24,
+        "effects_by_tool": {
+          "mcp__gmail__send_email": 1
+        }
+      },
+      {
+        "case": "test_previous_success_and_foreign_references_do_not_complete_next_task",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "64a11d1aac34ccb47f75c3046f510e61f3845e7245b1a8aac23171f55cd26547",
+        "trace_sha256": "ff3d1429bea1ed38862e34015160e4d07c3a7b1ed47665e8c2195dd8d484d677",
+        "actions": 1,
+        "messages": 16,
+        "events": 36,
+        "effects_by_tool": {
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_replacement_pending_does_not_expand_authorization",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "2604c75bdbc56ee9e8e50a3bcf74872a1e4717205c006d4166e2839658e9d458",
+        "trace_sha256": "69bf8e5086bbd7e280a7bf66e3d6525da88a441e9b6672a19c139df904ac0e75",
+        "actions": 5,
+        "messages": 28,
+        "events": 59,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 2,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_replacement_success_duplicate_calls_do_not_reexecute",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "4d466ac39aea8e3c11df0b47fce32c65cdb2fb9f36aefd0c0e4bba2d419083fc",
+        "trace_sha256": "e4b4d2bd67a724ce2b5e092a31a58564f4665e692985a2b8d1f965f9cc693227",
+        "actions": 5,
+        "messages": 28,
+        "events": 68,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 2,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_replacement_unknown_no_resend_or_budget_refill",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "0fb756b6493f470288cba9615aabdf6d66f33cf559240bf058f08050df150d5a",
+        "trace_sha256": "d8b5fd434a08277d930e4eb043220e2c8ec1c742127715e806564e9291048bf3",
+        "actions": 4,
+        "messages": 20,
+        "events": 52,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 1,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_without_tools_does_not_discard_pending_or_refill_budget",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "f129f8d10a4b1c5fbaf141b7367a7141fbb73d1bfada87d8b16f90be7f39f170",
+        "trace_sha256": "1c821bd9cf48ef66c12725d545bad17d5941297424463e74e9047f49927b6edf",
+        "actions": 1,
+        "messages": 6,
+        "events": 15,
+        "effects_by_tool": {
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_three_flows_sequential_and_reopened",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "a45400024c7e64b520b22802dae4a156baad37b335a9c278a4e7ef524e40a405",
+        "trace_sha256": "dd01ced69708c551bba92e16e0e3527d3c8b1a86336d017e2ba13d0dc91e0935",
+        "actions": 5,
+        "messages": 20,
+        "events": 48,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 2,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_two_sessions_confirm_only_the_displayed_owned_ticket",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "a4a97c51395c80875326a74f7c16651a65b7708d9382a534bed1a8d2fec4af74",
+        "trace_sha256": "11937f3f6eb9718bde332b68551fa6578a2de1f22fbd03780db9229ffe8c38fa",
+        "actions": 2,
+        "messages": 16,
+        "events": 31,
+        "effects_by_tool": {
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      }
+    ],
+    "all_passed": true,
+    "model_http_calls": 0,
+    "source_evidence": "D:/TianyiRepair/baseline-closure-20261014/after-continuation.json",
+    "acceptance": "Evidence consistency only. This predates independent counterexample repairs and is not final-source acceptance."
+  },
+  "final_boundary": {
+    "scope": "Final main-executor synthetic tests, independently reopened without application imports or test execution",
+    "run_directory": "D:\\TianyiRepair\\baseline-closure-20261014\\boundary-final",
+    "summary_path": "D:\\TianyiRepair\\baseline-closure-20261014\\boundary-final.json",
+    "summary_sha256": "ff14484b552a4d97c4bbf205c0da655271cb5cd727e80eaa472fd23ba0cf3b84",
+    "source_sha256": {
+      "main.py": "4165ad519e9ecdc56041782567cf0fbeaf306682bc64de557f48d91f4c16932e",
+      "verified_task.py": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7"
+    },
+    "source_matches_independent_final": true,
+    "mode": "ro&immutable=1",
+    "tests": 10,
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "cases": [
+      {
+        "case": "test_cancel_edit_isolated_between_issue_and_email_sessions",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "a47f431e956bbda2f6d98c706b22d1b6ce5e87347d74903f32f7c9d4226f93ff",
+        "trace_sha256": "198102a88992cd3c21bd15f2a9e3cea48df5c2ccea39fa1539621cb65663b761",
+        "actions": 4,
+        "messages": 14,
+        "events": 36,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 1,
+          "mcp__gmail__send_email": 1
+        }
+      },
+      {
+        "case": "test_cross_flow_duplicate_tool_must_not_create_unrelated_ticket",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "9d763ae5e2e48415f94531432648279817042a756680cbfb8275fe21e299a1ec",
+        "trace_sha256": "95fa66083775798959e724bf956920d5ddbc49175a58ca181fc66762b57f7f2c",
+        "actions": 1,
+        "messages": 6,
+        "events": 12,
+        "effects_by_tool": {
+          "mcp__gmail__send_email": 1
+        }
+      },
+      {
+        "case": "test_plain_chat_explanations_and_required_clarification_after_flow",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "e74bf99514fdbb699bbd1a991bce03cdc13f470e5ed3b9e1cad115d9a051bb36",
+        "trace_sha256": "72f41ae9d1ffb04ba1578e3552dddd68eeb72358900eb5cf725497de9d4fd477",
+        "actions": 1,
+        "messages": 14,
+        "events": 24,
+        "effects_by_tool": {
+          "mcp__gmail__send_email": 1
+        }
+      },
+      {
+        "case": "test_previous_success_and_foreign_references_do_not_complete_next_task",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "9a8b8231cd8f590c85d2eccb3d57e513c4ff46f5602e8db27ce371518d9e19b4",
+        "trace_sha256": "44f53b6752fd23ab7717cea86abda6f37c9a23ab4de06ff47cb2595330fda742",
+        "actions": 1,
+        "messages": 16,
+        "events": 36,
+        "effects_by_tool": {
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_replacement_pending_does_not_expand_authorization",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "c1bbdd93179f2112541af5d04742c3066763e3e9638b6d6724bebc36e02e0a98",
+        "trace_sha256": "eec84d91a4b87ea4ac77fb70bc4eede491bfb011e3e2123dde9bef65a8419043",
+        "actions": 5,
+        "messages": 28,
+        "events": 59,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 2,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_replacement_success_duplicate_calls_do_not_reexecute",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "9a84bdc7e4a42907b6dd2bd0521cac14505f35f01d9e46ec730b28ef76aa686b",
+        "trace_sha256": "5bafbde22051e5798781065853f456f13a89fc423521eb7534ee825ccbf31880",
+        "actions": 5,
+        "messages": 28,
+        "events": 68,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 2,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_replacement_unknown_no_resend_or_budget_refill",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "82c30446113ed75cc165d4ac1538d9c02d4f3ce48ed18a11c618b45458a144ee",
+        "trace_sha256": "63bd8fd70956e92079df890626361fbdacff09ad52dc8cc67b4f5ebe00955841",
+        "actions": 4,
+        "messages": 20,
+        "events": 52,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 1,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_provider_without_tools_does_not_discard_pending_or_refill_budget",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "cbf6712327e959cffd06d88a251664015cd2fca94c85591e3709b719185029b7",
+        "trace_sha256": "66d0aa321735453450253430f01bb1b896b6efd04126b326ba4c90c1f7880387",
+        "actions": 1,
+        "messages": 6,
+        "events": 15,
+        "effects_by_tool": {
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_three_flows_sequential_and_reopened",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "2a71e7d6bcdb42a2e5e17575bca592eab490134e87e8c4d5c6766a23c484f510",
+        "trace_sha256": "2f15105d1a149a203c944f92eaffe3e85818d801ae5e382cfb31064f95b1be44",
+        "actions": 5,
+        "messages": 20,
+        "events": 48,
+        "effects_by_tool": {
+          "mcp__github__issue_read": 2,
+          "mcp__github__issue_write": 1,
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      },
+      {
+        "case": "test_two_sessions_confirm_only_the_displayed_owned_ticket",
+        "actions_equal": true,
+        "trace_answers_in_history": true,
+        "db_unchanged": true,
+        "db_sha256": "7956f2d86b4cf4f6b9854120068a86e70b602d795376e1f71df09a876c2bfe2b",
+        "trace_sha256": "e89f6dbce7c235914a3795bc9508f4a661c3aa50da68c70f4df37b6b2cfb0a9c",
+        "actions": 2,
+        "messages": 16,
+        "events": 31,
+        "effects_by_tool": {
+          "mcp__gmail__send_email": 1,
+          "read_file": 1,
+          "write_file": 1
+        }
+      }
+    ],
+    "all_passed": true,
+    "model_http_calls": 0,
+    "tests_rerun": false
+  },
+  "all_final_evidence_checks_passed": true,
+  "model_http_calls": 0,
+  "tests_rerun": false
+}

@@ -1,5 +1,7 @@
 # Anime Agent MVP
 
+Codex 2026-10-14：[三条基础流程交界收口](docs/assessments/root-cause-repair/a4-pilot/BASELINE_CLOSURE.md)完成所测交界修正与验证：新增10项及一次独立6项通过，受影响旧回归148项通过，其余复用邮件最终511项基线；当前发现527个测试，未重跑全量。只修改文件任务无关写调用门禁和既有任务继续分支，Provider替换保留票据、预算、成功/unknown防重放。零真实模型与外部业务调用。A4通用自由正文假完成仍为HIGH阻断，故本轮整体通过条件未满足，不能冻结基础操作内核整体通过；下一步仅处理通用操作声明与真实证据的绑定合同。未部署、未合并main，停在Manager验收。
+
 Codex 2026-10-14：[单收件人纯文本邮件](docs/assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)完成窄范围实现与后台合成 Gmail 验收。复用既有任务/授权/账本/回执，新增邮件目标及逐字参数约束、原生消息 ID 核验和默认 MIME 去重兼容。最终同源 DS、GLM 各两例均通过；首次 DS 正文改写失败保留，修正反馈后重新验证，阶段共15/40次HTTP。最终源码Core511项隔离全量通过，独立对抗及证据复核通过。只证明发送请求被合成服务受理一次，不证明真实发信、送达、已读或A4整体关闭；未部署，停在Manager验收。
 
 Codex 2026-10-14：[DS第二Issue样例补验](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)通过，冻结业务/运行器/schema/判据，一次全新合成任务完成真提案、仅标题更新一次、新读取核验和准确交付。新增6次HTTP（22–27），原40次账本累计27/40；原批次3/4和连接失败保留，本次1/1单列，Issue合成流程具备本范围收尾条件，不代表连接稳定或真实GitHub认证。未部署，停在Manager验收。

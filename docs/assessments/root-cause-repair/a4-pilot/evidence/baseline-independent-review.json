@@ -1,0 +1,151 @@
+{
+  "scope": "One independent delta/evidence review; synthetic local fixtures; no white-paper handoff or product-wide audit",
+  "baseline_commit": "601b81e8a22c381eaa580759cff9ee14003aa443",
+  "final_source_sha256": {
+    "services/agent-core/agent_core/main.py": "4165ad519e9ecdc56041782567cf0fbeaf306682bc64de557f48d91f4c16932e",
+    "services/agent-core/agent_core/verified_task.py": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+    "services/agent-core/tests/test_baseline_closure.py": "51f3b795d7fe27772983d73b7a9972406d8cd75f3091a936f57bfeda29b25487",
+    "services/agent-core/tests/test_baseline_closure_review.py": "4422120272b2a8169131d5ffd70ad021093600138ad9fadc9c7e82e98181720c"
+  },
+  "business_diff_sha256": "b12392b93d56737c9f9f2666b7a2510937c7f0dc1befdfaaff9163f52277882c",
+  "final_functional_tests": {
+    "tests": 6,
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "before": {
+    "tests": 8,
+    "failure_records": 10,
+    "errors": 0,
+    "interpretation": "Six functional methods plus two diagnostic observations; four functional methods failed. Diagnostic observations are not acceptance."
+  },
+  "resolved_findings": [
+    {
+      "severity": "HIGH",
+      "location": "main.py continuation selection and pending delivery",
+      "issue": "Natural prior-task continuations exposed false completion on pending or reset success/unknown task budgets and could create another successful-operation ticket.",
+      "status": "Reproduced then resolved for tested explicit prior-task continuation forms; success actions are not dispatched again and unknown remains unknown without resend."
+    },
+    {
+      "severity": "HIGH",
+      "location": "verified_task.py proposal_error",
+      "issue": "New file-only tool-name whitelist rejected an explicit unrelated read request while a file ticket was pending.",
+      "status": "Reproduced then resolved using existing read-effect classification; synthetic Issue read reaches ASK, executes only on its displayed session ticket, and leaves file pending."
+    }
+  ],
+  "remaining_open_a4": [
+    {
+      "severity": "HIGH",
+      "location": "task_delivery.py validate_decision chat branch",
+      "observation": "Generic first-turn chat can claim work done while action ledger and write effects are empty.",
+      "evidence": "review-before/boundary/test_current_open_a4_first_chat_claim_is_observed_not_approved/trace.json"
+    },
+    {
+      "severity": "HIGH",
+      "location": "task_delivery.py validate_decision report branch",
+      "observation": "A report with a valid read_ref can append a false claim that an Issue was edited, with zero Issue writes.",
+      "evidence": "review-before/boundary/test_current_open_a4_read_summary_claim_is_observed_not_approved/trace.json"
+    }
+  ],
+  "open_a4_interpretation": "User-visible factual delivery defects remain HIGH, not demonstrated authorization bypass or real mutation. Dynamic probes precede final repairs; final task_delivery.py hash is unchanged and neither final repair touches these generic branches. These observations do not count as passed functionality.",
+  "scope_verdict": "No unresolved blocker identified in the reviewed six functional boundaries after correction. This does not close all A4 issues or certify arbitrary natural-language intent.",
+  "verification": {
+    "syntax_ast": true,
+    "static_analyzers": "ruff, mypy, black, pylint absent in approved existing environment; no installation",
+    "all_trace_sources_match": true,
+    "model_http_calls": 0,
+    "final_trace_databases": [
+      {
+        "test": "test_baseline_closure_review.IndependentClosureTests.test_displayed_session_ticket_and_edit_revision_survive_replacement",
+        "trace_sha256": "4fc48c9e135a689daa6f603c7a98c101419148e6d930a2ca6894893b3ae17f23",
+        "immutable_reopen": {
+          "database": "D:\\TianyiRepair\\baseline-closure-20261014\\review-final\\boundary\\test_displayed_session_ticket_and_edit_revision_survive_replacement\\db\\anime-agent.sqlite3",
+          "mode": "ro&immutable=1",
+          "sha256": "1685688ef138771f73e75acc452a5608a03ce53a0b025fba1c67d8539c1bfcad",
+          "actions": 3,
+          "messages": 14,
+          "events": 30
+        },
+        "source_matches_final": true,
+        "model_http_calls": 0
+      },
+      {
+        "test": "test_baseline_closure_review.IndependentClosureTests.test_file_pending_allows_explicit_unrelated_read_request",
+        "trace_sha256": "d8544c126d869ac362802744f09ce5697d64abfaaf2f72cc39ce6f3fc0cd8079",
+        "immutable_reopen": {
+          "database": "D:\\TianyiRepair\\baseline-closure-20261014\\review-final\\boundary\\test_file_pending_allows_explicit_unrelated_read_request\\db\\anime-agent.sqlite3",
+          "mode": "ro&immutable=1",
+          "sha256": "6e20c83b2e8301dd15ed23df0aa648862797ad33344dab157add70857e69e590",
+          "actions": 2,
+          "messages": 6,
+          "events": 14
+        },
+        "source_matches_final": true,
+        "model_http_calls": 0
+      },
+      {
+        "test": "test_baseline_closure_review.IndependentClosureTests.test_pending_paraphrases_plain_provider_preserve_truth",
+        "trace_sha256": "0c4e17c2095be2492dc4672e8418e00da84d9fc12f9693102f930a5c4a08eb04",
+        "immutable_reopen": {
+          "database": "D:\\TianyiRepair\\baseline-closure-20261014\\review-final\\boundary\\test_pending_paraphrases_plain_provider_preserve_truth\\db\\anime-agent.sqlite3",
+          "mode": "ro&immutable=1",
+          "sha256": "51443b42f7405b8e271d73ed0ba4714357c45555158108436417da6edb16f07d",
+          "actions": 4,
+          "messages": 14,
+          "events": 31
+        },
+        "source_matches_final": true,
+        "model_http_calls": 0
+      },
+      {
+        "test": "test_baseline_closure_review.IndependentClosureTests.test_plain_conversation_with_pending_preserves_budget_and_text",
+        "trace_sha256": "2ce2f0eed6db71389e7519e3af6f605f9a283f919fb3f0c7bf2778495beab86f",
+        "immutable_reopen": {
+          "database": "D:\\TianyiRepair\\baseline-closure-20261014\\review-final\\boundary\\test_plain_conversation_with_pending_preserves_budget_and_text\\db\\anime-agent.sqlite3",
+          "mode": "ro&immutable=1",
+          "sha256": "d651dc3d2aa166664e57cc69443f55d7d400db61bdc0785ac9697e239754eb45",
+          "actions": 1,
+          "messages": 12,
+          "events": 20
+        },
+        "source_matches_final": true,
+        "model_http_calls": 0
+      },
+      {
+        "test": "test_baseline_closure_review.IndependentClosureTests.test_success_paraphrase_does_not_start_duplicate_task",
+        "trace_sha256": "5050d9f5920224416b90885b8257b3250e029853fb77fbb5fae61c02b11c3d4e",
+        "immutable_reopen": {
+          "database": "D:\\TianyiRepair\\baseline-closure-20261014\\review-final\\boundary\\test_success_paraphrase_does_not_start_duplicate_task\\db\\anime-agent.sqlite3",
+          "mode": "ro&immutable=1",
+          "sha256": "0ff5f5f9846fffa4f039660c5adae3fa25bf3d549d52357fc70b59c95fc88469",
+          "actions": 5,
+          "messages": 22,
+          "events": 62
+        },
+        "source_matches_final": true,
+        "model_http_calls": 0
+      },
+      {
+        "test": "test_baseline_closure_review.IndependentClosureTests.test_unknown_paraphrase_retains_budget_and_never_resends",
+        "trace_sha256": "7bc08604afa549c89390dfdf87ab95f1d36686e786d4c9aaa3fcd3afeda71363",
+        "immutable_reopen": {
+          "database": "D:\\TianyiRepair\\baseline-closure-20261014\\review-final\\boundary\\test_unknown_paraphrase_retains_budget_and_never_resends\\db\\anime-agent.sqlite3",
+          "mode": "ro&immutable=1",
+          "sha256": "9b23e59da470a3f3304a174bb39cfe238b2d2cbc77ff89987e0fb65406c6e3fe",
+          "actions": 4,
+          "messages": 20,
+          "events": 52
+        },
+        "source_matches_final": true,
+        "model_http_calls": 0
+      }
+    ]
+  },
+  "fixture_corrections": [
+    "Initial immutable reopen compared row order despite INSERT OR REPLACE. Changed to action_id mapping; initial review-first retained and not counted as product failure.",
+    "Removed two diagnostic bug-presence tests from permanent regression suite; diagnostic traces retained.",
+    "Final packaging removed only the extra EOF blank line in test_baseline_closure_review.py. Previous test SHA256 c05fdffd0c8fa027cf754781a9e191d408168462e3ee420ea3fe180739c8ae19 changed to 4422120272b2a8169131d5ffd70ad021093600138ad9fadc9c7e82e98181720c; business hashes and test behavior are unchanged, so no test rerun was needed or performed."
+  ]
+}

@@ -1547,6 +1547,12 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         delivery_actions = []
         verification_turn = False
         delivery_request = verified_task.requested(text)
+        # A complete continuation command with an explicit prior-task reference
+        # keeps the same task and budget. Explanations/quoted commands do not match.
+        continue_request = bool(re.fullmatch(
+            r"\s*(?:请|麻烦你?)?\s*(?:(?:继续|接着)(?:执行|处理|完成|做)?"
+            r"(?:\s*(?:刚才|刚刚|上面|之前|上一个|上个|当前|这个|那个)(?:的)?(?:任务|操作|事情|事))?"
+            r"(?:吧)?|go on|continue)[!。！\s]*", text, re.I))
         task = _task_state.get(session_id)
         status_reply, status_items = (render_task_status(status_query, book.records.values(), session_id)
                                       if status_query is not None else (None, []))
@@ -1591,6 +1597,11 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             # not consent. Keep the queue and exact tickets until an explicit
             # decision; newly proposed actions join it rather than overwrite it.
             confirm_note = "既有操作仍待确认，本条消息没有授予执行权限。保留所有待办；确认必须绑定展示的参数版本。"
+            if continue_request:
+                # Continuing a parked task is an operational turn, not proof
+                # of completion or fresh consent from a replacement provider.
+                delivery_actions.extend(item["action_id"] for item in pending)
+                verification_turn = True
             if delivery_request:
                 verified_task.activate(task, text)
                 verification_turn = True
@@ -1601,7 +1612,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             if task is None:
                 task = {"id":request_id,"intent":"尚无操作任务","blocked":False}
             direct_reply = "当前没有待确认操作，本次没有执行新操作。"
-        elif re.fullmatch(r"\s*(?:请)?(?:继续|继续吧|继续执行|接着做|go on|continue)[!。！\s]*", text, re.I):
+        elif continue_request:
             if task is None:
                 task = {"id":request_id,"intent":"尚无操作任务","blocked":False}
                 direct_reply = "当前没有可继续的操作任务。请说明要做的事情。"

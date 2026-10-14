@@ -1,5 +1,6 @@
 """Dispatch the existing write/confirm/read delivery hooks to narrow adapters."""
 from . import email_task, file_task, issue_task
+from .tool_contracts import tool_effect
 
 
 def requested(text):
@@ -31,6 +32,8 @@ def proposal_error(task, sid, name, args):
         return email_task.proposal_error(task, sid, name, args)
     if "issue_contract" in task:
         return issue_task.proposal_error(task, sid, name, args)
+    if task.get("file_delivery") and name != "write_file" and tool_effect(name, args) != "read":
+        return "当前文件任务不包含其他业务写入；该调用不能生成待办。只读调用仍须遵循原权限。"
     return file_task.literal_content_error(task.get("file_request_text", task["intent"]), name, args) if task.get("file_delivery") else ""
 
 

@@ -1,0 +1,348 @@
+{
+  "baseline_commit": "601b81e8a22c381eaa580759cff9ee14003aa443",
+  "model_http_calls": 0,
+  "real_business_calls": 0,
+  "isolation_root": "D:\\TianyiRepair\\baseline-closure-20261014",
+  "runs": {
+    "before": {
+      "path": "baseline-before.json",
+      "sha256": "fe386d57c174ce6f3c945d3097f02392092b1027f3dd3f6fbf241aff5fc7625e",
+      "tests": 9,
+      "passed": false,
+      "failure_records": 1,
+      "errors": 0
+    },
+    "after": {
+      "path": "baseline-after.json",
+      "sha256": "3143669c8549d3d9d01a9cd3beb12832da1a87b4ace93e1a5f8d203c6f4b4f3c",
+      "tests": 10,
+      "passed": false,
+      "failure_records": 1,
+      "errors": 0
+    },
+    "after-continuation": {
+      "path": "baseline-after-continuation.json",
+      "sha256": "b67b07694fe6ba49dbb945ff77867eef5ed0e64b89e8628fa40518fcda8a20d4",
+      "tests": 10,
+      "passed": true,
+      "failure_records": 0,
+      "errors": 0
+    },
+    "boundary-final": {
+      "path": "baseline-boundary-final.json",
+      "sha256": "ff14484b552a4d97c4bbf205c0da655271cb5cd727e80eaa472fd23ba0cf3b84",
+      "tests": 10,
+      "passed": true,
+      "failure_records": 0,
+      "errors": 0
+    },
+    "file-final": {
+      "path": "baseline-file-final.json",
+      "sha256": "0bf615186dbad7b38c921759e1a108fd794a914baf5fdbd9d36cd98c39e1917e",
+      "tests": 20,
+      "passed": true,
+      "failure_records": 0,
+      "errors": 0
+    },
+    "issue-final": {
+      "path": "baseline-issue-final.json",
+      "sha256": "6b37fb3b68413acc4c8568c6bee0f82011e8440519136cd25158d274b4b5ac4d",
+      "tests": 34,
+      "passed": true,
+      "failure_records": 0,
+      "errors": 0
+    },
+    "email-final": {
+      "path": "baseline-email-final.json",
+      "sha256": "f4cfb7437b1d4364dd645d77d474a5686fd3fed70791ff4d5873164d850db845",
+      "tests": 26,
+      "passed": true,
+      "failure_records": 0,
+      "errors": 0
+    },
+    "pending-final": {
+      "path": "baseline-pending-final.json",
+      "sha256": "09432bb3e78692cb3dbf19579ea49860add4903432a90024fa4ae37d16be5c15",
+      "tests": 13,
+      "passed": true,
+      "failure_records": 0,
+      "errors": 0
+    },
+    "harness-final": {
+      "path": "baseline-harness-final.json",
+      "sha256": "093812a86973aa722498bf11a0a70a2abd154ceaad349286d454d207322e91b9",
+      "tests": 55,
+      "passed": true,
+      "failure_records": 0,
+      "errors": 0
+    }
+  },
+  "traces": [
+    {
+      "run": "before",
+      "path": "before/boundary/test_cancel_edit_isolated_between_issue_and_email_sessions/trace.json",
+      "sha256": "d9eaefb25786c2870a9f6e0a0d7c6e337c23c60e0a2bbd726f85bd0b1bb62b15"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_cross_flow_duplicate_tool_must_not_create_unrelated_ticket/trace.json",
+      "sha256": "6f123f46b44ca174bdb3050721f1b4c65bfe03136c4ec49c7d1ed79b170a33e9"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_plain_chat_explanations_and_required_clarification_after_flow/trace.json",
+      "sha256": "82cb44f8d76d21765a252f6e3581b6b63ee024bf091f7ed95ae97cf50b528895"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_previous_success_and_foreign_references_do_not_complete_next_task/trace.json",
+      "sha256": "5a6e701f12ab8402acf3ed1573fc835312ea9576242d4e97c9f356543c3291e0"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_provider_replacement_pending_does_not_expand_authorization/trace.json",
+      "sha256": "595ab7cc3680b724f1b8ca746c1a52391368f36950f881bc36dde9d76235981c"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_provider_replacement_success_duplicate_calls_do_not_reexecute/trace.json",
+      "sha256": "ae470a77415598ec8be065afa2c06d1b0ba318f4ce2833d2982c80ecda16edff"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_provider_replacement_unknown_no_resend_or_budget_refill/trace.json",
+      "sha256": "a568abff4ad97ce0daa44c3de85d51aef41d04034decf7de9b3c460b6778b98c"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_three_flows_sequential_and_reopened/trace.json",
+      "sha256": "8cf522d1af15599e23a0a6ee507d9b388b21a4bc57e47749c94609defd2b2396"
+    },
+    {
+      "run": "before",
+      "path": "before/boundary/test_two_sessions_confirm_only_the_displayed_owned_ticket/trace.json",
+      "sha256": "f0df071a0962ae2d47c3b5fbdb4fa11e3d6c9b5d2d1c06fff1b6c6adf2139fdb"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_cancel_edit_isolated_between_issue_and_email_sessions/trace.json",
+      "sha256": "d99bb31f1c1f3b2f7cfd2072c3cbd8c6d7c7ec2d926fff959d6c1ae79ed693d9"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_cross_flow_duplicate_tool_must_not_create_unrelated_ticket/trace.json",
+      "sha256": "9d31227f5dddcfdf274e17ecbe53efebc15850a6cf43d61ad5a56160d8bc6532"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_plain_chat_explanations_and_required_clarification_after_flow/trace.json",
+      "sha256": "0af271c57a834b47c4fa6b7d687f4a695a4fc3b284fed5c7b27cf9bc2231c05f"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_previous_success_and_foreign_references_do_not_complete_next_task/trace.json",
+      "sha256": "a5b2d90c2e75543fdff6ac5653fee735f722a633336f8f9e4b8d029d0bd7e9b8"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_provider_replacement_pending_does_not_expand_authorization/trace.json",
+      "sha256": "1502b6cd662d276eb4fb0ff4ecc2b7a777e5aca01b091941b4e30fcfed1cc8dd"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_provider_replacement_success_duplicate_calls_do_not_reexecute/trace.json",
+      "sha256": "ed9002fb7488d8cada0ff3b60fcf62fec11b4801d9a996d2a0a532ea553cf151"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_provider_replacement_unknown_no_resend_or_budget_refill/trace.json",
+      "sha256": "505847495fddaf26cc255048a425fa05e48b432353b1495a3e2145e036f366f2"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_provider_without_tools_does_not_discard_pending_or_refill_budget/trace.json",
+      "sha256": "7eaa936927f84733513bba8b592b4a4653116df8b9be37e7066aed17365680d2"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_three_flows_sequential_and_reopened/trace.json",
+      "sha256": "33f419176deb794c8c0836c8170326b565f0f5175c4fb9d4349e08fdfe93a6a2"
+    },
+    {
+      "run": "after",
+      "path": "after/boundary/test_two_sessions_confirm_only_the_displayed_owned_ticket/trace.json",
+      "sha256": "4d7c1fbefc9612273937547dd2d574a5ec701c5feddf0f8a935f8361f97d416a"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_cancel_edit_isolated_between_issue_and_email_sessions/trace.json",
+      "sha256": "198102a88992cd3c21bd15f2a9e3cea48df5c2ccea39fa1539621cb65663b761"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_cross_flow_duplicate_tool_must_not_create_unrelated_ticket/trace.json",
+      "sha256": "95fa66083775798959e724bf956920d5ddbc49175a58ca181fc66762b57f7f2c"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_plain_chat_explanations_and_required_clarification_after_flow/trace.json",
+      "sha256": "72f41ae9d1ffb04ba1578e3552dddd68eeb72358900eb5cf725497de9d4fd477"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_previous_success_and_foreign_references_do_not_complete_next_task/trace.json",
+      "sha256": "44f53b6752fd23ab7717cea86abda6f37c9a23ab4de06ff47cb2595330fda742"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_provider_replacement_pending_does_not_expand_authorization/trace.json",
+      "sha256": "eec84d91a4b87ea4ac77fb70bc4eede491bfb011e3e2123dde9bef65a8419043"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_provider_replacement_success_duplicate_calls_do_not_reexecute/trace.json",
+      "sha256": "5bafbde22051e5798781065853f456f13a89fc423521eb7534ee825ccbf31880"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_provider_replacement_unknown_no_resend_or_budget_refill/trace.json",
+      "sha256": "63bd8fd70956e92079df890626361fbdacff09ad52dc8cc67b4f5ebe00955841"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_provider_without_tools_does_not_discard_pending_or_refill_budget/trace.json",
+      "sha256": "66d0aa321735453450253430f01bb1b896b6efd04126b326ba4c90c1f7880387"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_three_flows_sequential_and_reopened/trace.json",
+      "sha256": "2f15105d1a149a203c944f92eaffe3e85818d801ae5e382cfb31064f95b1be44"
+    },
+    {
+      "run": "boundary-final",
+      "path": "boundary-final/boundary/test_two_sessions_confirm_only_the_displayed_owned_ticket/trace.json",
+      "sha256": "e89f6dbce7c235914a3795bc9508f4a661c3aa50da68c70f4df37b6b2cfb0a9c"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_current_open_a4_first_chat_claim_is_observed_not_approved/trace.json",
+      "sha256": "48afb43f1ad52708ea0dcf3182ebd1fa79ec72e7af88afb72130525438e46a30"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_current_open_a4_read_summary_claim_is_observed_not_approved/trace.json",
+      "sha256": "04dda925d890b34a11ea56ae16f5fd7c606f7649fb983744fe540fd9872877eb"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_displayed_session_ticket_and_edit_revision_survive_replacement/trace.json",
+      "sha256": "1a4b2835a5d7828ec05e8f855923ee4064636c660bd846391abf4c81537954e1"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_file_pending_allows_explicit_unrelated_read_request/trace.json",
+      "sha256": "da168d1b9a64d7545a353e9bbf875ad608241b0b73f6332c8a59b09fa5395b3a"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_pending_paraphrases_plain_provider_preserve_truth/trace.json",
+      "sha256": "f525753c806265083cdc26e63d4ab42b49ca5af4c7fd2b05bd3499d987edc525"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_plain_conversation_with_pending_preserves_budget_and_text/trace.json",
+      "sha256": "bb9870ea2843824d56565d44ae94b6941c4ea7272eebecced6962ab02db15e2b"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_success_paraphrase_does_not_start_duplicate_task/trace.json",
+      "sha256": "dbaedece8c5ae803bbac4f658e1ce16ca8e4a9660c1a932f77a903653c4f1e14"
+    },
+    {
+      "run": "review-before",
+      "path": "review-before/boundary/test_unknown_paraphrase_retains_budget_and_never_resends/trace.json",
+      "sha256": "95a77498419fddf0abfa3d58f52814402916c69d789ab92a4f4543ecd006375d"
+    },
+    {
+      "run": "review-final",
+      "path": "review-final/boundary/test_displayed_session_ticket_and_edit_revision_survive_replacement/trace.json",
+      "sha256": "4fc48c9e135a689daa6f603c7a98c101419148e6d930a2ca6894893b3ae17f23"
+    },
+    {
+      "run": "review-final",
+      "path": "review-final/boundary/test_file_pending_allows_explicit_unrelated_read_request/trace.json",
+      "sha256": "d8544c126d869ac362802744f09ce5697d64abfaaf2f72cc39ce6f3fc0cd8079"
+    },
+    {
+      "run": "review-final",
+      "path": "review-final/boundary/test_pending_paraphrases_plain_provider_preserve_truth/trace.json",
+      "sha256": "0c4e17c2095be2492dc4672e8418e00da84d9fc12f9693102f930a5c4a08eb04"
+    },
+    {
+      "run": "review-final",
+      "path": "review-final/boundary/test_plain_conversation_with_pending_preserves_budget_and_text/trace.json",
+      "sha256": "2ce2f0eed6db71389e7519e3af6f605f9a283f919fb3f0c7bf2778495beab86f"
+    },
+    {
+      "run": "review-final",
+      "path": "review-final/boundary/test_success_paraphrase_does_not_start_duplicate_task/trace.json",
+      "sha256": "5050d9f5920224416b90885b8257b3250e029853fb77fbb5fae61c02b11c3d4e"
+    },
+    {
+      "run": "review-final",
+      "path": "review-final/boundary/test_unknown_paraphrase_retains_budget_and_never_resends/trace.json",
+      "sha256": "7bc08604afa549c89390dfdf87ab95f1d36686e786d4c9aaa3fcd3afeda71363"
+    }
+  ],
+  "interim_excluded": {
+    "file-regression.json": "Started before main.py changed; source hashes sampled at end. Replaced by file-final proof."
+  },
+  "trace_bundle": {
+    "path": "baseline-traces.json",
+    "sha256": "08eb7adb8d57f9014b7e5823b3fad43d929a1baaaf76703fd354de615f29c184"
+  },
+  "reused_baseline": {
+    "path": "email-core-final.json",
+    "tests": 511,
+    "passed": true,
+    "changed_business_files": [
+      "main.py",
+      "verified_task.py"
+    ],
+    "unchanged_regressions_reused": 363,
+    "affected_existing_rerun": 148,
+    "new_functional_cases": 16,
+    "current_discovery_expected": 527,
+    "full_527_rerun": false
+  },
+  "final_source_sha256": {
+    "actions.py": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "email_task.py": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "4165ad519e9ecdc56041782567cf0fbeaf306682bc64de557f48d91f4c16932e",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "verified_task.py": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "before_matches_baseline_business": true
+}
