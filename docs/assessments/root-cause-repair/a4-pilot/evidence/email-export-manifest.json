@@ -1,0 +1,119 @@
+{
+  "scope": "Synthetic JSON only; path aliases and Git LF serialization only; original failures retained",
+  "files": [
+    {
+      "source": "baseline-0.json",
+      "sha256": "6b61a2d75acd8bdd26387f1be633005ce2abe3926c99aa8c9938bb597271f562",
+      "published": "email-baseline-file.json",
+      "published_sha256": "66506dec7e1be2e81b5d7d07a9885bd53046b28e0753d238cd0dae2460bf4391"
+    },
+    {
+      "source": "baseline-1.json",
+      "sha256": "008368304728d7e0653eb49ef2c817e73829716003ea24b08c4d9ef7a6c40f9f",
+      "published": "email-baseline-issue.json",
+      "published_sha256": "7a54383b8df8b44b09420e83b78d21bd4575ed42fed2f42a7d9e4f0ab697a969"
+    },
+    {
+      "source": "before.json",
+      "sha256": "43079763f4208cd0bc635b11de1480981256285dcd3ac2f523ea9b9012c68fc1",
+      "published": "email-before-fixture-shortfall.json",
+      "published_sha256": "ac4e0cd8a8d73193188272882d369a76a6bec134de74c2f7b70378c56b376ee9"
+    },
+    {
+      "source": "before-corrected-fixture.json",
+      "sha256": "99f35b0adc6ef14bf564f02bcc0627f3bc3a142a2b36dbaa4d657326b56a3de4",
+      "published": "email-before.json",
+      "published_sha256": "2138f3ef40ccd4a4809a076bddc2ad6413a64bfc44efa7fb3286909f6130b583"
+    },
+    {
+      "source": "after-v1.json",
+      "sha256": "a27fadb605c910321b88deb38cdb1c7aff5eaf21c7a48f5d2cbabd90c50fb72d",
+      "published": "email-after-v1.json",
+      "published_sha256": "701c304547fe250b3a7186d599d993194f0051d8d51003162bc9ea0d34ec2df4"
+    },
+    {
+      "source": "after-v3.json",
+      "sha256": "8a1373651e1b870daad51ca5dc371bdcfd0ca24580ec1dedbf3ac02c4f07d06a",
+      "published": "email-after-v3.json",
+      "published_sha256": "1c0f643ebce2385512abdcd51dfcc7dd9d606a41826ab9c3b8b26c190c90fde4"
+    },
+    {
+      "source": "offline-2/email-model.json",
+      "sha256": "58b6ebf1e338095bcdf729c289c70e335bd7b83476cd28501a2e461183431a89",
+      "published": "email-offline-initial.json",
+      "published_sha256": "271e5f0d3fee0460c80db9442aa4d9acb7ff7bfaacb012fed783d1fe985cf52b"
+    },
+    {
+      "source": "final-core.json",
+      "sha256": "82b55e73f96d5adf288a1e490f85b18050e5885cb4880bd00b54b96e57471baa",
+      "published": "email-core-before-feedback.json",
+      "published_sha256": "5445ff2b1a2c95ebe735dddfd4f474e0ae21c1206d5111f9c64e791a4e7be1af"
+    },
+    {
+      "source": "http-ledger.json",
+      "sha256": "6bce819690f1fe69a276af60e7f3042ed1149a37832cf762498e5a7972b7c000",
+      "published": "email-http-ledger.json",
+      "published_sha256": "9cb3ee79039c2132c77a2f3377299159071612df166f38ea5d689048d064816b"
+    },
+    {
+      "source": "feedback-regression.json",
+      "sha256": "5890bf8018d65cb051df9b57c87f9fc1da34c44c602ce5f05e7d626e09137823",
+      "published": "email-feedback-regression.json",
+      "published_sha256": "2dadb89bc5eacdb1201071d04cf8570fcd0c96e57682f08edbfc7d66bae18fdb"
+    },
+    {
+      "source": "offline-final/email-model.json",
+      "sha256": "7ddc4c7800bc1ccd85d0fe6eff3f5908722b33815200a92003d94ba59b5ed2fc",
+      "published": "email-offline-before-feedback.json",
+      "published_sha256": "2e0322531344c713ea79860800327b0ca6e52207323bdf6a009b7eb47662fcf9"
+    },
+    {
+      "source": "offline-final-2/email-model.json",
+      "sha256": "4cbec5d5f70e9c88d3bd7cfe758365d0bf2da7eb31b9728f217ff4a1377a833a",
+      "published": "email-offline-before-feedback-variant2.json",
+      "published_sha256": "48ffbc798e9ee6f0a7827011ed9507591489637d2249d7d4385b7ca3d52fa92d"
+    },
+    {
+      "source": "offline-release/email-model.json",
+      "sha256": "f3ab67b9b19158e61b21c872cf40484c305a0cfdf0cb1a8f1cc479c0fff61385",
+      "published": "email-offline-final.json",
+      "published_sha256": "a755aec66e98358dc105cc0da95e7d637f7162cbdac995926a3a5fdbe1d31a35"
+    },
+    {
+      "source": "offline-release-2/email-model.json",
+      "sha256": "9db1f3771d823c8f5a2bb41b72bc6a902eb9e0af22b2e6d946a75b31e5d4e3f8",
+      "published": "email-offline-variant2.json",
+      "published_sha256": "bb43789323a56e6042c71f1d8a348ba95520c8c15c1b0919efb6a2d9d1dd8cb7"
+    },
+    {
+      "source": "live-ds-1/email-model.json",
+      "sha256": "8773713945160b0bbcb22a0abc4a6208f3ef0ad6ab4d9361c7cd81d6adb5d941",
+      "published": "email-live-ds-1.json",
+      "published_sha256": "833274c607d7992d2dba73717e16506c0376f48e9388e56e30d5657a3d2a8adb"
+    },
+    {
+      "source": "live-ds-1-feedback/email-model.json",
+      "sha256": "7b0d2664b2d071618ff235d35e6704b38b8a54bc2aaef019dddb9058d6bc8260",
+      "published": "email-live-ds-1-feedback.json",
+      "published_sha256": "183076fe9b4a3c41c1b6e6e5911703117e5a8dbc0468e00fbd20d5393200421b"
+    },
+    {
+      "source": "live-glm-1/email-model.json",
+      "sha256": "79a5067607cd4c28b686b28eb3c520437534457329944342a2f633eeddbe4073",
+      "published": "email-live-glm-1.json",
+      "published_sha256": "75da021e5ea3c57da66226d1b59205f4d0761464400fe4166d18391d9692a700"
+    },
+    {
+      "source": "live-ds-2/email-model.json",
+      "sha256": "07c6a70a9107ae91b370b62ea8cdb3f5040b7920c7be7fe3e5907a8a3c822ee8",
+      "published": "email-live-ds-2.json",
+      "published_sha256": "f914c37a485866a5a4e5ae89ad5d12e7185fd573b2b4dbe35aa75764da91214d"
+    },
+    {
+      "source": "live-glm-2/email-model.json",
+      "sha256": "6ab80ce94e082f8b78121fc5c378f5c83f54ce3eea1b832b693d99dbde8987a2",
+      "published": "email-live-glm-2.json",
+      "published_sha256": "19c8f5664c1632c0f7f670d5b1b8e8c329eb5232635a58a190e108137e8c8db2"
+    }
+  ]
+}

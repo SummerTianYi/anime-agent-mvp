@@ -19,11 +19,24 @@ def canonical(value):
 
 def args_hash(tool, arguments):
     normalized = copy.deepcopy(arguments)
+    if tool == "mcp__gmail__send_email" and normalized.get("mimeType") == "text/plain":
+        # The deployed connector defaults to plain text. Omission and the
+        # explicit default must reuse even pre-existing hashes and UNKNOWNs.
+        normalized.pop("mimeType")
     if tool == "write_file":
         normalized["mode"] = str(normalized.get("mode") or "overwrite").strip().lower()
         if isinstance(normalized.get("path"), str):
             normalized["path"] = os.path.normcase(os.path.abspath(normalized["path"]))
     return hashlib.sha256(canonical([tool, normalized]).encode()).hexdigest()
+
+
+def hash_matches(tool, arguments, fingerprint):
+    if args_hash(tool, arguments) == fingerprint:
+        return True
+    # Existing persisted tickets/UNKNOWNs used the explicit default verbatim.
+    # Accept that exact legacy hash without rewriting user records.
+    return (tool == "mcp__gmail__send_email" and arguments.get("mimeType") == "text/plain"
+            and hashlib.sha256(canonical([tool, arguments]).encode()).hexdigest() == fingerprint)
 
 
 def decision(text):
@@ -100,7 +113,10 @@ class ActionLedger:
         fingerprint = args_hash(tool, arguments)
         # UNKNOWN is session-wide across task changes: a casual rephrase cannot resend.
         for item in self.records.values():
-            if item["session_id"] == session and item["args_hash"] == fingerprint:
+            equivalent_mail = (tool == item["tool"] == "mcp__gmail__send_email"
+                               and hash_matches(tool, item["arguments"], item["args_hash"])
+                               and args_hash(tool, item["arguments"]) == fingerprint)
+            if item["session_id"] == session and (item["args_hash"] == fingerprint or equivalent_mail):
                 if read_after is not None and item.get("read_after") != read_after:
                     continue
                 if item["status"] in {"unknown", "executing"} or item["task_id"] == task:
@@ -130,7 +146,7 @@ class ActionLedger:
         item = self.records.get(str(ticket.get("action_id", "")))
         if (not item or item["session_id"] != session or self.ticket(item) != ticket
                 or item["status"] != "awaiting_confirmation" or time.time() > item["expires"]
-                or args_hash(item["tool"], item["arguments"]) != item["args_hash"]):
+                or not hash_matches(item["tool"], item["arguments"], item["args_hash"])):
             return {"ok":False,"outcome":"rejected","error":"确认已失效或参数版本不一致；未执行"}
         if not permitted(item["tool"], item["arguments"]):
             item["status"] = "failed"

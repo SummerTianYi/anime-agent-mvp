@@ -58,6 +58,15 @@ def tool_effect(tool: str, arguments: dict) -> str:
     return "write" if tool in {"write_file", "run_command"} else "unknown"
 
 
+def gmail_send_id(raw: dict):
+    """Native 1.1.11 success envelope, never an ID found in model/user text."""
+    content = raw.get("content", [])
+    if raw.get("isError") is True or "structuredContent" in raw or len(content) != 1 or content[0].get("type") != "text":
+        return None
+    match = re.fullmatch(r"Email sent successfully with ID: ([A-Za-z0-9_-]+)", content[0].get("text", ""))
+    return match[1] if match and match[1].lower() not in {"undefined", "null", "none"} else None
+
+
 def normalize_mcp_result(server: str, tool: str, raw: dict, text: str) -> dict:
     failed = raw.get("isError") is True
     outcome = "failed" if failed else "succeeded"
@@ -81,6 +90,10 @@ def normalize_mcp_result(server: str, tool: str, raw: dict, text: str) -> dict:
             # even a zero success count cannot disprove earlier side effects.
             outcome = "unknown"
             kind = "partial" if int(batch[1]) else "unconfirmed_error"
+    if not failed and server == "gmail" and tool == "send_email" and not gmail_send_id(raw):
+        # Dispatch may have succeeded. An absent/unrecognized ID is not a
+        # negative acknowledgment and must retain the no-retry UNKNOWN guard.
+        failed, outcome, kind = True, "unknown", "unconfirmed_receipt"
     empty = not failed and server == "gmail" and tool == "search_emails" and not text.strip()
     return {"ok": not failed, "outcome": outcome,
             "result_kind": "empty" if empty else kind,

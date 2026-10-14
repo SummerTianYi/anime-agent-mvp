@@ -1,0 +1,343 @@
+{
+  "protocol": "email-send-confirm-receipt-v1",
+  "offline": true,
+  "variant": 1,
+  "source_sha256": {
+    "actions.py": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "email_task.py": "53d6c4e52559dbde516e130d7477944d4779364019885d33856966940bf5e0e8",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "verified_task.py": "d0b14b79bd31484a4d1064d24bbae3dd15beb49c547aa372344f781037120943",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "runner_sha256": {
+    "file_models.py": "f3c2c84a595677cf5f64a6c5cb7ae9d061569c36dee78fea46eac4b44dd5ba7b",
+    "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "email_model_case.py": "2c5ba315601bd3bc253471cc8b5155426c76256df26891b007d5989ecc4316e9",
+    "email_fixture.py": "53278fcc57abd6497d01e2071d0bdcb3b56609c6fbf6b3de29af174730bd82d1",
+    "mcp-schema.json": "99ec1412148750eb92a5a06a1143c5f606c36c3393899cdec73fa4b95f2c8b83"
+  },
+  "tool_schema_sha256": "c0b532e1384189270a919dcef48f6d4581e51683ea1000ff10f5c8aae0365db4",
+  "provider": "deepseek",
+  "budget": {
+    "max_steps": 6,
+    "max_calls": 12,
+    "corrections": 1,
+    "timeout_seconds": 45
+  },
+  "initial_state_sha256": "7b03b08ccaba574a1fe3e4d24c7f31419df4648c349dc83d9326718dad368113",
+  "transport_cap": 40,
+  "calls": [],
+  "turns": [
+    {
+      "input": "请向 qingzhu@example.invalid 发送一封纯文本邮件，仅此一个收件人。主题为「青竹合成回执 175」。请发送后交付准确的发送回执。正文如下（两行，末尾无换行）：\n第一行：Error 是正常正文\n第二行：蓝桥 42kg",
+      "request_id": "email-1-request",
+      "answer": "邮件待确认，尚未发送。\n我核对了实际执行记录：\n['qingzhu@example.invalid']：待确认，尚未执行\n下一项待确认参数：{\"to\": [\"qingzhu@example.invalid\"], \"subject\": \"青竹合成回执 175\", \"body\": \"第一行：Error 是正常正文\\n第二行：蓝桥 42kg\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+      "pending": [
+        {
+          "action_id": "94b81ff7dee043d09fd386d7932ac191",
+          "task_id": "email-1-request",
+          "session_id": 2,
+          "revision": 1,
+          "tool": "mcp__gmail__send_email",
+          "arguments": {
+            "to": [
+              "qingzhu@example.invalid"
+            ],
+            "subject": "青竹合成回执 175",
+            "body": "第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+          },
+          "args_hash": "aa0cf67858b9bb2584ecac7630d16917616c8a144ec1a3df74e9afcc930d69a2",
+          "request_id": "email-1-request",
+          "expires": 1791955685.553473,
+          "status": "awaiting_confirmation",
+          "receipt": null
+        }
+      ]
+    },
+    {
+      "input": "确认",
+      "request_id": "email-1-confirm",
+      "answer": "发送请求已受理。此回执不证明送达或已读。\n收件人：qingzhu@example.invalid\n主题：青竹合成回执 175\n消息 ID：19abc00000000001\n完整正文：\n第一行：Error 是正常正文\n第二行：蓝桥 42kg",
+      "pending": []
+    },
+    {
+      "input": "确认",
+      "request_id": "email-1-duplicate",
+      "answer": "当前没有待确认操作，本次没有执行新操作。",
+      "pending": []
+    },
+    {
+      "input": "刚才那个任务现在怎么样？",
+      "request_id": "email-1-status",
+      "answer": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 email-1-request（1项）：执行成功 1项\n- [\"qingzhu@example.invalid\"] [mcp__gmail__send_email，参数版本1]：连接器已接受发送（不代表收件人已收到）",
+      "pending": []
+    }
+  ],
+  "effects": [
+    {
+      "tool": "send_email",
+      "arguments": {
+        "to": [
+          "qingzhu@example.invalid"
+        ],
+        "subject": "青竹合成回执 175",
+        "body": "第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+      },
+      "returned": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Email sent successfully with ID: 19abc00000000001"
+          }
+        ]
+      }
+    }
+  ],
+  "checks": {
+    "no_preconfirm_effect": true,
+    "real_proposal": true,
+    "accepted_once": true,
+    "exact_parameters": true,
+    "receipt_bound": true,
+    "complete_delivery": true,
+    "no_duplicate_send": true,
+    "truthful_progress": true,
+    "history_reopened": true,
+    "ledger_reopened": true,
+    "mailbox_reopened": true,
+    "source_unchanged": true
+  },
+  "transport": [],
+  "ledger_path": "<isolated-email>\\offline-final-ledger.json",
+  "model": "controlled-provider",
+  "input_normalized_sha256": "f5681c001537af275b85e961bf41c74b14577094d2cd0ff670e32c2892f263f5",
+  "expected": {
+    "to": [
+      "qingzhu@example.invalid"
+    ],
+    "subject": "青竹合成回执 175",
+    "body": "第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+  },
+  "reserved_http_slots": 18,
+  "session_id": 2,
+  "actions": [
+    {
+      "action_id": "94b81ff7dee043d09fd386d7932ac191",
+      "task_id": "email-1-request",
+      "session_id": 2,
+      "revision": 1,
+      "tool": "mcp__gmail__send_email",
+      "arguments": {
+        "to": [
+          "qingzhu@example.invalid"
+        ],
+        "subject": "青竹合成回执 175",
+        "body": "第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+      },
+      "args_hash": "aa0cf67858b9bb2584ecac7630d16917616c8a144ec1a3df74e9afcc930d69a2",
+      "request_id": "email-1-request",
+      "expires": 1791955685.553473,
+      "status": "succeeded",
+      "receipt": {
+        "ok": true,
+        "outcome": "succeeded",
+        "result_kind": "success",
+        "raw_result": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Email sent successfully with ID: 19abc00000000001"
+            }
+          ]
+        },
+        "output": "Email sent successfully with ID: 19abc00000000001"
+      },
+      "confirmation_request_id": "email-1-confirm",
+      "execution_id": "06a79a99b3634ea692ba6c73056adceb"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "email-1-request",
+      "intent": "请向 qingzhu@example.invalid 发送一封纯文本邮件，仅此一个收件人。主题为「青竹合成回执 175」。请发送后交付准确的发送回执。正文如下（两行，末尾无换行）：\n第一行：Error 是正常正文\n第二行：蓝桥 42kg",
+      "blocked": false,
+      "email_contract": {
+        "to": [
+          "qingzhu@example.invalid"
+        ],
+        "subject": "青竹合成回执 175",
+        "body": "第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+      },
+      "delivery_actions": [
+        "94b81ff7dee043d09fd386d7932ac191"
+      ],
+      "budget": {
+        "label": "帮帮忙",
+        "investment": "中",
+        "max_steps": 6,
+        "max_calls": 12
+      },
+      "calls_used": 1,
+      "rounds_used": 2,
+      "needs_proposal": false,
+      "observed_actions": [
+        "94b81ff7dee043d09fd386d7932ac191"
+      ]
+    }
+  ],
+  "mailbox": [
+    {
+      "id": "19abc00000000001",
+      "arguments": {
+        "to": [
+          "qingzhu@example.invalid"
+        ],
+        "subject": "青竹合成回执 175",
+        "body": "第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+      },
+      "recipients": [
+        "qingzhu@example.invalid"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": "请向 qingzhu@example.invalid 发送一封纯文本邮件，仅此一个收件人。主题为「青竹合成回执 175」。请发送后交付准确的发送回执。正文如下（两行，末尾无换行）：\n第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+    },
+    {
+      "role": "assistant",
+      "content": "邮件待确认，尚未发送。\n我核对了实际执行记录：\n['qingzhu@example.invalid']：待确认，尚未执行\n下一项待确认参数：{\"to\": [\"qingzhu@example.invalid\"], \"subject\": \"青竹合成回执 175\", \"body\": \"第一行：Error 是正常正文\\n第二行：蓝桥 42kg\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。"
+    },
+    {
+      "role": "user",
+      "content": "确认"
+    },
+    {
+      "role": "assistant",
+      "content": "发送请求已受理。此回执不证明送达或已读。\n收件人：qingzhu@example.invalid\n主题：青竹合成回执 175\n消息 ID：19abc00000000001\n完整正文：\n第一行：Error 是正常正文\n第二行：蓝桥 42kg"
+    },
+    {
+      "role": "user",
+      "content": "确认"
+    },
+    {
+      "role": "assistant",
+      "content": "当前没有待确认操作，本次没有执行新操作。"
+    },
+    {
+      "role": "user",
+      "content": "刚才那个任务现在怎么样？"
+    },
+    {
+      "role": "assistant",
+      "content": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 email-1-request（1项）：执行成功 1项\n- [\"qingzhu@example.invalid\"] [mcp__gmail__send_email，参数版本1]：连接器已接受发送（不代表收件人已收到）"
+    }
+  ],
+  "events": [
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "email-1-request",
+        "request_id": "email-1-request",
+        "source": "receipt_recovery",
+        "actions": [
+          {
+            "action_id": "94b81ff7dee043d09fd386d7932ac191",
+            "revision": 1,
+            "args_hash": "aa0cf67858b9bb2584ecac7630d16917616c8a144ec1a3df74e9afcc930d69a2"
+          }
+        ]
+      }
+    },
+    {
+      "type": "task.decision",
+      "payload": {
+        "task_id": "email-1-request",
+        "request_id": "email-1-confirm",
+        "mode": "report",
+        "accepted": true,
+        "error": ""
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "email-1-request",
+        "request_id": "email-1-confirm",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "94b81ff7dee043d09fd386d7932ac191",
+            "revision": 1,
+            "args_hash": "aa0cf67858b9bb2584ecac7630d16917616c8a144ec1a3df74e9afcc930d69a2"
+          }
+        ]
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "email-1-request",
+        "request_id": "email-1-duplicate",
+        "source": "reply",
+        "actions": [
+          {
+            "action_id": "94b81ff7dee043d09fd386d7932ac191",
+            "revision": 1,
+            "args_hash": "aa0cf67858b9bb2584ecac7630d16917616c8a144ec1a3df74e9afcc930d69a2"
+          }
+        ]
+      }
+    },
+    {
+      "type": "chat.delivery",
+      "payload": {
+        "session_id": 2,
+        "task_id": "email-1-request",
+        "task_ids": [
+          "email-1-request"
+        ],
+        "request_id": "email-1-status",
+        "source": "task_status",
+        "actions": [
+          {
+            "action_id": "94b81ff7dee043d09fd386d7932ac191",
+            "revision": 1,
+            "args_hash": "aa0cf67858b9bb2584ecac7630d16917616c8a144ec1a3df74e9afcc930d69a2"
+          }
+        ]
+      }
+    }
+  ],
+  "http_attempts": 0,
+  "shared_http_attempts": 0,
+  "cumulative_http_attempts": 0,
+  "passed": true,
+  "failure_category": null
+}

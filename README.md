@@ -1,5 +1,7 @@
 # Anime Agent MVP
 
+Codex 2026-10-14：[单收件人纯文本邮件](docs/assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)完成窄范围实现与后台合成 Gmail 验收。复用既有任务/授权/账本/回执，新增邮件目标及逐字参数约束、原生消息 ID 核验和默认 MIME 去重兼容。最终同源 DS、GLM 各两例均通过；首次 DS 正文改写失败保留，修正反馈后重新验证，阶段共15/40次HTTP。只证明发送请求被合成服务受理一次，不证明真实发信、送达、已读或A4整体关闭；未部署，停在Manager验收。
+
 Codex 2026-10-14：[DS第二Issue样例补验](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)通过，冻结业务/运行器/schema/判据，一次全新合成任务完成真提案、仅标题更新一次、新读取核验和准确交付。新增6次HTTP（22–27），原40次账本累计27/40；原批次3/4和连接失败保留，本次1/1单列，Issue合成流程具备本范围收尾条件，不代表连接稳定或真实GitHub认证。未部署，停在Manager验收。
 
 Codex 2026-10-14：[Issue仅改标题并重读核验](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md)完成窄范围实现，复用文件授权/执行/交付链，新增目标与字段约束、读取代次和前后核验。后台合成MCP实测3/4：DS/GLM首轮及GLM扩样通过，DS扩样在更新提案前连接超时，零写入且不冒充完成；21/40次HTTP，未重跑失败。文件相关回归保持，A4其他开放项不关闭，未部署，停在Manager验收。
@@ -63,7 +65,7 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 本地记忆 | 基础存储/更正/跨会话可用；完整闭环待补 | SQLite消息与facts；当前评测发现top3召回遗漏、敏感项显式记住策略及遗忘执行入口缺口，见[2026-10-04评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md) |
 | 语音转文字 | V1 candidate：手动录音与本地简体回填 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
 | TTS 语音输出 | 本轮恢复修复已本地激活 | GPT-SoVITS 真实声线、分片合成、打断及解说；瞬态故障有限等待恢复，旧回复被打断后不迟到播放，超时明确报错并保留文字 |
-| Agent 能力层 | 文件与Issue窄流程补验通过，A4仍开放 | 原授权/账本/回执和跨轮状态保留；原[文件任务](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK.md)5/6与[补验](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK_SUPPLEMENT.md)1/1不变。原[Issue批次](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md)3/4不改，[DS第二例补验](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)1/1通过，累计27/40次HTTP。仅合成MCP流程待Manager收尾，不代表连接稳定或真实GitHub集成认证。 |
+| Agent 能力层 | 文件、Issue与邮件窄流程通过，A4仍开放 | 原[文件任务](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK.md)5/6与[补验](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK_SUPPLEMENT.md)1/1、原[Issue批次](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md)3/4与[补验](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)1/1保持历史。[邮件最终同源四例](docs/assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)4/4，首次正文改写失败保留，邮件阶段15/40次HTTP。仅后台合成MCP流程待Manager验收，不代表真实GitHub或Gmail集成、送达或连接稳定性。 |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
 | Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |
 | Idle 触发 | V1 candidate：连续600秒、同段一次 | 键鼠空闲本地检测 + 台词模板库，待机零 GLM 调用；键鼠控制按蓝图缓行需先设考试；Spark 暂缓 |

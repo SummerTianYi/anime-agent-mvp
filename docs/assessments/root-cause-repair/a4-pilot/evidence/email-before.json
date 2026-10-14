@@ -1,0 +1,102 @@
+{
+  "scope": "isolated actual source; no desktop, models or active services",
+  "source_sha256": {
+    "actions.py": "cfb3a312dd49cca8babb945667ce25fbc95bc12c262ba4b3e493b291644044ff",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "verified_task.py": "43e46c1972a1070b8dfc5b70e33db22bec06f73f0a91a4056b07042c1d216703",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "tests": 10,
+  "passed": false,
+  "failures": [
+    {
+      "test": "test_email_task.EmailTaskTests.test_accept_once_exact_delivery_error_body_reopen",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 55, in test_accept_once_exact_delivery_error_body_reopen\n    self.assertIn(literal, answer)\nAssertionError: '合成回执 175' not found in \"我核对了实际执行记录：\\n['qingzhu@example.invalid']：连接器已接受发送（不代表收件人已收到）；Email sent successfully with ID: 19abc00000000001\"\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'to': ['other@example.invalid']})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '35f1b535bdf24a0eb21566905d5c2406', 'task_id': \"bad-{'to': ['other@example.invalid']}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['other@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg'}, 'args_hash': '0d1dac1c1b2dc2ad5f14b754af83c060b46693a4aa632d3dfd375e5858eac840', 'request_id': \"bad-{'to': ['other@example.invalid']}\", 'expires': 1791954201.468146, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'to': ['qingzhu@example.invalid', 'extra@example.invalid']})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '0a9f9c8492f44f9eb0b3a89d40238fdb', 'task_id': \"bad-{'to': ['qingzhu@example.invalid', 'extra@example.invalid']}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid', 'extra@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg'}, 'args_hash': '33476574aa44b6825b84696e558ea02d2e4878db649037b8ee02441d0316382b', 'request_id': \"bad-{'to': ['qingzhu@example.invalid', 'extra@example.invalid']}\", 'expires': 1791954202.6891506, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'cc': ['hidden@example.invalid']})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': 'b93d8843bbbc42619687218ab18134cf', 'task_id': \"bad-{'cc': ['hidden@example.invalid']}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'cc': ['hidden@example.invalid']}, 'args_hash': '973d2d7e47065bd959e7df813b13750f374544cbf94c6f45486dede26b6e5679', 'request_id': \"bad-{'cc': ['hidden@example.invalid']}\", 'expires': 1791954203.907523, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'bcc': []})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '32ecf5e887f8419ab93ffcb9fd7ce589', 'task_id': \"bad-{'bcc': []}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'bcc': []}, 'args_hash': '59bd74637dcec0e7263ec4b3695df0a20a622bee71c6c92133011bcdfbc31cec', 'request_id': \"bad-{'bcc': []}\", 'expires': 1791954205.134805, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'attachments': []})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '8d87cc0627eb48f0bf257a2733d749bc', 'task_id': \"bad-{'attachments': []}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'attachments': []}, 'args_hash': '20a62b38eb52324fa76bb6ac7d2154f754e8db5f22ec98008abcf2552a1b76ad', 'request_id': \"bad-{'attachments': []}\", 'expires': 1791954206.3602736, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'htmlBody': 'extra'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': 'ddfac94a04b745aeb4177d7575e209b0', 'task_id': \"bad-{'htmlBody': 'extra'}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'htmlBody': 'extra'}, 'args_hash': '57bd5b72718e2c4032b529dff120ad5d8edfec63ebcb5ac11f659556d0a108f5', 'request_id': \"bad-{'htmlBody': 'extra'}\", 'expires': 1791954207.5915396, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'mimeType': 'text/html'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '4148e260a213437cb49a7880fca6c22b', 'task_id': \"bad-{'mimeType': 'text/html'}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'mimeType': 'text/html'}, 'args_hash': 'e48add1e296fa68a43a307633de3fe517e9cadedbc66eb6c9f2e6fded2251fdb', 'request_id': \"bad-{'mimeType': 'text/html'}\", 'expires': 1791954208.8029578, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'threadId': 'old'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '3efacf2a39be441fb1d3600c478e8042', 'task_id': \"bad-{'threadId': 'old'}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'threadId': 'old'}, 'args_hash': 'd63926bfb168136444a1a03ad87013f4d10076ab0dffeeaee81cd85b02eba017', 'request_id': \"bad-{'threadId': 'old'}\", 'expires': 1791954210.0211198, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'subject': 'changed'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': 'f7f8ef4cf713424faac94f5c9463a365', 'task_id': \"bad-{'subject': 'changed'}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': 'changed', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg'}, 'args_hash': '21bf87f3736a65af96211bb688e825a207e6e18a3127600fa2c5de73b4203679', 'request_id': \"bad-{'subject': 'changed'}\", 'expires': 1791954211.246754, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket (extra={'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg。'})",
+      "trace": "Traceback (most recent call last):\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 86, in test_bad_recipient_extra_fields_and_changed_body_rejected_before_ticket\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '57410e3d83124a8a8599ccd19eeacbe8', 'task_id': \"bad-{'body': '第一行：Error 是正文\\\\n第二行：蓝桥 42kg。'}\", 'session_id': 2, 'revision': 1, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg。'}, 'args_hash': 'ef633b67016038c6d327814c376c6e8216bf0c05a4154faca1e6d147812eae4c', 'request_id': \"bad-{'body': '第一行：Error 是正文\\\\n第二行：蓝桥 42kg。'}\", 'expires': 1791954212.4690444, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_duplicate_proposal_with_optional_default_mime_reuses_action",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 135, in test_duplicate_proposal_with_optional_default_mime_reuses_action\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '35135ad26bd542aab84b0b08077a049e', 'task_id': 'email-start', 'session_id': 2, 'revision': 2, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'mimeType': 'text/plain'}, 'args_hash': '70635adc52c306a1f02217c630d071b06f79325502086c917e94ac2cd68aea9a', 'request_id': 'repeat-proposal', 'expires': 1791954221.258681, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_malformed_success_envelope_is_unknown",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 143, in test_malformed_success_envelope_is_unknown\n    self.assertIn(\"未知\", answer)\nAssertionError: '未知' not found in \"我核对了实际执行记录：\\n['qingzhu@example.invalid']：连接器已接受发送（不代表收件人已收到）；Email sent successfully with ID: undefined\"\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_no_proposal_chat_claim_cannot_manufacture_ticket",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 73, in test_no_proposal_chat_claim_cannot_manufacture_ticket\n    self.assertIn(\"尚未完成\", answer)\nAssertionError: '尚未完成' not found in '已有待办，确认即可发送'\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_success_then_followup_timeout_keeps_receipt",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 106, in test_success_then_followup_timeout_keeps_receipt\n    self.assertIn(\"发送请求已受理\", answer)\nAssertionError: '发送请求已受理' not found in \"我核对了实际执行记录：\\n['qingzhu@example.invalid']：连接器已接受发送（不代表收件人已收到）；Email sent successfully with ID: 19abc00000000001\"\n"
+    },
+    {
+      "test": "test_email_task.EmailTaskTests.test_unknown_never_resends_including_optional_default_mime",
+      "trace": "Traceback (most recent call last):\n  File \"<python>\\Lib\\asyncio\\runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<python>\\Lib\\asyncio\\base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"<repo>\\services\\agent-core\\tests\\test_email_task.py\", line 128, in test_unknown_never_resends_including_optional_default_mime\n    self.assertFalse(core._sync_pending(self.sid))\nAssertionError: [{'action_id': '3716d2215d8649d5862f34ad42d0f353', 'task_id': 'email-start', 'session_id': 2, 'revision': 2, 'tool': 'mcp__gmail__send_email', 'arguments': {'to': ['qingzhu@example.invalid'], 'subject': '合成回执 175', 'body': '第一行：Error 是正文\\n第二行：蓝桥 42kg', 'mimeType': 'text/plain'}, 'args_hash': '70635adc52c306a1f02217c630d071b06f79325502086c917e94ac2cd68aea9a', 'request_id': 'unknown', 'expires': 1791954233.4259362, 'status': 'awaiting_confirmation', 'receipt': None}] is not false\n"
+    }
+  ],
+  "errors": [],
+  "skipped": [],
+  "model_calls": 0
+}

@@ -1,0 +1,34 @@
+{
+  "scope": "Read-only inspection of installed connector source; no connector execution, OAuth configuration or real mailbox access",
+  "package": "@gongrzhe/server-gmail-autoauth-mcp",
+  "version": "1.1.11",
+  "sha256": {
+    "package.json": "1ac94124dc356b72b3699989d3e94f08b49e6ecee019ee9686581a900e4f08ff",
+    "dist/index.js": "b3bdcf99498b9b28881c70f95f53944b56cdb306e38ec0ea57e47c502ec1d4d2",
+    "dist/utl.js": "3a16e933e22c317ed709eb2c10d837277318922312e82bcc4bb29b1a7a367dc1"
+  },
+  "schema_source": "docs/assessments/root-cause-audit/evidence/mcp-schema.json servers[gmail].tools[send_email]",
+  "schema_checks": {
+    "required": ["to", "subject", "body"],
+    "to_type": "array of string",
+    "optional": ["htmlBody", "mimeType", "cc", "bcc", "threadId", "inReplyTo", "attachments"],
+    "mimeType_default": "text/plain",
+    "additionalProperties": false
+  },
+  "source_locations": {
+    "schema": "dist/index.js:138-148",
+    "plain_send_dispatch_and_native_success": "dist/index.js:419-445",
+    "send_argument_validation": "dist/index.js:501-505",
+    "outer_error_envelope": "dist/index.js:999-1008",
+    "address_validation_headers_and_body": "dist/utl.js:16-89"
+  },
+  "success_template": {"content": [{"type": "text", "text": "Email sent successfully with ID: ${response.data.id}"}]},
+  "failure_template": {"content": [{"type": "text", "text": "Error: ${error.message}"}]},
+  "notes": [
+    "No structuredContent, recipients, subject or body are returned on native send success; they must remain bound to the action arguments.",
+    "The connector builds the MIME message and then calls gmail.users.messages.send. It does not prove delivery or read status.",
+    "The synthetic service saves all received arguments and every dispatch, including extra addresses and duplicates; it does not enforce product scope.",
+    "Known business failures use the existing error-message classification. Unrecognized write errors and malformed success receipts remain unknown.",
+    "Normal user body text containing Error is separate from the entire connector envelope."
+  ]
+}

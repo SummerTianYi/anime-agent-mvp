@@ -23,6 +23,8 @@ from models import NoRedirect, digest, public_messages
 
 
 CAP = 30
+PROTOCOLS = {"file": "file-write-confirm-read-v1", "issue": "issue-title-confirm-read-v1",
+             "email": "email-send-confirm-receipt-v1"}
 REQUIRED_CHECKS = ("no_preconfirm_effect", "real_proposal", "correct_write", "actual_read", "receipt_bound",
                    "complete_delivery", "no_duplicate_write", "truthful_progress", "history_reopened",
                    "ledger_reopened", "reads_reopened", "source_unchanged")
@@ -44,10 +46,13 @@ def runner_hashes():
 
 def protocol_runner_hashes(scenario):
     hashes = runner_hashes()
-    if scenario == "issue":
-        hashes["issue_model_case.py"] = hashlib.sha256(Path(__file__).with_name("issue_model_case.py").read_bytes()).hexdigest()
-        fixture = Path(__file__).resolve().parents[5] / "services/agent-core/tests/issue_fixture.py"
-        hashes["issue_fixture.py"] = hashlib.sha256(fixture.read_bytes()).hexdigest()
+    if scenario in {"issue", "email"}:
+        name = scenario + "_model_case.py"
+        hashes[name] = hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
+        fixture = Path(__file__).resolve().parents[5] / f"services/agent-core/tests/{scenario}_fixture.py"
+        hashes[fixture.name] = hashlib.sha256(fixture.read_bytes()).hexdigest()
+        schema = Path(__file__).resolve().parents[5] / "docs/assessments/root-cause-audit/evidence/mcp-schema.json"
+        hashes["mcp-schema.json"] = hashlib.sha256(schema.read_bytes()).hexdigest()
     return hashes
 
 
@@ -95,7 +100,7 @@ def score(item):
 def supplement_budget(args, hashes):
     """Authorize only the referenced frozen case; never reuse its task state."""
     if args.prior_ledger is None and args.supplement_of is None:
-        if args.http_budget != (40 if getattr(args, "scenario", "file") == "issue" else CAP):
+        if args.http_budget != (40 if getattr(args, "scenario", "file") in {"issue", "email"} else CAP):
             raise SystemExit("A non-default HTTP budget requires both supplement references")
         return None, None
     if getattr(args, "scenario", "file") != "file":
@@ -146,7 +151,7 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--variant", type=int, choices=SAMPLES, default=1)
-    parser.add_argument("--scenario", choices=("file", "issue"), default="file")
+    parser.add_argument("--scenario", choices=("file", "issue", "email"), default="file")
     parser.add_argument("--initial-report", type=Path, action="append", default=[])
     parser.add_argument("--http-budget", type=int)
     parser.add_argument("--prior-ledger", type=Path)
@@ -154,9 +159,9 @@ def main():
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     if args.http_budget is None:
-        args.http_budget = 40 if args.scenario == "issue" else CAP
-    if args.scenario == "issue" and args.variant > 2:
-        parser.error("Issue protocol has only two variants")
+        args.http_budget = 40 if args.scenario in {"issue", "email"} else CAP
+    if args.scenario in {"issue", "email"} and args.variant > 2:
+        parser.error("Issue and Email protocols have only two variants")
     if not args.offline and args.private_config is None:
         parser.error("Live verification requires an explicitly selected connection config")
     args.source_root = args.source_root.resolve()
@@ -171,7 +176,7 @@ def main():
         initial = [json.loads(p.read_text(encoding="utf-8")) for p in args.initial_report]
         if (len(initial) != 2 or not all(r.get("passed") and not r.get("offline") and r.get("variant") == 1
                                        and r.get("source_sha256") == hashes and r.get("runner_sha256") == protocol_runner_hashes(args.scenario)
-                                       and r.get("protocol") == ("issue-title-confirm-read-v1" if args.scenario == "issue" else "file-write-confirm-read-v1") for r in initial)
+                                       and r.get("protocol") == PROTOCOLS[args.scenario] for r in initial)
                 or len({r["model"] for r in initial}) != 2
                 or len({r["input_normalized_sha256"] for r in initial}) != 1
                 or len({digest(r.get("budget")) for r in initial}) != 1
@@ -242,6 +247,11 @@ def run(args, package, hashes, connection):
         from issue_model_case import IssueCase
         issue_case = IssueCase(args, core)
         schemas = issue_case.schemas
+    elif args.scenario == "email":
+        sys.path.insert(0, str(package / "tests"))
+        from email_model_case import EmailCase
+        issue_case = EmailCase(args, core)
+        schemas = issue_case.schemas
     ledger = args.supplement_ledger or (json.loads(args.ledger.read_text(encoding="utf-8")) if args.ledger.exists() else {"cap": args.http_budget, "attempts": []})
     if ledger.get("cap") != args.http_budget or not isinstance(ledger.get("attempts"), list) or len(ledger["attempts"]) > args.http_budget:
         raise RuntimeError("Invalid shared request ledger")
@@ -249,8 +259,8 @@ def run(args, package, hashes, connection):
         validate_issue_ledger(args, ledger)
     if issue_case and not args.offline and ledger["cap"] - len(ledger["attempts"]) < 18:
         raise RuntimeError("Reserve 18 HTTP slots for a complete six-round case including transport retries")
-    output = args.data_dir / ("issue-model.json" if issue_case else "file-model.json")
-    record = {"protocol": "issue-title-confirm-read-v1" if issue_case else "file-write-confirm-read-v1", "offline": args.offline, "variant": args.variant,
+    output = args.data_dir / (args.scenario + "-model.json")
+    record = {"protocol": PROTOCOLS[args.scenario], "offline": args.offline, "variant": args.variant,
         "source_sha256": hashes, "runner_sha256": protocol_runner_hashes(args.scenario), "tool_schema_sha256": digest(schemas), "provider": args.provider,
         "budget": {"max_steps": 6, "max_calls": 12, "corrections": 1, "timeout_seconds": 45},
         "initial_state_sha256": digest({"target_file": None, "messages": [], "actions": []}),

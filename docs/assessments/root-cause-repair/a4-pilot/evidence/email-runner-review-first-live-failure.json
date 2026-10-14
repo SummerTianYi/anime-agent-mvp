@@ -1,0 +1,147 @@
+{
+  "scope": "independent read-only review of new synthetic live evidence; no model calls",
+  "real_http_attempts_by_reviewer": 0,
+  "report_and_ledger_sha256": {
+    "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json": "8773713945160b0bbcb22a0abc4a6208f3ef0ad6ab4d9361c7cd81d6adb5d941",
+    "D:\\TianyiRepair\\email-task-20261014\\http-ledger.json": "4ce0aee4cad9217ef7caa18ce5a5af6037eed972290cbd1f1f76b88a4297cd88",
+    "docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\email-runner-review-after.json": "9b932040ec661f01e77275b45328b8bfe7495f3186c8744d764c87ed381b0ea4"
+  },
+  "checks": [
+    {
+      "case": "live_frozen_source_runner_and_schema",
+      "passed": true,
+      "report": "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json"
+    },
+    {
+      "case": "live_expected_input_initial_state_and_budget",
+      "passed": true,
+      "report": "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json"
+    },
+    {
+      "case": "live_confirmation_bound_to_shown_native_ticket",
+      "passed": true,
+      "report": "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json"
+    },
+    {
+      "case": "failed_case_is_not_claimed_as_complete",
+      "passed": true,
+      "report": "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json"
+    },
+    {
+      "case": "live_stored_score_recomputes_identically",
+      "passed": true,
+      "report": "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json"
+    },
+    {
+      "case": "live_http_ledger_membership_and_reservation",
+      "passed": true,
+      "report": "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json"
+    },
+    {
+      "case": "live_persistent_history_actions_events_mailbox_match",
+      "passed": true,
+      "report": "D:\\TianyiRepair\\email-task-20261014\\live-ds-1\\email-model.json"
+    },
+    {
+      "case": "live_entire_shared_ledger_accounted_once",
+      "passed": true
+    },
+    {
+      "case": "live_same_variant_equivalent_conditions",
+      "passed": true
+    },
+    {
+      "case": "live_evidence_unchanged_during_readonly_review",
+      "passed": true
+    },
+    {
+      "case": "reviewed_files_unchanged",
+      "passed": true
+    }
+  ],
+  "evidence_verified": true,
+  "passed": true,
+  "all_tasks_passed": false,
+  "all_current_tasks_passed": true,
+  "task_results": [
+    {
+      "historical": true,
+      "provider": "deepseek",
+      "model": "Deepseek-v4-flash",
+      "variant": 1,
+      "passed": false,
+      "failure_category": "proposal_or_task",
+      "http_attempts": 2
+    }
+  ],
+  "source_sha256_before": {
+    "services/agent-core/agent_core/actions.py": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+    "services/agent-core/agent_core/agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "services/agent-core/agent_core/email_task.py": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+    "services/agent-core/agent_core/file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "services/agent-core/agent_core/harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "services/agent-core/agent_core/issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "services/agent-core/agent_core/main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "services/agent-core/agent_core/mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "services/agent-core/agent_core/memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "services/agent-core/agent_core/permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "services/agent-core/agent_core/proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "services/agent-core/agent_core/provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "services/agent-core/agent_core/result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "services/agent-core/agent_core/song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "services/agent-core/agent_core/speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "services/agent-core/agent_core/speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "services/agent-core/agent_core/storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "services/agent-core/agent_core/stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "services/agent-core/agent_core/task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "services/agent-core/agent_core/task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "services/agent-core/agent_core/tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "services/agent-core/agent_core/tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "services/agent-core/agent_core/verified_task.py": "d0b14b79bd31484a4d1064d24bbae3dd15beb49c547aa372344f781037120943",
+    "services/agent-core/agent_core/voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "services/agent-core/agent_core/voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "services/agent-core/agent_core/wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "services/agent-core/agent_core/__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py": "f3c2c84a595677cf5f64a6c5cb7ae9d061569c36dee78fea46eac4b44dd5ba7b",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/email_model_case.py": "2c5ba315601bd3bc253471cc8b5155426c76256df26891b007d5989ecc4316e9",
+    "services/agent-core/tests/email_fixture.py": "53278fcc57abd6497d01e2071d0bdcb3b56609c6fbf6b3de29af174730bd82d1",
+    "docs/assessments/root-cause-audit/evidence/mcp-schema.json": "99ec1412148750eb92a5a06a1143c5f606c36c3393899cdec73fa4b95f2c8b83",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/email_runner_review.py": "ebe15b5ebc66d7809f8577d312b9a523da8d58d95786fbf6ed5b53a31134e478"
+  },
+  "source_sha256_after": {
+    "services/agent-core/agent_core/actions.py": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+    "services/agent-core/agent_core/agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "services/agent-core/agent_core/email_task.py": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+    "services/agent-core/agent_core/file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "services/agent-core/agent_core/harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "services/agent-core/agent_core/issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "services/agent-core/agent_core/main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "services/agent-core/agent_core/mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "services/agent-core/agent_core/memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "services/agent-core/agent_core/permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "services/agent-core/agent_core/proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "services/agent-core/agent_core/provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "services/agent-core/agent_core/result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "services/agent-core/agent_core/song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "services/agent-core/agent_core/speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "services/agent-core/agent_core/speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "services/agent-core/agent_core/storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "services/agent-core/agent_core/stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "services/agent-core/agent_core/task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "services/agent-core/agent_core/task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "services/agent-core/agent_core/tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "services/agent-core/agent_core/tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "services/agent-core/agent_core/verified_task.py": "d0b14b79bd31484a4d1064d24bbae3dd15beb49c547aa372344f781037120943",
+    "services/agent-core/agent_core/voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "services/agent-core/agent_core/voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "services/agent-core/agent_core/wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "services/agent-core/agent_core/__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py": "f3c2c84a595677cf5f64a6c5cb7ae9d061569c36dee78fea46eac4b44dd5ba7b",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/email_model_case.py": "2c5ba315601bd3bc253471cc8b5155426c76256df26891b007d5989ecc4316e9",
+    "services/agent-core/tests/email_fixture.py": "53278fcc57abd6497d01e2071d0bdcb3b56609c6fbf6b3de29af174730bd82d1",
+    "docs/assessments/root-cause-audit/evidence/mcp-schema.json": "99ec1412148750eb92a5a06a1143c5f606c36c3393899cdec73fa4b95f2c8b83",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/email_runner_review.py": "ebe15b5ebc66d7809f8577d312b9a523da8d58d95786fbf6ed5b53a31134e478"
+  }
+}
