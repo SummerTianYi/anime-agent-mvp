@@ -1,0 +1,71 @@
+{
+  "scope": "Two fresh-context independent read-only white-paper checks required by AGENTS and HANDOFF section 7",
+  "inspected_commit": "e32e57cbbd5e9ff10ff4573c0fb719e9ef9186ad",
+  "clone": "<isolated-email>/handoff-clean",
+  "clean_at_start_and_end": true,
+  "model_http_calls": 0,
+  "reviewers": [
+    {
+      "agent": "email_handoff_one",
+      "fresh_context": true,
+      "parent_scored_answers": 8,
+      "total_questions": 8,
+      "answers": [
+        "Windows/local-first Godot Luo Tianyi companion; Python Core; M1/M2 historical completion, M3 current; candidate only, A4 open.",
+        "Codex foundation/model/operations, Claude interaction/STT/read tools/TTS client, zcode permission/memory/write/MCP/exams; owner voice/acceptance/authorization.",
+        "Preserve frozen chat, speech, read/write tools, permission, MCP, memory, proactive/idle and visual capabilities; regress then minimal repair.",
+        "This reviewer owns only read-only handoff; empty duty table does not authorize development; current email stops at Manager acceptance.",
+        "Character-first local companion with official appearance, voice, memory, perception and authorized safe computer actions.",
+        "New delete capability starts with scoped authorization and workbench exams before granting real production permission.",
+        "write_file bug requires isolated existing regressions and a reproducer, minimal repair and scoped validation, preserving authorization/audit.",
+        "Locate authorized GLB through LOCAL_MACHINE/assets and check-local-assets; create ignored .env from .env.example with owner-provided credentials; do not redistribute assets or secrets."
+      ],
+      "evidence_readback": "Four current cases 4/4, old DS failure retained, ledger 1-15, final email source Git blob SHA matches live reports.",
+      "observed_gate_gap": "At inspected commit, 510 pre-feedback full tests and final 25+16 targeted tests exist, but final 511 full run is absent."
+    },
+    {
+      "agent": "email_handoff_two",
+      "fresh_context": true,
+      "parent_scored_answers": 8,
+      "total_questions": 8,
+      "answers": [
+        "Independent Windows-first Godot character with Python kernel; M3 current, M2 historically complete; no general A4 or production acceptance.",
+        "Codex to Claude to zcode handoff; current Codex email increment does not take credit for old authorization and task mechanisms.",
+        "Frozen chat/session, STT/TTS, six read tools, persona, permission, atomic write, command allowlist, narration, MCP, proactive, idle, vision and facts.",
+        "Only read-only white-paper review assigned; future development needs an owner-scoped task; no automatic deployment or real email work.",
+        "Local, character-first, safe desktop companion with appearance, voice, lasting memory and authorized actions.",
+        "Deletion is a new risky capability: scope, workbench negative tests and exams, then owner-authorized real permission; no bypass.",
+        "Run isolated write_file regressions/exams, reproduce bug, make minimal change and update evidence/status; no rewrite.",
+        "Use documented asset locators and size/SHA checks, .env.example and authorized credentials; missing resources block equivalent startup."
+      ],
+      "evidence_readback": "Four current cases all 12 checks true; all_current_tasks_passed true and historical all_tasks_passed false are consistent; HTTP 15/40; final source SHA matches.",
+      "observed_gate_gap": "The clone transparently reports only 511 discovered; final full gate cannot be claimed passed yet."
+    }
+  ],
+  "preexisting_documentation_drift_outside_email_scope": [
+    "AGENTS all-by-zcode wording can obscure Claude ownership; explicit HANDOFF and CONTRIBUTIONS ownership takes precedence.",
+    "AGENTS/README old UI planning recommendations trail CONTRIBUTIONS U0/U2 completion.",
+    "HANDOFF code map still labels idle unstarted although section 3 records it implemented."
+  ],
+  "scope_boundary": "Synthetic single-recipient plain-text acceptance only; no real Gmail, delivery/read proof, arbitrary language or whole-A4 certification. No private config/database access or service/model execution by these reviewers.",
+  "final_full_gate_resolution": {
+    "evidence": "email-core-final.json",
+    "tests": 511,
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "model_calls": 0,
+    "business_changes_after_inspected_commit": false,
+    "note": "Primary ran the existing isolated runner in a new directory after both reviewers identified the final-full gate gap. Historical 510/25/16 records remain intact.",
+    "independent_followup": {
+      "agent": "email_handoff_one",
+      "source_hashes_matching_clean_clone": 27,
+      "source_hash_mismatches": 0,
+      "raw_evidence_sha256": "f4896be5dd16adbfeeef19ffa4310db16b87879fdd038cea8b9f6d59d075daf7",
+      "clean_clone_head_unchanged": true,
+      "gap_resolved": true,
+      "reviewer_test_or_model_calls": 0
+    }
+  }
+}

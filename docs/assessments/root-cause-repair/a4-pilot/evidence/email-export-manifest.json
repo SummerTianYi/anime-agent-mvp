@@ -56,6 +56,12 @@
       "published_sha256": "9cb3ee79039c2132c77a2f3377299159071612df166f38ea5d689048d064816b"
     },
     {
+      "source": "final-core-release.json",
+      "sha256": "f4896be5dd16adbfeeef19ffa4310db16b87879fdd038cea8b9f6d59d075daf7",
+      "published": "email-core-final.json",
+      "published_sha256": "3d2429b91ed190bbf45d5b46633a541d00043954e9b7699f589286413e8e2e32"
+    },
+    {
       "source": "feedback-regression.json",
       "sha256": "5890bf8018d65cb051df9b57c87f9fc1da34c44c602ce5f05e7d626e09137823",
       "published": "email-feedback-regression.json",

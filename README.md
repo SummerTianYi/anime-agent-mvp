@@ -1,6 +1,6 @@
 # Anime Agent MVP
 
-Codex 2026-10-14：[单收件人纯文本邮件](docs/assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)完成窄范围实现与后台合成 Gmail 验收。复用既有任务/授权/账本/回执，新增邮件目标及逐字参数约束、原生消息 ID 核验和默认 MIME 去重兼容。最终同源 DS、GLM 各两例均通过；首次 DS 正文改写失败保留，修正反馈后重新验证，阶段共15/40次HTTP。只证明发送请求被合成服务受理一次，不证明真实发信、送达、已读或A4整体关闭；未部署，停在Manager验收。
+Codex 2026-10-14：[单收件人纯文本邮件](docs/assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)完成窄范围实现与后台合成 Gmail 验收。复用既有任务/授权/账本/回执，新增邮件目标及逐字参数约束、原生消息 ID 核验和默认 MIME 去重兼容。最终同源 DS、GLM 各两例均通过；首次 DS 正文改写失败保留，修正反馈后重新验证，阶段共15/40次HTTP。最终源码Core511项隔离全量通过，独立对抗及证据复核通过。只证明发送请求被合成服务受理一次，不证明真实发信、送达、已读或A4整体关闭；未部署，停在Manager验收。
 
 Codex 2026-10-14：[DS第二Issue样例补验](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)通过，冻结业务/运行器/schema/判据，一次全新合成任务完成真提案、仅标题更新一次、新读取核验和准确交付。新增6次HTTP（22–27），原40次账本累计27/40；原批次3/4和连接失败保留，本次1/1单列，Issue合成流程具备本范围收尾条件，不代表连接稳定或真实GitHub认证。未部署，停在Manager验收。
 

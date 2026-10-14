@@ -54,7 +54,7 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
-Codex 2026-10-14：[单收件人纯文本邮件](assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)完成窄范围实现与后台合成 Gmail 验收。复用既有任务/授权/账本/回执，新增邮件目标及逐字参数约束、原生消息 ID 核验和默认 MIME 去重兼容。最终同源 DS、GLM 各两例均通过；首次 DS 正文改写失败保留，修正反馈后重新验证，阶段共15/40次HTTP。只证明发送请求被合成服务受理一次，不证明真实发信、送达、已读或A4整体关闭；未部署，停在Manager验收。首次模型版本Core510项全量通过；最终反馈改动定向25项、独立16项通过，当前发现511项，不冒称最终全量重跑。当前Godot/Core/TTS及生产数据未动。
+Codex 2026-10-14：[单收件人纯文本邮件](assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)完成窄范围实现与后台合成 Gmail 验收。复用既有任务/授权/账本/回执，新增邮件目标及逐字参数约束、原生消息 ID 核验和默认 MIME 去重兼容。最终同源 DS、GLM 各两例均通过；首次 DS 正文改写失败保留，修正反馈后重新验证，阶段共15/40次HTTP。只证明发送请求被合成服务受理一次，不证明真实发信、送达、已读或A4整体关闭；未部署，停在Manager验收。首次模型版本Core510项全量、最终反馈定向25项及独立16项通过；白纸交接指出最终全量缺口后，冻结源码新跑Core511/511通过，零模型调用。当前Godot/Core/TTS及生产数据未动。
 
 Codex 2026-10-14：[DS第二Issue样例补验](assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)通过，冻结业务/运行器/schema/判据，一次全新合成任务完成真提案、仅标题更新一次、新读取核验和准确交付。新增6次HTTP（22–27），原40次账本累计27/40；原批次3/4和连接失败保留，本次1/1单列，Issue合成流程具备本范围收尾条件，不代表连接稳定或真实GitHub认证。未部署，停在Manager验收。
 
@@ -258,7 +258,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 当前发现 511 项；邮件报告区分反馈修改前510项全量和最终定向复验，不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 当前 511 项；邮件最终版本已隔离全量通过，反馈修改前510项及定向历史另存，不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

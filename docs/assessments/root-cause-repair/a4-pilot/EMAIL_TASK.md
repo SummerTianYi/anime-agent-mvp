@@ -44,7 +44,7 @@
 
 只调整 `email_task.GUIDANCE` 和同一参数校验的错误反馈：强调行首标签也是正文，指出不一致字段和首处字符差异，让模型在已有一次纠正内提交真实调用。没有填写工具参数、修改判据或延长预算，也没有固定地址、主题、正文或模型名称分支。首次失败和已消耗的 HTTP 1–2 保留，新版本验证单列。
 
-该文案调整后的邮件定向回归 [25/25](evidence/email-feedback-regression.json) 通过；独立审查随后补充真实入口的“错误调用→差异反馈→正确调用→唯一票据→确认一次受理”行为对照，最终 [16/16](evidence/email-independent-06-feedback.json) 通过，`corrections_used=1`。当前 Core 共 511 个测试，未把之前 510 项全量冒称为最终版本重跑结果。其余公共业务文件与该全量版本完全一致。最终 `email_task.py` SHA256 为 `4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438`。
+该文案调整后的邮件定向回归 [25/25](evidence/email-feedback-regression.json) 通过；独立审查随后补充真实入口的“错误调用→差异反馈→正确调用→唯一票据→确认一次受理”行为对照，最终 [16/16](evidence/email-independent-06-feedback.json) 通过，`corrections_used=1`。当前 Core 共 511 个测试，之前 510 项全量保留原版本含义；交接发现的最终全量缺口已通过下述511项实际运行补齐。其余公共业务文件与该全量版本完全一致。最终 `email_task.py` SHA256 为 `4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438`。
 
 ## 双模型逐例结果与预算
 
@@ -67,6 +67,12 @@
 独立最终[只读证据复核](evidence/email-runner-review-live.json) **55/55** 通过，审查新增HTTP为0；对四例新测试库使用只读连接核验持久消息、动作、事件和邮箱，对照全部HTTP编号1–15及源码/schema/预算。另发现GLM在第9、14次HTTP也实际重复提出同参发送，均只有一次真实派发。证据的 `all_current_tasks_passed=true`，而纳入旧失败的 `all_tasks_passed=false`，两者保留各自含义。产品与运行器独立审查均无本范围未解决阻断。
 
 [发布前核对](evidence/email-publication-check.json)确认Git blob业务字节与最终模型记录一致、19份导出SHA可核、原阶段报告与证据不变，暂存内容无凭据/数据库/超50MB文件。隔离文档检查返回 `DOCS_CONSISTENCY_OK` 与 `DOCS_ISOLATION_OK`，`git diff --check` 通过。
+
+业务、测试及模型证据提交为 `e32e57cbbd5e9ff10ff4573c0fb719e9ef9186ad`。按仓库白纸交接要求，两位零上下文实例只读该提交的干净clone，八问均由主执行者评分8/8；[交接记录](evidence/email-handoff.json)保留各自答案、证据核对及门禁缺口。它们指出全局文档的旧Idle/UI状态与归属表述存在漂移，本次邮件修复没有扩大到这些旧文档问题，不将全仓文档描述为无矛盾。
+
+两位检查者都指出最终版本尚无全量记录，故在源码冻结不变的前提下，用原隔离入口新建测试目录补跑 [最终Core 511/511](evidence/email-core-final.json)：0失败、0错误、0跳过、0模型请求。该记录与最终四例业务源码散列一致，覆盖公共机制以及受影响的文件/Issue回归；未重跑任何旧模型样例。原510、定向25及独立16的记录仍保留。后续收尾提交只增加文档与证据，停在Manager验收，不部署或合并main。
+
+白纸检查者随后独立只读核对新增全量JSON与原干净clone，27/27源码散列相同，确认511项结果与零模型调用记录，撤销该门禁缺口。最终[发布检查](evidence/email-publication-final.json)另核对20份导出及收尾暂存文件，原发布前检查保留。当前本邮件范围无未解决阻断；旧文档漂移、其他A4问题和真实邮箱验收仍不在通过范围内。
 
 ## 复现入口
 
