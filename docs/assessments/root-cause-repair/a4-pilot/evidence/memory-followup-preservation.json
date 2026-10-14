@@ -1,0 +1,753 @@
+{
+  "baseline_commit": "9b1ad2b7de48be4c8436e8151013085cb54fe1a3",
+  "final_source_sha256": {
+    "main.py": "ae4e1a3e0be7e5cae89cf3b79c3e18e63f9760d179d29c6c494dfd3f2e624904",
+    "actions.py": "b85c51f46967436d3093508a61ac8085db9a3727a9341b1d638f4cd6cb24e894",
+    "storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+    "memory_correction.py": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66"
+  },
+  "all_unchanged": true,
+  "files": {
+    "docs/assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION.md": {
+      "unchanged": true,
+      "baseline_sha256": "8e30244591be36cc181e088e27a0238a509d1e984512c5d00fa023b7ae6ff6d4",
+      "checkout_sha256": "1cf29b70f7d642eff1958434b01918c1dfe2418e96724aebbc5b32d0daae6cc7"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-after1.json": {
+      "unchanged": true,
+      "baseline_sha256": "a1099e92f71f27c6880596d89a60c6b5a96757f59f99def35b874398b17122ff",
+      "checkout_sha256": "a1099e92f71f27c6880596d89a60c6b5a96757f59f99def35b874398b17122ff"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-after2.json": {
+      "unchanged": true,
+      "baseline_sha256": "9ec8f789b11d9fb7fbd9dc8cd0a7ac927a6d2d03f3a2ef0fb2618c73f0961a3c",
+      "checkout_sha256": "9ec8f789b11d9fb7fbd9dc8cd0a7ac927a6d2d03f3a2ef0fb2618c73f0961a3c"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-after3.json": {
+      "unchanged": true,
+      "baseline_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6",
+      "checkout_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-before-memory_promotion.json": {
+      "unchanged": true,
+      "baseline_sha256": "b64cda4153b9726e77d2511a4d8c7df90b7162c0977f0a7643d02aebd9dde623",
+      "checkout_sha256": "b64cda4153b9726e77d2511a4d8c7df90b7162c0977f0a7643d02aebd9dde623"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-before-memory_retrieval.json": {
+      "unchanged": true,
+      "baseline_sha256": "4d9a2420a9a90d129c3302c9e41a3a1e5e01dd0ce2f22b745fb48d07ba505a50",
+      "checkout_sha256": "4d9a2420a9a90d129c3302c9e41a3a1e5e01dd0ce2f22b745fb48d07ba505a50"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-before-storage.json": {
+      "unchanged": true,
+      "baseline_sha256": "d9b3dc32ce78b81742d79ac7818103be321b1f7fbaad27df7b25cb85cc4bd53e",
+      "checkout_sha256": "d9b3dc32ce78b81742d79ac7818103be321b1f7fbaad27df7b25cb85cc4bd53e"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-frozen-memory.json": {
+      "unchanged": true,
+      "baseline_sha256": "fd1636eef14fd1f5e155e8083a1e7775f80ff8cfb1331d69f1ee80db24b31ff4",
+      "checkout_sha256": "fd1636eef14fd1f5e155e8083a1e7775f80ff8cfb1331d69f1ee80db24b31ff4"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-oracle-memory.json": {
+      "unchanged": true,
+      "baseline_sha256": "d08c322e85f2817119d120f2187e69eca93155868b092156a636d347fa3fd573",
+      "checkout_sha256": "d08c322e85f2817119d120f2187e69eca93155868b092156a636d347fa3fd573"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-preservation.json": {
+      "unchanged": true,
+      "baseline_sha256": "7c0f1dd04f7b47918660d2278ccd9585bd2979992fc8af4634bf51961cb5cc1a",
+      "checkout_sha256": "7c0f1dd04f7b47918660d2278ccd9585bd2979992fc8af4634bf51961cb5cc1a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-reviewed-memory.json": {
+      "unchanged": true,
+      "baseline_sha256": "f16b686a34bebb1ca8ae38fbece375f4ccb94e0fb4e6a95a29439645a60c1657",
+      "checkout_sha256": "f16b686a34bebb1ca8ae38fbece375f4ccb94e0fb4e6a95a29439645a60c1657"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-summary.json": {
+      "unchanged": true,
+      "baseline_sha256": "3401ab4032c680e1ec28018e5d6c15b27c87c0f42667434318c8516dd5e770b9",
+      "checkout_sha256": "3401ab4032c680e1ec28018e5d6c15b27c87c0f42667434318c8516dd5e770b9"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_a4_pilot.json": {
+      "unchanged": true,
+      "baseline_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3",
+      "checkout_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_agent_loop.json": {
+      "unchanged": true,
+      "baseline_sha256": "7cae54e91cca4bb1b1fe4830d82af293f0d355ceb4d3fd2f35527e6bf22db694",
+      "checkout_sha256": "7cae54e91cca4bb1b1fe4830d82af293f0d355ceb4d3fd2f35527e6bf22db694"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_baseline_closureall.json": {
+      "unchanged": true,
+      "baseline_sha256": "eed99170707019b057c603aeb0285536ee4672de52db91f039757c13f6220fff",
+      "checkout_sha256": "eed99170707019b057c603aeb0285536ee4672de52db91f039757c13f6220fff"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_channel_exclusivity.json": {
+      "unchanged": true,
+      "baseline_sha256": "39e1dc6730da544968b240105c3d7855fb52dede3851d63e74054569629770ed",
+      "checkout_sha256": "39e1dc6730da544968b240105c3d7855fb52dede3851d63e74054569629770ed"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_effort.json": {
+      "unchanged": true,
+      "baseline_sha256": "43a076c47f30dc411156b513ba86d9af9a1b5f5714df0af90cb5aeb6b8c22327",
+      "checkout_sha256": "43a076c47f30dc411156b513ba86d9af9a1b5f5714df0af90cb5aeb6b8c22327"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_emailall.json": {
+      "unchanged": true,
+      "baseline_sha256": "d3c6ec1d6d249ae6454b2def919c9c33feedf4b866d1b96f3dfe01ac09fc5f74",
+      "checkout_sha256": "d3c6ec1d6d249ae6454b2def919c9c33feedf4b866d1b96f3dfe01ac09fc5f74"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_file_task.json": {
+      "unchanged": true,
+      "baseline_sha256": "554df427a9026c5903685aada741c6a59cb89ee58ab8eb189f7b7694e07649f8",
+      "checkout_sha256": "554df427a9026c5903685aada741c6a59cb89ee58ab8eb189f7b7694e07649f8"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_followup_delivery.json": {
+      "unchanged": true,
+      "baseline_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf",
+      "checkout_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_harnessall.json": {
+      "unchanged": true,
+      "baseline_sha256": "20d442dc1228f350c737c6af3db885b06483a119ed237c508f5278a98733f4d0",
+      "checkout_sha256": "20d442dc1228f350c737c6af3db885b06483a119ed237c508f5278a98733f4d0"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_issueall.json": {
+      "unchanged": true,
+      "baseline_sha256": "1a109f217e7c5029637527492945f5924c622fa3195a35fc0490c53b16211b29",
+      "checkout_sha256": "1a109f217e7c5029637527492945f5924c622fa3195a35fc0490c53b16211b29"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_main_ws.json": {
+      "unchanged": true,
+      "baseline_sha256": "40aa410fc6ee65fb02c4da8ae0c80ebedc14659d61c2287ec6124ee7144f3414",
+      "checkout_sha256": "40aa410fc6ee65fb02c4da8ae0c80ebedc14659d61c2287ec6124ee7144f3414"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_memoryall.json": {
+      "unchanged": true,
+      "baseline_sha256": "6eabb415768f7082137ff76ae95aee0ed9fc4d2a00e829ca4403edbba36ac98f",
+      "checkout_sha256": "6eabb415768f7082137ff76ae95aee0ed9fc4d2a00e829ca4403edbba36ac98f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_pending_status.json": {
+      "unchanged": true,
+      "baseline_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb",
+      "checkout_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_permissions.json": {
+      "unchanged": true,
+      "baseline_sha256": "7b3e2d8e24dc9397774524fa9bb5c30d591807ed1c43b1f5286d0c10745cf9cc",
+      "checkout_sha256": "7b3e2d8e24dc9397774524fa9bb5c30d591807ed1c43b1f5286d0c10745cf9cc"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_session_visibility.json": {
+      "unchanged": true,
+      "baseline_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf",
+      "checkout_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-final-test_storage.json": {
+      "unchanged": true,
+      "baseline_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3",
+      "checkout_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-ds1-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "13239c037267ae33f6fe241279afb9b52547e791ff6fa519c948b5324032bf2d",
+      "checkout_sha256": "13239c037267ae33f6fe241279afb9b52547e791ff6fa519c948b5324032bf2d"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-ds1-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "99c8a3a85f0a87690dfc92af27e3fd1817965bf0b3758f32b1f598c7b4453de8",
+      "checkout_sha256": "99c8a3a85f0a87690dfc92af27e3fd1817965bf0b3758f32b1f598c7b4453de8"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "b01996d590def306643e0e1ba4b2fe32e396278cfa9ec793f9d36a510dd0a55b",
+      "checkout_sha256": "b01996d590def306643e0e1ba4b2fe32e396278cfa9ec793f9d36a510dd0a55b"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-model.json.eval-7e3b6ded3dac.json": {
+      "unchanged": true,
+      "baseline_sha256": "431a6fe6ba8ee210d01a6b3b32a07d5983c75142be55f895b9a482979d27b1d8",
+      "checkout_sha256": "431a6fe6ba8ee210d01a6b3b32a07d5983c75142be55f895b9a482979d27b1d8"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-model.json.presentation-review.json": {
+      "unchanged": true,
+      "baseline_sha256": "4a1f44c221127ad9c5f118bf68232dadba46745b6bc2bf642bc915ae3d053779",
+      "checkout_sha256": "4a1f44c221127ad9c5f118bf68232dadba46745b6bc2bf642bc915ae3d053779"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "82df0595091432be019203f3d7be7eeead67a777101feb96831ed998a2f8fed6",
+      "checkout_sha256": "82df0595091432be019203f3d7be7eeead67a777101feb96831ed998a2f8fed6"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-restart-model.json.eval-7e3b6ded3dac.json": {
+      "unchanged": true,
+      "baseline_sha256": "742efe4ba60409ed50a762571cb0c29e4702564493406912cfed9db46782a0ea",
+      "checkout_sha256": "742efe4ba60409ed50a762571cb0c29e4702564493406912cfed9db46782a0ea"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds1-memory-restart-model.json.presentation-review.json": {
+      "unchanged": true,
+      "baseline_sha256": "63b157675824c3a707aae47013ecd4312b987b8f67fe8277af09459b83d79614",
+      "checkout_sha256": "63b157675824c3a707aae47013ecd4312b987b8f67fe8277af09459b83d79614"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds2-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "277c7349c9b25897c377cd65427e63b66de82e95da48f5b65ade52c42915a826",
+      "checkout_sha256": "277c7349c9b25897c377cd65427e63b66de82e95da48f5b65ade52c42915a826"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds2-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "006f51041454d0706e61c28e95a6a4e7a8af54416a67f7c74f187d606e5a978c",
+      "checkout_sha256": "006f51041454d0706e61c28e95a6a4e7a8af54416a67f7c74f187d606e5a978c"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds3-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "b4961380b79977de622bf94fc5544440b52f4a0a50134585f20a9708f288b39a",
+      "checkout_sha256": "b4961380b79977de622bf94fc5544440b52f4a0a50134585f20a9708f288b39a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-ds3-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "6439f094fcdf9d8ba970a9dfc0d574fdeb65f7599660554469a7bad2e0d45b4f",
+      "checkout_sha256": "6439f094fcdf9d8ba970a9dfc0d574fdeb65f7599660554469a7bad2e0d45b4f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "1a7c8f5b6ee264cf0523968d34527913305738b2d17564787dc5586f57df7de9",
+      "checkout_sha256": "1a7c8f5b6ee264cf0523968d34527913305738b2d17564787dc5586f57df7de9"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-model.json.eval-7e3b6ded3dac.json": {
+      "unchanged": true,
+      "baseline_sha256": "4b1caf935bbf962dccdcb5c3fd1b92a0604845d2ab933fee78f78585a94c72d6",
+      "checkout_sha256": "4b1caf935bbf962dccdcb5c3fd1b92a0604845d2ab933fee78f78585a94c72d6"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-model.json.presentation-review.json": {
+      "unchanged": true,
+      "baseline_sha256": "b6946b6f2f082779a71d1720157129f4c20f856567d600a8a80b8fa22051cc6f",
+      "checkout_sha256": "b6946b6f2f082779a71d1720157129f4c20f856567d600a8a80b8fa22051cc6f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "4df1103ade297ebd6e0d6d23739819159fe6390d2263113bdc58c56ff02c3271",
+      "checkout_sha256": "4df1103ade297ebd6e0d6d23739819159fe6390d2263113bdc58c56ff02c3271"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm1-memory-restart-model.json.eval-7e3b6ded3dac.json": {
+      "unchanged": true,
+      "baseline_sha256": "d542cb3c6d6819331518f3988ffc56d5d1171eb116b78233e4c5e92cef36ac8b",
+      "checkout_sha256": "d542cb3c6d6819331518f3988ffc56d5d1171eb116b78233e4c5e92cef36ac8b"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm2-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "62fdd07d728f016740d35b1232cacb7823f610bea0a72f8eb1133ca6a054b76e",
+      "checkout_sha256": "62fdd07d728f016740d35b1232cacb7823f610bea0a72f8eb1133ca6a054b76e"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm2-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "f8cf92b79545c6c2e19e784c2b901bb1a68cb9db29089049b32c4fc4005b6e38",
+      "checkout_sha256": "f8cf92b79545c6c2e19e784c2b901bb1a68cb9db29089049b32c4fc4005b6e38"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm3-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "4364c3578029e9bbae0c4339fff23ffcc49caab526ef8cef326d548ba76e3038",
+      "checkout_sha256": "4364c3578029e9bbae0c4339fff23ffcc49caab526ef8cef326d548ba76e3038"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-final-glm3-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "c30966383346f1ebda81db3d4bdbe67a08cdb49872efc6670ce88389c617be21",
+      "checkout_sha256": "c30966383346f1ebda81db3d4bdbe67a08cdb49872efc6670ce88389c617be21"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-glm1-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "ef99b5e7eabd76a38ce69798501214593505e7910c5b62545305a522f7f227e5",
+      "checkout_sha256": "ef99b5e7eabd76a38ce69798501214593505e7910c5b62545305a522f7f227e5"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-live-http-ledger.json": {
+      "unchanged": true,
+      "baseline_sha256": "f2302880f9c78680082515fc3a982dd5abb46c9d31b87104a723771907aada20",
+      "checkout_sha256": "f2302880f9c78680082515fc3a982dd5abb46c9d31b87104a723771907aada20"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-manifest.json": {
+      "unchanged": true,
+      "baseline_sha256": "c854841c2fd17d6f3fed3d5a447148eacdf966a196b01f2d32c9156709a92252",
+      "checkout_sha256": "3db6ccf44993194c3032ad9e9997360be7ec8f52e2cbc2896e305c59970d4b6d"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v1-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "a7110e3df09b90297b9b56543192248c8815ef30ff52f31f59b3c312b2cc4e31",
+      "checkout_sha256": "a7110e3df09b90297b9b56543192248c8815ef30ff52f31f59b3c312b2cc4e31"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v1-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "22f0c7ad41879012a0aeef82f110aab21149f093d9b48c95636e9e19e3a956b9",
+      "checkout_sha256": "22f0c7ad41879012a0aeef82f110aab21149f093d9b48c95636e9e19e3a956b9"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v2-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "417eebc3b2b640a8c918d1d1518d7053b19181272b1ceb14128f87dfb454730d",
+      "checkout_sha256": "417eebc3b2b640a8c918d1d1518d7053b19181272b1ceb14128f87dfb454730d"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v2-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "4c51b5452bde53f0587a76ff0b066cd22159c43e31c29813d6c819429792c9d6",
+      "checkout_sha256": "4c51b5452bde53f0587a76ff0b066cd22159c43e31c29813d6c819429792c9d6"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v3-memory-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "1596f1033347e41868f23d8d58148b8c3d8c396c0afcc856fd9ad5a496e3e9d7",
+      "checkout_sha256": "1596f1033347e41868f23d8d58148b8c3d8c396c0afcc856fd9ad5a496e3e9d7"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-offline-accepted-v3-memory-restart-model.json": {
+      "unchanged": true,
+      "baseline_sha256": "f78137005dc2d8c81f30a8db324765f71dd57df249ccd492d686103155b41c8f",
+      "checkout_sha256": "f78137005dc2d8c81f30a8db324765f71dd57df249ccd492d686103155b41c8f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_a4_pilot.json": {
+      "unchanged": true,
+      "baseline_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3",
+      "checkout_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_agent_loop.json": {
+      "unchanged": true,
+      "baseline_sha256": "a36366d1330944a9548f31874e398cba49f61a5ecfe725270a55d304120a8a0a",
+      "checkout_sha256": "a36366d1330944a9548f31874e398cba49f61a5ecfe725270a55d304120a8a0a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_baseline_closureall.json": {
+      "unchanged": true,
+      "baseline_sha256": "a17b50cf51468e61294555747ad7a0cc7dd22fdd6581313b046aafdb3eb8b84f",
+      "checkout_sha256": "a17b50cf51468e61294555747ad7a0cc7dd22fdd6581313b046aafdb3eb8b84f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_channel_exclusivity.json": {
+      "unchanged": true,
+      "baseline_sha256": "daef8bd42634b99db893c7c1ad422e256e7d5d65e3318828851ec7a7f24d330f",
+      "checkout_sha256": "daef8bd42634b99db893c7c1ad422e256e7d5d65e3318828851ec7a7f24d330f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_effort.json": {
+      "unchanged": true,
+      "baseline_sha256": "889a82951c3d4254bd8d2d61be3691bb646f271e7bd56d597ca1761278ba97b2",
+      "checkout_sha256": "889a82951c3d4254bd8d2d61be3691bb646f271e7bd56d597ca1761278ba97b2"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_emailall.json": {
+      "unchanged": true,
+      "baseline_sha256": "9990a394f7434222a78ceb7d7a8207306922431fc44ab00f4df2aa9095cc71d1",
+      "checkout_sha256": "9990a394f7434222a78ceb7d7a8207306922431fc44ab00f4df2aa9095cc71d1"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_file_task.json": {
+      "unchanged": true,
+      "baseline_sha256": "4f2a3dbad672694d8f854fad9b391f3e141ec3160b06d02cf4e3ea31c804d8db",
+      "checkout_sha256": "4f2a3dbad672694d8f854fad9b391f3e141ec3160b06d02cf4e3ea31c804d8db"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_followup_delivery.json": {
+      "unchanged": true,
+      "baseline_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f",
+      "checkout_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_harnessall.json": {
+      "unchanged": true,
+      "baseline_sha256": "05c30c7bc17abf3ecfe78e8075a0beee78789103657f288c8b33f39b620b5f1a",
+      "checkout_sha256": "05c30c7bc17abf3ecfe78e8075a0beee78789103657f288c8b33f39b620b5f1a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_issueall.json": {
+      "unchanged": true,
+      "baseline_sha256": "43df0744e88381557447ab8efa3f876d45096ab9db4be83675a2e4e5855f5302",
+      "checkout_sha256": "43df0744e88381557447ab8efa3f876d45096ab9db4be83675a2e4e5855f5302"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_main_ws.json": {
+      "unchanged": true,
+      "baseline_sha256": "6651f456cfb3f61b715a0507be9961540a8893bca9b4aadc4bf0207a6104e8bc",
+      "checkout_sha256": "6651f456cfb3f61b715a0507be9961540a8893bca9b4aadc4bf0207a6104e8bc"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_memoryall.json": {
+      "unchanged": true,
+      "baseline_sha256": "d8c4aafb403dd0ec8d975e3047b7862e71104fccbf4edbbfdd669bcd9b9c94f7",
+      "checkout_sha256": "d8c4aafb403dd0ec8d975e3047b7862e71104fccbf4edbbfdd669bcd9b9c94f7"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_pending_status.json": {
+      "unchanged": true,
+      "baseline_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb",
+      "checkout_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_permissions.json": {
+      "unchanged": true,
+      "baseline_sha256": "af1f4e6cdd43623877bf0b9d356ca38b2df85512773911e3a2c71a29af7abf49",
+      "checkout_sha256": "af1f4e6cdd43623877bf0b9d356ca38b2df85512773911e3a2c71a29af7abf49"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_session_visibility.json": {
+      "unchanged": true,
+      "baseline_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f",
+      "checkout_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-regression-test_storage.json": {
+      "unchanged": true,
+      "baseline_sha256": "d002d0d897cfee5cc75a65a9d2d7f74260180854d8778f658e42b4c984f45cad",
+      "checkout_sha256": "d002d0d897cfee5cc75a65a9d2d7f74260180854d8778f658e42b4c984f45cad"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-repro-before-valid.json": {
+      "unchanged": true,
+      "baseline_sha256": "43b641cd916bc1c75948650f96ec7970c13988666366ab78b2f5e5ef3032ab7a",
+      "checkout_sha256": "43b641cd916bc1c75948650f96ec7970c13988666366ab78b2f5e5ef3032ab7a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-repro-before.json": {
+      "unchanged": true,
+      "baseline_sha256": "24faccecccb9141e27efac994a0a44ffa44fce1a08a5f8d56eefbcb43ae521ea",
+      "checkout_sha256": "24faccecccb9141e27efac994a0a44ffa44fce1a08a5f8d56eefbcb43ae521ea"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-delivery-final.json": {
+      "unchanged": true,
+      "baseline_sha256": "1e2fc8260a21e61ae06ae29bc29b0c1a23652c321a147fce66a32e6152ac5710",
+      "checkout_sha256": "1e2fc8260a21e61ae06ae29bc29b0c1a23652c321a147fce66a32e6152ac5710"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-final.json": {
+      "unchanged": true,
+      "baseline_sha256": "4a07f644bba095e5a8228a8f12cafd51fe86ec37fe028f9ea9004617ca7c7cab",
+      "checkout_sha256": "4a07f644bba095e5a8228a8f12cafd51fe86ec37fe028f9ea9004617ca7c7cab"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-glm1-presentation-regrade.json": {
+      "unchanged": true,
+      "baseline_sha256": "5a27d4b85e30f55eca2be9bb2ca0dda7d0712f2405d055e7cc77fac6f9429299",
+      "checkout_sha256": "5a27d4b85e30f55eca2be9bb2ca0dda7d0712f2405d055e7cc77fac6f9429299"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-live-ds1.json": {
+      "unchanged": true,
+      "baseline_sha256": "11835a191faeaf20605f213ed457b18e7f15e1177b7c75871f8604418bbd226a",
+      "checkout_sha256": "11835a191faeaf20605f213ed457b18e7f15e1177b7c75871f8604418bbd226a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-live-final.json": {
+      "unchanged": true,
+      "baseline_sha256": "3be2e9a00224ea8e42fcc2a81dab7b69dbcc9c03446a0cd95db51813e7d43dbf",
+      "checkout_sha256": "3be2e9a00224ea8e42fcc2a81dab7b69dbcc9c03446a0cd95db51813e7d43dbf"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-live-partial.json": {
+      "unchanged": true,
+      "baseline_sha256": "1d8f67f3bba53afb2e3d80f4ed6b9da730f171746ea69d519c3da3d4dd20e35a",
+      "checkout_sha256": "1d8f67f3bba53afb2e3d80f4ed6b9da730f171746ea69d519c3da3d4dd20e35a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-oracle-host-receipt.json": {
+      "unchanged": true,
+      "baseline_sha256": "9a330d8cdaa89d400a291323077cfc302e82c9062ee531ebccfab06c228f010d",
+      "checkout_sha256": "9a330d8cdaa89d400a291323077cfc302e82c9062ee531ebccfab06c228f010d"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-presentation-final.json": {
+      "unchanged": true,
+      "baseline_sha256": "90d028940df0ceda96def0899cd1f6f397d06d16988b53596bed0351c514bf65",
+      "checkout_sha256": "90d028940df0ceda96def0899cd1f6f397d06d16988b53596bed0351c514bf65"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-presentation-sidecar.json": {
+      "unchanged": true,
+      "baseline_sha256": "139a14a84c622f55094e2a53cecf0764b6b69f790d238c18dea953256bdba393",
+      "checkout_sha256": "139a14a84c622f55094e2a53cecf0764b6b69f790d238c18dea953256bdba393"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run02.json": {
+      "unchanged": true,
+      "baseline_sha256": "59c8601aebe3011bd5471517e6d49a4e26e5e8dfff737667d04c0037764ce816",
+      "checkout_sha256": "59c8601aebe3011bd5471517e6d49a4e26e5e8dfff737667d04c0037764ce816"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run03.json": {
+      "unchanged": true,
+      "baseline_sha256": "c0a82ec5f0d2ad1bd84e4c13ea1f1bb42190f45a0597f1b0c4b79f56bd749e59",
+      "checkout_sha256": "c0a82ec5f0d2ad1bd84e4c13ea1f1bb42190f45a0597f1b0c4b79f56bd749e59"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run04.json": {
+      "unchanged": true,
+      "baseline_sha256": "c7b71cf530ec293f5d2fe7264a76d52b3e169492319779fe93ff20f09af69779",
+      "checkout_sha256": "c7b71cf530ec293f5d2fe7264a76d52b3e169492319779fe93ff20f09af69779"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run05.json": {
+      "unchanged": true,
+      "baseline_sha256": "e67aab07cd85236e5d94fabe0d5f040a5da7d5a409692dd2e31499b37206482b",
+      "checkout_sha256": "e67aab07cd85236e5d94fabe0d5f040a5da7d5a409692dd2e31499b37206482b"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run06.json": {
+      "unchanged": true,
+      "baseline_sha256": "ae465dd3ac1b28b3d8bade91a3405589f68850ffffa4ef10988235f0b9ffd9c1",
+      "checkout_sha256": "ae465dd3ac1b28b3d8bade91a3405589f68850ffffa4ef10988235f0b9ffd9c1"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run07.json": {
+      "unchanged": true,
+      "baseline_sha256": "659dea5cb393f97502bec8b7ba1f15b050f94ba3509b5a1073d3a06a5502d6be",
+      "checkout_sha256": "659dea5cb393f97502bec8b7ba1f15b050f94ba3509b5a1073d3a06a5502d6be"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run08.json": {
+      "unchanged": true,
+      "baseline_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6",
+      "checkout_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run09.json": {
+      "unchanged": true,
+      "baseline_sha256": "c31a1f8ef7c196b5a7110d6fe73f60ce287ab158c20eee96ac2b54e3c504dcc0",
+      "checkout_sha256": "c31a1f8ef7c196b5a7110d6fe73f60ce287ab158c20eee96ac2b54e3c504dcc0"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run10.json": {
+      "unchanged": true,
+      "baseline_sha256": "243d253b52afe7c6d8c2dffad38f92f313be0eb0c580a5a55655cfc01016ad10",
+      "checkout_sha256": "243d253b52afe7c6d8c2dffad38f92f313be0eb0c580a5a55655cfc01016ad10"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run11.json": {
+      "unchanged": true,
+      "baseline_sha256": "3cb622ecdf0562350f789fec3af8fb45c1799adb6306855fc834c110670a44aa",
+      "checkout_sha256": "3cb622ecdf0562350f789fec3af8fb45c1799adb6306855fc834c110670a44aa"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-run12.json": {
+      "unchanged": true,
+      "baseline_sha256": "6d70ac263b23c51dcd820034db632bdc332d886b5dc6aa93e45dbbe2c717b6c7",
+      "checkout_sha256": "6d70ac263b23c51dcd820034db632bdc332d886b5dc6aa93e45dbbe2c717b6c7"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-time-receipt-final.json": {
+      "unchanged": true,
+      "baseline_sha256": "988b36d0d55c906a22fbbbbce8528ad882091ba22cf6de968a889b18349e0d16",
+      "checkout_sha256": "988b36d0d55c906a22fbbbbce8528ad882091ba22cf6de968a889b18349e0d16"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-review-time-receipt.json": {
+      "unchanged": true,
+      "baseline_sha256": "7ec80038722a51b24b1a6c280efbfccf1c683a146ce645920cd2b33db269aa12",
+      "checkout_sha256": "7ec80038722a51b24b1a6c280efbfccf1c683a146ce645920cd2b33db269aa12"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-runner-final.json": {
+      "unchanged": true,
+      "baseline_sha256": "66c71b09d023b1d81fffa0d3ba61c63331c5bab5414c8f379a05502a5aaf3d49",
+      "checkout_sha256": "66c71b09d023b1d81fffa0d3ba61c63331c5bab5414c8f379a05502a5aaf3d49"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-runner-reevaluation.json": {
+      "unchanged": true,
+      "baseline_sha256": "1d6018eec486e8a2094d155580586eab36cd372e2d094969e4198943237e25bf",
+      "checkout_sha256": "1d6018eec486e8a2094d155580586eab36cd372e2d094969e4198943237e25bf"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/email_model_case.py": {
+      "unchanged": true,
+      "baseline_sha256": "2c5ba315601bd3bc253471cc8b5155426c76256df26891b007d5989ecc4316e9",
+      "checkout_sha256": "2c5ba315601bd3bc253471cc8b5155426c76256df26891b007d5989ecc4316e9"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/email_runner_review.py": {
+      "unchanged": true,
+      "baseline_sha256": "960cced0ae1ca6d0fa6c0af14abfd01a4cc202f149830b0230184ea2a5051256",
+      "checkout_sha256": "960cced0ae1ca6d0fa6c0af14abfd01a4cc202f149830b0230184ea2a5051256"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/export_evidence.py": {
+      "unchanged": true,
+      "baseline_sha256": "d130d58041db6051836cf895f0e5fbea5b9a340e9956a02ff977e5a23793689b",
+      "checkout_sha256": "d130d58041db6051836cf895f0e5fbea5b9a340e9956a02ff977e5a23793689b"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py": {
+      "unchanged": true,
+      "baseline_sha256": "41261eaf44a94a69cd7fb03cf5f6f8dee8454eb8f6d53f6179ebf6c8afe04f09",
+      "checkout_sha256": "41261eaf44a94a69cd7fb03cf5f6f8dee8454eb8f6d53f6179ebf6c8afe04f09"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_review.py": {
+      "unchanged": true,
+      "baseline_sha256": "320ef1211856ec609bf37090b90f2e3f8b4b734426258f9c7668174814fdd502",
+      "checkout_sha256": "320ef1211856ec609bf37090b90f2e3f8b4b734426258f9c7668174814fdd502"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_runner_review.py": {
+      "unchanged": true,
+      "baseline_sha256": "fb7d9f645d1997ce95ca32a2e012bd2596a9d0b495f3ece676a04cecfbd94b28",
+      "checkout_sha256": "fb7d9f645d1997ce95ca32a2e012bd2596a9d0b495f3ece676a04cecfbd94b28"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_supplement_review.py": {
+      "unchanged": true,
+      "baseline_sha256": "6f803f5b77ff2d7919938a7a0ad32c700a927941d018bcc63c6bd1f9c938753a",
+      "checkout_sha256": "6f803f5b77ff2d7919938a7a0ad32c700a927941d018bcc63c6bd1f9c938753a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/general_glm_remaining.json": {
+      "unchanged": true,
+      "baseline_sha256": "b36cfb8a67d521fde2ed1d473afc376eb537efd0af398ecc0797296776ab3e09",
+      "checkout_sha256": "6f11f06bd90f8b6615433383a7737c8a59bc354c32b63c8bc3f408910d25b0ec"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/general_holdout.json": {
+      "unchanged": true,
+      "baseline_sha256": "b4f9082531c50e8e59fa4890823b9743f8d5ca98a3b51615239548994030c0a8",
+      "checkout_sha256": "b4f9082531c50e8e59fa4890823b9743f8d5ca98a3b51615239548994030c0a8"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/general_initial.json": {
+      "unchanged": true,
+      "baseline_sha256": "021af5737e06540e01555cc5e083fe34ad5d800250bba54ff101b1f382f322e0",
+      "checkout_sha256": "ace1993d637e0dd4c05e4dcb10b28d4df5ab4a93cd871cb10e801416c2fb55af"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/general_initial_original.json": {
+      "unchanged": true,
+      "baseline_sha256": "aa67859a763df936f164117511c363229dadc66fc65fa6e695ec04be64d27818",
+      "checkout_sha256": "7146b0048d583dc3c3af6aefd40741dbdf425afa911ef5fb356757578ab1f37b"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/general_model_case.py": {
+      "unchanged": true,
+      "baseline_sha256": "74df8e48b03aabdb5db3f1414ba0432c1c985025fb5141ab0f73778dd31b3bcf",
+      "checkout_sha256": "74df8e48b03aabdb5db3f1414ba0432c1c985025fb5141ab0f73778dd31b3bcf"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/independent.py": {
+      "unchanged": true,
+      "baseline_sha256": "e21700862f3d292404a89efa6226b5c284d28227128321d10fc16c124c2e724b",
+      "checkout_sha256": "e21700862f3d292404a89efa6226b5c284d28227128321d10fc16c124c2e724b"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_model_case.py": {
+      "unchanged": true,
+      "baseline_sha256": "11de741708093f88f49d755781d4a98243cfaaa62e1ceb25748a2d852fe712f7",
+      "checkout_sha256": "11de741708093f88f49d755781d4a98243cfaaa62e1ceb25748a2d852fe712f7"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_review.py": {
+      "unchanged": true,
+      "baseline_sha256": "40678baeaae3ec901c6407021f1445071f8e06fcd4e110d0a45333f25b888e31",
+      "checkout_sha256": "40678baeaae3ec901c6407021f1445071f8e06fcd4e110d0a45333f25b888e31"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_runner_review.py": {
+      "unchanged": true,
+      "baseline_sha256": "b61ff99e2fc85b2848522d2e9f718339647656641a3bd4b6a88da6ecbf72160a",
+      "checkout_sha256": "b61ff99e2fc85b2848522d2e9f718339647656641a3bd4b6a88da6ecbf72160a"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/memory_model_case.py": {
+      "unchanged": true,
+      "baseline_sha256": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf",
+      "checkout_sha256": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": {
+      "unchanged": true,
+      "baseline_sha256": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+      "checkout_sha256": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_replay.py": {
+      "unchanged": true,
+      "baseline_sha256": "e9b024b439ddad8735230e798938cba24ac01d41b2de1426652cc8ffb6e25975",
+      "checkout_sha256": "e9b024b439ddad8735230e798938cba24ac01d41b2de1426652cc8ffb6e25975"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_review.py": {
+      "unchanged": true,
+      "baseline_sha256": "136ab79018bef3cd4a318b1438b389dfdd40906243279408c620635a85a4d409",
+      "checkout_sha256": "136ab79018bef3cd4a318b1438b389dfdd40906243279408c620635a85a4d409"
+    },
+    "docs/assessments/root-cause-repair/a4-pilot/repro/review_runner.py": {
+      "unchanged": true,
+      "baseline_sha256": "fcf7fa817b9f6720480a8144474b0582c72ba62d9fc7ec457e122cc5a6fe4568",
+      "checkout_sha256": "fcf7fa817b9f6720480a8144474b0582c72ba62d9fc7ec457e122cc5a6fe4568"
+    },
+    "services/agent-core/agent_core/__init__.py": {
+      "unchanged": true,
+      "baseline_sha256": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+      "checkout_sha256": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+    },
+    "services/agent-core/agent_core/agent_loop.py": {
+      "unchanged": true,
+      "baseline_sha256": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+      "checkout_sha256": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e"
+    },
+    "services/agent-core/agent_core/email_task.py": {
+      "unchanged": true,
+      "baseline_sha256": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+      "checkout_sha256": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438"
+    },
+    "services/agent-core/agent_core/file_task.py": {
+      "unchanged": true,
+      "baseline_sha256": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+      "checkout_sha256": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d"
+    },
+    "services/agent-core/agent_core/general_reply_check.py": {
+      "unchanged": true,
+      "baseline_sha256": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+      "checkout_sha256": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5"
+    },
+    "services/agent-core/agent_core/harness.py": {
+      "unchanged": true,
+      "baseline_sha256": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+      "checkout_sha256": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899"
+    },
+    "services/agent-core/agent_core/issue_task.py": {
+      "unchanged": true,
+      "baseline_sha256": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+      "checkout_sha256": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8"
+    },
+    "services/agent-core/agent_core/mcp_host.py": {
+      "unchanged": true,
+      "baseline_sha256": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+      "checkout_sha256": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea"
+    },
+    "services/agent-core/agent_core/memory_correction.py": {
+      "unchanged": true,
+      "baseline_sha256": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66",
+      "checkout_sha256": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66"
+    },
+    "services/agent-core/agent_core/memory_retrieval.py": {
+      "unchanged": true,
+      "baseline_sha256": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+      "checkout_sha256": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b"
+    },
+    "services/agent-core/agent_core/permissions.py": {
+      "unchanged": true,
+      "baseline_sha256": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+      "checkout_sha256": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5"
+    },
+    "services/agent-core/agent_core/proactive.py": {
+      "unchanged": true,
+      "baseline_sha256": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+      "checkout_sha256": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8"
+    },
+    "services/agent-core/agent_core/provider_http.py": {
+      "unchanged": true,
+      "baseline_sha256": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+      "checkout_sha256": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739"
+    },
+    "services/agent-core/agent_core/result_pages.py": {
+      "unchanged": true,
+      "baseline_sha256": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+      "checkout_sha256": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7"
+    },
+    "services/agent-core/agent_core/song_catalog.py": {
+      "unchanged": true,
+      "baseline_sha256": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+      "checkout_sha256": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771"
+    },
+    "services/agent-core/agent_core/speech.py": {
+      "unchanged": true,
+      "baseline_sha256": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+      "checkout_sha256": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718"
+    },
+    "services/agent-core/agent_core/speech_cache.py": {
+      "unchanged": true,
+      "baseline_sha256": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+      "checkout_sha256": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2"
+    },
+    "services/agent-core/agent_core/storage.py": {
+      "unchanged": true,
+      "baseline_sha256": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+      "checkout_sha256": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa"
+    },
+    "services/agent-core/agent_core/stt_input.py": {
+      "unchanged": true,
+      "baseline_sha256": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+      "checkout_sha256": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f"
+    },
+    "services/agent-core/agent_core/task_delivery.py": {
+      "unchanged": true,
+      "baseline_sha256": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+      "checkout_sha256": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b"
+    },
+    "services/agent-core/agent_core/task_status.py": {
+      "unchanged": true,
+      "baseline_sha256": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+      "checkout_sha256": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5"
+    },
+    "services/agent-core/agent_core/tool_contracts.py": {
+      "unchanged": true,
+      "baseline_sha256": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+      "checkout_sha256": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df"
+    },
+    "services/agent-core/agent_core/tools.py": {
+      "unchanged": true,
+      "baseline_sha256": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+      "checkout_sha256": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0"
+    },
+    "services/agent-core/agent_core/verified_task.py": {
+      "unchanged": true,
+      "baseline_sha256": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+      "checkout_sha256": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7"
+    },
+    "services/agent-core/agent_core/voice.py": {
+      "unchanged": true,
+      "baseline_sha256": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+      "checkout_sha256": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3"
+    },
+    "services/agent-core/agent_core/voice_text.py": {
+      "unchanged": true,
+      "baseline_sha256": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+      "checkout_sha256": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf"
+    },
+    "services/agent-core/agent_core/wake_word.py": {
+      "unchanged": true,
+      "baseline_sha256": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+      "checkout_sha256": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd"
+    }
+  },
+  "comparison": "unchanged compares bytes after CRLF-to-LF normalization; baseline_sha256 is the Git blob, checkout_sha256 is the actual working file. Different raw hashes may reflect only line endings."
+}

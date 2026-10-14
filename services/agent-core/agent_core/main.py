@@ -1490,6 +1490,62 @@ def effort_prompt_note(effort: str) -> str:
     return EFFORT_PROMPT_NOTES.get(effort, "")
 
 
+def _memory_turn_control(text: str) -> tuple[str, bool]:
+    """Protect quoted and explicitly delimited data before looking for control."""
+    control = re.sub(
+        r'`{3}[\s\S]*?`{3}|`[^`]*`|"(?:\\.|[^"\\])*"|“[^”]*”|‘[^’]*’|「[^」]*」|『[^』]*』'
+        r"|'(?:\\.|[^'\\])*'", "\x00", text)
+    reference = re.match(r"\s*(?:资料原文|引用资料|资料内容|记忆内容|原文|引用)\s*[:：]", control)
+    payload = reference or re.search(r"(?:更正为|纠正为|修正为|改为|改成)(?:以下内容|以下文本)?\s*[:：]", control)
+    if payload:
+        rest = control[payload.end():].lstrip()
+        # A quoted payload has an explicit end; unquoted delimited content
+        # extends to the end of this message. Do not execute its later clauses.
+        control = control[:payload.start()] + (rest[1:] if rest.startswith("\x00") else "")
+    return control, reference is not None
+
+
+def _memory_turn_cancel_targets(control: str) -> set[str]:
+    """A separate, complete cancellation clause can coexist with memory clarification.
+
+    Do not reuse the broad edit classifier on a fact's new value. In particular,
+    改为 is a memory edit and 取消 can be literal data, not a revoked ticket.
+    """
+    target = (r"(?:(?:刚才|刚刚|之前|当前|本次)(?:的)?)?"
+              r"(?:(?:这|那)(?:个|项|封|份)(?:的)?)?(?:操作|任务|待办|邮件|文件)")
+    command = r"(?:取消|撤销|(?:不要|别|先不)(?:再)?(?:执行|发送|写入))"
+    targets = set()
+    for clause in re.split(r"[，,；;。！!\n]", control):
+        value = re.sub(r"\s+", "", clause)
+        value = re.sub(r"^(?:请|麻烦你?)?(?:先)?", "", value).removesuffix("吧")
+        match = re.fullmatch(rf"(?P<command>{command})(?P<target>{target})?", value)
+        if match is None:
+            match = re.fullmatch(rf"(?:把|将)?(?P<target>{target})(?:先)?(?P<command>{command})", value)
+        if match:
+            words = (match["target"] or "") + match["command"]
+            targets.add("mail" if "邮件" in words or "发送" in words else "file" if "文件" in words or "写入" in words else "all")
+    return targets
+
+
+def _memory_cancel_matches(action, targets):
+    return ("all" in targets or ("mail" in targets and action["tool"].endswith("send_email"))
+            or ("file" in targets and action["tool"] == "write_file"))
+
+
+def _memory_turn_cancel_receipt(session_id, cancelled, dispatched):
+    """Only describe actual ledger revocation; dispatch is never undoable here."""
+    lines = []
+    if cancelled:
+        lines.append(f"当前会话的{len(cancelled)}项待确认操作已取消，未执行；旧确认票据已失效。")
+    else:
+        lines.append("当前会话没有可取消的匹配待确认操作，本次没有撤回已派发的操作。")
+    if dispatched:
+        lines.append(f"另有{len(dispatched)}项操作已经派发，未撤回或回滚；以实际执行回执为准。")
+    memory.add_event("permission.declined", {"session_id": session_id, "request_id": REQUEST_ID.get(),
+        "actions": [_actions().ticket(a) for a in cancelled], "already_dispatched": dispatched})
+    return "\n".join(lines)
+
+
 async def handle_chat(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None) -> None:
     global _inflight_wake_request
     if _inflight_wake_request and _inflight_wake_request != request_id:
@@ -1510,14 +1566,29 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     correction_plan = (memory.prepare_correction(text, session_probe)
                        if session_probe is not None and not verified_task.requested(text) else None)
     book = _actions()
-    incoming_decision = "other" if correction_plan is not None or status_question(text, book.records.values(), session_probe) is not None else confirmation_decision(text)
+    control, reference = _memory_turn_control(text)
+    cancel_targets = _memory_turn_cancel_targets(control) if correction_plan is not None else set()
+    memory_cancel = bool(cancel_targets)
+    incoming_decision = ("decline" if memory_cancel else "other"
+                         if correction_plan is not None or status_question(text, book.records.values(), session_probe) is not None
+                         else confirmation_decision(control if reference else text))
     preempted = None
+    dispatched = []
     if session_probe is not None:
+        if memory_cancel:
+            active_id = (_task_state.get(session_probe) or {}).get("id")
+            dispatched = [a["action_id"] for a in book.records.values()
+                          if a["session_id"] == session_probe and a.get("execution_id")
+                          and (active_id is None or a["task_id"] == active_id)
+                          and _memory_cancel_matches(a, cancel_targets)]
         if incoming_decision in {"decline","edit"} and (
-                book.pending(session_probe) or (chat_lock.locked() and _task_state.get(session_probe) is not None)):
-            preempted = book.cancel(session_probe)
+                memory_cancel or book.pending(session_probe) or (chat_lock.locked() and _task_state.get(session_probe) is not None)):
+            selected = ({a["action_id"] for a in book.pending(session_probe) if _memory_cancel_matches(a, cancel_targets)}
+                        if memory_cancel else None)
+            preempted = book.cancel(session_probe, action_ids=selected)
             active_task = _task_state.get(session_probe)
-            if active_task is not None:
+            if active_task is not None and (not memory_cancel or "all" in cancel_targets or dispatched
+                    or any(a["task_id"] == active_task["id"] for a in preempted)):
                 # Revocation must reach the mutation boundary BEFORE waiting
                 # for a model/turn lock. Already dispatched I/O is not undone.
                 active_task["blocked"] = True
@@ -1528,7 +1599,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
             confirmation = dict(_shown_confirmations.get(session_probe, {}))
     try:
         await _handle_chat_locked(text, request_id, session_probe if correction_plan is not None else conversation_id,
-                                  effort, confirmation, preempted, correction_plan)
+                                  effort, confirmation, preempted, correction_plan, dispatched, control if reference else None)
     finally:
         REQUEST_ID.reset(transport_token)
         if _inflight_wake_request == request_id:
@@ -1536,7 +1607,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         _superseded_requests.discard(request_id)
 
 
-async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None) -> None:
+async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None, dispatched: list | None = None, control_text: str | None = None) -> None:
 
     async with chat_lock:
         if request_id in _superseded_requests:
@@ -1552,7 +1623,9 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         _ACTIVE_CHAT_SESSION_ID[0] = session_id
         if correction_plan is not None:
             result = memory.correct_fact(correction_plan, request_id)
-            reply = AgentReply(reply=memory_correction.receipt_text(result))
+            cancellation = (_memory_turn_cancel_receipt(session_id, preempted, dispatched or []) + "\n"
+                            if preempted is not None else "")
+            reply = AgentReply(reply=cancellation + memory_correction.receipt_text(result))
             memory.add_event("memory.correction", {**result, "request_id": request_id, "session_id": session_id})
             memory.add_message("assistant", reply.reply, request_id, session_id)
             memory.add_event("chat.delivery", {"session_id": session_id, "request_id": request_id,
@@ -1574,7 +1647,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         pending = _sync_pending(session_id)
         confirm_note = ""
         status_query = status_question(text, book.records.values(), session_id)
-        intent = "other" if status_query is not None else confirmation_decision(text)
+        intent = "other" if status_query is not None else confirmation_decision(control_text if control_text is not None else text)
         direct_reply = None
         delivery_actions = []
         verification_turn = False

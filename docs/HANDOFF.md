@@ -54,7 +54,9 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
-Codex 2026-10-14：[明确更正已有记忆](assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION.md)完成窄范围修复与验证：实体/属性/范围/旧版本核验，原子替换与历史保留，保存读回后真实回执；仅本会话覆盖不改全局。受影响337项及运行器38项通过，独立32项包含其中；DS/GLM各3条完成实际进程退出/重启后的事实性核验，实际84次HTTP。GLM展示降级与额外工具失败单列，原失败及独立复评保留。当前发现602个测试，未执行全量终验；通用回复核对器仍未接入，A4不关闭。文件/Issue/邮件/交界保留，未触碰生产库或当前Godot/Core/TTS，未部署、未合并main，停在验收点。
+Codex 2026-10-14：[记忆更正与操作取消交界](assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION_FOLLOWUP.md)完成定向补修：明确取消在聊天锁前撤权，记忆澄清同时交付实际取消结果；数据、否定和错误对象不撤权，已派发不冒称回滚。冻结源码下受影响250项通过，含主17项和一次独立审查12项；当前发现631个测试，未执行全量终验。旧记忆事务、跨会话/重启和双模型证据保留，零新增真实模型或外部业务调用。本交界关闭，明确记忆更正阶段具备收尾条件；通用回复核对器仍未接入，A4和底座整体不关闭。未部署、未合并main、未操作生产数据或当前Godot/Core/TTS，停在验收点。
+
+Codex 2026-10-14：[明确更正已有记忆](assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION.md)完成窄范围修复与验证：实体/属性/范围/旧版本核验，原子替换与历史保留，保存读回后真实回执；仅本会话覆盖不改全局。受影响337项及运行器38项通过，独立32项包含其中；DS/GLM各3条完成实际进程退出/重启后的事实性核验，实际84次HTTP。GLM展示降级与额外工具失败单列，原失败及独立复评保留。该阶段发现602个测试，未执行全量终验；通用回复核对器仍未接入，A4不关闭。文件/Issue/邮件/交界保留，未触碰生产库或当前Godot/Core/TTS，未部署、未合并main，停在验收点。
 
 Codex 2026-10-14：[通用回复发布前核对试点](assessments/root-cause-repair/a4-pilot/GENERAL_REPLY_CHECK.md)未通过采用门禁：新增受限提取/记录核验模块及原运行器reply入口，未接入handle_chat。人工严格DS9/11、GLM5/11，24/40次HTTP；GLM格式/空响应与超时导致正常引用/假设误拦，旧A4仍开放。程序19项和原预算/隔离38项通过，发现546项但本轮未全量执行。既有文件/Issue/邮件/交界源码保持；后续全部阻断解决后必须同一最终版本统一重验已修功能和组合，不拼接旧版本结果。未部署、未合并main，停在Manager验收。
 
@@ -169,7 +171,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现602；本轮明确记忆更正只执行受影响337项及运行器38项，未执行全量终验；后续同一最终源码统一重验 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现631；本轮取消交界只执行受影响250项，未执行全量终验；后续同一最终源码统一重验 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -264,7 +266,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 当前发现602；历史证据保留，本轮明确记忆更正受影响337项及运行器38项，不当作全量终验，不触碰生产库或真实外部业务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 当前发现631；历史证据保留，本轮取消交界受影响250项，不当作全量终验，不触碰生产库或真实外部业务 |
 
 ## 10. 灾备与回滚
 

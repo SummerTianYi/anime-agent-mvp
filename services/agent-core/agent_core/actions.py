@@ -134,9 +134,11 @@ class ActionLedger:
     def ticket(self, item):
         return {k: item[k] for k in ("action_id", "revision", "args_hash")}
 
-    def cancel(self, session):
+    def cancel(self, session, *, action_ids=None):
         cancelled = []
         for item in self.pending(session):
+            if action_ids is not None and item["action_id"] not in action_ids:
+                continue
             item["status"] = "cancelled"
             self.save(item)
             cancelled.append(item)

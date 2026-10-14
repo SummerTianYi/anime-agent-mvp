@@ -1,0 +1,34 @@
+{
+  "baseline_commit": "9b1ad2b7de48be4c8436e8151013085cb54fe1a3",
+  "real_provider_requests": 0,
+  "files": [
+    {
+      "file": "memory-followup-baseline.json",
+      "sha256": "deba656e6b449eddf5318121e88dceb6f330089fb731b1895ba23ea37a683e7f"
+    },
+    {
+      "file": "memory-followup-red.json",
+      "sha256": "a9054c4f8a53ff0e44ba8432df64aad2c9885c3856459bfa7e2f869a53a7c05a"
+    },
+    {
+      "file": "memory-followup-primary-green.json",
+      "sha256": "afb3fd9e69481086385df04dc2684af09ff3b1a5abfbc6ff884c6f2907abf605"
+    },
+    {
+      "file": "memory-followup-review-runs.json",
+      "sha256": "24caf611658282867808df3e006c4478649f1cb7190c8fbc13df0c2f6df447fa"
+    },
+    {
+      "file": "memory-followup-final-regressions.json",
+      "sha256": "96b05779d5cb340fce975e2bf017d8deb0033f3d37eb50540141366da413490f"
+    },
+    {
+      "file": "memory-followup-preservation.json",
+      "sha256": "9e76250fb5d9bc9402fd730854680b244d3703f219b12822bbf5985f1764d7bb"
+    },
+    {
+      "file": "memory-followup-independent-conclusion.json",
+      "sha256": "d71ba3966b4a9637a0d478ef7eda443c2a646a2f97183ad825b913bc18b516b1"
+    }
+  ]
+}

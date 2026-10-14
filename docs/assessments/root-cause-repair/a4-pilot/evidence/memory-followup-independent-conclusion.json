@@ -1,0 +1,92 @@
+{
+  "reviewer": "Codex independent memory_cancel_review",
+  "baseline_commit": "9b1ad2b7de48be4c8436e8151013085cb54fe1a3",
+  "scope": "Delta review of explicit memory-correction and operation-cancellation boundary; actual handle_chat, synthetic actions and audited in-memory storage only",
+  "verdict": "APPROVE",
+  "unresolved_findings": [],
+  "final_source_sha256": {
+    "main.py": "ae4e1a3e0be7e5cae89cf3b79c3e18e63f9760d179d29c6c494dfd3f2e624904",
+    "actions.py": "b85c51f46967436d3093508a61ac8085db9a3727a9341b1d638f4cd6cb24e894"
+  },
+  "test_file": "services/agent-core/tests/test_memory_cancel_review.py",
+  "test_sha256": "973b59f7ef90bee52889695928a1f1821754d28581b818ecac85026ea1c06ad9",
+  "runs": [
+    {
+      "report": "review-initial.json",
+      "sha256": "a09a79e48c1cc29d3341c25f3dd3895037a8a35ee244330d48774b9c2df50ac9",
+      "tests": 10,
+      "passed": 5,
+      "failed": 5,
+      "note": "Original failure evidence retained. Synthetic send effect occurred once in queued-refusal case; this is not a claim about any real email."
+    },
+    {
+      "report": "review-fixed-01.json",
+      "sha256": "d7a48a5dabd2c4a7fe736d7ec8d8f26705606d42fe05038f872595f8b12c7b96",
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "note": "Added real cancellation outside quoted reference control; intermediate main hash, not final frozen source."
+    },
+    {
+      "report": "review-final.json",
+      "sha256": "b46d9c3950d94e71343f59ece4eb4a06a23dae609216225bec53f7051b0e6c3a",
+      "tests": 12,
+      "passed": 12,
+      "failed": 0,
+      "note": "Final frozen source. Added older-task typed cancellation preserving current file task and successful exact file ticket execution."
+    }
+  ],
+  "resolved_findings": [
+    {
+      "severity": "HIGH",
+      "initial_lines": "main.py:1502-1505,1542-1556",
+      "trigger": [
+        "晨星预算更正为175；请取消刚才那项操作。",
+        "晨星预算更正为175；刚才那封邮件不要发送。"
+      ],
+      "before": "First paraphrase left ticket awaiting_confirmation. Second paraphrase allowed queued approval to dispatch one synthetic send after lock release.",
+      "after": "Complete-clause handling recognizes both forms; ticket cancelled before dispatch and persisted; zero synthetic send effects."
+    },
+    {
+      "severity": "MEDIUM",
+      "initial_lines": "main.py:1499-1505",
+      "trigger": "晨星代号更正为以下内容：启航；取消刚才的操作。",
+      "before": "Explicit data payload's later clause incorrectly cancelled pending action.",
+      "after": "Delimited payload is non-control; ledger and facts unchanged."
+    },
+    {
+      "severity": "MEDIUM",
+      "initial_lines": "main.py:1502,1556",
+      "trigger": "Pending write_file plus 晨星预算更正为175；取消邮件。",
+      "before": "Cancellation did not verify operation category and cancelled file action.",
+      "after": "Category matching and filtered ledger cancellation preserve file ticket. Older mail cancellation does not block current file task."
+    },
+    {
+      "severity": "MEDIUM",
+      "origin": "pre-existing broad classifier exposed by this task's required reference boundary; not described as newly introduced",
+      "trigger": "资料原文：取消刚才的操作；晨星预算更正为175。",
+      "before": "prepare_correction returned None and legacy classifier cancelled pending action from reference data.",
+      "after": "Same protected control text used before and inside lock; unquoted reference payload remains data, while cancellation outside a quoted reference still works."
+    }
+  ],
+  "passed_controls": [
+    "negative cancellation with object before command",
+    "quoted multi-sentence memory payload",
+    "wrong named object does not cancel current ticket",
+    "other session ticket unchanged in memory and stored ledger",
+    "dispatched unknown remains unknown and does not claim recall or rollback",
+    "older-task mail cancellation leaves current file task unblocked and executable"
+  ],
+  "preservation_verified_against_baseline": [
+    "services/agent-core/agent_core/storage.py",
+    "services/agent-core/agent_core/memory_correction.py",
+    "docs/assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION.md",
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/memory-*",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py",
+    "docs/assessments/root-cause-repair/a4-pilot/repro/memory_model_case.py"
+  ],
+  "preservation_method": "git diff against baseline for the listed tracked paths returned empty at final review",
+  "real_model_calls": 0,
+  "external_business_calls": 0,
+  "limitations": "This review approves the requested narrow boundary only. It does not re-run DS/GLM, process restart, full Core acceptance or close A4. Historical memory and model evidence remain unchanged."
+}
