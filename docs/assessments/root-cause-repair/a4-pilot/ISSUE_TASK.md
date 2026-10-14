@@ -82,3 +82,5 @@ PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1 ../tianyi-repair-batch-01/services/agent-
 原 A4 首轮无票据假声明、只读摘要夹带写入等范围外开放项，以及原文档检查默认数据库影响未知记录，继续保留于原 REPORT。生产库未检查、恢复或清理。TTS 固定版本 `969f4e293a8abbf4b8f153e8551b2fbff93098bf` 不变。停在 Manager 验收点。
 
 [提交前检查](evidence/issue-final-checks.json)：公开隔离入口得到 `DOCS_CONSISTENCY_OK / DOCS_ISOLATION_OK`，发现 485 项但没有借文档检查重跑全部测试；暂存 Python/JSON、秘密及 50 MB 限制检查通过。原目录 95 份既有材料不变，旧文件运行器是唯一有意修改的既有材料。最后仅删除独立测试文件尾部一个多余空行以通过 `git diff --check`，AST 相等和前后哈希已记录；业务、模型用例及执行夹具仍与四例实测完全一致。没有相关前端或语音源码变化，本轮未运行桌面、Godot、TTS 或真实 GitHub 验收。
+
+业务与证据提交 `5b4969b91aad1b0f5365dba4868a4ed75ed217f1` 的干净 clone 已由两个零上下文独立实例完成白纸交接，均 **8/8**，见 [交接记录](evidence/issue-handoff.json)。两者正确识别 3/4 部分完成、DS 连接阻塞、预算及源码/测试版本边界；没有补跑测试或模型。共同指出的旧 Idle 代码地图文字仍属范围外文档漂移。后续提交只补本交接记录，业务与运行器不变；最终固定 SHA、候选推送及远端回读由交付消息提供。

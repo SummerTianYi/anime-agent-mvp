@@ -1,0 +1,51 @@
+{
+  "scope": "Two independent zero-context read-only handoff reviews; answers condensed by primary executor",
+  "reviewed_commit": "5b4969b91aad1b0f5365dba4868a4ed75ed217f1",
+  "clone": "<issue-phase>/handoff-clean",
+  "branch": "codex/root-cause-repair-batch01-followup-20261012",
+  "clone_clean_start_and_end": true,
+  "network_model_database_test_calls_by_reviewers": 0,
+  "reviews": [
+    {
+      "agent": "issue_handoff_one",
+      "verdict": "PASS",
+      "primary_grade": "8/8",
+      "answers": [
+        "Windows local-first Luo Tianyi desktop companion; Godot primary, Python Core required, optional Tauri; M1/M2 historical baseline, M3 current, M4 long term. Historical implementation is not all-path reliability.",
+        "Codex built model/render/runtime foundation; Claude chat/session/STT/read tools/TTS client; zcode permission/write/commands/MCP/proactive/vision/memory; owner trains voice and authorizes acceptance. Preserve attribution.",
+        "Frozen character/chat/voice/read tools/persona/permissions/atomic writes/command allowlist/MCP/vision/facts/Idle must be preserved. Regress then minimally repair, do not rebuild.",
+        "Assigned scope is this read-only handoff only. HANDOFF assignment table is empty. Manager receives partial result and decides further work; no self-authorized retest/deploy/merge.",
+        "Desktop companion with identity, voice, memory, perception, proactive company and authorized safe actions; local-first, character-first, safety-first.",
+        "Delete-file capability starts in Workbench sandbox exams covering scope/rejection/confirmation/revocation/replay/audit; enter main repository only after exams and valid real grants.",
+        "Reproduce write_file bug in isolation, run related regressions, make minimal fix retaining paths/permissions/atomicity/content/confirmation/revocation/receipts, update relevant evidence.",
+        "Locate authorized GLB via LOCAL_MACHINE/asset pipeline/version hashes and check-local-assets.ps1. Create private .env from .env.example with authorized credentials; never publish assets or secrets."
+      ]
+    },
+    {
+      "agent": "issue_handoff_two",
+      "verdict": "PASS",
+      "primary_grade": "8/8",
+      "answers": [
+        "Local-first Windows Godot desktop character with Python Core and optional Tauri settings shell. M1/M2 historical completed foundation; M3 persistence/reliability remains current.",
+        "Codex foundation/model/performance/startup; Claude chat/multi-session/STT/read loop/TTS client; zcode agent permissions/write/commands/MCP/vision/memory; owner voice and acceptance. Codex to Claude to authorized zcode, preserve CONTRIBUTIONS.",
+        "Preserve accepted chat/voice/tools/persona/allow-ask-deny/audit/write roots/commands/narration/MCP/proactive/Idle/vision/facts/model/runtime supervision. No opportunistic rebuild.",
+        "Only independent read-only review is assigned. No new implementation from empty HANDOFF table or obsolete priority. Hand result to Manager and await next authorized scope.",
+        "An embodied Luo Tianyi companion with official appearance, real voice, memory, perception and safe authorized actions; local, character and safety priorities.",
+        "Design delete-file capability and exams in Workbench first; test boundary rejection/confirm/cancel/grants/audit. Real integration requires successful exams and valid authority, no run_command bypass.",
+        "Use isolated related regressions and failing reproduction, minimally fix write_file while preserving atomic write/grants/versioning/dedup/receipt, update status documents and relevant verification.",
+        "Use LOCAL_MACHINE/ASSET_PIPELINE/model-versions and check-local-assets.ps1 for local restricted GLB. Prepare .env from .env.example with authorized credentials; no secret disclosure; report missing requirements honestly."
+      ]
+    }
+  ],
+  "shared_findings": {
+    "live_task_results": "DS1 PASS, GLM1 PASS, DS2 connection_or_protocol FAIL before update proposal, GLM2 PASS",
+    "live_acceptance": "3/4 partial; 21/40 HTTP; no reruns, 19 unused",
+    "business_hash_binding": "Four changed Core modules match final evidence",
+    "test_version_boundary": "485 full suite preceded last one-line negated-read scope change; final scope 3, A4 19 and independent 21 rerun; do not claim full 485 re-executed on final source",
+    "evidence_vs_task": "39 offline runner and 44 evidence checks do not override all_tasks_passed=false",
+    "remaining_blocker": "DS variant 2 lacks complete update/read/delivery evidence after connection timeout",
+    "nonblocking_preexisting_doc_drift": "HANDOFF code map still labels Idle not-started although latest status identifies implemented; left outside this scope",
+    "boundary": "Background synthetic MCP only. No real GitHub certification, A4 closure, deployment, main merge, current Godot/Core/TTS or production database operations"
+  },
+  "handoff_gate_passed": true
+}
