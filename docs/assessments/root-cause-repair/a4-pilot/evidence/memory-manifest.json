@@ -1,0 +1,958 @@
+{
+  "baseline_commit": "4a386a9776e65ef07cd3058f7cab98b4f4b0e8d1",
+  "source_sha256": {
+    "actions.py": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "email_task.py": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "general_reply_check.py": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "3d64d7dc7949d2805cadb9c5afd6c96ce0ce3e1cc092fd0c9da8cabdc0a60737",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_correction.py": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "verified_task.py": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "summary": {
+    "regression": [
+      {
+        "file": "final-test_a4_pilot.json",
+        "tests": 19,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_agent_loop.json",
+        "tests": 7,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_baseline_closureall.json",
+        "tests": 16,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_channel_exclusivity.json",
+        "tests": 12,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_effort.json",
+        "tests": 10,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_emailall.json",
+        "tests": 26,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_file_task.json",
+        "tests": 20,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_followup_delivery.json",
+        "tests": 4,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_harnessall.json",
+        "tests": 73,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_issueall.json",
+        "tests": 34,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_main_ws.json",
+        "tests": 3,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-frozen-memory.json",
+        "tests": 66,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_pending_status.json",
+        "tests": 13,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_permissions.json",
+        "tests": 11,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_session_visibility.json",
+        "tests": 4,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      },
+      {
+        "file": "final-test_storage.json",
+        "tests": 19,
+        "passed": true,
+        "failures": 0,
+        "errors": 0
+      }
+    ],
+    "tests": 337,
+    "all_regressions_passed": true,
+    "live": [
+      {
+        "case": "live-ds1",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": true,
+            "complete": false,
+            "reevaluated_passed": null,
+            "effective_complete": false,
+            "http": 6,
+            "seconds": 23.5,
+            "pid": 34632,
+            "false_checks": []
+          },
+          {
+            "file": "memory-restart-model.json",
+            "passed": true,
+            "complete": true,
+            "reevaluated_passed": null,
+            "effective_complete": true,
+            "http": 2,
+            "seconds": 4.891,
+            "pid": 14464,
+            "false_checks": []
+          }
+        ]
+      },
+      {
+        "case": "live-final-ds1",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": true,
+            "complete": false,
+            "reevaluated_passed": true,
+            "effective_complete": false,
+            "http": 6,
+            "seconds": 29.828,
+            "pid": 48972,
+            "false_checks": []
+          },
+          {
+            "file": "memory-restart-model.json",
+            "passed": true,
+            "complete": true,
+            "reevaluated_passed": true,
+            "effective_complete": true,
+            "http": 2,
+            "seconds": 3.812,
+            "pid": 50160,
+            "false_checks": []
+          }
+        ]
+      },
+      {
+        "case": "live-final-ds2",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": true,
+            "complete": false,
+            "reevaluated_passed": null,
+            "effective_complete": false,
+            "http": 6,
+            "seconds": 32.641,
+            "pid": 50240,
+            "false_checks": []
+          },
+          {
+            "file": "memory-restart-model.json",
+            "passed": true,
+            "complete": true,
+            "reevaluated_passed": null,
+            "effective_complete": true,
+            "http": 2,
+            "seconds": 18.922,
+            "pid": 24232,
+            "false_checks": []
+          }
+        ]
+      },
+      {
+        "case": "live-final-ds3",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": true,
+            "complete": false,
+            "reevaluated_passed": null,
+            "effective_complete": false,
+            "http": 6,
+            "seconds": 70.797,
+            "pid": 25776,
+            "false_checks": []
+          },
+          {
+            "file": "memory-restart-model.json",
+            "passed": true,
+            "complete": true,
+            "reevaluated_passed": null,
+            "effective_complete": true,
+            "http": 2,
+            "seconds": 4.5,
+            "pid": 10564,
+            "false_checks": []
+          }
+        ]
+      },
+      {
+        "case": "live-final-glm1",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": false,
+            "complete": false,
+            "reevaluated_passed": true,
+            "effective_complete": false,
+            "http": 13,
+            "seconds": 129.828,
+            "pid": 4776,
+            "false_checks": [
+              "same_session_answer",
+              "new_session_answer"
+            ]
+          },
+          {
+            "file": "memory-restart-model.json",
+            "passed": false,
+            "complete": false,
+            "reevaluated_passed": true,
+            "effective_complete": true,
+            "http": 3,
+            "seconds": 19.937,
+            "pid": 49060,
+            "false_checks": [
+              "new_session_answer"
+            ]
+          }
+        ]
+      },
+      {
+        "case": "live-final-glm2",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": true,
+            "complete": false,
+            "reevaluated_passed": null,
+            "effective_complete": false,
+            "http": 9,
+            "seconds": 79.375,
+            "pid": 51088,
+            "false_checks": []
+          },
+          {
+            "file": "memory-restart-model.json",
+            "passed": true,
+            "complete": true,
+            "reevaluated_passed": null,
+            "effective_complete": true,
+            "http": 3,
+            "seconds": 46.594,
+            "pid": 7860,
+            "false_checks": []
+          }
+        ]
+      },
+      {
+        "case": "live-final-glm3",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": true,
+            "complete": false,
+            "reevaluated_passed": null,
+            "effective_complete": false,
+            "http": 10,
+            "seconds": 103.625,
+            "pid": 36780,
+            "false_checks": []
+          },
+          {
+            "file": "memory-restart-model.json",
+            "passed": true,
+            "complete": true,
+            "reevaluated_passed": null,
+            "effective_complete": true,
+            "http": 3,
+            "seconds": 34.141,
+            "pid": 52060,
+            "false_checks": []
+          }
+        ]
+      },
+      {
+        "case": "live-glm1",
+        "phases": [
+          {
+            "file": "memory-model.json",
+            "passed": false,
+            "complete": false,
+            "reevaluated_passed": null,
+            "effective_complete": false,
+            "http": 11,
+            "seconds": 110.61,
+            "pid": 43980,
+            "false_checks": [
+              "same_session_answer",
+              "new_session_answer"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "source": "after1.json",
+      "published": "memory-after1.json",
+      "source_sha256": "22a7332156c8773b21e16b177e2d48cbf2e8f9b4b91bf2a3732fc094fd7b9014",
+      "published_sha256": "a1099e92f71f27c6880596d89a60c6b5a96757f59f99def35b874398b17122ff"
+    },
+    {
+      "source": "after2.json",
+      "published": "memory-after2.json",
+      "source_sha256": "21e928ccb465293cec170868615f8951fb032b2770a7adda2e6aee64557fbd48",
+      "published_sha256": "9ec8f789b11d9fb7fbd9dc8cd0a7ac927a6d2d03f3a2ef0fb2618c73f0961a3c"
+    },
+    {
+      "source": "after3.json",
+      "published": "memory-after3.json",
+      "source_sha256": "c2ad2f7a4d940a12b9ecc9a3fe8aa8af8d6bb96a83e7724f3c5c842b92f37839",
+      "published_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6"
+    },
+    {
+      "source": "before-memory_promotion.json",
+      "published": "memory-before-memory_promotion.json",
+      "source_sha256": "b03285f6ff74a2b1c4df9ed211fbe6f6433f0722b63b79d32342e71f01e03b45",
+      "published_sha256": "b64cda4153b9726e77d2511a4d8c7df90b7162c0977f0a7643d02aebd9dde623"
+    },
+    {
+      "source": "before-memory_retrieval.json",
+      "published": "memory-before-memory_retrieval.json",
+      "source_sha256": "8f81c9d284b6ebd8078249f2665fadf6ae8098e24dc1902ab29b063c8dd5ee6f",
+      "published_sha256": "4d9a2420a9a90d129c3302c9e41a3a1e5e01dd0ce2f22b745fb48d07ba505a50"
+    },
+    {
+      "source": "before-storage.json",
+      "published": "memory-before-storage.json",
+      "source_sha256": "27ea9627719556c1fe51f7271030782cfd00f2bbc91fde2e7407ee82e9bdcff1",
+      "published_sha256": "d9b3dc32ce78b81742d79ac7818103be321b1f7fbaad27df7b25cb85cc4bd53e"
+    },
+    {
+      "source": "final-frozen-memory.json",
+      "published": "memory-final-frozen-memory.json",
+      "source_sha256": "d444fdaf7379696be498a16261f8f823cc344cb752774f4dbc203a1a4711be12",
+      "published_sha256": "fd1636eef14fd1f5e155e8083a1e7775f80ff8cfb1331d69f1ee80db24b31ff4"
+    },
+    {
+      "source": "final-oracle-memory.json",
+      "published": "memory-final-oracle-memory.json",
+      "source_sha256": "849f1b2b86a929cbc70551c8ae0b98183a5e075e73460f92c2682db5a05cf439",
+      "published_sha256": "d08c322e85f2817119d120f2187e69eca93155868b092156a636d347fa3fd573"
+    },
+    {
+      "source": "final-preservation.json",
+      "published": "memory-final-preservation.json",
+      "source_sha256": "893199fb2ac4f881cf8c65c3e185876665583d5a43026f65182180cb74ef583f",
+      "published_sha256": "7c0f1dd04f7b47918660d2278ccd9585bd2979992fc8af4634bf51961cb5cc1a"
+    },
+    {
+      "source": "final-reviewed-memory.json",
+      "published": "memory-final-reviewed-memory.json",
+      "source_sha256": "7f6fce1944a21f9419b831045232c9cb196e759f20c03a5ba4ad0e5269d87aef",
+      "published_sha256": "f16b686a34bebb1ca8ae38fbece375f4ccb94e0fb4e6a95a29439645a60c1657"
+    },
+    {
+      "source": "final-summary.json",
+      "published": "memory-final-summary.json",
+      "source_sha256": "b2c02f41af6f4bf51aa824713d5d3e11281c2305e9b5d0831c528abb54832c52",
+      "published_sha256": "3401ab4032c680e1ec28018e5d6c15b27c87c0f42667434318c8516dd5e770b9"
+    },
+    {
+      "source": "final-test_a4_pilot.json",
+      "published": "memory-final-test_a4_pilot.json",
+      "source_sha256": "99b646fd264afafe9b67b31c2a6fb0011aa81db0440ea5da43a25d584d41d940",
+      "published_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    {
+      "source": "final-test_agent_loop.json",
+      "published": "memory-final-test_agent_loop.json",
+      "source_sha256": "b344e3ecb2e161c93e39489130b0080216c2236f2f5134f72d03db5c4eefb488",
+      "published_sha256": "7cae54e91cca4bb1b1fe4830d82af293f0d355ceb4d3fd2f35527e6bf22db694"
+    },
+    {
+      "source": "final-test_baseline_closureall.json",
+      "published": "memory-final-test_baseline_closureall.json",
+      "source_sha256": "b3089659604c64199d743561d42e80c8f729cae682e45c026b198f2d634c2d60",
+      "published_sha256": "eed99170707019b057c603aeb0285536ee4672de52db91f039757c13f6220fff"
+    },
+    {
+      "source": "final-test_channel_exclusivity.json",
+      "published": "memory-final-test_channel_exclusivity.json",
+      "source_sha256": "c77fd060207553b01b8bd8d772968569afe6f6acb726680de7602828da798d31",
+      "published_sha256": "39e1dc6730da544968b240105c3d7855fb52dede3851d63e74054569629770ed"
+    },
+    {
+      "source": "final-test_effort.json",
+      "published": "memory-final-test_effort.json",
+      "source_sha256": "38292bf74de31af7ee149382d39b29e97bd87d486b3a1cb769c29321a9c58a9f",
+      "published_sha256": "43a076c47f30dc411156b513ba86d9af9a1b5f5714df0af90cb5aeb6b8c22327"
+    },
+    {
+      "source": "final-test_emailall.json",
+      "published": "memory-final-test_emailall.json",
+      "source_sha256": "3c2899ccf126ecbdf27238f49f30e7edffd5cd34e76f46fb5ce75aac22e0ef8c",
+      "published_sha256": "d3c6ec1d6d249ae6454b2def919c9c33feedf4b866d1b96f3dfe01ac09fc5f74"
+    },
+    {
+      "source": "final-test_file_task.json",
+      "published": "memory-final-test_file_task.json",
+      "source_sha256": "496340d6b5a31ef7e1ff78c1531fbefe298075daba057dd96c7e1ef40fca5690",
+      "published_sha256": "554df427a9026c5903685aada741c6a59cb89ee58ab8eb189f7b7694e07649f8"
+    },
+    {
+      "source": "final-test_followup_delivery.json",
+      "published": "memory-final-test_followup_delivery.json",
+      "source_sha256": "da0b3f368fa0c5070e6661a08cd0711ddfd11547984c26b091af68451084b1a0",
+      "published_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf"
+    },
+    {
+      "source": "final-test_harnessall.json",
+      "published": "memory-final-test_harnessall.json",
+      "source_sha256": "040be368cc685ed3891f1cdbeeefa1ff819c0068093f57792fb7008a2cf81c84",
+      "published_sha256": "20d442dc1228f350c737c6af3db885b06483a119ed237c508f5278a98733f4d0"
+    },
+    {
+      "source": "final-test_issueall.json",
+      "published": "memory-final-test_issueall.json",
+      "source_sha256": "5192f9a3133007ef0c399ea0a97381d98b8932e15338aae37f436a48b6954659",
+      "published_sha256": "1a109f217e7c5029637527492945f5924c622fa3195a35fc0490c53b16211b29"
+    },
+    {
+      "source": "final-test_main_ws.json",
+      "published": "memory-final-test_main_ws.json",
+      "source_sha256": "64afce27488ca95377574256940b22aff939028af1776abca69d9bf53945df36",
+      "published_sha256": "40aa410fc6ee65fb02c4da8ae0c80ebedc14659d61c2287ec6124ee7144f3414"
+    },
+    {
+      "source": "final-test_memoryall.json",
+      "published": "memory-final-test_memoryall.json",
+      "source_sha256": "56291257417b84f050cd5aad28e219dde6221ef5dc1e9bafd3f755d8e639379f",
+      "published_sha256": "6eabb415768f7082137ff76ae95aee0ed9fc4d2a00e829ca4403edbba36ac98f"
+    },
+    {
+      "source": "final-test_pending_status.json",
+      "published": "memory-final-test_pending_status.json",
+      "source_sha256": "e148a66eec64efacf3e4298eb7267d085bde658e4d2c7e3f4027fd4291bfa7f8",
+      "published_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb"
+    },
+    {
+      "source": "final-test_permissions.json",
+      "published": "memory-final-test_permissions.json",
+      "source_sha256": "dda571dd0e43e554e0fe785c6ec41f24bc110f87b5ab2e43cf100547267356a9",
+      "published_sha256": "7b3e2d8e24dc9397774524fa9bb5c30d591807ed1c43b1f5286d0c10745cf9cc"
+    },
+    {
+      "source": "final-test_session_visibility.json",
+      "published": "memory-final-test_session_visibility.json",
+      "source_sha256": "da0b3f368fa0c5070e6661a08cd0711ddfd11547984c26b091af68451084b1a0",
+      "published_sha256": "32675643ea840ad62b4469c13f29592164ecf5dd8cbe8390cc722953c74a6ccf"
+    },
+    {
+      "source": "final-test_storage.json",
+      "published": "memory-final-test_storage.json",
+      "source_sha256": "99b646fd264afafe9b67b31c2a6fb0011aa81db0440ea5da43a25d584d41d940",
+      "published_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    {
+      "source": "live-ds1/memory-model.json",
+      "published": "memory-live-ds1-memory-model.json",
+      "source_sha256": "7d55bbe1756a4181f40ec2aafeca6df67caa597fd0734a27f4a3edb20f6f459c",
+      "published_sha256": "13239c037267ae33f6fe241279afb9b52547e791ff6fa519c948b5324032bf2d"
+    },
+    {
+      "source": "live-ds1/memory-restart-model.json",
+      "published": "memory-live-ds1-memory-restart-model.json",
+      "source_sha256": "a7d4213d4680569b4435933634aced5b9904d064b2932aa5b4689c7826dc1efe",
+      "published_sha256": "99c8a3a85f0a87690dfc92af27e3fd1817965bf0b3758f32b1f598c7b4453de8"
+    },
+    {
+      "source": "live-final-ds1/memory-model.json",
+      "published": "memory-live-final-ds1-memory-model.json",
+      "source_sha256": "8f81b31cd5a904157cda01fe47d6337d36429d074f5369e2aa4b3434baa83807",
+      "published_sha256": "b01996d590def306643e0e1ba4b2fe32e396278cfa9ec793f9d36a510dd0a55b"
+    },
+    {
+      "source": "live-final-ds1/memory-model.json.presentation-review.7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf.json",
+      "published": "memory-live-final-ds1-memory-model.json.eval-7e3b6ded3dac.json",
+      "source_sha256": "5b5a6865d48073fc05455cbe596e1415dc99e27bbc51675fba8509707ff5f3bf",
+      "published_sha256": "431a6fe6ba8ee210d01a6b3b32a07d5983c75142be55f895b9a482979d27b1d8"
+    },
+    {
+      "source": "live-final-ds1/memory-model.json.presentation-review.json",
+      "published": "memory-live-final-ds1-memory-model.json.presentation-review.json",
+      "source_sha256": "98ba88e397642935aabdcf9a929486f2cfeac35636494e44195aa8e8376fb367",
+      "published_sha256": "4a1f44c221127ad9c5f118bf68232dadba46745b6bc2bf642bc915ae3d053779"
+    },
+    {
+      "source": "live-final-ds1/memory-restart-model.json",
+      "published": "memory-live-final-ds1-memory-restart-model.json",
+      "source_sha256": "ce097b6e98f4b34687cae57ccac5896d6bfb47aff76d416208c57f8f255d8b29",
+      "published_sha256": "82df0595091432be019203f3d7be7eeead67a777101feb96831ed998a2f8fed6"
+    },
+    {
+      "source": "live-final-ds1/memory-restart-model.json.presentation-review.7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf.json",
+      "published": "memory-live-final-ds1-memory-restart-model.json.eval-7e3b6ded3dac.json",
+      "source_sha256": "6af0323352338507a272903f5a9b0d6b92be663c148c7650c086462965ce37ae",
+      "published_sha256": "742efe4ba60409ed50a762571cb0c29e4702564493406912cfed9db46782a0ea"
+    },
+    {
+      "source": "live-final-ds1/memory-restart-model.json.presentation-review.json",
+      "published": "memory-live-final-ds1-memory-restart-model.json.presentation-review.json",
+      "source_sha256": "8fab3b90c95b691373c78418e89dc1666c3a121818517f5ded51f434c45883d1",
+      "published_sha256": "63b157675824c3a707aae47013ecd4312b987b8f67fe8277af09459b83d79614"
+    },
+    {
+      "source": "live-final-ds2/memory-model.json",
+      "published": "memory-live-final-ds2-memory-model.json",
+      "source_sha256": "de3d9560f08c86481ec20cd0b8e8881a31eb7afd3d3e57c48501702ae41e03fd",
+      "published_sha256": "277c7349c9b25897c377cd65427e63b66de82e95da48f5b65ade52c42915a826"
+    },
+    {
+      "source": "live-final-ds2/memory-restart-model.json",
+      "published": "memory-live-final-ds2-memory-restart-model.json",
+      "source_sha256": "6aff9271ccfd99982d00e909667522b8fb33bbbc6bbeb1aaf99c401e95201c0a",
+      "published_sha256": "006f51041454d0706e61c28e95a6a4e7a8af54416a67f7c74f187d606e5a978c"
+    },
+    {
+      "source": "live-final-ds3/memory-model.json",
+      "published": "memory-live-final-ds3-memory-model.json",
+      "source_sha256": "65bd86d91be2332009fd63f00f2fa6e3d9e2e9d8557320486b5bcb6b31cf6974",
+      "published_sha256": "b4961380b79977de622bf94fc5544440b52f4a0a50134585f20a9708f288b39a"
+    },
+    {
+      "source": "live-final-ds3/memory-restart-model.json",
+      "published": "memory-live-final-ds3-memory-restart-model.json",
+      "source_sha256": "60d0093fa6ff87b61e9c7f747870d2fc764738beadc1af61b7f29b4f88563d55",
+      "published_sha256": "6439f094fcdf9d8ba970a9dfc0d574fdeb65f7599660554469a7bad2e0d45b4f"
+    },
+    {
+      "source": "live-final-glm1/memory-model.json",
+      "published": "memory-live-final-glm1-memory-model.json",
+      "source_sha256": "1d95967330c61a5d1b666e3235768439db1b7a2df0424b5b57b75d1c3ee074a6",
+      "published_sha256": "1a7c8f5b6ee264cf0523968d34527913305738b2d17564787dc5586f57df7de9"
+    },
+    {
+      "source": "live-final-glm1/memory-model.json.presentation-review.7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf.json",
+      "published": "memory-live-final-glm1-memory-model.json.eval-7e3b6ded3dac.json",
+      "source_sha256": "097ae1f9329510a085d1031266d0721a813810caf80b78a72b66532101f00db4",
+      "published_sha256": "4b1caf935bbf962dccdcb5c3fd1b92a0604845d2ab933fee78f78585a94c72d6"
+    },
+    {
+      "source": "live-final-glm1/memory-model.json.presentation-review.json",
+      "published": "memory-live-final-glm1-memory-model.json.presentation-review.json",
+      "source_sha256": "97f92c02fb02eb52ee309aa9e8d6ed41b974bfa4c7f4dd78ec4fa74a5b643df7",
+      "published_sha256": "b6946b6f2f082779a71d1720157129f4c20f856567d600a8a80b8fa22051cc6f"
+    },
+    {
+      "source": "live-final-glm1/memory-restart-model.json",
+      "published": "memory-live-final-glm1-memory-restart-model.json",
+      "source_sha256": "a53cf0be6891e03d8581e93d0182331e8615e65068755b639daf0e7f26b028e5",
+      "published_sha256": "4df1103ade297ebd6e0d6d23739819159fe6390d2263113bdc58c56ff02c3271"
+    },
+    {
+      "source": "live-final-glm1/memory-restart-model.json.presentation-review.7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf.json",
+      "published": "memory-live-final-glm1-memory-restart-model.json.eval-7e3b6ded3dac.json",
+      "source_sha256": "5cfcffa13898a37e3c538e88a9a94ecc6bbffa454c73662e6d0f3ef6c307666e",
+      "published_sha256": "d542cb3c6d6819331518f3988ffc56d5d1171eb116b78233e4c5e92cef36ac8b"
+    },
+    {
+      "source": "live-final-glm2/memory-model.json",
+      "published": "memory-live-final-glm2-memory-model.json",
+      "source_sha256": "ba38b5be07936ea049c167574ac921fea932c410b12c171a0e2c99ba142e4eca",
+      "published_sha256": "62fdd07d728f016740d35b1232cacb7823f610bea0a72f8eb1133ca6a054b76e"
+    },
+    {
+      "source": "live-final-glm2/memory-restart-model.json",
+      "published": "memory-live-final-glm2-memory-restart-model.json",
+      "source_sha256": "fa9cb0d7ef8742fc05f709c584057e8a91000188d7502ed803ff02d6b9dfef51",
+      "published_sha256": "f8cf92b79545c6c2e19e784c2b901bb1a68cb9db29089049b32c4fc4005b6e38"
+    },
+    {
+      "source": "live-final-glm3/memory-model.json",
+      "published": "memory-live-final-glm3-memory-model.json",
+      "source_sha256": "dddcedc0da0f45c6dd347063a8512b9bf2dd134a8b8a69840269aefa04d2784f",
+      "published_sha256": "4364c3578029e9bbae0c4339fff23ffcc49caab526ef8cef326d548ba76e3038"
+    },
+    {
+      "source": "live-final-glm3/memory-restart-model.json",
+      "published": "memory-live-final-glm3-memory-restart-model.json",
+      "source_sha256": "464d41462fae37f0a809a9070fea1d40c03531c1fb8ee2cb2571dd00c885851d",
+      "published_sha256": "c30966383346f1ebda81db3d4bdbe67a08cdb49872efc6670ce88389c617be21"
+    },
+    {
+      "source": "live-glm1/memory-model.json",
+      "published": "memory-live-glm1-memory-model.json",
+      "source_sha256": "d1a0e003a83eab17a9c37dda591549cc65af85c7836a0ea07899320047a629f7",
+      "published_sha256": "ef99b5e7eabd76a38ce69798501214593505e7910c5b62545305a522f7f227e5"
+    },
+    {
+      "source": "live-http-ledger.json",
+      "published": "memory-live-http-ledger.json",
+      "source_sha256": "c14b74e9df0925ef70a6a2186df77c097295a2edb1e4b459bcd3041464ed760f",
+      "published_sha256": "f2302880f9c78680082515fc3a982dd5abb46c9d31b87104a723771907aada20"
+    },
+    {
+      "source": "offline-accepted-v1/memory-model.json",
+      "published": "memory-offline-accepted-v1-memory-model.json",
+      "source_sha256": "f163e95fc3663b2673f05e030dca06c0806c07c1c07154d4ec2e6dc14957b3bb",
+      "published_sha256": "a7110e3df09b90297b9b56543192248c8815ef30ff52f31f59b3c312b2cc4e31"
+    },
+    {
+      "source": "offline-accepted-v1/memory-restart-model.json",
+      "published": "memory-offline-accepted-v1-memory-restart-model.json",
+      "source_sha256": "08471c7a7abf528739775d36bd03d65793207f2ada7c556dc21fcae469d31228",
+      "published_sha256": "22f0c7ad41879012a0aeef82f110aab21149f093d9b48c95636e9e19e3a956b9"
+    },
+    {
+      "source": "offline-accepted-v2/memory-model.json",
+      "published": "memory-offline-accepted-v2-memory-model.json",
+      "source_sha256": "e8edb4f2b337acff26702c6fa12c15c43179d8b0a43c1325237113951cdb2134",
+      "published_sha256": "417eebc3b2b640a8c918d1d1518d7053b19181272b1ceb14128f87dfb454730d"
+    },
+    {
+      "source": "offline-accepted-v2/memory-restart-model.json",
+      "published": "memory-offline-accepted-v2-memory-restart-model.json",
+      "source_sha256": "2b70c18e42a2a7000622f7ea268269d28ccfe9807ff69e06a76a5a5c8b291a51",
+      "published_sha256": "4c51b5452bde53f0587a76ff0b066cd22159c43e31c29813d6c819429792c9d6"
+    },
+    {
+      "source": "offline-accepted-v3/memory-model.json",
+      "published": "memory-offline-accepted-v3-memory-model.json",
+      "source_sha256": "4adf43053f9085341045b70b606de7b07db8bb6f5b09de47432adee1d89528c0",
+      "published_sha256": "1596f1033347e41868f23d8d58148b8c3d8c396c0afcc856fd9ad5a496e3e9d7"
+    },
+    {
+      "source": "offline-accepted-v3/memory-restart-model.json",
+      "published": "memory-offline-accepted-v3-memory-restart-model.json",
+      "source_sha256": "50d8e789178cd1387876b51f2a323414238849aa758bb4874a01e770019e90af",
+      "published_sha256": "f78137005dc2d8c81f30a8db324765f71dd57df249ccd492d686103155b41c8f"
+    },
+    {
+      "source": "regression-test_a4_pilot.json",
+      "published": "memory-regression-test_a4_pilot.json",
+      "source_sha256": "99b646fd264afafe9b67b31c2a6fb0011aa81db0440ea5da43a25d584d41d940",
+      "published_sha256": "ce91c69df420eb6aa4502c6dcb923a1a7e4e4b691be4f446d4f206ded6bb6cf3"
+    },
+    {
+      "source": "regression-test_agent_loop.json",
+      "published": "memory-regression-test_agent_loop.json",
+      "source_sha256": "3f66bc426a354c440a5a4be94d25027b7af51d4242674a777848373ee55b2636",
+      "published_sha256": "a36366d1330944a9548f31874e398cba49f61a5ecfe725270a55d304120a8a0a"
+    },
+    {
+      "source": "regression-test_baseline_closureall.json",
+      "published": "memory-regression-test_baseline_closureall.json",
+      "source_sha256": "25cdb7096d0387f5a2b8c7e10ff43c5ad1605a00c31e4150ecc0cc21cbb4d23e",
+      "published_sha256": "a17b50cf51468e61294555747ad7a0cc7dd22fdd6581313b046aafdb3eb8b84f"
+    },
+    {
+      "source": "regression-test_channel_exclusivity.json",
+      "published": "memory-regression-test_channel_exclusivity.json",
+      "source_sha256": "bdaf7eb02bb6e9041b2bacc4fe15f8c59fdd7ff6bf83e704c0ce7bf66568400e",
+      "published_sha256": "daef8bd42634b99db893c7c1ad422e256e7d5d65e3318828851ec7a7f24d330f"
+    },
+    {
+      "source": "regression-test_effort.json",
+      "published": "memory-regression-test_effort.json",
+      "source_sha256": "1d1d0ca0ab9c8c054c1f59a7ff6dd8115be686926768cc70197fa6b2242aaacf",
+      "published_sha256": "889a82951c3d4254bd8d2d61be3691bb646f271e7bd56d597ca1761278ba97b2"
+    },
+    {
+      "source": "regression-test_emailall.json",
+      "published": "memory-regression-test_emailall.json",
+      "source_sha256": "8e323dcb591a95ec613e1da24c6ef113a7fe592bb9b91674d8b08ffbe5016fa1",
+      "published_sha256": "9990a394f7434222a78ceb7d7a8207306922431fc44ab00f4df2aa9095cc71d1"
+    },
+    {
+      "source": "regression-test_file_task.json",
+      "published": "memory-regression-test_file_task.json",
+      "source_sha256": "8a6add616345ae3bbe86e405ba5a8b8ef3980788eb47561e5aefb393dfc145a7",
+      "published_sha256": "4f2a3dbad672694d8f854fad9b391f3e141ec3160b06d02cf4e3ea31c804d8db"
+    },
+    {
+      "source": "regression-test_followup_delivery.json",
+      "published": "memory-regression-test_followup_delivery.json",
+      "source_sha256": "628bf9cee7c6b332242bdd0c955f60e1f412fe6ad13aafc5e836d39358e1921c",
+      "published_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f"
+    },
+    {
+      "source": "regression-test_harnessall.json",
+      "published": "memory-regression-test_harnessall.json",
+      "source_sha256": "bdf4ce360c33b3e4f2bd625be6ff0c0746889de8e2c1cff0b1b2a6f01763e793",
+      "published_sha256": "05c30c7bc17abf3ecfe78e8075a0beee78789103657f288c8b33f39b620b5f1a"
+    },
+    {
+      "source": "regression-test_issueall.json",
+      "published": "memory-regression-test_issueall.json",
+      "source_sha256": "990f04b82cbeb73fa8fa9de1ac8ec1a5003d27e1e8804e711ee52238ab7d04d0",
+      "published_sha256": "43df0744e88381557447ab8efa3f876d45096ab9db4be83675a2e4e5855f5302"
+    },
+    {
+      "source": "regression-test_main_ws.json",
+      "published": "memory-regression-test_main_ws.json",
+      "source_sha256": "4ef86a45f0d6f6b2e4cdffddb0d8d2b30e3f270c2c4287b5c2ab5ea89a0eecad",
+      "published_sha256": "6651f456cfb3f61b715a0507be9961540a8893bca9b4aadc4bf0207a6104e8bc"
+    },
+    {
+      "source": "regression-test_memoryall.json",
+      "published": "memory-regression-test_memoryall.json",
+      "source_sha256": "76d5c2d2dbc7ed03278cd036323b2df4322856a04210fb6421dcdc5bbee3d1e5",
+      "published_sha256": "d8c4aafb403dd0ec8d975e3047b7862e71104fccbf4edbbfdd669bcd9b9c94f7"
+    },
+    {
+      "source": "regression-test_pending_status.json",
+      "published": "memory-regression-test_pending_status.json",
+      "source_sha256": "e148a66eec64efacf3e4298eb7267d085bde658e4d2c7e3f4027fd4291bfa7f8",
+      "published_sha256": "4d92a275d1c0e9433e763e08b71402d47e481c68a7b8f5c85be11c30c04bbdfb"
+    },
+    {
+      "source": "regression-test_permissions.json",
+      "published": "memory-regression-test_permissions.json",
+      "source_sha256": "fafcb57d3bb9f949dc12b9230f81fad52034a369da1151f66aa561a7b706abac",
+      "published_sha256": "af1f4e6cdd43623877bf0b9d356ca38b2df85512773911e3a2c71a29af7abf49"
+    },
+    {
+      "source": "regression-test_session_visibility.json",
+      "published": "memory-regression-test_session_visibility.json",
+      "source_sha256": "628bf9cee7c6b332242bdd0c955f60e1f412fe6ad13aafc5e836d39358e1921c",
+      "published_sha256": "15394239d22b18258f20df954d4045ae9ee87c6562614a198ed46728b9064c6f"
+    },
+    {
+      "source": "regression-test_storage.json",
+      "published": "memory-regression-test_storage.json",
+      "source_sha256": "3e862c09bfaef3385945e784b25a9f10018a8edf538928c630d245d5ba04f7a2",
+      "published_sha256": "d002d0d897cfee5cc75a65a9d2d7f74260180854d8778f658e42b4c984f45cad"
+    },
+    {
+      "source": "repro-before-valid.json",
+      "published": "memory-repro-before-valid.json",
+      "source_sha256": "f5a8fe522e56e1ebe566055a38cc8eb3a3bbf6f3e3e41aa5b185039ee07921c2",
+      "published_sha256": "43b641cd916bc1c75948650f96ec7970c13988666366ab78b2f5e5ef3032ab7a"
+    },
+    {
+      "source": "repro-before.json",
+      "published": "memory-repro-before.json",
+      "source_sha256": "d472a66f6c73c7f199c562b5cb2c2ea66b7c239d27ccdf8f1ac20459d840d298",
+      "published_sha256": "24faccecccb9141e27efac994a0a44ffa44fce1a08a5f8d56eefbcb43ae521ea"
+    },
+    {
+      "source": "review-delivery-final.json",
+      "published": "memory-review-delivery-final.json",
+      "source_sha256": "0ee8df7c874a21bd9888e14651949bfbe57ff6a18154ad76f5994817e78d20ef",
+      "published_sha256": "1e2fc8260a21e61ae06ae29bc29b0c1a23652c321a147fce66a32e6152ac5710"
+    },
+    {
+      "source": "review-final.json",
+      "published": "memory-review-final.json",
+      "source_sha256": "efb89fc1c0d5946dc17b273cd515cbe309001449c166f9ef41e6912f3bba7d85",
+      "published_sha256": "4a07f644bba095e5a8228a8f12cafd51fe86ec37fe028f9ea9004617ca7c7cab"
+    },
+    {
+      "source": "review-glm1-presentation-regrade.json",
+      "published": "memory-review-glm1-presentation-regrade.json",
+      "source_sha256": "6f2675b1f89391eede27d700c486f0ab702111ea1d03e13769be2dfc811354eb",
+      "published_sha256": "5a27d4b85e30f55eca2be9bb2ca0dda7d0712f2405d055e7cc77fac6f9429299"
+    },
+    {
+      "source": "review-live-ds1.json",
+      "published": "memory-review-live-ds1.json",
+      "source_sha256": "3dc3de226110b00d00fe3cd66e67c0ff17f464ecbf6c81a1ee7485fd5d63a7de",
+      "published_sha256": "11835a191faeaf20605f213ed457b18e7f15e1177b7c75871f8604418bbd226a"
+    },
+    {
+      "source": "review-live-final.json",
+      "published": "memory-review-live-final.json",
+      "source_sha256": "5ab9f026e5da6ca2b3a61e703e8624db62d677ddbe954323ce21330332d1ca99",
+      "published_sha256": "3be2e9a00224ea8e42fcc2a81dab7b69dbcc9c03446a0cd95db51813e7d43dbf"
+    },
+    {
+      "source": "review-live-partial.json",
+      "published": "memory-review-live-partial.json",
+      "source_sha256": "f164d33aa7168d527a9c0511f4916a054be5f8685ccec0603dd77c4c68d91087",
+      "published_sha256": "1d8f67f3bba53afb2e3d80f4ed6b9da730f171746ea69d519c3da3d4dd20e35a"
+    },
+    {
+      "source": "review-oracle-host-receipt.json",
+      "published": "memory-review-oracle-host-receipt.json",
+      "source_sha256": "93609a73a970f12c7d021043ebc4252093a19ac9e16430fc7ded410ceae9d3a7",
+      "published_sha256": "9a330d8cdaa89d400a291323077cfc302e82c9062ee531ebccfab06c228f010d"
+    },
+    {
+      "source": "review-presentation-final.json",
+      "published": "memory-review-presentation-final.json",
+      "source_sha256": "efdfe5c8de3e060fdf94fa7fef45d8978ddc65a378c8e9243a76bede499f05a8",
+      "published_sha256": "90d028940df0ceda96def0899cd1f6f397d06d16988b53596bed0351c514bf65"
+    },
+    {
+      "source": "review-presentation-sidecar.json",
+      "published": "memory-review-presentation-sidecar.json",
+      "source_sha256": "6edbfc30095e217383aa7495b8674bbc7e12bb5036003824d26b9ed6a8451273",
+      "published_sha256": "139a14a84c622f55094e2a53cecf0764b6b69f790d238c18dea953256bdba393"
+    },
+    {
+      "source": "review-run02.json",
+      "published": "memory-review-run02.json",
+      "source_sha256": "de9fd6aab113a665ba3e7257b0dc1d9ed003b8e16a11899a165be33af1ba94f7",
+      "published_sha256": "59c8601aebe3011bd5471517e6d49a4e26e5e8dfff737667d04c0037764ce816"
+    },
+    {
+      "source": "review-run03.json",
+      "published": "memory-review-run03.json",
+      "source_sha256": "4790bb9a5f1fc119fe3c733baf24cc2119a83787a5b901a3d5ea2cd944067bf6",
+      "published_sha256": "c0a82ec5f0d2ad1bd84e4c13ea1f1bb42190f45a0597f1b0c4b79f56bd749e59"
+    },
+    {
+      "source": "review-run04.json",
+      "published": "memory-review-run04.json",
+      "source_sha256": "c614b8deb1464b189bd2be099aa8f6ff22359fd16791901936f58d62b5f9525c",
+      "published_sha256": "c7b71cf530ec293f5d2fe7264a76d52b3e169492319779fe93ff20f09af69779"
+    },
+    {
+      "source": "review-run05.json",
+      "published": "memory-review-run05.json",
+      "source_sha256": "2fa5bb5a9a36f46998fd4c1562471b2234d2d89cdfbdc196c04fabfe2168bf76",
+      "published_sha256": "e67aab07cd85236e5d94fabe0d5f040a5da7d5a409692dd2e31499b37206482b"
+    },
+    {
+      "source": "review-run06.json",
+      "published": "memory-review-run06.json",
+      "source_sha256": "61c8f1d79eb40f2556ef039d2d84a2286ce8433bfcb197ad8cc1986bafadf151",
+      "published_sha256": "ae465dd3ac1b28b3d8bade91a3405589f68850ffffa4ef10988235f0b9ffd9c1"
+    },
+    {
+      "source": "review-run07.json",
+      "published": "memory-review-run07.json",
+      "source_sha256": "7cbaf0574f3166fb6fcb067940f3fff15dc6cfda811ec92f35da2b799005db36",
+      "published_sha256": "659dea5cb393f97502bec8b7ba1f15b050f94ba3509b5a1073d3a06a5502d6be"
+    },
+    {
+      "source": "review-run08.json",
+      "published": "memory-review-run08.json",
+      "source_sha256": "c2ad2f7a4d940a12b9ecc9a3fe8aa8af8d6bb96a83e7724f3c5c842b92f37839",
+      "published_sha256": "71c712ba480754aa460777e59ba5e1468bae41c433490bcf9b2ea0aa6a6d72b6"
+    },
+    {
+      "source": "review-run09.json",
+      "published": "memory-review-run09.json",
+      "source_sha256": "144eb55533138839af080afe34cc6bed9c088125bb89ccd64756244e61fded1e",
+      "published_sha256": "c31a1f8ef7c196b5a7110d6fe73f60ce287ab158c20eee96ac2b54e3c504dcc0"
+    },
+    {
+      "source": "review-run10.json",
+      "published": "memory-review-run10.json",
+      "source_sha256": "50076c503b9750de6af3ab6b1928f15f616e8b9197f580dbcd67da9591a0eb1a",
+      "published_sha256": "243d253b52afe7c6d8c2dffad38f92f313be0eb0c580a5a55655cfc01016ad10"
+    },
+    {
+      "source": "review-run11.json",
+      "published": "memory-review-run11.json",
+      "source_sha256": "c2e29b191940761cbc500a121114ebc88fc2e7398e4f9bbb4a726f899d15d92d",
+      "published_sha256": "3cb622ecdf0562350f789fec3af8fb45c1799adb6306855fc834c110670a44aa"
+    },
+    {
+      "source": "review-run12.json",
+      "published": "memory-review-run12.json",
+      "source_sha256": "d77b9ebc046582e4fb08deb5ab89d4ceef44837d13610d07161dd6a04a93c89e",
+      "published_sha256": "6d70ac263b23c51dcd820034db632bdc332d886b5dc6aa93e45dbbe2c717b6c7"
+    },
+    {
+      "source": "review-time-receipt-final.json",
+      "published": "memory-review-time-receipt-final.json",
+      "source_sha256": "95d79e4025009bd47cf1de90884bcfe8e1289ebed40a5ebe13133b2f3f68daf5",
+      "published_sha256": "988b36d0d55c906a22fbbbbce8528ad882091ba22cf6de968a889b18349e0d16"
+    },
+    {
+      "source": "review-time-receipt.json",
+      "published": "memory-review-time-receipt.json",
+      "source_sha256": "fe884109658e506944f1cc40151efed713ccdc9f0559f352dbc76e095e73ee05",
+      "published_sha256": "7ec80038722a51b24b1a6c280efbfccf1c683a146ce645920cd2b33db269aa12"
+    },
+    {
+      "source": "runner-final.json",
+      "published": "memory-runner-final.json",
+      "source_sha256": "e980843e30ed3f2b7ccfcb47051f867dd9a6f2f41afcb05146878798555faf6e",
+      "published_sha256": "66c71b09d023b1d81fffa0d3ba61c63331c5bab5414c8f379a05502a5aaf3d49"
+    },
+    {
+      "source": "runner-reevaluation.json",
+      "published": "memory-runner-reevaluation.json",
+      "source_sha256": "af542982c6e649201ccf6334af4f8750abfb738c49960c22a38271aba19b704d",
+      "published_sha256": "1d6018eec486e8a2094d155580586eab36cd372e2d094969e4198943237e25bf"
+    }
+  ],
+  "projection": "Synthetic reports only; absolute user paths redacted. No SQLite, credentials, raw logs or production content."
+}

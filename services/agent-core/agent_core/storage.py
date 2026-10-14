@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import os
+import json
 
 import re
 import sqlite3
 from pathlib import Path
 from typing import Any
+
+from . import memory_correction
 
 
 def default_data_dir() -> Path:
@@ -18,10 +21,6 @@ def default_data_dir() -> Path:
     return Path("data")
 
 
-# zcode (2026-09-07): above this bigram-Dice similarity a new confirmed fact
-# is treated as an update of the old one, which then becomes 'superseded'.
-FACT_SUPERSEDE_SIMILARITY = 0.55
-
 # Pending facts are injected tagged so life events stay reachable before the
 # review UI exists — except sensitive ones (the original privacy contract:
 # bank-card style pending facts must never reach the prompt).
@@ -33,14 +32,6 @@ def _pending_recallable(content: str) -> bool:
     if any(marker in content for marker in _PENDING_SENSITIVE_MARKERS):
         return False
     return _SENSITIVE_DIGIT_RUN.search(content) is None
-
-
-def _fact_similarity(a: str, b: str) -> float:
-    bigrams_a = {a[i : i + 2] for i in range(len(a) - 1)}
-    bigrams_b = {b[i : i + 2] for i in range(len(b) - 1)}
-    if not bigrams_a or not bigrams_b:
-        return 0.0
-    return 2 * len(bigrams_a & bigrams_b) / (len(bigrams_a) + len(bigrams_b))
 
 
 class MemoryStore:
@@ -87,6 +78,22 @@ class MemoryStore:
                 status TEXT NOT NULL DEFAULT 'pending',
                 source_request_id TEXT NOT NULL DEFAULT '',
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+            CREATE TABLE IF NOT EXISTS fact_corrections (
+                correction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                session_id INTEGER NOT NULL,
+                request_id TEXT NOT NULL,
+                source_text TEXT NOT NULL,
+                result TEXT NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(session_id, request_id)
+            );
+            CREATE TABLE IF NOT EXISTS fact_overrides (
+                session_id INTEGER NOT NULL,
+                entity TEXT NOT NULL,
+                attribute TEXT NOT NULL,
+                fact_id INTEGER NOT NULL,
+                PRIMARY KEY(session_id, entity, attribute)
             );
             """
         )
@@ -274,34 +281,153 @@ class MemoryStore:
         status: str = "pending",
         source_request_id: str = "",
     ) -> int:
-        """Persist a memory candidate. Pending facts are never injected into
-        the prompt untagged; only confirmed ones participate in recall
-        verbatim. A newly confirmed fact supersedes an older confirmed fact
-        of the same scope when the two are lexically near-duplicates (the
-        T2+ exam contradiction case: "最喜欢的歌手是A" then "...是B")."""
+        """Append a candidate. Only correct_fact may supersede existing facts.
+
+        Similarity is not identity. This legacy entry point must not undo a
+        verified correction or replace a different entity/attribute.
+        """
         cursor = self.connection.execute(
             "INSERT INTO facts (session_id, scope, content, status, source_request_id)"
             " VALUES (?, ?, ?, ?, ?)",
             (session_id, scope, content, status, source_request_id),
         )
         fact_id = int(cursor.lastrowid)
-        if status == "confirmed":
-            same_scope = (
-                "scope = 'global'" if scope == "global" else "scope = 'session' AND session_id = ?",
-                (session_id,) if scope != "global" else (),
-            )
-            rows = self.connection.execute(
-                f"SELECT fact_id, content FROM facts WHERE fact_id != ? AND status = 'confirmed' AND {same_scope[0]}",
-                (fact_id, *same_scope[1]),
-            ).fetchall()
-            for row in rows:
-                if _fact_similarity(content, str(row["content"])) >= FACT_SUPERSEDE_SIMILARITY:
-                    self.connection.execute(
-                        "UPDATE facts SET status = 'superseded' WHERE fact_id = ?",
-                        (row["fact_id"],),
-                    )
         self.connection.commit()
         return fact_id
+
+    def visible_fact_rows(self, session_id: int | None) -> list[dict[str, Any]]:
+        rows = self.connection.execute(
+            "SELECT f.*, EXISTS(SELECT 1 FROM fact_overrides o WHERE o.fact_id=f.fact_id"
+            " AND o.session_id=?) AS is_override FROM facts f"
+            " WHERE status IN ('confirmed','pending') AND (scope='global' OR (scope='session' AND session_id=?))"
+            " ORDER BY CASE status WHEN 'confirmed' THEN 0 ELSE 1 END, fact_id DESC",
+            (session_id, session_id),
+        ).fetchall()
+        return [dict(r) for r in rows if r["status"] == "confirmed" or _pending_recallable(r["content"])]
+
+    def prepare_correction(self, text: str, session_id: int) -> dict[str, Any] | None:
+        return memory_correction.resolve(text, self.visible_fact_rows(session_id), session_id)
+
+    def _read_correction(self, session_id: int, request_id: str) -> dict[str, Any] | None:
+        row = self.connection.execute(
+            "SELECT result FROM fact_corrections WHERE session_id=? AND request_id=?",
+            (session_id, request_id),
+        ).fetchone()
+        return json.loads(row[0]) if row else None
+
+    def _verify_correction(self, result: dict[str, Any], *, historical: bool = False) -> None:
+        if result.get("outcome") != "corrected":
+            return
+        row = self.connection.execute("SELECT * FROM facts WHERE fact_id=?", (result["new_fact_id"],)).fetchone()
+        old = self.connection.execute("SELECT * FROM facts WHERE fact_id=?", (result["old_fact_id"],)).fetchone()
+        expected_old = (result["old_status"] if result["scope"] == "session" and result["old_scope"] == "global"
+                        else "superseded")
+        expected_session = result["session_id"] if result["scope"] == "session" else result["old_session_id"]
+        if (not row or not old or row["content"] != result["stored_content"] or row["scope"] != result["scope"]
+                or row["session_id"] != expected_session or row["source_request_id"] != result["request_id"]
+                or old["content"] != result["old_content"] or old["scope"] != result["old_scope"]
+                or old["session_id"] != result["old_session_id"]
+                or (not historical and (row["status"] != result["old_status"] or old["status"] != expected_old))):
+            raise RuntimeError("Correction fact readback mismatch")
+        if not historical and (result["is_override"] or (result["scope"] == "session" and result["old_scope"] == "global")):
+            override = self.connection.execute(
+                "SELECT fact_id FROM fact_overrides WHERE session_id=? AND entity=? AND attribute=?",
+                (result["session_id"], result["entity"], result["attribute"])).fetchone()
+            if not override or override[0] != result["new_fact_id"]:
+                raise RuntimeError("Correction session override readback mismatch")
+
+    def correct_fact(self, plan: dict[str, Any], request_id: str) -> dict[str, Any]:
+        """CAS, replacement and provenance commit together; return only after readback.
+
+        Re-resolve the original user text inside the transaction. The caller's
+        fact ID, offsets and fields are never sufficient authorization.
+        """
+        session_id, text = plan["session_id"], plan["source_text"]
+        committed = False
+        try:
+            with self.connection:
+                self.connection.execute("BEGIN IMMEDIATE")
+                prior = self._read_correction(session_id, request_id)
+                if prior:
+                    if prior["source_text"] != text:
+                        return {"error": "尚未更正：请求标识已用于不同内容。"}
+                    # A repeated request may refer to a historical success,
+                    # but the persisted values must still match its receipt.
+                    committed = True
+                    self._verify_correction(prior, historical=True)
+                    return {**prior, "outcome": "replayed"} if not prior.get("error") else prior
+                current = self.prepare_correction(text, session_id)
+                if current is None or current != plan:
+                    result = {**plan, "outcome": "conflict", "error": "尚未更正：旧事实版本或作用域已变化，请核对后再更正。"}
+                elif plan.get("error"):
+                    result = {**plan, "outcome": "clarify"}
+                elif not _pending_recallable(plan["new_value"]) or not _pending_recallable(plan["old_content"]):
+                    result = {**plan, "outcome": "restricted", "error": "尚未更正：这项内容涉及敏感记忆，保留原有保护与确认要求。"}
+                elif plan["old_value"] == plan["new_value"]:
+                    result = {**plan, "outcome": "unchanged", "new_fact_id": plan["old_fact_id"]}
+                else:
+                    is_override = plan["is_override"] or (plan["scope"] == "session" and plan["old_scope"] == "global")
+                    content = (f"{plan['entity']}{plan['attribute']}{plan['new_value']}"
+                               if is_override else plan["new_content"])
+                    cursor = self.connection.execute(
+                        "INSERT INTO facts(session_id,scope,content,status,source_request_id) VALUES(?,?,?,?,?)",
+                        (session_id if plan["scope"] == "session" else plan["old_session_id"],
+                         plan["scope"], content, plan["old_status"], request_id))
+                    new_id = int(cursor.lastrowid)
+                    if not is_override or plan["is_override"]:
+                        cursor = self.connection.execute(
+                            "UPDATE facts SET status='superseded' WHERE fact_id=? AND content=? AND status=?"
+                            " AND scope=? AND session_id IS ?",
+                            (plan["old_fact_id"], plan["old_content"], plan["old_status"], plan["old_scope"], plan["old_session_id"]))
+                        if cursor.rowcount != 1:
+                            raise RuntimeError("Correction compare-and-swap failed")
+                    if is_override:
+                        self.connection.execute(
+                            "INSERT INTO fact_overrides(session_id,entity,attribute,fact_id) VALUES(?,?,?,?)"
+                            " ON CONFLICT(session_id,entity,attribute) DO UPDATE SET fact_id=excluded.fact_id",
+                            (session_id, plan["entity"], plan["attribute"], new_id))
+                    result = {**plan, "request_id": request_id, "new_fact_id": new_id, "stored_content": content, "outcome": "corrected"}
+                    self._verify_correction(result)
+                self.connection.execute(
+                    "INSERT INTO fact_corrections(session_id,request_id,source_text,result) VALUES(?,?,?,?)",
+                    (session_id, request_id, text, json.dumps(result, ensure_ascii=False)))
+            committed = True
+            readback = self._read_correction(session_id, request_id)
+            if readback != result:
+                raise RuntimeError("Correction receipt readback mismatch")
+            self._verify_correction(result)
+            return result
+        except (sqlite3.Error, RuntimeError):
+            # A post-commit read failure is unknown, not a claim of rollback.
+            return {**plan, "outcome": "unverified" if committed else "failed",
+                    "error": ("更正提交后的读回核验未完成，当前不能确认保存结果；请查询核对，未自动重试。" if committed
+                              else "更正保存失败，事务已回滚，旧有效值保留；没有发布保存成功承诺。")}
+
+    def correction_history(self, session_id: int | None) -> list[dict[str, Any]]:
+        """History follows the same visibility/privacy boundary as active recall."""
+        origins = {}
+        for correction in self.connection.execute("SELECT result FROM fact_corrections ORDER BY correction_id"):
+            saved = json.loads(correction[0])
+            if saved.get("outcome") == "corrected":
+                origins[saved["old_fact_id"]] = saved["old_status"]
+        rows = self.connection.execute(
+            "SELECT f.* FROM facts f WHERE status='superseded'"
+            " AND (scope='global' OR (scope='session' AND session_id=?)) ORDER BY fact_id DESC", (session_id,)).fetchall()
+        return [{"fact_id": r["fact_id"], "content": r["content"], "status": "superseded", "scope": r["scope"],
+                 "original_status": origins.get(r["fact_id"], "unknown"),
+                 "note": "旧值仍属待确认，不因被更正而确认为事实" if origins.get(r["fact_id"]) == "pending" else "已被替代的历史版本"}
+                for r in rows if _pending_recallable(r["content"])]
+
+    def candidate_conflicts(self, content: str, session_id: int) -> bool:
+        """The old candidate branch cannot reintroduce a known key/value."""
+        proposed = memory_correction.parts(content)
+        rows = self.visible_fact_rows(session_id)
+        known = {(p.entity, p.attribute) for r in rows for p in memory_correction.parts(r["content"])}
+        if any((p.entity, p.attribute) in known for p in proposed):
+            return True
+        # Opaque candidates mentioning an existing precise key must not bypass
+        # the correction boundary by attaching explanatory prose.
+        return any(entity in content and attribute in content for entity, attribute in known)
 
     def set_fact_status(self, fact_id: int, status: str) -> bool:
         cursor = self.connection.execute(
@@ -316,19 +442,29 @@ class MemoryStore:
         session's own pending facts tagged （待确认） (T2+ exam fix: life-event
         facts must stay reachable before the review UI exists). Superseded
         facts are never returned."""
-        rows = self.connection.execute(
-            "SELECT content, status FROM facts"
-            " WHERE status IN ('confirmed', 'pending')"
-            " AND (scope = 'global' OR session_id = ?)"
-            " ORDER BY CASE status WHEN 'confirmed' THEN 0 ELSE 1 END, fact_id DESC",
-            (session_id,),
-        ).fetchall()
-        return [
-            str(row["content"]) if row["status"] == "confirmed"
-            else f"{row['content']}（待确认）"
-            for row in rows
-            if row["status"] == "confirmed" or _pending_recallable(str(row["content"]))
-        ]
+        rows = self.visible_fact_rows(session_id)
+        overrides = {(p.entity, p.attribute): (p.value, r["status"]) for r in rows if r["is_override"]
+                     for p in memory_correction.parts(r["content"])}
+        rendered = []
+        consumed = set()
+        for row in rows:
+            if row["is_override"]:
+                continue
+            content = row["content"]
+            # Replace just the matching scalar in the session's view of a
+            # compound global record, preserving every other field verbatim.
+            for p in reversed(memory_correction.parts(content)):
+                key = (p.entity, p.attribute)
+                if row["scope"] == "global" and key in overrides:
+                    value, status = overrides[key]
+                    value += "（待确认）" if status == "pending" else ""
+                    content = content[:p.start] + value + content[p.end:]
+                    consumed.add(key)
+            rendered.append(content if row["status"] == "confirmed" else content + "（待确认）")
+        for row in rows:
+            if row["is_override"] and not any((p.entity, p.attribute) in consumed for p in memory_correction.parts(row["content"])):
+                rendered.insert(0, row["content"] + ("（待确认）" if row["status"] == "pending" else ""))
+        return rendered
 
     def pending_facts(self) -> list[dict[str, Any]]:
         rows = self.connection.execute(

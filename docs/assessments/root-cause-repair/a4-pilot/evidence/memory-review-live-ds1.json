@@ -1,0 +1,54 @@
+{
+  "case": "DS variant 1",
+  "review_mode": "Read-only report, HTTP ledger, and isolated SQLite database; no model request",
+  "reports": [
+    "<synthetic-run>/live-ds1/memory-model.json",
+    "<synthetic-run>/live-ds1/memory-restart-model.json"
+  ],
+  "database_read_mode": "SQLite URI mode=ro; MemoryStore was not constructed",
+  "semantic_pass": true,
+  "object_attribute_value": {
+    "entity": "晨星项目",
+    "attribute": "预算",
+    "current": "175",
+    "history": "120"
+  },
+  "other_facts": [
+    "暮云项目预算180",
+    "用户最喜欢的颜色是蓝色"
+  ],
+  "database_matches_final_report": true,
+  "one_correction_and_four_fact_rows": true,
+  "old_row_superseded_new_row_confirmed": true,
+  "same_session_new_session_restart_answers_use_new_value": true,
+  "history_answer_maps_current_and_old_values_correctly": true,
+  "recall_tool_contains_only_current_values_in_memories": true,
+  "same_source_before_after_and_reviewed_final_source": true,
+  "core_pids": [
+    34632,
+    14464
+  ],
+  "restart_checks": {
+    "different_process": true,
+    "previous_process_terminated": true,
+    "both_cores_stopped": true
+  },
+  "http_indices": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "http_requests": 8,
+  "request_elapsed_seconds_sum": 24.906,
+  "phase_elapsed_seconds_sum": 28.391,
+  "transport_errors": 0,
+  "notes": [
+    "The same-session answer mentions that old 120 is superseded despite the prompt asking not to repeat old values. It unambiguously presents 175 as current; this is presentation redundancy, not a stale-current-memory failure.",
+    "This record covers only DS variant 1; remaining model sequences are not inferred to pass."
+  ]
+}

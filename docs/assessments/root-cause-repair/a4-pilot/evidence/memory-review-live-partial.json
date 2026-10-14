@@ -1,0 +1,270 @@
+{
+  "reviewer": "memory_independent",
+  "model_requests": 0,
+  "database_mode": "ro",
+  "source_sha256": {
+    "actions.py": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "email_task.py": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "general_reply_check.py": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "3d64d7dc7949d2805cadb9c5afd6c96ce0ce3e1cc092fd0c9da8cabdc0a60737",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_correction.py": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "verified_task.py": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "current_runner_sha256": {
+    "file_models.py": "41261eaf44a94a69cd7fb03cf5f6f8dee8454eb8f6d53f6179ebf6c8afe04f09",
+    "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "memory_model_case.py": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf"
+  },
+  "ledger_snapshot_sha256": "895b05a28fce5f9613ffc43b23d80c53ca18ca7f036fe12b8f34ea2f3f2a2b1a",
+  "ledger_snapshot_count": 76,
+  "ledger_contiguous": true,
+  "cases": [
+    {
+      "case": "live-final-ds1",
+      "passed": true,
+      "target": [
+        "晨星",
+        "预算",
+        "120",
+        "175"
+      ],
+      "current_records": [
+        "晨星项目预算175",
+        "暮云项目预算180",
+        "用户最喜欢的颜色是蓝色"
+      ],
+      "historical_record": "晨星项目预算120",
+      "db_readonly_sha256": "c232d93208bde309df4c0c542f9d36a166a7ea9b83d01faf9dacf3e817bc4c3e",
+      "corrections": 1,
+      "phases": [
+        {
+          "report": "<synthetic-run>\\live-final-ds1\\memory-model.json",
+          "original_sha256": "8f81b31cd5a904157cda01fe47d6337d36429d074f5369e2aa4b3434baa83807",
+          "raw_passed": true,
+          "effective_passed": true,
+          "phase": "before_restart",
+          "raw_sequence_complete": false,
+          "effective_sequence_complete": false,
+          "executed_runner_sha256": {
+            "file_models.py": "49ff05e82b7d411b86adf30cec5d3c33049ea841a387a4ad5f5f925ae11e8ae1",
+            "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+            "memory_model_case.py": "dc257c616002cd74da9e40656238cc274a699cf37651820987850e40671ccaa2"
+          },
+          "review_evaluator_sha256": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf",
+          "table_format_satisfied": true,
+          "extraneous_tool_failure": false,
+          "core_pid": 48972,
+          "http_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+          ],
+          "http_request_seconds": 26.859,
+          "phase_elapsed_seconds": 29.828
+        },
+        {
+          "report": "<synthetic-run>\\live-final-ds1\\memory-restart-model.json",
+          "original_sha256": "ce097b6e98f4b34687cae57ccac5896d6bfb47aff76d416208c57f8f255d8b29",
+          "raw_passed": true,
+          "effective_passed": true,
+          "phase": "after_restart",
+          "raw_sequence_complete": true,
+          "effective_sequence_complete": true,
+          "executed_runner_sha256": {
+            "file_models.py": "49ff05e82b7d411b86adf30cec5d3c33049ea841a387a4ad5f5f925ae11e8ae1",
+            "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+            "memory_model_case.py": "dc257c616002cd74da9e40656238cc274a699cf37651820987850e40671ccaa2"
+          },
+          "review_evaluator_sha256": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf",
+          "table_format_satisfied": true,
+          "extraneous_tool_failure": false,
+          "core_pid": 50160,
+          "http_indices": [
+            26,
+            27
+          ],
+          "http_request_seconds": 3.374,
+          "phase_elapsed_seconds": 3.812
+        }
+      ]
+    },
+    {
+      "case": "live-final-glm1",
+      "passed": true,
+      "target": [
+        "晨星",
+        "预算",
+        "120",
+        "175"
+      ],
+      "current_records": [
+        "晨星项目预算175",
+        "暮云项目预算180",
+        "用户最喜欢的颜色是蓝色"
+      ],
+      "historical_record": "晨星项目预算120",
+      "db_readonly_sha256": "4769d8cf43982cd1be433dd891d59d999afb65cb74e6ab796b3eb2dda647272c",
+      "corrections": 1,
+      "phases": [
+        {
+          "report": "<synthetic-run>\\live-final-glm1\\memory-model.json",
+          "original_sha256": "1d95967330c61a5d1b666e3235768439db1b7a2df0424b5b57b75d1c3ee074a6",
+          "raw_passed": false,
+          "effective_passed": true,
+          "phase": "before_restart",
+          "raw_sequence_complete": false,
+          "effective_sequence_complete": false,
+          "executed_runner_sha256": {
+            "file_models.py": "49ff05e82b7d411b86adf30cec5d3c33049ea841a387a4ad5f5f925ae11e8ae1",
+            "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+            "memory_model_case.py": "dc257c616002cd74da9e40656238cc274a699cf37651820987850e40671ccaa2"
+          },
+          "review_evaluator_sha256": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf",
+          "table_format_satisfied": false,
+          "extraneous_tool_failure": false,
+          "core_pid": 4776,
+          "http_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40
+          ],
+          "http_request_seconds": 126.922,
+          "phase_elapsed_seconds": 129.828
+        },
+        {
+          "report": "<synthetic-run>\\live-final-glm1\\memory-restart-model.json",
+          "original_sha256": "a53cf0be6891e03d8581e93d0182331e8615e65068755b639daf0e7f26b028e5",
+          "raw_passed": false,
+          "effective_passed": true,
+          "phase": "after_restart",
+          "raw_sequence_complete": false,
+          "effective_sequence_complete": true,
+          "executed_runner_sha256": {
+            "file_models.py": "41261eaf44a94a69cd7fb03cf5f6f8dee8454eb8f6d53f6179ebf6c8afe04f09",
+            "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+            "memory_model_case.py": "b1d13170b0d1b6c26ae89b1462543092989f70eef812124d87a5b00a76028cc3"
+          },
+          "review_evaluator_sha256": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf",
+          "table_format_satisfied": false,
+          "extraneous_tool_failure": true,
+          "core_pid": 49060,
+          "http_indices": [
+            41,
+            42,
+            43
+          ],
+          "http_request_seconds": 19.359,
+          "phase_elapsed_seconds": 19.937
+        }
+      ]
+    },
+    {
+      "case": "live-final-ds2",
+      "passed": true,
+      "target": [
+        "白鹭",
+        "负责人",
+        "林岚",
+        "陈青"
+      ],
+      "current_records": [
+        "白鹭项目负责人陈青；预算260",
+        "白鹭二号项目负责人顾宁",
+        "用户最喜欢的水果是西瓜"
+      ],
+      "historical_record": "白鹭项目负责人林岚；预算260",
+      "db_readonly_sha256": "83ced1a415c42939740e50309ddb77d5b630edb0d67102841b65caa9e31c4119",
+      "corrections": 1,
+      "phases": [
+        {
+          "report": "<synthetic-run>\\live-final-ds2\\memory-model.json",
+          "original_sha256": "de3d9560f08c86481ec20cd0b8e8881a31eb7afd3d3e57c48501702ae41e03fd",
+          "raw_passed": true,
+          "effective_passed": true,
+          "phase": "before_restart",
+          "raw_sequence_complete": false,
+          "effective_sequence_complete": false,
+          "executed_runner_sha256": {
+            "file_models.py": "41261eaf44a94a69cd7fb03cf5f6f8dee8454eb8f6d53f6179ebf6c8afe04f09",
+            "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+            "memory_model_case.py": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf"
+          },
+          "review_evaluator_sha256": null,
+          "table_format_satisfied": true,
+          "extraneous_tool_failure": false,
+          "core_pid": 50240,
+          "http_indices": [
+            44,
+            45,
+            46,
+            47,
+            48,
+            49
+          ],
+          "http_request_seconds": 29.61,
+          "phase_elapsed_seconds": 32.641
+        },
+        {
+          "report": "<synthetic-run>\\live-final-ds2\\memory-restart-model.json",
+          "original_sha256": "6aff9271ccfd99982d00e909667522b8fb33bbbc6bbeb1aaf99c401e95201c0a",
+          "raw_passed": true,
+          "effective_passed": true,
+          "phase": "after_restart",
+          "raw_sequence_complete": true,
+          "effective_sequence_complete": true,
+          "executed_runner_sha256": {
+            "file_models.py": "41261eaf44a94a69cd7fb03cf5f6f8dee8454eb8f6d53f6179ebf6c8afe04f09",
+            "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+            "memory_model_case.py": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf"
+          },
+          "review_evaluator_sha256": null,
+          "table_format_satisfied": true,
+          "extraneous_tool_failure": false,
+          "core_pid": 24232,
+          "http_indices": [
+            50,
+            51
+          ],
+          "http_request_seconds": 18.406,
+          "phase_elapsed_seconds": 18.922
+        }
+      ]
+    }
+  ]
+}

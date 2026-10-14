@@ -1,0 +1,66 @@
+{
+  "baseline_commit": "4a386a9776e65ef07cd3058f7cab98b4f4b0e8d1",
+  "preserved": [
+    {
+      "file": "services/agent-core/agent_core/file_task.py",
+      "baseline_sha256": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+      "current_sha256": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/issue_task.py",
+      "baseline_sha256": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+      "current_sha256": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/email_task.py",
+      "baseline_sha256": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+      "current_sha256": "4f059774e5e2128b4c02912553e49e3b7b13e4626a5ebb05d0a6ac645ecf8438",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/verified_task.py",
+      "baseline_sha256": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+      "current_sha256": "bfed72f352530e03060c96fd0b5df570a4f138e8148f076df48d2f02d5538dc7",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/harness.py",
+      "baseline_sha256": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+      "current_sha256": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/permissions.py",
+      "baseline_sha256": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+      "current_sha256": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/actions.py",
+      "baseline_sha256": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+      "current_sha256": "c09025214a5563284748b760e6366ff8c46d417a62e95bd95fb6f4a81af1ff53",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/task_delivery.py",
+      "baseline_sha256": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+      "current_sha256": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/task_status.py",
+      "baseline_sha256": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+      "current_sha256": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+      "identical": true
+    },
+    {
+      "file": "services/agent-core/agent_core/general_reply_check.py",
+      "baseline_sha256": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+      "current_sha256": "22d7f8054d122f6f170418e13bd3b64f2501daeab208ed3e1485c7e8887149c5",
+      "identical": true
+    }
+  ],
+  "general_checker_not_imported": true
+}

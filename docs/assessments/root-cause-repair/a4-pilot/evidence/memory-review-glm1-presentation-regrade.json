@@ -1,0 +1,92 @@
+{
+  "review": "Original GLM first-phase immutable presentation regrade; no live retry or model request",
+  "original_report": "<synthetic-run>\\live-glm1\\memory-model.json",
+  "original_report_sha256": "d1a0e003a83eab17a9c37dda591549cc65af85c7836a0ea07899320047a629f7",
+  "original_report_passed": false,
+  "original_failed_checks": [
+    "same_session_answer",
+    "new_session_answer"
+  ],
+  "original_report_unchanged": true,
+  "business_source_unchanged": true,
+  "oracle_sha256": "dc257c616002cd74da9e40656238cc274a699cf37651820987850e40671ccaa2",
+  "database_matches_original_report": true,
+  "facts": [
+    {
+      "fact_id": 1,
+      "session_id": null,
+      "scope": "global",
+      "content": "晨星项目预算120",
+      "status": "superseded",
+      "source_request_id": "synthetic-seed",
+      "created_at": "2026-10-14 12:04:25"
+    },
+    {
+      "fact_id": 2,
+      "session_id": null,
+      "scope": "global",
+      "content": "暮云项目预算180",
+      "status": "confirmed",
+      "source_request_id": "synthetic-seed",
+      "created_at": "2026-10-14 12:04:25"
+    },
+    {
+      "fact_id": 3,
+      "session_id": null,
+      "scope": "global",
+      "content": "用户最喜欢的颜色是蓝色",
+      "status": "confirmed",
+      "source_request_id": "synthetic-seed",
+      "created_at": "2026-10-14 12:04:25"
+    },
+    {
+      "fact_id": 4,
+      "session_id": null,
+      "scope": "global",
+      "content": "晨星项目预算175",
+      "status": "confirmed",
+      "source_request_id": "memory-1-before_restart-correct",
+      "created_at": "2026-10-14 12:04:26"
+    }
+  ],
+  "evaluations": [
+    {
+      "request_id": "memory-1-before_restart-same-session",
+      "fact_semantics_pass": true,
+      "answer_form": "host_recall_receipts",
+      "requested_table_contract_met": false
+    },
+    {
+      "request_id": "memory-1-before_restart-new-session",
+      "fact_semantics_pass": true,
+      "answer_form": "host_recall_receipts",
+      "requested_table_contract_met": false
+    },
+    {
+      "request_id": "memory-1-before_restart-history",
+      "fact_semantics_pass": true,
+      "answer_form": "history_table",
+      "requested_table_contract_met": true
+    }
+  ],
+  "memory_factual_semantics_pass": true,
+  "requested_table_contract_pass": false,
+  "public_harness_format_contract_repaired": false,
+  "restart_verified": false,
+  "http_indices": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "http_requests": 11,
+  "phase_elapsed_seconds": 110.61,
+  "interpretation": "Host-delivered JSON memories explicitly bind each object, property and current value; format is degraded and remains a public delivery limitation. This does not convert the immutable original report to PASS or prove a complete restart sequence."
+}

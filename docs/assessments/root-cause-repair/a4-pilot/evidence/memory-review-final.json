@@ -1,0 +1,128 @@
+{
+  "reviewer": "memory_independent",
+  "scope": "Independent diff review of explicit memory corrections and the existing model runner's memory protocol",
+  "result": "No remaining CRITICAL/HIGH findings in the scoped diff; 32 independent deterministic tests and all six live memory-correction sequences pass factual/storage/persistence review",
+  "approval_boundary": "Limited to explicit memory correction; excludes requested table formatting, fixture get_time failures, production behavior, A4 closure and platform-wide acceptance",
+  "production_databases_opened": 0,
+  "existing_services_touched": 0,
+  "real_model_requests": 0,
+  "test_file": "services/agent-core/tests/test_memory_correction_review.py",
+  "final_evidence": "<synthetic-run>\\review-time-receipt.json",
+  "original_counterexample_closure_evidence": "<synthetic-run>/review-run12.json",
+  "host_receipt_oracle_regrade": "<synthetic-run>/review-glm1-presentation-regrade.json",
+  "final_frozen_integration_evidence": "<synthetic-run>/final-test_memoryall.json",
+  "final_frozen_integration_suite_tests": 66,
+  "independent_tests_in_final_frozen_suite": 32,
+  "integration_review": "The final route narrowing preserves recognized memory-property and memory-explicit clarification, while explicit existing verified tasks retain their adapters. No adapter code changed. All 25 independent counterexamples are included and passed in the 59-test final frozen memory group.",
+  "final_tests": 32,
+  "final_failures": 0,
+  "final_errors": 0,
+  "independent_test_sha256": "a5fe3870b785d4708966c14458b7a3463613d57cd8920e03eb1afcd2d594a35d",
+  "reviewed_source_sha256": {
+    "memory_correction.py": "99c9e91bb7182abb521e3c405f2e7dd93fe80af231281f53ba9b3c913c3a8f66",
+    "storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+    "main.py": "3d64d7dc7949d2805cadb9c5afd6c96ce0ce3e1cc092fd0c9da8cabdc0a60737",
+    "file_models.py": "41261eaf44a94a69cd7fb03cf5f6f8dee8454eb8f6d53f6179ebf6c8afe04f09",
+    "memory_model_case.py": "7e3b6ded3dacbb05c02d163bcfd748b584fb9aa6f780d56bd4d18b064a3aaccf"
+  },
+  "resolved_findings": [
+    {
+      "severity": "HIGH",
+      "issue": "Rejected or missing model memory candidates could leave an unsupported success reply",
+      "independent_examples": [
+        "请将银杉预算更新为95。",
+        "请把“银杉”预算更正为95。",
+        "把银杉预算改成95，可以吗？"
+      ],
+      "red_evidence": [
+        "review-run02.json",
+        "review-run09.json"
+      ],
+      "resolution": "Recognized correction requests and clarification paths use verified host receipts; explicit quoted entities and polite requests are handled without trusting model IDs"
+    },
+    {
+      "severity": "HIGH",
+      "issue": "History discarded the old pending qualification",
+      "independent_examples": [
+        "Pending 秋港日期周五 corrected to 周六, then recall_memory(include_history=true)"
+      ],
+      "red_evidence": [
+        "review-run02.json"
+      ],
+      "resolution": "History includes original_status and a pending-history qualification"
+    },
+    {
+      "severity": "HIGH",
+      "issue": "Uncertain statements and punctuation-free questions were committed as new confirmed values",
+      "independent_examples": [
+        "银杉预算应是95吧",
+        "银杉预算实际是95吗"
+      ],
+      "red_evidence": [
+        "review-run03.json"
+      ],
+      "resolution": "Question and uncertainty markers cause a non-mutating clarification"
+    },
+    {
+      "severity": "HIGH",
+      "issue": "A queued default-session correction could update one session while delivering success to another",
+      "red_evidence": [
+        "review-run04.json"
+      ],
+      "resolution": "The correction's session is frozen at request arrival and passed to the locked handler"
+    },
+    {
+      "severity": "HIGH",
+      "issue": "Expansion accepted initial reports that had not completed the second Core process",
+      "red_evidence": [
+        "review-run06.json"
+      ],
+      "resolution": "Memory expansion requires two passed after_restart reports with sequence_complete=true, in addition to existing source/provider/ledger checks"
+    },
+    {
+      "severity": "HIGH",
+      "issue": "Model-answer scoring by token presence could accept swapped objects or swapped current/historical values",
+      "independent_examples": [
+        "暮云预算175 and 晨星预算180",
+        "Current 晨星预算120 and historical 晨星预算175"
+      ],
+      "resolution": "Current answers require exact object/property/value tuples; history requires exact version/object/property/value tuples; independent negative controls pass in review-run12.json"
+    },
+    {
+      "severity": "HIGH",
+      "issue": "Post-write verification omitted the actual owning session and override relation",
+      "red_evidence": [
+        "review-run11.json"
+      ],
+      "resolution": "Pre-commit and post-commit verification checks new/old session ownership, scope, source_request_id, and local override mapping; a synthetic wrong-session trigger rolls back"
+    }
+  ],
+  "additional_passed_boundaries": [
+    "Different entities and different attributes remain unchanged despite deliberately wrong model fact_id/entity fields",
+    "A compound record's middle property can change without losing whitespace or unrelated clauses",
+    "Ambiguous or unknown targets do not overwrite a similar record",
+    "Reference material and ordinary chat do not mutate saved facts",
+    "Session-only compound overrides do not change the global value observed by other sessions",
+    "Pending and sensitive facts retain visibility and confirmation restrictions",
+    "Failed inserts roll back, repeated requests do not duplicate, late old-value requests preserve the latest version",
+    "Current automatic prompt injection and actual recall_memory exclude the superseded current value",
+    "Forged storage plan IDs are rejected after source-text re-resolution",
+    "Existing file_runner_review.py changes only supply time to extracted observer code and identify the original file audit scenario"
+  ],
+  "host_receipt_oracle_addendum": "Strict host recall receipts may include exactly validated superseded history without treating it as current. Original model reports remain immutable. Explicit bound sidecars recompute only three presentation checks and preserve original phase, sequence_complete, execution runner hashes and raw failure status. The existing memory-only resume and expansion gates read validated effective copies; no business or public delivery verifier changed. Requested table formatting remains a documented separate limitation. The later GLM restart included an exact paired fixture-denied get_time failure alongside correct recalled facts. Only that fixed failure pair is accepted as fact-neutral, with extraneous_tool_failure=true and table_format_satisfied=false retained. Evaluator-hash-specific sidecars preserve older sidecars and raw sequence_complete; effective_sequence_complete can be true only after_restart with every nonpresentation restart check true.",
+  "verification_limits": [
+    "ruff, mypy, pylint, and black were unavailable in the existing test environment; no global installation was performed",
+    "git diff --check passed",
+    "The first shell attempt selected a Python lacking fastapi; review-run01 was an environment/import failure before tests, not a business result",
+    "The parser remains intentionally bounded; opaque legacy records and unsupported corrections require clarification",
+    "All six DS/GLM sequences were independently verified read-only against synthetic DBs, injected memory, recall results, persisted/visible answers, terminated/restarted PIDs and the 84-request ledger. Original GLM1 failed reports remain false and are separately regraded using hash-bound sidecars.",
+    "Host receipt formatting remains in GLM1 first/restart, GLM2 restart, DS3 history and GLM3 same-session. Fixed fixture get_time failures remain in GLM1 restart and GLM3 same-session."
+  ],
+  "presentation_review_evidence": "<synthetic-run>\\review-presentation-final.json",
+  "latest_presentation_review": "<synthetic-run>\\review-time-receipt-final.json",
+  "live_final_evidence": "<synthetic-run>\\review-live-final.json",
+  "live_sequences": 6,
+  "live_actual_requests": 84,
+  "final_memory_suite_tests": 66,
+  "independent_tests_in_final_memory_suite": 32
+}

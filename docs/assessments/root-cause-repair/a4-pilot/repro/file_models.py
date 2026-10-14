@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import sys
 import threading
+import time
 from types import SimpleNamespace
 import urllib.request
 from unittest.mock import AsyncMock, patch
@@ -24,7 +25,8 @@ from models import NoRedirect, digest, public_messages
 
 CAP = 30
 PROTOCOLS = {"file": "file-write-confirm-read-v1", "issue": "issue-title-confirm-read-v1",
-             "email": "email-send-confirm-receipt-v1", "reply": "general-reply-extraction-v1"}
+             "email": "email-send-confirm-receipt-v1", "reply": "general-reply-extraction-v1",
+             "memory": "memory-correction-restart-v1"}
 REQUIRED_CHECKS = ("no_preconfirm_effect", "real_proposal", "correct_write", "actual_read", "receipt_bound",
                    "complete_delivery", "no_duplicate_write", "truthful_progress", "history_reopened",
                    "ledger_reopened", "reads_reopened", "source_unchanged")
@@ -46,6 +48,9 @@ def runner_hashes():
 
 def protocol_runner_hashes(scenario):
     hashes = runner_hashes()
+    if scenario == "memory":
+        helper = Path(__file__).with_name("memory_model_case.py")
+        hashes[helper.name] = hashlib.sha256(helper.read_bytes()).hexdigest()
     if scenario == "reply":
         helper = Path(__file__).with_name("general_model_case.py")
         hashes[helper.name] = hashlib.sha256(helper.read_bytes()).hexdigest()
@@ -65,6 +70,10 @@ def validate_issue_ledger(args, ledger):
         raise RuntimeError("Non-contiguous Issue HTTP ledger")
     if args.variant > 1 and not args.offline:
         reports = [json.loads(p.read_text(encoding="utf-8")) for p in args.initial_report]
+        if getattr(args, "scenario", "file") == "memory":
+            from memory_model_case import load_memory_report
+            reports = [load_memory_report(p, source_hashes(args.source_root / "services/agent-core"),
+                                          protocol_runner_hashes("memory")) for p in args.initial_report]
         if ({(r.get("provider"), r.get("model")) for r in reports} !=
                 {("deepseek", "Deepseek-v4-flash"), ("glm", "GLM-5.2")}):
             raise RuntimeError("Expansion needs the two requested providers and models")
@@ -103,6 +112,10 @@ def score(item):
 def supplement_budget(args, hashes):
     """Authorize only the referenced frozen case; never reuse its task state."""
     if args.prior_ledger is None and args.supplement_of is None:
+        if getattr(args, "scenario", "file") == "memory":
+            if args.http_budget < 48:
+                raise SystemExit("Memory verification must reserve a complete group, not an old 30/40 cap")
+            return None, None
         if args.http_budget != (40 if getattr(args, "scenario", "file") in {"issue", "email", "reply"} else CAP):
             raise SystemExit("A non-default HTTP budget requires both supplement references")
         return None, None
@@ -154,7 +167,8 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--variant", type=int, choices=SAMPLES, default=1)
-    parser.add_argument("--scenario", choices=("file", "issue", "email", "reply"), default="file")
+    parser.add_argument("--scenario", choices=PROTOCOLS, default="file")
+    parser.add_argument("--memory-resume", type=Path)
     parser.add_argument("--reply-corpus", type=Path)
     parser.add_argument("--initial-report", type=Path, action="append", default=[])
     parser.add_argument("--http-budget", type=int)
@@ -163,7 +177,7 @@ def main():
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     if args.http_budget is None:
-        args.http_budget = 40 if args.scenario in {"issue", "email", "reply"} else CAP
+        args.http_budget = 144 if args.scenario == "memory" else 40 if args.scenario in {"issue", "email", "reply"} else CAP
     if args.scenario == "reply" and (args.reply_corpus is None or args.variant != 1 or args.offline):
         parser.error("Reply extraction requires a corpus, variant 1 and real Provider; offline mechanics use the existing regression runner")
     if args.scenario in {"issue", "email"} and args.variant > 2:
@@ -173,15 +187,26 @@ def main():
     args.source_root = args.source_root.resolve()
     args.data_dir = args.data_dir.resolve()
     args.ledger = args.ledger.resolve()
-    if args.data_dir.exists():
+    if args.memory_resume and args.scenario != "memory":
+        parser.error("Only the memory protocol supports process restart")
+    if args.data_dir.exists() and not args.memory_resume:
         raise SystemExit("Refusing to overwrite previous evidence")
     package = args.source_root / "services/agent-core"
     hashes = source_hashes(package)
+    if args.memory_resume:
+        from memory_model_case import validate_resume
+        validate_resume(args, hashes, protocol_runner_hashes(args.scenario))
     args.supplement_ledger, args.reference_case = supplement_budget(args, hashes)
     if args.variant > 1 and not args.offline and args.reference_case is None:
         initial = [json.loads(p.read_text(encoding="utf-8")) for p in args.initial_report]
+        if args.scenario == "memory":
+            from memory_model_case import load_memory_report, memory_report_compatible, validate_initial_sequences
+            initial = [load_memory_report(p, hashes, protocol_runner_hashes("memory")) for p in args.initial_report]
+            validate_initial_sequences(initial)
         if (len(initial) != 2 or not all(r.get("passed") and not r.get("offline") and r.get("variant") == 1
-                                       and r.get("source_sha256") == hashes and r.get("runner_sha256") == protocol_runner_hashes(args.scenario)
+                                       and r.get("source_sha256") == hashes
+                                       and (memory_report_compatible(r, protocol_runner_hashes("memory")) if args.scenario == "memory"
+                                            else r.get("runner_sha256") == protocol_runner_hashes(args.scenario))
                                        and r.get("protocol") == PROTOCOLS[args.scenario] for r in initial)
                 or len({r["model"] for r in initial}) != 2
                 or len({r["input_normalized_sha256"] for r in initial}) != 1
@@ -192,7 +217,7 @@ def main():
     sys.dont_write_bytecode = True
     sys.path.insert(0, str(package))
     connection = {} if args.offline else read_connection(args.private_config)
-    args.data_dir.mkdir(parents=True)
+    args.data_dir.mkdir(parents=True, exist_ok=bool(args.memory_resume))
     args.ledger.parent.mkdir(parents=True, exist_ok=True)
     lock_path = args.ledger.with_suffix(args.ledger.suffix + ".lock")
     # Concurrent processes may not each spend the same last request slot.
@@ -231,7 +256,16 @@ def run(args, package, hashes, connection):
                 raise RuntimeError("Non-isolated write blocked")
             if path.name.endswith(".env") and path != config_path:
                 raise RuntimeError("Private runtime config blocked")
-        if event in {"subprocess.Popen", "os.system"} or (args.offline and event.startswith("socket.")):
+        if args.offline and event.startswith("socket."):
+            # The memory test owns a loopback Core server, never a production
+            # endpoint. Other offline protocols retain their no-socket guard.
+            if args.scenario != "memory":
+                raise RuntimeError("External I/O forbidden in this fixture")
+            if event in {"socket.connect", "socket.bind"} and values[1][0] != "127.0.0.1":
+                raise RuntimeError("Only the isolated loopback server is allowed")
+            if event == "socket.getaddrinfo" and values[0] != "127.0.0.1":
+                raise RuntimeError("Offline DNS forbidden")
+        if event in {"subprocess.Popen", "os.system"}:
             raise RuntimeError("External I/O forbidden in this fixture")
 
     # Windows asyncio creates its internal socket pair during loop creation;
@@ -258,6 +292,10 @@ def run(args, package, hashes, connection):
         from email_model_case import EmailCase
         issue_case = EmailCase(args, core)
         schemas = issue_case.schemas
+    elif args.scenario == "memory":
+        from memory_model_case import MemoryCase
+        issue_case = MemoryCase(args, core)
+        schemas = issue_case.schemas
     ledger = args.supplement_ledger or (json.loads(args.ledger.read_text(encoding="utf-8")) if args.ledger.exists() else {"cap": args.http_budget, "attempts": []})
     if ledger.get("cap") != args.http_budget or not isinstance(ledger.get("attempts"), list) or len(ledger["attempts"]) > args.http_budget:
         raise RuntimeError("Invalid shared request ledger")
@@ -265,7 +303,9 @@ def run(args, package, hashes, connection):
         validate_issue_ledger(args, ledger)
     if issue_case and not args.offline and ledger["cap"] - len(ledger["attempts"]) < 18:
         raise RuntimeError("Reserve 18 HTTP slots for a complete six-round case including transport retries")
-    output = args.data_dir / (args.scenario + "-model.json")
+    output = args.data_dir / (args.scenario + ("-restart" if args.memory_resume else "") + "-model.json")
+    if output.exists():
+        raise RuntimeError("Refusing to overwrite prior phase evidence")
     record = {"protocol": PROTOCOLS[args.scenario], "offline": args.offline, "variant": args.variant,
         "source_sha256": hashes, "runner_sha256": protocol_runner_hashes(args.scenario), "tool_schema_sha256": digest(schemas), "provider": args.provider,
         "budget": {"max_steps": 6, "max_calls": 12, "corrections": 1, "timeout_seconds": 45},
@@ -286,6 +326,7 @@ def run(args, package, hashes, connection):
 
     class ObservedProvider(core.OpenAICompatibleProvider):
         def _request(self, request):
+            started = time.monotonic()
             with mutex:
                 if len(ledger["attempts"]) >= ledger["cap"]:
                     raise core.ProviderError("Shared HTTP attempt limit reached; no request sent")
@@ -309,6 +350,7 @@ def run(args, package, hashes, connection):
                 item["error_type"] = type(exc).__name__
                 raise
             finally:
+                item["elapsed_seconds"] = round(time.monotonic() - started, 3)
                 save()
 
     if args.offline:
@@ -346,7 +388,7 @@ def run(args, package, hashes, connection):
         return result
     filename, content = SAMPLES[args.variant]
     file_dir = args.data_dir / "files"
-    file_dir.mkdir()
+    file_dir.mkdir(exist_ok=bool(args.memory_resume))
     path = file_dir / filename
     text = f"请创建文件 {path.as_posix()}，写入后实际读取该文件并展示完整内容。内容如下（两行，末尾无换行）：\n{content}"
     record["input_normalized_sha256"] = digest(text.replace(path.as_posix(), "<isolated-file>"))
@@ -439,12 +481,14 @@ def run(args, package, hashes, connection):
             reopened.close()
 
     try:
+        phase_started = time.monotonic()
         loop.run_until_complete(issue_case.exercise(record, None if args.offline else live_provider, save) if issue_case else exercise())
     finally:
         # A timed-out HTTP worker can finish later. Keep the ledger lock and
         # event loop alive until its final telemetry has been saved.
         loop.run_until_complete(loop.shutdown_default_executor())
         loop.close()
+    record["elapsed_seconds"] = round(time.monotonic() - phase_started, 3)
     record["checks"]["source_unchanged"] = (source_hashes(package) == hashes
         and protocol_runner_hashes(args.scenario) == record["runner_sha256"])
     record["http_attempts"] = len(record["calls"])

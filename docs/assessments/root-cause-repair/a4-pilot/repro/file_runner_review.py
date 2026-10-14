@@ -19,6 +19,7 @@ from pathlib import Path
 import socket
 import sys
 import threading
+import time
 from types import SimpleNamespace
 import urllib.error
 import urllib.request
@@ -64,7 +65,7 @@ def make_observer(tree, projection, parent, ledger, record, save):
         ProviderError=RuntimeError, REQUEST_ID=ContextVar("file-review-request", default="synthetic")),
         "CAP": 30, "mutex": threading.RLock(), "ledger": ledger, "record": record,
         "public_messages": projection.public_messages, "NoRedirect": projection.NoRedirect,
-        "json": json, "urllib": urllib, "patch": patch, "save": save}
+        "json": json, "urllib": urllib, "patch": patch, "save": save, "time": time}
     return extract(tree, "ObservedProvider", namespace)()
 
 
@@ -127,7 +128,7 @@ def isolation_probes(tree, directory) -> list[dict]:
     projection_ok = selected == {"DEEPSEEK_MODEL": "synthetic-ds", "GLM_MODEL": "synthetic-glm",
                                 "GLM_CREDENTIAL_SOURCE": "deepseek", "LLM_PROXY_MODE": "direct"}
     directory = directory.resolve()
-    args = SimpleNamespace(data_dir=directory, ledger=directory / "ledger.json", offline=True)
+    args = SimpleNamespace(data_dir=directory, ledger=directory / "ledger.json", offline=True, scenario="file")
     audit = extract(tree, "audit", {"Path": Path, "os": os, "args": args,
                                     "config_path": config_path.resolve()})
     sentinel = directory.parent / "outside-synthetic"

@@ -1,0 +1,425 @@
+{
+  "cap": 144,
+  "attempts": [
+    {
+      "index": 1,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 2,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 3,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 4,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 5,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 6,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 7,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-after_restart-new-session"
+    },
+    {
+      "index": 8,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-after_restart-new-session"
+    },
+    {
+      "index": 9,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 10,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 11,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 12,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 13,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 14,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 15,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 16,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 17,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 18,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 19,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 20,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 21,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 22,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 23,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 24,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 25,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 26,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-after_restart-new-session"
+    },
+    {
+      "index": 27,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-1-after_restart-new-session"
+    },
+    {
+      "index": 28,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 29,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 30,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 31,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 32,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-same-session"
+    },
+    {
+      "index": 33,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 34,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 35,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 36,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 37,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-new-session"
+    },
+    {
+      "index": 38,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 39,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 40,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-before_restart-history"
+    },
+    {
+      "index": 41,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-after_restart-new-session"
+    },
+    {
+      "index": 42,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-after_restart-new-session"
+    },
+    {
+      "index": 43,
+      "model": "GLM-5.2",
+      "request_id": "memory-1-after_restart-new-session"
+    },
+    {
+      "index": 44,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-before_restart-same-session"
+    },
+    {
+      "index": 45,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-before_restart-same-session"
+    },
+    {
+      "index": 46,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-before_restart-new-session"
+    },
+    {
+      "index": 47,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-before_restart-new-session"
+    },
+    {
+      "index": 48,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-before_restart-history"
+    },
+    {
+      "index": 49,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-before_restart-history"
+    },
+    {
+      "index": 50,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-after_restart-new-session"
+    },
+    {
+      "index": 51,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-2-after_restart-new-session"
+    },
+    {
+      "index": 52,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-same-session"
+    },
+    {
+      "index": 53,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-same-session"
+    },
+    {
+      "index": 54,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-same-session"
+    },
+    {
+      "index": 55,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-same-session"
+    },
+    {
+      "index": 56,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-new-session"
+    },
+    {
+      "index": 57,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-new-session"
+    },
+    {
+      "index": 58,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-new-session"
+    },
+    {
+      "index": 59,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-history"
+    },
+    {
+      "index": 60,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-before_restart-history"
+    },
+    {
+      "index": 61,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-after_restart-new-session"
+    },
+    {
+      "index": 62,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-after_restart-new-session"
+    },
+    {
+      "index": 63,
+      "model": "GLM-5.2",
+      "request_id": "memory-2-after_restart-new-session"
+    },
+    {
+      "index": 64,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-before_restart-same-session"
+    },
+    {
+      "index": 65,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-before_restart-same-session"
+    },
+    {
+      "index": 66,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-before_restart-new-session"
+    },
+    {
+      "index": 67,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-before_restart-new-session"
+    },
+    {
+      "index": 68,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-before_restart-history"
+    },
+    {
+      "index": 69,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-before_restart-history"
+    },
+    {
+      "index": 70,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-after_restart-new-session"
+    },
+    {
+      "index": 71,
+      "model": "Deepseek-v4-flash",
+      "request_id": "memory-3-after_restart-new-session"
+    },
+    {
+      "index": 72,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-same-session"
+    },
+    {
+      "index": 73,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-same-session"
+    },
+    {
+      "index": 74,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-same-session"
+    },
+    {
+      "index": 75,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-same-session"
+    },
+    {
+      "index": 76,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-same-session"
+    },
+    {
+      "index": 77,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-new-session"
+    },
+    {
+      "index": 78,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-new-session"
+    },
+    {
+      "index": 79,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-new-session"
+    },
+    {
+      "index": 80,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-history"
+    },
+    {
+      "index": 81,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-before_restart-history"
+    },
+    {
+      "index": 82,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-after_restart-new-session"
+    },
+    {
+      "index": 83,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-after_restart-new-session"
+    },
+    {
+      "index": 84,
+      "model": "GLM-5.2",
+      "request_id": "memory-3-after_restart-new-session"
+    }
+  ]
+}
