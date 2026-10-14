@@ -1,0 +1,856 @@
+{
+  "reviewer": "Codex independent one-time Issue supplement evidence review",
+  "reviewed_at_utc": "2026-10-14T04:22:48.349094+00:00",
+  "baseline": "aebcd50d8f7d23e5db5aae9b321805a4e8abe611",
+  "scope": "Only the single new Deepseek variant 2 report; immutable read of its new synthetic DB; old JSON evidence reused without opening old DBs.",
+  "task_passed": true,
+  "evidence_valid": true,
+  "original_failure_reclassified": false,
+  "original_13_assertions": [
+    {
+      "case": "no_preconfirm_effect",
+      "passed": true,
+      "evidence": {
+        "write_ask_event": 12,
+        "write_confirm_event": 15,
+        "first_write_confirmation": "issue-2-confirm-2"
+      }
+    },
+    {
+      "case": "real_proposal",
+      "passed": true,
+      "evidence": {
+        "proposal_http_index": 24,
+        "action_id": "ededddde999a41439442bb2d436b1fa5",
+        "arguments": {
+          "owner": "SummerTianYi",
+          "repo": "a4-synthetic",
+          "issue_number": 29,
+          "method": "update",
+          "title": "蓝桥第二次核验：7月12日 / 42kg"
+        }
+      }
+    },
+    {
+      "case": "correct_update",
+      "passed": true,
+      "evidence": {
+        "actual_write_count": 1,
+        "model_write_calls": 2,
+        "second_model_call_receipt_reused": true
+      }
+    },
+    {
+      "case": "fresh_read",
+      "passed": true,
+      "evidence": {
+        "preread_ref": "issue-2-request:read:1",
+        "postread_ref": "issue-2-request:read:2",
+        "after_actions": [
+          "ededddde999a41439442bb2d436b1fa5"
+        ],
+        "postread_event": 23,
+        "delivery_event": 27
+      }
+    },
+    {
+      "case": "preserved_fields",
+      "passed": true,
+      "evidence": {
+        "unchanged_fields": [
+          "number",
+          "html_url",
+          "body",
+          "state",
+          "labels",
+          "assignees",
+          "milestone",
+          "locked",
+          "state_reason"
+        ]
+      }
+    },
+    {
+      "case": "receipt_bound",
+      "passed": true,
+      "evidence": {
+        "session_id": 2,
+        "task_id": "issue-2-request",
+        "all_actions_confirmed_against_previous_turn": true
+      }
+    },
+    {
+      "case": "complete_delivery",
+      "passed": true,
+      "evidence": {
+        "user_visible_delivery": "Issue 任务已完成：更新成功，已实际重新读取，标题逐字一致且其他用户字段保持不变。\n仓库：SummerTianYi/a4-synthetic，Issue #29\n核验后的标题：蓝桥第二次核验：7月12日 / 42kg\n读取记录：issue-2-request:read:2"
+      }
+    },
+    {
+      "case": "no_duplicate_write",
+      "passed": true,
+      "evidence": {
+        "duplicate_request_id": "issue-2-duplicate",
+        "followup_http_count": 0,
+        "followup_event_types": [
+          "chat.effort",
+          "chat.delivery",
+          "chat.effort",
+          "chat.delivery"
+        ]
+      }
+    },
+    {
+      "case": "truthful_progress",
+      "passed": true,
+      "evidence": {
+        "user_visible_progress": "我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。\n任务 issue-2-request（3项）：执行成功 3项\n- \"mcp__github__issue_read\" [mcp__github__issue_read，参数版本1]：执行成功\n- \"蓝桥第二次核验：7月12号 / 42千克\" [mcp__github__issue_write，参数版本1]：执行成功\n- \"mcp__github__issue_read\" [mcp__github__issue_read，参数版本2]：执行成功",
+        "frozen_criterion": "status truthfulness and no new model/tool effects; exact title is required in completion delivery"
+      }
+    },
+    {
+      "case": "history_reopened",
+      "passed": true,
+      "evidence": {
+        "message_count": 12,
+        "open_mode": "ro&immutable=1"
+      }
+    },
+    {
+      "case": "ledger_reopened",
+      "passed": true,
+      "evidence": {
+        "action_count": 3,
+        "open_mode": "ro&immutable=1"
+      }
+    },
+    {
+      "case": "reads_reopened",
+      "passed": true,
+      "evidence": {
+        "tool_result_count": 2,
+        "selected_event_count": 9,
+        "all_db_event_count": 31
+      }
+    },
+    {
+      "case": "source_unchanged",
+      "passed": true,
+      "evidence": {
+        "core_files": 26,
+        "runner_files": 4
+      }
+    }
+  ],
+  "frozen_helper_checks": [
+    {
+      "case": "live_source_and_runner_bound",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_actual_single_exact_write_and_preserved_fields",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_real_fresh_read_bound_to_successful_write",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_receipts_same_session_task",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_confirmations_match_previously_shown_tickets",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_complete_delivery_from_real_result",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_shared_40_attempt_ledger_membership",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_all_runner_assertions_pass",
+      "passed": true,
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    },
+    {
+      "case": "live_readonly_database_matches_all_evidence",
+      "passed": true,
+      "database_sha256": "85fe5e4588d98d2b5a7c7395166751d0efadcfddb94f60944680cf7e41296f26",
+      "report": "<issue-supplement>\\live-ds-2\\issue-model.json"
+    }
+  ],
+  "frozen_aggregate_checks": [
+    {
+      "case": "live_all_calls_use_same_captured_tool_schema",
+      "passed": true
+    },
+    {
+      "case": "live_fixed_budgets_and_true_initial_state",
+      "passed": true
+    },
+    {
+      "case": "live_same_variant_models_have_equivalent_contracts",
+      "passed": true
+    },
+    {
+      "case": "successful_task_timeout_occurred_after_persisted_fresh_read",
+      "passed": true,
+      "model": "Deepseek-v4-flash",
+      "variant": 1,
+      "timeout_http_indices": [
+        6
+      ]
+    }
+  ],
+  "evidence_checks": [
+    {
+      "case": "original_13_assertions_exactly_preserved",
+      "passed": true,
+      "evidence": {
+        "required": [
+          "no_preconfirm_effect",
+          "real_proposal",
+          "correct_update",
+          "fresh_read",
+          "preserved_fields",
+          "receipt_bound",
+          "complete_delivery",
+          "no_duplicate_write",
+          "truthful_progress",
+          "history_reopened",
+          "ledger_reopened",
+          "reads_reopened",
+          "source_unchanged"
+        ]
+      }
+    },
+    {
+      "case": "prior_ledger_21_prefix_unchanged",
+      "passed": true,
+      "evidence": {
+        "prior_snapshot_sha256": "24a05303d78457494b1439264969dd5e3addf6b026084a9f209e7631e2940c50",
+        "prior_count": 21
+      }
+    },
+    {
+      "case": "only_six_new_attempts_22_through_27",
+      "passed": true,
+      "evidence": {
+        "appended_attempts": [
+          {
+            "index": 22,
+            "model": "Deepseek-v4-flash",
+            "request_id": "issue-2-request"
+          },
+          {
+            "index": 23,
+            "model": "Deepseek-v4-flash",
+            "request_id": "issue-2-confirm-1"
+          },
+          {
+            "index": 24,
+            "model": "Deepseek-v4-flash",
+            "request_id": "issue-2-confirm-1"
+          },
+          {
+            "index": 25,
+            "model": "Deepseek-v4-flash",
+            "request_id": "issue-2-confirm-2"
+          },
+          {
+            "index": 26,
+            "model": "Deepseek-v4-flash",
+            "request_id": "issue-2-confirm-2"
+          },
+          {
+            "index": 27,
+            "model": "Deepseek-v4-flash",
+            "request_id": "issue-2-confirm-3"
+          }
+        ],
+        "remaining_slots": 13
+      }
+    },
+    {
+      "case": "same_persistent_40_budget_and_reservation",
+      "passed": true,
+      "evidence": {
+        "ledger_path": "<issue-phase>\\http-ledger.json",
+        "cap": 40,
+        "before_remaining": 19,
+        "required_reservation": 18
+      }
+    },
+    {
+      "case": "original_failed_report_and_ledger_unmodified",
+      "passed": true,
+      "evidence": {
+        "failed_report_sha256": "9cb949e5ff0af1940bfe3b6d74128b0b63aba8c42d6419dcadf599125aaf41f4",
+        "original_ledger_sha256": "a248e64ff46969fe21650745b599dc0dbf45e2b2e3dc11d25848e9c70fadc9f5",
+        "old_failure_preserved": true
+      }
+    },
+    {
+      "case": "original_raw_reports_unmodified",
+      "passed": true,
+      "evidence": {
+        "raw_sha256": {
+          "live-ds-1": "95616708152cc678c8a68080d4716879597a81757639eaf44a8afacda5e87f53",
+          "live-glm-1": "3487e216f0a0f59d94aa5704411b733ca320d693ef6582b2ad7348abb76c2a5e",
+          "live-ds-2": "e226ae1f38154fe9233b99f27b70faceff87719169a59b5cb68edc006a951835",
+          "live-glm-2": "5a3ff6fe6cbfa3c17abb9f4e704cfd9bcf29f8eaf53512672a16cc1feb906322"
+        }
+      }
+    },
+    {
+      "case": "same_frozen_variant2_contract",
+      "passed": true,
+      "evidence": {
+        "compared_fields": [
+          "protocol",
+          "variant",
+          "source_sha256",
+          "runner_sha256",
+          "tool_schema_sha256",
+          "input_normalized_sha256",
+          "initial_state_sha256",
+          "expected",
+          "budget"
+        ],
+        "input_sha256": "cf8b32af28316d047e89ec7168fa926ec361973af8431981ce0e784d0a03599d",
+        "initial_state_sha256": "a3b5e54d778592968f8a2c480893547d95a85aaed7bca9602f60e029e5778cbe",
+        "schema_sha256": "a7e49ef242cdc015aae19b0f33b6450cb2b49a1010eac21510a999a5715a9a16",
+        "budget": {
+          "max_steps": 6,
+          "max_calls": 12,
+          "corrections": 1,
+          "timeout_seconds": 45
+        }
+      }
+    },
+    {
+      "case": "initial_pair_still_qualifies_without_rerun",
+      "passed": true,
+      "evidence": {
+        "reused_reports": [
+          "<issue-phase>\\live-ds-1\\issue-model.json",
+          "<issue-phase>\\live-glm-1\\issue-model.json"
+        ],
+        "old_databases_opened": 0
+      }
+    },
+    {
+      "case": "standard_effort_and_unchanged_budget",
+      "passed": true,
+      "evidence": {
+        "effort": "standard",
+        "effort_events": 6
+      }
+    },
+    {
+      "case": "new_initial_state_not_old_task_resume",
+      "passed": true,
+      "evidence": {
+        "new_directory": "<issue-supplement>\\live-ds-2",
+        "message_groups": [
+          [
+            2,
+            12,
+            1,
+            12
+          ]
+        ],
+        "sessions": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "old_action_ids_reused": false,
+        "fresh_directory_gate": "file_models.py:165-166 refuses an existing data directory; line 184 mkdir without exist_ok",
+        "limitation": "Reviewer did not observe launch; freshness is supported by the unchanged runner gate, preflight target, first HTTP context, new DB IDs and disjoint action IDs."
+      }
+    },
+    {
+      "case": "frozen_source_runner_and_captured_schema_unchanged",
+      "passed": true,
+      "evidence": {
+        "baseline": "aebcd50d8f7d23e5db5aae9b321805a4e8abe611",
+        "current_head": "aebcd50d8f7d23e5db5aae9b321805a4e8abe611"
+      }
+    },
+    {
+      "case": "new_database_integrity_and_full_events",
+      "passed": true,
+      "evidence": {
+        "integrity_check": "ok",
+        "permission_ask_count": 3,
+        "permission_confirmed_count": 3
+      }
+    },
+    {
+      "case": "all_217_preflight_frozen_files_unchanged",
+      "passed": true,
+      "evidence": {
+        "checked_files": 217,
+        "changed_files": []
+      }
+    },
+    {
+      "case": "public_exports_match_raw_after_path_redaction",
+      "passed": true,
+      "evidence": {
+        "exports": [
+          "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-ds-2.json",
+          "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-http-ledger.json",
+          "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-freeze.json"
+        ],
+        "operation": "Local root path redaction plus JSON formatting. Freeze export adds all_frozen_files_unchanged_after:true, independently verified against all 217 frozen paths. Raw SHA256 binds original local bytes."
+      }
+    },
+    {
+      "case": "manifest_links_exact_raw_and_exported_bytes",
+      "passed": true,
+      "evidence": {
+        "manifest": "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-manifest.json",
+        "raw_hashes_and_public_hashes_checked": true
+      }
+    },
+    {
+      "case": "supplement_document_claims_match_evidence",
+      "passed": true,
+      "evidence": {
+        "document": "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\ISSUE_TASK_SUPPLEMENT.md",
+        "review": "Original 3/4 and new 1/1 separated; 27/40, exact completion, normalized progress-label limitation, synthetic scope and old regression reuse accurately stated. Remote publication verification remains the parent agent scope."
+      }
+    },
+    {
+      "case": "all_audited_input_hashes_unchanged_during_review",
+      "passed": true,
+      "evidence": {
+        "input_count": 50,
+        "db_sha256_before": "85fe5e4588d98d2b5a7c7395166751d0efadcfddb94f60944680cf7e41296f26",
+        "db_sha256_after": "85fe5e4588d98d2b5a7c7395166751d0efadcfddb94f60944680cf7e41296f26"
+      }
+    }
+  ],
+  "hashes_before": {
+    "<issue-supplement>\\live-ds-2\\issue-model.json": "b909948c85463c9f110002e67942e29e87c9f8bed0c61defc988c8f05c185c5a",
+    "<issue-supplement>\\live-ds-2\\db\\anime-agent.sqlite3": "85fe5e4588d98d2b5a7c7395166751d0efadcfddb94f60944680cf7e41296f26",
+    "<issue-phase>\\http-ledger.json": "6b4e5bbeb335e9f781590367e61497e6f62f7ac38d12684a5c4c2c5bd3db59a7",
+    "<issue-supplement>\\preflight.json": "246b7c061440ace6fbfb16fe3fb62c99d26e4b7f8f78c94b5f744714926d7510",
+    "<issue-supplement>\\prior-http-snapshot.json": "24a05303d78457494b1439264969dd5e3addf6b026084a9f209e7631e2940c50",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-live-ds-2.json": "9cb949e5ff0af1940bfe3b6d74128b0b63aba8c42d6419dcadf599125aaf41f4",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-http-ledger.json": "a248e64ff46969fe21650745b599dc0dbf45e2b2e3dc11d25848e9c70fadc9f5",
+    "<issue-phase>\\live-ds-1\\issue-model.json": "95616708152cc678c8a68080d4716879597a81757639eaf44a8afacda5e87f53",
+    "<issue-phase>\\live-glm-1\\issue-model.json": "3487e216f0a0f59d94aa5704411b733ca320d693ef6582b2ad7348abb76c2a5e",
+    "<issue-phase>\\live-ds-2\\issue-model.json": "e226ae1f38154fe9233b99f27b70faceff87719169a59b5cb68edc006a951835",
+    "<issue-phase>\\live-glm-2\\issue-model.json": "5a3ff6fe6cbfa3c17abb9f4e704cfd9bcf29f8eaf53512672a16cc1feb906322",
+    "<repo>\\services\\agent-core\\agent_core\\actions.py": "cfb3a312dd49cca8babb945667ce25fbc95bc12c262ba4b3e493b291644044ff",
+    "<repo>\\services\\agent-core\\agent_core\\agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "<repo>\\services\\agent-core\\agent_core\\file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "<repo>\\services\\agent-core\\agent_core\\harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "<repo>\\services\\agent-core\\agent_core\\issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "<repo>\\services\\agent-core\\agent_core\\main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "<repo>\\services\\agent-core\\agent_core\\mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "<repo>\\services\\agent-core\\agent_core\\memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "<repo>\\services\\agent-core\\agent_core\\permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "<repo>\\services\\agent-core\\agent_core\\proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "<repo>\\services\\agent-core\\agent_core\\provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "<repo>\\services\\agent-core\\agent_core\\result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "<repo>\\services\\agent-core\\agent_core\\song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "<repo>\\services\\agent-core\\agent_core\\speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "<repo>\\services\\agent-core\\agent_core\\speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "<repo>\\services\\agent-core\\agent_core\\storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "<repo>\\services\\agent-core\\agent_core\\stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "<repo>\\services\\agent-core\\agent_core\\task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "<repo>\\services\\agent-core\\agent_core\\task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "<repo>\\services\\agent-core\\agent_core\\tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "<repo>\\services\\agent-core\\agent_core\\tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "<repo>\\services\\agent-core\\agent_core\\verified_task.py": "43e46c1972a1070b8dfc5b70e33db22bec06f73f0a91a4056b07042c1d216703",
+    "<repo>\\services\\agent-core\\agent_core\\voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "<repo>\\services\\agent-core\\agent_core\\voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "<repo>\\services\\agent-core\\agent_core\\wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "<repo>\\services\\agent-core\\agent_core\\__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_models.py": "599b57aaa72f7dc51b217ce53869345981accec3525baf163e0185b67b52f8e6",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\issue_model_case.py": "11de741708093f88f49d755781d4a98243cfaaa62e1ceb25748a2d852fe712f7",
+    "<repo>\\services\\agent-core\\tests\\issue_fixture.py": "d3803ff08859a8d8a907ce4ff53d4b1dee676d683c91cb1ab3777e4084f794ba",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\issue_runner_review.py": "b61ff99e2fc85b2848522d2e9f718339647656641a3bd4b6a88da6ecbf72160a",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_runner_review.py": "9f79e60e16a3882c89d3ee7ef40a0250c5a7d82638c9c7666308503c96d44d2f",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_supplement_review.py": "6f803f5b77ff2d7919938a7a0ad32c700a927941d018bcc63c6bd1f9c938753a",
+    "<repo>\\docs\\assessments\\root-cause-audit\\evidence\\mcp-schema.json": "99ec1412148750eb92a5a06a1143c5f606c36c3393899cdec73fa4b95f2c8b83",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-ds-2.json": "491a2be88fe0e22201a0dd9a31507b2139a21c4eb5b7a1d2a7087d58199e6eb2",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-http-ledger.json": "f36a603884f06632be24a11d60e9ee2444941e8718c5f2ad5766e8c0e0091067",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-freeze.json": "9c96ca6cfc0054fe3f3ea9701fd78c283b235330e6d44a7fb9b588085c164944",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-manifest.json": "1614f97e2e0551b5a7fb717034d4f7f218c7ccab3cd6f0d3e618ff401f034f74",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\ISSUE_TASK_SUPPLEMENT.md": "066e9602ead228de14d99ea733e3778071aee82dc8e888f15533a95f9f2a9c75"
+  },
+  "hashes_after": {
+    "<issue-supplement>\\live-ds-2\\issue-model.json": "b909948c85463c9f110002e67942e29e87c9f8bed0c61defc988c8f05c185c5a",
+    "<issue-supplement>\\live-ds-2\\db\\anime-agent.sqlite3": "85fe5e4588d98d2b5a7c7395166751d0efadcfddb94f60944680cf7e41296f26",
+    "<issue-phase>\\http-ledger.json": "6b4e5bbeb335e9f781590367e61497e6f62f7ac38d12684a5c4c2c5bd3db59a7",
+    "<issue-supplement>\\preflight.json": "246b7c061440ace6fbfb16fe3fb62c99d26e4b7f8f78c94b5f744714926d7510",
+    "<issue-supplement>\\prior-http-snapshot.json": "24a05303d78457494b1439264969dd5e3addf6b026084a9f209e7631e2940c50",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-live-ds-2.json": "9cb949e5ff0af1940bfe3b6d74128b0b63aba8c42d6419dcadf599125aaf41f4",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-http-ledger.json": "a248e64ff46969fe21650745b599dc0dbf45e2b2e3dc11d25848e9c70fadc9f5",
+    "<issue-phase>\\live-ds-1\\issue-model.json": "95616708152cc678c8a68080d4716879597a81757639eaf44a8afacda5e87f53",
+    "<issue-phase>\\live-glm-1\\issue-model.json": "3487e216f0a0f59d94aa5704411b733ca320d693ef6582b2ad7348abb76c2a5e",
+    "<issue-phase>\\live-ds-2\\issue-model.json": "e226ae1f38154fe9233b99f27b70faceff87719169a59b5cb68edc006a951835",
+    "<issue-phase>\\live-glm-2\\issue-model.json": "5a3ff6fe6cbfa3c17abb9f4e704cfd9bcf29f8eaf53512672a16cc1feb906322",
+    "<repo>\\services\\agent-core\\agent_core\\actions.py": "cfb3a312dd49cca8babb945667ce25fbc95bc12c262ba4b3e493b291644044ff",
+    "<repo>\\services\\agent-core\\agent_core\\agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "<repo>\\services\\agent-core\\agent_core\\file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "<repo>\\services\\agent-core\\agent_core\\harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "<repo>\\services\\agent-core\\agent_core\\issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "<repo>\\services\\agent-core\\agent_core\\main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "<repo>\\services\\agent-core\\agent_core\\mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "<repo>\\services\\agent-core\\agent_core\\memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "<repo>\\services\\agent-core\\agent_core\\permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "<repo>\\services\\agent-core\\agent_core\\proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "<repo>\\services\\agent-core\\agent_core\\provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "<repo>\\services\\agent-core\\agent_core\\result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "<repo>\\services\\agent-core\\agent_core\\song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "<repo>\\services\\agent-core\\agent_core\\speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "<repo>\\services\\agent-core\\agent_core\\speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "<repo>\\services\\agent-core\\agent_core\\storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "<repo>\\services\\agent-core\\agent_core\\stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "<repo>\\services\\agent-core\\agent_core\\task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "<repo>\\services\\agent-core\\agent_core\\task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "<repo>\\services\\agent-core\\agent_core\\tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "<repo>\\services\\agent-core\\agent_core\\tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "<repo>\\services\\agent-core\\agent_core\\verified_task.py": "43e46c1972a1070b8dfc5b70e33db22bec06f73f0a91a4056b07042c1d216703",
+    "<repo>\\services\\agent-core\\agent_core\\voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "<repo>\\services\\agent-core\\agent_core\\voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "<repo>\\services\\agent-core\\agent_core\\wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "<repo>\\services\\agent-core\\agent_core\\__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_models.py": "599b57aaa72f7dc51b217ce53869345981accec3525baf163e0185b67b52f8e6",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\issue_model_case.py": "11de741708093f88f49d755781d4a98243cfaaa62e1ceb25748a2d852fe712f7",
+    "<repo>\\services\\agent-core\\tests\\issue_fixture.py": "d3803ff08859a8d8a907ce4ff53d4b1dee676d683c91cb1ab3777e4084f794ba",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\issue_runner_review.py": "b61ff99e2fc85b2848522d2e9f718339647656641a3bd4b6a88da6ecbf72160a",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_runner_review.py": "9f79e60e16a3882c89d3ee7ef40a0250c5a7d82638c9c7666308503c96d44d2f",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_supplement_review.py": "6f803f5b77ff2d7919938a7a0ad32c700a927941d018bcc63c6bd1f9c938753a",
+    "<repo>\\docs\\assessments\\root-cause-audit\\evidence\\mcp-schema.json": "99ec1412148750eb92a5a06a1143c5f606c36c3393899cdec73fa4b95f2c8b83",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-ds-2.json": "491a2be88fe0e22201a0dd9a31507b2139a21c4eb5b7a1d2a7087d58199e6eb2",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-http-ledger.json": "f36a603884f06632be24a11d60e9ee2444941e8718c5f2ad5766e8c0e0091067",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-freeze.json": "9c96ca6cfc0054fe3f3ea9701fd78c283b235330e6d44a7fb9b588085c164944",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\issue-supplement-manifest.json": "1614f97e2e0551b5a7fb717034d4f7f218c7ccab3cd6f0d3e618ff401f034f74",
+    "<repo>\\docs\\assessments\\root-cause-repair\\a4-pilot\\ISSUE_TASK_SUPPLEMENT.md": "066e9602ead228de14d99ea733e3778071aee82dc8e888f15533a95f9f2a9c75"
+  },
+  "source_sha256_before": {
+    "actions.py": "cfb3a312dd49cca8babb945667ce25fbc95bc12c262ba4b3e493b291644044ff",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "verified_task.py": "43e46c1972a1070b8dfc5b70e33db22bec06f73f0a91a4056b07042c1d216703",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "source_sha256_after": {
+    "actions.py": "cfb3a312dd49cca8babb945667ce25fbc95bc12c262ba4b3e493b291644044ff",
+    "agent_loop.py": "41d7153982f1754ead752075c99a6f7da3c218d3a4774587ffa5d180b36ca29e",
+    "file_task.py": "5acedf04eefd388db63b67d5f684acdbd5037c41ccadbf357846dfa6cb37df5d",
+    "harness.py": "f51baaa9d8a9cff26953419aca6f99cb1121c4fc8531ad5c1ada059653c52899",
+    "issue_task.py": "6bcb696dcb6bb8f9c892aa574287a1741bed71d318fba72f0e7ee2e5781ca4e8",
+    "main.py": "9c46b8351dad12723e7f9fc03ff2cc8d7fc6450afd5597409659c0c678db9cbe",
+    "mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "permissions.py": "d26f7efdf9099c2936778f6009b21fa9dd59fcae38f646b1b8c0f5fb4a38f4b5",
+    "proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "speech.py": "0e9a275ef9d53759a89067c7f5fa7b6d4a57693d71cad4c9b3374f7993258718",
+    "speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+    "stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "task_delivery.py": "aae02b6c1775ed1004dc74da8996035385950b7dbabb83f301a102a4b290ee8b",
+    "task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "tools.py": "9b34afbb2f677d12120238f67ee58933e3e5ce2d0f787a08f87f91ff0dc4f0b0",
+    "tool_contracts.py": "24f4b59638641ddb6cd88da15bba4c365acee22d42ae0aa0fa5aa78123741da5",
+    "verified_task.py": "43e46c1972a1070b8dfc5b70e33db22bec06f73f0a91a4056b07042c1d216703",
+    "voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "wake_word.py": "2c10dcf08b14ee269a0ea8569a6714201b59a99e041e2bf0acb25371da06fcdd",
+    "__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867"
+  },
+  "runner_sha256_before": {
+    "file_models.py": "599b57aaa72f7dc51b217ce53869345981accec3525baf163e0185b67b52f8e6",
+    "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "issue_model_case.py": "11de741708093f88f49d755781d4a98243cfaaa62e1ceb25748a2d852fe712f7",
+    "issue_fixture.py": "d3803ff08859a8d8a907ce4ff53d4b1dee676d683c91cb1ab3777e4084f794ba"
+  },
+  "runner_sha256_after": {
+    "file_models.py": "599b57aaa72f7dc51b217ce53869345981accec3525baf163e0185b67b52f8e6",
+    "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69",
+    "issue_model_case.py": "11de741708093f88f49d755781d4a98243cfaaa62e1ceb25748a2d852fe712f7",
+    "issue_fixture.py": "d3803ff08859a8d8a907ce4ff53d4b1dee676d683c91cb1ab3777e4084f794ba"
+  },
+  "preflight_frozen_files_current_hash_match": {
+    "docs/assessments/root-cause-audit/evidence/mcp-schema.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/FILE_TASK.md": true,
+    "docs/assessments/root-cause-repair/a4-pilot/FILE_TASK_SUPPLEMENT.md": true,
+    "docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md": true,
+    "docs/assessments/root-cause-repair/a4-pilot/PENDING_STATUS.md": true,
+    "docs/assessments/root-cause-repair/a4-pilot/REPORT.md": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/baseline-replay.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/core-baseline.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/core-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/execution-deviation.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-baseline.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-before.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-core-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-handoff.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-http-ledger.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-1-fixed.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-1-release.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-2-release.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-ds-3-release.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-1-release.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-2-release.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-live-glm-3-release.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-manifest.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-offline-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-preparation-edit.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-preparation-nonfile.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-first.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-grader-first.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-guidance-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-literal-edit-first.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-literal-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-python-task-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-complete-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-first.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-guidance-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-literal-edit.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-literal-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-literal-first.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-path-edit.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-review-second.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-claim.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-code-review.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-freeze.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-glm-3.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-handoff.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-http-ledger.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-manifest.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-offline.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-review-fixture-first.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-review-live.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-supplement-review-offline.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/file-target-before-guidance.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/independent-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/independent-initial.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-a4-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-baseline-file.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-evidence-export.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-file-after1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-final-checks.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-full-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-full1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-green1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-green2.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-handoff.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-http-ledger.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-2.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-3-binding.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-3.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-4-binding.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-4.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-5-binding.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-5.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-closure.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-scope-2.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-scope-3.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-independent-scope.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-ds-1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-ds-2.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-glm-1.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-live-glm-2.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-red.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-ds2-failure.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-final-binding.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-fourth.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-live-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-offline-not-live.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-second.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-runner-review-third.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/issue-source-manifest.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/manifest.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/models-initial.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/offline-fixture.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-after-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-after.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-before.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-core-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-isolation.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-python-review-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-python-review.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-file-revocation-initial.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-final-02.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-final-03.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-hold-initial.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-initial.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-verbs-initial.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-verdict-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-review-verdict.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-target-first.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/pending-validation-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/preparation.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-core-entry.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final-01.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final-02.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final-export.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-final.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-frozen.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/runner-review-initial.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/evidence/static-checks.json": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/export_evidence.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_models.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_review.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_runner_review.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/file_supplement_review.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/independent.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_model_case.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_review.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/issue_runner_review.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/models.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_replay.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/pending_review.py": true,
+    "docs/assessments/root-cause-repair/a4-pilot/repro/review_runner.py": true,
+    "scripts/check_docs_consistency.py": true,
+    "scripts/test_check_docs_isolation.py": true,
+    "services/agent-core/agent_core/__init__.py": true,
+    "services/agent-core/agent_core/actions.py": true,
+    "services/agent-core/agent_core/agent_loop.py": true,
+    "services/agent-core/agent_core/data/luotianyi_original_songs.json": true,
+    "services/agent-core/agent_core/data/wake_tianyi.txt": true,
+    "services/agent-core/agent_core/file_task.py": true,
+    "services/agent-core/agent_core/harness.py": true,
+    "services/agent-core/agent_core/issue_task.py": true,
+    "services/agent-core/agent_core/main.py": true,
+    "services/agent-core/agent_core/mcp_host.py": true,
+    "services/agent-core/agent_core/memory_retrieval.py": true,
+    "services/agent-core/agent_core/permissions.py": true,
+    "services/agent-core/agent_core/proactive.py": true,
+    "services/agent-core/agent_core/provider_http.py": true,
+    "services/agent-core/agent_core/result_pages.py": true,
+    "services/agent-core/agent_core/song_catalog.py": true,
+    "services/agent-core/agent_core/speech.py": true,
+    "services/agent-core/agent_core/speech_cache.py": true,
+    "services/agent-core/agent_core/storage.py": true,
+    "services/agent-core/agent_core/stt_input.py": true,
+    "services/agent-core/agent_core/task_delivery.py": true,
+    "services/agent-core/agent_core/task_status.py": true,
+    "services/agent-core/agent_core/tool_contracts.py": true,
+    "services/agent-core/agent_core/tools.py": true,
+    "services/agent-core/agent_core/verified_task.py": true,
+    "services/agent-core/agent_core/voice.py": true,
+    "services/agent-core/agent_core/voice_text.py": true,
+    "services/agent-core/agent_core/wake_word.py": true,
+    "services/agent-core/pyproject.toml": true,
+    "services/agent-core/tests/issue_fixture.py": true,
+    "services/agent-core/tests/test_a4_pilot.py": true,
+    "services/agent-core/tests/test_agent_gate.py": true,
+    "services/agent-core/tests/test_agent_loop.py": true,
+    "services/agent-core/tests/test_anthropic_provider.py": true,
+    "services/agent-core/tests/test_channel_exclusivity.py": true,
+    "services/agent-core/tests/test_effort.py": true,
+    "services/agent-core/tests/test_farewell_delivery.py": true,
+    "services/agent-core/tests/test_file_task.py": true,
+    "services/agent-core/tests/test_followup_delivery.py": true,
+    "services/agent-core/tests/test_harness.py": true,
+    "services/agent-core/tests/test_harness_v1_actions.py": true,
+    "services/agent-core/tests/test_harness_v1_adversarial.py": true,
+    "services/agent-core/tests/test_harness_v1_integration.py": true,
+    "services/agent-core/tests/test_harness_v1_review.py": true,
+    "services/agent-core/tests/test_issue_adversarial.py": true,
+    "services/agent-core/tests/test_issue_task.py": true,
+    "services/agent-core/tests/test_liveness.py": true,
+    "services/agent-core/tests/test_main_ws.py": true,
+    "services/agent-core/tests/test_mcp_command_quotes.py": true,
+    "services/agent-core/tests/test_memory_promotion.py": true,
+    "services/agent-core/tests/test_memory_retrieval.py": true,
+    "services/agent-core/tests/test_pending_status.py": true,
+    "services/agent-core/tests/test_permissions.py": true,
+    "services/agent-core/tests/test_proactive.py": true,
+    "services/agent-core/tests/test_provider.py": true,
+    "services/agent-core/tests/test_provider_reload.py": true,
+    "services/agent-core/tests/test_provider_resilience.py": true,
+    "services/agent-core/tests/test_repair_batch01.py": true,
+    "services/agent-core/tests/test_session_visibility.py": true,
+    "services/agent-core/tests/test_speech.py": true,
+    "services/agent-core/tests/test_speech_cache.py": true,
+    "services/agent-core/tests/test_speech_delivery.py": true,
+    "services/agent-core/tests/test_speech_parts.py": true,
+    "services/agent-core/tests/test_speech_recovery.py": true,
+    "services/agent-core/tests/test_speech_recovery_state.py": true,
+    "services/agent-core/tests/test_speech_wait_recovery.py": true,
+    "services/agent-core/tests/test_speech_ws.py": true,
+    "services/agent-core/tests/test_storage.py": true,
+    "services/agent-core/tests/test_tools.py": true,
+    "services/agent-core/tests/test_vision_request.py": true,
+    "services/agent-core/tests/test_voice_consistency.py": true,
+    "services/agent-core/tests/test_voice_offline.py": true,
+    "services/agent-core/tests/test_voice_selfheal.py": true,
+    "services/agent-core/tests/test_wake_agc.py": true,
+    "services/agent-core/tests/test_wake_phrase.py": true,
+    "services/agent-core/tests/test_wechat_glm.py": true,
+    "services/agent-core/tests/test_write_file.py": true
+  },
+  "changed_preflight_files": [],
+  "limitations": [
+    "This validates a real-model run against synthetic MCP effects, not a real GitHub issue or production deployment.",
+    "No model, business service, regression, adversarial code round, full runner CLI or old/production DB was executed or reopened.",
+    "Prior regression, adversarial and white-paper handoff evidence was reused as authorized, not independently rerun.",
+    "Fresh launch was not observed by this reviewer; unchanged refusal of existing data directories and the recorded first context/new DB support a new empty-state task.",
+    "The final completion delivery preserves the exact requested title. The later status label is normalized to 蓝桥第二次核验：7月12号 / 42千克 by existing behavior; the frozen truthful_progress assertion tests truthful status and absence of new effects, not exact rendering of that label.",
+    "Old DS variant 2 remains a connection failure with zero writes. The new one-case pass is separate and does not rewrite the original 3/4 result or establish statistical reliability."
+  ],
+  "runtime_imported": false,
+  "review_http_attempts": 0,
+  "old_databases_opened": 0,
+  "production_databases_opened": 0,
+  "hash_path_note": "Paths are redacted for publication. Hash values bind original local bytes before redaction; they are not hashes of a path-redacted derivative.",
+  "audit_finalization_note": "Within this same evidence review, the initial export comparator diagnosed one extra derived freeze field. Its value was checked against all 217 frozen hashes and the comparator was corrected. No frozen helper, model, task, regression, old DB or new DB was rerun for this correction."
+}

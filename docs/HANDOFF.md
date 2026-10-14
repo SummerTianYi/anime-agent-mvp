@@ -54,6 +54,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+Codex 2026-10-14：[DS第二Issue样例补验](assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)通过，冻结业务/运行器/schema/判据，一次全新合成任务完成真提案、仅标题更新一次、新读取核验和准确交付。新增6次HTTP（22–27），原40次账本累计27/40；原批次3/4和连接失败保留，本次1/1单列，Issue合成流程具备本范围收尾条件，不代表连接稳定或真实GitHub认证。未部署，停在Manager验收。
+
 Codex 2026-10-14：[Issue仅改标题并重读核验](assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md)完成窄范围实现，复用文件授权/执行/交付链，新增目标与字段约束、读取代次和前后核验。后台合成MCP实测3/4：DS/GLM首轮及GLM扩样通过，DS扩样在更新提案前连接超时，零写入且不冒充完成；21/40次HTTP，未重跑失败。文件相关回归保持，A4其他开放项不关闭，未部署，停在Manager验收。
 
 Codex 2026-10-14：[GLM第三文件样例补验](assessments/root-cause-repair/a4-pilot/FILE_TASK_SUPPLEMENT.md)通过。业务冻结87ca474，仅新增显式补验预算入口；一次新初态任务的真提案、正确写入、独立读取和完整交付均通过，新增4次HTTP、累计34/38。原5/6记录不变，本次1/1单列，文件流程具备本范围收尾条件；A4其他开放项保留，不部署，停在Manager验收。

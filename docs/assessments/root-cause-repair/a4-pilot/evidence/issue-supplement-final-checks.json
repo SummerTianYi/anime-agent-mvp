@@ -1,0 +1,19 @@
+{
+  "frozen_files_unchanged": 217,
+  "old_local_reports_unchanged": 4,
+  "prior_http_prefix_unchanged": 21,
+  "new_http_count": 6,
+  "cumulative_http_count": 27,
+  "cap": 40,
+  "original_batch": "3/4",
+  "supplement": "1/1",
+  "no_runtime_or_runner_code_changes": true,
+  "staged_files_scanned": 9,
+  "secret_and_size_scan": true,
+  "staged_diff_check": true,
+  "public_manifest_hashes_match": true,
+  "report_links_exist": true,
+  "ignored_files_reviewed": "Four pre-existing __pycache__ directories only; none staged",
+  "reused_verification": "Original regressions, adversarial review and two-agent handoff; no repeat model cases",
+  "docs_guard": "DOCS_CONSISTENCY_OK and DOCS_ISOLATION_OK; 485 discovered, not executed"
+}
