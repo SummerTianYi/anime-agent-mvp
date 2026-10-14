@@ -1,0 +1,56 @@
+{
+  "scope": "Independent read-only verification of the one new live model report and synthetic artifacts",
+  "frozen_commit": "87ca47420d2a441368684778a3ffc79e7fb849e9",
+  "runner_diff_sha256": "f9535cf020999ebc1735b30e0c2a24a3b152d4921c70b663ba9c2b49baed901d",
+  "real_http_attempts_by_reviewer": 0,
+  "reviewed_report_sha256": "4a9fedb08751110750e450a2dd7b35be3cac5ac4992736c4186586f7f00b616f",
+  "reviewed_ledger_sha256": "7617f3e71977be9569a303da18ae7eb731a56661f882f82adcbf1e86604e733f",
+  "checks": [
+    {
+      "case": "live_single_glm_variant3_all_original_assertions",
+      "passed": true
+    },
+    {
+      "case": "live_contract_and_business_frozen",
+      "passed": true
+    },
+    {
+      "case": "live_runner_bound_to_independent_offline_review",
+      "passed": true
+    },
+    {
+      "case": "live_original_30_plus_bounded_additional_attempts",
+      "passed": true,
+      "additional_attempts": 4,
+      "cumulative_attempts": 34
+    },
+    {
+      "case": "live_claim_and_original_evidence_immutable",
+      "passed": true
+    },
+    {
+      "case": "live_exact_bytes_and_success_receipt",
+      "passed": true,
+      "actual_file_sha256": "91a8c48230b7a686ff1496c86cb9fafcfe80eaf8b703b5e5ad03a19f8e01dfb3"
+    },
+    {
+      "case": "live_independent_read_bound_after_write",
+      "passed": true,
+      "bound_reads": 1
+    },
+    {
+      "case": "live_normal_confirmation_full_delivery_and_no_rewrite",
+      "passed": true
+    },
+    {
+      "case": "live_readonly_database_reopen_matches_messages_actions_events",
+      "passed": true,
+      "database_sha256_before": "b77e8d0c867d28093347e338a77b94fa63a5303ef6d93f83ddb9dedd54750b40",
+      "database_sha256_after": "b77e8d0c867d28093347e338a77b94fa63a5303ef6d93f83ddb9dedd54750b40",
+      "message_count": 8,
+      "action_count": 1,
+      "event_count": 6
+    }
+  ],
+  "passed": true
+}

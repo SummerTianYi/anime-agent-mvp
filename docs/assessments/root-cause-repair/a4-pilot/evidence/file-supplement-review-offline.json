@@ -1,0 +1,232 @@
+{
+  "scope": "AST and synthetic in-memory HTTP only; no Core/private config/production database",
+  "frozen_commit": "87ca47420d2a441368684778a3ffc79e7fb849e9",
+  "runner_diff_sha256": "f9535cf020999ebc1735b30e0c2a24a3b152d4921c70b663ba9c2b49baed901d",
+  "source_sha256_before": {
+    "docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_models.py": "6939c5d14daf3db80d9d21ca2833ce973f1fc9bade84070d4c76fd960f6e1a4c",
+    "docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\file-live-glm-3-release.json": "3cf0f7a732e6f3aebd9317bbeacddaf0e3c47ed05c920ebef594a55c4c1709f9",
+    "docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\file-http-ledger.json": "edb673303f0fb9faa829ce6e95b93378163f7dda5d95ad3263f3ca81d5c2515a"
+  },
+  "source_sha256_after": {
+    "docs\\assessments\\root-cause-repair\\a4-pilot\\repro\\file_models.py": "6939c5d14daf3db80d9d21ca2833ce973f1fc9bade84070d4c76fd960f6e1a4c",
+    "docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\file-live-glm-3-release.json": "3cf0f7a732e6f3aebd9317bbeacddaf0e3c47ed05c920ebef594a55c4c1709f9",
+    "docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\file-http-ledger.json": "edb673303f0fb9faa829ce6e95b93378163f7dda5d95ad3263f3ca81d5c2515a"
+  },
+  "real_http_attempts": 0,
+  "checks": [
+    {
+      "case": "unchanged_score_ast",
+      "passed": true
+    },
+    {
+      "case": "unchanged_exercise_ast",
+      "passed": true
+    },
+    {
+      "case": "unchanged_audit_ast",
+      "passed": true
+    },
+    {
+      "case": "unchanged_read_connection_ast",
+      "passed": true
+    },
+    {
+      "case": "bounded_linked_supplement",
+      "passed": true
+    },
+    {
+      "case": "budget_above_eight",
+      "passed": true,
+      "rejection": "Supplement requires prior ledger, interrupted case and 1..8 HTTP attempts"
+    },
+    {
+      "case": "budget_zero",
+      "passed": true,
+      "rejection": "Supplement requires prior ledger, interrupted case and 1..8 HTTP attempts"
+    },
+    {
+      "case": "missing_prior",
+      "passed": true,
+      "rejection": "Supplement requires prior ledger, interrupted case and 1..8 HTTP attempts"
+    },
+    {
+      "case": "missing_case",
+      "passed": true,
+      "rejection": "Supplement requires prior ledger, interrupted case and 1..8 HTTP attempts"
+    },
+    {
+      "case": "wrong_provider",
+      "passed": true,
+      "rejection": "Supplement does not match the exhausted ledger and frozen interrupted case"
+    },
+    {
+      "case": "wrong_variant",
+      "passed": true,
+      "rejection": "Supplement does not match the exhausted ledger and frozen interrupted case"
+    },
+    {
+      "case": "overwrite_prior_ledger",
+      "passed": true,
+      "rejection": "Supplement needs a new ledger; prior evidence is immutable"
+    },
+    {
+      "case": "overwrite_old_case",
+      "passed": true,
+      "rejection": "Supplement needs a new ledger; prior evidence is immutable"
+    },
+    {
+      "case": "existing_supplement_rejected",
+      "passed": true
+    },
+    {
+      "case": "wrong_source",
+      "passed": true
+    },
+    {
+      "case": "already_passed",
+      "passed": true
+    },
+    {
+      "case": "offline_reference",
+      "passed": true
+    },
+    {
+      "case": "not_exhausted",
+      "passed": true
+    },
+    {
+      "case": "eighth_allowed_ninth_blocked_at_cumulative_38",
+      "passed": true,
+      "in_memory_dispatches": 8,
+      "indices": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ],
+      "save_counts": [
+        1,
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        7,
+        7,
+        8,
+        8
+      ]
+    },
+    {
+      "case": "redirect_and_hard_cap",
+      "passed": true,
+      "dispatches_in_memory": 1,
+      "attempts": 30,
+      "blocked": [
+        "HTTPError",
+        "RuntimeError"
+      ],
+      "save_counts": [
+        30,
+        30
+      ]
+    },
+    {
+      "case": "persistence_failure_blocks_dispatch",
+      "passed": true
+    },
+    {
+      "case": "connection_fields_only",
+      "passed": true
+    },
+    {
+      "case": "isolation_guard_rejects_fallback_io",
+      "passed": true,
+      "blocked": [
+        "external_database",
+        "other_config",
+        "external_write",
+        "offline_socket",
+        "subprocess"
+      ],
+      "actual_external_io": 0
+    },
+    {
+      "case": "incomplete_check_set_rejected",
+      "passed": true,
+      "grader_accepted_partial": false
+    },
+    {
+      "case": "missing_persisted_read_rejected",
+      "passed": true,
+      "grader_accepted_no_read_events": false,
+      "read_reopen_check": false,
+      "fault": "tool.result events missing both before and after reopen; in-memory read exists"
+    },
+    {
+      "case": "contract_guard_unchanged",
+      "passed": true
+    },
+    {
+      "case": "contract_guard_model",
+      "passed": true
+    },
+    {
+      "case": "contract_guard_budget",
+      "passed": true
+    },
+    {
+      "case": "contract_guard_initial_state_sha256",
+      "passed": true
+    },
+    {
+      "case": "contract_guard_tool_schema_sha256",
+      "passed": true
+    },
+    {
+      "case": "contract_guard_input_normalized_sha256",
+      "passed": true
+    },
+    {
+      "case": "all_retries_counted",
+      "passed": true,
+      "dispatches_in_memory": 3,
+      "attempts": 3
+    },
+    {
+      "case": "no_late_worker_ledger_rollback",
+      "passed": true,
+      "cleanup_returned_with_worker_pending": false,
+      "late_worker_saved": true,
+      "before_late_save": 2,
+      "final_attempt_count": 2,
+      "cleanup_source": "try:\n    loop.run_until_complete(exercise())\nfinally:\n    loop.run_until_complete(loop.shutdown_default_executor())\n    loop.close()"
+    },
+    {
+      "case": "second_supplement_cannot_reset_budget_by_changing_ledger",
+      "passed": true,
+      "accepted_run_count": 1,
+      "synthetic_cumulative_attempts": 38,
+      "rejections": [
+        "[Errno 17] File exists: 'D:\\\\TianyiRepair\\\\file-supplement-20261014\\\\review-final\\\\repeat-original-ledger.json.supplement-claim.json'"
+      ],
+      "real_http_attempts": 0
+    },
+    {
+      "case": "business_frozen_and_prior_evidence_immutable",
+      "passed": true
+    }
+  ],
+  "static_tools_available": [],
+  "passed": true
+}

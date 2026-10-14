@@ -1,0 +1,11 @@
+{
+  "scope": "Independent review fixture initialization failure, not a product failure",
+  "real_http_attempts": 0,
+  "data_dir": "D:/TianyiRepair/file-supplement-20261014/review-first",
+  "command_exit_code": 1,
+  "failure": "NameError: claim_supplement was added to the runner while the reviewer prepared its AST namespace; the fixture had not loaded this new helper",
+  "result": "incomplete; no product pass or failure verdict",
+  "original_static_finding": "Initial reviewed diff rejected reuse of the same new ledger but did not bind the one allowed supplement to the original ledger. Changing new ledger paths could obtain another allocation. This was reported before live HTTP and the implementer added an exclusive durable claim beside the original ledger.",
+  "before_fix_dynamic_reproduction": false,
+  "repair": "Load the exact new claim_supplement helper and rerun in a new directory; preserve this record"
+}

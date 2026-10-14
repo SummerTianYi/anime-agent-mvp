@@ -1,7 +1,8 @@
 """Reusable file-task protocol through Core.handle_chat; provider chosen by config.
 
 Reuses the A4 runner's transport projection and redirect protection. Each run
-owns a fresh persistent sandbox; all runs share a durable 30-attempt ledger.
+owns a fresh persistent sandbox. An explicit supplement links a new bounded
+ledger to the immutable original 30-attempt ledger and interrupted case.
 """
 from __future__ import annotations
 
@@ -66,6 +67,50 @@ def score(item):
         item["failure_category"] = "proposal_or_task"
 
 
+def supplement_budget(args, hashes):
+    """Authorize only the referenced frozen case; never reuse its task state."""
+    if args.prior_ledger is None and args.supplement_of is None:
+        if args.http_budget != CAP:
+            raise SystemExit("A non-default HTTP budget requires both supplement references")
+        return None, None
+    if args.prior_ledger is None or args.supplement_of is None or not 1 <= args.http_budget <= 8:
+        raise SystemExit("Supplement requires prior ledger, interrupted case and 1..8 HTTP attempts")
+    args.prior_ledger = args.prior_ledger.resolve()
+    args.supplement_of = args.supplement_of.resolve()
+    if args.ledger in {args.prior_ledger, args.supplement_of} or args.ledger.exists():
+        raise SystemExit("Supplement needs a new ledger; prior evidence is immutable")
+    prior_bytes, case_bytes = args.prior_ledger.read_bytes(), args.supplement_of.read_bytes()
+    prior, case = json.loads(prior_bytes), json.loads(case_bytes)
+    if (prior.get("cap") != CAP or [a.get("index") for a in prior.get("attempts", [])] != list(range(1, CAP + 1))
+            or case.get("passed") is not False or case.get("offline") is not False
+            or case.get("shared_http_attempts") != CAP or case.get("source_sha256") != hashes
+            or case.get("variant") != args.variant or case.get("provider") != args.provider
+            or case.get("checks", {}).get("real_proposal") is not True
+            or case.get("checks", {}).get("correct_write") is not True
+            or case.get("checks", {}).get("actual_read") is not False
+            or not case.get("calls")
+            or any({k: c[k] for k in ("index", "model", "request_id")} not in prior["attempts"] for c in case["calls"])):
+        raise SystemExit("Supplement does not match the exhausted ledger and frozen interrupted case")
+    link = {"prior_ledger": str(args.prior_ledger), "prior_ledger_sha256": hashlib.sha256(prior_bytes).hexdigest(),
+            "prior_attempts": CAP, "interrupted_case": str(args.supplement_of),
+            "interrupted_case_sha256": hashlib.sha256(case_bytes).hexdigest(),
+            "original_runner_sha256": case["runner_sha256"], "additional_cap": args.http_budget,
+            "cumulative_cap": CAP + args.http_budget}
+    return {"cap": args.http_budget, "prior_attempts": CAP, "supplement": link, "attempts": []}, case
+
+
+def claim_supplement(args):
+    if args.reference_case is None or args.offline:
+        return
+    # The original ledger remains read-only. An exclusive adjacent claim binds
+    # this single authorized supplement even if a caller selects another ledger.
+    claim = args.prior_ledger.with_name(args.prior_ledger.name + ".supplement-claim.json")
+    with claim.open("x", encoding="utf-8") as stream:
+        json.dump({"ledger": str(args.ledger), "data_dir": str(args.data_dir),
+                   **args.supplement_ledger["supplement"]}, stream, ensure_ascii=False, indent=2)
+    args.supplement_ledger["supplement"]["claim"] = str(claim)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-root", type=Path, required=True)
@@ -75,6 +120,9 @@ def main():
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--variant", type=int, choices=SAMPLES, default=1)
     parser.add_argument("--initial-report", type=Path, action="append", default=[])
+    parser.add_argument("--http-budget", type=int, default=CAP)
+    parser.add_argument("--prior-ledger", type=Path)
+    parser.add_argument("--supplement-of", type=Path)
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     if not args.offline and args.private_config is None:
@@ -86,7 +134,8 @@ def main():
         raise SystemExit("Refusing to overwrite previous evidence")
     package = args.source_root / "services/agent-core"
     hashes = source_hashes(package)
-    if args.variant > 1 and not args.offline:
+    args.supplement_ledger, args.reference_case = supplement_budget(args, hashes)
+    if args.variant > 1 and not args.offline and args.reference_case is None:
         initial = [json.loads(p.read_text(encoding="utf-8")) for p in args.initial_report]
         if (len(initial) != 2 or not all(r.get("passed") and not r.get("offline") and r.get("variant") == 1
                                        and r.get("source_sha256") == hashes and r.get("runner_sha256") == runner_hashes() for r in initial)
@@ -104,6 +153,9 @@ def main():
     with lock_path.open("x", encoding="utf-8") as stream:
         stream.write(str(os.getpid()))
     try:
+        if args.reference_case is not None and args.ledger.exists():
+            raise SystemExit("A supplement already started; do not run a second task")
+        claim_supplement(args)
         return run(args, package, hashes, connection)
     finally:
         lock_path.unlink()
@@ -149,15 +201,17 @@ def run(args, package, hashes, connection):
     core.memory.close()
     registry = {k: v for k, v in core.tool_registry.items() if k in {"write_file", "read_file"}}
     schemas = openai_tools_schema(registry)
-    ledger = json.loads(args.ledger.read_text(encoding="utf-8")) if args.ledger.exists() else {"cap": CAP, "attempts": []}
-    if ledger.get("cap") != CAP or not isinstance(ledger.get("attempts"), list) or len(ledger["attempts"]) > CAP:
+    ledger = args.supplement_ledger or (json.loads(args.ledger.read_text(encoding="utf-8")) if args.ledger.exists() else {"cap": CAP, "attempts": []})
+    if ledger.get("cap") != args.http_budget or not isinstance(ledger.get("attempts"), list) or len(ledger["attempts"]) > args.http_budget:
         raise RuntimeError("Invalid shared request ledger")
     output = args.data_dir / "file-model.json"
     record = {"protocol": "file-write-confirm-read-v1", "offline": args.offline, "variant": args.variant,
         "source_sha256": hashes, "runner_sha256": runner_hashes(), "tool_schema_sha256": digest(schemas), "provider": args.provider,
         "budget": {"max_steps": 6, "max_calls": 12, "corrections": 1, "timeout_seconds": 45},
         "initial_state_sha256": digest({"target_file": None, "messages": [], "actions": []}),
-        "transport_cap": CAP, "calls": [], "turns": [], "effects": [], "checks": {}, "transport": []}
+        "transport_cap": ledger["cap"], "calls": [], "turns": [], "effects": [], "checks": {}, "transport": []}
+    if args.reference_case is not None:
+        record["supplement"] = ledger["supplement"]
     mutex = threading.RLock()
 
     def save():
@@ -170,10 +224,10 @@ def run(args, package, hashes, connection):
     class ObservedProvider(core.OpenAICompatibleProvider):
         def _request(self, request):
             with mutex:
-                if len(ledger["attempts"]) >= CAP:
-                    raise core.ProviderError("Shared 30 HTTP attempt limit reached; no request sent")
+                if len(ledger["attempts"]) >= ledger["cap"]:
+                    raise core.ProviderError("Shared HTTP attempt limit reached; no request sent")
                 body = json.loads(request.data)
-                item = {"index": len(ledger["attempts"]) + 1, "model": self.model,
+                item = {"index": ledger.get("prior_attempts", 0) + len(ledger["attempts"]) + 1, "model": self.model,
                         "request_id": core.REQUEST_ID.get(), "messages": public_messages(body["messages"]),
                         "tools": body.get("tools", [])}
                 ledger["attempts"].append({k: item[k] for k in ("index", "model", "request_id")})
@@ -201,6 +255,8 @@ def run(args, package, hashes, connection):
             base_url, model, api_key = core._provider_config(args.provider)
         if not api_key or not model or not base_url.startswith("https://"):
             raise RuntimeError("Missing or unsupported connection config; no request sent")
+        if args.reference_case is not None and model != args.reference_case["model"]:
+            raise RuntimeError("Supplement model differs from the referenced case; no request sent")
         record["model"] = model
         live_provider = ObservedProvider(name=args.provider, base_url=base_url, model=model, api_key=api_key,
             timeout_seconds=45, proxy_mode=connection.get("LLM_PROXY_MODE", "auto"),
@@ -212,6 +268,10 @@ def run(args, package, hashes, connection):
     text = f"请创建文件 {path.as_posix()}，写入后实际读取该文件并展示完整内容。内容如下（两行，末尾无换行）：\n{content}"
     record["input_normalized_sha256"] = digest(text.replace(path.as_posix(), "<isolated-file>"))
     record["expected"] = {"path": str(path), "content": content, "sha256": hashlib.sha256(content.encode()).hexdigest()}
+    if args.reference_case is not None:
+        keys = ("budget", "initial_state_sha256", "tool_schema_sha256", "input_normalized_sha256")
+        if any(record[k] != args.reference_case[k] for k in keys):
+            raise RuntimeError("Supplement changed the task, schema, budget or initial state; no request sent")
 
     async def exercise():
         store = MemoryStore(data_dir=args.data_dir / "db")
@@ -303,6 +363,13 @@ def run(args, package, hashes, connection):
     record["checks"]["source_unchanged"] = source_hashes(package) == hashes
     record["http_attempts"] = len(record["calls"])
     record["shared_http_attempts"] = len(ledger["attempts"])
+    record["cumulative_http_attempts"] = ledger.get("prior_attempts", 0) + len(ledger["attempts"])
+    if args.reference_case is not None:
+        record["prior_evidence_unchanged"] = (
+            hashlib.sha256(args.prior_ledger.read_bytes()).hexdigest() == record["supplement"]["prior_ledger_sha256"]
+            and hashlib.sha256(args.supplement_of.read_bytes()).hexdigest() == record["supplement"]["interrupted_case_sha256"])
+        if not record["prior_evidence_unchanged"]:
+            record["exception"] = "PriorEvidenceChanged"
     score(record)
     save()
     print(json.dumps({k: record[k] for k in ("model", "variant", "passed", "failure_category", "checks", "http_attempts", "shared_http_attempts")}, ensure_ascii=False))

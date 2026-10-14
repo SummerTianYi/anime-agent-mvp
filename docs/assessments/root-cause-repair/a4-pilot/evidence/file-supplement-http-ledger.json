@@ -1,0 +1,40 @@
+{
+  "cap": 8,
+  "prior_attempts": 30,
+  "supplement": {
+    "prior_ledger": "D:\\TianyiRepair\\file-task-20261014\\live-http-ledger.json",
+    "prior_ledger_sha256": "edb673303f0fb9faa829ce6e95b93378163f7dda5d95ad3263f3ca81d5c2515a",
+    "prior_attempts": 30,
+    "interrupted_case": "D:\\UserData\\Administrator\\Documents\\Codex\\2026-10-12\\tianyi-repair-batch01-followup\\docs\\assessments\\root-cause-repair\\a4-pilot\\evidence\\file-live-glm-3-release.json",
+    "interrupted_case_sha256": "3cf0f7a732e6f3aebd9317bbeacddaf0e3c47ed05c920ebef594a55c4c1709f9",
+    "original_runner_sha256": {
+      "file_models.py": "e4734368dfc84c6f443a5a058c03f71734a28b5e3e8e80a0cd6277c2bd65511b",
+      "models.py": "b9cf65770c51cc1b878754c878447f306e17d227aee0051d14d0395903acaf69"
+    },
+    "additional_cap": 8,
+    "cumulative_cap": 38,
+    "claim": "D:\\TianyiRepair\\file-task-20261014\\live-http-ledger.json.supplement-claim.json"
+  },
+  "attempts": [
+    {
+      "index": 31,
+      "model": "GLM-5.2",
+      "request_id": "file-3-request"
+    },
+    {
+      "index": 32,
+      "model": "GLM-5.2",
+      "request_id": "file-3-confirm"
+    },
+    {
+      "index": 33,
+      "model": "GLM-5.2",
+      "request_id": "file-3-confirm"
+    },
+    {
+      "index": 34,
+      "model": "GLM-5.2",
+      "request_id": "file-3-confirm"
+    }
+  ]
+}

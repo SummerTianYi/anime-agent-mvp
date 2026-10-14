@@ -54,6 +54,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+Codex 2026-10-14：[GLM第三文件样例补验](assessments/root-cause-repair/a4-pilot/FILE_TASK_SUPPLEMENT.md)通过。业务冻结87ca474，仅新增显式补验预算入口；一次新初态任务的真提案、正确写入、独立读取和完整交付均通过，新增4次HTTP、累计34/38。原5/6记录不变，本次1/1单列，文件流程具备本范围收尾条件；A4其他开放项保留，不部署，停在Manager验收。
+
 Codex 2026-10-14：[文件任务跨模型交付](assessments/root-cause-repair/a4-pilot/FILE_TASK.md)完成窄范围实现，Core451及独立24+14项通过。最终同源六例真提案/正确写入均通过；DS三例、GLM两例完整读回交付，GLM末例因30次HTTP硬上限未读回，六例验收部分完成。保留跨轮状态与原授权机制，A4其他开放项不关闭；未部署，停在Manager验收。
 
 Codex 2026-10-14：[已有待办的跨轮进度修复](assessments/root-cause-repair/a4-pilot/PENDING_STATUS.md)完成，Core431隔离回归、独立13例通过。状态按会话/任务完整账本交付，保留普通聊天及现有撤权流程；文档检查入口先行独立隔离修正。本项通过仅指此窄范围，不关闭A4其他缺陷；零真实模型/外部业务调用，未部署，停在Manager验收。此前数据库影响未知记录保留。
