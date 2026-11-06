@@ -1,0 +1,7 @@
+{
+  "tests": 669,
+  "seconds": 541.157,
+  "ok": true,
+  "failures": [],
+  "evidence_kind": "offline synthetic unittest; no real model"
+}
