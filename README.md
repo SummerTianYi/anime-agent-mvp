@@ -1,5 +1,7 @@
 # Anime Agent MVP
 
+[洛天依 V1.2 陪伴人设候选](docs/assessments/persona-v1-2/REPORT.md)：2026-11-07 在独立 `codex/persona-v1-2-companion-20261107` 分支加入「亲密自然 × 可爱灵动」静态系统提示词，完整内容见 [ACTIVE_PROMPT.txt](docs/assessments/persona-v1-2/ACTIVE_PROMPT.txt)。仅调整静态提示词及 Harness 测试，原授权、工具、输出格式和记忆合同保持；未修改启动/闲置台词、TTS 或 Godot。本轮本地隔离 Harness 测试通过，Windows 全量 CI 和真实双模型/桌面体验另行验收；未部署、未合并。
+
 Codex 2026-10-14：[Provider API响应边界](docs/assessments/root-cause-repair/a4-pilot/PROVIDER_RESPONSE_BOUNDARY.md)完成定向补修：两适配统一拒绝空值、异常结构和损坏参数，整批调用先校验，协议错误不误走无工具补答，成功/失败/unknown回执保留。冻结源码受影响385项及共享运行器38项通过，含主19项与一次独立19项；当前发现669个测试，未执行全量终验。DS/GLM正常聊天和短文件任务补验通过，实际20次HTTP；首次连接超时及已有真实回执保留。只关闭R2-RC16的现有Provider API解析子问题，记忆和取消交界成果保留，通用A4核对器仍未接入，A4和底座整体不关闭。未操作生产数据或当前Godot/Core/TTS，未部署、未合并main，停在Manager验收点。
 
 Codex 2026-10-14：[记忆更正与操作取消交界](docs/assessments/root-cause-repair/a4-pilot/MEMORY_CORRECTION_FOLLOWUP.md)完成定向补修：明确取消在聊天锁前撤权，记忆澄清同时交付实际取消结果；数据、否定和错误对象不撤权，已派发不冒称回滚。冻结源码下受影响250项通过，含主17项和一次独立审查12项；该阶段发现631个测试，未执行全量终验。旧记忆事务、跨会话/重启和双模型证据保留，零新增真实模型或外部业务调用。本交界关闭，明确记忆更正阶段具备收尾条件；通用回复核对器仍未接入，A4和底座整体不关闭。未部署、未合并main、未操作生产数据或当前Godot/Core/TTS，停在验收点。
