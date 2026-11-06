@@ -9,6 +9,7 @@
 - 原候选本地 HEAD 与远端 `codex/root-cause-repair-batch01-followup-20261012` 均为 `783472060a52aae5e745ca60077347eb0943f184`。
 - 原候选有官方 DS 接入的未提交改动，涉及 `.env.example`、AGENTS、README、CONTRIBUTIONS、HANDOFF、TESTING、VERIFICATION_SPEC、main.py 及 DS 接入文档/测试；未覆盖、转移或夹带这些改动，也未读取私人配置或用户记忆。
 - 工作树管理工具未返回，取消等待后改用独立干净 clone，直接从上述 SHA 新建 `codex/tianyi-companion-v1-2-20261107`。没有沿用已撤回的 PR #2。
+- 本地 clone 首次提交的自动维护发现缺少原浅克隆边界以前的历史对象；向已核实的 origin 重新获取对象后，`git fsck --connectivity-only --no-dangling` 通过，HEAD 和源码未改变。没有修写原候选工作树或重写提交历史。
 - 已阅读 AGENTS、HANDOFF、CONTRIBUTIONS、VERIFICATION_SPEC 与相关 TESTING 规则。用户本轮明确要求 push、禁止正式部署/重启，优先于旧 SPEC 的默认不 push 和正式窗口验证流程。
 
 | 要改什么 | 不许动什么 | 核验方法 |
@@ -18,6 +19,28 @@
 | 必要测试、快照与验收文档 | 执行逻辑、记忆机制、固定台词、主动策略、TTS、Godot、CI、私密配置和生产数据 | 变更清单与隔离检查 |
 
 运行代码只有 `services/agent-core/agent_core/harness.py` 的两处文字区域发生变化。未更改函数、分支、字段、工具 schema 或任何执行路径。
+
+修改文件清单（仓库相对路径）：
+
+| 文件 | 目的 |
+|---|---|
+| `services/agent-core/agent_core/harness.py` | 唯一运行代码改动：两处人设文字 |
+| `services/agent-core/tests/test_companion_persona.py` | 7项新增离线回归 |
+| `scripts/companion_prompt_snapshot.py` | 导出/核对静态提示词及原合同指纹，不启动Core |
+| `docs/assessments/companion-v1.2/SYSTEM_PROMPT.txt` | 完整有效静态基础提示词 |
+| `docs/assessments/companion-v1.2/SYSTEM_APPENDICES.json` | 原静态附加合同全文 |
+| `docs/assessments/companion-v1.2/PROTECTED_CONTRACTS.json` | 修改前保护指纹 |
+| `docs/assessments/companion-v1.2/SCENARIOS.json` | 八类合成场景及人工判据 |
+| `docs/assessments/companion-v1.2/REPORT.md` | 本报告、对比、复现及剩余验收 |
+| `docs/assessments/companion-v1.2/INDEPENDENT_REVIEW.md` | 两实例干净clone交接结论 |
+| `docs/assessments/companion-v1.2/evidence/fixture-first.json` | 首次夹具错误及人设RED |
+| `docs/assessments/companion-v1.2/evidence/baseline-red.json` | 夹具修正后的真实旧提示词RED |
+| `docs/assessments/companion-v1.2/evidence/targeted-green.json` | 新增7项GREEN |
+| `docs/assessments/companion-v1.2/evidence/baseline-full.json` | 同环境669项完整基线 |
+| `docs/assessments/companion-v1.2/evidence/final-full.json` | 676项完整回归 |
+| `AGENTS.md`、`docs/VERIFICATION_SPEC.md` | 只同步当前测试数量669→676 |
+| `README.md`、`docs/HANDOFF.md`、`docs/TESTING.md` | 最新候选状态、边界、复现入口；历史记录保留 |
+| `docs/CONTRIBUTIONS.md` | 追加Codex归属声明 |
 
 ## 真正生效的提示词与调用证据
 
@@ -35,7 +58,7 @@
 - [SYSTEM_APPENDICES.json](SYSTEM_APPENDICES.json)：原工具提示、任务决策合同、会话标题说明、三个投入档位的完整静态附加文本。
 - [PROTECTED_CONTRACTS.json](PROTECTED_CONTRACTS.json)：修改前基线的保护指纹。排除两处可修改文字后的整个 harness AST、表达段以前的运行合同、感知/最终输出段、虚拟身份/音乐段均与基线一致。
 
-任务 ID、票据与回执、有效记忆、歌曲检索结果等是按轮生成的数据，不能编造为一份普遍适用的“固定全量系统消息”。对应拼接源码保持基线不变，测试验证它们仍在原位置追加；以上静态快照不会携带私人记忆或配置。
+任务 ID、票据与回执、有效记忆、歌曲检索结果等是按轮生成的数据，不能编造为一份普遍适用的“固定全量系统消息”。对应拼接源码保持基线不变；本轮新增测试直接检查角色前缀、任务合同、工具提示、有效记忆及合成上下文/标题/歌曲顺序，未新增带实际票据或回执的出口场景。原任务/回执回归包含在676项全量结果中。以上静态快照不会携带私人记忆或配置。
 
 ## 三组具体修改前后对比
 
@@ -79,18 +102,18 @@
 - 同环境完整基线与最终回归：Windows、Python 3.12.10、同一已有项目虚拟环境，均通过原隔离 unit 运行器。基线 **669/669 PASS，541.157秒**；修改后 **676/676 PASS，546.875秒**，0失败、0错误。包含原权限、记忆、更正/取消交界、任务/回执、Provider及会话回归，没有需要扩大修复的失败。最终运行只用本地诊断包装器把原测试进度输出到本地文件，测试集合、源码、隔离设置不变。过程中的周期性堆栈采样不是超时失败，最终以 unittest 完整结果为准。
 - 可核对结果：[基线全量](evidence/baseline-full.json)、[新增检查RED](evidence/baseline-red.json)、[夹具首次错误](evidence/fixture-first.json)、[定向GREEN](evidence/targeted-green.json)、[最终全量](evidence/final-full.json)。只发布脱敏的合成测试摘要，不提交数据库、原始日志或凭据。
 - TypeScript：`pnpm install --offline --frozen-lockfile --ignore-scripts` 复用本地缓存，零依赖版本修改；`pnpm build:desktop` 的 `tsc --noEmit` 和 Vite 构建通过。
-- Godot：仅新 clone 内后台 headless 输入检查，Core 地址固定为不服务的 `ws://127.0.0.1:1/ws`；`GODOT_CHAT_SHORTCUT_GUARD_OK`，焦点与快捷键拦截均 true。无正式窗口操作。隔离副本缺少可选动作和头像，未据此宣称视觉/动作验收。
+- Godot：仅新 clone 内后台 headless 输入检查，Core 地址固定为不服务的 `ws://127.0.0.1:1/ws`；`GODOT_CHAT_SHORTCUT_GUARD_OK`，焦点与快捷键拦截均 true。无正式窗口操作。首轮未单独重定向引擎日志；复核headless分支不会加载/保存窗口配置后，又用仅测试副本临时覆盖的独立user目录和显式本地log路径复验，输出`COMPANION_GODOT_USER_DIR_ISOLATED`及相同输入PASS。临时覆盖文件已移除，未提交Godot修改。隔离副本缺少可选动作和头像，未据此宣称视觉/动作验收。
 - 本地官模：从已有测试副本只读复用到新 clone 的忽略目录；128621144 字节、SHA-256 `DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A` 一致。原资产脚本首次因当前进程 PSModulePath 缺少 Windows 内置模块而找不到 Get-FileHash；仅给检查子进程补系统模块路径后原脚本通过。未改系统设置或资产脚本。
 - 文档门禁首次准确发现新增 7 项后的数量差异（669→676）；当前状态文档同步，历史验收数字不覆盖。最终 `DOCS_CONSISTENCY_OK`、`DOCS_ISOLATION_OK`；三个变更Python文件编译、`git diff --check`及暂存文件/凭据/50MB检查通过。
 - 正式 Bridge、真实麦克风/TTS、实际桌面人物表现未测试：本轮禁止部署/重启正式桌面，并不以离线检查替代这些验收。
 
 ## 独立交接与范围复核
 
-按 HANDOFF §7，提交前后安排两个零上下文只读实例在干净 clone 上复核八道交接题、变更边界和证据分级。结果待补入。不会由角色提示词验收推导 A4、权限系统或整个 Agent 底座通过。
+按 HANDOFF §7，两个零上下文只读实例分别在干净clone复核实现提交`4a4e83467b6e250ac6875382daf565de950c9eae`，八道交接题均8/8；各自独立重算原合同指纹、完整快照，并追踪真实请求构造路径。两条文档发现已收窄或修正，详见[独立记录](INDEPENDENT_REVIEW.md)。独立实例没有重跑全量测试，也没有把合成请求当作真实模型效果。不会由角色提示词验收推导 A4、权限系统或整个 Agent 底座通过。
 
 ## 复现与回退
 
-使用安装了 `services/agent-core[test]` 依赖的 Python，仓库根目录执行（Git Bash）：
+使用安装了 `services/agent-core[test]` 依赖的 **Python 3.12**，仓库根目录执行（Git Bash）；下列 `python` 须指向该项目环境。保护指纹中的AST以本次3.12生成，不用系统默认3.10解释器做版本混用对照：
 
 ```bash
 PYTHONUTF8=1 PYTHONDONTWRITEBYTECODE=1 python -B scripts/companion_prompt_snapshot.py
