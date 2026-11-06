@@ -439,3 +439,7 @@ Codex 2026-10-14：[记忆更正与操作取消交界](assessments/root-cause-re
 
 Codex 2026-10-14：[Provider API响应边界](assessments/root-cause-repair/a4-pilot/PROVIDER_RESPONSE_BOUNDARY.md)完成定向补修：两适配统一拒绝空值、异常结构和损坏参数，整批调用先校验，协议错误不误走无工具补答，成功/失败/unknown回执保留。冻结源码受影响385项及共享运行器38项通过，含主19项与一次独立19项；当前发现669个测试，未执行全量终验。DS/GLM正常聊天和短文件任务补验通过，实际20次HTTP；首次连接超时及已有真实回执保留。只关闭R2-RC16的现有Provider API解析子问题，记忆和取消交界成果保留，通用A4核对器仍未接入，A4和底座整体不关闭。未操作生产数据或当前Godot/Core/TTS，未部署、未合并main，停在Manager验收点。
 主执行Codex负责两个Provider的响应校验、小型共用解析器、整批schema预检及主19项；provider_response_review独占19项独立差异反例，发现HTTP误降级、错误正文泄漏、Anthropic角色类型及遥测边界，修后同一审查者复验通过。原失败与夹具错误分开保留；原回执出口、任务/记忆/权限源码和旧报告证据不改，仅原运行器新增provider场景。沿授权候选分支提交推送并远端回读。
+
+## Codex 洛天依 V1.2 陪伴人设候选（2026-11-07）
+
+用户授权独立分支 `codex/persona-v1-2-companion-20261107` 更新系统人设并交回 GitHub 验收。Codex 主导 `services/agent-core/agent_core/harness.py` 中 `ROLE_PROMPT` 与 `RUNTIME_CONTRACT` 静态提示词调整，新增亲密自然、可爱灵动的少女气质与情绪/关系边界；`services/agent-core/tests/test_harness.py` 增加回归断言，完整文本与证据记录于 [V1.2 报告](assessments/persona-v1-2/REPORT.md) 和 [系统提示词快照](assessments/persona-v1-2/ACTIVE_PROMPT.txt)。原任务权限、动作回执、记忆机制、JSON 输出格式、Core 执行逻辑及桌面/TTS 均未修改。隔离 Harness 回归通过；Windows 全量 CI、双模型真实情感测试、Godot/TTS 前台体验未在本地执行，未部署、未合并；A4 阻断状态不变。
