@@ -32,6 +32,14 @@ class SongCatalogTests(unittest.TestCase):
             "今天天气怎么样？",
         )
         self.assertNotIn("【本轮歌曲资料】", messages[0]["content"])
+        system = messages[0]["content"]
+        for phrase in ("【关系与陪伴】", "亲近、自然", "好奇爱笑", "偶尔接梗", "不默认恋爱关系"):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, system)
+        # Persona upgrades must not remove the task and output guardrails.
+        for heading in ("【任务与运行能力】", "【授权、取消与改参】", "【执行、证据与失败】", "【用户记忆】", "【最终输出格式】"):
+            with self.subTest(heading=heading):
+                self.assertIn(heading, system)
 
     def test_music_prompt_injects_only_relevant_records(self) -> None:
         messages = self.harness.build_messages(
