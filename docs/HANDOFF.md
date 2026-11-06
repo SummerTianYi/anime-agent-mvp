@@ -1,5 +1,7 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
+Codex 2026-11-07 V1.2 人设候选：独立 `codex/persona-v1-2-companion-20261107` 分支在 2026-10-14 最新 Agent 候选之上，只更新洛天依静态系统提示词的亲近自然、可爱俏皮、共情收放与边界，并增加 Harness 回归断言。完整提示词 [ACTIVE_PROMPT](assessments/persona-v1-2/ACTIVE_PROMPT.txt)，说明与验收状态见 [REPORT](assessments/persona-v1-2/REPORT.md)。原权限/工具/记忆/JSON输出合同保持；启动/闲置台词与表情/TTS 未变。仅完成本地隔离检查；Windows CI、DS/GLM 实际对话和 Godot/TTS 实机情感验收需单独核对。未部署、未合并，不改变 A4 阻断结论。
+
 Codex 2026-10-04 Harness V1：本独立分支实现授权/回执/上下文与四项交互修复；历史V0材料只读。当前是candidate，不是正式验收。当前实现、真实模型结果、桌面激活情况和待所有者确认项统一以 [V1 REPORT](assessments/harness-v1/REPORT.md) 为准；本段优先于下方较早运行状态记录。生产未提交连接修复按V0 overlay纳入，模型/动作/声线/TTS代码不改。
 
 
