@@ -76,7 +76,7 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 表情与动作 | 已完成动作注册表；保守待机（Codex，2026-09-08） | 48 个形变槽；12.47 秒动捕保留躯干摇晃/转头，待机双臂恢复原先斜下外展姿态；贴腿原素材不覆盖，可关闭 `relaxed_arms` 回溯。通用防穿模未解决，第一阶段只逐条验收小幅动作，详见 [`docs/MOTION_PIPELINE.md`](docs/MOTION_PIPELINE.md) |
 | 本地记忆 | 基础存储/更正/跨会话可用；完整闭环待补 | SQLite消息与facts；当前评测发现top3召回遗漏、敏感项显式记住策略及遗忘执行入口缺口，见[2026-10-04评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md) |
 | 语音转文字 | V1 candidate：手动录音与本地简体回填 | sounddevice + faster-whisper；Realtek 驱动假死检测（数字零特征）+ 一次自动设备重置 + 可行动报错 |
-| TTS 语音输出 | 本轮恢复修复已本地激活 | GPT-SoVITS 真实声线、分片合成、打断及解说；瞬态故障有限等待恢复，旧回复被打断后不迟到播放，超时明确报错并保留文字 |
+| TTS 语音输出 | 原有故障恢复已本地激活。[语音口型与连续播放候选](docs/assessments/speech-lip-continuity/REPORT.md)等待 ChatGPT 验收 | GPT-SoVITS 真实声线、分片合成、打断及解说。候选在可见角色验证了音频驱动口型；双段预取只在隔离回放验证，默认预取一段 |
 | Agent 能力层 | 文件、Issue与邮件窄流程通过，A4仍开放 | 原[文件任务](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK.md)5/6与[补验](docs/assessments/root-cause-repair/a4-pilot/FILE_TASK_SUPPLEMENT.md)1/1、原[Issue批次](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK.md)3/4与[补验](docs/assessments/root-cause-repair/a4-pilot/ISSUE_TASK_SUPPLEMENT.md)1/1保持历史。[邮件最终同源四例](docs/assessments/root-cause-repair/a4-pilot/EMAIL_TASK.md)4/4，首次正文改写失败保留，邮件阶段15/40次HTTP。仅后台合成MCP流程待Manager验收，不代表真实GitHub或Gmail集成、送达或连接稳定性。 |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
 | Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |

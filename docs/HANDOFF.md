@@ -17,7 +17,7 @@ Codex 2026-10-03 语音线交付：当前Core回归基线273。分片回执/去�
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-10-02 23:49（Codex：DS/Qwen 联通、语音恢复修复通过隔离验收并经原 CMD 正式激活；物理人声交互待所有者确认）。门禁以 [TESTING.md](TESTING.md) 与 [TTS记录](TTS_REPAIR_STATUS.md)顶部为准。
+> 本轮语音候选最后核验为 2026-11-08，见[隔离实验](assessments/speech-lip-continuity/REPORT.md)。2026-10-02 23:49 记录的是此前的 DS/Qwen 联通及原 CMD 语音恢复激活，[原门禁](TTS_REPAIR_STATUS.md)保留。
 
 本轮当前状态：Core 252、sidecar 26、启动逻辑 18 及 TTS 生命周期 13 均通过；真实 CUDA 声线/播放两轮、14 项 Windows 服务故障及最新组合压力回归通过。正式 Godot19924、Core33736、TTS17888 已在线，真实 CUDA 声线 ready、唤醒监听 running 且未暂停。经所有者批准，只恢复当前可证实的210条消息和14条记忆，原损坏库/冷快照及旧记录恢复档案均保留，未混入896条备份独有消息。不改模型/动作/声线配置，未提交推送。物理麦克风对话待所有者确认；下段及较早日期均为历史记录。
 
@@ -59,6 +59,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 三次交接：① Codex 建基础 → Claude 接交互层（2026-08-31）；② Claude 蓝图 B/C/D 期规划完毕未执行，经所有者授权整体移交 zcode 执行（2026-09-05；harness 人设训练部分先拆至 anime-agent-workbench 沙箱训练再并回）；③ zcode 交接整理 + 白纸测试门禁建立（2026-09-07，本次）。归属细则见 [CONTRIBUTIONS.md](CONTRIBUTIONS.md)。
 
 ## 3. 当前真实状态（= 冻结区清单）
+
+2026-11-08 Codex：[语音口型与连续播放](assessments/speech-lip-continuity/REPORT.md)处于隔离候选验收。正式桌面沿用原有语音版本。候选的双段预取默认关闭，真实同声线 GPU 负载需另有独立资源后补测。
 
 Codex 2026-11-07：[V1.2陪伴人设](assessments/companion-v1.2/REPORT.md)仅修改ROLE_PROMPT和RUNTIME_CONTRACT人物表达区域；受保护合同指纹不变。新增7项离线测试通过，覆盖八类场景、两Provider格式及有/无工具请求路径。当时发现676个测试；完整结果与边界以该报告为准。真实陪伴效果待验收，未部署；原任务、记忆、取消及Provider修复成果保留，A4不关闭。
 
@@ -178,6 +180,8 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 
 ## 5. 你的第一天（约一小时动线）
 
+本轮按 §1 交接。下表第 3 步只读检查现有进程和健康状态；实验使用独立窗口。
+
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
@@ -214,6 +218,8 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 通过标准：1-5 与 §0-§3 一致；6 按铁律 2 走考试放权流程而非直接写代码；7 按铁律 1 先跑回归+最小修复；8 给出资产定位（LOCAL_MACHINE/check-local-assets）与 .env.example 路径。连续两个独立实例全对才算过。
 
 ### 接管模拟记录
+
+2026-11-08 语音候选：两个独立实例从干净候选 `48fccc945f7fa9e40bc0822f6e5da8661d46d216` 分别回答 §7 八题，均能区分归档音频回放、真实角色与未测 GPU 重做。核对结果均为 8/8。依反馈同步 README 与 §3，给通用启动步骤限定本轮只读范围，并标明旧正式激活记录的日期。
 
 | 日期与范围 | 结果 | 证据与局限 |
 |---|---|---|
@@ -262,7 +268,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | `services/agent-core/agent_core/agent_loop.py` | 步数上限循环、权限闸门挂点 | 改循环行为 |
 | `services/agent-core/agent_core/memory_retrieval.py` / `storage.py` | 记忆检索 / facts 表与会话存储 | 改记忆 |
 | `services/agent-core/agent_core/mcp_host.py` | MCP stdio 客户端 | 接真实 server |
-| `services/agent-core/agent_core/proactive.py` | 免打扰+冷却纯逻辑 | Idle 触发（未开工） |
+| `services/agent-core/agent_core/proactive.py` | 免打扰+冷却纯逻辑 | 已有 Idle 触发的配套策略，状态见 §3 |
 | `services/agent-core/agent_core/voice.py` / `wake_word.py` / `speech.py` | 麦克风/STT、唤醒词、TTS 客户端 | STT 加固、语音链路 |
 | `scripts/test_mcp_server.py` | 最小 MCP 测试 server | MCP 联调 |
 | `scripts/model-pipeline/` | Blender/MMD 资产与动作管线 | 做新动作资产 |
