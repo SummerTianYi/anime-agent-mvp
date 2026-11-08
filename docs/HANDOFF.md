@@ -4,7 +4,7 @@ Codex 2026-10-04 非Agent配套评估：[综合报告与DS诊断](NON_AGENT_SYST
 
 Codex 2026-10-04 仓库盘点：产品主仓为 MVP，TTS 私仓是独立运行配套；其他三仓不是直接运行依赖。所有者已确认保留分仓、补齐现用声线、官模/动作暂留本地。当前角色、语音参数与服务不因本轮盘点改变；跨仓责任、e5/e20 缺口和恢复边界见 [REPOSITORY_MAP](REPOSITORY_MAP.md)。最新语音功能验收仍以下方 2026-10-03 记录为准。
 
-Codex 2026-10-03 语音线交付：当前Core回归基线273。分片回执/去重补送、播放器明确失败后的重合成、主动语音成功后冷却、稳定告别WAV缓存与Godot内存预加载已实现；四场景真实声线闭环和组合进程故障通过。已由原CMD重启激活，Core播放协议2/告别缓存3条、CUDA TTS就绪、唤醒运行；所有者确认真实倾听和语音回复都正常并授权GitHub发布，本轮语音线收尾。本次主仓及配套anime-agent-tts语音修复提交均标记Codex，远端同步以Git记录为准。未改模型、动作、声线或历史数据；私人配置/数据/原始日志不发布。详情见[TTS记录](TTS_REPAIR_STATUS.md)最新节，下方较早日期的未发布/待人声验收描述是历史，旧进程号不是当前状态。
+Codex 2026-10-03 语音线交付：当期Core回归基线273。分片回执/去重补送、播放器明确失败后的重合成、主动语音成功后冷却、稳定告别WAV缓存与Godot内存预加载已实现；四场景真实声线闭环和组合进程故障通过。已由原CMD重启激活，Core播放协议2/告别缓存3条、CUDA TTS就绪、唤醒运行；所有者确认真实倾听和语音回复都正常并授权GitHub发布，本轮语音线收尾。本次主仓及配套anime-agent-tts语音修复提交均标记Codex，远端同步以Git记录为准。未改模型、动作、声线或历史数据；私人配置/数据/原始日志不发布。详情见[TTS记录](TTS_REPAIR_STATUS.md)最新节，下方较早日期的未发布/待人声验收描述是历史，旧进程号不是当前状态。
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
@@ -34,7 +34,7 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 | 当前当值 Agent | （待所有者点将） |
 | 本次领地 | （待填：从 §3"未开工"清单中圈定） |
 | 授权边界 | （待填：API 配额、放权档位、可写目录） |
-| 交接日期 | 2026-09-07 |
+| 交接日期 | 2026-11-08（四项同步；下一期领地待所有者指派） |
 
 领地内的事是你的；**领地外的一切默认只读**——可以读、可以提建议，未经所有者同意不改别人建好的东西。
 
@@ -50,6 +50,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 三次交接：① Codex 建基础 → Claude 接交互层（2026-08-31）；② Claude 蓝图 B/C/D 期规划完毕未执行，经所有者授权整体移交 zcode 执行（2026-09-05；harness 人设训练部分先拆至 anime-agent-workbench 沙箱训练再并回）；③ zcode 交接整理 + 白纸测试门禁建立（2026-09-07，本次）。归属细则见 [CONTRIBUTIONS.md](CONTRIBUTIONS.md)。
 
 ## 3. 当前真实状态（= 冻结区清单）
+
+2026-11-08 主仓收录桌面在用的四项：Harness V1 执行与确认、官方 DeepSeek Flash 接入、常驻唤醒恢复，以及天依语音专用增益与限幅。组合验证使用隔离 Core 和 Godot。后续专项与部署分别验收。详见[四项范围、回归和回退](assessments/desktop-four/REPORT.md)。
 
 2026-10-02 Codex：本机接口改为 DS 文本 + Qwen3.8-Flash 视觉并实测联通。修复 STT/TTS 缓存加载意外联网、瞬态故障丢失语音、分段取消及恢复进程快照竞态，保留原能力与权限门禁。当前候选/激活状态以本文件顶部及 [TTS 记录](TTS_REPAIR_STATUS.md) 为准；实际麦克风对话等待恢复窗口后由所有者配合验收。
 
@@ -140,7 +142,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 273 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 389 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -235,7 +237,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 273 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 389 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

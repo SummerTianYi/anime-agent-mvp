@@ -31,7 +31,7 @@ async def main():
     out.mkdir()
     print('EVIDENCE='+str(out),flush=True)
     avatar=repo/'apps/avatar-runtime'
-    for name in ('runtime.gd','farewell_speech_gate.gd','verify_speech_delivery.gd',
+    for name in ('runtime.gd','speech_output.gd','farewell_speech_gate.gd','verify_speech_delivery.gd',
                  'mocap/farewell/exit_probe.gd','mocap/farewell/speech_probe.gd'):
         shutil.copy2(source/'apps/avatar-runtime'/name,avatar/name)
     launcher=avatar/'launcher.gd'

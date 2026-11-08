@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import logging
 import re
 import threading
 import time
@@ -10,6 +11,8 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .voice import VoiceError
+
+logger = logging.getLogger(__name__)
 
 
 def default_kws_model_dir() -> Path:
@@ -123,6 +126,10 @@ class WakeWordListener:
         self._thread: threading.Thread | None = None
         self._stop = threading.Event()
         self._paused = threading.Event()
+        self._paused_ack = threading.Event()
+        self._phase = "stopped"
+        self._last_error = ""
+        self._last_read_monotonic = 0.0
         self._numpy: Any = None
         self._sounddevice: Any = None
         self._last_hit_monotonic = 0.0
@@ -158,6 +165,29 @@ class WakeWordListener:
     def recent_peak(self) -> float:
         return round(self._recent_peak, 4)
 
+    @property
+    def read_age_seconds(self) -> float | None:
+        if not self._last_read_monotonic:
+            return None
+        return round(time.monotonic() - self._last_read_monotonic, 2)
+
+    @property
+    def phase(self) -> str:
+        if self._phase == "listening" and (self.read_age_seconds or 0) > 3:
+            return "stalled"
+        return self._phase
+
+    @property
+    def last_error(self) -> str:
+        return self._last_error
+
+    def _note(self, note: str) -> None:
+        try:
+            self._on_note(note)
+        except Exception as exc:
+            # Diagnostics must not terminate the input worker. Do not log audio.
+            logger.warning("Wake notification failed (%s)", type(exc).__name__)
+
     def start(self) -> None:
         if self.running:
             return
@@ -165,68 +195,126 @@ class WakeWordListener:
         self._numpy, self._sounddevice = _import_audio_dependencies()
         self._stop.clear()
         self._paused.clear()
+        self._paused_ack.clear()
+        self._phase = "starting"
+        self._last_error = ""
         self._thread = threading.Thread(target=self._run, name="wake-word-listener", daemon=True)
         self._thread.start()
 
     def stop(self) -> None:
         self._stop.set()
+        self._paused.set()
         if self._thread is not None:
             self._thread.join(timeout=3.0)
+            if self._thread.is_alive():
+                self._last_error = "mic-stop-timeout"
+                self._phase = "stalled"
+                self._note(self._last_error)
+                return  # Keep ownership; never create a duplicate input worker.
         self._thread = None
-        self._close_mic()
 
     def pause(self) -> None:
         self._paused.set()
-        self._close_mic()
+        if self.running and not self._paused_ack.wait(timeout=2.0):
+            self._last_error = "mic-pause-timeout"
+            self._note(self._last_error)
+            raise VoiceError("唤醒麦克风尚未释放，本次录音未启动；请稍后重试")
 
     def resume(self) -> None:
         self._paused.clear()
 
     def _run(self) -> None:
-        stream = self._spotter.create_stream()
+        stream = None
         silence_since = time.monotonic()
-        while not self._stop.is_set():
-            if self._paused.is_set():
-                time.sleep(0.05)
-                continue
-            if self._mic is None:
+        failures = 0
+        try:
+            while not self._stop.is_set():
+                failure_note = "mic-close-failed"
                 try:
-                    self._open_mic()
+                    if self._paused.is_set():
+                        self._close_mic()
+                        self._phase = "paused"
+                        self._paused_ack.set()
+                        stream = None
+                        self._recent_chunks.clear()
+                        self._agc_ema = 0.0
+                        silence_since = time.monotonic()
+                        self._stop.wait(0.05)
+                        continue
+                    self._paused_ack.clear()
+                    if self._paused.is_set():
+                        continue
+                    failure_note = "kws-process-failed"
+                    if stream is None:
+                        stream = self._spotter.create_stream()
+                    failure_note = "mic-open-failed"
+                    if self._mic is None:
+                        self._open_mic()
+                    failure_note = "mic-read-failed"
+                    data, _overflow = self._mic.read(self.block_samples)
+                    self._last_read_monotonic = time.monotonic()
+                    if self._paused.is_set() or self._stop.is_set():
+                        continue
+                    failure_note = "kws-process-failed"
+                    chunk = self._numpy.frombuffer(data, dtype=self._numpy.float32).reshape(-1)
+                    if not chunk.size:
+                        raise ValueError("empty input block")
+                    chunk = self._apply_agc(chunk)
+                    self._recent_chunks.append(chunk.copy())
+                    peak = float(self._numpy.max(self._numpy.abs(chunk)))
+                    self._recent_peak = max(self._recent_peak * 0.95, peak)
+                    now = time.monotonic()
+                    if peak > self.device_silence_amplitude:
+                        silence_since = now
+                    elif now - silence_since > self.silence_reopen_seconds:
+                        self._note("device-silence-reopened")
+                        self._close_mic()
+                        silence_since = now
+                        stream = None
+                        self._recent_chunks.clear()
+                        continue
+                    stream.accept_waveform(self.sample_rate, chunk)
+                    while self._spotter.is_ready(stream):
+                        self._spotter.decode_stream(stream)
+                    result = self._spotter.get_result(stream)
+                    self._phase = "listening"
+                    if failures:
+                        self._note("listener-recovered")
+                    failures = 0
+                    self._last_error = ""
+                    if result and not self._paused.is_set() and not self._stop.is_set():
+                        self._spotter.reset_stream(stream)
+                        now_wall = time.monotonic()
+                        if now_wall - self._last_hit_monotonic >= self.wake_cooldown_seconds:
+                            self._last_hit_monotonic = now_wall
+                            buffered = self._numpy.concatenate(list(self._recent_chunks), axis=0) if self._recent_chunks else None
+                            failure_note = "wake-callback-failed"
+                            self._on_detected(buffered)
                 except Exception:
-                    self._on_note("mic-open-failed")
-                    time.sleep(2.0)
-                    continue
+                    self._phase = "recovering"
+                    self._last_error = failure_note
+                    failures += 1
+                    self._note(failure_note)
+                    try:
+                        self._close_mic()
+                    except Exception:
+                        self._last_error = "mic-close-failed"
+                    if self._mic is None:
+                        self._paused_ack.set()
+                    stream = None
+                    self._recent_chunks.clear()
+                    self._agc_ema = 0.0
+                    self._stop.wait(min(5.0, 0.5 * 2 ** min(failures - 1, 4)))
+        finally:
             try:
-                data, _overflow = self._mic.read(self.block_samples)
+                self._close_mic()
             except Exception:
-                self._on_note("mic-read-failed")
-                self._close_mic()
-                time.sleep(0.5)
-                continue
-            chunk = self._numpy.frombuffer(data, dtype=self._numpy.float32).reshape(-1)
-            chunk = self._apply_agc(chunk)
-            self._recent_chunks.append(chunk.copy())
-            peak = float(self._numpy.max(self._numpy.abs(chunk)))
-            self._recent_peak = max(self._recent_peak * 0.95, peak)
-            now = time.monotonic()
-            if peak > self.device_silence_amplitude:
-                silence_since = now
-            elif now - silence_since > self.silence_reopen_seconds:
-                self._on_note("device-silence-reopened")
-                self._close_mic()
-                silence_since = now
-                continue
-            stream.accept_waveform(self.sample_rate, chunk)
-            while self._spotter.is_ready(stream):
-                self._spotter.decode_stream(stream)
-            result = self._spotter.get_result(stream)
-            if result:
-                self._spotter.reset_stream(stream)
-                now_wall = time.monotonic()
-                if now_wall - self._last_hit_monotonic >= self.wake_cooldown_seconds:
-                    self._last_hit_monotonic = now_wall
-                    buffered = self._numpy.concatenate(list(self._recent_chunks), axis=0) if self._recent_chunks else None
-                    self._on_detected(buffered)
+                self._last_error = "mic-close-failed"
+                self._phase = "failed"
+                self._note(self._last_error)
+            else:
+                self._phase = "stopped"
+                self._paused_ack.set()
 
     def _open_mic(self) -> None:
         mic = self._sounddevice.InputStream(
@@ -235,17 +323,22 @@ class WakeWordListener:
             dtype="float32",
             blocksize=self.block_samples,
         )
-        mic.start()
         self._mic = mic
+        try:
+            mic.start()
+        except Exception:
+            self._close_mic()
+            raise
 
     def _close_mic(self) -> None:
-        mic, self._mic = self._mic, None
+        mic = self._mic
         if mic is not None:
             try:
                 mic.stop()
-                mic.close()
             except Exception:
                 pass
+            mic.close()
+            self._mic = None
 
 
 _capture_token_lock = threading.Lock()
@@ -287,6 +380,7 @@ def capture_utterance(
     min_speech_seconds: float = 0.4,
     end_silence_seconds: float = 1.2,
     speech_level: float = 0.004,
+    on_ready: Callable[[], bool] | None = None,
 ) -> bytes | None:
     """Record one utterance with a silence endpoint; returns WAV bytes or None.
 
@@ -321,10 +415,17 @@ def capture_utterance(
                 pass
         raise VoiceError("无法打开默认麦克风，请检查 Windows 麦克风权限") from exc
     try:
+        if cancel_event is not None and cancel_event.is_set():
+            return None
+        if on_ready is not None and not on_ready():
+            return None
         while total_seconds < max_seconds:
             if cancel_event is not None and cancel_event.is_set():
                 return None
-            data, _overflow = stream.read(frames)
+            try:
+                data, _overflow = stream.read(frames)
+            except Exception as exc:
+                raise VoiceError("麦克风录音中断，请重试") from exc
             chunk = data.reshape(-1)
             collected.append(chunk.copy())
             total_seconds += block_seconds
@@ -332,6 +433,7 @@ def capture_utterance(
             if state == "waiting":
                 if peak >= speech_level:
                     state = "speech"
+                    speech_seconds += block_seconds
             elif peak >= speech_level:
                 silence_seconds = 0.0
                 speech_seconds += block_seconds
@@ -342,6 +444,9 @@ def capture_utterance(
     finally:
         try:
             stream.stop()
+        except Exception:
+            pass
+        try:
             stream.close()
         except Exception:
             pass

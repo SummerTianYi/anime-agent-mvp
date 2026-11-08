@@ -66,6 +66,8 @@ def _collect_until(ws, stop_type: str, match: dict | None = None, limit: int = 3
 
 class SpeechWSTests(unittest.TestCase):
     def setUp(self) -> None:
+        for name in ('provider', 'memory', 'tools_schema', 'TTS_ENABLED', 'speech_client', 'speech_manager', 'wake_listener', 'voice_recorder'):
+            self.addCleanup(setattr, core, name, getattr(core, name))
         quiet = patch.object(core.proactive_policy, 'allow', return_value=(False, 'test-isolation'))
         quiet.start()
         self.addCleanup(quiet.stop)
@@ -74,22 +76,16 @@ class SpeechWSTests(unittest.TestCase):
         store = MemoryStore(data_dir=Path(self._tmp.name))
         self.addCleanup(store.close)
         core.provider = ScriptedProvider("你好呀，我是洛天依。")
-        self.addCleanup(setattr, core, "provider", core.provider)
         core.memory = store
-        self.addCleanup(setattr, core, "memory", core.memory)
         core.tools_schema = []
-        self.addCleanup(setattr, core, "tools_schema", core.tools_schema)
         core.TTS_ENABLED = True
-        self.addCleanup(setattr, core, "TTS_ENABLED", False)
         self.speech_client = FakeSpeechClient()
         core.speech_client = self.speech_client
-        self.addCleanup(setattr, core, "speech_client", core.speech_client)
         core.speech_manager = SpeechManager(
             self.speech_client,
             on_speak=core._broadcast_speak,
             on_interrupt=core._broadcast_speech_stop,
         )
-        self.addCleanup(setattr, core, "speech_manager", core.speech_manager)
 
     def _connect(self):
         client = TestClient(core.app)

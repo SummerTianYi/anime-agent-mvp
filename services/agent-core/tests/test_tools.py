@@ -69,9 +69,12 @@ class ReadFileTests(unittest.TestCase):
             target = Path(tmp) / "big.txt"
             target.write_text("天" * (128 * 1024), encoding="utf-8")
             result = read_file(str(target))
+            tail = read_file(str(target), offset=result["next_offset"])
         self.assertTrue(result["ok"])
         self.assertLess(len(result["content"]), 128 * 1024)
-        self.assertIn("截断", result["content"])
+        self.assertTrue(result["truncated"])
+        self.assertIsInstance(result["next_offset"],int)
+        self.assertTrue(tail["ok"])
 
     def test_rejects_relative_path(self) -> None:
         result = read_file("relative/path.txt")

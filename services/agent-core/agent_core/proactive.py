@@ -53,11 +53,23 @@ class IdlePolicy:
     never during quiet hours, never twice within the cooldown. Pure local
     logic — no provider involvement (zero-quota guarantee)."""
 
-    threshold_seconds: float = 2700.0
+    threshold_seconds: float = 600.0
     quiet_start: str = "23:00"
     quiet_end: str = "08:00"
     cooldown_seconds: float = 3600.0
     _last_spoken: float = field(default=0.0)
+    _episode_origin: float | None = None
+    _episode_notified: bool = False
+    playback_utterance: str = ""
+
+    def observe(self, idle_seconds: float, clock: float | None = None) -> None:
+        origin = (time.monotonic() if clock is None else clock) - max(0.0, idle_seconds)
+        if self._episode_origin is None:
+            self._episode_origin = origin
+        elif origin > self._episode_origin + 1.0:
+            self._episode_origin = origin
+            self._episode_notified = False
+            self.playback_utterance = ""
 
     def decide(
         self,
@@ -65,12 +77,13 @@ class IdlePolicy:
         now: time.struct_time | None = None,
         monotonic: float | None = None,
     ) -> tuple[bool, str]:
+        self.observe(idle_seconds, monotonic)
         if idle_seconds < self.threshold_seconds:
             return False, "not-idle"
         if self.in_quiet_hours(now):
             return False, "quiet-hours"
-        if self.on_cooldown(time.time() if monotonic is None else monotonic):
-            return False, "cooldown"
+        if self._episode_notified:
+            return False, "already-reminded-this-idle"
         return True, ""
 
     def in_quiet_hours(self, now: time.struct_time | None = None) -> bool:
@@ -79,5 +92,7 @@ class IdlePolicy:
     def on_cooldown(self, monotonic: float | None = None) -> bool:
         return (time.time() if monotonic is None else monotonic) - self._last_spoken < self.cooldown_seconds
 
-    def mark_spoken(self, monotonic: float | None = None) -> None:
+    def mark_spoken(self, monotonic: float | None = None, *, utterance_id: str = "") -> None:
         self._last_spoken = monotonic if monotonic is not None else time.time()
+        self._episode_notified = True
+        self.playback_utterance = utterance_id

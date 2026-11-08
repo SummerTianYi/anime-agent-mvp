@@ -71,21 +71,42 @@ class McpServer:
     tools: list[dict] = field(default_factory=list)
     started: bool = False
     error: str = ""
+    _call_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
 
     async def _roundtrip(self, payload: dict, timeout: float = 15.0) -> dict:
         assert self.process is not None and self.process.stdin and self.process.stdout
         line = json.dumps(payload, ensure_ascii=False) + "\n"
         self.process.stdin.write(line.encode("utf-8"))
         await self.process.stdin.drain()
+        deadline = asyncio.get_running_loop().time() + timeout
         while True:
-            raw = await asyncio.wait_for(self.process.stdout.readline(), timeout=timeout)
+            remaining = deadline - asyncio.get_running_loop().time()
+            if remaining <= 0:
+                raise TimeoutError("MCP response deadline expired")
+            raw = await asyncio.wait_for(self.process.stdout.readline(), timeout=remaining)
             if not raw:
                 raise RuntimeError("MCP server closed stdout")
             text = raw.decode("utf-8", errors="replace").strip()
             if not text:
                 continue
             msg = json.loads(text)
+            if not isinstance(msg, dict) or msg.get("jsonrpc") != "2.0":
+                raise RuntimeError("Invalid MCP JSON-RPC envelope")
+            if "method" in msg:
+                # Server->client request IDs have an independent namespace.
+                # Never mistake a reverse request/notification for our receipt.
+                if "id" in msg:
+                    response = {"jsonrpc":"2.0","id":msg["id"]}
+                    if msg["method"] == "ping":
+                        response["result"] = {}
+                    else:
+                        response["error"] = {"code":-32601,"message":"Client method not supported"}
+                    self.process.stdin.write((json.dumps(response)+"\n").encode("utf-8"))
+                    await self.process.stdin.drain()
+                continue
             if msg.get("id") == payload.get("id"):
+                if ("result" in msg) == ("error" in msg):
+                    raise RuntimeError("MCP response has no unique result/error")
                 return msg
 
     async def start(self) -> None:
@@ -112,16 +133,37 @@ class McpServer:
         self.started = True
 
     async def call(self, tool: str, arguments: dict) -> dict:
+        async with self._call_lock:
+            return await self._call_locked(tool, arguments)
+
+    async def _call_locked(self, tool: str, arguments: dict) -> dict:
+        request_id = self.next_id
+        self.next_id += 1
         reply = await self._roundtrip({
-            "jsonrpc": "2.0", "id": self.next_id, "method": "tools/call",
+            "jsonrpc": "2.0", "id": request_id, "method": "tools/call",
             "params": {"name": tool, "arguments": arguments},
         })
-        self.next_id += 1
         if "error" in reply:
             return {"ok": False, "error": str(reply["error"])[:300]}
-        result = reply.get("result", {})
-        parts = [str(part.get("text", "")) for part in result.get("content", []) if part.get("type") == "text"]
-        text = "\n".join(parts)[:4000]
+        result = reply.get("result")
+        if (not isinstance(result, dict) or
+            not ("content" in result or "structuredContent" in result) or
+            not isinstance(result.get("content", []), list) or
+            ("isError" in result and type(result["isError"]) is not bool)):
+            raise RuntimeError("MCP tool did not return a valid execution receipt")
+        parts = []
+        for part in result.get("content", []):
+            if part.get("type") == "text":
+                parts.append(str(part.get("text", "")))
+            elif part.get("type") == "resource":
+                resource = part.get("resource", {})
+                parts.append(json.dumps({"uri":resource.get("uri"),"mimeType":resource.get("mimeType"),
+                    "text":resource.get("text"),"binary_omitted":"blob" in resource}, ensure_ascii=False))
+            elif part.get("type") == "resource_link":
+                parts.append(json.dumps(part, ensure_ascii=False))
+        if "structuredContent" in result:
+            parts.append(json.dumps(result["structuredContent"], ensure_ascii=False))
+        text = "\n".join(parts)
         return {"ok": not result.get("isError", False), "text": text}
 
     async def stop(self) -> None:

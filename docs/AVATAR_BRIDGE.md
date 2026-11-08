@@ -1,5 +1,12 @@
 # Avatar Bridge
 
+## 桌面 Harness V1 与语音
+
+- `permission.pending` 按 `conversationId` 发布有序 `actions`。`chat.message.confirmation` 绑定已展示的 `action_id`、`revision`、`args_hash`，授权在派发前复核。兼容客户端的文字确认绑定当时展示的票据。
+- 手动录音用 `captureId` 与 `conversationId` 关联 `voice.start`、`voice.stop`、`voice.cancel`、状态、识别与提示；切会话或取消使旧录音失效。成功转写回填输入框。常驻模式先播放唤醒应答，采集准备就绪才发 `wake.triggered`，有后续有效转写才进入聊天。
+- `read_tool_result` 在本任务内续取已获准的结果，`recall_memory` 检索当前可见事实。三个 `effort` 档沿用相同权限，步数预算为 3/6/9，工具调用预算为 6/12/18。
+- 普通播报和已缓存的告别均走 `TianyiSpeech` 总线。`ANIME_AGENT_SPEECH_GAIN_DB` 仅作用于角色声音。播放结果沿用既有 `speech.finished`、`speech.failed` 及 `playbackId`。
+
 Godot 角色运行时通过本地 WebSocket 连接 Agent Core，默认地址是 `ws://127.0.0.1:8765/ws`，可用进程环境变量 `AGENT_CORE_WS_URL` 覆盖；`start-mvp.ps1` 会根据 `.env` 中的 `AGENT_CORE_PORT` 自动设置该地址。连接断开后每 2 秒自动重试，不依赖 React/Tauri 窗口。
 
 ## 连接握手

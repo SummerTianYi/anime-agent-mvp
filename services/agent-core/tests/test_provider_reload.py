@@ -96,7 +96,7 @@ class ProviderHotReloadTests(unittest.TestCase):
         self.assertEqual(len(fake.requests), 1)
         self.assertEqual(reload_calls, [True])
 
-    def test_auth_codes_reload_but_500_does_not(self) -> None:
+    def test_auth_codes_reload_but_500_recovery_keeps_existing_credentials(self) -> None:
         for code in (401, 403):
             with self.subTest(code=code):
                 provider, fake, reload_calls = _make_provider(
@@ -110,10 +110,10 @@ class ProviderHotReloadTests(unittest.TestCase):
             [_http_error(500), _ok_response("ok")],
             ("https://example.test/v1", "test-model", "new-key"),
         )
-        with self.assertRaises(ProviderError):
-            _run(provider.complete([{"role": "user", "content": "hi"}]))
-        self.assertEqual(len(fake.requests), 1)
+        self.assertEqual(_run(provider.complete([{"role": "user", "content": "hi"}])), "ok")
+        self.assertEqual(len(fake.requests), 2)
         self.assertEqual(reload_calls, [])
+        self.assertEqual(fake.auth_at_call, ["Bearer old-key", "Bearer old-key"])
 
     def test_tool_turn_reloads_and_retries(self) -> None:
         fresh = ("https://example.test/v1", "test-model", "new-key")

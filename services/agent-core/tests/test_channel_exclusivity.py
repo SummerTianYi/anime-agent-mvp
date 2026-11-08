@@ -293,6 +293,9 @@ class WakeBargeInTests(unittest.TestCase):
     """Mid-playback wake barge-in: allowed for user speech, blocked for her own."""
 
     def setUp(self) -> None:
+        previous_mode = core.VOICE_INPUT_MODE
+        core.VOICE_INPUT_MODE = "wake"
+        self.addCleanup(setattr, core, "VOICE_INPUT_MODE", previous_mode)
         self.spy_events: list[tuple[str, dict | None]] = []
 
         class _SpyMemory:

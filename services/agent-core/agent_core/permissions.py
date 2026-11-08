@@ -22,7 +22,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 
-READ_ONLY_TOOLS = ("get_time", "read_file", "list_dir", "screenshot", "active_window", "clipboard_read")
+READ_ONLY_TOOLS = ("get_time", "read_file", "list_dir", "screenshot", "active_window", "clipboard_read", "read_tool_result", "recall_memory")
 WRITE_TOOLS = ("write_file",)
 COMMAND_TOOLS = ("run_command",)
 MCP_PREFIX = "mcp__"

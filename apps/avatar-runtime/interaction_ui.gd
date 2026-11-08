@@ -43,6 +43,7 @@ var empty_hint: Label
 var chat_input: LineEdit
 var chat_status: Label
 var voice_button: Button
+var voice_hint := ""
 var avatar_texture: Texture2D
 
 var tool_card: PanelContainer = null
@@ -55,9 +56,9 @@ var tool_call_count := 0
 const EFFORT_ORDER := ["chill", "standard", "deep"]
 const EFFORT_LABELS := {"chill": "碎碎念", "standard": "帮帮忙", "deep": "大展身手"}
 const EFFORT_HINTS := {
-	"chill": "单点快查，至多 1 次工具往返，说完接着聊",
-	"standard": "小任务直接接住，3 步内完成",
-	"deep": "先规划再动手，全工具 + MCP，5 步封顶（默认）",
+	"chill": "低投入 · 3 轮 / 6 次工具调用，权限与人格不变",
+	"standard": "中投入 · 6 轮 / 12 次工具调用，按任务自然交付",
+	"deep": "高投入 · 9 轮 / 18 次工具调用，不强制列表（默认）",
 }
 var effort_level := "deep"
 var effort_button: Button = null
@@ -476,7 +477,7 @@ func _open_effort_popover() -> void:
 	effort_big_label = _make_label(EFFORT_LABELS[effort_level], 22, COLOR_TIANI_BLUE)
 	effort_big_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(effort_big_label)
-	var model_label := _make_label("GLM-5.3-Flash", 11, COLOR_TEXT_DIM)
+	var model_label := _make_label("共享任务预算 · 网关推理档位尚未验证", 11, COLOR_TEXT_DIM)
 	model_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(model_label)
 
@@ -952,6 +953,9 @@ func _build_composer() -> Control:
 	voice_button.button_up.connect(_on_voice_up)
 	voice_button.tooltip_text = "按住说话，松开后转成文字"
 	composer.add_child(voice_button)
+	var voice_cancel := _make_button("取消录音", func(): avatar.cancel_voice_recording())
+	voice_cancel.tooltip_text = "取消录音或识别，并丢弃迟到的转写结果"
+	composer.add_child(voice_cancel)
 
 	var send_button := _make_accent_button("发送", _send_current_message)
 	send_button.custom_minimum_size = Vector2(64.0, 38.0)
@@ -1339,6 +1343,7 @@ func _on_voice_pressed() -> void:
 
 
 func _on_voice_down() -> void:
+	voice_hint = ""
 	chat_status.text = "正在录音，松开结束"
 	avatar.start_voice_recording()
 
@@ -1357,7 +1362,13 @@ func on_voice_state(next_state: String) -> void:
 		"transcribing":
 			chat_status.text = "正在识别语音……"
 		_:
-			chat_status.text = "按住「语音」说话，松开后转写回输入框"
+			chat_status.text = voice_hint if not voice_hint.is_empty() else "按住「语音」说话，松开后转写回输入框"
+
+
+func on_voice_hint(text: String) -> void:
+	voice_hint = text
+	if chat_status != null:
+		chat_status.text = text
 
 
 func on_voice_transcript(text: String) -> void:
@@ -1365,7 +1376,7 @@ func on_voice_transcript(text: String) -> void:
 		return
 	chat_input.text = text
 	chat_input.grab_focus()
-	chat_status.text = "请确认转写内容后发送"
+	on_voice_hint("请确认转写内容后发送")
 
 
 func _set_passthrough(enabled: bool) -> void:

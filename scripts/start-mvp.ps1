@@ -16,10 +16,17 @@ try {
     $providerName = (Get-AgentSetting 'LLM_PROVIDER' 'glm').ToLowerInvariant()
     switch ($providerName) {
         'glm' {
-            if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'GLM_API_KEY'))) { throw 'GLM_API_KEY is empty.' }
-            if ((Get-AgentSetting 'GLM_BASE_URL') -notmatch '/api/coding/paas/v4/?$') {
-                throw 'GLM_BASE_URL must use the Coding endpoint ending in /api/coding/paas/v4'
-            }
+            $credentialSource = (Get-AgentSetting 'GLM_CREDENTIAL_SOURCE' 'glm').Trim().ToLowerInvariant()
+            if ($credentialSource -eq 'deepseek') {
+                # Codex: shared WeChat Coding Plan account, not Zhipu's endpoint.
+                if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'DEEPSEEK_API_KEY'))) { throw 'DEEPSEEK_API_KEY is empty.' }
+                if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'DEEPSEEK_BASE_URL'))) { throw 'DEEPSEEK_BASE_URL is empty.' }
+            } elseif ($credentialSource -eq 'glm') {
+                if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'GLM_API_KEY'))) { throw 'GLM_API_KEY is empty.' }
+                if ((Get-AgentSetting 'GLM_BASE_URL') -notmatch '/api/coding/paas/v4/?$') {
+                    throw 'GLM_BASE_URL must use the Coding endpoint ending in /api/coding/paas/v4'
+                }
+            } else { throw 'GLM_CREDENTIAL_SOURCE must be glm or deepseek' }
         }
         'deepseek' {
             if ([string]::IsNullOrWhiteSpace((Get-AgentSetting 'DEEPSEEK_API_KEY'))) { throw 'DEEPSEEK_API_KEY is empty.' }

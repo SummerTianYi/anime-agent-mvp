@@ -65,17 +65,19 @@ class IdlePolicyTests(unittest.TestCase):
         self.assertFalse(allowed)
         self.assertEqual(reason, "quiet-hours")
 
-    def test_idle_but_on_cooldown(self):
+    def test_same_idle_episode_never_repeats(self):
         policy = IdlePolicy(threshold_seconds=600.0, cooldown_seconds=300.0)
         policy.mark_spoken(monotonic=0.0)
         allowed, reason = policy.decide(idle_seconds=3600.0, now=day_time(), monotonic=100.0)
         self.assertFalse(allowed)
-        self.assertEqual(reason, "cooldown")
+        self.assertEqual(reason, "already-reminded-this-idle")
 
-    def test_idle_allowed_when_all_gates_open(self):
+    def test_new_episode_resets_even_inside_old_cooldown(self):
         policy = IdlePolicy(threshold_seconds=600.0, cooldown_seconds=300.0)
-        policy.mark_spoken(monotonic=0.0)
-        allowed, reason = policy.decide(idle_seconds=3600.0, now=day_time(), monotonic=400.0)
+        policy.decide(idle_seconds=600, now=day_time(), monotonic=600)
+        policy.mark_spoken(monotonic=600)
+        policy.decide(idle_seconds=0, now=day_time(), monotonic=601)
+        allowed, reason = policy.decide(idle_seconds=600, now=day_time(), monotonic=1201)
         self.assertTrue(allowed)
         self.assertEqual(reason, "")
 

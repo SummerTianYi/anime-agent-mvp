@@ -91,7 +91,9 @@ def get_time() -> dict[str, Any]:
     }
 
 
-def read_file(path: Any) -> dict[str, Any]:
+def read_file(path: Any, offset: int = 0) -> dict[str, Any]:
+    if type(offset) is not int or offset < 0:
+        return {"ok":False,"error":"offset必须是非负字节偏移"}
     try:
         path = _resolve_path(path)
     except ValueError as exc:
@@ -101,13 +103,25 @@ def read_file(path: Any) -> dict[str, Any]:
     try:
         size = path.stat().st_size
         with open(path, "rb") as handle:
+            if offset > size:
+                return {"ok":False,"error":"offset超出文件大小"}
+            handle.seek(offset)
             data = handle.read(MAX_READ_BYTES)
     except OSError as exc:
         return {"ok": False, "error": f"读取失败：{exc}"}
-    text = data.decode("utf-8", errors="replace")
-    if size > MAX_READ_BYTES:
-        text += f"\n…（内容已截断，完整大小 {size} 字节）"
-    return {"ok": True, "path": str(path), "size": size, "content": text}
+    # Do not cut a multi-byte character across continuation pages.
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        if exc.reason == "unexpected end of data" and offset + len(data) < size:
+            data = data[:exc.start]
+            text = data.decode("utf-8", errors="replace")
+        else:
+            text = data.decode("utf-8", errors="replace")
+    end = offset + len(data)
+    return {"ok": True, "path": str(path), "size": size, "content": text, "offset":offset,
+            "next_offset":end if end < size else None,"truncated":end < size,
+            "note":"如有next_offset，用read_file(path,offset=next_offset)续取；偏移以字节计"}
 
 
 def list_dir(path: Any) -> dict[str, Any]:
@@ -249,7 +263,16 @@ def write_file(path: Any, content: Any, mode: Any = "overwrite") -> dict[str, An
         os.replace(tmp, path)  # atomic on Windows and POSIX
     except OSError as exc:
         return {"ok": False, "error": f"写入失败：{exc}"}
-    return {"ok": True, "path": str(path), "mode": mode, "bytes_written": len(data)}
+    import hashlib
+    expected_hash = hashlib.sha256(data).hexdigest()
+    try:
+        actual_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return {"ok":False,"outcome":"unknown","path":str(path),"error":"写入后无法读取校验；结果未知，勿自动重试"}
+    if actual_hash != expected_hash:
+        return {"ok":False,"outcome":"unknown","path":str(path),"error":"写后校验不一致；可能有并发修改，勿自动重试"}
+    return {"ok": True, "path": str(path), "mode": mode, "bytes_written": len(data),
+            "sha256":actual_hash,"verified_readback":True}
 
 
 # --- look_at_screen (zcode, D 期): screenshot -> vision provider, ask-tier --
@@ -408,7 +431,7 @@ def run_command(command_line: Any) -> dict[str, Any]:
             timeout=COMMAND_TIMEOUT_SECONDS, shell=False,
         )
     except subprocess.TimeoutExpired:
-        return {"ok": False, "error": f"命令执行超时（{COMMAND_TIMEOUT_SECONDS}s）"}
+        return {"ok": False, "outcome":"unknown", "error": f"命令执行超时（{COMMAND_TIMEOUT_SECONDS}s），副作用未知"}
     except FileNotFoundError:
         return {"ok": False, "error": f"找不到可执行文件：{args[0]}"}
     output = ((proc.stdout or "") + (proc.stderr or "")).strip()
@@ -432,12 +455,13 @@ REGISTRY: tuple[Tool, ...] = (
     Tool(
         name="read_file",
         description=(
-            "读取本地文本文件内容。path 必须是绝对路径；超过 64KB 会截断。"
+            "读取本地文本文件内容。path 必须是绝对路径；每页最多64KB，按返回next_offset续取。"
             "只允许访问允许目录内的文件，超出范围会返回错误。"
         ),
         parameters={
             "type": "object",
-            "properties": {"path": {"type": "string", "description": "文件的绝对路径"}},
+            "properties": {"path": {"type": "string", "description": "文件的绝对路径"},
+                           "offset":{"type":"integer","minimum":0,"description":"字节偏移，默认0；超过64KB时续取"}},
             "required": ["path"],
         },
         func=read_file,
@@ -553,8 +577,8 @@ async def execute_tool(registry: dict[str, Tool], name: str, arguments: Any) -> 
             asyncio.to_thread(tool.func, **arguments), tool.timeout
         )
     except asyncio.TimeoutError:
-        return {"ok": False, "error": f"工具 {tool.name} 执行超时"}
+        return {"ok": False, "outcome":"unknown", "error": f"工具 {tool.name} 执行超时，结果未知"}
     except TypeError as exc:
         return {"ok": False, "error": f"参数无效：{exc}"}
     except Exception as exc:  # noqa: BLE001 - tool boundary must not crash the loop
-        return {"ok": False, "error": str(exc)[:300]}
+        return {"ok": False, "outcome":"unknown", "error": str(exc)[:300]}

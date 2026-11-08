@@ -11,6 +11,24 @@ like "用户的职业" -> "用户是后端工程师" that share no lexical token
 from __future__ import annotations
 
 import math
+import re
+
+
+def retrieve_task_memories(query: str, stored: list[str], limit: int = 12) -> list[str]:
+    """Union ranked recall with entity/attribute coverage; preserve original single-query ranker."""
+    selected = retrieve_relevant(query, stored, limit=limit)
+    # A request listing several attributes must not let the strongest attribute crowd out the others.
+    attributes = ("负责人","预算","日期","地点","代号","颜色","生日","职业","爱好","称呼","城市","宠物")
+    requested = [word for word in attributes if word in query]
+    if len(requested) > 1:
+        entity = re.search(r"([\u4e00-\u9fffA-Za-z0-9]{2,12}项目)", query)
+        pool = [f for f in stored if not entity or any(
+            token in f for token in (entity.group(1), entity.group(1)[-4:]))]
+        for attribute in requested:
+            for fact in retrieve_relevant(attribute, pool, limit=2):
+                if fact not in selected:
+                    selected.append(fact)
+    return selected[:limit]
 
 _STOP_CHARS = set("的了是在最了为对吗呢吧啊嘛哦什哪怎谁用户您请很也还又都就")
 

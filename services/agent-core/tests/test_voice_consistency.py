@@ -51,27 +51,23 @@ class NormalizeTests(unittest.TestCase):
 
 class ReplyNormalizationWSTests(unittest.TestCase):
     def setUp(self) -> None:
+        for name in ('provider', 'memory', 'tools_schema', 'TTS_ENABLED', 'speech_client', 'speech_manager', 'wake_listener', 'voice_recorder'):
+            self.addCleanup(setattr, core, name, getattr(core, name))
         self._tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self._tmp.cleanup)
         store = MemoryStore(data_dir=Path(self._tmp.name))
         self.addCleanup(store.close)
         core.provider = ScriptedProvider("你好呀，我是洛天依，生日是7月12日，身高156cm。")
-        self.addCleanup(setattr, core, "provider", core.provider)
         core.memory = store
-        self.addCleanup(setattr, core, "memory", core.memory)
         core.tools_schema = []
-        self.addCleanup(setattr, core, "tools_schema", core.tools_schema)
         core.TTS_ENABLED = True
-        self.addCleanup(setattr, core, "TTS_ENABLED", False)
         speech_client = FakeSpeechClient()
         core.speech_client = speech_client
-        self.addCleanup(setattr, core, "speech_client", core.speech_client)
         core.speech_manager = SpeechManager(
             speech_client,
             on_speak=core._broadcast_speak,
             on_interrupt=core._broadcast_speech_stop,
         )
-        self.addCleanup(setattr, core, "speech_manager", core.speech_manager)
 
     def test_displayed_and_spoken_text_stay_identical(self) -> None:
         from fastapi.testclient import TestClient
@@ -114,6 +110,9 @@ class FakeWakeListener:
         self.paused = False
         self.resume_count += 1
 
+    def stop(self) -> None:
+        pass
+
 
 class FakeRecorder:
     """Hermetic stand-in for the mic-backed recorder (no real audio device)."""
@@ -140,22 +139,22 @@ class FakeRecorder:
 
 class WakeReArmTests(unittest.TestCase):
     def setUp(self) -> None:
+        for name in ('provider', 'memory', 'tools_schema', 'TTS_ENABLED', 'speech_client', 'speech_manager', 'wake_listener', 'voice_recorder'):
+            self.addCleanup(setattr, core, name, getattr(core, name))
+        mode = unittest.mock.patch.object(core, "VOICE_INPUT_MODE", "wake")
+        mode.start()
+        self.addCleanup(mode.stop)
         self._tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self._tmp.cleanup)
         store = MemoryStore(data_dir=Path(self._tmp.name))
         self.addCleanup(store.close)
         core.provider = ScriptedProvider("好的。")
-        self.addCleanup(setattr, core, "provider", core.provider)
         core.memory = store
-        self.addCleanup(setattr, core, "memory", core.memory)
         core.tools_schema = []
-        self.addCleanup(setattr, core, "tools_schema", core.tools_schema)
         self.listener = FakeWakeListener()
         core.wake_listener = self.listener
-        self.addCleanup(setattr, core, "wake_listener", None)
         self.recorder = FakeRecorder()
         core.voice_recorder = self.recorder
-        self.addCleanup(setattr, core, "voice_recorder", core.voice_recorder)
 
     def test_wake_stays_paused_until_transcript_dispatched(self) -> None:
         from fastapi.testclient import TestClient
@@ -200,14 +199,26 @@ class WakeReArmTests(unittest.TestCase):
         ws.send_json({"type": "client.hello", "role": "avatar"})
         _collect_until(ws, "client.ready")
 
-        # stop without any prior start: VoiceError path must still resume
+        # A stop is scoped to its active capture; an actual stop failure must
+        # release the listener, while an unsolicited stop remains ignored.
+        patcher = unittest.mock.patch.object(self.recorder, "stop", side_effect=VoiceError("停止录音失败"))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        ws.send_json({"type": "voice.start"})
+        _collect_until(ws, "voice.state", limit=20)
+        self.recorder.started = False
         ws.send_json({"type": "voice.stop"})
-        _collect_until(ws, "core.error", limit=20)
+        _collect_until(ws, "voice.hint", limit=20)
+        ws.send_json({"type": "ping"})
+        _collect_until(ws, "pong", limit=20)
         self.assertEqual(self.listener.resume_count, 1)
 
 
 class VoiceRefractoryTests(unittest.TestCase):
     def test_recent_voice_stop_drops_wake_trigger(self) -> None:
+        mode = unittest.mock.patch.object(core, "VOICE_INPUT_MODE", "wake")
+        mode.start()
+        self.addCleanup(mode.stop)
         class _SpyMemory:
             def __init__(self) -> None:
                 self.events = []

@@ -50,6 +50,13 @@ if ([string]::IsNullOrWhiteSpace($env:ANIME_AGENT_MODEL_LOOK)) {
     }
 }
 
+if ([string]::IsNullOrWhiteSpace($env:ANIME_AGENT_SPEECH_GAIN_DB)) {
+    $configuredSpeechGain = Get-LocalEnvValue -Name "ANIME_AGENT_SPEECH_GAIN_DB"
+    if (-not [string]::IsNullOrWhiteSpace($configuredSpeechGain)) {
+        $env:ANIME_AGENT_SPEECH_GAIN_DB = $configuredSpeechGain
+    }
+}
+
 $godotCandidates = @(
     $env:ANIME_AGENT_GODOT_EXE,
     (Join-Path $env:LOCALAPPDATA "Godot\Godot_v4.7.2-stable_win64.exe"),
