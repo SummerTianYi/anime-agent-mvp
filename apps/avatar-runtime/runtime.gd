@@ -717,6 +717,12 @@ func _handle_core_event(payload: Dictionary) -> void:
 					farewell_exit.try_finish()
 		return
 	var event_type := str(payload.get("type", ""))
+	var foreground := bool(payload.get("foreground", true))
+	var sid := int(payload.get("conversationId", -1)) if payload.get("conversationId") != null else -1
+	if interaction_ui != null and sid > 0 and interaction_ui.current_conversation_id > 0:
+		foreground = foreground and sid == interaction_ui.current_conversation_id
+	if not foreground and event_type in ["agent.state","agent.tool","core.error","avatar.command","avatar.speak"]:
+		return
 	match event_type:
 		"avatar.farewell.cache":
 			_cache_farewell_voice(payload)
@@ -734,8 +740,11 @@ func _handle_core_event(payload: Dictionary) -> void:
 		"agent.state":
 			_set_agent_state(str(payload.get("state", "idle")))
 		"chat.response":
+			if not foreground and str(payload.get("channel","")) == "companion":
+				return # Saved to its original history. The active turn owns live chat and speech.
 			if interaction_ui != null:
-				interaction_ui.add_message("洛天依", str(payload.get("text", "")), int(payload.get("conversationId", -1)))
+				var role: String = {"task":"操作回执", "memory":"记忆回执"}.get(str(payload.get("channel", "")), "洛天依")
+				interaction_ui.add_message(role, str(payload.get("text", "")), sid, foreground)
 		"session.switched":
 			cancel_voice_recording()
 			if interaction_ui != null:

@@ -18,8 +18,22 @@ def model_history(store, session_id: int, request_id: str, text: str, *, compani
     task_receipts = {r["request_id"] for r in rows if r["request_id"] and r["role"] == "task_receipt"}
     chat_replies = {r["request_id"] for r in rows if r["request_id"] and r["role"] == "assistant"}
     skip_reply = set()
-    projected = []
+    ordered = []
+    answers_by_turn = {}
     for row in reversed(rows):
+        if row["role"] == "assistant" and row["request_id"]:
+            answers_by_turn.setdefault(row["request_id"], []).append(row)
+        else:
+            ordered.append(row)
+    # A companion response can finish after a newer turn. Pair it with its
+    # original input in future prompts instead of treating it as the latest answer.
+    chronological = []
+    for row in ordered:
+        chronological.append(row)
+        if row["role"] == "user" and row["request_id"]:
+            chronological.extend(answers_by_turn.pop(row["request_id"], []))
+    projected = []
+    for row in chronological:
         role, content, turn = row["role"], row["content"], row["request_id"]
         if role == "user" and companion:
             route = classify(content,pending=False,active=False)

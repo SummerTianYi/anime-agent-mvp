@@ -214,7 +214,7 @@ class MemoryStore:
         if session_id is None:
             return []
         rows = self.connection.execute(
-            "SELECT role, content, created_at FROM messages WHERE conversation_id = ? ORDER BY id DESC LIMIT ?",
+            "SELECT role, content, request_id, created_at FROM messages WHERE conversation_id = ? ORDER BY id DESC LIMIT ?",
             (session_id, limit),
         ).fetchall()
         return [
@@ -222,6 +222,7 @@ class MemoryStore:
                 "role": str(row["role"]),
                 "text": str(row["content"]),
                 "createdAt": str(row["created_at"]),
+                **({"requestId": str(row["request_id"])} if row["request_id"] else {}),
             }
             for row in reversed(rows)
         ]

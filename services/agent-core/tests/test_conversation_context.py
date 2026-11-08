@@ -29,3 +29,10 @@ class ConversationContextTests(unittest.TestCase):
         self.assertEqual(history[-1]["content"],"我想换个话题")
         self.assertTrue(all(x["role"] in ("user","assistant") for x in history))
         self.assertNotIn("下一轮不应出现",str(history))
+
+    def test_delayed_answers_rejoin_their_original_turn(self):
+        for role,text,rid in (("user","第一轮","1"),("user","第二轮","2"),("assistant","回答二","2"),
+                              ("assistant","回答一","1"),("user","第三轮","3")):
+            self.store.add_message(role,text,rid,self.sid)
+        history=model_history(self.store,self.sid,"3","第三轮",companion=True,limit=10)
+        self.assertEqual([m["content"] for m in history],["第一轮","回答一","第二轮","回答二","第三轮"])

@@ -84,8 +84,8 @@ async def run_agent_loop(
     on_call: Callable[[], None] | None = None,
     validate_final: Callable[[str], str] | None = None,
     take_correction: Callable[[], bool] | None = None,
-    still_authorized: Callable[[], bool] | None = None,
     validate_call: Callable[[str, dict[str, Any]], str] | None = None,
+    still_authorized: Callable[[], bool] | None = None,
 ) -> AgentLoopResult:
     conversation: list[dict[str, Any]] = [dict(item) for item in messages]
     steps: list[AgentStep] = []

@@ -114,4 +114,46 @@ class ChannelTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(target.exists())
         self.assertFalse(self.delivered("old-proposal"))
 
+    async def test_decline_without_a_ticket_uses_the_ledger_only(self):
+        p=self.provider({"reply":"已撤回全部操作。"})
+        await core.handle_chat("取消刚才的操作。","stop",self.sid)
+        items=self.delivered("stop")
+        self.assertTrue(any(x["channel"]=="task" and "没有可取消" in x["text"] for x in items))
+        p.complete.assert_not_awaited()
+        p.complete_with_tools.assert_not_awaited()
+
+    async def test_clarifying_a_correction_does_not_take_the_social_reply(self):
+        self.provider({"reply":"演出成功啦！"})
+        self.store.add_fact("晨星预算120",status="confirmed",scope="global")
+        await core.handle_chat("我演出成功了！预算更正为175。","two-panes",self.sid)
+        items=self.delivered("two-panes")
+        self.assertEqual([e["text"] for e in items if e["channel"]=="companion"],["演出成功啦！"])
+        self.assertTrue(any(e["channel"]=="memory" and "更正" in e["text"] for e in items))
+        self.assertEqual(self.store.recall_facts(self.sid),["晨星预算120"])
+
+    def test_current_time_and_named_targets_reach_external_lane(self):
+        from agent_core.chat_channels import classify
+        for text in ("现在几点？","打开记事本","请读取“报表.txt”"):
+            self.assertTrue(classify(text,pending=False,active=False).operation,text)
+
+    async def test_late_chat_is_history_only_and_cannot_promote_a_fact(self):
+        p=self.provider({"reply":"轻松的新话题"})
+        began,release=asyncio.Event(),asyncio.Event()
+        async def ordered(messages):
+            if "旧话题" in messages[-1]["content"]:
+                began.set()
+                await release.wait()
+                return json.dumps({"reply":"先前的答复。","memory_candidate":"用户喜欢红色卡片"},ensure_ascii=False)
+            return '{"reply":"新话题的答复。"}'
+        p.complete.side_effect=ordered
+        old=asyncio.create_task(core.handle_chat("旧话题","old-chat",self.sid))
+        await asyncio.wait_for(began.wait(),2)
+        await core.handle_chat("换个话题","new-chat",self.sid)
+        release.set()
+        await old
+        self.assertEqual(self.delivered("old-chat")[0]["foreground"],False)
+        self.assertEqual(self.delivered("new-chat")[0]["foreground"],True)
+        self.assertIn("先前的答复。",[m["content"] for m in self.store.load_messages(10,self.sid)])
+        self.assertEqual(self.store.recall_facts(self.sid),[])
+
 del _Fixture

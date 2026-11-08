@@ -159,12 +159,12 @@ func on_chat_history(conversation_id: int, messages: Array) -> void:
 	for item in messages:
 		if not (item is Dictionary):
 			continue
-		var role := "你" if str(item.get("role", "")) == "user" else "洛天依"
+		var role: String = {"user":"你", "task_receipt":"操作回执", "memory_receipt":"记忆回执"}.get(str(item.get("role", "")), "洛天依")
 		_append_bubble(role, str(item.get("text", "")), _short_time(str(item.get("createdAt", ""))))
 	_scroll_to_bottom()
 
 
-func add_message(role: String, text: String, conversation_id: int = -1) -> void:
+func add_message(role: String, text: String, conversation_id: int = -1, foreground: bool = true) -> void:
 	var safe_text := text.strip_edges()
 	if safe_text.is_empty():
 		return
@@ -175,8 +175,9 @@ func add_message(role: String, text: String, conversation_id: int = -1) -> void:
 	if conversation_id > 0 and current_conversation_id <= 0:
 		current_conversation_id = conversation_id
 	var time_text := Time.get_time_string_from_system().substr(0, 5)
-	_append_bubble(role, safe_text, time_text)
-	_scroll_to_bottom()
+	_append_bubble(role, safe_text, time_text, foreground)
+	if foreground:
+		_scroll_to_bottom()
 
 
 func show_error(message: String) -> void:
@@ -1005,7 +1006,7 @@ func _build_interaction() -> void:
 
 # ---------------------------------------------------------------- 气泡
 
-func _append_bubble(role: String, text: String, time_text: String) -> void:
+func _append_bubble(role: String, text: String, time_text: String, foreground: bool = true) -> void:
 	_remove_empty_hint()
 	var is_user := role == "你"
 
@@ -1030,6 +1031,8 @@ func _append_bubble(role: String, text: String, time_text: String) -> void:
 
 	var bubble_box := VBoxContainer.new()
 	bubble_box.add_theme_constant_override("separation", 2)
+	if role in ["操作回执", "记忆回执"]:
+		bubble_box.add_child(_make_label(role, 11, COLOR_BUBBLE_YI_TEXT))
 	var label := Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1063,7 +1066,8 @@ func _append_bubble(role: String, text: String, time_text: String) -> void:
 		row.add_child(_make_yi_dot())
 		row.add_child(bubble)
 	bubbles_box.add_child(row)
-	_stick_scroll_if_needed()
+	if foreground:
+		_stick_scroll_if_needed()
 
 
 func _make_yi_dot() -> Control:

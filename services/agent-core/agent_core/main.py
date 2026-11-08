@@ -1527,7 +1527,7 @@ def _persist_candidate(text, reply, session_id, request_id):
         if (memory_correction.is_reference(text) or memory.candidate_conflicts(candidate, session_id)
                 or memory_correction.parse_request(text) is not None):
             memory.add_event("memory.candidate.skipped", {"request_id":request_id,"reason":"reference_or_existing_fact"})
-            return "本轮没有修改已有记忆。", False
+            return ("本轮没有修改已有记忆。" if re.search(r"记住|记下|请保存|更正|改为", text) else ""), False
         status = _fact_promotion_status(candidate, text)
         scope = "session" if memory_correction.session_only(text) or status != "confirmed" else "global"
         fact_id = memory.add_fact(candidate, session_id=session_id, scope=scope, status=status, source_request_id=request_id)
@@ -1580,11 +1580,18 @@ async def _companion_turn(text, session_id, request_id, first, effort):
         if _foreground():
             await hub.send_roles({"avatar","ui"},event("core.error",message=str(exc) if isinstance(exc,ProviderError) else reply.reply,
                                                        request_id=request_id,**_turn_tags()))
-    if request_id in _superseded_requests or not _foreground():
-        memory.add_event("chat.superseded",{"request_id":request_id,"stage":"companion"})
-        if request_id in _superseded_requests:
-            memory.delete_message(request_id)
-            await _withdraw_session_if_empty(session_id)
+    if request_id in _superseded_requests:
+        memory.add_event("chat.superseded", {"request_id":request_id, "stage":"companion"})
+        memory.delete_message(request_id)
+        await _withdraw_session_if_empty(session_id)
+        return
+    if not _foreground():
+        exists = memory.connection.execute("SELECT 1 FROM sessions WHERE id=?", (session_id,)).fetchone()
+        if exists and not chat_channels.current.get().revoked:
+            # Persist the original turn for history, without speech, promotion or a title change.
+            body = chat_channels.memory_claim_free(normalize_voice_text(reply.reply), attempted=bool(reply.memory_candidate))
+            memory.add_event("chat.delivery", {"session_id":session_id,"request_id":request_id,"source":"background_companion"})
+            await _present(replace(reply,reply=body),session_id,request_id,"companion",speak=False)
         return
     receipt, verified = _persist_candidate(text,reply,session_id,request_id)
     body = normalize_voice_text(reply.reply)
@@ -1634,7 +1641,22 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         active=bool(pending_now or live_tasks or _task_state.get(session_probe)),control_text=control,
         status=status_question(text,book.records.values(),session_probe) is not None)
     if correction_plan is not None:
-        route = chat_channels.Route(operation=text,control="decline" if memory_cancel else "other")
+        route = chat_channels.Route(operation=text, control="decline" if memory_cancel else "other")
+        # Split only a self-contained correction sentence and inert social text.
+        # Scope, quoted payloads, operation controls and multi-edit ambiguity stay
+        # with the original correction parser and its pinned version.
+        if not memory_cancel and not memory_correction.is_reference(text):
+            clauses = [part.strip() for part in re.split(r"(?<=[。！？；;])", text) if part.strip()]
+            edits = [part for part in clauses if memory_correction.parse_request(part) is not None]
+            if len(edits) == 1 and len(clauses) > 1:
+                rest = "".join(part for part in clauses if part != edits[0])
+                social = chat_channels.classify(rest, pending=bool(pending_now), active=True)
+                if (social.chat and not social.operation and not re.search(
+                        r"记忆|记住|全局|长期|仅|只在|会话|这次|本次|取消|撤销|不要|别改|假如|如果|引用|原文|[“「\x60\"]", rest)):
+                    exact = memory.prepare_correction(edits[0], session_probe)
+                    if exact is not None:
+                        correction_plan = exact
+                        route = chat_channels.Route(chat=rest, operation=edits[0])
     owner = chat_channels.Turn(session_probe,request_id,mixed=bool(route.chat and route.operation))
     _visible_turn = owner
     turn_token = chat_channels.current.set(owner)
@@ -1670,19 +1692,19 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     try:
         if route.operation:
             _agent_turns.setdefault(session_probe,[]).append(owner)
+        first = not memory.load_messages(1,session_probe)
+        memory.add_message("user",text,request_id,session_probe)
         if route.chat:
-            first = not memory.load_messages(1,session_probe)
-            memory.add_message("user",text,request_id,session_probe)
             await broadcast_state("thinking",request_id)
             companion = _companion_turn(route.chat,session_probe,request_id,first,effort)
             if not route.operation:
                 await companion
                 return
             await asyncio.gather(companion, _handle_chat_locked(route.operation,request_id,session_probe,effort,
-                confirmation,preempted,correction_plan,dispatched,control,arrival_control=incoming_decision,user_stored=True))
+                confirmation,preempted,correction_plan,dispatched,control,arrival_control=incoming_decision, first_exchange=False))
         else:
             await _handle_chat_locked(text,request_id,session_probe,effort,confirmation,preempted,
-                                      correction_plan,dispatched,control,arrival_control=incoming_decision)
+                                      correction_plan,dispatched,control,arrival_control=incoming_decision, first_exchange=first)
     finally:
         if owner in _agent_turns.get(session_probe, ()):
             _agent_turns[session_probe].remove(owner)
@@ -1695,7 +1717,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         _superseded_requests.discard(request_id)
 
 
-async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None, dispatched: list | None = None, control_text: str | None = None, *, arrival_control: str | None = None, user_stored: bool = False) -> None:
+async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None, dispatched: list | None = None, control_text: str | None = None, *, arrival_control: str | None = None, first_exchange: bool | None = None) -> None:
     chat_channels.lane.set("task")
     owner = chat_channels.current.get()
     async with chat_lock:
@@ -1704,13 +1726,14 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         if request_id in _superseded_requests:
             memory.add_event("chat.superseded", {"request_id": request_id, "stage": "queued"})
             _superseded_requests.discard(request_id)
+            memory.delete_message(request_id)
             await _withdraw_session_if_empty(conversation_id)
             return
         await broadcast_state("thinking", request_id)
         _spawn(_maybe_speak_think_filler(request_id, effort))
         probe = conversation_id if conversation_id is not None else memory.latest_session_id()
-        is_first_exchange = probe is None or not memory.load_messages(1, probe)
-        session_id = conversation_id if user_stored else memory.add_message("user", text, request_id, conversation_id)
+        is_first_exchange = first_exchange if first_exchange is not None else probe is None or not memory.load_messages(1,probe)
+        session_id = conversation_id if first_exchange is not None else memory.add_message("user", text, request_id, conversation_id)
         _ACTIVE_CHAT_SESSION_ID[0] = session_id
         if correction_plan is not None:
             result = memory.correct_fact(correction_plan, request_id)
@@ -1753,16 +1776,23 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                              "tool":pending[0]["tool"],"result":result,**selected})
             _sync_pending(session_id)
             confirm_note = "【本轮确认的真实回执】\n" + json.dumps(result,ensure_ascii=False)
-        elif (pending or preempted is not None) and intent in {"decline","edit"}:
+        elif intent == "decline":
+            cancelled = (preempted or []) + book.cancel(session_id)
+            task = task or {"id":request_id,"intent":text,"blocked":True}
+            task["blocked"] = True
+            dispatched_ids = [a["action_id"] for a in book.task_items(session_id,task["id"]) if a.get("execution_id")]
+            delivery_actions.extend(item["action_id"] for item in cancelled)
+            direct_reply = _memory_turn_cancel_receipt(session_id, cancelled, dispatched_ids)
+            _sync_pending(session_id)
+        elif (pending or preempted is not None) and intent == "edit":
             cancelled = (preempted or []) + book.cancel(session_id)
             delivery_actions.extend(item["action_id"] for item in cancelled)
             _sync_pending(session_id)
             if task is None:
                 task = {"id":request_id,"intent":text,"blocked":True}
                 _task_state[session_id] = task
-            task["blocked"] = intent == "decline"
-            if intent == "edit":
-                task["intent"] = text
+            task["blocked"] = False
+            task["intent"] = text
             memory.add_event("permission.declined", {"session_id":session_id,"request_id":request_id,
                              "actions":[book.ticket(a) for a in cancelled]})
             confirm_note = "旧参数已取消，绝不能执行。仅当用户在本轮明确提供新要求，才能提出新版本待办。"
