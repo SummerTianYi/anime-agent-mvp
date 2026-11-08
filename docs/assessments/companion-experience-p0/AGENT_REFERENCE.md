@@ -11,6 +11,8 @@
 | live_confirmation | 9bd95a3a3378ed2c3420b1c9c77bf2142fc3e686f8602a89eef2b138a39217be | 7 |
 | agent_workflow | bcf15e2fffa86f35531f22e5b295969f6c0f9a26361aacede2e3949d005d8bdf | 69 |
 
+可在本机用独立 Python 3.13 运行 `python -I -S inspect_reference.py <完整安装目录> live_task_router _route_live_task`，或指定 `agent_workflow AgentWorkflow._call_tool`。检查程序先核对文件指纹，输出实参、指令偏移和分支目标，屏蔽非结构性字符串。它不导入目标模块。[只读复核程序](inspect_reference.py)
+
 ## 原话、限制与分流
 
 | 已确认机制与位置 | 天依现状 | 借鉴点、成本与风险 | 证据缺口 |
