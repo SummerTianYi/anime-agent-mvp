@@ -43,6 +43,11 @@ class ChannelTests(unittest.IsolatedAsyncioTestCase):
         await core.handle_chat("我不想听建议，也先别问我问题。","no-advice",self.sid)
         self.assertEqual(book.ticket(book.pending(self.sid)[0]),before)
         self.assertEqual(self.delivered("no-advice")[0]["text"],"嗯，我听着。")
+        for i,text in enumerate(("我看到了文件封面。下午的排练取消了。",
+                                 "写邮件时我取消了闹钟，今天起晚了。")):
+            await core.handle_chat(text,"social-cancel-"+str(i),self.sid)
+            self.assertEqual([book.ticket(a) for a in book.pending(self.sid)],[before])
+
 
     async def test_failed_memory_save_keeps_chat_and_separate_receipt(self):
         self.provider({"reply":"这枚书签配蓝纸很好看。已经帮你记住了。","memory_candidate":"用户喜欢蓝色书签"})
@@ -80,6 +85,12 @@ class ChannelTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(any(x["channel"]=="task" and "待确认" in x["text"] for x in items))
         self.assertEqual(len(core._actions().pending(self.sid)),1)
         self.assertFalse((self.root/"note.txt").exists())
+        await core.handle_chat("今天我还是挺开心的！顺便取消刚才的操作。","mixed-cancel",self.sid)
+        follow=self.delivered("mixed-cancel")
+        self.assertEqual({e["channel"] for e in follow},{"companion","task"})
+        self.assertTrue(any("已取消" in e["text"] for e in follow if e["channel"]=="task"))
+        self.assertFalse(core._actions().pending(self.sid))
+
 
     def test_mixed_order_and_quoted_operations(self):
         from agent_core.chat_channels import classify

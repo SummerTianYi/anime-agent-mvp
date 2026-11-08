@@ -13,11 +13,12 @@ _QUOTED = re.compile(
 )
 _VERB = r"(?:读取?|看一下|查(?:找|看|询|收|阅)?|搜索|列出|打开|截(?:取|图)|新建|创建|写入?|写成|保存|追加|编辑|修改|更新|删除|发送|发(?:一封|封)?|运行|执行|调用|使用|获取|检索|翻页)"
 _OBJECT = r"(?:文件|目录|文件夹|桌面|屏幕|窗口|剪贴板|本地时间|邮件|邮箱|收件箱|命令|脚本|工具|服务|网页|浏览器|应用|程序|软件|计算器|记事本|仓库|工单|议题|记忆库|历史记忆|GitHub|Issue\b|MCP\b|https?://|[\w./\\:-]+\.(?:txt|md|csv|json|py)\b)"
-_FRAME = r"(?:(?:天依[，, ]*)?(?:请|麻烦|能否|能不能|可否|可以|现在|继续|先|再|顺便|帮忙|替我|帮我|给我|为我|你来|用工具|用|把|将|去|我想让你|我需要你|我想请你|我让你|我请你|让你|请你|你|一下|实际|直接|分别|立刻|马上|同时|在|到|向|对|给|、|\s)*)"
-_OPERATION = re.compile(rf"^{_FRAME}(?:{_VERB}.{{0,120}}{_OBJECT}|{_OBJECT}.{{0,80}}{_VERB})",re.I)
-_COMMAND_WITH_TARGET = re.compile(rf"^{_FRAME}(?:把|将|在|往|向|给).{{1,90}}{_VERB}.{{0,70}}{_OBJECT}", re.I)
+_FRAME = r"(?:(?:天依[，, ]*)?(?:请|麻烦|能否|能不能|可否|可以|现在|继续|先|再|顺便|帮忙|替我|帮我|给我|为我|你来|用工具|用|去|我想让你|我需要你|我想请你|我让你|我请你|让你|请你|你|一下|实际|直接|分别|立刻|马上|同时|、|\s)*)"
+_PREFIX_WORDS = re.compile("^" + _FRAME)
+_OPERATION = re.compile(rf"^(?:{_VERB}.{{0,120}}{_OBJECT}|{_OBJECT}.{{0,80}}{_VERB})",re.I)
+_COMMAND_WITH_TARGET = re.compile(rf"^(?:把|将|在|到|往|向|对|给).{{1,90}}{_VERB}.{{0,70}}{_OBJECT}", re.I)
 _ENGLISH = re.compile(r"^(?:please |can you |could you |would you )?(?:read|open|write|edit|create|send|run|list|search|show|check)\b.{0,100}\b(?:file|directory|inbox|email|mail|command|script|screen|clipboard|repository|issues?|web|time|[\w.-]+\.txt)\b", re.I)
-_INFO = re.compile(r"^(?:假如|假设|如果|资料|引用|原文|示例|举例|翻译|解释|什么叫|为什么|怎么(?:样)?(?:才能|能)?|如何|听说|他说|她说|我刚|我昨天|我今天|昨天我)|(?:是(?:什么)?意思|有何区别|有什么区别|有什么风险|的区别|的原理|应不应该|怎么做的)[？?。！!]*$")
+_INFO = re.compile(r"^(?:假如|假设|如果|资料|引用|原文|示例|举例|翻译|解释|什么叫|为什么|怎么(?:样)?(?:才能|能)?|如何|听说|他说|她说|我刚|我昨天|我今天|昨天我)|^[^。！？，,]{1,32}(?:时|的时候|之后|以后)(?:我|他|她|才|发现)|(?:是(?:什么)?意思|有何区别|有什么区别|有什么风险|的区别|的原理|应不应该|怎么做的)[？?。！!]*$")
 _NO_ACTION = re.compile(r"(?:别|不要|不用|无需|不必)(?:替我|帮我|实际|真的|直接)?(?:操作|执行|动手|打开|读取|发送|写入|调用)|(?:只|仅)(?:是)?(?:解释|讨论|举例|聊聊|问问)")
 _SEP = re.compile(r"[。！？!?；;\n]+|[，,](?=(?:顺便|另外|同时|再帮我|也请|然后请|但|不过|帮我|请你))")
 _PREFIX = re.compile(r"^(?:顺便|另外|同时|也请|然后|还有)[，, ]*")
@@ -34,22 +35,7 @@ class Route:
     control: str = "other"
 
 
-def classify(text: str, *, pending: bool, active: bool, status: bool = False, control_text: str | None = None) -> Route:
-    """Require an instruction about an external target. Quotes and data are inert."""
-    clean = _QUOTED.sub(" ", text).strip()
-    choice = decision(control_text if control_text is not None else text)
-    control = clean if control_text is None else control_text
-    simple = re.sub(r"\s+", "", clean)
-    if status or (choice == "approve" and (pending or simple.rstrip("。！!") in {"确认","确认执行","同意执行","执行吧"})):
-        return Route(operation=text, control=choice if not status else "other")
-    if (active or _CONTROL_TARGET.search(control)) and choice in {"decline","edit"} and (
-            _SHORT_STOP.fullmatch(simple) or (_CONTROL_TARGET.search(control) and re.search(r"取消|撤销|改为|改成|换成|拒绝|不\s*确认|不同意|(?:别|不要|先不|不再|不)(?:再)?(?:执行|发送|写入)|\b(?:cancel|stop|don\x27t send|do not send)\b",control,re.I)) or
-            (pending and re.match(r"^(?:请)?(?:改为|改成|换成)", clean))):
-        return Route(operation=text, control=choice)
-    if _CONTINUE.fullmatch(clean) and active:
-        return Route(operation=text)
-    if re.match(r"^(?:引用资料|资料原文|原文|引用)[：:]",clean):
-        return Route(chat=text)
+def _clauses(text: str) -> list[tuple[str, str]]:
     # Find clause boundaries on masked text, preserving original quotation offsets.
     masked = _QUOTED.sub(lambda m: " " * len(m.group()), text)
     marker = _BODY.search(masked)
@@ -62,13 +48,61 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
         start = m.end()
     if text[start:].strip():
         segments.append((text[start:].strip(), masked[start:].strip()))
+    return segments
+
+
+def classify(text: str, *, pending: bool, active: bool, status: bool = False, control_text: str | None = None) -> Route:
+    """Require an instruction about an external target. Quotes and data are inert."""
+    clean = _QUOTED.sub(" ", text).strip()
+    choice = decision(control_text if control_text is not None else text)
+    control = clean if control_text is None else control_text
+    simple = re.sub(r"\s+", "", clean)
+    if status or (choice == "approve" and (pending or simple.rstrip("。！!") in {"确认","确认执行","同意执行","执行吧"})):
+        return Route(operation=text, control=choice if not status else "other")
+    if choice in {"decline", "edit"}:
+        # Anchor the imperative and its own object in one clause. "The file
+        # cover changed. Rehearsal was cancelled" cannot revoke a ticket.
+        commands = []
+        for part in re.split(r"[，,。！？!?；;\n]+|\.(?=\s|$)", control):
+            words = part.strip()
+            words = re.sub(r"^(?:天依|麻烦你?|请你?|先|还是|那就|那就先|就|顺便|现在)\s*", "", words)
+            words = re.split(r"(?:再|然后|并)(?=(?:告诉我|查询|查看).{0,64}(?:状态|进度|结果))", words, maxsplit=1)[0]
+            verb = r"(?:取消|撤销|拒绝|不同意|不确认|不要执行|别执行|别发送|别发|不要发送|先不执行|先别执行|先别发|不要写入)"
+            obj = r"(?:(?:刚才|原来|之前|当前|这次|本次|上述|[这那](?:个|项|封|份)|旧)(?:的)?)?(?:操作|任务|待办|确认|授权|邮件|发送|文件|旧的|旧版|这件事)"
+            slot = r"(?:原来|旧的|收件人|邮件|文件|路径|标题|内容|正文|参数)"
+            direct = (re.fullmatch(rf"{verb}(?:{obj})?(?:了|吧)?",words) or
+                      re.fullmatch(rf"(?:把|将)?{obj}(?:先)?{verb}(?:了|吧)?",words) or
+                      re.fullmatch(r"(?:please )?(?:do not send|don't send|cancel|stop)(?: it| (?:the |this |that |previous )?(?:task|operation|email|send|write))?",words,re.I))
+            edit = pending and (re.match(r"^(?:改为|改成|改发|换成|重新发送|改一下)", words)
+                                or re.match(rf"^(?:把|将)?{slot}.{{0,45}}(?:改为|改成|改发|换成|改一下)",words))
+            if (direct and (active or _CONTROL_TARGET.search(words))) or edit:
+                commands.append(part)
+        if commands or (active and _SHORT_STOP.fullmatch(simple)):
+            social, controls = [], []
+            for original, plain in _clauses(text):
+                if not plain or decision(plain) != "other":
+                    controls.append(original)
+                elif classify(original, pending=False, active=False).operation:
+                    # A separate external request needs its own clear admission.
+                    return Route(operation=text, control=choice)
+                else:
+                    social.append(original)
+            if social and controls:
+                return Route("".join(social), "".join(controls), choice)
+            return Route(operation=text, control=choice)
+    if _CONTINUE.fullmatch(clean) and active:
+        return Route(operation=text)
+    if re.match(r"^(?:引用资料|资料原文|原文|引用)[：:]",clean):
+        return Route(chat=text)
+    segments = _clauses(text)
     chats, operations = [], []
     for original, plain in segments:
         clause = _PREFIX.sub("", plain).strip()
         if re.match(r"^(?:请|帮我)?(?:读|打开|编辑|删除|新建|查找)", clause) and re.search(
                 r"[“「\"\x60][^”」\"\x60\n]{1,150}\.\w{1,8}[”」\"\x60]", original):
             clause += " 文件"
-        explicit = (_OPERATION.search(clause) or _COMMAND_WITH_TARGET.search(clause) or _ENGLISH.search(clause)
+        instruction = clause[_PREFIX_WORDS.match(clause).end():]
+        explicit = (_OPERATION.search(instruction) or _COMMAND_WITH_TARGET.search(instruction) or _ENGLISH.search(clause)
                     or re.match(r"^(?:请|帮我)?(?:截图|截个图|读屏|报时|现在几点(?:了|钟)?|今天(?:几号|星期几))[吧。！!？? ]*$", clause))
         if explicit and not (_INFO.search(clause) or _NO_ACTION.search(clause)):
             operations.append(original)
