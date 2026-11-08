@@ -1011,7 +1011,12 @@ def _idle_watch_loop(loop: asyncio.AbstractEventLoop) -> None:
 def _start_idle_watch() -> None:
     if not TTS_ENABLED:
         return
-    if idle_policy.threshold_seconds <= 0:
+    # Legacy nonpositive settings opt out. Enabled V1 episodes always use 600 seconds.
+    try:
+        configured_threshold = float(os.getenv("ANIME_AGENT_IDLE_THRESHOLD", "600"))
+    except ValueError:
+        configured_threshold = idle_policy.threshold_seconds
+    if configured_threshold <= 0 or idle_policy.threshold_seconds <= 0:
         memory.add_event("proactive.idle.disabled", {})
         return
     loop = asyncio.get_event_loop()

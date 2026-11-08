@@ -53,6 +53,25 @@ from agent_core.proactive import IdlePolicy  # noqa: E402
 
 
 class IdlePolicyTests(unittest.TestCase):
+    def test_startup_preserves_idle_opt_out_and_fixed_v1_interval(self):
+        import os
+        from unittest.mock import patch
+        from agent_core import main as core
+
+        for setting, enabled in (("0", False), ("0.0", False), ("-1", False),
+                                 ("600", True), ("1200", True), ("invalid", True)):
+            with self.subTest(setting=setting), patch.dict(os.environ, ANIME_AGENT_IDLE_THRESHOLD=setting), \
+                    patch.object(core, "TTS_ENABLED", True), patch.object(core.threading, "Thread") as worker, \
+                    patch.object(core.asyncio, "get_event_loop"), patch.object(core.memory, "add_event") as record:
+                core._start_idle_watch()
+                if enabled:
+                    worker.return_value.start.assert_called_once()
+                    self.assertEqual(record.call_args.args[0], "proactive.idle.enabled")
+                    self.assertEqual(record.call_args.args[1]["threshold"], 600.0)
+                else:
+                    worker.assert_not_called()
+                    record.assert_called_once_with("proactive.idle.disabled", {})
+
     def test_not_idle_is_ignored_before_anything_else(self):
         policy = IdlePolicy(threshold_seconds=600.0)
         allowed, reason = policy.decide(idle_seconds=10.0, monotonic=0.0)

@@ -41,7 +41,7 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 
 `ok=false` 表示工具执行失败，失败结果同样已回填给模型。Godot 将该事件显示在聊天状态行（“已使用工具：…”）。`ANIME_AGENT_TOOLS=0` 可整体停用；端点拒绝 tools 参数（HTTP 400/404/422）时 Core 自动降级为无工具直答并记录 `agent.tools.unsupported` 事件。
 
-工具集：只读六件套 `get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`（路径类受 `ANIME_AGENT_TOOLS_ROOTS`（os.pathsep 分隔，`*` 解除限制）白名单约束），加写入/命令/隐私三件 `write_file`、`run_command`、`look_at_screen`（见下节权限确认），以及 MCP 合并工具 `mcp__<server>__<tool>`。循环步数上限 5，单工具超时 15 秒（命令 30 秒；look_at_screen 视觉往返 90 秒，2026-09-07 起 per-tool 超时）。
+工具集包括只读六件套 `get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`，以及 `write_file`、`run_command`、`look_at_screen` 和 MCP 工具 `mcp__<server>__<tool>`。路径工具按 `ANIME_AGENT_TOOLS_ROOTS` 白名单校验。每项任务共享所选 `effort` 档位的轮数和调用预算，具体数值见本页开头。路径根目录以系统路径分隔符分隔。默认单工具超时 15 秒，命令 30 秒，屏幕视觉往返 90 秒。
 
 ## 权限与确认（allow/ask/deny）
 
@@ -55,7 +55,7 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 
 ## 主动问候（D 期·部分）
 
-Avatar 连接（`client.hello` role=avatar）后 Core 可发起一次启动问候，复用 `chat.response` / `avatar.speak` 既有链路播报；受 `ANIME_AGENT_QUIET_START` / `ANIME_AGENT_QUIET_END` 免打扰时段与 `ANIME_AGENT_PROACTIVE_COOLDOWN` 冷却约束，问候决策记录在 events 表。Idle 触发已上线（2026-09-07）：`ANIME_AGENT_IDLE_THRESHOLD` 系统空闲秒数（默认 1200，0 关闭）触发本地台词库播报，`ANIME_AGENT_IDLE_COOLDOWN` 冷却；全程零 GLM 调用，决策落 `proactive.idle` / `proactive.skipped` 事件。
+Avatar 连接后，Core 可通过 `chat.response` 和 `avatar.speak` 发送启动问候，受 `ANIME_AGENT_QUIET_START`、`ANIME_AGENT_QUIET_END`、`ANIME_AGENT_PROACTIVE_COOLDOWN` 约束。设置 `ANIME_AGENT_IDLE_THRESHOLD=0` 可关闭后台空闲监测。启用监测时，连续空闲 600 秒才有资格播放一次本地提醒，键鼠活动开启新的计时周期。播放前复查免打扰和会话状态，决策写入事件表。
 
 ## 角色点击与菜单
 
@@ -104,7 +104,7 @@ Codex 2026-09-11 启动兼容修正：新数据库没有历史会话时返回 `c
 
 `chat.message` 可携带可选 `conversationId` 指定落库会话，缺省落最近活跃会话；`chat.response` 原样携带 `conversationId`。客户端切换会话时自行清空气泡并按需拉取历史。
 
-思考强度档（zcode，2026-09-10，行为层定稿）：`chat.message` 可携带可选 `effort`（`chill`/`standard`/`deep`，缺省 `deep` 与历史行为一致，旧客户端不带此字段不受影响）。**三档都是完整 agent**：全注册表 + 全部 MCP 工具在每一档常驻在岗，allow/ask/deny 权限裁决不受档位影响，审计照落 `permission.decision`；档位只调投入度——工具循环步数上限 chill=1（单点快查）/standard=3/deep=5（历史默认），并按档注入一段行为提示（碎碎念=短答直回一次查、帮帮忙=小任务利落交代、大展身手=先规划后汇报）。每次选择落 `chat.effort` 审计事件（request_id + 归一化档位）。
+`chat.message` 可携带 `effort`（`chill`、`standard`、`deep`），缺省或未知值按 `deep` 处理。三档使用同一工具注册表和 MCP，权限决策仍写入 `permission.decision`。初次建立任务预算后，续办和确认共享剩余轮数及调用次数。每次选择写入 `chat.effort`。
 
 删除会话：Avatar 单击删除并确认后发送 `session.delete`；Core 级联删除该会话的消息与记录并广播 `session.deleted`，随后广播最近活跃会话的 `session.switched`（最后一条会话删除后自动补建新会话）：\n\n```json
 {"type":"session.delete","conversationId":2}

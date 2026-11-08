@@ -8,11 +8,13 @@ Codex 2026-10-03 语音线交付：当期Core回归基线273。分片回执/去�
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 最后核验：2026-10-02 23:49（Codex：DS/Qwen 联通、语音恢复修复通过隔离验收并经原 CMD 正式激活；物理人声交互待所有者确认）。门禁以 [TESTING.md](TESTING.md) 与 [TTS记录](TTS_REPAIR_STATUS.md)顶部为准。
+> 最近一次主仓组合核验为 2026-11-08，见[四项同步记录](assessments/desktop-four/REPORT.md)与 [TESTING.md](TESTING.md)。桌面正式激活及物理人声反馈按各自日期记载。
 
-本轮当前状态：Core 252、sidecar 26、启动逻辑 18 及 TTS 生命周期 13 均通过；真实 CUDA 声线/播放两轮、14 项 Windows 服务故障及最新组合压力回归通过。正式 Godot19924、Core33736、TTS17888 已在线，真实 CUDA 声线 ready、唤醒监听 running 且未暂停。经所有者批准，只恢复当前可证实的210条消息和14条记忆，原损坏库/冷快照及旧记录恢复档案均保留，未混入896条备份独有消息。不改模型/动作/声线配置，未提交推送。物理麦克风对话待所有者确认；下段及较早日期均为历史记录。
+2026-10-02 23:49 的现场记录：DS/Qwen 联通，语音恢复修复经原 CMD 激活。物理人声反馈见上方 10 月 3 日记录。
 
-Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证，已获准同步两仓；Core看护拉活TTS看护、45秒心跳、真实预热、故障恢复及代际退出清理生效。274项离线回归连续两轮、复合故障和旧看护延迟恢复跨重开测试通过，完整声线两轮冷恢复60.187/58.765秒且Godot实际音频输出通过。发布时只读复核当前Godot/Core/TTS健康，不重复重启；保留zcode最新语音联动，并补齐其已引用的原表情依赖。没有正式数据库操作、24h观察或子代理；不是“任何故障零中断”。实现、配套语音仓、失败证据及回退见[TTS记录](TTS_REPAIR_STATUS.md)，原[zcode交接](TTS_HANDOFF.md)保留归属。历史数据恢复记录只保留本地，不属此次发布范围。
+10 月 2 日现场状态：Core 252、sidecar 26、启动逻辑 18 及 TTS 生命周期 13 均通过；真实 CUDA 声线/播放两轮、14 项 Windows 服务故障及最新组合压力回归通过。正式 Godot19924、Core33736、TTS17888 已在线，真实 CUDA 声线 ready、唤醒监听 running 且未暂停。经所有者批准，只恢复当前可证实的210条消息和14条记忆，原损坏库/冷快照及旧记录恢复档案均保留，未混入896条备份独有消息。不改模型/动作/声线配置，未提交推送。物理麦克风对话待所有者确认；下段及较早日期均为历史记录。
+
+较早的 TTS 会话恢复记录：TTS会话恢复已通过原CMD正式激活及所有者验证，已获准同步两仓；Core看护拉活TTS看护、45秒心跳、真实预热、故障恢复及代际退出清理生效。274项离线回归连续两轮、复合故障和旧看护延迟恢复跨重开测试通过，完整声线两轮冷恢复60.187/58.765秒且Godot实际音频输出通过。发布时只读复核当前Godot/Core/TTS健康，不重复重启；保留zcode最新语音联动，并补齐其已引用的原表情依赖。没有正式数据库操作、24h观察或子代理；不是“任何故障零中断”。实现、配套语音仓、失败证据及回退见[TTS记录](TTS_REPAIR_STATUS.md)，原[zcode交接](TTS_HANDOFF.md)保留归属。历史数据恢复记录只保留本地，不属此次发布范围。
 
 ## 0. 最终目标（北极星）
 
@@ -142,7 +144,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 389 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 390 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -178,6 +180,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 
 | 日期与范围 | 结果 | 证据与局限 |
 |---|---|---|
+| 2026-11-08，桌面四项集成 | 两个独立实例各 8/8 | 分别从干净检出 `56ec9b3` 还原产品、分工、冻结区和候选范围。交叉核对发现档位说明过期、旧闲置配置的关闭开关失效。修正后的配置反例、完整回归和隔离播放见[四项同步记录](assessments/desktop-four/REPORT.md)。 |
 | 2026-08-29；独立只读 Agent 仅凭仓库根目录与文档 | PASS（对当时状态） | 正确重建产品形态、架构、启动方式与首任务（STT）；提醒快照非未来机器证明、Python 依赖未锁定 |
 | 2026-08-30；聊天形态升级落库后 | 附注 | 运行时头像图按设计 gitignore，需从 docs/design/assets 拷贝，否则 UI 回退 ♪ |
 | 2026-09-06 前后文档腐化事故 | 教训 | agent 化三期落库后 README/AGENTS/HANDOFF/KNOWN_ISSUES/ARCHITECTURE/TESTING 状态全部过期，新 agent 按旧文档会重造权限层——本次整理修复并把白纸测试立为门禁 |
@@ -237,7 +240,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 389 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 390 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 
