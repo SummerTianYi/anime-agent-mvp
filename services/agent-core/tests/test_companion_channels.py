@@ -165,4 +165,10 @@ class ChannelTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("已把文件写好",items[0]["text"])
         self.assertFalse((self.root/"absent.txt").exists())
 
+    def test_untouched_chat_keeps_its_original_paragraph_breaks(self):
+        from agent_core.chat_channels import memory_claim_free
+        body="好呀。\n\n今天就聊聊天。"
+        self.assertEqual(memory_claim_free(body,attempted=False),body)
+        self.assertEqual(memory_claim_free("我替你记住了。\n"+body,attempted=True),body)
+
 del _Fixture

@@ -1596,7 +1596,7 @@ async def _companion_turn(text, session_id, request_id, first, effort):
     receipt, verified = _persist_candidate(text,reply,session_id,request_id)
     body = normalize_voice_text(reply.reply)
     if not verified:
-        body = chat_channels.memory_claim_free(body, attempted=bool(receipt))
+        body = chat_channels.memory_claim_free(body, attempted=bool(reply.memory_candidate or receipt))
     if not body and not receipt:
         receipt = "本轮没有已核验的记忆写入。"
     memory.add_event("chat.delivery",{"session_id":session_id,"request_id":request_id,"source":"companion"})
