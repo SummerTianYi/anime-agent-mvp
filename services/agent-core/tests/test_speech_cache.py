@@ -6,6 +6,7 @@ import wave
 from unittest.mock import AsyncMock, MagicMock, patch
 from types import SimpleNamespace
 from agent_core.speech_cache import pin_farewell, wav_info
+from agent_core.speech import SpeechManager
 from agent_core import main as core
 
 
@@ -40,7 +41,7 @@ class CacheTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_precache_pins_and_sends_each_line_to_avatar(self):
         hub=SimpleNamespace(role_count=lambda role:1,send_roles=AsyncMock())
-        manager=SimpleNamespace(client=SimpleNamespace(synthesize=lambda *a:{'audioPath':str(self.source)}),speed=1)
+        manager=SpeechManager(SimpleNamespace(synthesize=lambda *a:{'audioPath':str(self.source)}), AsyncMock(), AsyncMock())
         with patch.multiple(core,TTS_ENABLED=True,hub=hub,memory=MagicMock(),speech_manager=manager,
                             FAREWELL_LINES=('再见。',),FAREWELL_AUDIO_CACHE={},_farewell_precaching=False), \
                 patch.object(core,'default_data_dir',return_value=self.root):

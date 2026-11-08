@@ -38,6 +38,13 @@ def decision(text):
     if payload and (payload.group(1) in {"写成","写入","保存为","改成","改为"}
                     or re.search(r"发送|发(?:一封)?邮件|写|保存|记录|草拟|新建|追加", control[:payload.start()])):
         control = control[:payload.end()-1]
+    # Negating cancellation preserves the ticket; it never approves execution.
+    # An explicit hold may also say "不执行也不取消". Mask only that hold's
+    # execution pause; any remaining refusal (e.g. "不要发送") still revokes.
+    control = re.sub(
+        r"(保留[^。！？；;\n]*待办[^。！？；;\n]*?)(?:暂时|暂|先)?不执行(?:也|，也|、也)(?:不|不要|别)取消",
+        r"\1暂缓", control)
+    control = re.sub(r"(?<!不得)(?<!不能)(?<!不是)(?<!不可能)(?:不要|别|不)取消", "保留", control)
     normalized = re.sub(r"[\s。！!，,；;]", "", control).lower()
     if (re.search(r"不同意|不确认|不要|(?<!分)别(?:执行|写|发)|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许", normalized)
             or re.search(r"\b(?:no|cancel|stop)\b|\b(?:don't|don’t|do\s+not)\s+(?:send|write|execute|run)\b", control.lower())):
@@ -101,9 +108,11 @@ class ActionLedger:
     def ticket(self, item):
         return {k: item[k] for k in ("action_id", "revision", "args_hash")}
 
-    def cancel(self, session):
+    def cancel(self, session, *, action_ids=None):
         cancelled = []
         for item in self.pending(session):
+            if action_ids is not None and item["action_id"] not in action_ids:
+                continue
             item["status"] = "cancelled"
             self.save(item)
             cancelled.append(item)
@@ -138,6 +147,9 @@ class ActionLedger:
 
     def result(self, item):
         result = copy.deepcopy(item["receipt"] or {"ok":False})
+        # Keep the original MCP envelope durably in receipt; the model consumes
+        # its normalized output, not duplicate text/blob copies from the wire.
+        result.pop("raw_result", None)
         result.update(action_id=item["action_id"], revision=item["revision"], args_hash=item["args_hash"],
                       outcome=item["status"], execution_id=item.get("execution_id"),
                       confirmation_request_id=item.get("confirmation_request_id"))

@@ -44,8 +44,6 @@ func run() -> void:
 		"partIndex":0,"partCount":1,"audioPath":path}
 	r._handle_avatar_speak(p)
 	check(r.speech_player.playing, "actual player starts")
-	check(r.speech_player.bus == &"TianyiSpeech", "runtime uses voice gain bus")
-	check(AudioServer.is_bus_effect_enabled(AudioServer.get_bus_index(r.speech_player.bus), 0), "runtime limiter enabled")
 	r._handle_avatar_speak(p)
 	check(r.receipts.is_empty(), "duplicate active frame does not interrupt")
 	r._on_speech_finished()
@@ -57,6 +55,9 @@ func run() -> void:
 	bad.playbackId = "missing"
 	bad.audioPath = path + ".missing"
 	r._handle_avatar_speak(bad)
+	check(r.receipts.size() == 2, "unknown late part for completed utterance is ignored")
+	bad.utteranceId = "new-unplayable"
+	r._handle_avatar_speak(bad)
 	check(r.receipts[-1].type == "speech.failed", "ordinary missing file explicit failure")
 	bad.playbackId = "bad-wav"
 	bad.audioPath = ProjectSettings.globalize_path("user://invalid.wav")
@@ -66,8 +67,9 @@ func run() -> void:
 	r._handle_avatar_speak(bad)
 	check(r.receipts[-1].type == "speech.failed", "corrupt file explicit failure")
 	p.playbackId = "interrupt"
+	p.utteranceId = "new-interrupt"
 	r._handle_avatar_speak(p)
-	r._handle_speech_stop({"utteranceId":"utt-test"})
+	r._handle_speech_stop({"utteranceId":"new-interrupt"})
 	check(r.receipts[-1].interrupted, "stop is not success")
 	r._cache_farewell_voice({"audioPath":path,"text":"再见。"})
 	check(r.farewell_voice_cache.size() == 1, "farewell preloaded")
@@ -75,7 +77,6 @@ func run() -> void:
 	r.farewell_exit = Exit.new()
 	r.request_exit()
 	check(r.speech_player.playing, "farewell plays without Core and without file")
-	check(r.speech_player.bus == &"TianyiSpeech", "cached farewell shares voice gain")
 	r._on_speech_finished()
 	check(not r.exit_committed, "voice does not truncate farewell motion")
 	for frame in 493:

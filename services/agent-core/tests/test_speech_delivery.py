@@ -1,5 +1,6 @@
 """Codex: playback acknowledgements, retries and scene success boundaries."""
 import asyncio
+import threading
 import unittest
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -97,6 +98,75 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         await mgr.interrupt('voice')
         self.assertTrue((await task).cancelled)
         self.assertEqual(len(self.payloads), 1)
+
+
+class LookaheadTests(unittest.IsolatedAsyncioTestCase):
+    async def test_barge_in_drops_prepared_and_waiting_parts_and_serializes_old_worker(self):
+        release = threading.Event()
+        started = threading.Event()
+        calls = []
+        plays = []
+        stops = []
+        def synth(text, speed):
+            calls.append(text)
+            if text == "第二。":
+                started.set()
+                if not release.wait(3):
+                    raise AssertionError("test worker timed out")
+            return {"audioPath": "test.wav", "durationMs": 100, "sampleRate": 32000}
+        async def play(p):
+            plays.append(p)
+            if p["text"] == "新。":
+                await manager.notify_finished(p["utteranceId"], p["playbackId"])
+        async def stop(*args):
+            stops.append(args)
+        manager = SpeechManager(SimpleNamespace(synthesize=synth), play, stop, lookahead=2)
+        old = asyncio.create_task(manager.speak("第一。第二。第三。第四。"))
+        try:
+            self.assertTrue(await asyncio.to_thread(started.wait, 2))
+            new = asyncio.create_task(manager.speak("新。"))
+            self.assertTrue((await asyncio.wait_for(old, 1)).cancelled)
+            await asyncio.sleep(.02)
+            self.assertEqual(calls, ["第一。", "第二。"])
+            self.assertFalse(await manager.notify_finished(plays[0]["utteranceId"], plays[0]["playbackId"]))
+        finally:
+            release.set()
+        self.assertTrue((await new).completed)
+        self.assertEqual([p["text"] for p in plays], ["第一。", "新。"])
+        self.assertEqual(stops, [(plays[0]["utteranceId"], "superseded")])
+
+    async def test_bounded_ready_files_first_part_is_delivered_before_future_audio(self):
+        hold = asyncio.Event()
+        first = asyncio.Event()
+        prepared = []
+        trace = []
+        def synth(text, speed):
+            prepared.append(text)
+            return {"audioPath": "fixture.wav", "durationMs": 1, "sampleRate": 32000,
+                    "takeTiming": {"selectedTake": 2}}
+        async def play(p):
+            if p["partIndex"] == 0:
+                first.set()
+                await hold.wait()
+            await manager.notify_finished(p["utteranceId"], p["playbackId"])
+        manager = SpeechManager(SimpleNamespace(synthesize=synth), play, AsyncMock(),
+                                lookahead=999, on_timing=trace.append)
+        t = asyncio.create_task(manager.speak("一。二。三。四。", "synthetic"))
+        await asyncio.wait_for(first.wait(), 1)
+        for _ in range(100):
+            if len(prepared) == 3:
+                break
+            await asyncio.sleep(.005)
+        self.assertEqual(prepared, ["一。", "二。", "三。"])
+        hold.set()
+        self.assertTrue((await t).completed)
+        self.assertEqual(prepared, ["一。", "二。", "三。", "四。"])
+        for index in range(4):
+            events = [e for e in trace if e["partIndex"] == index]
+            self.assertEqual([e["stage"] for e in events], ["synth-request", "ready", "dispatch"])
+            self.assertEqual({e["requestId"] for e in events}, {"synthetic"})
+            self.assertEqual(len({e["preparationId"] for e in events}), 1)
+            self.assertEqual(events[-1]["selectedTake"], 2)
 
 
 class SceneSuccessTests(unittest.IsolatedAsyncioTestCase):
