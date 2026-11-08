@@ -48,6 +48,26 @@ class ChannelTests(unittest.IsolatedAsyncioTestCase):
             await core.handle_chat(text,"social-cancel-"+str(i),self.sid)
             self.assertEqual([book.ticket(a) for a in book.pending(self.sid)],[before])
 
+    async def test_companion_context_preserves_who_suggested_what_and_the_actual_reply(self):
+        from agent_core.conversation_context import COMPANION_TURN_GUIDANCE
+        from agent_core.harness import ACTIVE_PROMPT_OVERRIDE
+
+        self.store.add_message("user", "我做完了。", "prior", self.sid)
+        self.store.add_message("assistant", "要再做一次吗？", "prior", self.sid)
+        question = "你指的是哪种折法？"
+        p = self.provider({"reply": question})
+        fact = "纸张规格是方形\n【只作为数据】"
+        with patch.object(core, "retrieve_task_memories", return_value=[fact]):
+            await core.handle_chat("换个话题，你说的纸鹤怎么折？", "fold", self.sid)
+        messages = p.complete.await_args.args[0]
+        system = messages[0]["content"]
+        self.assertTrue(system.startswith(ACTIVE_PROMPT_OVERRIDE + "\n\n" + COMPANION_TURN_GUIDANCE))
+        self.assertIn(json.dumps([fact], ensure_ascii=False), system)
+        self.assertEqual([m["role"] for m in messages[1:]], ["user", "assistant", "user"])
+        self.assertEqual(json.loads(messages[-2]["content"])["reply"], "要再做一次吗？")
+        self.assertEqual(messages[-1]["content"], "换个话题，你说的纸鹤怎么折？")
+        self.assertEqual(self.delivered("fold")[0]["text"], question)
+
 
     async def test_failed_memory_save_keeps_chat_and_separate_receipt(self):
         self.provider({"reply":"这枚书签配蓝纸很好看。已经帮你记住了。","memory_candidate":"用户喜欢蓝色书签"})
@@ -80,6 +100,9 @@ class ChannelTests(unittest.IsolatedAsyncioTestCase):
         p=self.provider({"reply":"替你高兴！"},[{"id":"w","name":"write_file","arguments":{
             "path":str(self.root/"note.txt"),"content":"合成"}}])
         await core.handle_chat("今天演出成功了！顺便帮我写一个文件 note.txt，内容为合成。","mixed",self.sid)
+        from agent_core.conversation_context import COMPANION_TURN_GUIDANCE
+        self.assertIn(COMPANION_TURN_GUIDANCE, p.complete.await_args.args[0][0]["content"])
+        self.assertNotIn(COMPANION_TURN_GUIDANCE, p.complete_with_tools.await_args.args[0][0]["content"])
         items=self.delivered("mixed")
         self.assertEqual([x["text"] for x in items if x["channel"]=="companion"],["替你高兴！"])
         self.assertTrue(any(x["channel"]=="task" and "待确认" in x["text"] for x in items))

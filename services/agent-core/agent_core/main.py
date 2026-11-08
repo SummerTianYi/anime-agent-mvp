@@ -1569,8 +1569,8 @@ async def _companion_turn(text, session_id, request_id, first, effort):
     except Exception as exc:
         memory.add_event("memory.recall.error",{"request_id":request_id,"error_type":type(exc).__name__})
         recalled = []
-    memory_context = conversation_context.current_facts(recalled)
-    messages = harness.build_messages(history,text,extra_system=memory_context,request_session_title=first)
+    messages = harness.build_messages(history, text, extra_system=conversation_context.companion_context(recalled),
+                                      request_session_title=first)
     try:
         raw = await provider.complete(messages)
         reply = harness.parse_reply(raw)
