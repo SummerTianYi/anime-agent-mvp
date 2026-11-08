@@ -445,3 +445,7 @@ Codex 2026-10-14：[Provider API响应边界](assessments/root-cause-repair/a4-p
 从本地/远端一致的783472060a52aae5e745ca60077347eb0943f184新建独立分支codex/tianyi-companion-v1-2-20261107；原候选未提交DS接入内容保留，未沿用撤回的PR #2。Codex仅调整harness的角色段与人物表达段，保留音乐/虚拟身份及授权、取消、回执、记忆、注入、感知和JSON合同；无执行逻辑、固定台词、主动策略、TTS、Godot、CI、私密配置或生产数据修改。
 
 新增7项离线回归，含八类合成场景和两适配有/无工具实际HTTP序列化检查。旧提示词RED、最初Anthropic文本块夹具错误及修后GREEN分别保留。同环境基线669/669（541.157秒）、修改后676/676（546.875秒）均通过；TS构建、隔离Godot输入、官模哈希和文档门禁通过。真实模型0次，本轮陪伴效果仍待ChatGPT验收；手写示意不当作真实输出。完整静态提示词、保护指纹、复现与剩余边界见[V1.2报告](assessments/companion-v1.2/REPORT.md)。按HANDOFF §7另做两个零上下文干净clone只读交接核对；只授权提交、push及远端回读，不创建PR、不合并main、不部署或重启正式桌面，A4不关闭。
+
+## Codex · 2026-11-08 · 本机 TTS 延迟诊断
+
+完成隔离 DS 入口、原声 WAV 与 PCM 的 Godot 播放和回执核验，保留两次用户听评。原生推理受资源门限制。测量数据和可复现脚本见[诊断报告](assessments/tts-stream-latency/REPORT.md)。

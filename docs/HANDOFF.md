@@ -1,5 +1,7 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
+2026-11-08，本分支的 [TTS 延迟诊断与隔离播放实验](assessments/tts-stream-latency/REPORT.md) 已交回 ChatGPT 验收。正式实例持续在线。GPU 与主机内存资源门阻止了第二套原生推理实验，现有自检和停顿保留。较早的 [DS 陪伴诊断](assessments/companion-live-eval/REPORT.md) 及下方人设候选为独立历史工作。
+
 2026-11-07 本轮接手优先状态：从核实的 `783472060a52aae5e745ca60077347eb0943f184` 独立建立 `codex/tianyi-companion-v1-2-20261107`，仅实施[V1.2陪伴人设提示词候选](assessments/companion-v1.2/REPORT.md)。原候选未提交DS配置改动保留；正式桌面、内核、记忆、固定台词、主动策略、TTS、Godot及CI不改。真实模型效果待验收，A4仍开放。只授权提交/push并交回ChatGPT，不创建PR、不合并main、不部署或重启正式桌面。下方旧日期是历史状态。
 
 Codex 2026-10-04 Harness V1：本独立分支实现授权/回执/上下文与四项交互修复；历史V0材料只读。当前是candidate，不是正式验收。当前实现、真实模型结果、桌面激活情况和待所有者确认项统一以 [V1 REPORT](assessments/harness-v1/REPORT.md) 为准；本段优先于下方较早运行状态记录。生产未提交连接修复按V0 overlay纳入，模型/动作/声线/TTS代码不改。
@@ -37,9 +39,9 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 | 项目 | 内容 |
 |---|---|
 | 当前当值 Agent | Codex；交回 ChatGPT 验收 |
-| 本次领地 | V1.2 陪伴系统提示词及必要快照、测试、报告；见本页顶部最新记录 |
-| 授权边界 | 新分支提交/push；禁止PR、merge、部署及正式桌面重启；所有者明确仅离线验证，真实效果交给ChatGPT验收 |
-| 交接日期 | 2026-11-07 |
+| 本次领地 | 本机 TTS 延迟诊断，隔离 Godot 播放、真实 DS 到首段入口的测量和 sidecar 流式可行性证据 |
+| 授权边界 | 两仓独立分支提交与推送，由 ChatGPT 验收。原生推理同权重 A/B 待独立本地资源。禁止 PR、合并、部署和重启正式桌面。 |
+| 交接日期 | 2026-11-08 |
 
 领地内的事是你的；**领地外的一切默认只读**——可以读、可以提建议，未经所有者同意不改别人建好的东西。
 

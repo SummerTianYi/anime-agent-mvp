@@ -51,3 +51,5 @@ MVP 诊断分支从 059298ce04af021efe6297c066c2fd7e9edb4748 建立，实际被�
 [WebSocket 驱动](stream_bridge.py)接受 --wav GENERATED_WAV --godot EXE --project FIXTURE --output RESULTS，使用 Core 环境的 websockets 15.0.1。对原生未自检的隔离预览，用 --live-queue 替代 --wav，配合 sidecar 推理原型 --emit-preview，消费初次长样本在合成时逐块发布的私有队列；应在首块生成前启动接收器，过期队列不能用于首声计时。[Godot PCM 接收器](stream_sink.gd)
 
 现有 sidecar 自检回归 11/11、正式磁盘语音分段回归 11/11。MVP 证据分支已有播放交付回归 13/13；额外对照正式旧检出为 12/13。失败为 test_successful_greeting_and_idle_mark_after_playback，旧测试期待播完后标记闲置提醒，正式磁盘实现把标记移至播前。属于既有主动提醒差异，本轮没有修改该模块。未合并、部署或重启正式桌面。
+
+两个独立实例按 HANDOFF §7 在干净检出 `943c6ae9f5e723a8bf343b3903aafa9858bcd7f2` 回答八题并抽核原始测量，均指出仓库交接入口仍登记上一轮人设任务。已在本分支的 HANDOFF 顶部及 §1 补入本轮诊断入口。两者均确认听感仅覆盖相同预生成语音，原生流式的音色、稳定性、显存及首声收益仍待测。离线测量审核、文档一致性与隔离检查通过。
