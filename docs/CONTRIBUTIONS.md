@@ -303,3 +303,5 @@ Codex 通过官模开放手掌平面推导肘部参考铰链，将肩部完整�
 从既有桌面源码和 Harness V1 激活提交提取运行代码与原回归，核对四项组合的授权、官方 DS 请求、常驻唤醒及 Godot 角色语音输出。范围、测试结果及回退入口见[四项同步记录](assessments/desktop-four/REPORT.md)。
 
 - Codex，2026-11-08。独立候选的陪伴/Agent 分流、上下文装配、原桌面回执消费及实测证据。保留 zcode/既有 Agent 与人物贡献。正式桌面未更新。40 次真实官方 DeepSeek，详细归属、冻结人设及负例见[候选报告](assessments/companion-platform/REPORT.md)。
+
+- Codex，2026-11-09。main 单独同步已确认的 V1.2 提示词。独立候选增加陪伴历史使用策略，验证 28 次官方 DS、两条可见角色试听及五项边界，记录八千代六个指定模块的静态控制流。人设、Agent 执行和正式桌面沿用既有实现。[证据与剩余问题](assessments/companion-experience-p0/REPORT.md)

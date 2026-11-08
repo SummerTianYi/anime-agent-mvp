@@ -1,0 +1,229 @@
+{
+  "source": "recorded DS bubble -> isolated _present -> _speak_reply -> single existing sidecar -> real avatar WS -> WASAPI",
+  "windows": {
+    "audio": "WASAPI",
+    "bones": 703,
+    "display": "Windows",
+    "face_shapes": 48,
+    "peak_mouth": 0.72,
+    "playing_frames": 1528,
+    "visible": true
+  },
+  "shared_service_before": {
+    "core_ok": "ok",
+    "avatar_connections": 1,
+    "voice_available": true,
+    "pending": false,
+    "sidecar_ok": true,
+    "phase": "ready",
+    "device": "cuda",
+    "sidecar_synth_count": 15,
+    "self_check": {
+      "enabled": true,
+      "threshold": 0.9
+    },
+    "lookahead": "1",
+    "gain_db": "5",
+    "free_ram_mib": 1222,
+    "gpu_free_total_mib_percent": "5154, 8151, 25"
+  },
+  "shared_service_after": {
+    "core_ok": "ok",
+    "avatar_connections": 1,
+    "voice_available": true,
+    "pending": false,
+    "sidecar_ok": true,
+    "phase": "ready",
+    "device": "cuda",
+    "sidecar_synth_count": 24,
+    "self_check": {
+      "enabled": true,
+      "threshold": 0.9
+    },
+    "lookahead": "1",
+    "gain_db": "5",
+    "free_ram_mib": 1193,
+    "gpu_free_total_mib_percent": "5154, 8151, 37"
+  },
+  "same_production_pids": {
+    "core": true,
+    "godot": true,
+    "sidecar": true
+  },
+  "isolated_connector_farewell_cache_counts": [
+    3
+  ],
+  "isolated_startup_greeting_events": 1,
+  "clips": [
+    {
+      "turn": "after-space-1-1",
+      "tts_text": "有点丢脸的感觉，就先让它待着吧。我在这儿，不催你，也不用再讲一遍。",
+      "receipts": [
+        {
+          "utteranceId": "utt-8a12585d8809",
+          "playbackId": "3083ad5303844afc93b14b51809b0ade",
+          "failed": false,
+          "interrupted": false,
+          "startedAtMs": 1794156996595,
+          "endedAtMs": 1794156999624
+        },
+        {
+          "utteranceId": "utt-8a12585d8809",
+          "playbackId": "eced8b2eb14a4b898242a45345b361be",
+          "failed": false,
+          "interrupted": false,
+          "startedAtMs": 1794157001511,
+          "endedAtMs": 1794157005098
+        }
+      ],
+      "between_files_ms": [
+        1887
+      ],
+      "timing": [
+        {
+          "stage": "synth-request",
+          "atMs": 1794156994599,
+          "partIndex": 0,
+          "queueWaitMs": 5937.0
+        },
+        {
+          "stage": "ready",
+          "atMs": 1794156996576,
+          "partIndex": 0
+        },
+        {
+          "stage": "dispatch",
+          "atMs": 1794156996588,
+          "partIndex": 0
+        },
+        {
+          "stage": "synth-request",
+          "atMs": 1794156999327,
+          "partIndex": 1,
+          "queueWaitMs": 2734.0
+        },
+        {
+          "stage": "ready",
+          "atMs": 1794157001489,
+          "partIndex": 1
+        },
+        {
+          "stage": "dispatch",
+          "atMs": 1794157001498,
+          "partIndex": 1
+        }
+      ]
+    },
+    {
+      "turn": "after-light-3",
+      "tts_text": "一格空气啊……那我得认真收好，放在天钿旁边当奖杯供着。就是有点担心它会被吸走。",
+      "receipts": [
+        {
+          "utteranceId": "utt-b98701ba31fb",
+          "playbackId": "b5a3d38380d84397abba8bbfee6a1739",
+          "failed": false,
+          "interrupted": false,
+          "startedAtMs": 1794157011534,
+          "endedAtMs": 1794157013443
+        },
+        {
+          "utteranceId": "utt-b98701ba31fb",
+          "playbackId": "6a25cd98127b4bf2a02925883e2ac9b7",
+          "failed": false,
+          "interrupted": false,
+          "startedAtMs": 1794157013454,
+          "endedAtMs": 1794157014403
+        },
+        {
+          "utteranceId": "utt-b98701ba31fb",
+          "playbackId": "4a100226cde74fa5a991420eddb4acf2",
+          "failed": false,
+          "interrupted": false,
+          "startedAtMs": 1794157018940,
+          "endedAtMs": 1794157023018
+        },
+        {
+          "utteranceId": "utt-b98701ba31fb",
+          "playbackId": "4ca7e2c195ab42768896e9154aa46101",
+          "failed": false,
+          "interrupted": false,
+          "startedAtMs": 1794157023031,
+          "endedAtMs": 1794157025656
+        }
+      ],
+      "between_files_ms": [
+        11,
+        4537,
+        13
+      ],
+      "timing": [
+        {
+          "stage": "synth-request",
+          "atMs": 1794157006130,
+          "partIndex": 0,
+          "queueWaitMs": 0.0
+        },
+        {
+          "stage": "ready",
+          "atMs": 1794157011528,
+          "partIndex": 0
+        },
+        {
+          "stage": "dispatch",
+          "atMs": 1794157011529,
+          "partIndex": 0
+        },
+        {
+          "stage": "synth-request",
+          "atMs": 1794157011530,
+          "partIndex": 1,
+          "queueWaitMs": 0.0
+        },
+        {
+          "stage": "ready",
+          "atMs": 1794157012904,
+          "partIndex": 1
+        },
+        {
+          "stage": "dispatch",
+          "atMs": 1794157013444,
+          "partIndex": 1
+        },
+        {
+          "stage": "synth-request",
+          "atMs": 1794157013446,
+          "partIndex": 2,
+          "queueWaitMs": 0.0
+        },
+        {
+          "stage": "ready",
+          "atMs": 1794157018934,
+          "partIndex": 2
+        },
+        {
+          "stage": "dispatch",
+          "atMs": 1794157018935,
+          "partIndex": 2
+        },
+        {
+          "stage": "synth-request",
+          "atMs": 1794157018936,
+          "partIndex": 3,
+          "queueWaitMs": 0.0
+        },
+        {
+          "stage": "ready",
+          "atMs": 1794157021489,
+          "partIndex": 3
+        },
+        {
+          "stage": "dispatch",
+          "atMs": 1794157023020,
+          "partIndex": 3
+        }
+      ]
+    }
+  ],
+  "human_feedback": "听到了，但语气或衔接不自然",
+  "human_verdict": "试听自然度未通过；未指定具体句、部位或原因"
+}

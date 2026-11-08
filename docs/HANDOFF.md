@@ -53,6 +53,8 @@ Codex 2026-10-03 语音线交付：当期Core回归基线273。分片回执/去�
 
 ## 3. 当前真实状态（= 冻结区清单）
 
+2026-11-09 陪伴体验 P0 候选已测。28 次官方 DS 对照中仍会把玩笑带回练习，两条真人试听反馈语气或衔接不自然。五项 Agent／会话边界仍是合并阻塞，等待 ChatGPT 独立复验。main 只单独同步已确认的 V1.2 人设，正式桌面未部署本候选。[本轮报告、对话和参考分析](assessments/companion-experience-p0/REPORT.md)
+
 2026-11-08 独立候选已完成陪伴/Agent 分流、真实回执交界和上下文装配。真实官方 DS 共 40 次，连续追问仍有实测反例。分支等待 ChatGPT 验收，正式桌面沿用之前激活的版本；聊天框复刻由所有者暂缓。代码沿用正式桌面的天依人设，P2 未开工。[报告和复现入口](assessments/companion-platform/REPORT.md)
 
 2026-11-08 主仓收录桌面在用的四项：Harness V1 执行与确认、官方 DeepSeek Flash 接入、常驻唤醒恢复，以及天依语音专用增益与限幅。组合验证使用隔离 Core 和 Godot。后续专项与部署分别验收。详见[四项范围、回归和回退](assessments/desktop-four/REPORT.md)。
@@ -146,7 +148,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 560 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 561 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -243,7 +245,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 560 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 561 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

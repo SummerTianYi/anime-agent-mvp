@@ -1,0 +1,61 @@
+{
+  "offline_router_and_delivery": [
+    {
+      "input": "算了，先别寄出去。",
+      "pending": true,
+      "decision": "decline",
+      "route": {
+        "chat": "算了，先别寄出去。",
+        "operation": "",
+        "control": "other"
+      }
+    },
+    {
+      "input": "那封邮件别发了。",
+      "pending": true,
+      "decision": "decline",
+      "route": {
+        "chat": "",
+        "operation": "那封邮件别发了。",
+        "control": "decline"
+      }
+    },
+    {
+      "input": "帮我写文件 draft.txt。不要发给任何人。",
+      "pending": false,
+      "decision": "decline",
+      "route": {
+        "chat": "不要发给任何人。",
+        "operation": "帮我写文件 draft.txt。",
+        "control": "other"
+      }
+    },
+    {
+      "input": "打开文件会发生什么？",
+      "pending": false,
+      "decision": "other",
+      "route": {
+        "chat": "",
+        "operation": "打开文件会发生什么？",
+        "control": "other"
+      }
+    },
+    {
+      "source_foreground": false,
+      "targets": [
+        "avatar",
+        "ui"
+      ],
+      "event": {
+        "type": "core.error",
+        "message": "语音服务正在恢复；文字回复仍可查看，恢复后会继续播报。",
+        "request_id": "old-turn"
+      }
+    }
+  ],
+  "actual_godot_switch": {
+    "adopted_id": 11,
+    "old_label_present": true,
+    "waiting_id": -1
+  }
+}

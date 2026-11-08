@@ -1,0 +1,71 @@
+{
+  "product_commit": "0b951016f395fc353844831dd86f37217c3f3ae5",
+  "baseline": "371fc7e1e492c24fb0462d53696563488d2866c1",
+  "production_main_prompt_commit": "cf62b484ca8f075d97c2d4c41496480c7c82501c",
+  "live": {
+    "turns": 28,
+    "http": 28,
+    "matched_pairs": 8,
+    "six_turn_sessions": 2,
+    "raw_bubble_tts_agreement": 28,
+    "input_tokens": 54975,
+    "output_tokens": 2337,
+    "http_seconds": 70.018,
+    "role_sha256": "7f57bf41e8f2764fe9bfbf6797c5323d253d7d1f1a73440873c65d067582207e",
+    "runtime_sha256": "e43c97d067285fe88688c63c53f97789e6aa306f1d11b8983d2f10a271dc7910",
+    "active_sha256": "714ae650ce060f0a645f2fa1055878790438a5e93566ceda18a3ecbdc9d9c9f6",
+    "strategy_sha256": "9b43195d4297fe4e402c7b276b9b1f20bc8f8e3cfc4becbc2e0fe0369f78c28d",
+    "strategy_characters": 203,
+    "phases": {
+      "before": {
+        "http": 8,
+        "seconds": 18.125,
+        "in": 14808,
+        "out": 717
+      },
+      "after": {
+        "http": 20,
+        "seconds": 51.893,
+        "in": 40167,
+        "out": 1620
+      }
+    }
+  },
+  "regression": {
+    "baseline_affected": {
+      "tests": 40,
+      "ok": true,
+      "seconds": 1.328,
+      "skip": [],
+      "failures": []
+    },
+    "candidate_affected": {
+      "tests": 41,
+      "ok": true,
+      "seconds": 1.578,
+      "skip": [],
+      "failures": []
+    },
+    "candidate_full": {
+      "tests": 561,
+      "ok": true,
+      "seconds": 43.11,
+      "skip": [],
+      "failures": []
+    },
+    "main_before": {
+      "tests": 73,
+      "ok": true,
+      "seconds": 42.172,
+      "skip": [],
+      "failures": []
+    },
+    "main_v12": {
+      "tests": 73,
+      "ok": true,
+      "seconds": 41.906,
+      "skip": [],
+      "failures": []
+    }
+  }
+}
