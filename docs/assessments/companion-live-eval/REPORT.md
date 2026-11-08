@@ -60,3 +60,11 @@ python -B docs/assessments/companion-live-eval/run_eval.py --state SCRATCH --ds-
 首轮数据和快照生成后，daily、joy 各追加 --repeat。若要复核本次连接恢复后补采的方式，long 另用 --reconnect-long，每次仍计入同一个上限。证据版采集器将新运行结果写进 SCRATCH/evidence，防止改动已发布样本。重新采样不保证得到相同回答或网络异常。离线渲染用独立最小 project.godot，复制同版本 apps/avatar-runtime 顶层 .gd 与 .gdshader 文件，用 docs/design/assets/luotianyi-avatar-256.jpg 作 assets/luotianyi_avatar.jpg。将 COMPANION_EVAL_DIR 设为数据目录，用 Godot --headless --path FIXTURE --script ABSOLUTE_READ_BUBBLES_GD，随后可用 audit.py EVIDENCE_DIR 核对。复现线上服务需要另外的本地适配文件和有效 DS 配置，离线全部证据均可直接读。
 
 Codex 本轮只新增此目录的脱敏证据和验证脚本。参考报告、产品代码、系统提示词、模型配置和正式数据均保留原状。未运行无关产品全量回归。本次交回 ChatGPT 的问题为自然回复的实际交付、追问与劝练的重复、无依据的现场感、用户反馈后的调整及网络故障叠加的体验。八轮连续真实闲聊、正式进程内提示词及私人故障原话仍是证据缺口。下一步由 ChatGPT 评估后决定修复范围。
+
+### 独立核查与证据边界
+
+两个零上下文实例分别在干净检出 `71b4eb539775933e806b659695dfdf36caab8f88` 按 HANDOFF §7 完成八题。两者均复算出 42 轮、59 次尝试、49 个可见响应、52 个气泡、8 条复测首请求匹配。第二个实例另核对 daily-2、low-2、memory-1、switch-2、long-8 和 reconnect-long-1 的原话及界面文字。离线审核重建的对话和摘要与归档一致。文档一致性和隔离检查通过，参考提交至本分支的 diff 仅涉及本证据目录。
+
+首个实例指出两项需要区分来源的陈述。TLSv1.3 是当时在原代理路径做不含推理请求的握手时，本机输出的协商结果，未保存独立握手记录。任何读者均可从采集日志核对后续 #44–59 成功。适配器类内部及默认模型的精确差异来自当时对两个本地文件的逐行 diff。采集器会校验完整文件指纹，并验证排除该类与两个配置函数后的模块 AST。若没有该本地适配文件，无法独立重做类内差异检查。另外，本机对正式磁盘与测试适配器的 _completion_options 方法分别计算了不含注释的 AST 指纹，两者 SHA-256 均为 4e28c851c89cffc60ce84f798000428fc11e80951697f41f78595d256a0773b7。该比较仅涉及磁盘代码。
+
+第二个实例指出，上级 HANDOFF 的最新条目仍描述 11 月 7 日的离线交接。依本轮限定，本次授权的真实诊断及观察结果记录在本报告中。本目录是本次交接入口。
