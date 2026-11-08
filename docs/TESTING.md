@@ -1,5 +1,7 @@
 # Verification and acceptance
 
+2026-11-08 合成优先级候选可发现 684 个 Core 用例。受影响语音组 69 项和告别组 9 项通过。单套真实 TTS 的两档预取各播两次短答和两次三段长答，另验取消与恢复。[实际时序与测试边界](assessments/speech-synthesis-priority/REPORT.md)
+
 2026-11-08 语音候选发现 678 个 Core 用例，受影响的语音与告别回归及可见 Godot 验证见[本轮记录](assessments/speech-lip-continuity/REPORT.md)。下方的 676 是 V1.2 冻结版本的全量成绩。
 
 Codex 2026-11-07 companion V1.2: 676/676 Core cases pass in546.875s; same-environment baseline669/669 passes in541.157s. New7 offline cases include8 synthetic scenes and11 serialized requests through actual handle_chat/Provider paths. TS build, isolated Godot input, model hash and docs guard pass; evidence is recorded in [REPORT](assessments/companion-v1.2/REPORT.md). No live-model persona claim, production restart or deployment. Real companionship quality awaits ChatGPT acceptance; A4 remains open.

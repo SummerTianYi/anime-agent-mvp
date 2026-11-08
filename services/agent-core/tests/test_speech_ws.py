@@ -206,6 +206,20 @@ class SpeechWSTests(unittest.TestCase):
         _collect_until(ws,'agent.state',match={'state':'idle'})
         self.assertEqual(self.speech_client.synth_count,2)
 
+    def test_uncertain_failure_only_resends_the_existing_playback_id(self) -> None:
+        _client, ws = self._connect()
+        core.speech_manager.completion_grace_seconds = .12
+        ws.send_json({'type':'chat.message','messageId':'unknown-playback','text':'测试'})
+        first = _collect_until(ws, 'avatar.speak')[-1]
+        ids = {k: first[k] for k in ('utteranceId','playbackId')}
+        for details in ({'error':'unknown'}, {'error':'audio-load-failed','startedAtMs':123}):
+            ws.send_json({'type':'speech.failed', **ids, **details})
+            resend = _collect_until(ws, 'avatar.speak')[-1]
+            self.assertEqual(resend['playbackId'], first['playbackId'])
+        ws.send_json({'type':'speech.finished', **ids})
+        _collect_until(ws,'agent.state',match={'state':'idle'})
+        self.assertEqual(self.speech_client.synth_count, 1)
+
 
 if __name__ == "__main__":
     unittest.main()

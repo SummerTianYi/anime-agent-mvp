@@ -1199,7 +1199,7 @@ async def _precache_farewell_audio() -> None:
                         except (OSError, ValueError, EOFError):
                             FAREWELL_AUDIO_CACHE.pop(line)
                     if line not in FAREWELL_AUDIO_CACHE:
-                        audio = await asyncio.to_thread(speech_manager.client.synthesize, line, speech_manager.speed)
+                        audio = await speech_manager.prepare_farewell(line)
                         FAREWELL_AUDIO_CACHE[line] = await asyncio.to_thread(
                             pin_farewell, default_data_dir() / 'speech-cache' / 'farewell', line, audio)
                     await hub.send_roles({'avatar'}, event('avatar.farewell.cache',
@@ -2255,6 +2255,13 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                 utterance_id = str(payload.get("utteranceId", "")).strip()
                 playback_id = str(payload.get("playbackId", "")).strip()
                 if utterance_id and playback_id and hub.role_of(websocket) == "avatar":
+                    if event_type == "speech.failed" and payload.get("interrupted") is not True:
+                        # The legacy bare failure event denotes a load failure. A contrary
+                        # detail or evidence that playback started leaves delivery unknown.
+                        start_ms = payload.get("startedAtMs", 0)
+                        if (payload.get("error", "audio-load-failed") != "audio-load-failed"
+                                or type(start_ms) is not int or start_ms != 0):
+                            continue
                     accepted = await speech_manager.notify_finished(
                         utterance_id, playback_id, interrupted=payload.get("interrupted") is True,
                         error="audio-load-failed" if event_type == "speech.failed" else "")

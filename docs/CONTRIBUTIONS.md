@@ -6,6 +6,8 @@
 
 ## Codex 建设范围
 
+2026-11-08 Codex：[合成调度优先级与单套真实语音对照](assessments/speech-synthesis-priority/REPORT.md)，由 ChatGPT 独立验收。
+
 2026-11-08 Codex：[真实角色口型与受限语音预取候选](assessments/speech-lip-continuity/REPORT.md)，等待 ChatGPT 验收。
 
 ### Codex 私有便携候选与真实只读整合验证（2026-09-13）

@@ -19,6 +19,8 @@ import urllib.parse
 import urllib.request
 import uuid
 from collections import deque
+from concurrent.futures import ThreadPoolExecutor
+from contextvars import copy_context
 from dataclasses import dataclass, field
 
 
@@ -211,6 +213,20 @@ class Utterance:
     playback_error: str = ""
     done: asyncio.Event = field(default_factory=asyncio.Event)
     cancel_event: asyncio.Event = field(default_factory=asyncio.Event)
+    needed_part: int = 0
+
+
+@dataclass(slots=True, eq=False)
+class _SynthesisWaiter:
+    utterance: Utterance | None
+    index: int
+    turn: asyncio.Future
+
+    @property
+    def priority(self) -> int:
+        if self.utterance is None:
+            return 2  # Farewell cache.
+        return 0 if self.index == self.utterance.needed_part else 1
 
 
 class SpeechManager:
@@ -247,7 +263,9 @@ class SpeechManager:
         self.playback_attempts = playback_attempts
         self.lookahead = min(2, max(1, lookahead))
         self.on_timing = on_timing
-        self._model_slot = asyncio.Semaphore(1)
+        self._synthesis_waiters: list[_SynthesisWaiter] = []
+        self._synthesis_worker: asyncio.Future | None = None
+        self._synth_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="tts-synth")
         self._current: Utterance | None = None
         self._lock = asyncio.Lock()
 
@@ -299,6 +317,9 @@ class SpeechManager:
             audio = prepared_audio or await self._synthesize_with_recovery(utterance, parts[0], 0)
             for index, part in enumerate(parts):
                 if index:
+                    # Promote the original preparation, including any recovery attempt.
+                    utterance.needed_part = index
+                    self._wake_next_synthesis()
                     audio = await pending.popleft()
                 if audio is None or utterance.cancelled or self._current is not utterance:
                     return utterance
@@ -363,21 +384,58 @@ class SpeechManager:
             except Exception:
                 logger.warning("Speech timing sink unavailable")
 
+    def _next_synthesis(self):
+        # min is stable. This list contains at most the bounded lookahead,
+        # foreground requests and the one session-owned farewell preparation.
+        return min(self._synthesis_waiters, key=lambda waiter: waiter.priority, default=None)
+
+    def _wake_next_synthesis(self):
+        if self._synthesis_worker is None:
+            head = self._next_synthesis()
+            if head is not None and not head.turn.done():
+                head.turn.set_result(None)
+
+    def _synthesis_returned(self, worker):
+        # The caller can go away during HTTP. Only the actual return frees this slot.
+        if not worker.cancelled():
+            worker.exception()
+        self._synthesis_worker = None
+        self._wake_next_synthesis()
+
+    async def prepare_farewell(self, text: str) -> dict:
+        return await self._serial_synth(None, -1, text, "")
+
     async def _serial_synth(self, utterance, index, text, preparation_id):
-        await self._model_slot.acquire()
-        if utterance.cancelled or self._current is not utterance:
-            self._model_slot.release()
-            return None
-        # Cancelling an asyncio waiter cannot stop urllib in a worker thread.
-        # Hold the permit until the real worker exits, even across barge-in.
-        worker = asyncio.create_task(asyncio.to_thread(self.client.synthesize, text, self.speed))
-        def finished(task):
-            self._model_slot.release()
-            if not task.cancelled():
-                task.exception()
-        worker.add_done_callback(finished)
-        self._timing(utterance, index, "synth-request", preparationId=preparation_id)
-        return await asyncio.shield(worker)
+        loop = asyncio.get_running_loop()
+        waiter = _SynthesisWaiter(utterance, index, loop.create_future())
+        enqueued = time.monotonic_ns()
+        initial_priority = waiter.priority
+        self._synthesis_waiters.append(waiter)
+        try:
+            while True:
+                self._wake_next_synthesis()
+                await waiter.turn
+                if utterance is not None and (utterance.cancelled or self._current is not utterance):
+                    return None
+                # A wakeup is not a reservation. Recheck after cancellation,
+                # promotion or a higher-priority arrival in the same loop turn.
+                if self._synthesis_worker is None and self._next_synthesis() is waiter:
+                    break
+                waiter.turn = loop.create_future()
+            self._synthesis_waiters.remove(waiter)
+            waited_ms = (time.monotonic_ns() - enqueued) / 1_000_000
+            worker = loop.run_in_executor(self._synth_executor, copy_context().run,
+                                          self.client.synthesize, text, self.speed)
+            self._synthesis_worker = worker
+            worker.add_done_callback(self._synthesis_returned)
+            if utterance is not None:
+                self._timing(utterance, index, "synth-request", preparationId=preparation_id,
+                             queuedPriority=initial_priority, priority=waiter.priority, queueWaitMs=round(waited_ms, 3))
+            return await asyncio.shield(worker)
+        finally:
+            if waiter in self._synthesis_waiters:
+                self._synthesis_waiters.remove(waiter)
+            self._wake_next_synthesis()
 
     async def _synthesize_with_recovery(self, utterance: Utterance, text: str, index: int) -> dict | None:
         """Codex: retry only unplayed audio, with a deadline and cancellation.
@@ -451,6 +509,7 @@ class SpeechManager:
         """
         utterance = self._current
         if (utterance is None or utterance.id != utterance_id or utterance.done.is_set()
+                or (error and error != "audio-load-failed" and not interrupted)
                 or (playback_id is not None and playback_id != utterance.playback_id)):
             return False
         if interrupted:

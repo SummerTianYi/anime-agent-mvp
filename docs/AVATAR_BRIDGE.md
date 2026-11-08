@@ -173,6 +173,8 @@ Codex 2026-10-03告别缓存：Core校验PCM WAV后原子复制到自身数据�
 
 Core仅接受avatar角色、匹配utteranceId与playbackId的回执。正常完成才记 `speech.completed` 并允许主动提醒进入冷却；`interrupted:true` 属于取消，不是成功。未知或过期回执忽略。加载失败发送 `speech.failed`（同样的ID字段，error=`audio-load-failed`）。每次派发等待 `durationMs + 5s`，最多3次派发；缺回执时补送同一ID，明确失败才换新音频。用尽重试则停止该播报、保留文字并报告故障，绝不把超时记为播放完成。此回执证明播放器完成，不能证明用户硬件未静音或人耳实际听见。
 
+旧版 Avatar 不带 error 的 speech.failed 表示明确加载失败。若失败回执明确标为未知错误，或其 startedAtMs 显示已开始播放，Core 保留尚未确认状态，后续仍仅补送已有 playbackId。
+
 ## 验证
 
 语音候选回执另含 `startedAtMs` 与 `endedAtMs`（同机 Unix 毫秒）。前者是播放器成功启动的时刻，未能启动时为 0。拿 `playbackId` 关联 Core 的 dispatch 事件，再按 `preparationId` 关联已选 take 的自检、准备和重做时间。旧 Avatar 缺少这两个时钟仍可回执。调度或播放器事件不代表扬声器首个非静音采样。

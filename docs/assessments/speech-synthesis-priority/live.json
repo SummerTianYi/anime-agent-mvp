@@ -1,0 +1,6123 @@
+{
+  "initialSidecar": {
+    "pid": 28804,
+    "phase": "ready",
+    "device": "cuda",
+    "ok": true,
+    "selfCheck": {
+      "enabled": true,
+      "threshold": 0.9,
+      "takes": 34,
+      "retries": 16
+    },
+    "synthCount": 33
+  },
+  "calls": [
+    {
+      "sequence": 1,
+      "text": "我在，请讲。",
+      "before": 33,
+      "httpStartMs": 1794133452936,
+      "httpEndMs": 1794133459740,
+      "after": 34,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 1660,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 53120,
+        "rate": 32000,
+        "leadingMs": 77.4,
+        "trailingMs": 378.3,
+        "interiorQuietMs": []
+      },
+      "requestId": "priority-1",
+      "partIndex": 0,
+      "preparationId": "9b45efa50dbd4deeafe23c40487bfbb9",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133453025,
+            "stageMs": [
+              265,
+              1306,
+              319,
+              603
+            ],
+            "metricsObservedMs": 1794133455520,
+            "postSynthIncludingCheckMs": 2884
+          },
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133458404,
+            "stageMs": [
+              17,
+              106,
+              264,
+              232
+            ],
+            "metricsObservedMs": 1794133459022,
+            "postSynthIncludingCheckMs": 733
+          }
+        ],
+        "successObservedMs": 1794133459755
+      }
+    },
+    {
+      "sequence": 2,
+      "text": "我在，请讲。",
+      "before": 34,
+      "httpStartMs": 1794133461624,
+      "httpEndMs": 1794133463075,
+      "after": 35,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 1620,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 51840,
+        "rate": 32000,
+        "leadingMs": 46.3,
+        "trailingMs": 377.2,
+        "interiorQuietMs": [
+          86.8
+        ]
+      },
+      "requestId": "priority-2",
+      "partIndex": 0,
+      "preparationId": "f66734d1407647bfaad8c92afcb0ddbc",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133461680,
+            "stageMs": [
+              47,
+              117,
+              273,
+              256
+            ],
+            "metricsObservedMs": 1794133462358,
+            "postSynthIncludingCheckMs": 737
+          }
+        ],
+        "successObservedMs": 1794133463095
+      }
+    },
+    {
+      "sequence": 3,
+      "text": "刚才雨停了，窗边有一点阳光。",
+      "before": 35,
+      "httpStartMs": 1794133464875,
+      "httpEndMs": 1794133466851,
+      "after": 36,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 2980,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 95360,
+        "rate": 32000,
+        "leadingMs": 76.9,
+        "trailingMs": 359.5,
+        "interiorQuietMs": [
+          106.8
+        ]
+      },
+      "requestId": "priority-3",
+      "partIndex": 0,
+      "preparationId": "5da3e0168af840c9936fe71a9181b6ba",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133464933,
+            "stageMs": [
+              34,
+              229,
+              625,
+              290
+            ],
+            "metricsObservedMs": 1794133466116,
+            "postSynthIncludingCheckMs": 735
+          }
+        ],
+        "successObservedMs": 1794133466851
+      }
+    },
+    {
+      "sequence": 4,
+      "text": "小小的水珠还挂在叶子上。",
+      "before": 36,
+      "httpStartMs": 1794133467006,
+      "httpEndMs": 1794133470519,
+      "after": 37,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 3220,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 103040,
+        "rate": 32000,
+        "leadingMs": 35.4,
+        "trailingMs": 369.4,
+        "interiorQuietMs": []
+      },
+      "requestId": "priority-3",
+      "partIndex": 1,
+      "preparationId": "1637433b109347429db24007646483e8",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "小小的水珠还挂在叶子上。",
+            "startObservedMs": 1794133467051,
+            "stageMs": [
+              44,
+              163,
+              520,
+              250
+            ],
+            "metricsObservedMs": 1794133468023,
+            "postSynthIncludingCheckMs": 769
+          },
+          {
+            "text": "小小的水珠还挂在叶子上。",
+            "startObservedMs": 1794133468792,
+            "stageMs": [
+              16,
+              111,
+              675,
+              180
+            ],
+            "metricsObservedMs": 1794133469768,
+            "postSynthIncludingCheckMs": 777
+          }
+        ],
+        "successObservedMs": 1794133470545
+      }
+    },
+    {
+      "sequence": 5,
+      "text": "书可以慢慢读。",
+      "before": 37,
+      "httpStartMs": 1794133470652,
+      "httpEndMs": 1794133472123,
+      "after": 38,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 1780,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 56960,
+        "rate": 32000,
+        "leadingMs": 49.7,
+        "trailingMs": 377.7,
+        "interiorQuietMs": []
+      },
+      "requestId": "priority-3",
+      "partIndex": 2,
+      "preparationId": "98067a88a18f4d32bb5542843bc77f3c",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "书可以慢慢读。",
+            "startObservedMs": 1794133470694,
+            "stageMs": [
+              41,
+              126,
+              336,
+              257
+            ],
+            "metricsObservedMs": 1794133471442,
+            "postSynthIncludingCheckMs": 695
+          }
+        ],
+        "successObservedMs": 1794133472137
+      }
+    },
+    {
+      "sequence": 6,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+      "before": 38,
+      "httpStartMs": 1794133473999,
+      "httpEndMs": 1794133476557,
+      "after": 39,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 4940,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 158080,
+        "rate": 32000,
+        "leadingMs": 56.1,
+        "trailingMs": 359.6,
+        "interiorQuietMs": [
+          290.6,
+          105.2
+        ]
+      },
+      "requestId": "priority-3",
+      "partIndex": 3,
+      "preparationId": "017eff6ebfc7414a9e194c35e6bf55e9",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+            "startObservedMs": 1794133474060,
+            "stageMs": [
+              39,
+              224,
+              1165,
+              269
+            ],
+            "metricsObservedMs": 1794133475745,
+            "postSynthIncludingCheckMs": 812
+          }
+        ],
+        "successObservedMs": 1794133476557
+      }
+    },
+    {
+      "sequence": 7,
+      "text": "等会儿，再一起听听窗外的风吧。",
+      "before": 39,
+      "httpStartMs": 1794133476696,
+      "httpEndMs": 1794133478463,
+      "after": 40,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 2940,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 94080,
+        "rate": 32000,
+        "leadingMs": 140.5,
+        "trailingMs": 358.2,
+        "interiorQuietMs": [
+          182.4
+        ]
+      },
+      "requestId": "priority-3",
+      "partIndex": 4,
+      "preparationId": "52093d3e4c5e41a28628f145588f139d",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "等会儿，再一起听听窗外的风吧。",
+            "startObservedMs": 1794133476756,
+            "stageMs": [
+              42,
+              164,
+              561,
+              247
+            ],
+            "metricsObservedMs": 1794133477753,
+            "postSynthIncludingCheckMs": 726
+          }
+        ],
+        "successObservedMs": 1794133478479
+      }
+    },
+    {
+      "sequence": 8,
+      "text": "刚才雨停了，窗边有一点阳光。",
+      "before": 40,
+      "httpStartMs": 1794133484769,
+      "httpEndMs": 1794133488086,
+      "after": 41,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 2900,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 92800,
+        "rate": 32000,
+        "leadingMs": 80.8,
+        "trailingMs": 339.5,
+        "interiorQuietMs": [
+          261.3
+        ]
+      },
+      "requestId": "priority-4",
+      "partIndex": 0,
+      "preparationId": "1bfca3069c0a4a4696526716145fbebf",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133484830,
+            "stageMs": [
+              31,
+              122,
+              529,
+              243
+            ],
+            "metricsObservedMs": 1794133485750,
+            "postSynthIncludingCheckMs": 693
+          },
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133486443,
+            "stageMs": [
+              22,
+              145,
+              568,
+              137
+            ],
+            "metricsObservedMs": 1794133487321,
+            "postSynthIncludingCheckMs": 792
+          }
+        ],
+        "successObservedMs": 1794133488113
+      }
+    },
+    {
+      "sequence": 9,
+      "text": "小小的水珠还挂在叶子上。",
+      "before": 41,
+      "httpStartMs": 1794133488243,
+      "httpEndMs": 1794133490007,
+      "after": 42,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 3100,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 99200,
+        "rate": 32000,
+        "leadingMs": 38.0,
+        "trailingMs": 379.8,
+        "interiorQuietMs": [
+          105.7
+        ]
+      },
+      "requestId": "priority-4",
+      "partIndex": 1,
+      "preparationId": "c69eab2b89414536aaf4c35a76ca2216",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "小小的水珠还挂在叶子上。",
+            "startObservedMs": 1794133488288,
+            "stageMs": [
+              44,
+              107,
+              621,
+              221
+            ],
+            "metricsObservedMs": 1794133489269,
+            "postSynthIncludingCheckMs": 756
+          }
+        ],
+        "successObservedMs": 1794133490025
+      }
+    },
+    {
+      "sequence": 10,
+      "text": "书可以慢慢读。",
+      "before": 42,
+      "httpStartMs": 1794133490130,
+      "httpEndMs": 1794133491570,
+      "after": 43,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 1740,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 55680,
+        "rate": 32000,
+        "leadingMs": 35.3,
+        "trailingMs": 377.3,
+        "interiorQuietMs": []
+      },
+      "requestId": "priority-4",
+      "partIndex": 2,
+      "preparationId": "295c17eb2712448dbfddbdf493f7a919",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "书可以慢慢读。",
+            "startObservedMs": 1794133490171,
+            "stageMs": [
+              28,
+              116,
+              328,
+              224
+            ],
+            "metricsObservedMs": 1794133490851,
+            "postSynthIncludingCheckMs": 744
+          }
+        ],
+        "successObservedMs": 1794133491595
+      }
+    },
+    {
+      "sequence": 11,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+      "before": 43,
+      "httpStartMs": 1794133491758,
+      "httpEndMs": 1794133494009,
+      "after": 44,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 4900,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 156800,
+        "rate": 32000,
+        "leadingMs": 96.2,
+        "trailingMs": 387.2,
+        "interiorQuietMs": [
+          294.7,
+          173.8
+        ]
+      },
+      "requestId": "priority-4",
+      "partIndex": 3,
+      "preparationId": "e1da3d14710845e68c0e8b47f6d31990",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+            "startObservedMs": 1794133491819,
+            "stageMs": [
+              34,
+              143,
+              967,
+              235
+            ],
+            "metricsObservedMs": 1794133493195,
+            "postSynthIncludingCheckMs": 812
+          }
+        ],
+        "successObservedMs": 1794133494007
+      }
+    },
+    {
+      "sequence": 12,
+      "text": "等会儿，再一起听听窗外的风吧。",
+      "before": 44,
+      "httpStartMs": 1794133494426,
+      "httpEndMs": 1794133496255,
+      "after": 45,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 3180,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 101760,
+        "rate": 32000,
+        "leadingMs": 39.6,
+        "trailingMs": 341.4,
+        "interiorQuietMs": [
+          115.1,
+          266.8
+        ]
+      },
+      "requestId": "priority-4",
+      "partIndex": 4,
+      "preparationId": "cd113f060d0c4bce9ae9dd23015fbd86",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "等会儿，再一起听听窗外的风吧。",
+            "startObservedMs": 1794133494481,
+            "stageMs": [
+              36,
+              146,
+              617,
+              246
+            ],
+            "metricsObservedMs": 1794133495511,
+            "postSynthIncludingCheckMs": 764
+          }
+        ],
+        "successObservedMs": 1794133496275
+      }
+    },
+    {
+      "sequence": 13,
+      "text": "我在，请讲。",
+      "before": 45,
+      "httpStartMs": 1794133504504,
+      "httpEndMs": 1794133505898,
+      "after": 46,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 1620,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 51840,
+        "rate": 32000,
+        "leadingMs": 65.3,
+        "trailingMs": 338.1,
+        "interiorQuietMs": [
+          219.3
+        ]
+      },
+      "requestId": "priority-5",
+      "partIndex": 0,
+      "preparationId": "ca63c82d32db478a818a0b3437384979",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133504549,
+            "stageMs": [
+              37,
+              103,
+              290,
+              240
+            ],
+            "metricsObservedMs": 1794133505209,
+            "postSynthIncludingCheckMs": 709
+          }
+        ],
+        "successObservedMs": 1794133505918
+      }
+    },
+    {
+      "sequence": 14,
+      "text": "我在，请讲。",
+      "before": 46,
+      "httpStartMs": 1794133507740,
+      "httpEndMs": 1794133510817,
+      "after": 47,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 2300,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 73600,
+        "rate": 32000,
+        "leadingMs": 46.9,
+        "trailingMs": 335.2,
+        "interiorQuietMs": [
+          297.5
+        ]
+      },
+      "requestId": "priority-6",
+      "partIndex": 0,
+      "preparationId": "c3b1d91180d245b69f58aac9ca6ffb69",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133507800,
+            "stageMs": [
+              32,
+              113,
+              447,
+              246
+            ],
+            "metricsObservedMs": 1794133508629,
+            "postSynthIncludingCheckMs": 798
+          },
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133509427,
+            "stageMs": [
+              19,
+              101,
+              386,
+              199
+            ],
+            "metricsObservedMs": 1794133510135,
+            "postSynthIncludingCheckMs": 705
+          }
+        ],
+        "successObservedMs": 1794133510840
+      }
+    },
+    {
+      "sequence": 15,
+      "text": "刚才雨停了，窗边有一点阳光。",
+      "before": 47,
+      "httpStartMs": 1794133513335,
+      "httpEndMs": 1794133516938,
+      "after": 48,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 3060,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 97920,
+        "rate": 32000,
+        "leadingMs": 80.6,
+        "trailingMs": 347.2,
+        "interiorQuietMs": [
+          287.8
+        ]
+      },
+      "requestId": "priority-7",
+      "partIndex": 0,
+      "preparationId": "3cf26970e8cc42609bc212022ea4279c",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133513378,
+            "stageMs": [
+              47,
+              148,
+              583,
+              243
+            ],
+            "metricsObservedMs": 1794133514393,
+            "postSynthIncludingCheckMs": 809
+          },
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133515202,
+            "stageMs": [
+              18,
+              163,
+              608,
+              209
+            ],
+            "metricsObservedMs": 1794133516186,
+            "postSynthIncludingCheckMs": 765
+          }
+        ],
+        "successObservedMs": 1794133516951
+      }
+    },
+    {
+      "sequence": 16,
+      "text": "小小的水珠还挂在叶子上。",
+      "before": 48,
+      "httpStartMs": 1794133517069,
+      "httpEndMs": 1794133520541,
+      "after": 49,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 3020,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 96640,
+        "rate": 32000,
+        "leadingMs": 48.4,
+        "trailingMs": 364.4,
+        "interiorQuietMs": [
+          91.2
+        ]
+      },
+      "requestId": "priority-7",
+      "partIndex": 1,
+      "preparationId": "6d628300e9fa4a9d8b465dbe8f893b88",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "小小的水珠还挂在叶子上。",
+            "startObservedMs": 1794133517124,
+            "stageMs": [
+              42,
+              117,
+              617,
+              236
+            ],
+            "metricsObservedMs": 1794133518151,
+            "postSynthIncludingCheckMs": 764
+          },
+          {
+            "text": "小小的水珠还挂在叶子上。",
+            "startObservedMs": 1794133518915,
+            "stageMs": [
+              21,
+              122,
+              600,
+              195
+            ],
+            "metricsObservedMs": 1794133519848,
+            "postSynthIncludingCheckMs": 724
+          }
+        ],
+        "successObservedMs": 1794133520572
+      }
+    },
+    {
+      "sequence": 17,
+      "text": "书可以慢慢读。",
+      "before": 49,
+      "httpStartMs": 1794133520689,
+      "httpEndMs": 1794133522353,
+      "after": 50,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 1940,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 62080,
+        "rate": 32000,
+        "leadingMs": 50.5,
+        "trailingMs": 386.1,
+        "interiorQuietMs": []
+      },
+      "requestId": "priority-7",
+      "partIndex": 2,
+      "preparationId": "d246b185229c4018acb16d6509b7d0c2",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "书可以慢慢读。",
+            "startObservedMs": 1794133520749,
+            "stageMs": [
+              38,
+              118,
+              412,
+              312
+            ],
+            "metricsObservedMs": 1794133521626,
+            "postSynthIncludingCheckMs": 759
+          }
+        ],
+        "successObservedMs": 1794133522385
+      }
+    },
+    {
+      "sequence": 18,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+      "before": 50,
+      "httpStartMs": 1794133522487,
+      "httpEndMs": 1794133524717,
+      "after": 51,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 4860,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 155520,
+        "rate": 32000,
+        "leadingMs": 79.1,
+        "trailingMs": 373.8,
+        "interiorQuietMs": [
+          183.7,
+          133.6,
+          190.0
+        ]
+      },
+      "requestId": "priority-7",
+      "partIndex": 3,
+      "preparationId": "89c9faf0ded9401686ad15970e59f18b",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+            "startObservedMs": 1794133522517,
+            "stageMs": [
+              42,
+              147,
+              1028,
+              229
+            ],
+            "metricsObservedMs": 1794133523959,
+            "postSynthIncludingCheckMs": 786
+          }
+        ],
+        "successObservedMs": 1794133524745
+      }
+    },
+    {
+      "sequence": 19,
+      "text": "等会儿，再一起听听窗外的风吧。",
+      "before": 51,
+      "httpStartMs": 1794133524833,
+      "httpEndMs": 1794133526633,
+      "after": 52,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 2940,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 94080,
+        "rate": 32000,
+        "leadingMs": 138.2,
+        "trailingMs": 359.5,
+        "interiorQuietMs": [
+          86.8
+        ]
+      },
+      "requestId": "priority-7",
+      "partIndex": 4,
+      "preparationId": "9191ea35b9b945aa973211af0c7db212",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "等会儿，再一起听听窗外的风吧。",
+            "startObservedMs": 1794133524875,
+            "stageMs": [
+              40,
+              145,
+              569,
+              241
+            ],
+            "metricsObservedMs": 1794133525868,
+            "postSynthIncludingCheckMs": 791
+          }
+        ],
+        "successObservedMs": 1794133526659
+      }
+    },
+    {
+      "sequence": 20,
+      "text": "刚才雨停了，窗边有一点阳光。",
+      "before": 52,
+      "httpStartMs": 1794133533759,
+      "httpEndMs": 1794133537363,
+      "after": 53,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 2980,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 95360,
+        "rate": 32000,
+        "leadingMs": 81.1,
+        "trailingMs": 378.5,
+        "interiorQuietMs": [
+          247.4
+        ]
+      },
+      "requestId": "priority-8",
+      "partIndex": 0,
+      "preparationId": "42a5435ebb414a3eb115eae9400b4320",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133533795,
+            "stageMs": [
+              39,
+              128,
+              592,
+              221
+            ],
+            "metricsObservedMs": 1794133534763,
+            "postSynthIncludingCheckMs": 793
+          },
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133535556,
+            "stageMs": [
+              11,
+              145,
+              632,
+              209
+            ],
+            "metricsObservedMs": 1794133536556,
+            "postSynthIncludingCheckMs": 837
+          }
+        ],
+        "successObservedMs": 1794133537393
+      }
+    },
+    {
+      "sequence": 21,
+      "text": "小小的水珠还挂在叶子上。",
+      "before": 53,
+      "httpStartMs": 1794133537523,
+      "httpEndMs": 1794133539319,
+      "after": 54,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 2900,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 92800,
+        "rate": 32000,
+        "leadingMs": 47.3,
+        "trailingMs": 378.4,
+        "interiorQuietMs": []
+      },
+      "requestId": "priority-8",
+      "partIndex": 1,
+      "preparationId": "089f31cef1bb45e6b718fa4a546e1a53",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "小小的水珠还挂在叶子上。",
+            "startObservedMs": 1794133537566,
+            "stageMs": [
+              33,
+              121,
+              599,
+              241
+            ],
+            "metricsObservedMs": 1794133538546,
+            "postSynthIncludingCheckMs": 794
+          }
+        ],
+        "successObservedMs": 1794133539340
+      }
+    },
+    {
+      "sequence": 22,
+      "text": "书可以慢慢读。",
+      "before": 54,
+      "httpStartMs": 1794133540566,
+      "httpEndMs": 1794133543346,
+      "after": 55,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 1540,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 49280,
+        "rate": 32000,
+        "leadingMs": 54.0,
+        "trailingMs": 378.3,
+        "interiorQuietMs": []
+      },
+      "requestId": "priority-8",
+      "partIndex": 2,
+      "preparationId": "f52bd3c6387c4b92a3b0804293506ac7",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "书可以慢慢读。",
+            "startObservedMs": 1794133540612,
+            "stageMs": [
+              37,
+              149,
+              304,
+              283
+            ],
+            "metricsObservedMs": 1794133541366,
+            "postSynthIncludingCheckMs": 690
+          },
+          {
+            "text": "书可以慢慢读。",
+            "startObservedMs": 1794133542056,
+            "stageMs": [
+              29,
+              131,
+              295,
+              131
+            ],
+            "metricsObservedMs": 1794133542642,
+            "postSynthIncludingCheckMs": 704
+          }
+        ],
+        "successObservedMs": 1794133543346
+      }
+    },
+    {
+      "sequence": 23,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+      "before": 55,
+      "httpStartMs": 1794133543605,
+      "httpEndMs": 1794133545847,
+      "after": 56,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 5100,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 163200,
+        "rate": 32000,
+        "leadingMs": 93.5,
+        "trailingMs": 358.3,
+        "interiorQuietMs": [
+          210.2,
+          326.5
+        ]
+      },
+      "requestId": "priority-8",
+      "partIndex": 3,
+      "preparationId": "8498498a16ce43db9036799e5cd804d3",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。",
+            "startObservedMs": 1794133543648,
+            "stageMs": [
+              44,
+              143,
+              1022,
+              222
+            ],
+            "metricsObservedMs": 1794133545073,
+            "postSynthIncludingCheckMs": 798
+          }
+        ],
+        "successObservedMs": 1794133545871
+      }
+    },
+    {
+      "sequence": 24,
+      "text": "等会儿，再一起听听窗外的风吧。",
+      "before": 56,
+      "httpStartMs": 1794133545981,
+      "httpEndMs": 1794133547833,
+      "after": 57,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 2860,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 91520,
+        "rate": 32000,
+        "leadingMs": 138.8,
+        "trailingMs": 386.8,
+        "interiorQuietMs": [
+          104.7
+        ]
+      },
+      "requestId": "priority-8",
+      "partIndex": 4,
+      "preparationId": "fed9a5cd906241adade44f8a819a10df",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "等会儿，再一起听听窗外的风吧。",
+            "startObservedMs": 1794133546026,
+            "stageMs": [
+              28,
+              167,
+              610,
+              246
+            ],
+            "metricsObservedMs": 1794133547073,
+            "postSynthIncludingCheckMs": 786
+          }
+        ],
+        "successObservedMs": 1794133547859
+      }
+    },
+    {
+      "sequence": 25,
+      "text": "刚才雨停了，窗边有一点阳光。",
+      "before": 57,
+      "httpStartMs": 1794133554111,
+      "httpEndMs": 1794133557789,
+      "after": 58,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 2980,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 95360,
+        "rate": 32000,
+        "leadingMs": 99.3,
+        "trailingMs": 338.2,
+        "interiorQuietMs": [
+          85.1
+        ]
+      },
+      "requestId": "priority-9",
+      "partIndex": 0,
+      "preparationId": "ef74380e8aef41839795d4ec1c8a8aaa",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133554166,
+            "stageMs": [
+              43,
+              132,
+              579,
+              235
+            ],
+            "metricsObservedMs": 1794133555154,
+            "postSynthIncludingCheckMs": 731
+          },
+          {
+            "text": "刚才雨停了，窗边有一点阳光。",
+            "startObservedMs": 1794133555885,
+            "stageMs": [
+              23,
+              135,
+              687,
+              220
+            ],
+            "metricsObservedMs": 1794133556950,
+            "postSynthIncludingCheckMs": 839
+          }
+        ],
+        "successObservedMs": 1794133557789
+      }
+    },
+    {
+      "sequence": 26,
+      "text": "小小的水珠还挂在叶子上。",
+      "before": 58,
+      "httpStartMs": 1794133557908,
+      "httpEndMs": 1794133559661,
+      "after": 59,
+      "checks": 1,
+      "retries": 0,
+      "durationMs": 3060,
+      "selectedTakeByFileOrder": 1,
+      "pcm": {
+        "samples": 97920,
+        "rate": 32000,
+        "leadingMs": 46.9,
+        "trailingMs": 359.0,
+        "interiorQuietMs": [
+          92.3
+        ]
+      },
+      "requestId": "priority-9",
+      "partIndex": 1,
+      "preparationId": "4e80b5c18ed7414cb8138f261a673b41",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "小小的水珠还挂在叶子上。",
+            "startObservedMs": 1794133557951,
+            "stageMs": [
+              38,
+              115,
+              599,
+              231
+            ],
+            "metricsObservedMs": 1794133558950,
+            "postSynthIncludingCheckMs": 733
+          }
+        ],
+        "successObservedMs": 1794133559683
+      }
+    },
+    {
+      "sequence": 27,
+      "text": "我在，请讲。",
+      "before": 59,
+      "httpStartMs": 1794133559826,
+      "httpEndMs": 1794133562711,
+      "after": 60,
+      "checks": 2,
+      "retries": 1,
+      "durationMs": 1980,
+      "selectedTakeByFileOrder": 2,
+      "pcm": {
+        "samples": 63360,
+        "rate": 32000,
+        "leadingMs": 99.1,
+        "trailingMs": 359.2,
+        "interiorQuietMs": [
+          286.5
+        ]
+      },
+      "requestId": "priority-10",
+      "partIndex": 0,
+      "preparationId": "a194a9b0955f42448b045b4d9a8a8af9",
+      "numericLog": {
+        "takes": [
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133559886,
+            "stageMs": [
+              42,
+              103,
+              272,
+              242
+            ],
+            "metricsObservedMs": 1794133560542,
+            "postSynthIncludingCheckMs": 716
+          },
+          {
+            "text": "我在，请讲。",
+            "startObservedMs": 1794133561258,
+            "stageMs": [
+              28,
+              126,
+              386,
+              203
+            ],
+            "metricsObservedMs": 1794133562011,
+            "postSynthIncludingCheckMs": 722
+          }
+        ],
+        "successObservedMs": 1794133562733
+      }
+    }
+  ],
+  "wireSpeak": [
+    {
+      "requestId": "priority-1",
+      "utteranceId": "utt-3664e05c7c53",
+      "playbackId": "466b56dd30804dd38f7f517d5ad44720",
+      "partIndex": 0,
+      "text": "我在，请讲。"
+    },
+    {
+      "requestId": "priority-2",
+      "utteranceId": "utt-d376e35dd6bf",
+      "playbackId": "d50937462db545d2b2216dd2fd8830c2",
+      "partIndex": 0,
+      "text": "我在，请讲。"
+    },
+    {
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "1b21e8554e544accb21bb73cedc7b757",
+      "partIndex": 0,
+      "text": "刚才雨停了，窗边有一点阳光。"
+    },
+    {
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "6d759d6725ef489eb5132030732ab8aa",
+      "partIndex": 1,
+      "text": "小小的水珠还挂在叶子上。"
+    },
+    {
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "59fee80d920846ea9a284d9d6f3529df",
+      "partIndex": 2,
+      "text": "书可以慢慢读。"
+    },
+    {
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "36293723f9ec4424936b7d78544f1bbb",
+      "partIndex": 3,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。"
+    },
+    {
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "adcf47203a3f477d85b9a7665c7a51aa",
+      "partIndex": 4,
+      "text": "等会儿，再一起听听窗外的风吧。"
+    },
+    {
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "46f49c35b2b347ef9dfa3e3df0adc2eb",
+      "partIndex": 0,
+      "text": "刚才雨停了，窗边有一点阳光。"
+    },
+    {
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "880acec11c654a2a8ecb367584c52477",
+      "partIndex": 1,
+      "text": "小小的水珠还挂在叶子上。"
+    },
+    {
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "36ff050970ea4a7388e6480ab4629312",
+      "partIndex": 2,
+      "text": "书可以慢慢读。"
+    },
+    {
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "b51723d15b0d44ce90594cb1c18b432e",
+      "partIndex": 3,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。"
+    },
+    {
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "f0801e53375647be864f23df69d473c1",
+      "partIndex": 4,
+      "text": "等会儿，再一起听听窗外的风吧。"
+    },
+    {
+      "requestId": "priority-5",
+      "utteranceId": "utt-7d6f3321493c",
+      "playbackId": "1f1c6d1565ad4c799ad4ff8a3f9a421a",
+      "partIndex": 0,
+      "text": "我在，请讲。"
+    },
+    {
+      "requestId": "priority-6",
+      "utteranceId": "utt-ce706fd86551",
+      "playbackId": "8906c86d63904de4983351fcb950a48a",
+      "partIndex": 0,
+      "text": "我在，请讲。"
+    },
+    {
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "b1a092b00291460699880d0b7da2f50c",
+      "partIndex": 0,
+      "text": "刚才雨停了，窗边有一点阳光。"
+    },
+    {
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "ca8ab131287f4de397bbeecdcec3fd24",
+      "partIndex": 1,
+      "text": "小小的水珠还挂在叶子上。"
+    },
+    {
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "63c13bbf49b2432380899010d6756986",
+      "partIndex": 2,
+      "text": "书可以慢慢读。"
+    },
+    {
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "c1eff4b1abe446508d161699f5f6b709",
+      "partIndex": 3,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。"
+    },
+    {
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "04fc60ff3b4c4cb5931dfff7f3335553",
+      "partIndex": 4,
+      "text": "等会儿，再一起听听窗外的风吧。"
+    },
+    {
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "5c70fa9514114be3a7692c217027c358",
+      "partIndex": 0,
+      "text": "刚才雨停了，窗边有一点阳光。"
+    },
+    {
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "86225fdfdee64f67a2989404fea9e09e",
+      "partIndex": 1,
+      "text": "小小的水珠还挂在叶子上。"
+    },
+    {
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "0db3cd36565b4f4ca7827ab1495c0e1b",
+      "partIndex": 2,
+      "text": "书可以慢慢读。"
+    },
+    {
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "4cf6b9506c70488b829b3424f60818d6",
+      "partIndex": 3,
+      "text": "我们把最喜欢的那句话夹在蓝色书签里，留给明天。"
+    },
+    {
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "22154d71fad24ba6a5fcc8c55b1a7e55",
+      "partIndex": 4,
+      "text": "等会儿，再一起听听窗外的风吧。"
+    },
+    {
+      "requestId": "priority-9",
+      "utteranceId": "utt-1eee7bc5de6c",
+      "playbackId": "04fb4ae607ff47d0b6b7b8f5f03dd1db",
+      "partIndex": 0,
+      "text": "刚才雨停了，窗边有一点阳光。"
+    },
+    {
+      "requestId": "priority-10",
+      "utteranceId": "utt-fcf30a3d466a",
+      "playbackId": "50eaf11b65764c61906360bdbca44ba0",
+      "partIndex": 0,
+      "text": "我在，请讲。"
+    }
+  ],
+  "wireReceipts": [
+    {
+      "endedAtMs": 1794133461484,
+      "error": "",
+      "firstSoundMs": 1794133459918,
+      "interrupted": false,
+      "lastSoundMs": 1794133461117,
+      "partIndex": 0.0,
+      "playbackId": "466b56dd30804dd38f7f517d5ad44720",
+      "startedAtMs": 1794133459822,
+      "type": "speech.finished",
+      "utteranceId": "utt-3664e05c7c53",
+      "relayAtMs": 1794133461518
+    },
+    {
+      "endedAtMs": 1794133464750,
+      "error": "",
+      "firstSoundMs": 1794133463184,
+      "interrupted": false,
+      "lastSoundMs": 1794133464384,
+      "partIndex": 0.0,
+      "playbackId": "d50937462db545d2b2216dd2fd8830c2",
+      "startedAtMs": 1794133463124,
+      "type": "speech.finished",
+      "utteranceId": "utt-d376e35dd6bf",
+      "relayAtMs": 1794133464784
+    },
+    {
+      "endedAtMs": 1794133469917,
+      "error": "",
+      "firstSoundMs": 1794133467017,
+      "interrupted": false,
+      "lastSoundMs": 1794133469551,
+      "partIndex": 0.0,
+      "playbackId": "1b21e8554e544accb21bb73cedc7b757",
+      "startedAtMs": 1794133466920,
+      "type": "speech.finished",
+      "utteranceId": "utt-00a894ae7a6e",
+      "relayAtMs": 1794133469951
+    },
+    {
+      "endedAtMs": 1794133473850,
+      "error": "",
+      "firstSoundMs": 1794133470684,
+      "interrupted": false,
+      "lastSoundMs": 1794133473517,
+      "partIndex": 1.0,
+      "playbackId": "6d759d6725ef489eb5132030732ab8aa",
+      "startedAtMs": 1794133470620,
+      "type": "speech.finished",
+      "utteranceId": "utt-00a894ae7a6e",
+      "relayAtMs": 1794133473884
+    },
+    {
+      "endedAtMs": 1794133475717,
+      "error": "",
+      "firstSoundMs": 1794133473984,
+      "interrupted": false,
+      "lastSoundMs": 1794133475317,
+      "partIndex": 2.0,
+      "playbackId": "59fee80d920846ea9a284d9d6f3529df",
+      "startedAtMs": 1794133473918,
+      "type": "speech.finished",
+      "utteranceId": "utt-00a894ae7a6e",
+      "relayAtMs": 1794133475750
+    },
+    {
+      "endedAtMs": 1794133481618,
+      "error": "",
+      "firstSoundMs": 1794133476717,
+      "interrupted": false,
+      "lastSoundMs": 1794133481251,
+      "partIndex": 3.0,
+      "playbackId": "36293723f9ec4424936b7d78544f1bbb",
+      "startedAtMs": 1794133476654,
+      "type": "speech.finished",
+      "utteranceId": "utt-00a894ae7a6e",
+      "relayAtMs": 1794133481651
+    },
+    {
+      "endedAtMs": 1794133484650,
+      "error": "",
+      "firstSoundMs": 1794133481851,
+      "interrupted": false,
+      "lastSoundMs": 1794133484284,
+      "partIndex": 4.0,
+      "playbackId": "adcf47203a3f477d85b9a7665c7a51aa",
+      "startedAtMs": 1794133481688,
+      "type": "speech.finished",
+      "utteranceId": "utt-00a894ae7a6e",
+      "relayAtMs": 1794133484684
+    },
+    {
+      "endedAtMs": 1794133491084,
+      "error": "",
+      "firstSoundMs": 1794133488283,
+      "interrupted": false,
+      "lastSoundMs": 1794133490784,
+      "partIndex": 0.0,
+      "playbackId": "46f49c35b2b347ef9dfa3e3df0adc2eb",
+      "startedAtMs": 1794133488185,
+      "type": "speech.finished",
+      "utteranceId": "utt-5e26773c903d",
+      "relayAtMs": 1794133491117
+    },
+    {
+      "endedAtMs": 1794133494284,
+      "error": "",
+      "firstSoundMs": 1794133491216,
+      "interrupted": false,
+      "lastSoundMs": 1794133493884,
+      "partIndex": 1.0,
+      "playbackId": "880acec11c654a2a8ecb367584c52477",
+      "startedAtMs": 1794133491154,
+      "type": "speech.finished",
+      "utteranceId": "utt-5e26773c903d",
+      "relayAtMs": 1794133494317
+    },
+    {
+      "endedAtMs": 1794133496117,
+      "error": "",
+      "firstSoundMs": 1794133494417,
+      "interrupted": false,
+      "lastSoundMs": 1794133495750,
+      "partIndex": 2.0,
+      "playbackId": "36ff050970ea4a7388e6480ab4629312",
+      "startedAtMs": 1794133494352,
+      "type": "speech.finished",
+      "utteranceId": "utt-5e26773c903d",
+      "relayAtMs": 1794133496151
+    },
+    {
+      "endedAtMs": 1794133501084,
+      "error": "",
+      "firstSoundMs": 1794133496283,
+      "interrupted": false,
+      "lastSoundMs": 1794133500716,
+      "partIndex": 3.0,
+      "playbackId": "b51723d15b0d44ce90594cb1c18b432e",
+      "startedAtMs": 1794133496188,
+      "type": "speech.finished",
+      "utteranceId": "utt-5e26773c903d",
+      "relayAtMs": 1794133501117
+    },
+    {
+      "endedAtMs": 1794133504350,
+      "error": "",
+      "firstSoundMs": 1794133501217,
+      "interrupted": false,
+      "lastSoundMs": 1794133504016,
+      "partIndex": 4.0,
+      "playbackId": "f0801e53375647be864f23df69d473c1",
+      "startedAtMs": 1794133501152,
+      "type": "speech.finished",
+      "utteranceId": "utt-5e26773c903d",
+      "relayAtMs": 1794133504384
+    },
+    {
+      "endedAtMs": 1794133507584,
+      "error": "",
+      "firstSoundMs": 1794133506016,
+      "interrupted": false,
+      "lastSoundMs": 1794133507250,
+      "partIndex": 0.0,
+      "playbackId": "1f1c6d1565ad4c799ad4ff8a3f9a421a",
+      "startedAtMs": 1794133505952,
+      "type": "speech.finished",
+      "utteranceId": "utt-7d6f3321493c",
+      "relayAtMs": 1794133507617
+    },
+    {
+      "endedAtMs": 1794133513216,
+      "error": "",
+      "firstSoundMs": 1794133510950,
+      "interrupted": false,
+      "lastSoundMs": 1794133512884,
+      "partIndex": 0.0,
+      "playbackId": "8906c86d63904de4983351fcb950a48a",
+      "startedAtMs": 1794133510884,
+      "type": "speech.finished",
+      "utteranceId": "utt-ce706fd86551",
+      "relayAtMs": 1794133513251
+    },
+    {
+      "endedAtMs": 1794133520084,
+      "error": "",
+      "firstSoundMs": 1794133517117,
+      "interrupted": false,
+      "lastSoundMs": 1794133519750,
+      "partIndex": 0.0,
+      "playbackId": "b1a092b00291460699880d0b7da2f50c",
+      "startedAtMs": 1794133517018,
+      "type": "speech.finished",
+      "utteranceId": "utt-39a0d7f92397",
+      "relayAtMs": 1794133520117
+    },
+    {
+      "endedAtMs": 1794133523651,
+      "error": "",
+      "firstSoundMs": 1794133520684,
+      "interrupted": false,
+      "lastSoundMs": 1794133523316,
+      "partIndex": 1.0,
+      "playbackId": "ca8ab131287f4de397bbeecdcec3fd24",
+      "startedAtMs": 1794133520618,
+      "type": "speech.finished",
+      "utteranceId": "utt-39a0d7f92397",
+      "relayAtMs": 1794133523683
+    },
+    {
+      "endedAtMs": 1794133525684,
+      "error": "",
+      "firstSoundMs": 1794133523784,
+      "interrupted": false,
+      "lastSoundMs": 1794133525316,
+      "partIndex": 2.0,
+      "playbackId": "63c13bbf49b2432380899010d6756986",
+      "startedAtMs": 1794133523719,
+      "type": "speech.finished",
+      "utteranceId": "utt-39a0d7f92397",
+      "relayAtMs": 1794133525717
+    },
+    {
+      "endedAtMs": 1794133530616,
+      "error": "",
+      "firstSoundMs": 1794133525850,
+      "interrupted": false,
+      "lastSoundMs": 1794133530249,
+      "partIndex": 3.0,
+      "playbackId": "c1eff4b1abe446508d161699f5f6b709",
+      "startedAtMs": 1794133525753,
+      "type": "speech.finished",
+      "utteranceId": "utt-39a0d7f92397",
+      "relayAtMs": 1794133530650
+    },
+    {
+      "endedAtMs": 1794133533650,
+      "error": "",
+      "firstSoundMs": 1794133530850,
+      "interrupted": false,
+      "lastSoundMs": 1794133533283,
+      "partIndex": 4.0,
+      "playbackId": "04fc60ff3b4c4cb5931dfff7f3335553",
+      "startedAtMs": 1794133530684,
+      "type": "speech.finished",
+      "utteranceId": "utt-39a0d7f92397",
+      "relayAtMs": 1794133533684
+    },
+    {
+      "endedAtMs": 1794133540450,
+      "error": "",
+      "firstSoundMs": 1794133537550,
+      "interrupted": false,
+      "lastSoundMs": 1794133540083,
+      "partIndex": 0.0,
+      "playbackId": "5c70fa9514114be3a7692c217027c358",
+      "startedAtMs": 1794133537453,
+      "type": "speech.finished",
+      "utteranceId": "utt-b02a5e1d360c",
+      "relayAtMs": 1794133540484
+    },
+    {
+      "endedAtMs": 1794133543450,
+      "error": "",
+      "firstSoundMs": 1794133540616,
+      "interrupted": false,
+      "lastSoundMs": 1794133543083,
+      "partIndex": 1.0,
+      "playbackId": "86225fdfdee64f67a2989404fea9e09e",
+      "startedAtMs": 1794133540551,
+      "type": "speech.finished",
+      "utteranceId": "utt-b02a5e1d360c",
+      "relayAtMs": 1794133543483
+    },
+    {
+      "endedAtMs": 1794133545083,
+      "error": "",
+      "firstSoundMs": 1794133543584,
+      "interrupted": false,
+      "lastSoundMs": 1794133544683,
+      "partIndex": 2.0,
+      "playbackId": "0db3cd36565b4f4ca7827ab1495c0e1b",
+      "startedAtMs": 1794133543519,
+      "type": "speech.finished",
+      "utteranceId": "utt-b02a5e1d360c",
+      "relayAtMs": 1794133545116
+    },
+    {
+      "endedAtMs": 1794133551016,
+      "error": "",
+      "firstSoundMs": 1794133546016,
+      "interrupted": false,
+      "lastSoundMs": 1794133550683,
+      "partIndex": 3.0,
+      "playbackId": "4cf6b9506c70488b829b3424f60818d6",
+      "startedAtMs": 1794133545919,
+      "type": "speech.finished",
+      "utteranceId": "utt-b02a5e1d360c",
+      "relayAtMs": 1794133551050
+    },
+    {
+      "endedAtMs": 1794133553983,
+      "error": "",
+      "firstSoundMs": 1794133551250,
+      "interrupted": false,
+      "lastSoundMs": 1794133553583,
+      "partIndex": 4.0,
+      "playbackId": "22154d71fad24ba6a5fcc8c55b1a7e55",
+      "startedAtMs": 1794133551086,
+      "type": "speech.finished",
+      "utteranceId": "utt-b02a5e1d360c",
+      "relayAtMs": 1794133554017
+    },
+    {
+      "endedAtMs": 1794133558249,
+      "error": "",
+      "firstSoundMs": 1794133557983,
+      "interrupted": true,
+      "lastSoundMs": 1794133558283,
+      "partIndex": 0.0,
+      "playbackId": "04fb4ae607ff47d0b6b7b8f5f03dd1db",
+      "startedAtMs": 1794133557853,
+      "type": "speech.finished",
+      "utteranceId": "utt-1eee7bc5de6c",
+      "relayAtMs": 1794133558284
+    },
+    {
+      "endedAtMs": 1794133564749,
+      "error": "",
+      "firstSoundMs": 1794133562849,
+      "interrupted": false,
+      "lastSoundMs": 1794133564383,
+      "partIndex": 0.0,
+      "playbackId": "50eaf11b65764c61906360bdbca44ba0",
+      "startedAtMs": 1794133562751,
+      "type": "speech.finished",
+      "utteranceId": "utt-fcf30a3d466a",
+      "relayAtMs": 1794133564784
+    }
+  ],
+  "cases": [
+    {
+      "id": "priority-1",
+      "window": 1,
+      "label": "short",
+      "text": "我在，请讲。",
+      "startMs": 1794133452818,
+      "completed": true,
+      "endMs": 1794133461521,
+      "firstSoundMs": 7100,
+      "waitForFileMs": [],
+      "waitsOver80Ms": 0,
+      "longestWaitMs": 0,
+      "wavEdgeSilenceMs": [],
+      "audibleIntervalMs": [],
+      "queueMs": [
+        0.0
+      ],
+      "retries": 1,
+      "peaksMiB": {
+        "usedGpuMiB": 3100,
+        "coreRssMiB": 69,
+        "roleRssMiB": 344,
+        "ttsRssMiB": 969
+      },
+      "minFreeRamMiB": 773
+    },
+    {
+      "id": "priority-2",
+      "window": 2,
+      "label": "short",
+      "text": "我在，请讲。",
+      "startMs": 1794133461522,
+      "completed": true,
+      "endMs": 1794133464787,
+      "firstSoundMs": 1662,
+      "waitForFileMs": [],
+      "waitsOver80Ms": 0,
+      "longestWaitMs": 0,
+      "wavEdgeSilenceMs": [],
+      "audibleIntervalMs": [],
+      "queueMs": [
+        0.0
+      ],
+      "retries": 0,
+      "peaksMiB": {
+        "usedGpuMiB": 3084,
+        "coreRssMiB": 72,
+        "roleRssMiB": 343,
+        "ttsRssMiB": 973
+      },
+      "minFreeRamMiB": 763
+    },
+    {
+      "id": "priority-3",
+      "window": 1,
+      "label": "long",
+      "text": "刚才雨停了，窗边有一点阳光。小小的水珠还挂在叶子上。\n书可以慢慢读。我们把最喜欢的那句话夹在蓝色书签里，留给明天。\n等会儿，再一起听听窗外的风吧。",
+      "startMs": 1794133464787,
+      "completed": true,
+      "endMs": 1794133484686,
+      "firstSoundMs": 2230,
+      "waitForFileMs": [
+        612,
+        0,
+        860,
+        0
+      ],
+      "waitsOver80Ms": 2,
+      "longestWaitMs": 860,
+      "wavEdgeSilenceMs": [
+        394.9,
+        419.1,
+        433.8,
+        500.1
+      ],
+      "audibleIntervalMs": [
+        1133,
+        467,
+        1400,
+        600
+      ],
+      "queueMs": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "retries": 1,
+      "peaksMiB": {
+        "usedGpuMiB": 3080,
+        "coreRssMiB": 73,
+        "roleRssMiB": 344,
+        "ttsRssMiB": 994
+      },
+      "minFreeRamMiB": 471
+    },
+    {
+      "id": "priority-4",
+      "window": 2,
+      "label": "long",
+      "text": "刚才雨停了，窗边有一点阳光。小小的水珠还挂在叶子上。\n书可以慢慢读。我们把最喜欢的那句话夹在蓝色书签里，留给明天。\n等会儿，再一起听听窗外的风吧。",
+      "startMs": 1794133484686,
+      "completed": true,
+      "endMs": 1794133504386,
+      "firstSoundMs": 3597,
+      "waitForFileMs": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "waitsOver80Ms": 0,
+      "longestWaitMs": 0,
+      "wavEdgeSilenceMs": [
+        377.5,
+        415.1,
+        473.5,
+        426.8
+      ],
+      "audibleIntervalMs": [
+        432,
+        533,
+        533,
+        501
+      ],
+      "queueMs": [
+        0.0,
+        0.0,
+        1875.0,
+        500.0,
+        0.0
+      ],
+      "retries": 1,
+      "peaksMiB": {
+        "usedGpuMiB": 3080,
+        "coreRssMiB": 75,
+        "roleRssMiB": 344,
+        "ttsRssMiB": 995
+      },
+      "minFreeRamMiB": 876
+    },
+    {
+      "id": "priority-5",
+      "window": 2,
+      "label": "short",
+      "text": "我在，请讲。",
+      "startMs": 1794133504386,
+      "completed": true,
+      "endMs": 1794133507621,
+      "firstSoundMs": 1630,
+      "waitForFileMs": [],
+      "waitsOver80Ms": 0,
+      "longestWaitMs": 0,
+      "wavEdgeSilenceMs": [],
+      "audibleIntervalMs": [],
+      "queueMs": [
+        0.0
+      ],
+      "retries": 0,
+      "peaksMiB": {
+        "usedGpuMiB": 3048,
+        "coreRssMiB": 74,
+        "roleRssMiB": 344,
+        "ttsRssMiB": 995
+      },
+      "minFreeRamMiB": 929
+    },
+    {
+      "id": "priority-6",
+      "window": 1,
+      "label": "short",
+      "text": "我在，请讲。",
+      "startMs": 1794133507621,
+      "completed": true,
+      "endMs": 1794133513254,
+      "firstSoundMs": 3329,
+      "waitForFileMs": [],
+      "waitsOver80Ms": 0,
+      "longestWaitMs": 0,
+      "wavEdgeSilenceMs": [],
+      "audibleIntervalMs": [],
+      "queueMs": [
+        0.0
+      ],
+      "retries": 1,
+      "peaksMiB": {
+        "usedGpuMiB": 3272,
+        "coreRssMiB": 75,
+        "roleRssMiB": 344,
+        "ttsRssMiB": 996
+      },
+      "minFreeRamMiB": 827
+    },
+    {
+      "id": "priority-7",
+      "window": 2,
+      "label": "long",
+      "text": "刚才雨停了，窗边有一点阳光。小小的水珠还挂在叶子上。\n书可以慢慢读。我们把最喜欢的那句话夹在蓝色书签里，留给明天。\n等会儿，再一起听听窗外的风吧。",
+      "startMs": 1794133513254,
+      "completed": true,
+      "endMs": 1794133533686,
+      "firstSoundMs": 3863,
+      "waitForFileMs": [
+        489,
+        0,
+        0,
+        0
+      ],
+      "waitsOver80Ms": 1,
+      "longestWaitMs": 489,
+      "wavEdgeSilenceMs": [
+        395.6,
+        414.9,
+        465.2,
+        512.0
+      ],
+      "audibleIntervalMs": [
+        934,
+        468,
+        534,
+        601
+      ],
+      "queueMs": [
+        0.0,
+        0.0,
+        3578.0,
+        1766.0,
+        1079.0
+      ],
+      "retries": 2,
+      "peaksMiB": {
+        "usedGpuMiB": 3080,
+        "coreRssMiB": 75,
+        "roleRssMiB": 344,
+        "ttsRssMiB": 999
+      },
+      "minFreeRamMiB": 599
+    },
+    {
+      "id": "priority-8",
+      "window": 1,
+      "label": "long",
+      "text": "刚才雨停了，窗边有一点阳光。小小的水珠还挂在叶子上。\n书可以慢慢读。我们把最喜欢的那句话夹在蓝色书签里，留给明天。\n等会儿，再一起听听窗外的风吧。",
+      "startMs": 1794133533687,
+      "completed": true,
+      "endMs": 1794133554020,
+      "firstSoundMs": 3863,
+      "waitForFileMs": [
+        0,
+        0,
+        775,
+        0
+      ],
+      "waitsOver80Ms": 1,
+      "longestWaitMs": 775,
+      "wavEdgeSilenceMs": [
+        425.8,
+        432.4,
+        471.8,
+        497.1
+      ],
+      "audibleIntervalMs": [
+        533,
+        501,
+        1333,
+        567
+      ],
+      "queueMs": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "retries": 2,
+      "peaksMiB": {
+        "usedGpuMiB": 3048,
+        "coreRssMiB": 75,
+        "roleRssMiB": 344,
+        "ttsRssMiB": 998
+      },
+      "minFreeRamMiB": 501
+    },
+    {
+      "id": "priority-9",
+      "window": 2,
+      "label": "cancel",
+      "text": "刚才雨停了，窗边有一点阳光。小小的水珠还挂在叶子上。\n书可以慢慢读。我们把最喜欢的那句话夹在蓝色书签里，留给明天。\n等会儿，再一起听听窗外的风吧。",
+      "startMs": 1794133554020,
+      "completed": false,
+      "endMs": 1794133558232,
+      "completedHttpWithoutPlayback": 1,
+      "peaksMiB": {
+        "usedGpuMiB": 3080,
+        "coreRssMiB": 75,
+        "roleRssMiB": 345,
+        "ttsRssMiB": 998
+      },
+      "minFreeRamMiB": 755
+    },
+    {
+      "id": "priority-10",
+      "window": 2,
+      "label": "recovery",
+      "text": "我在，请讲。",
+      "startMs": 1794133558232,
+      "completed": true,
+      "endMs": 1794133564788,
+      "firstSoundMs": 4617,
+      "waitForFileMs": [],
+      "waitsOver80Ms": 0,
+      "longestWaitMs": 0,
+      "wavEdgeSilenceMs": [],
+      "audibleIntervalMs": [],
+      "queueMs": [
+        1485.0
+      ],
+      "retries": 1,
+      "peaksMiB": {
+        "usedGpuMiB": 3016,
+        "coreRssMiB": 76,
+        "roleRssMiB": 345,
+        "ttsRssMiB": 998
+      },
+      "minFreeRamMiB": 776
+    }
+  ],
+  "resources": [
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 2784,
+      "gpuPercent": 31,
+      "atMs": 1794133449315,
+      "freeMiB": 1960,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 10,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 2789,
+      "gpuPercent": 31,
+      "atMs": 1794133449696,
+      "freeMiB": 1888,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 95,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 2794,
+      "gpuPercent": 35,
+      "atMs": 1794133450068,
+      "freeMiB": 1903,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 86,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 2798,
+      "gpuPercent": 26,
+      "atMs": 1794133450431,
+      "freeMiB": 1818,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 104,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 2810,
+      "gpuPercent": 29,
+      "atMs": 1794133450830,
+      "freeMiB": 1737,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 200,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 2886,
+      "gpuPercent": 30,
+      "atMs": 1794133451226,
+      "freeMiB": 1664,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 256,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 2982,
+      "gpuPercent": 30,
+      "atMs": 1794133451605,
+      "freeMiB": 1494,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 403,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3078,
+      "gpuPercent": 35,
+      "atMs": 1794133451990,
+      "freeMiB": 1433,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 469,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3078,
+      "gpuPercent": 30,
+      "atMs": 1794133452377,
+      "freeMiB": 1543,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 342,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3076,
+      "gpuPercent": 26,
+      "atMs": 1794133452809,
+      "freeMiB": 1543,
+      "ttsRssMiB": 87,
+      "roleRssMiB": 344,
+      "coreRssMiB": 68
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3072,
+      "gpuPercent": 26,
+      "atMs": 1794133453216,
+      "freeMiB": 1523,
+      "ttsRssMiB": 100,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3072,
+      "gpuPercent": 41,
+      "atMs": 1794133453623,
+      "freeMiB": 1399,
+      "ttsRssMiB": 211,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3068,
+      "gpuPercent": 35,
+      "atMs": 1794133454009,
+      "freeMiB": 1271,
+      "ttsRssMiB": 339,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3068,
+      "gpuPercent": 32,
+      "atMs": 1794133454433,
+      "freeMiB": 1160,
+      "ttsRssMiB": 448,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3064,
+      "gpuPercent": 41,
+      "atMs": 1794133454810,
+      "freeMiB": 1153,
+      "ttsRssMiB": 459,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3060,
+      "gpuPercent": 41,
+      "atMs": 1794133455210,
+      "freeMiB": 1132,
+      "ttsRssMiB": 468,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3060,
+      "gpuPercent": 35,
+      "atMs": 1794133455626,
+      "freeMiB": 1149,
+      "ttsRssMiB": 492,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3056,
+      "gpuPercent": 34,
+      "atMs": 1794133456038,
+      "freeMiB": 1053,
+      "ttsRssMiB": 562,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3056,
+      "gpuPercent": 33,
+      "atMs": 1794133456437,
+      "freeMiB": 956,
+      "ttsRssMiB": 633,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3052,
+      "gpuPercent": 42,
+      "atMs": 1794133456832,
+      "freeMiB": 839,
+      "ttsRssMiB": 732,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3052,
+      "gpuPercent": 32,
+      "atMs": 1794133457239,
+      "freeMiB": 827,
+      "ttsRssMiB": 809,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 32,
+      "atMs": 1794133457654,
+      "freeMiB": 776,
+      "ttsRssMiB": 910,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 33,
+      "atMs": 1794133458060,
+      "freeMiB": 786,
+      "ttsRssMiB": 951,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3044,
+      "gpuPercent": 35,
+      "atMs": 1794133458461,
+      "freeMiB": 791,
+      "ttsRssMiB": 961,
+      "roleRssMiB": 344,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3044,
+      "gpuPercent": 62,
+      "atMs": 1794133458862,
+      "freeMiB": 786,
+      "ttsRssMiB": 961,
+      "roleRssMiB": 343,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3040,
+      "gpuPercent": 37,
+      "atMs": 1794133459271,
+      "freeMiB": 799,
+      "ttsRssMiB": 964,
+      "roleRssMiB": 343,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3100,
+      "gpuPercent": 37,
+      "atMs": 1794133459670,
+      "freeMiB": 793,
+      "ttsRssMiB": 967,
+      "roleRssMiB": 343,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3036,
+      "gpuPercent": 83,
+      "atMs": 1794133460078,
+      "freeMiB": 788,
+      "ttsRssMiB": 969,
+      "roleRssMiB": 343,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3032,
+      "gpuPercent": 39,
+      "atMs": 1794133460482,
+      "freeMiB": 791,
+      "ttsRssMiB": 969,
+      "roleRssMiB": 343,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3032,
+      "gpuPercent": 33,
+      "atMs": 1794133460894,
+      "freeMiB": 794,
+      "ttsRssMiB": 969,
+      "roleRssMiB": 343,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3028,
+      "gpuPercent": 36,
+      "atMs": 1794133461341,
+      "freeMiB": 773,
+      "ttsRssMiB": 969,
+      "roleRssMiB": 343,
+      "coreRssMiB": 69
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3028,
+      "gpuPercent": 40,
+      "atMs": 1794133461750,
+      "freeMiB": 763,
+      "ttsRssMiB": 969,
+      "roleRssMiB": 343,
+      "coreRssMiB": 70
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3024,
+      "gpuPercent": 40,
+      "atMs": 1794133462136,
+      "freeMiB": 770,
+      "ttsRssMiB": 970,
+      "roleRssMiB": 343,
+      "coreRssMiB": 70
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3020,
+      "gpuPercent": 56,
+      "atMs": 1794133462554,
+      "freeMiB": 773,
+      "ttsRssMiB": 970,
+      "roleRssMiB": 343,
+      "coreRssMiB": 70
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3084,
+      "gpuPercent": 32,
+      "atMs": 1794133462953,
+      "freeMiB": 774,
+      "ttsRssMiB": 971,
+      "roleRssMiB": 343,
+      "coreRssMiB": 70
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 50,
+      "atMs": 1794133463369,
+      "freeMiB": 774,
+      "ttsRssMiB": 973,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133463774,
+      "freeMiB": 773,
+      "ttsRssMiB": 973,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133464211,
+      "freeMiB": 771,
+      "ttsRssMiB": 973,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 31,
+      "atMs": 1794133464633,
+      "freeMiB": 774,
+      "ttsRssMiB": 973,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 30,
+      "atMs": 1794133465129,
+      "freeMiB": 674,
+      "ttsRssMiB": 975,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 43,
+      "atMs": 1794133465499,
+      "freeMiB": 593,
+      "ttsRssMiB": 977,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 67,
+      "atMs": 1794133465885,
+      "freeMiB": 701,
+      "ttsRssMiB": 977,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 41,
+      "atMs": 1794133466304,
+      "freeMiB": 701,
+      "ttsRssMiB": 977,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 41,
+      "atMs": 1794133466712,
+      "freeMiB": 706,
+      "ttsRssMiB": 979,
+      "roleRssMiB": 343,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133467126,
+      "freeMiB": 709,
+      "ttsRssMiB": 981,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 43,
+      "atMs": 1794133467512,
+      "freeMiB": 707,
+      "ttsRssMiB": 983,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 51,
+      "atMs": 1794133467900,
+      "freeMiB": 706,
+      "ttsRssMiB": 983,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133468313,
+      "freeMiB": 714,
+      "ttsRssMiB": 984,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 82,
+      "atMs": 1794133468746,
+      "freeMiB": 732,
+      "ttsRssMiB": 984,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 82,
+      "atMs": 1794133469121,
+      "freeMiB": 730,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 63,
+      "atMs": 1794133469528,
+      "freeMiB": 742,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 42,
+      "atMs": 1794133469918,
+      "freeMiB": 738,
+      "ttsRssMiB": 986,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 31,
+      "atMs": 1794133470322,
+      "freeMiB": 741,
+      "ttsRssMiB": 986,
+      "roleRssMiB": 343,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 31,
+      "atMs": 1794133470693,
+      "freeMiB": 740,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 344,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 44,
+      "atMs": 1794133471065,
+      "freeMiB": 743,
+      "ttsRssMiB": 986,
+      "roleRssMiB": 344,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 57,
+      "atMs": 1794133471472,
+      "freeMiB": 728,
+      "ttsRssMiB": 987,
+      "roleRssMiB": 344,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133471888,
+      "freeMiB": 720,
+      "ttsRssMiB": 987,
+      "roleRssMiB": 344,
+      "coreRssMiB": 72
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 81,
+      "atMs": 1794133472288,
+      "freeMiB": 730,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 81,
+      "atMs": 1794133472671,
+      "freeMiB": 723,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133473070,
+      "freeMiB": 728,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133473456,
+      "freeMiB": 719,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133473855,
+      "freeMiB": 713,
+      "ttsRssMiB": 985,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 47,
+      "atMs": 1794133474228,
+      "freeMiB": 706,
+      "ttsRssMiB": 988,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 47,
+      "atMs": 1794133474597,
+      "freeMiB": 679,
+      "ttsRssMiB": 990,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 56,
+      "atMs": 1794133475005,
+      "freeMiB": 613,
+      "ttsRssMiB": 990,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 53,
+      "atMs": 1794133475420,
+      "freeMiB": 525,
+      "ttsRssMiB": 991,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 48,
+      "atMs": 1794133475800,
+      "freeMiB": 486,
+      "ttsRssMiB": 991,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 48,
+      "atMs": 1794133476204,
+      "freeMiB": 495,
+      "ttsRssMiB": 991,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133476641,
+      "freeMiB": 496,
+      "ttsRssMiB": 991,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 42,
+      "atMs": 1794133477032,
+      "freeMiB": 489,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 66,
+      "atMs": 1794133477455,
+      "freeMiB": 478,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 47,
+      "atMs": 1794133477858,
+      "freeMiB": 471,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 37,
+      "atMs": 1794133478270,
+      "freeMiB": 487,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133478672,
+      "freeMiB": 500,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 31,
+      "atMs": 1794133479069,
+      "freeMiB": 520,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 46,
+      "atMs": 1794133479453,
+      "freeMiB": 588,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133479858,
+      "freeMiB": 578,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133480235,
+      "freeMiB": 1012,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133480655,
+      "freeMiB": 1014,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 30,
+      "atMs": 1794133481055,
+      "freeMiB": 1007,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133481456,
+      "freeMiB": 1008,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 31,
+      "atMs": 1794133481866,
+      "freeMiB": 999,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133482268,
+      "freeMiB": 1000,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133482702,
+      "freeMiB": 999,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133483095,
+      "freeMiB": 996,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133483507,
+      "freeMiB": 1002,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133483894,
+      "freeMiB": 997,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 30,
+      "atMs": 1794133484304,
+      "freeMiB": 1004,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 30,
+      "atMs": 1794133484709,
+      "freeMiB": 994,
+      "ttsRssMiB": 993,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133485085,
+      "freeMiB": 976,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 67,
+      "atMs": 1794133485476,
+      "freeMiB": 1002,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 46,
+      "atMs": 1794133485873,
+      "freeMiB": 992,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 34,
+      "atMs": 1794133486285,
+      "freeMiB": 983,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133486670,
+      "freeMiB": 965,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 51,
+      "atMs": 1794133487047,
+      "freeMiB": 976,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 59,
+      "atMs": 1794133487461,
+      "freeMiB": 987,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 42,
+      "atMs": 1794133487853,
+      "freeMiB": 979,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 57,
+      "atMs": 1794133488266,
+      "freeMiB": 994,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 57,
+      "atMs": 1794133488642,
+      "freeMiB": 993,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 63,
+      "atMs": 1794133489042,
+      "freeMiB": 995,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133489418,
+      "freeMiB": 1000,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 34,
+      "atMs": 1794133489846,
+      "freeMiB": 996,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133490232,
+      "freeMiB": 997,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133490617,
+      "freeMiB": 987,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 64,
+      "atMs": 1794133491018,
+      "freeMiB": 979,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 38,
+      "atMs": 1794133491429,
+      "freeMiB": 975,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 48,
+      "atMs": 1794133491830,
+      "freeMiB": 973,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 48,
+      "atMs": 1794133492215,
+      "freeMiB": 974,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 67,
+      "atMs": 1794133492637,
+      "freeMiB": 975,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 54,
+      "atMs": 1794133493025,
+      "freeMiB": 974,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 53,
+      "atMs": 1794133493432,
+      "freeMiB": 968,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 31,
+      "atMs": 1794133493836,
+      "freeMiB": 914,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133494249,
+      "freeMiB": 914,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133494616,
+      "freeMiB": 910,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 46,
+      "atMs": 1794133495005,
+      "freeMiB": 906,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 59,
+      "atMs": 1794133495384,
+      "freeMiB": 878,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133495768,
+      "freeMiB": 881,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133496182,
+      "freeMiB": 883,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 89,
+      "atMs": 1794133496577,
+      "freeMiB": 876,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133496977,
+      "freeMiB": 876,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133497369,
+      "freeMiB": 878,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133497750,
+      "freeMiB": 878,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133498147,
+      "freeMiB": 877,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133498547,
+      "freeMiB": 878,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 39,
+      "atMs": 1794133498957,
+      "freeMiB": 880,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133499368,
+      "freeMiB": 909,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133499749,
+      "freeMiB": 879,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133500133,
+      "freeMiB": 889,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 42,
+      "atMs": 1794133500530,
+      "freeMiB": 933,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 39,
+      "atMs": 1794133500941,
+      "freeMiB": 938,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133501368,
+      "freeMiB": 933,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 41,
+      "atMs": 1794133501782,
+      "freeMiB": 941,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 41,
+      "atMs": 1794133502224,
+      "freeMiB": 940,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133502628,
+      "freeMiB": 941,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133503042,
+      "freeMiB": 931,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 31,
+      "atMs": 1794133503433,
+      "freeMiB": 940,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133503806,
+      "freeMiB": 945,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133504191,
+      "freeMiB": 937,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133504589,
+      "freeMiB": 941,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 45,
+      "atMs": 1794133504976,
+      "freeMiB": 934,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 55,
+      "atMs": 1794133505375,
+      "freeMiB": 941,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 38,
+      "atMs": 1794133505783,
+      "freeMiB": 930,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133506225,
+      "freeMiB": 937,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133506629,
+      "freeMiB": 935,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133507033,
+      "freeMiB": 936,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133507447,
+      "freeMiB": 929,
+      "ttsRssMiB": 994,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133507826,
+      "freeMiB": 917,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133508216,
+      "freeMiB": 872,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 60,
+      "atMs": 1794133508596,
+      "freeMiB": 855,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 44,
+      "atMs": 1794133509004,
+      "freeMiB": 868,
+      "ttsRssMiB": 995,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3272,
+      "gpuPercent": 36,
+      "atMs": 1794133509409,
+      "freeMiB": 870,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 73,
+      "atMs": 1794133509782,
+      "freeMiB": 871,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 73,
+      "atMs": 1794133510180,
+      "freeMiB": 869,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 56,
+      "atMs": 1794133510574,
+      "freeMiB": 870,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 43,
+      "atMs": 1794133510962,
+      "freeMiB": 868,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133511346,
+      "freeMiB": 863,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133511739,
+      "freeMiB": 859,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133512149,
+      "freeMiB": 836,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133512556,
+      "freeMiB": 836,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133512975,
+      "freeMiB": 827,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133513379,
+      "freeMiB": 839,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 60,
+      "atMs": 1794133513853,
+      "freeMiB": 744,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 60,
+      "atMs": 1794133514216,
+      "freeMiB": 599,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 63,
+      "atMs": 1794133514634,
+      "freeMiB": 615,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 39,
+      "atMs": 1794133515015,
+      "freeMiB": 684,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 72,
+      "atMs": 1794133515399,
+      "freeMiB": 701,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 59,
+      "atMs": 1794133515804,
+      "freeMiB": 741,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 59,
+      "atMs": 1794133516185,
+      "freeMiB": 741,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133516586,
+      "freeMiB": 738,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 71
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133517002,
+      "freeMiB": 753,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133517421,
+      "freeMiB": 761,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 55,
+      "atMs": 1794133517821,
+      "freeMiB": 751,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 55,
+      "atMs": 1794133518206,
+      "freeMiB": 751,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133518607,
+      "freeMiB": 757,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133519015,
+      "freeMiB": 775,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 70,
+      "atMs": 1794133519421,
+      "freeMiB": 777,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 60,
+      "atMs": 1794133519815,
+      "freeMiB": 771,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 60,
+      "atMs": 1794133520213,
+      "freeMiB": 767,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133520608,
+      "freeMiB": 725,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 45,
+      "atMs": 1794133521011,
+      "freeMiB": 762,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 64,
+      "atMs": 1794133521417,
+      "freeMiB": 789,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 46,
+      "atMs": 1794133521823,
+      "freeMiB": 787,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 46,
+      "atMs": 1794133522222,
+      "freeMiB": 787,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133522603,
+      "freeMiB": 794,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133522992,
+      "freeMiB": 798,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133523391,
+      "freeMiB": 802,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 57,
+      "atMs": 1794133523820,
+      "freeMiB": 802,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 57,
+      "atMs": 1794133524201,
+      "freeMiB": 794,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 32,
+      "atMs": 1794133524583,
+      "freeMiB": 796,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 82,
+      "atMs": 1794133524978,
+      "freeMiB": 774,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 64,
+      "atMs": 1794133525376,
+      "freeMiB": 768,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133525776,
+      "freeMiB": 770,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133526189,
+      "freeMiB": 771,
+      "ttsRssMiB": 999,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 34,
+      "atMs": 1794133526620,
+      "freeMiB": 791,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 70,
+      "atMs": 1794133527029,
+      "freeMiB": 787,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133527407,
+      "freeMiB": 784,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 42,
+      "atMs": 1794133527796,
+      "freeMiB": 783,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 42,
+      "atMs": 1794133528207,
+      "freeMiB": 783,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 41,
+      "atMs": 1794133528598,
+      "freeMiB": 778,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133528984,
+      "freeMiB": 798,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133529409,
+      "freeMiB": 805,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133529825,
+      "freeMiB": 807,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133530217,
+      "freeMiB": 803,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133530622,
+      "freeMiB": 808,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 30,
+      "atMs": 1794133531000,
+      "freeMiB": 828,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133531384,
+      "freeMiB": 822,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133531804,
+      "freeMiB": 821,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133532208,
+      "freeMiB": 816,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133532620,
+      "freeMiB": 813,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 31,
+      "atMs": 1794133533003,
+      "freeMiB": 806,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133533389,
+      "freeMiB": 801,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133533773,
+      "freeMiB": 800,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 33,
+      "atMs": 1794133534167,
+      "freeMiB": 796,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 63,
+      "atMs": 1794133534560,
+      "freeMiB": 789,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 43,
+      "atMs": 1794133534958,
+      "freeMiB": 804,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133535340,
+      "freeMiB": 808,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133535705,
+      "freeMiB": 805,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 55,
+      "atMs": 1794133536108,
+      "freeMiB": 803,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 61,
+      "atMs": 1794133536529,
+      "freeMiB": 797,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133536924,
+      "freeMiB": 793,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 49,
+      "atMs": 1794133537393,
+      "freeMiB": 791,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 47,
+      "atMs": 1794133537774,
+      "freeMiB": 801,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 47,
+      "atMs": 1794133538181,
+      "freeMiB": 805,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 52,
+      "atMs": 1794133538589,
+      "freeMiB": 805,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133538989,
+      "freeMiB": 793,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 81,
+      "atMs": 1794133539388,
+      "freeMiB": 775,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133539780,
+      "freeMiB": 744,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133540178,
+      "freeMiB": 672,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133540563,
+      "freeMiB": 501,
+      "ttsRssMiB": 996,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133540969,
+      "freeMiB": 599,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 53,
+      "atMs": 1794133541381,
+      "freeMiB": 672,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133541776,
+      "freeMiB": 663,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133542145,
+      "freeMiB": 661,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 49,
+      "atMs": 1794133542546,
+      "freeMiB": 637,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 59,
+      "atMs": 1794133542943,
+      "freeMiB": 636,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 32,
+      "atMs": 1794133543360,
+      "freeMiB": 674,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 42,
+      "atMs": 1794133543750,
+      "freeMiB": 669,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 42,
+      "atMs": 1794133544143,
+      "freeMiB": 669,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 65,
+      "atMs": 1794133544555,
+      "freeMiB": 661,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 56,
+      "atMs": 1794133544960,
+      "freeMiB": 668,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 39,
+      "atMs": 1794133545366,
+      "freeMiB": 665,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 80,
+      "atMs": 1794133545769,
+      "freeMiB": 653,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 80,
+      "atMs": 1794133546168,
+      "freeMiB": 650,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 50,
+      "atMs": 1794133546559,
+      "freeMiB": 644,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 52,
+      "atMs": 1794133546949,
+      "freeMiB": 642,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133547363,
+      "freeMiB": 653,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3048,
+      "gpuPercent": 55,
+      "atMs": 1794133547787,
+      "freeMiB": 647,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 73
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 55,
+      "atMs": 1794133548196,
+      "freeMiB": 648,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133548580,
+      "freeMiB": 649,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 40,
+      "atMs": 1794133548998,
+      "freeMiB": 649,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 31,
+      "atMs": 1794133549396,
+      "freeMiB": 651,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133549788,
+      "freeMiB": 780,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133550185,
+      "freeMiB": 771,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133550586,
+      "freeMiB": 767,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133550966,
+      "freeMiB": 798,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 32,
+      "atMs": 1794133551370,
+      "freeMiB": 797,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133551751,
+      "freeMiB": 785,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133552156,
+      "freeMiB": 783,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133552565,
+      "freeMiB": 786,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133552979,
+      "freeMiB": 794,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 48,
+      "atMs": 1794133553381,
+      "freeMiB": 784,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133553783,
+      "freeMiB": 785,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133554190,
+      "freeMiB": 781,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133554562,
+      "freeMiB": 777,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 58,
+      "atMs": 1794133554957,
+      "freeMiB": 758,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133555346,
+      "freeMiB": 755,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133555728,
+      "freeMiB": 760,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 35,
+      "atMs": 1794133556092,
+      "freeMiB": 759,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 61,
+      "atMs": 1794133556516,
+      "freeMiB": 765,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 57,
+      "atMs": 1794133556908,
+      "freeMiB": 770,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 37,
+      "atMs": 1794133557295,
+      "freeMiB": 763,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3080,
+      "gpuPercent": 37,
+      "atMs": 1794133557686,
+      "freeMiB": 781,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 344,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 82,
+      "atMs": 1794133558072,
+      "freeMiB": 783,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 65,
+      "atMs": 1794133558497,
+      "freeMiB": 785,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 45,
+      "atMs": 1794133558887,
+      "freeMiB": 779,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133559309,
+      "freeMiB": 776,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133559730,
+      "freeMiB": 778,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 345,
+      "coreRssMiB": 76
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 85,
+      "atMs": 1794133560094,
+      "freeMiB": 781,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 63,
+      "atMs": 1794133560493,
+      "freeMiB": 776,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 36,
+      "atMs": 1794133560898,
+      "freeMiB": 782,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 85,
+      "atMs": 1794133561318,
+      "freeMiB": 776,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 85,
+      "atMs": 1794133561693,
+      "freeMiB": 788,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 66,
+      "atMs": 1794133562132,
+      "freeMiB": 783,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 38,
+      "atMs": 1794133562509,
+      "freeMiB": 785,
+      "ttsRssMiB": 998,
+      "roleRssMiB": 345,
+      "coreRssMiB": 74
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 94,
+      "atMs": 1794133562886,
+      "freeMiB": 787,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 345,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133563286,
+      "freeMiB": 780,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 345,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 34,
+      "atMs": 1794133563690,
+      "freeMiB": 807,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 345,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 30,
+      "atMs": 1794133564096,
+      "freeMiB": 801,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 345,
+      "coreRssMiB": 75
+    },
+    {
+      "totalGpuMiB": 8151,
+      "usedGpuMiB": 3016,
+      "gpuPercent": 39,
+      "atMs": 1794133564508,
+      "freeMiB": 808,
+      "ttsRssMiB": 997,
+      "roleRssMiB": 345,
+      "coreRssMiB": 75
+    }
+  ],
+  "initialGpu": {
+    "totalGpuMiB": 8151,
+    "usedGpuMiB": 2784,
+    "gpuPercent": 27
+  },
+  "llmCalls": 0,
+  "runtimeSHA256": "1f211dd0ec2d995ecbab8f4febe153665513ecc7e00d04476976012aa1eaf3e7",
+  "coreEvents": [
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-1",
+      "utteranceId": "utt-3664e05c7c53",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133452820,
+      "preparationId": "9b45efa50dbd4deeafe23c40487bfbb9",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-1",
+      "utteranceId": "utt-3664e05c7c53",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133459785,
+      "preparationId": "9b45efa50dbd4deeafe23c40487bfbb9"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-1",
+      "utteranceId": "utt-3664e05c7c53",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133459787,
+      "preparationId": "9b45efa50dbd4deeafe23c40487bfbb9",
+      "playbackId": "466b56dd30804dd38f7f517d5ad44720",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-3664e05c7c53",
+      "playbackId": "466b56dd30804dd38f7f517d5ad44720",
+      "failed": false,
+      "startedAtMs": 1794133459822,
+      "endedAtMs": 1794133461484,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-1",
+      "utteranceId": "utt-3664e05c7c53"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-2",
+      "utteranceId": "utt-d376e35dd6bf",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133461522,
+      "preparationId": "f66734d1407647bfaad8c92afcb0ddbc",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-2",
+      "utteranceId": "utt-d376e35dd6bf",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133463098,
+      "preparationId": "f66734d1407647bfaad8c92afcb0ddbc"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-2",
+      "utteranceId": "utt-d376e35dd6bf",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133463099,
+      "preparationId": "f66734d1407647bfaad8c92afcb0ddbc",
+      "playbackId": "d50937462db545d2b2216dd2fd8830c2",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-d376e35dd6bf",
+      "playbackId": "d50937462db545d2b2216dd2fd8830c2",
+      "failed": false,
+      "startedAtMs": 1794133463124,
+      "endedAtMs": 1794133464750,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-2",
+      "utteranceId": "utt-d376e35dd6bf"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133464787,
+      "preparationId": "5da3e0168af840c9936fe71a9181b6ba",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133466881,
+      "preparationId": "5da3e0168af840c9936fe71a9181b6ba"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133466882,
+      "preparationId": "5da3e0168af840c9936fe71a9181b6ba",
+      "playbackId": "1b21e8554e544accb21bb73cedc7b757",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 1,
+      "stage": "synth-request",
+      "atMs": 1794133466885,
+      "preparationId": "1637433b109347429db24007646483e8",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "1b21e8554e544accb21bb73cedc7b757",
+      "failed": false,
+      "startedAtMs": 1794133466920,
+      "endedAtMs": 1794133469917,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 1,
+      "stage": "ready",
+      "atMs": 1794133470563,
+      "preparationId": "1637433b109347429db24007646483e8"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 1,
+      "stage": "dispatch",
+      "atMs": 1794133470564,
+      "preparationId": "1637433b109347429db24007646483e8",
+      "playbackId": "6d759d6725ef489eb5132030732ab8aa",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 2,
+      "stage": "synth-request",
+      "atMs": 1794133470566,
+      "preparationId": "98067a88a18f4d32bb5542843bc77f3c",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 2,
+      "stage": "ready",
+      "atMs": 1794133472143,
+      "preparationId": "98067a88a18f4d32bb5542843bc77f3c"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "6d759d6725ef489eb5132030732ab8aa",
+      "failed": false,
+      "startedAtMs": 1794133470620,
+      "endedAtMs": 1794133473850,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 2,
+      "stage": "dispatch",
+      "atMs": 1794133473886,
+      "preparationId": "98067a88a18f4d32bb5542843bc77f3c",
+      "playbackId": "59fee80d920846ea9a284d9d6f3529df",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 3,
+      "stage": "synth-request",
+      "atMs": 1794133473888,
+      "preparationId": "017eff6ebfc7414a9e194c35e6bf55e9",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "59fee80d920846ea9a284d9d6f3529df",
+      "failed": false,
+      "startedAtMs": 1794133473918,
+      "endedAtMs": 1794133475717,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 3,
+      "stage": "ready",
+      "atMs": 1794133476610,
+      "preparationId": "017eff6ebfc7414a9e194c35e6bf55e9"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 3,
+      "stage": "dispatch",
+      "atMs": 1794133476613,
+      "preparationId": "017eff6ebfc7414a9e194c35e6bf55e9",
+      "playbackId": "36293723f9ec4424936b7d78544f1bbb",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 4,
+      "stage": "synth-request",
+      "atMs": 1794133476617,
+      "preparationId": "52093d3e4c5e41a28628f145588f139d",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 4,
+      "stage": "ready",
+      "atMs": 1794133478493,
+      "preparationId": "52093d3e4c5e41a28628f145588f139d"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "36293723f9ec4424936b7d78544f1bbb",
+      "failed": false,
+      "startedAtMs": 1794133476654,
+      "endedAtMs": 1794133481618,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e",
+      "partIndex": 4,
+      "stage": "dispatch",
+      "atMs": 1794133481653,
+      "preparationId": "52093d3e4c5e41a28628f145588f139d",
+      "playbackId": "adcf47203a3f477d85b9a7665c7a51aa",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-00a894ae7a6e",
+      "playbackId": "adcf47203a3f477d85b9a7665c7a51aa",
+      "failed": false,
+      "startedAtMs": 1794133481688,
+      "endedAtMs": 1794133484650,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-3",
+      "utteranceId": "utt-00a894ae7a6e"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133484688,
+      "preparationId": "1bfca3069c0a4a4696526716145fbebf",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133488138,
+      "preparationId": "1bfca3069c0a4a4696526716145fbebf"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133488139,
+      "preparationId": "1bfca3069c0a4a4696526716145fbebf",
+      "playbackId": "46f49c35b2b347ef9dfa3e3df0adc2eb",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 1,
+      "stage": "synth-request",
+      "atMs": 1794133488141,
+      "preparationId": "c69eab2b89414536aaf4c35a76ca2216",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 2,
+      "stage": "synth-request",
+      "atMs": 1794133490029,
+      "preparationId": "295c17eb2712448dbfddbdf493f7a919",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 1875.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 1,
+      "stage": "ready",
+      "atMs": 1794133490052,
+      "preparationId": "c69eab2b89414536aaf4c35a76ca2216"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "46f49c35b2b347ef9dfa3e3df0adc2eb",
+      "failed": false,
+      "startedAtMs": 1794133488185,
+      "endedAtMs": 1794133491084,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 1,
+      "stage": "dispatch",
+      "atMs": 1794133491121,
+      "preparationId": "c69eab2b89414536aaf4c35a76ca2216",
+      "playbackId": "880acec11c654a2a8ecb367584c52477",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 3,
+      "stage": "synth-request",
+      "atMs": 1794133491623,
+      "preparationId": "e1da3d14710845e68c0e8b47f6d31990",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 500.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 2,
+      "stage": "ready",
+      "atMs": 1794133491653,
+      "preparationId": "295c17eb2712448dbfddbdf493f7a919"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 3,
+      "stage": "ready",
+      "atMs": 1794133494059,
+      "preparationId": "e1da3d14710845e68c0e8b47f6d31990"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "880acec11c654a2a8ecb367584c52477",
+      "failed": false,
+      "startedAtMs": 1794133491154,
+      "endedAtMs": 1794133494284,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 2,
+      "stage": "dispatch",
+      "atMs": 1794133494318,
+      "preparationId": "295c17eb2712448dbfddbdf493f7a919",
+      "playbackId": "36ff050970ea4a7388e6480ab4629312",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 4,
+      "stage": "synth-request",
+      "atMs": 1794133494319,
+      "preparationId": "cd113f060d0c4bce9ae9dd23015fbd86",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "36ff050970ea4a7388e6480ab4629312",
+      "failed": false,
+      "startedAtMs": 1794133494352,
+      "endedAtMs": 1794133496117,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 3,
+      "stage": "dispatch",
+      "atMs": 1794133496153,
+      "preparationId": "e1da3d14710845e68c0e8b47f6d31990",
+      "playbackId": "b51723d15b0d44ce90594cb1c18b432e",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 4,
+      "stage": "ready",
+      "atMs": 1794133496282,
+      "preparationId": "cd113f060d0c4bce9ae9dd23015fbd86"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "b51723d15b0d44ce90594cb1c18b432e",
+      "failed": false,
+      "startedAtMs": 1794133496188,
+      "endedAtMs": 1794133501084,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-4",
+      "utteranceId": "utt-5e26773c903d",
+      "partIndex": 4,
+      "stage": "dispatch",
+      "atMs": 1794133501119,
+      "preparationId": "cd113f060d0c4bce9ae9dd23015fbd86",
+      "playbackId": "f0801e53375647be864f23df69d473c1",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-5e26773c903d",
+      "playbackId": "f0801e53375647be864f23df69d473c1",
+      "failed": false,
+      "startedAtMs": 1794133501152,
+      "endedAtMs": 1794133504350,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-4",
+      "utteranceId": "utt-5e26773c903d"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-5",
+      "utteranceId": "utt-7d6f3321493c",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133504388,
+      "preparationId": "ca63c82d32db478a818a0b3437384979",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-5",
+      "utteranceId": "utt-7d6f3321493c",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133505938,
+      "preparationId": "ca63c82d32db478a818a0b3437384979"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-5",
+      "utteranceId": "utt-7d6f3321493c",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133505940,
+      "preparationId": "ca63c82d32db478a818a0b3437384979",
+      "playbackId": "1f1c6d1565ad4c799ad4ff8a3f9a421a",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-7d6f3321493c",
+      "playbackId": "1f1c6d1565ad4c799ad4ff8a3f9a421a",
+      "failed": false,
+      "startedAtMs": 1794133505952,
+      "endedAtMs": 1794133507584,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-5",
+      "utteranceId": "utt-7d6f3321493c"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-6",
+      "utteranceId": "utt-ce706fd86551",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133507622,
+      "preparationId": "c3b1d91180d245b69f58aac9ca6ffb69",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-6",
+      "utteranceId": "utt-ce706fd86551",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133510858,
+      "preparationId": "c3b1d91180d245b69f58aac9ca6ffb69"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-6",
+      "utteranceId": "utt-ce706fd86551",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133510859,
+      "preparationId": "c3b1d91180d245b69f58aac9ca6ffb69",
+      "playbackId": "8906c86d63904de4983351fcb950a48a",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-ce706fd86551",
+      "playbackId": "8906c86d63904de4983351fcb950a48a",
+      "failed": false,
+      "startedAtMs": 1794133510884,
+      "endedAtMs": 1794133513216,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-6",
+      "utteranceId": "utt-ce706fd86551"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133513254,
+      "preparationId": "3cf26970e8cc42609bc212022ea4279c",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133516979,
+      "preparationId": "3cf26970e8cc42609bc212022ea4279c"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133516980,
+      "preparationId": "3cf26970e8cc42609bc212022ea4279c",
+      "playbackId": "b1a092b00291460699880d0b7da2f50c",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 1,
+      "stage": "synth-request",
+      "atMs": 1794133516982,
+      "preparationId": "6d628300e9fa4a9d8b465dbe8f893b88",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "b1a092b00291460699880d0b7da2f50c",
+      "failed": false,
+      "startedAtMs": 1794133517018,
+      "endedAtMs": 1794133520084,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 2,
+      "stage": "synth-request",
+      "atMs": 1794133520579,
+      "preparationId": "d246b185229c4018acb16d6509b7d0c2",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 3578.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 1,
+      "stage": "ready",
+      "atMs": 1794133520606,
+      "preparationId": "6d628300e9fa4a9d8b465dbe8f893b88"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 1,
+      "stage": "dispatch",
+      "atMs": 1794133520610,
+      "preparationId": "6d628300e9fa4a9d8b465dbe8f893b88",
+      "playbackId": "ca8ab131287f4de397bbeecdcec3fd24",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 3,
+      "stage": "synth-request",
+      "atMs": 1794133522391,
+      "preparationId": "89c9faf0ded9401686ad15970e59f18b",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 1766.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 2,
+      "stage": "ready",
+      "atMs": 1794133522406,
+      "preparationId": "d246b185229c4018acb16d6509b7d0c2"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "ca8ab131287f4de397bbeecdcec3fd24",
+      "failed": false,
+      "startedAtMs": 1794133520618,
+      "endedAtMs": 1794133523651,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 2,
+      "stage": "dispatch",
+      "atMs": 1794133523685,
+      "preparationId": "d246b185229c4018acb16d6509b7d0c2",
+      "playbackId": "63c13bbf49b2432380899010d6756986",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 4,
+      "stage": "synth-request",
+      "atMs": 1794133524755,
+      "preparationId": "9191ea35b9b945aa973211af0c7db212",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 1079.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 3,
+      "stage": "ready",
+      "atMs": 1794133524767,
+      "preparationId": "89c9faf0ded9401686ad15970e59f18b"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "63c13bbf49b2432380899010d6756986",
+      "failed": false,
+      "startedAtMs": 1794133523719,
+      "endedAtMs": 1794133525684,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 3,
+      "stage": "dispatch",
+      "atMs": 1794133525719,
+      "preparationId": "89c9faf0ded9401686ad15970e59f18b",
+      "playbackId": "c1eff4b1abe446508d161699f5f6b709",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 4,
+      "stage": "ready",
+      "atMs": 1794133526667,
+      "preparationId": "9191ea35b9b945aa973211af0c7db212"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "c1eff4b1abe446508d161699f5f6b709",
+      "failed": false,
+      "startedAtMs": 1794133525753,
+      "endedAtMs": 1794133530616,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-7",
+      "utteranceId": "utt-39a0d7f92397",
+      "partIndex": 4,
+      "stage": "dispatch",
+      "atMs": 1794133530651,
+      "preparationId": "9191ea35b9b945aa973211af0c7db212",
+      "playbackId": "04fc60ff3b4c4cb5931dfff7f3335553",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-39a0d7f92397",
+      "playbackId": "04fc60ff3b4c4cb5931dfff7f3335553",
+      "failed": false,
+      "startedAtMs": 1794133530684,
+      "endedAtMs": 1794133533650,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-7",
+      "utteranceId": "utt-39a0d7f92397"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133533688,
+      "preparationId": "42a5435ebb414a3eb115eae9400b4320",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133537402,
+      "preparationId": "42a5435ebb414a3eb115eae9400b4320"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133537403,
+      "preparationId": "42a5435ebb414a3eb115eae9400b4320",
+      "playbackId": "5c70fa9514114be3a7692c217027c358",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 1,
+      "stage": "synth-request",
+      "atMs": 1794133537405,
+      "preparationId": "089f31cef1bb45e6b718fa4a546e1a53",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 1,
+      "stage": "ready",
+      "atMs": 1794133539347,
+      "preparationId": "089f31cef1bb45e6b718fa4a546e1a53"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "5c70fa9514114be3a7692c217027c358",
+      "failed": false,
+      "startedAtMs": 1794133537453,
+      "endedAtMs": 1794133540450,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 1,
+      "stage": "dispatch",
+      "atMs": 1794133540485,
+      "preparationId": "089f31cef1bb45e6b718fa4a546e1a53",
+      "playbackId": "86225fdfdee64f67a2989404fea9e09e",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 2,
+      "stage": "synth-request",
+      "atMs": 1794133540487,
+      "preparationId": "f52bd3c6387c4b92a3b0804293506ac7",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 2,
+      "stage": "ready",
+      "atMs": 1794133543366,
+      "preparationId": "f52bd3c6387c4b92a3b0804293506ac7"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "86225fdfdee64f67a2989404fea9e09e",
+      "failed": false,
+      "startedAtMs": 1794133540551,
+      "endedAtMs": 1794133543450,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 2,
+      "stage": "dispatch",
+      "atMs": 1794133543485,
+      "preparationId": "f52bd3c6387c4b92a3b0804293506ac7",
+      "playbackId": "0db3cd36565b4f4ca7827ab1495c0e1b",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 3,
+      "stage": "synth-request",
+      "atMs": 1794133543486,
+      "preparationId": "8498498a16ce43db9036799e5cd804d3",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "0db3cd36565b4f4ca7827ab1495c0e1b",
+      "failed": false,
+      "startedAtMs": 1794133543519,
+      "endedAtMs": 1794133545083,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 3,
+      "stage": "ready",
+      "atMs": 1794133545891,
+      "preparationId": "8498498a16ce43db9036799e5cd804d3"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 3,
+      "stage": "dispatch",
+      "atMs": 1794133545892,
+      "preparationId": "8498498a16ce43db9036799e5cd804d3",
+      "playbackId": "4cf6b9506c70488b829b3424f60818d6",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 4,
+      "stage": "synth-request",
+      "atMs": 1794133545893,
+      "preparationId": "fed9a5cd906241adade44f8a819a10df",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 4,
+      "stage": "ready",
+      "atMs": 1794133547885,
+      "preparationId": "fed9a5cd906241adade44f8a819a10df"
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "4cf6b9506c70488b829b3424f60818d6",
+      "failed": false,
+      "startedAtMs": 1794133545919,
+      "endedAtMs": 1794133551016,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c",
+      "partIndex": 4,
+      "stage": "dispatch",
+      "atMs": 1794133551052,
+      "preparationId": "fed9a5cd906241adade44f8a819a10df",
+      "playbackId": "22154d71fad24ba6a5fcc8c55b1a7e55",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-b02a5e1d360c",
+      "playbackId": "22154d71fad24ba6a5fcc8c55b1a7e55",
+      "failed": false,
+      "startedAtMs": 1794133551086,
+      "endedAtMs": 1794133553983,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-8",
+      "utteranceId": "utt-b02a5e1d360c"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-9",
+      "utteranceId": "utt-1eee7bc5de6c",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133554021,
+      "preparationId": "ef74380e8aef41839795d4ec1c8a8aaa",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-9",
+      "utteranceId": "utt-1eee7bc5de6c",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133557814,
+      "preparationId": "ef74380e8aef41839795d4ec1c8a8aaa"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-9",
+      "utteranceId": "utt-1eee7bc5de6c",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133557815,
+      "preparationId": "ef74380e8aef41839795d4ec1c8a8aaa",
+      "playbackId": "04fb4ae607ff47d0b6b7b8f5f03dd1db",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-9",
+      "utteranceId": "utt-1eee7bc5de6c",
+      "partIndex": 1,
+      "stage": "synth-request",
+      "atMs": 1794133557816,
+      "preparationId": "4e80b5c18ed7414cb8138f261a673b41",
+      "priority": 1,
+      "queuedPriority": 1,
+      "queueWaitMs": 0.0
+    },
+    {
+      "kind": "speech.interrupted",
+      "utteranceId": "utt-1eee7bc5de6c",
+      "reason": "voice"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-10",
+      "utteranceId": "utt-fcf30a3d466a",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794133559706,
+      "preparationId": "a194a9b0955f42448b045b4d9a8a8af9",
+      "priority": 0,
+      "queuedPriority": 0,
+      "queueWaitMs": 1485.0
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-10",
+      "utteranceId": "utt-fcf30a3d466a",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794133562741,
+      "preparationId": "a194a9b0955f42448b045b4d9a8a8af9"
+    },
+    {
+      "kind": "speech.timing",
+      "requestId": "priority-10",
+      "utteranceId": "utt-fcf30a3d466a",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794133562742,
+      "preparationId": "a194a9b0955f42448b045b4d9a8a8af9",
+      "playbackId": "50eaf11b65764c61906360bdbca44ba0",
+      "selectedTake": null
+    },
+    {
+      "kind": "speech.receipt",
+      "utteranceId": "utt-fcf30a3d466a",
+      "playbackId": "50eaf11b65764c61906360bdbca44ba0",
+      "failed": false,
+      "startedAtMs": 1794133562751,
+      "endedAtMs": 1794133564749,
+      "interrupted": false
+    },
+    {
+      "kind": "speech.completed",
+      "request_id": "priority-10",
+      "utteranceId": "utt-fcf30a3d466a"
+    }
+  ],
+  "status": "complete",
+  "finalSidecar": {
+    "pid": 28804,
+    "phase": "ready",
+    "device": "cuda",
+    "ok": true,
+    "selfCheck": {
+      "enabled": true,
+      "threshold": 0.9,
+      "takes": 61,
+      "retries": 26
+    },
+    "synthCount": 60
+  }
+}

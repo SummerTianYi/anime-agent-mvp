@@ -1,5 +1,7 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
+2026-11-08 Codex：[调度优先级与单套真实语音对照](assessments/speech-synthesis-priority/REPORT.md)完成隔离验证。实际顺序为甲、乙、甲重做、丙。真实三段回复两种预取各两轮，总计额外等候 2247 / 489 ms。正式预取 1，下一步由 ChatGPT 核对两类证据和首声差异。
+
 2026-11-08，本分支的 [口型与连续播放修复](assessments/speech-lip-continuity/REPORT.md) 等待 ChatGPT 独立验收。可见角色已按音频位置与能量驱动口型。双段预取已通过归档声音回放，默认仍预取一段。下一步是在独立资源窗口验证真实合成与重做。
 
 2026-11-08，本分支的 [TTS 延迟诊断与隔离播放实验](assessments/tts-stream-latency/REPORT.md) 已交回 ChatGPT 验收。正式实例持续在线。GPU 与主机内存资源门阻止了第二套原生推理实验，现有自检和停顿保留。较早的 [DS 陪伴诊断](assessments/companion-live-eval/REPORT.md) 及下方人设候选为独立历史工作。
@@ -17,7 +19,7 @@ Codex 2026-10-03 语音线交付：当前Core回归基线273。分片回执/去�
 
 本文件是任何新 Agent 接手本仓库的唯一入口：无论你之前听过什么、聊过什么，一切以本文件为准。先通读本文件，再按 §8 文档地图按需展开；禁止凭旧聊天记录或过期文档猜测项目状态。核对本文件"最后核验"日期——若距今日超过两周，状态段落必须用 `git log` 与实际代码重新核实。
 
-> 本轮语音候选最后核验为 2026-11-08，见[隔离实验](assessments/speech-lip-continuity/REPORT.md)。2026-10-02 23:49 记录的是此前的 DS/Qwen 联通及原 CMD 语音恢复激活，[原门禁](TTS_REPAIR_STATUS.md)保留。
+> 本轮语音候选最后核验为 2026-11-08，见[单套真实语音对照](assessments/speech-synthesis-priority/REPORT.md)。2026-10-02 23:49 记录的是此前的 DS/Qwen 联通及原 CMD 语音恢复激活，[原门禁](TTS_REPAIR_STATUS.md)保留。
 
 本轮当前状态：Core 252、sidecar 26、启动逻辑 18 及 TTS 生命周期 13 均通过；真实 CUDA 声线/播放两轮、14 项 Windows 服务故障及最新组合压力回归通过。正式 Godot19924、Core33736、TTS17888 已在线，真实 CUDA 声线 ready、唤醒监听 running 且未暂停。经所有者批准，只恢复当前可证实的210条消息和14条记忆，原损坏库/冷快照及旧记录恢复档案均保留，未混入896条备份独有消息。不改模型/动作/声线配置，未提交推送。物理麦克风对话待所有者确认；下段及较早日期均为历史记录。
 
@@ -41,8 +43,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 | 项目 | 内容 |
 |---|---|
 | 当前当值 Agent | Codex；交回 ChatGPT 验收 |
-| 本次领地 | 语音口型、分段供音与真实播放回执，隔离候选等待 ChatGPT 验收 |
-| 授权边界 | 两仓独立分支提交与推送。下一步先核对报告、录屏及测试边界，真实权重连续性补验需要独立资源。禁止 PR、合并、部署和重启正式桌面。 |
+| 本次领地 | 实际合成入口、失败段重做和告别预缓存优先级，单套真实语音的连续播放对照 |
+| 授权边界 | MVP 独立分支提交推送。TTS 沿用既有安装与候选基线，0 次 DS 调用。交 ChatGPT 验收后再决定是否启用 2。禁止合并、部署或重启正式桌面。 |
 | 交接日期 | 2026-11-08 |
 
 领地内的事是你的；**领地外的一切默认只读**——可以读、可以提建议，未经所有者同意不改别人建好的东西。
@@ -59,6 +61,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 三次交接：① Codex 建基础 → Claude 接交互层（2026-08-31）；② Claude 蓝图 B/C/D 期规划完毕未执行，经所有者授权整体移交 zcode 执行（2026-09-05；harness 人设训练部分先拆至 anime-agent-workbench 沙箱训练再并回）；③ zcode 交接整理 + 白纸测试门禁建立（2026-09-07，本次）。归属细则见 [CONTRIBUTIONS.md](CONTRIBUTIONS.md)。
 
 ## 3. 当前真实状态（= 冻结区清单）
+
+2026-11-08 当前语音候选已在隔离 Core 验证当前段重做抢先于排队预取，告别缓存让位后恢复。单套真实 TTS 的 27 个请求有 10 次重做。正式仍预取一段。固定文本、口型基线、回执、资源和未测范围见[本轮报告](assessments/speech-synthesis-priority/REPORT.md)。下方记录为先前阶段。
 
 2026-11-08 Codex：[语音口型与连续播放](assessments/speech-lip-continuity/REPORT.md)处于隔离候选验收。正式桌面沿用原有语音版本。候选的双段预取默认关闭，真实同声线 GPU 负载需另有独立资源后补测。
 
@@ -185,7 +189,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现678；本轮陪伴提示词的同环境基线及完整回归见[V1.2报告](assessments/companion-v1.2/REPORT.md)，不作为A4统一终验 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现684；本轮陪伴提示词的同环境基线及完整回归见[V1.2报告](assessments/companion-v1.2/REPORT.md)，不作为A4统一终验 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -282,7 +286,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 从仓库根目录用 Core 的 Python 执行 `python -B scripts/harness_v1/unit.py`（运行器显式Mock、禁TTS/wake/MCP、临时配置和数据；见TESTING） | 当前发现678；本轮陪伴提示词结果见[V1.2报告](assessments/companion-v1.2/REPORT.md)，历史证据保留；不触碰生产库或真实外部业务 |
+| 6 | 从仓库根目录用 Core 的 Python 执行 `python -B scripts/harness_v1/unit.py`（运行器显式Mock、禁TTS/wake/MCP、临时配置和数据；见TESTING） | 当前发现684；本轮陪伴提示词结果见[V1.2报告](assessments/companion-v1.2/REPORT.md)，历史证据保留；不触碰生产库或真实外部业务 |
 
 ## 10. 灾备与回滚
 
