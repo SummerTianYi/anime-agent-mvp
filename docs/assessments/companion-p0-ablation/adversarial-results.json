@@ -1,0 +1,552 @@
+[
+  {
+    "id": "praise-new",
+    "expected_act": "赞许或玩笑",
+    "act": "赞许或玩笑",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 10,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "你可真会",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "joke",
+    "expected_act": "赞许或玩笑",
+    "act": "赞许或玩笑",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 10,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "给你颁",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "soft-no",
+    "expected_act": "拒绝",
+    "act": "拒绝",
+    "expected_states": [
+      "明确拒绝"
+    ],
+    "states": [
+      "明确拒绝"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "建议",
+        "status": "明确拒绝",
+        "evidence": 3,
+        "cue": "改天再说"
+      }
+    ],
+    "act_cue": "改天再说",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "new-subject",
+    "expected_act": "分享",
+    "act": "分享",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 9,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "窗外",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "same-topic-new-purpose",
+    "expected_act": "分享",
+    "act": "分享",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 10,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "只是想讲",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "quotation",
+    "expected_act": "引用或反讽",
+    "act": "引用或反讽",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 9,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "她说的是",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "irony",
+    "expected_act": "引用或反讽",
+    "act": "引用或反讽",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "才怪",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "two-ignored",
+    "expected_act": "分享",
+    "act": "求助",
+    "expected_states": [
+      "未确认",
+      "未确认"
+    ],
+    "states": [
+      "未确认",
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      },
+      {
+        "message": 4,
+        "start": 0,
+        "end": 10,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "帮我",
+    "status_match": true,
+    "act_match": false,
+    "lossless": true
+  },
+  {
+    "id": "resume",
+    "expected_act": "恢复并求助",
+    "act": "恢复并求助",
+    "expected_states": [
+      "明确拒绝"
+    ],
+    "states": [
+      "明确拒绝"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "建议",
+        "status": "明确拒绝",
+        "evidence": 3,
+        "cue": "先别给"
+      }
+    ],
+    "act_cue": "帮我",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "accept",
+    "expected_act": "接纳",
+    "act": "接纳",
+    "expected_states": [
+      "明确接受"
+    ],
+    "states": [
+      "明确接受"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 10,
+        "kind": "建议",
+        "status": "明确接受",
+        "evidence": 3,
+        "cue": "就按你说的"
+      }
+    ],
+    "act_cue": "就按你说的",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "answer-and-reference",
+    "expected_act": "承接",
+    "act": "承接",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 10,
+        "kind": "询问",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "前者",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "clarify",
+    "expected_act": "求助",
+    "act": "求助",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "询问",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "指什么",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "two-offers",
+    "expected_act": "接纳",
+    "act": "接纳",
+    "expected_states": [
+      "未确认",
+      "未确认"
+    ],
+    "states": [
+      "未确认",
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      },
+      {
+        "message": 2,
+        "start": 8,
+        "end": 17,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "好啊。",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "scoped-accept",
+    "expected_act": "接纳",
+    "act": "接纳",
+    "expected_states": [
+      "未确认",
+      "明确接受"
+    ],
+    "states": [
+      "未确认",
+      "明确接受"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      },
+      {
+        "message": 2,
+        "start": 8,
+        "end": 16,
+        "kind": "建议",
+        "status": "明确接受",
+        "evidence": 3,
+        "cue": "就按你说的"
+      }
+    ],
+    "act_cue": "就按你说的",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "quoted-in-assistant",
+    "expected_act": "分享",
+    "act": "分享",
+    "expected_states": [],
+    "states": [],
+    "proposals": [],
+    "act_cue": "我觉得",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "implicit-help",
+    "expected_act": "恢复并求助",
+    "act": "分享",
+    "expected_states": [
+      "明确拒绝"
+    ],
+    "states": [
+      "明确拒绝"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 11,
+        "kind": "建议",
+        "status": "明确拒绝",
+        "evidence": 3,
+        "cue": "先放一放"
+      }
+    ],
+    "act_cue": "刚才",
+    "status_match": true,
+    "act_match": false,
+    "lossless": true
+  },
+  {
+    "id": "elliptic-refusal",
+    "expected_act": "拒绝",
+    "act": "不确定",
+    "expected_states": [
+      "明确拒绝"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 14,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "",
+    "status_match": false,
+    "act_match": false,
+    "lossless": true
+  },
+  {
+    "id": "unrelated-yes",
+    "expected_act": "赞许或玩笑",
+    "act": "不确定",
+    "expected_states": [
+      "未确认"
+    ],
+    "states": [
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 8,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "",
+    "status_match": true,
+    "act_match": false,
+    "lossless": true
+  },
+  {
+    "id": "selective-no",
+    "expected_act": "拒绝",
+    "act": "拒绝",
+    "expected_states": [
+      "未确认",
+      "明确拒绝"
+    ],
+    "states": [
+      "未确认",
+      "未确认"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 7,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      },
+      {
+        "message": 2,
+        "start": 7,
+        "end": 14,
+        "kind": "建议",
+        "status": "未确认",
+        "evidence": null,
+        "cue": ""
+      }
+    ],
+    "act_cue": "先放一放",
+    "status_match": false,
+    "act_match": true,
+    "lossless": true
+  },
+  {
+    "id": "new-help-with-boundary",
+    "expected_act": "求助",
+    "act": "求助",
+    "expected_states": [
+      "明确拒绝"
+    ],
+    "states": [
+      "明确拒绝"
+    ],
+    "proposals": [
+      {
+        "message": 2,
+        "start": 0,
+        "end": 10,
+        "kind": "建议",
+        "status": "明确拒绝",
+        "evidence": 3,
+        "cue": "先别问"
+      }
+    ],
+    "act_cue": "帮我",
+    "status_match": true,
+    "act_match": true,
+    "lossless": true
+  }
+]

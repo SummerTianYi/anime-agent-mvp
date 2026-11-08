@@ -1,0 +1,122 @@
+[
+  {
+    "scene": "praise",
+    "arm": "A",
+    "repeat": 1
+  },
+  {
+    "scene": "switch",
+    "arm": "B",
+    "repeat": 1
+  },
+  {
+    "scene": "space",
+    "arm": "C",
+    "repeat": 1
+  },
+  {
+    "scene": "return",
+    "arm": "A",
+    "repeat": 1
+  },
+  {
+    "scene": "praise",
+    "arm": "B",
+    "repeat": 1
+  },
+  {
+    "scene": "switch",
+    "arm": "C",
+    "repeat": 1
+  },
+  {
+    "scene": "space",
+    "arm": "A",
+    "repeat": 1
+  },
+  {
+    "scene": "return",
+    "arm": "B",
+    "repeat": 1
+  },
+  {
+    "scene": "praise",
+    "arm": "C",
+    "repeat": 1
+  },
+  {
+    "scene": "switch",
+    "arm": "A",
+    "repeat": 1
+  },
+  {
+    "scene": "space",
+    "arm": "B",
+    "repeat": 1
+  },
+  {
+    "scene": "return",
+    "arm": "C",
+    "repeat": 1
+  },
+  {
+    "scene": "return",
+    "arm": "C",
+    "repeat": 2
+  },
+  {
+    "scene": "space",
+    "arm": "B",
+    "repeat": 2
+  },
+  {
+    "scene": "switch",
+    "arm": "A",
+    "repeat": 2
+  },
+  {
+    "scene": "praise",
+    "arm": "C",
+    "repeat": 2
+  },
+  {
+    "scene": "return",
+    "arm": "B",
+    "repeat": 2
+  },
+  {
+    "scene": "space",
+    "arm": "A",
+    "repeat": 2
+  },
+  {
+    "scene": "switch",
+    "arm": "C",
+    "repeat": 2
+  },
+  {
+    "scene": "praise",
+    "arm": "B",
+    "repeat": 2
+  },
+  {
+    "scene": "return",
+    "arm": "A",
+    "repeat": 2
+  },
+  {
+    "scene": "space",
+    "arm": "C",
+    "repeat": 2
+  },
+  {
+    "scene": "switch",
+    "arm": "B",
+    "repeat": 2
+  },
+  {
+    "scene": "praise",
+    "arm": "A",
+    "repeat": 2
+  }
+]
