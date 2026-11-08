@@ -153,7 +153,8 @@ class PendingStatusTests(fixture.IndependentReviewTests):
         for text in ("解释一下‘任务完成了吗’这句话", "今天心情怎么样？", "请说一句晚上好", "你现在怎么样？", "怎么样？"):
             answer = await self.request(text, text, reply="这是正常的聊天回答。")
             self.assertEqual(answer, "这是正常的聊天回答。")
-            self.assertEqual(self.core.provider.complete_with_tools.await_count, 1)
+            self.assertEqual(self.core.provider.complete_with_tools.await_count, 0)
+            self.assertEqual(self.core.provider.complete.await_count, 1)
 
     async def test_cancel_and_edit_still_follow_existing_parameter_version(self):
         first = (await self.create_pending())[0]

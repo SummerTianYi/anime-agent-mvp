@@ -361,7 +361,7 @@ class IndependentReviewTests(unittest.IsolatedAsyncioTestCase):
 
         self.core.provider.complete_with_tools.side_effect = batch
         self.core.provider.complete.side_effect = self.core.ProviderError("fixture failure after tools")
-        await self.chat("发送一批合成夹具", "budget-origin", effort="chill")
+        await self.chat("发送一批合成测试邮件", "budget-origin", effort="chill")
         original_task = self.core._task_state[self.sid]["id"]
         for index in range(3):
             pending = self.book.pending(self.sid)
@@ -382,7 +382,7 @@ class IndependentReviewTests(unittest.IsolatedAsyncioTestCase):
             "tool_calls": [_call("get_time", {}, str(i)) for i in range(6)],
         }
         self.core.provider.complete.return_value = _reply("预算已用完")
-        await self.chat("执行同一项多步查询", "calls-origin", effort="chill")
+        await self.chat("请调用时间工具进行同一项多步查询", "calls-origin", effort="chill")
         original_task = self.core._task_state[self.sid]["id"]
         self.expect(len(self.effects) == 6, "fixture did not consume the six-call budget")
         self.expect(not self.book.pending(self.sid), "fixture unexpectedly has pending ask actions")
@@ -396,7 +396,7 @@ class IndependentReviewTests(unittest.IsolatedAsyncioTestCase):
     async def test_p1_no_pending_continue_does_not_refill_round_budget(self):
         self.core.provider.complete_with_tools.return_value = {"tool_calls": [_call("get_time", {})]}
         self.core.provider.complete.return_value = _reply("轮次已用完")
-        await self.chat("逐步执行同一项查询", "rounds-origin", effort="chill")
+        await self.chat("请调用时间工具逐步查询", "rounds-origin", effort="chill")
         self.expect(len(self.effects) == 3, "fixture did not consume three tool rounds")
         self.expect(self.core.provider.complete_with_tools.await_count == 3, "fixture model round count differs")
         plain_calls = self.core.provider.complete.await_count

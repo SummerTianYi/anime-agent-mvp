@@ -84,6 +84,7 @@ async def run_agent_loop(
     on_call: Callable[[], None] | None = None,
     validate_final: Callable[[str], str] | None = None,
     take_correction: Callable[[], bool] | None = None,
+    still_authorized: Callable[[], bool] | None = None,
     validate_call: Callable[[str, dict[str, Any]], str] | None = None,
 ) -> AgentLoopResult:
     conversation: list[dict[str, Any]] = [dict(item) for item in messages]
@@ -122,6 +123,8 @@ async def run_agent_loop(
     if supports_tools or validate_final is not None:
         exhausted = True
         for _ in range(max_steps):
+            if still_authorized is not None and not still_authorized():
+                return AgentLoopResult(text="",steps=steps,rounds=rounds,host_delivery=True)
             rounds += 1
             if on_round is not None:
                 on_round()
@@ -135,6 +138,8 @@ async def run_agent_loop(
                     break
                 supports_tools = False
                 continue
+            if still_authorized is not None and not still_authorized():
+                return AgentLoopResult(text="",steps=steps,rounds=rounds,host_delivery=True)
             calls = turn.get("tool_calls") or []
             if not calls:
                 text = str(turn.get("content") or "").strip()
@@ -226,6 +231,8 @@ async def run_agent_loop(
             if len(steps) >= max_calls:
                 break
 
+    if still_authorized is not None and not still_authorized():
+        return AgentLoopResult(text="",steps=steps,rounds=rounds,host_delivery=True)
     if final_text is None and validate_final is None:
         final_text = await provider.complete(_fallback_messages(messages, steps))
     return AgentLoopResult(

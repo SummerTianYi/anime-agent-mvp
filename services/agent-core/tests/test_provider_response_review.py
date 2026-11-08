@@ -51,7 +51,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
         self.core.provider = self.provider(dialect, [raw])
         before = copy.deepcopy(self.book.records)
         effects = copy.deepcopy(self.effects)
-        await self.chat("请处理独立合成审查任务", label)
+        await self.chat("请调用已注册工具处理合成审查任务", label)
         self.assertEqual(self.book.records, before)
         self.assertEqual(self.effects, effects)
         self.assertEqual(len(self.wire_requests), 1)
@@ -67,7 +67,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
                     error = urllib.error.HTTPError("https://example.invalid", status, "synthetic", {},
                                                    io.BytesIO(b'{"error":'))
                     self.core.provider = self.provider(dialect, [error, response(dialect, chat_text("伪正常补答"))])
-                    await self.chat("请处理独立合成审查任务", f"http-{dialect}-{status}")
+                    await self.chat("请调用已注册工具处理合成审查任务", f"http-{dialect}-{status}")
                     print("PROVIDER_REVIEW_HTTP " + json.dumps({"dialect": dialect, "status": status,
                         "requests": len(self.wire_requests), "reply": self.latest_reply(),
                         "actions": len(self.book.records), "effects": len(self.effects)}, ensure_ascii=False))
@@ -86,7 +86,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
                     error = urllib.error.HTTPError("https://example.invalid", 403, "synthetic", {},
                                                    io.BytesIO(encode({"error": {"message": message}})))
                     self.core.provider = self.provider(dialect, [error])
-                    await self.chat("请处理独立合成审查任务", f"unsafe-http-{dialect}-{type(message).__name__}")
+                    await self.chat("请调用已注册工具处理合成审查任务", f"unsafe-http-{dialect}-{type(message).__name__}")
                     self.assertEqual(len(self.wire_requests), 1)
                     self.assertTrue(self.errors())
                     self.assertNotIn("Traceback", " ".join(self.errors()))
@@ -101,7 +101,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
             with self.subTest(dialect=dialect):
                 error = urllib.error.HTTPError("https://example.invalid", 400, "synthetic", {}, io.BytesIO(raw))
                 self.core.provider = self.provider(dialect, [error, response(dialect, chat_text("伪正常补答"))])
-                await self.chat("请处理独立合成审查任务", "argument-http-" + dialect)
+                await self.chat("请调用已注册工具处理合成审查任务", "argument-http-" + dialect)
                 self.assertEqual(len(self.wire_requests), 1)
                 self.assertIn("模型答复未能完成", self.latest_reply())
                 self.assertEqual(self.book.records, {})
@@ -115,7 +115,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
                     error = urllib.error.HTTPError("https://example.invalid", 400, "synthetic", {},
                         io.BytesIO(encode({"error": {"message": message}})))
                     self.core.provider = self.provider(dialect, [error, response(dialect, chat_text())])
-                    await self.chat("天依，来聊音乐", "supported-fallback-" + dialect)
+                    await self.chat("请调用时间工具", "supported-fallback-" + dialect)
                     self.assertEqual(len(self.wire_requests), 2)
                     self.assertEqual(self.latest_reply(), "正常对照：一起聊音乐。")
                     self.assertEqual(self.book.records, {})
@@ -252,7 +252,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
                 # correction turn. It is distinct from a wire protocol error.
                 self.core.provider = self.provider(dialect, [response(dialect, calls=calls),
                                                             response(dialect, chat_text("参数不合法，未执行。"))])
-                await self.chat("请处理独立合成审查任务", "long-batch-" + dialect)
+                await self.chat("请调用已注册工具处理合成审查任务", "long-batch-" + dialect)
                 self.assertEqual(self.book.records, {})
                 self.assertEqual(self.effects, [])
                 self.assertEqual(len(self.wire_requests), 2)

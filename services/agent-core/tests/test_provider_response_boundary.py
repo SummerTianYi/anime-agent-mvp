@@ -140,7 +140,7 @@ class ProviderResponseBoundaryTests(fixture.IndependentReviewTests):
         for dialect in ('openai', 'anthropic'):
             self.core.provider = self.provider(dialect, [b'\xff'])
             before = copy.deepcopy(self.book.records)
-            await self.chat('请处理合成任务', 'bad-' + dialect)
+            await self.chat('请调用工具处理合成任务', 'bad-' + dialect)
             self.assertEqual(self.book.records, before)
             self.assertEqual(self.effects, [])
             self.assertIn('模型答复未能完成', self.latest_reply())
@@ -153,7 +153,7 @@ class ProviderResponseBoundaryTests(fixture.IndependentReviewTests):
                 self.core.provider = self.provider(dialect, [response(dialect, calls=[
                     call(fixture.SEND_ARGS, 'mcp__fixture__send_email', 'first'), call(broken, id='second')])])
                 before = copy.deepcopy(self.book.records)
-                await self.chat('请处理合成任务', f'mixed-{dialect}-{broken}')
+                await self.chat('请调用工具处理合成任务', f'mixed-{dialect}-{broken}')
                 self.assertEqual(self.book.records, before)
                 self.assertEqual(self.effects, [])
                 self.assertEqual(len(self.wire_requests), 1)
@@ -165,7 +165,7 @@ class ProviderResponseBoundaryTests(fixture.IndependentReviewTests):
                 call(fixture.SEND_ARGS, 'mcp__fixture__send_email', 'first'),
                 call({'path': 42, 'content': 'bad'}, 'write_file', 'second')]), response(dialect, fixture._reply('参数有误'))])
             before = copy.deepcopy(self.book.records)
-            await self.chat('请处理合成任务', 'schema-' + dialect)
+            await self.chat('请调用工具处理合成任务', 'schema-' + dialect)
             self.assertEqual(self.book.records, before)
             self.assertEqual(self.effects, [])
 

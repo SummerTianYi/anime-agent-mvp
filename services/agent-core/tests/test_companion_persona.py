@@ -75,10 +75,8 @@ class PersonaWireTests(fixture.IndependentReviewTests):
         # The desktop uses ledger status and receipts. Casual chat has no
         # extra pilot decision field requirement.
         self.assertNotIn(harness.TASK_DECISION_CONTRACT, system)
-        if tools:
-            self.assertIn(harness.TOOL_GUIDANCE, system)
-        else:
-            self.assertNotIn(harness.TOOL_GUIDANCE, system)
+        self.assertNotIn(harness.TOOL_GUIDANCE, system)
+        self.assertNotIn("tools", requests[0])
         def user_text(message):
             content = message.get("content")
             return content if isinstance(content, str) else "".join(

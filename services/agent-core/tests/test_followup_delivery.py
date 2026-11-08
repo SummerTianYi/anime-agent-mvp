@@ -23,10 +23,10 @@ class FollowupDeliveryTests(unittest.IsolatedAsyncioTestCase):
         with patch.object(core, "provider", provider), patch.object(core, "tools_schema", [
                 {"type":"function", "function":{"name": name, "parameters":{"type":"object"}}}]):
             if execute is None:
-                await core.handle_chat("FOLLOWUP 合成异常任务", "followup-error", self.sid)
+                await core.handle_chat("请调用工具执行这项合成操作", "followup-error", self.sid)
             else:
                 with patch.object(core, "_execute_authorized_tool", execute):
-                    await core.handle_chat("FOLLOWUP 合成异常任务", "followup-error", self.sid)
+                    await core.handle_chat("请调用工具执行这项合成操作", "followup-error", self.sid)
         task = core._task_state[self.sid]
         answer = self.store.load_messages(20, self.sid)[-1]["content"]
         self.assertNotIn("全部操作已经成功完成", answer)
