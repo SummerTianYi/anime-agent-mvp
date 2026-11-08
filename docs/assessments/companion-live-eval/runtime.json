@@ -1,0 +1,46 @@
+{
+    "checked_utc":  "2026-11-08T06:25:03.6387704Z",
+    "service":  "anime-agent-core",
+    "core":  {
+                 "pid":  1960,
+                 "parent":  25960,
+                 "created_utc":  "2026-11-08T05:46:28.1735500Z",
+                 "executable":  "python.exe",
+                 "production_tree_in_command_or_exe":  false,
+                 "candidate_tree_in_command_or_exe":  false,
+                 "agent_core_entry":  true,
+                 "hot_reload_flag":  false
+             },
+    "parent":  {
+                   "pid":  25960,
+                   "parent":  42304,
+                   "created_utc":  "2026-11-08T05:46:28.0190720Z",
+                   "executable":  "python.exe",
+                   "production_tree_in_command_or_exe":  true,
+                   "candidate_tree_in_command_or_exe":  false,
+                   "agent_core_entry":  true,
+                   "hot_reload_flag":  false
+               },
+    "avatars":  [
+                    {
+                        "pid":  39956,
+                        "parent":  42304,
+                        "created_utc":  "2026-11-08T05:47:07.8342530Z",
+                        "executable":  "Godot_v4.7.2-stable_win64.exe",
+                        "production_tree_in_command_or_exe":  true,
+                        "candidate_tree_in_command_or_exe":  false,
+                        "agent_core_entry":  false,
+                        "hot_reload_flag":  false
+                    }
+                ],
+    "attached_avatars":  1,
+    "reported_provider":  "deepseek",
+    "reported_runtime":  "deepseek",
+    "reported_model":  "deepseek-flash",
+    "configured":  true,
+    "tools":  {
+                  "enabled":  true,
+                  "count":  9
+              },
+    "period":  "read-only health sample, no formal chat"
+}

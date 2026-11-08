@@ -1,0 +1,92 @@
+{
+  "runtime": {
+    "checked_utc": "2026-11-08T06:25:03.6387704Z",
+    "service": "anime-agent-core",
+    "core": {
+      "pid": 1960,
+      "parent": 25960,
+      "created_utc": "2026-11-08T05:46:28.1735500Z",
+      "executable": "python.exe",
+      "production_tree_in_command_or_exe": false,
+      "candidate_tree_in_command_or_exe": false,
+      "agent_core_entry": true,
+      "hot_reload_flag": false
+    },
+    "parent": {
+      "pid": 25960,
+      "parent": 42304,
+      "created_utc": "2026-11-08T05:46:28.0190720Z",
+      "executable": "python.exe",
+      "production_tree_in_command_or_exe": true,
+      "candidate_tree_in_command_or_exe": false,
+      "agent_core_entry": true,
+      "hot_reload_flag": false
+    },
+    "avatars": [
+      {
+        "pid": 39956,
+        "parent": 42304,
+        "created_utc": "2026-11-08T05:47:07.8342530Z",
+        "executable": "Godot_v4.7.2-stable_win64.exe",
+        "production_tree_in_command_or_exe": true,
+        "candidate_tree_in_command_or_exe": false,
+        "agent_core_entry": false,
+        "hot_reload_flag": false
+      }
+    ],
+    "attached_avatars": 1,
+    "reported_provider": "deepseek",
+    "reported_runtime": "deepseek",
+    "reported_model": "deepseek-flash",
+    "configured": true,
+    "tools": {
+      "enabled": true,
+      "count": 9
+    },
+    "period": "read-only health sample, no formal chat"
+  },
+  "process_cwd": "<formal-checkout>/services/agent-core",
+  "process_created_epoch": 1794116788.1735506,
+  "module_entry": "-m agent_core.main",
+  "formal_checkout_locator": "2026-08-28/https-github-com-summertianyi-anime-agent/work/anime-agent-mvp",
+  "process_env_allowlist": {
+    "model": "deepseek-flash",
+    "host": "api.deepseek.com",
+    "llm_provider": "deepseek",
+    "timeout_seconds": "45",
+    "proxy_mode": null
+  },
+  "production_disk": {
+    "git_HEAD": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+    "lf_source_sha256": {
+      "main.py": "24866f37c461520001af14d82ee9f745ab42d5ac6397804dd0d25f754f4c5e85",
+      "harness.py": "f4b0a888d14bc2b20b994971be601cc72255c6a8976a0e271e2881770a170e25",
+      "agent_loop.py": "95708cc5b3d81120f8d30d453bcd55f1db49fd689e3e1a72c33c72904329fb17",
+      "storage.py": "91450c232cacdd05d7fb7835e5ee58812da024d0d446b4580905ff59b64fc06b",
+      "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b"
+    },
+    "disk_active_prompt_sha256": "f52f6bc871b03f2a87781537db06e767cb2d537184038199bff0bf878d5013fc",
+    "harness_mtime_utc_epoch": 1791126560.534388,
+    "contains_v12_trust_clause": false
+  },
+  "candidate_disk": {
+    "git_HEAD": "a4216b9f2d8e71fcb1bb68dffc27c9871ca9587d",
+    "lf_source_sha256": {
+      "main.py": "a9ca55441d7aca689539d233623e6e70e72bf77b29cf7f6a8d345f8c6ff4fc80",
+      "harness.py": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+      "agent_loop.py": "3ee95f468fe71b864c904ec29f5ec325647423cb7c4c166281dbd2cce13c5039",
+      "storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+      "memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b"
+    },
+    "disk_active_prompt_sha256": "714ae650ce060f0a645f2fa1055878790438a5e93566ceda18a3ecbdc9d9c9f6",
+    "harness_mtime_utc_epoch": 1793987231.804462,
+    "contains_v12_trust_clause": true
+  },
+  "test_adapter_lf_sha256": "41d4d0cbc6eb302b2140b7af6b20a9a1e9d816100a066b51df08ea7cf9f76fb5",
+  "process_in_memory_prompt_sha256": null,
+  "production_last_wire_body": null,
+  "production_ui_effort": null,
+  "test_effort": "deep",
+  "test_model_thinking": "disabled (observed wire)",
+  "test_mcp_servers": 0
+}
