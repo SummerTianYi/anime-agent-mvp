@@ -75,20 +75,12 @@ class TranslateMessagesTest(unittest.TestCase):
         self.assertEqual(block["tool_use_id"], "call_1")
         self.assertEqual(block["content"], '{"ok": true}')
 
-    def test_tool_arguments_survive_bad_json(self) -> None:
+    def test_bad_transcript_arguments_are_not_fabricated(self) -> None:
         provider = _make_provider()
-        _, messages = provider._to_anthropic_messages(
-            [
-                {
-                    "role": "assistant",
-                    "content": None,
-                    "tool_calls": [
-                        {"id": "call_1", "function": {"name": "x", "arguments": "{not json"}}
-                    ],
-                }
-            ]
-        )
-        self.assertEqual(messages[0]["content"][0]["input"], {})
+        with self.assertRaises(ProviderError):
+            provider._to_anthropic_messages([{
+                "role": "assistant", "content": None, "tool_calls": [
+                    {"id": "call_1", "function": {"name": "x", "arguments": "{not json"}}]}])
 
 
 class TranslateToolsTest(unittest.TestCase):

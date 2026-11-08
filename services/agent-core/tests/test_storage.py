@@ -196,17 +196,17 @@ if __name__ == "__main__":
     unittest.main()
 
 
-# zcode (2026-09-07): T2+ exam findings — facts need supersession on
-# contradiction, and pending facts must stay visible (tagged) to recall.
+# Corrections require explicit identity/version validation; appending a
+# candidate alone must not retire a lexically similar fact.
 class FactSupersessionTests(StorageTestCase):
-    def test_confirmed_contradiction_supersedes_old(self) -> None:
+    def test_candidate_alone_cannot_supersede_old(self) -> None:
         store = self.make_store()
         first = store.add_fact("用户最喜欢的歌手是林俊杰", scope="global", status="confirmed")
         second = store.add_fact("用户最喜欢的歌手是邓紫棋", scope="global", status="confirmed")
         rows = {r["fact_id"]: r["status"] for r in store.connection.execute("SELECT fact_id, status FROM facts")}
-        self.assertEqual(rows[first], "superseded")
+        self.assertEqual(rows[first], "confirmed")
         self.assertEqual(rows[second], "confirmed")
-        self.assertEqual(store.recall_facts(), ["用户最喜欢的歌手是邓紫棋"])
+        self.assertEqual(store.recall_facts(), ["用户最喜欢的歌手是邓紫棋", "用户最喜欢的歌手是林俊杰"])
 
     def test_unrelated_confirmed_facts_coexist(self) -> None:
         store = self.make_store()
