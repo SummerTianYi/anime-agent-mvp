@@ -3,7 +3,7 @@
     "core_final": {
       "tests": 560,
       "ok": true,
-      "seconds": 42.766,
+      "seconds": 54.844,
       "skip": [],
       "failures": []
     },
@@ -65,5 +65,20 @@
     "Real final speech and extended desktop observation",
     "Owner deferred UI replication",
     "Unmodified historical bridge verifier requires a different order of states"
-  ]
+  ],
+  "additional_controls": {
+    "targeted_regression": {
+      "tests": 52,
+      "ok": true,
+      "seconds": 6.422,
+      "skip": [],
+      "failures": []
+    },
+    "reported_schedule_cancellation": "old admission cancelled pending ticket; fixed admission preserves the exact ticket in both controls",
+    "independent_handoff": [
+      "8/8",
+      "8/8"
+    ]
+  },
+  "verified_product_sha": "b5e32b93a1541d14136513275477ba24d3270a10"
 }

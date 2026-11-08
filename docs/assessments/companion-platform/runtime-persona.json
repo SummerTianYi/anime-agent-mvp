@@ -88,7 +88,7 @@
   "final_source_fingerprints": {
     "services/agent-core/agent_core/harness.py": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
     "services/agent-core/agent_core/main.py": "502f2c05aff6122dc92158aef1e7c696de830a254352b5bad172c73d05f3ba77",
-    "services/agent-core/agent_core/chat_channels.py": "8576f823ffa3c4954326dee86c72fd0f769b9329fbffd4e0eaf65550a04030dd",
+    "services/agent-core/agent_core/chat_channels.py": "b3e320d98f819a96110b79b6b198db26abc335d11b4cd984c190110fe4a47bb9",
     "services/agent-core/agent_core/conversation_context.py": "25b07564939914c94dbdfe59542a7390b00452bfdfb3d954fc6799e0722103a4",
     "apps/avatar-runtime/interaction_ui.gd": "47c8eec92df1bad145414d211391a2bbe43c883a5f904f19e352ab404134b0cb",
     "apps/avatar-runtime/runtime.gd": "4c04a701ef2b11268b44963d9107f20997824ef0002f08afb2071714fbe78efe"
