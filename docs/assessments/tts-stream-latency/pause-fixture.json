@@ -1,0 +1,9 @@
+{
+  "rate": 32000,
+  "original_frames": 101760,
+  "exact_trailing_zero_ms": 340.84375,
+  "removed_zero_ms": 200.0,
+  "prefix_identical": true,
+  "original_pcm_sha256": "78798add34375b32fd94e19c6b6fe5664737f0bb5d2e07f915adb91b806c35ff",
+  "retained_pcm_sha256": "f2c4d069ed5d37aafb10457e6a019a00dbb47d3884e52bbb6e14c9c31f9de991"
+}

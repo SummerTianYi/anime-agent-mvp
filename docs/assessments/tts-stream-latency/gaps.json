@@ -1,0 +1,150 @@
+{
+  "all_runtime_receipts": [
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-2-0-0-0",
+      "type": "speech.finished",
+      "utteranceId": "con-2-0-0"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-2-0-1-0",
+      "type": "speech.finished",
+      "utteranceId": "con-2-0-1"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-2-1-0-0",
+      "type": "speech.finished",
+      "utteranceId": "con-2-1-0"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-2-1-1-0",
+      "type": "speech.finished",
+      "utteranceId": "con-2-1-1"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-0-0-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-0-0"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-0-1-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-0-1"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-0-2-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-0-2"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-0-3-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-0-3"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-1-0-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-1-0"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-1-1-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-1-1"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-1-2-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-1-2"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "con-4-1-3-0",
+      "type": "speech.finished",
+      "utteranceId": "con-4-1-3"
+    }
+  ],
+  "driver": "WASAPI",
+  "failures": [],
+  "gain_db": "5",
+  "measurements": [
+    {
+      "bus_first_ms": 61.28,
+      "case": "consecutive-ready-WAV",
+      "elapsed_ms": 6402.674,
+      "interpart_last_to_first_nonzero_ms": [
+        425.016
+      ],
+      "parts": 2,
+      "repeat": 0
+    },
+    {
+      "bus_first_ms": 50.01,
+      "case": "consecutive-ready-WAV",
+      "elapsed_ms": 6399.728,
+      "interpart_last_to_first_nonzero_ms": [
+        416.664
+      ],
+      "parts": 2,
+      "repeat": 1
+    },
+    {
+      "bus_first_ms": 50.059,
+      "case": "consecutive-ready-WAV",
+      "elapsed_ms": 12799.68,
+      "interpart_last_to_first_nonzero_ms": [
+        416.677,
+        416.662,
+        416.673000000001
+      ],
+      "parts": 4,
+      "repeat": 0
+    },
+    {
+      "bus_first_ms": 50.141,
+      "case": "consecutive-ready-WAV",
+      "elapsed_ms": 12799.486,
+      "interpart_last_to_first_nonzero_ms": [
+        416.658,
+        416.688,
+        416.678
+      ],
+      "parts": 4,
+      "repeat": 1
+    }
+  ],
+  "output_latency_ms": 9.99999977648258
+}

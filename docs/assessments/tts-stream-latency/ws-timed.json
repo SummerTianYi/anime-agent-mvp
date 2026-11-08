@@ -1,0 +1,57 @@
+{
+  "rows": [
+    {
+      "case": "complete",
+      "localhost_start_ready_roundtrip_ms": 8.2,
+      "total_to_terminal_ms": 3232.914,
+      "terminal": {
+        "first_bus_ms_from_start": 66.515,
+        "frames": 101760,
+        "heard_on_bus": true,
+        "id": "complete",
+        "type": "finished",
+        "underruns_before_eof": 2
+      }
+    },
+    {
+      "case": "cancel",
+      "localhost_start_ready_roundtrip_ms": 8.855,
+      "total_to_terminal_ms": 283.629,
+      "terminal": {
+        "first_bus_ms_from_start": 66.249,
+        "frames": 12800,
+        "heard_on_bus": true,
+        "id": "cancel",
+        "type": "interrupted",
+        "underruns_before_eof": 2
+      }
+    },
+    {
+      "case": "broken-sequence",
+      "localhost_start_ready_roundtrip_ms": 8.308,
+      "total_to_terminal_ms": 17.041,
+      "terminal": {
+        "first_bus_ms_from_start": -1.0,
+        "frames": 1280,
+        "heard_on_bus": false,
+        "id": "broken-sequence",
+        "type": "failed",
+        "underruns_before_eof": 0
+      }
+    },
+    {
+      "case": "recover",
+      "localhost_start_ready_roundtrip_ms": 8.352,
+      "total_to_terminal_ms": 3233.451,
+      "terminal": {
+        "first_bus_ms_from_start": 75.184,
+        "frames": 101760,
+        "heard_on_bus": true,
+        "id": "recover",
+        "type": "finished",
+        "underruns_before_eof": 2
+      }
+    }
+  ],
+  "failures": []
+}

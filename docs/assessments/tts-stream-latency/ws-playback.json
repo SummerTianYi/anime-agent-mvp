@@ -1,0 +1,53 @@
+{
+  "rows": [
+    {
+      "case": "complete",
+      "localhost_start_ready_roundtrip_ms": 15.0,
+      "total_to_terminal_ms": 3234.0,
+      "terminal": {
+        "frames": 101760,
+        "heard_on_bus": true,
+        "id": "complete",
+        "type": "finished",
+        "underruns_before_eof": 2
+      }
+    },
+    {
+      "case": "cancel",
+      "localhost_start_ready_roundtrip_ms": 16.0,
+      "total_to_terminal_ms": 281.0,
+      "terminal": {
+        "frames": 12800,
+        "heard_on_bus": true,
+        "id": "cancel",
+        "type": "interrupted",
+        "underruns_before_eof": 0
+      }
+    },
+    {
+      "case": "broken-sequence",
+      "localhost_start_ready_roundtrip_ms": 0.0,
+      "total_to_terminal_ms": 15.0,
+      "terminal": {
+        "frames": 1280,
+        "heard_on_bus": false,
+        "id": "broken-sequence",
+        "type": "failed",
+        "underruns_before_eof": 0
+      }
+    },
+    {
+      "case": "recover",
+      "localhost_start_ready_roundtrip_ms": 16.0,
+      "total_to_terminal_ms": 3235.0,
+      "terminal": {
+        "frames": 101760,
+        "heard_on_bus": true,
+        "id": "recover",
+        "type": "finished",
+        "underruns_before_eof": 2
+      }
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,132 @@
+{
+  "rows": {
+    "short-1": {
+      "user": "用一句短话回应我：面包烤好了。",
+      "ds": [
+        {
+          "n": 1,
+          "start_ms": 12.74,
+          "model": "deepseek-flash",
+          "tokens": 2928,
+          "end_ms": 2107.46
+        }
+      ],
+      "chat_response_ms": 2111.07,
+      "reply_chars": 27,
+      "tts_entries": [
+        {
+          "ms": 2111.74,
+          "chars": 8,
+          "id": "short-1"
+        }
+      ]
+    },
+    "short-2": {
+      "user": "我切开了，里面很松软。请也简短回应。",
+      "ds": [
+        {
+          "n": 2,
+          "start_ms": 3.37,
+          "model": "deepseek-flash",
+          "tokens": 2940,
+          "end_ms": 2205.54
+        }
+      ],
+      "chat_response_ms": 2210.61,
+      "reply_chars": 19,
+      "tts_entries": [
+        {
+          "ms": 2212.09,
+          "chars": 19,
+          "id": "short-2"
+        }
+      ]
+    },
+    "medium-1": {
+      "user": "用两三句话，跟我聊聊窗台上新长的一片叶子。",
+      "ds": [
+        {
+          "n": 3,
+          "start_ms": 4.83,
+          "model": "deepseek-flash",
+          "tokens": 2978,
+          "end_ms": 2367.54
+        }
+      ],
+      "chat_response_ms": 2371.47,
+      "reply_chars": 90,
+      "tts_entries": [
+        {
+          "ms": 2372.56,
+          "chars": 44,
+          "id": "medium-1"
+        }
+      ]
+    },
+    "medium-2": {
+      "user": "叶尖卷起来一点了，接着说两三句话。",
+      "ds": [
+        {
+          "n": 4,
+          "start_ms": 4.56,
+          "model": "deepseek-flash",
+          "tokens": 3033,
+          "end_ms": 2414.01
+        }
+      ],
+      "chat_response_ms": 2416.1,
+      "reply_chars": 99,
+      "tts_entries": [
+        {
+          "ms": 2416.83,
+          "chars": 32,
+          "id": "medium-2"
+        }
+      ]
+    },
+    "long-1": {
+      "user": "请用五六句，讲一个雨滴落到花盆里的小故事。",
+      "ds": [
+        {
+          "n": 5,
+          "start_ms": 2.73,
+          "model": "deepseek-flash",
+          "tokens": 3001,
+          "end_ms": 2683.83
+        }
+      ],
+      "chat_response_ms": 2686.91,
+      "reply_chars": 38,
+      "tts_entries": [
+        {
+          "ms": 2687.51,
+          "chars": 25,
+          "id": "long-1"
+        }
+      ]
+    },
+    "long-2": {
+      "user": "接上刚才的故事，再讲五六句，让雨慢慢停下来。",
+      "ds": [
+        {
+          "n": 6,
+          "start_ms": 3.82,
+          "model": "deepseek-flash",
+          "tokens": 3102,
+          "end_ms": 3754.58
+        }
+      ],
+      "chat_response_ms": 3757.64,
+      "reply_chars": 256,
+      "tts_entries": [
+        {
+          "ms": 3758.47,
+          "chars": 25,
+          "id": "long-2"
+        }
+      ]
+    }
+  },
+  "actual_ds_attempts": 6,
+  "formal_disk_main_sha256": "24866f37c461520001af14d82ee9f745ab42d5ac6397804dd0d25f754f4c5e85"
+}

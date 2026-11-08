@@ -1,0 +1,136 @@
+{
+  "all_runtime_receipts": [
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "wav-1-0",
+      "type": "speech.finished",
+      "utteranceId": "wav-1"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "wav-2-0",
+      "type": "speech.finished",
+      "utteranceId": "wav-2"
+    },
+    {
+      "error": "",
+      "interrupted": true,
+      "partIndex": 0,
+      "playbackId": "wav-cancel-0",
+      "type": "speech.finished",
+      "utteranceId": "wav-cancel"
+    },
+    {
+      "error": "audio-load-failed",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "bad-0",
+      "type": "speech.failed",
+      "utteranceId": "bad"
+    },
+    {
+      "error": "",
+      "interrupted": false,
+      "partIndex": 0,
+      "playbackId": "recovery-0",
+      "type": "speech.finished",
+      "utteranceId": "recovery"
+    }
+  ],
+  "driver": "WASAPI",
+  "failures": [],
+  "gain_db": "5",
+  "measurements": [
+    {
+      "bus_first_ms": 61.436,
+      "call_ms": 2.883,
+      "case": "wav-1",
+      "receipt": {
+        "error": "",
+        "interrupted": false,
+        "partIndex": 0,
+        "playbackId": "wav-1-0",
+        "type": "speech.finished",
+        "utteranceId": "wav-1"
+      },
+      "receipt_ms": 3204.021
+    },
+    {
+      "bus_first_ms": 70.276,
+      "cancelled": false,
+      "case": "pcm-1",
+      "frames_in_fixture": 101760,
+      "frames_written": 101760,
+      "last_feed_ms": 3086.808,
+      "skips_before_last_feed": 0,
+      "stop_ms": 3270.211
+    },
+    {
+      "bus_first_ms": 58.339,
+      "call_ms": 3.567,
+      "case": "wav-2",
+      "receipt": {
+        "error": "",
+        "interrupted": false,
+        "partIndex": 0,
+        "playbackId": "wav-2-0",
+        "type": "speech.finished",
+        "utteranceId": "wav-2"
+      },
+      "receipt_ms": 3191.514
+    },
+    {
+      "bus_first_ms": 72.689,
+      "cancelled": false,
+      "case": "pcm-2",
+      "frames_in_fixture": 101760,
+      "frames_written": 101760,
+      "last_feed_ms": 3080.861,
+      "skips_before_last_feed": 0,
+      "stop_ms": 3272.608
+    },
+    {
+      "bus_first_ms": 50.076,
+      "call_ms": 3.203,
+      "case": "wav-cancel",
+      "receipt": {
+        "error": "",
+        "interrupted": true,
+        "partIndex": 0,
+        "playbackId": "wav-cancel-0",
+        "type": "speech.finished",
+        "utteranceId": "wav-cancel"
+      },
+      "receipt_ms": 193.675
+    },
+    {
+      "bus_first_ms": 56.993,
+      "cancelled": true,
+      "case": "pcm-cancel",
+      "frames_in_fixture": 101760,
+      "frames_written": 8960,
+      "last_feed_ms": 181.939,
+      "skips_before_last_feed": 0,
+      "stop_ms": 190.32
+    },
+    {
+      "bus_first_ms": 58.299,
+      "call_ms": 1.454,
+      "case": "recovery",
+      "receipt": {
+        "error": "",
+        "interrupted": false,
+        "partIndex": 0,
+        "playbackId": "recovery-0",
+        "type": "speech.finished",
+        "utteranceId": "recovery"
+      },
+      "receipt_ms": 3225.459
+    }
+  ],
+  "output_latency_ms": 9.99999977648258
+}
