@@ -179,3 +179,9 @@ Core仅接受avatar角色、匹配utteranceId与playbackId的回执。正常完�
 ```
 
 通过时会输出 `"bridge": "ok"`，并确认状态路由、菜单事件、聊天响应和 `avatar.wave` 命令。该脚本会触发一次聊天请求；若当前 Core 配置了真实 Provider，就会产生真实 API 调用，纯本地验证请先显式使用 Mock。
+
+## 陪伴与任务回执的兼容字段（独立候选）
+
+原有角色定向与事件名称继续有效。新的 `chat.response` 可携带 `channel`（companion、task、memory）、`conversationId`、`request_id`、`turnId`、`taskId` 和 `foreground`。同轮可能发正文及独立回执；操作回执对应原账本，taskId 仅为归属标识。Godot 在现有文字控件中标记操作及记忆回执。缺少 channel 的旧消息仍按天依正文显示。
+
+当前前台拥有角色状态和语音；迟到的正文保存在来源会话历史中。后台任务结果可回原会话而不触发当前轮播报。带归属的 agent.state、agent.tool、avatar.command 和 avatar.speak 不驱动另一会话的角色；原 speech.finished/failed 使用的 playbackId、utteranceId 和确认票据合同继续有效。history 行的 task_receipt 和 memory_receipt 用于回放相应标签，存在来源时另含 requestId。旧记录仍可读取。[证据](assessments/companion-platform/REPORT.md)

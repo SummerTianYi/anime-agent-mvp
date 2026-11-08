@@ -1,0 +1,63 @@
+{
+  "transport": "loopback /ws",
+  "speaker": "synthetic ACK, no device or TTS inference",
+  "menu_and_wave": true,
+  "frames": [
+    {
+      "type": "avatar.speech.stop"
+    },
+    {
+      "type": "agent.state",
+      "state": "thinking",
+      "request_id": "bridge-smoke",
+      "conversationId": 1,
+      "turnId": "bridge-smoke"
+    },
+    {
+      "type": "session.title",
+      "conversationId": 1
+    },
+    {
+      "type": "chat.response",
+      "conversationId": 1,
+      "request_id": "bridge-smoke",
+      "channel": "companion",
+      "turnId": "bridge-smoke",
+      "text": "这是一条合成桥接测试。"
+    },
+    {
+      "type": "avatar.command",
+      "conversationId": 1,
+      "turnId": "bridge-smoke"
+    },
+    {
+      "type": "agent.state",
+      "state": "idle",
+      "request_id": "bridge-smoke",
+      "conversationId": 1,
+      "turnId": "bridge-smoke"
+    },
+    {
+      "type": "avatar.speak",
+      "text": "这是一条合成桥接测试。",
+      "requestId": "bridge-smoke",
+      "conversationId": 1,
+      "turnId": "bridge-smoke"
+    },
+    {
+      "type": "agent.state",
+      "state": "speaking",
+      "request_id": "bridge-smoke",
+      "conversationId": 1,
+      "turnId": "bridge-smoke"
+    },
+    {
+      "type": "agent.state",
+      "state": "idle",
+      "request_id": "bridge-smoke",
+      "conversationId": 1,
+      "turnId": "bridge-smoke"
+    }
+  ],
+  "matched_ack": true
+}

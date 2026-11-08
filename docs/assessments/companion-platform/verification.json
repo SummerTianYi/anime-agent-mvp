@@ -1,0 +1,69 @@
+{
+  "metrics": {
+    "core_final": {
+      "tests": 560,
+      "ok": true,
+      "seconds": 42.766,
+      "skip": [],
+      "failures": []
+    },
+    "p0_scoped": {
+      "tests": 93,
+      "ok": true,
+      "seconds": 10.985,
+      "skip": [],
+      "failures": []
+    },
+    "deployed_failing_cases": [
+      "test_companion_channels.ChannelTests.test_conversation_has_no_tool_capability",
+      "test_companion_channels.ChannelTests.test_companion_continues_while_old_task_waits",
+      "test_companion_channels.ChannelTests.test_failed_memory_save_keeps_chat_and_separate_receipt",
+      "test_companion_channels.ChannelTests.test_mixed_chat_and_write_have_separate_delivery"
+    ],
+    "legacy_bridge_before": "LEGACY_VERIFIER_TIMEOUT; actual-state-order ['thinking', 'idle', 'speaking', 'idle']",
+    "legacy_bridge_after": "LEGACY_VERIFIER_TIMEOUT; actual-state-order ['thinking', 'idle', 'speaking', 'idle']"
+  },
+  "build": {
+    "TypeScript_Vite": "pass",
+    "assets": [
+      "accepted model 128621144 bytes, SHA256 df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a",
+      "accepted idle and pirouette hashes verified"
+    ],
+    "Godot": "4.7.2, final chat response Label readback; input guard exercised in isolation",
+    "godot_gates": {
+      "verify_text_input": {
+        "ok": true,
+        "marker": [
+          "GODOT_CHAT_SHORTCUT_GUARD_OK{ \"focus\": true, \"avatar_shortcut_blocked\": true }"
+        ]
+      },
+      "verify_speech_delivery": {
+        "ok": true,
+        "marker": [
+          "SPEECH_DELIVERY_REGRESSION {\"checks\":17,\"failures\":[]}"
+        ]
+      },
+      "verify_speech_gain": {
+        "ok": true,
+        "marker": [
+          "SPEECH_GAIN_REGRESSION {\"checks\":54,\"failures\":[],\"renders\":[{\"frames\":16384,\"gainDb\":0.0,\"peakDb\":-20.914422532239,\"rmsDb\":-26.1900770819923,\"sample\":\"ack\"},{\"frames\":20480,\"gainDb\":3.0,\"peakDb\":-17.9144219974"
+        ]
+      }
+    },
+    "docs_consistency": "DOCS_CONSISTENCY_OK"
+  },
+  "dataset": {
+    "real_ds_requests": 40,
+    "raw_text_retained": true,
+    "published_role_assets": false,
+    "speech_synthesis_for_live_dialogues": false,
+    "raw_hidden_reasoning_collected": false,
+    "all_wire_digests_verified": true
+  },
+  "outstanding": [
+    "Repeated questions and practice redirection",
+    "Real final speech and extended desktop observation",
+    "Owner deferred UI replication",
+    "Unmodified historical bridge verifier requires a different order of states"
+  ]
+}

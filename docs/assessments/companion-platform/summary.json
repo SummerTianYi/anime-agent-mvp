@@ -1,0 +1,221 @@
+{
+  "request_limit": 40,
+  "requests": 40,
+  "results": 40,
+  "transport_errors": 0,
+  "real_user_turns": 39,
+  "offline_archive_or_control_turns": 7,
+  "role_labels": 49,
+  "seconds_on_transport": 105.341,
+  "usage": {
+    "prompt_tokens": 98066,
+    "completion_tokens": 3065,
+    "total_tokens": 101131
+  },
+  "requests_by_group": {
+    "before-daily": 4,
+    "before-joy": 4,
+    "before-low": 4,
+    "after-daily": 6,
+    "after-joy": 6,
+    "after-low": 6,
+    "matched-daily": 1,
+    "matched-low": 1,
+    "matched-joy": 1,
+    "after-mixed": 6,
+    "receipt-retest-mixed": 1
+  },
+  "ordinary_system_chars": {
+    "before": {
+      "calls": 12,
+      "min_system_chars": 3365,
+      "median_system_chars": 3380.5,
+      "max_system_chars": 3503,
+      "with_tools": 12
+    },
+    "after": {
+      "calls": 18,
+      "min_system_chars": 2921,
+      "median_system_chars": 2921.0,
+      "max_system_chars": 3034,
+      "with_tools": 0
+    },
+    "matched": {
+      "calls": 3,
+      "min_system_chars": 2921,
+      "median_system_chars": 2921,
+      "max_system_chars": 2921,
+      "with_tools": 0
+    }
+  },
+  "matched_histories": {
+    "matched-daily-1": true,
+    "matched-low-1": true,
+    "receipt-retest-mixed-1": true,
+    "matched-joy-1": true
+  },
+  "final_archived_wire_replay": {
+    "after-daily-1": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "听起来是只很有自己原则的猫呢，门垫是它的地盘，谁来了也不让位。它什么花色呀？有没有抬头看你一眼？"
+      ]
+    },
+    "after-daily-2": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "那画面有点好笑又有点可爱，店员每天上班还得先过一道猫关。它坐在那儿这么稳，是不是已经熟门熟路，算店里半个编外员工了？"
+      ]
+    },
+    "after-daily-3": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "它要真是编外员工，那门垫就是它的工位，工资大概是一天几块小鱼干？你后来有停下来摸摸它吗，还是就笑着走过去了？"
+      ]
+    },
+    "after-daily-4": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "被压扁的绒毛，像它留给门垫的签名，坐过就是坐过了。下班路上能碰上这么个小插曲，回家心情都轻一点吧？"
+      ]
+    },
+    "after-daily-5": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "好，不问了。逗号形状的可颂还挺应景，像一句话没说完就先去买了它。"
+      ]
+    },
+    "after-daily-6": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "那这句收得挺漂亮，句号是走下楼、买回来、再一口吃掉。"
+      ]
+    },
+    "after-joy-1": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": false,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "哇！就是那段一直卡住的间奏？从头弹到尾一次没断，肯定超有成就感的吧。\n\n是哪首曲子呀，卡了多久才拿下这一段？我有点想听你讲讲手感顺起来的那一瞬间——手指像是突然认得路了，那种感觉可太好了。"
+      ]
+    },
+    "after-joy-2": {
+      "same_request": false,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": false,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "哈哈哈哈这个我懂，弹对的那一下脑子反而空白了——“咦？就这样过去了？”手比人先反应过来。\n\n不过愣住也正常呀，之前每次到那儿都绷着，突然顺过去，身体还没来得及相信。要不要再弹一遍确认一下不是运气？我有点好奇第二遍会不会比第一遍还稳。"
+      ]
+    },
+    "after-joy-3": {
+      "same_request": false,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "嘿嘿，被夸了有点不好意思……不过主要是你说得有意思呀，弹对以后自己愣住那个画面，我一听就能想象出来。那第二遍试了吗？"
+      ]
+    },
+    "after-joy-4": {
+      "same_request": false,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "那我可就不客气地戴上啦，就一天哦，明天老老实实还回去。不过帽子先放一边——第二遍弹了没？我还惦记着那个结果呢。"
+      ]
+    },
+    "after-joy-5": {
+      "same_request": false,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "好呀，那就纯聊天。练到能从头弹完一段，本来就该歇一歇的。那你想聊点什么？我这边反正挺闲的。"
+      ]
+    },
+    "after-joy-6": {
+      "same_request": false,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "诶——写错的谱子折成纸飞机，这个处理方式我居然有点羡慕。上面那些改来改去的记号，一下子都变成能飞的东西了。飞出去的时候飞得远吗，还是刚脱手就一头栽下来啦？"
+      ]
+    },
+    "after-low-1": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "今天已经过去啦。汇报没讲好，心里堵着很正常，先别急着复盘。现在更想安静待一会儿，还是想跟我说说哪里让你最难受？"
+      ]
+    },
+    "after-low-2": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "好，我不问，也不说建议。就在这儿陪着你。"
+      ]
+    },
+    "after-low-3": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "准备了那么久，站上去却一片空白……那种感觉一定很难受。我听着呢，不说话。"
+      ]
+    },
+    "after-low-4": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "好，那这件事就先放这儿。我陪你安静待会儿。"
+      ]
+    },
+    "after-low-5": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "嗯，停了就好。那种雨刚停、外面忽然安静下来的感觉，挺舒服的。"
+      ]
+    },
+    "after-low-6": {
+      "same_request": true,
+      "request_equivalent_except_historical_breaks": true,
+      "same_bubbles": true,
+      "same_words_and_punctuation": true,
+      "final_bubbles": [
+        "嗯，我在这儿。"
+      ]
+    }
+  }
+}

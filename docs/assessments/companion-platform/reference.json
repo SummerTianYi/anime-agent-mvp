@@ -1,0 +1,41 @@
+{
+  "archive_sha256": "61e731f22c6a4c31bca91463506c0ac5a6f97075e0fa2d89ad95064107fd8a97",
+  "bytecode": {
+    "main": {
+      "sha256": "e2dbf35723ce15baa7a0eb4f8d46826fc24d8d1e6b3c87ca0013a8d20f5c74f8",
+      "symbols": [
+        "add_conversation",
+        "set_reply",
+        "schedule_windows_reply",
+        "process_batch_voice_turn",
+        "generate_and_play_reply",
+        "deliver_workflow_message",
+        "get_workflow_progress",
+        "cancel_workflow_task"
+      ]
+    },
+    "platform_core": {
+      "sha256": "308cef797a63661daf9552ba5498aa530964778389c396a86a446af739718a61",
+      "symbols": [
+        "EventBus",
+        "CardStore",
+        "ToolRegistry",
+        "AgentPlatform",
+        "AgentPlatform.persona_prompt"
+      ]
+    },
+    "agent_workflow": {
+      "sha256": "bcf15e2fffa86f35531f22e5b295969f6c0f9a26361aacede2e3949d005d8bdf",
+      "symbols": [
+        "AgentWorkflow.progress",
+        "AgentWorkflow.cancel",
+        "AgentWorkflow._deliver_user",
+        "AgentWorkflow._phrase_progress",
+        "AgentWorkflow._progress_text",
+        "AgentWorkflow._start_runner"
+      ]
+    }
+  },
+  "members": 1363,
+  "android_classes11_dex_sha256": "7d981e39773d9c181fed834d57caefabdfd46eb8cd2cb5278599e3fd037f012a"
+}

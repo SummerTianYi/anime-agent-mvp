@@ -42,6 +42,7 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 本地记忆 | 基础存储/更正/跨会话可用；完整闭环待补 | SQLite消息与facts；当前评测发现top3召回遗漏、敏感项显式记住策略及遗忘执行入口缺口，见[2026-10-04评测](docs/AGENT_CAPABILITY_ASSESSMENT_2026-10-04_CODEX.md) |
 | 语音转文字 | 手动输入与常驻唤醒恢复已验证 | 常驻模式下唤醒后先说“我在，请讲”，再开启后续录音；取消、切会话或识别失败后可重新监听。手动输入仍按录音代际回填。 |
 | TTS 语音输出 | 分片回执、恢复与角色声量已验证 | GPT-SoVITS 保留原声线。Godot 的 TianyiSpeech 总线支持单独调增益和峰值限幅，覆盖唤醒应答与聊天回复。 |
+| 陪伴通道（候选） | 聊天和操作回执分开，人设冻结 | 真实 DS 40 次，正式桌面尚未加载；UI 复刻已暂缓。[候选报告](docs/assessments/companion-platform/REPORT.md) |
 | Agent 能力层 | 桌面 Harness V1 已同步 | 同一会话可保留多张操作票据，按已展示版本确认，执行前复查权限。通用任务交付与专项候选另行验收。见[四项同步记录](docs/assessments/desktop-four/REPORT.md)。 |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |
 | Windows 登录自启、守护 | Core已验收；TTS隔离故障验证及正式原CMD激活/重复启动通过 | 当前会话已接入双看护，详情见[修复记录](docs/TTS_REPAIR_STATUS.md)。不承诺冷恢复零间隙；登录任务、音频隔离与长期观察仍属其他工作 |

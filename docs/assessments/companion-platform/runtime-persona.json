@@ -1,0 +1,97 @@
+{
+  "remote_main": "1de9a29d31837b173f91d8efcd4a13dd09c0d028",
+  "production_checkout_head": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+  "production_checkout_dirty": true,
+  "formal_processes": {
+    "core": 21664,
+    "godot": 48804,
+    "tts": 44244,
+    "core_cwd": "<installed>/services/agent-core",
+    "godot_project": "<installed>/apps/avatar-runtime",
+    "same_processes_as_prior_activation": true,
+    "core_started_utc": "2026-11-08T14:21:05.063455+00:00",
+    "harness_last_write_before_start": true,
+    "embedded_process_prompt_introspection": "unavailable; correlated with prior activation, loaded file and unchanged processes"
+  },
+  "profile": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "configured": true,
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "thinking_values_in_all_live_requests": [
+      "{\"type\": \"disabled\"}"
+    ],
+    "voice_mode": "wake",
+    "wake_phase": "listening",
+    "quiet_start": "01:00",
+    "quiet_end": "07:00",
+    "lookahead": "1",
+    "speech_gain": "5",
+    "whisper_check": {
+      "enabled": true,
+      "threshold": 0.9,
+      "takes": 6,
+      "retries": 2
+    }
+  },
+  "evidence_baseline": {
+    "services/agent-core/agent_core/actions.py": "630d1adab8fbc4e658b573317ab7b05e673be1fe8f0e09b22a94a1c1fa488d1a",
+    "services/agent-core/agent_core/agent_loop.py": "0a3d867bdc1a853748c53cb3a325de4156b32b0f67ecc2ccee37baf48df0543b",
+    "services/agent-core/agent_core/harness.py": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+    "services/agent-core/agent_core/main.py": "9d8636000f5c5dc91085886ca2562111548f6dd6e0a1540e6106a6eb104cfcfb",
+    "services/agent-core/agent_core/mcp_host.py": "765cf1c707c2f2ca50b23c2d9753a475e48e37a0d2424471427498ed64ad6aea",
+    "services/agent-core/agent_core/memory_correction.py": "36fe0e1e0875be78b470a9ac0eeba3c65555b572a1f8c6468686624289ddadd9",
+    "services/agent-core/agent_core/memory_retrieval.py": "7d351eda4e3988490d9019145a49605badaa3d178d00ee55f1429b0f5ab9725b",
+    "services/agent-core/agent_core/permissions.py": "f3238a30875e52cc5ed5d3f0175a1dc60bc9f25a438263abcaf2eb7fb2745a55",
+    "services/agent-core/agent_core/proactive.py": "b4bbaa2ebcae9fee085f225d1c89e10e96470f6a0bddf7db61c9d0db146ed8b8",
+    "services/agent-core/agent_core/provider_http.py": "ba8d0abe47604d4badb4346891121c95479f5da0e65373f838986c7e55faf739",
+    "services/agent-core/agent_core/provider_response.py": "adc73ffd4e02cb1c3aa2676e154debecda02839e421570439b69758ce584c6be",
+    "services/agent-core/agent_core/result_pages.py": "b792acea19d8d043dec8d63ce9bc5c204e49cad19a3ddb9ca6481f69956b94e7",
+    "services/agent-core/agent_core/song_catalog.py": "3cd59c745bda8518e5c14f91a5fe618d391753d02e877e232509f968164dc771",
+    "services/agent-core/agent_core/speech.py": "d89d5ad4bf1d13ebc209bf64d98404e7f24215da9d0c93f0b49741d44e0acd49",
+    "services/agent-core/agent_core/speech_cache.py": "a2dd6ad2daeb0df7ffa1bf8172080bd686b18b07330556f21133f9f041b767f2",
+    "services/agent-core/agent_core/storage.py": "c5d09dc81be80074a33735c16222797a8f19c4a7a3465f51b78837b8d4818efa",
+    "services/agent-core/agent_core/stt_input.py": "a194fe744cadd8ec2420e45de7a1012b1aa2d3427cd38a0edfafd81a757c714f",
+    "services/agent-core/agent_core/task_delivery.py": "24e4e09abaad272d0023eb37050ba7248acf2df1f420895526f18c5340b0e8cf",
+    "services/agent-core/agent_core/task_status.py": "40a95e164c96c4ba572a7d25c7d1e2c2c35e3fd15a35fcbd32a203643d29d4c5",
+    "services/agent-core/agent_core/tools.py": "9f751b0c507dacad78b8ca6cfc4dd1bb0d83ab1f4137984f32cb07dfb9de54d7",
+    "services/agent-core/agent_core/tool_contracts.py": "f16734346df658855bf1afa6ed111957c150453c8affd248a063a3fc13f7a5df",
+    "services/agent-core/agent_core/voice.py": "f1dab6adec0b34570baad78f6549bc8105235a8de9f678acda2c2a3816a10bb3",
+    "services/agent-core/agent_core/voice_text.py": "27d22f753a376da1aed18b8baa9d0429bc1da82676b8289272759b3f2b2a75bf",
+    "services/agent-core/agent_core/wake_word.py": "d0d9ea6a44c46d72c4db6e59e6a4bacf5aeea267d548bba91dbbf3e033fcef23",
+    "services/agent-core/agent_core/__init__.py": "f5cee998f2fae0fd804fcb62b1af27541ad9e345081beff4ddd4e77e5a3f3867",
+    "apps/avatar-runtime/runtime.gd": "1f211dd0ec2d995ecbab8f4febe153665513ecc7e00d04476976012aa1eaf3e7"
+  },
+  "materialized_baseline_commit": "723500d6b3605efd79051076af223c1ee8e72217",
+  "historical_replay_commit": "059298ce04af021efe6297c066c2fd7e9edb4748",
+  "frozen_role": {
+    "source": "services/agent-core/agent_core/harness.py",
+    "raw_file_sha256": {
+      "installed": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+      "before": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+      "candidate": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820"
+    },
+    "lf_sha256": {
+      "installed": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+      "before": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+      "candidate": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820"
+    },
+    "sections_utf8_sha256": {
+      "ROLE_PROMPT": "7f57bf41e8f2764fe9bfbf6797c5323d253d7d1f1a73440873c65d067582207e",
+      "RUNTIME_CONTRACT": "e43c97d067285fe88688c63c53f97789e6aa306f1d11b8983d2f10a271dc7910",
+      "ACTIVE_PROMPT_OVERRIDE": "714ae650ce060f0a645f2fa1055878790438a5e93566ceda18a3ecbdc9d9c9f6"
+    },
+    "same_installed_candidate_source": true,
+    "wire_persona_prefix_verified": 40,
+    "tool_schema_added_to_companion": false
+  },
+  "final_source_fingerprints": {
+    "services/agent-core/agent_core/harness.py": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+    "services/agent-core/agent_core/main.py": "502f2c05aff6122dc92158aef1e7c696de830a254352b5bad172c73d05f3ba77",
+    "services/agent-core/agent_core/chat_channels.py": "8576f823ffa3c4954326dee86c72fd0f769b9329fbffd4e0eaf65550a04030dd",
+    "services/agent-core/agent_core/conversation_context.py": "25b07564939914c94dbdfe59542a7390b00452bfdfb3d954fc6799e0722103a4",
+    "apps/avatar-runtime/interaction_ui.gd": "47c8eec92df1bad145414d211391a2bbe43c883a5f904f19e352ab404134b0cb",
+    "apps/avatar-runtime/runtime.gd": "4c04a701ef2b11268b44963d9107f20997824ef0002f08afb2071714fbe78efe"
+  },
+  "reference_zip_sha256": "61e731f22c6a4c31bca91463506c0ac5a6f97075e0fa2d89ad95064107fd8a97"
+}
