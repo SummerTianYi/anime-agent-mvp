@@ -1,6 +1,6 @@
 # Verification and acceptance
 
-2026-11-08 合成优先级候选可发现 684 个 Core 用例。受影响语音组 69 项和告别组 9 项通过。单套真实 TTS 的两档预取各播两次短答和两次三段长答，另验取消与恢复。[实际时序与测试边界](assessments/speech-synthesis-priority/REPORT.md)
+2026-11-08 合成优先级候选的隔离 Core 全量 684/684 通过，用时 548.016 秒。定向语音组 69 项和告别组 9 项通过。单套真实 TTS 的两档预取各播两次短答和两次三段长答，另验取消与恢复。[实际时序与测试边界](assessments/speech-synthesis-priority/REPORT.md) · [单测结果](assessments/speech-synthesis-priority/unit.json)
 
 2026-11-08 语音候选发现 678 个 Core 用例，受影响的语音与告别回归及可见 Godot 验证见[本轮记录](assessments/speech-lip-continuity/REPORT.md)。下方的 676 是 V1.2 冻结版本的全量成绩。
 

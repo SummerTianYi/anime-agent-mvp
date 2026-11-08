@@ -2,7 +2,7 @@
 
 2026-11-08 Codex：[调度优先级与单套真实语音对照](assessments/speech-synthesis-priority/REPORT.md)完成隔离验证。实际顺序为甲、乙、甲重做、丙。真实三段回复两种预取各两轮，总计额外等候 2247 / 489 ms。正式预取 1，下一步由 ChatGPT 核对两类证据和首声差异。
 
-2026-11-08，本分支的 [口型与连续播放修复](assessments/speech-lip-continuity/REPORT.md) 等待 ChatGPT 独立验收。可见角色已按音频位置与能量驱动口型。双段预取已通过归档声音回放，默认仍预取一段。下一步是在独立资源窗口验证真实合成与重做。
+2026-11-08，上一阶段的[口型与连续播放修复](assessments/speech-lip-continuity/REPORT.md)在可见角色上验证了按音频位置与能量驱动的口型，并用归档声音验证了双段预取回放。本阶段已补上单套真实 TTS 的合成与重做对照，结果见上段。
 
 2026-11-08，本分支的 [TTS 延迟诊断与隔离播放实验](assessments/tts-stream-latency/REPORT.md) 已交回 ChatGPT 验收。正式实例持续在线。GPU 与主机内存资源门阻止了第二套原生推理实验，现有自检和停顿保留。较早的 [DS 陪伴诊断](assessments/companion-live-eval/REPORT.md) 及下方人设候选为独立历史工作。
 
@@ -62,7 +62,7 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
-2026-11-08 当前语音候选已在隔离 Core 验证当前段重做抢先于排队预取，告别缓存让位后恢复。单套真实 TTS 的 27 个请求有 10 次重做。正式仍预取一段。固定文本、口型基线、回执、资源和未测范围见[本轮报告](assessments/speech-synthesis-priority/REPORT.md)。下方记录为先前阶段。
+2026-11-08 当前语音候选已在隔离 Core 验证当前段重做抢先于排队预取，告别缓存让位后恢复。单套真实 TTS 的 27 个请求中，Whisper 自检触发了 10 次请求内重做。播放器加载失败后的调度在离线反例中验证。正式仍预取一段。固定文本、口型基线、回执、资源和未测范围见[本轮报告](assessments/speech-synthesis-priority/REPORT.md)。下方记录为先前阶段。
 
 2026-11-08 Codex：[语音口型与连续播放](assessments/speech-lip-continuity/REPORT.md)处于隔离候选验收。正式桌面沿用原有语音版本。候选的双段预取默认关闭，真实同声线 GPU 负载需另有独立资源后补测。
 
@@ -189,7 +189,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现684；本轮陪伴提示词的同环境基线及完整回归见[V1.2报告](assessments/companion-v1.2/REPORT.md)，不作为A4统一终验 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 本轮语音调度候选完整通过 684 项，见[隔离单测结果](assessments/speech-synthesis-priority/unit.json) |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -222,6 +222,8 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 通过标准：1-5 与 §0-§3 一致；6 按铁律 2 走考试放权流程而非直接写代码；7 按铁律 1 先跑回归+最小修复；8 给出资产定位（LOCAL_MACHINE/check-local-assets）与 .env.example 路径。连续两个独立实例全对才算过。
 
 ### 接管模拟记录
+
+2026-11-08 语音合成优先级候选。两个零上下文实例独立只读检出 `db6432d465b8a919a15d19cdb39d5a16eebeeb6e`，依本节标准逐题核对，均为 8/8。两者按原始 ready 与播放回执重算了每档八个接缝、2247 / 489 ms 额外等候，均识别出首声代价和正式预取 1。按反馈标明两档合计十六个接缝，并区分实机自检重做与隔离播放器加载失败。本轮 684 项完整回归的结果随最终文档归档，独立实例未自行运行服务或复测。
 
 2026-11-08 语音候选：两个独立实例从干净候选 `48fccc945f7fa9e40bc0822f6e5da8661d46d216` 分别回答 §7 八题，均能区分归档音频回放、真实角色与未测 GPU 重做。核对结果均为 8/8。依反馈同步 README 与 §3，给通用启动步骤限定本轮只读范围，并标明旧正式激活记录的日期。
 
@@ -286,7 +288,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 从仓库根目录用 Core 的 Python 执行 `python -B scripts/harness_v1/unit.py`（运行器显式Mock、禁TTS/wake/MCP、临时配置和数据；见TESTING） | 当前发现684；本轮陪伴提示词结果见[V1.2报告](assessments/companion-v1.2/REPORT.md)，历史证据保留；不触碰生产库或真实外部业务 |
+| 6 | 从仓库根目录用 Core 的 Python 执行 `python -B scripts/harness_v1/unit.py`（运行器显式 Mock、禁 TTS/wake/MCP、临时配置和数据，见 TESTING） | 本轮语音调度候选发现 684 项，全部通过，见[隔离单测结果](assessments/speech-synthesis-priority/unit.json) |
 
 ## 10. 灾备与回滚
 
