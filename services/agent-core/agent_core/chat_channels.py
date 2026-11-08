@@ -89,8 +89,9 @@ current: ContextVar[Turn | None] = ContextVar("chat_turn", default=None)
 lane: ContextVar[str] = ContextVar("chat_lane", default="companion")
 
 
-def memory_claim_free(body: str) -> str:
+def memory_claim_free(body: str, *, attempted: bool) -> str:
     """Remove a first-person persistence promise when the host cannot verify it."""
     clauses = re.split(r"(?<=[。！？!?；;，,])|\n", body)
     claim = re.compile(r"(?:我|已经|已|会|帮你|替你|给你|放心|记住了|记下了|记好啦|记牢了).{0,12}(?:记住|记下|记牢|记好|保存|存好|存下)|^(?:记住|记下|记牢|记好|保存好)[了啦咯]")
-    return "".join(s for s in clauses if not claim.search(s)).strip(" \n，,；;")
+    durable = re.compile(r"长期记忆|(?:存|保存|写|录)入.{0,5}记忆|(?:下次|以后|下次见面).{0,10}(?:记得|记住)|已经帮你记住")
+    return "".join(s for s in clauses if not ((attempted or durable.search(s)) and claim.search(s))).strip(" \n，,；;")
