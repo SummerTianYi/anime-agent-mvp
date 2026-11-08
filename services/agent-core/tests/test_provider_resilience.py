@@ -95,9 +95,24 @@ class ProviderResilienceTests(unittest.IsolatedAsyncioTestCase):
     async def test_short_retry_after_is_honored(self):
         p = provider()
         p._request = Mock(side_effect=[urllib.error.HTTPError(p.completion_url, 429, "slow", {"Retry-After": "0.05"}, io.BytesIO(b"{}")), reply()])
-        started = time.monotonic()
-        self.assertEqual(await p.complete([]), "recovered")
-        self.assertGreaterEqual(time.monotonic() - started, .05)
+        waiting, release = asyncio.Event(), asyncio.Event()
+
+        async def hold_backoff(seconds):
+            waiting.set()
+            await release.wait()
+
+        with patch("agent_core.provider_http.asyncio.sleep", side_effect=hold_backoff) as sleep:
+            request = asyncio.create_task(p.complete([]))
+            try:
+                await asyncio.wait_for(waiting.wait(), 2)
+                sleep.assert_awaited_once_with(.05)
+                self.assertEqual(p._request.call_count, 1)
+                self.assertFalse(request.done())
+            finally:
+                release.set()
+                result = await asyncio.wait_for(request, 2)
+        self.assertEqual(result, "recovered")
+        self.assertEqual(p._request.call_count, 2)
 
     async def test_long_retry_after_never_overruns_budget(self):
         p = provider()

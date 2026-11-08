@@ -40,6 +40,10 @@ Harness V1 的激活源码基点为 `c212cba3622f6f2a7f008c6a8ad01e4f585a097b`�
 
 首次组合探针使用 headless 主场景，触发已有的预览后退出。随后在历史初始化结束前注入一次唤醒，未取得两条回执。验收探针改为等待真实 Avatar 的首轮历史响应，因为 `chat.history.request` 会使旧录音失效。以上回执取自完成初始化的独立 Godot 实例。本次合成了模型响应、录音和测试音频；真实模型请求为 0，未重新测试物理麦克风、扬声器听感或外部业务。
 
+首轮 GitHub Windows CI 的 Core 有一项失败。短退避用例将两次单调时钟读数相减得到 47 ms，断言下限为 50 ms。该用例现直接验证 Provider 向等待接口传入精确的 0.05 秒，并用事件暂停等待：释放前 HTTP 仅发送一次，释放后才发送第二次并交付成功。生产传输逻辑及 CI 工作流沿用原实现。[首轮 CI 记录](https://github.com/SummerTianYi/anime-agent-mvp/actions/runs/42477858407)
+
+更新断言后，Provider 传输回归 27/27 通过，故意将请求间隔替换为 0 秒的负对照被检出。最终完整 Core 回归 390/390，跳过 0，67.078 秒。
+
 ## 复现与回退
 
 1. 在独立检出安装 `python -m pip install -e "services/agent-core[test]"`。依照 [TESTING.md](../../TESTING.md) 指定临时 `ANIME_AGENT_DATA_DIR`、指向不存在文件的 `ANIME_AGENT_CONFIG_PATH`、Mock 和关闭的 TTS、唤醒、MCP。在 `services/agent-core` 执行 `python -m unittest discover -s tests -v`。测试额外依赖包含合成麦克风阵列用的 NumPy。
