@@ -1,0 +1,378 @@
+{
+  "window": "baseline",
+  "runs": [
+    {
+      "scenario": "short",
+      "injectionMs": [
+        900
+      ],
+      "firstSoundMs": 1000,
+      "waitingForFileMs": [],
+      "audibleIntervalsMs": [],
+      "over80ms": 0,
+      "longestMs": 0,
+      "peakReadyFiles": 0,
+      "peakModelWorkers": 1,
+      "selectedAudioMs": [
+        1820
+      ],
+      "events": [
+        {
+          "part": 0,
+          "stage": "prepare",
+          "at": 12
+        },
+        {
+          "part": 0,
+          "stage": "ready",
+          "at": 927
+        },
+        {
+          "part": 0,
+          "stage": "dispatch",
+          "at": 928
+        }
+      ],
+      "receipts": [
+        {
+          "part": 0,
+          "at": 2800,
+          "first": 1000,
+          "last": 2399
+        }
+      ]
+    },
+    {
+      "scenario": "three-paragraph",
+      "injectionMs": [
+        650,
+        700,
+        550,
+        3000,
+        900
+      ],
+      "firstSoundMs": 832,
+      "waitingForFileMs": [
+        0,
+        0,
+        1540,
+        0
+      ],
+      "audibleIntervalsMs": [
+        533,
+        534,
+        1966,
+        500
+      ],
+      "over80ms": 1,
+      "longestMs": 1540,
+      "peakReadyFiles": 1,
+      "peakModelWorkers": 1,
+      "selectedAudioMs": [
+        1820,
+        2400,
+        1360,
+        3860,
+        1820
+      ],
+      "events": [
+        {
+          "part": 0,
+          "stage": "prepare",
+          "at": 0
+        },
+        {
+          "part": 0,
+          "stage": "ready",
+          "at": 655
+        },
+        {
+          "part": 0,
+          "stage": "dispatch",
+          "at": 655
+        },
+        {
+          "part": 1,
+          "stage": "prepare",
+          "at": 656
+        },
+        {
+          "part": 1,
+          "stage": "ready",
+          "at": 1370
+        },
+        {
+          "part": 1,
+          "stage": "dispatch",
+          "at": 2533
+        },
+        {
+          "part": 2,
+          "stage": "prepare",
+          "at": 2534
+        },
+        {
+          "part": 2,
+          "stage": "ready",
+          "at": 3092
+        },
+        {
+          "part": 2,
+          "stage": "dispatch",
+          "at": 5034
+        },
+        {
+          "part": 3,
+          "stage": "prepare",
+          "at": 5034
+        },
+        {
+          "part": 3,
+          "stage": "ready",
+          "at": 8040
+        },
+        {
+          "part": 3,
+          "stage": "dispatch",
+          "at": 8042
+        },
+        {
+          "part": 4,
+          "stage": "prepare",
+          "at": 8042
+        },
+        {
+          "part": 4,
+          "stage": "ready",
+          "at": 8958
+        },
+        {
+          "part": 4,
+          "stage": "dispatch",
+          "at": 11999
+        }
+      ],
+      "receipts": [
+        {
+          "part": 0,
+          "at": 2533,
+          "first": 832,
+          "last": 2266
+        },
+        {
+          "part": 1,
+          "at": 5033,
+          "first": 2799,
+          "last": 4632
+        },
+        {
+          "part": 2,
+          "at": 6500,
+          "first": 5166,
+          "last": 6266
+        },
+        {
+          "part": 3,
+          "at": 11999,
+          "first": 8232,
+          "last": 11599
+        },
+        {
+          "part": 4,
+          "at": 13900,
+          "first": 12099,
+          "last": 13499
+        }
+      ]
+    },
+    {
+      "scenario": "short",
+      "injectionMs": [
+        900
+      ],
+      "firstSoundMs": 1031,
+      "waitingForFileMs": [],
+      "audibleIntervalsMs": [],
+      "over80ms": 0,
+      "longestMs": 0,
+      "peakReadyFiles": 0,
+      "peakModelWorkers": 1,
+      "selectedAudioMs": [
+        1820
+      ],
+      "events": [
+        {
+          "part": 0,
+          "stage": "prepare",
+          "at": 0
+        },
+        {
+          "part": 0,
+          "stage": "ready",
+          "at": 911
+        },
+        {
+          "part": 0,
+          "stage": "dispatch",
+          "at": 911
+        }
+      ],
+      "receipts": [
+        {
+          "part": 0,
+          "at": 2799,
+          "first": 1031,
+          "last": 2398
+        }
+      ]
+    },
+    {
+      "scenario": "three-paragraph",
+      "injectionMs": [
+        650,
+        700,
+        550,
+        3000,
+        900
+      ],
+      "firstSoundMs": 831,
+      "waitingForFileMs": [
+        0,
+        0,
+        1583,
+        0
+      ],
+      "audibleIntervalsMs": [
+        566,
+        534,
+        1966,
+        499
+      ],
+      "over80ms": 1,
+      "longestMs": 1583,
+      "peakReadyFiles": 1,
+      "peakModelWorkers": 1,
+      "selectedAudioMs": [
+        1820,
+        2400,
+        1360,
+        3860,
+        1820
+      ],
+      "events": [
+        {
+          "part": 0,
+          "stage": "prepare",
+          "at": 0
+        },
+        {
+          "part": 0,
+          "stage": "ready",
+          "at": 656
+        },
+        {
+          "part": 0,
+          "stage": "dispatch",
+          "at": 656
+        },
+        {
+          "part": 1,
+          "stage": "prepare",
+          "at": 656
+        },
+        {
+          "part": 1,
+          "stage": "ready",
+          "at": 1361
+        },
+        {
+          "part": 1,
+          "stage": "dispatch",
+          "at": 2533
+        },
+        {
+          "part": 2,
+          "stage": "prepare",
+          "at": 2534
+        },
+        {
+          "part": 2,
+          "stage": "ready",
+          "at": 3088
+        },
+        {
+          "part": 2,
+          "stage": "dispatch",
+          "at": 5032
+        },
+        {
+          "part": 3,
+          "stage": "prepare",
+          "at": 5033
+        },
+        {
+          "part": 3,
+          "stage": "ready",
+          "at": 8049
+        },
+        {
+          "part": 3,
+          "stage": "dispatch",
+          "at": 8049
+        },
+        {
+          "part": 4,
+          "stage": "prepare",
+          "at": 8049
+        },
+        {
+          "part": 4,
+          "stage": "ready",
+          "at": 8951
+        },
+        {
+          "part": 4,
+          "stage": "dispatch",
+          "at": 12000
+        }
+      ],
+      "receipts": [
+        {
+          "part": 0,
+          "at": 2533,
+          "first": 831,
+          "last": 2233
+        },
+        {
+          "part": 1,
+          "at": 5032,
+          "first": 2799,
+          "last": 4632
+        },
+        {
+          "part": 2,
+          "at": 6466,
+          "first": 5166,
+          "last": 6266
+        },
+        {
+          "part": 3,
+          "at": 11999,
+          "first": 8232,
+          "last": 11599
+        },
+        {
+          "part": 4,
+          "at": 13899,
+          "first": 12098,
+          "last": 13499
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "minimumFreeMiB": 1638,
+    "peakRoleMiB": 363
+  },
+  "sourceSha256": "31b77cd18b09efb68db48a2725fc44dbe97f7c81d9679657c7b46817dd9d4fbc"
+}

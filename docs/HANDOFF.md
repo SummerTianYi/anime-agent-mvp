@@ -1,5 +1,7 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
+2026-11-08，本分支的 [口型与连续播放修复](assessments/speech-lip-continuity/REPORT.md) 等待 ChatGPT 独立验收。可见角色已按音频位置与能量驱动口型。双段预取已通过归档声音回放，默认仍预取一段。下一步是在独立资源窗口验证真实合成与重做。
+
 2026-11-08，本分支的 [TTS 延迟诊断与隔离播放实验](assessments/tts-stream-latency/REPORT.md) 已交回 ChatGPT 验收。正式实例持续在线。GPU 与主机内存资源门阻止了第二套原生推理实验，现有自检和停顿保留。较早的 [DS 陪伴诊断](assessments/companion-live-eval/REPORT.md) 及下方人设候选为独立历史工作。
 
 2026-11-07 本轮接手优先状态：从核实的 `783472060a52aae5e745ca60077347eb0943f184` 独立建立 `codex/tianyi-companion-v1-2-20261107`，仅实施[V1.2陪伴人设提示词候选](assessments/companion-v1.2/REPORT.md)。原候选未提交DS配置改动保留；正式桌面、内核、记忆、固定台词、主动策略、TTS、Godot及CI不改。真实模型效果待验收，A4仍开放。只授权提交/push并交回ChatGPT，不创建PR、不合并main、不部署或重启正式桌面。下方旧日期是历史状态。
@@ -39,8 +41,8 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 | 项目 | 内容 |
 |---|---|
 | 当前当值 Agent | Codex；交回 ChatGPT 验收 |
-| 本次领地 | 本机 TTS 延迟诊断，隔离 Godot 播放、真实 DS 到首段入口的测量和 sidecar 流式可行性证据 |
-| 授权边界 | 两仓独立分支提交与推送，由 ChatGPT 验收。原生推理同权重 A/B 待独立本地资源。禁止 PR、合并、部署和重启正式桌面。 |
+| 本次领地 | 语音口型、分段供音与真实播放回执，隔离候选等待 ChatGPT 验收 |
+| 授权边界 | 两仓独立分支提交与推送。下一步先核对报告、录屏及测试边界，真实权重连续性补验需要独立资源。禁止 PR、合并、部署和重启正式桌面。 |
 | 交接日期 | 2026-11-08 |
 
 领地内的事是你的；**领地外的一切默认只读**——可以读、可以提建议，未经所有者同意不改别人建好的东西。
@@ -58,7 +60,7 @@ Codex当前状态：TTS会话恢复已通过原CMD正式激活及所有者验证
 
 ## 3. 当前真实状态（= 冻结区清单）
 
-Codex 2026-11-07：[V1.2陪伴人设](assessments/companion-v1.2/REPORT.md)仅修改ROLE_PROMPT和RUNTIME_CONTRACT人物表达区域；受保护合同指纹不变。新增7项离线测试通过，覆盖八类场景、两Provider格式及有/无工具请求路径。当前发现676个测试；完整结果与边界以该报告为准。真实陪伴效果待验收，未部署；原任务、记忆、取消及Provider修复成果保留，A4不关闭。
+Codex 2026-11-07：[V1.2陪伴人设](assessments/companion-v1.2/REPORT.md)仅修改ROLE_PROMPT和RUNTIME_CONTRACT人物表达区域；受保护合同指纹不变。新增7项离线测试通过，覆盖八类场景、两Provider格式及有/无工具请求路径。当时发现676个测试；完整结果与边界以该报告为准。真实陪伴效果待验收，未部署；原任务、记忆、取消及Provider修复成果保留，A4不关闭。
 
 Codex 2026-10-14：[Provider API响应边界](assessments/root-cause-repair/a4-pilot/PROVIDER_RESPONSE_BOUNDARY.md)完成定向补修：两适配统一拒绝空值、异常结构和损坏参数，整批调用先校验，协议错误不误走无工具补答，成功/失败/unknown回执保留。冻结源码受影响385项及共享运行器38项通过，含主19项与一次独立19项；当前发现669个测试，未执行全量终验。DS/GLM正常聊天和短文件任务补验通过，实际20次HTTP；首次连接超时及已有真实回执保留。只关闭R2-RC16的现有Provider API解析子问题，记忆和取消交界成果保留，通用A4核对器仍未接入，A4和底座整体不关闭。未操作生产数据或当前Godot/Core/TTS，未部署、未合并main，停在Manager验收点。
 
@@ -179,7 +181,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现676；本轮陪伴提示词的同环境基线及完整回归见[V1.2报告](assessments/companion-v1.2/REPORT.md)，不作为A4统一终验 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 当前发现678；本轮陪伴提示词的同环境基线及完整回归见[V1.2报告](assessments/companion-v1.2/REPORT.md)，不作为A4统一终验 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -274,7 +276,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 从仓库根目录用 Core 的 Python 执行 `python -B scripts/harness_v1/unit.py`（运行器显式Mock、禁TTS/wake/MCP、临时配置和数据；见TESTING） | 当前发现676；本轮陪伴提示词结果见[V1.2报告](assessments/companion-v1.2/REPORT.md)，历史证据保留；不触碰生产库或真实外部业务 |
+| 6 | 从仓库根目录用 Core 的 Python 执行 `python -B scripts/harness_v1/unit.py`（运行器显式Mock、禁TTS/wake/MCP、临时配置和数据；见TESTING） | 当前发现678；本轮陪伴提示词结果见[V1.2报告](assessments/companion-v1.2/REPORT.md)，历史证据保留；不触碰生产库或真实外部业务 |
 
 ## 10. 灾备与回滚
 

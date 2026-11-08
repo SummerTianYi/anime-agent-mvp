@@ -1107,6 +1107,8 @@ speech_manager = SpeechManager(
     on_speak=_broadcast_speak,
     on_interrupt=_broadcast_speech_stop,
     on_recovery=_broadcast_speech_recovery,
+    lookahead=2 if os.getenv("ANIME_AGENT_SPEECH_LOOKAHEAD") == "2" else 1,
+    on_timing=lambda record: memory.add_event("speech.timing", record),
 )
 
 
@@ -2259,7 +2261,9 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
                     if accepted:
                         memory.add_event("speech.receipt", {"utteranceId": utterance_id,
                             "playbackId": playback_id, "failed": event_type == "speech.failed",
-                            "interrupted": payload.get("interrupted") is True})
+                            "interrupted": payload.get("interrupted") is True,
+                            **{k: payload[k] for k in ("startedAtMs", "endedAtMs")
+                               if type(payload.get(k)) is int and 0 <= payload[k] < 10**14}})
                 continue
 
             if event_type == "voice.cancel":

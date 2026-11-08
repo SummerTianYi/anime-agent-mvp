@@ -1,0 +1,118 @@
+{
+  "before": {
+    "frames": 209,
+    "rendered_images": 89,
+    "bones": 703,
+    "expressions": 48,
+    "driver": "WASAPI",
+    "max_jaw_in_quiet_phases": {
+      "wait": 0.5638,
+      "gap": 0.5638,
+      "cancelled": 0.5638,
+      "failed": 0.5638
+    },
+    "silent_frames": 9,
+    "internal_silence_max_jaw": 0.563759326934814,
+    "voiced_max_jaw": 0.563761174678802,
+    "voiced_median_jaw": 0.433280557394028,
+    "blink_peak": 0.950212931632136,
+    "smile_peak": 0.18,
+    "receipts": [
+      {
+        "error": "",
+        "interrupted": false,
+        "partIndex": 0,
+        "playbackId": "one",
+        "type": "speech.finished",
+        "utteranceId": "one"
+      },
+      {
+        "error": "",
+        "interrupted": true,
+        "partIndex": 0,
+        "playbackId": "cancel",
+        "type": "speech.finished",
+        "utteranceId": "cancel"
+      },
+      {
+        "error": "audio-load-failed",
+        "interrupted": false,
+        "partIndex": 0,
+        "playbackId": "bad",
+        "type": "speech.failed",
+        "utteranceId": "failed"
+      }
+    ],
+    "resources": {
+      "initial": 2569826304,
+      "minimum": 2158850048,
+      "child_peak": 445181952
+    }
+  },
+  "after": {
+    "frames": 224,
+    "rendered_images": 95,
+    "bones": 703,
+    "expressions": 48,
+    "driver": "WASAPI",
+    "max_jaw_in_quiet_phases": {
+      "wait": 0.0,
+      "gap": 0.0,
+      "cancelled": 0.0,
+      "failed": 0.0
+    },
+    "silent_frames": 10,
+    "internal_silence_max_jaw": 0.0,
+    "voiced_max_jaw": 0.720000028610229,
+    "voiced_median_jaw": 0.682981312274933,
+    "blink_peak": 0.950212931632136,
+    "smile_peak": 0.18,
+    "receipts": [
+      {
+        "endedAtMs": 1794130434916,
+        "error": "",
+        "interrupted": false,
+        "partIndex": 0,
+        "playbackId": "one",
+        "startedAtMs": 1794130430789,
+        "type": "speech.finished",
+        "utteranceId": "one"
+      },
+      {
+        "endedAtMs": 1794130436150,
+        "error": "",
+        "interrupted": true,
+        "partIndex": 0,
+        "playbackId": "cancel",
+        "startedAtMs": 1794130435654,
+        "type": "speech.finished",
+        "utteranceId": "cancel"
+      },
+      {
+        "endedAtMs": 1794130436616,
+        "error": "audio-load-failed",
+        "interrupted": false,
+        "partIndex": 0,
+        "playbackId": "bad",
+        "startedAtMs": 0,
+        "type": "speech.failed",
+        "utteranceId": "failed"
+      },
+      {
+        "endedAtMs": 1794130437350,
+        "error": "",
+        "interrupted": true,
+        "partIndex": 0,
+        "playbackId": "new",
+        "startedAtMs": 1794130437087,
+        "type": "speech.finished",
+        "utteranceId": "new"
+      }
+    ],
+    "resources": {
+      "initial": 2604195840,
+      "minimum": 2218754048,
+      "child_peak": 428204032
+    }
+  }
+}

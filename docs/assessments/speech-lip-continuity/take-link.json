@@ -1,0 +1,97 @@
+{
+  "events": [
+    {
+      "requestId": "take-link-fixture",
+      "utteranceId": "utt-07210cecb60a",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794130697308,
+      "preparationId": "63d3ceb50adf48abafb3c428115ffc54"
+    },
+    {
+      "requestId": "take-link-fixture",
+      "utteranceId": "utt-07210cecb60a",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794130697322,
+      "preparationId": "63d3ceb50adf48abafb3c428115ffc54",
+      "selectedTake": 2,
+      "selectedAtMs": 1794130697319,
+      "takes": [
+        {
+          "take": 1,
+          "synthStartMs": 1794130697319,
+          "synthEndMs": 1794130697319,
+          "checkStartMs": 1794130697319,
+          "checkEndMs": 1794130697319
+        },
+        {
+          "take": 2,
+          "synthStartMs": 1794130697319,
+          "synthEndMs": 1794130697319,
+          "checkStartMs": 1794130697319,
+          "checkEndMs": 1794130697319
+        }
+      ]
+    },
+    {
+      "requestId": "take-link-fixture",
+      "utteranceId": "utt-07210cecb60a",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794130697322,
+      "playbackId": "20ec11794a5442eda0b1ffe0a1bd8653",
+      "preparationId": "63d3ceb50adf48abafb3c428115ffc54",
+      "selectedTake": 2
+    },
+    {
+      "requestId": "take-link-fixture",
+      "utteranceId": "utt-07210cecb60a",
+      "partIndex": 0,
+      "stage": "synth-request",
+      "atMs": 1794130697322,
+      "preparationId": "25cb49d4f10e46668960c299b841cadf"
+    },
+    {
+      "requestId": "take-link-fixture",
+      "utteranceId": "utt-07210cecb60a",
+      "partIndex": 0,
+      "stage": "ready",
+      "atMs": 1794130697325,
+      "preparationId": "25cb49d4f10e46668960c299b841cadf",
+      "selectedTake": 1,
+      "selectedAtMs": 1794130697324,
+      "takes": [
+        {
+          "take": 1,
+          "synthStartMs": 1794130697324,
+          "synthEndMs": 1794130697324,
+          "checkStartMs": 1794130697324,
+          "checkEndMs": 1794130697324
+        }
+      ]
+    },
+    {
+      "requestId": "take-link-fixture",
+      "utteranceId": "utt-07210cecb60a",
+      "partIndex": 0,
+      "stage": "dispatch",
+      "atMs": 1794130697325,
+      "playbackId": "22a8db3cf6c24d5ea9a805d851353a4c",
+      "preparationId": "25cb49d4f10e46668960c299b841cadf",
+      "selectedTake": 1
+    }
+  ],
+  "syntheticReceipts": [
+    {
+      "playbackId": "20ec11794a5442eda0b1ffe0a1bd8653",
+      "error": "audio-load-failed",
+      "accepted": true
+    },
+    {
+      "playbackId": "22a8db3cf6c24d5ea9a805d851353a4c",
+      "error": "",
+      "accepted": true
+    }
+  ]
+}

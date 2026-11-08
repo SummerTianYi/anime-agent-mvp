@@ -175,6 +175,8 @@ Core仅接受avatar角色、匹配utteranceId与playbackId的回执。正常完�
 
 ## 验证
 
+语音候选回执另含 `startedAtMs` 与 `endedAtMs`（同机 Unix 毫秒）。前者是播放器成功启动的时刻，未能启动时为 0。拿 `playbackId` 关联 Core 的 dispatch 事件，再按 `preparationId` 关联已选 take 的自检、准备和重做时间。旧 Avatar 缺少这两个时钟仍可回执。调度或播放器事件不代表扬声器首个非静音采样。
+
 先启动 Agent Core，然后在仓库根目录执行；脚本会自行创建临时的 `avatar` 与 `ui` WebSocket 角色，因此真实 Avatar Runtime 可以不启动：
 
 ```powershell

@@ -6,6 +6,8 @@
 
 ## Codex 建设范围
 
+2026-11-08 Codex：[真实角色口型与受限语音预取候选](assessments/speech-lip-continuity/REPORT.md)，等待 ChatGPT 验收。
+
 ### Codex 私有便携候选与真实只读整合验证（2026-09-13）
 
 在所有者补充授权后实读Gmail项目通知与Drive测试文档，仅保留成功/数量，不落正文或复制凭据、不对外发送私人内容。保留zcode DS+StepFun、人设/工具契约及原语音参数；Codex修复Windows MCP引号路径、窄范围“嗨/嘿 前一/前衣”唤醒确认、TTS正健康缓存误报ready及包外私密配置热重载路径，新增4+2+2项回归至238。真实包内CUDA/原CMD故障链复现预热期503，修复后同一场景实际合成/播放/告别/定向清理通过，恢复约61.6秒，不伪称40秒或零间隙。建立完整Python312/310、Node、固定MCP、Godot、独立CFT、语音/KWS/Whisper缓存、模型1.0–1.4私有候选与便携入口/校验器；新增本次模板与说明在scripts/delivery。其他Agent归属、官模与批准动作均保留。完整证据/剩余边界见PORTABLE_ACCEPTANCE；真实麦克风和跨机最终门禁未完成，未实现云凭据代理。本次仅本地修改/打包，未commit/push，未动正式窗口/私人数据/密钥，未启子代理。上游组件不标为Codex原创。

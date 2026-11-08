@@ -18,6 +18,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
+from collections import deque
 from dataclasses import dataclass, field
 
 
@@ -149,7 +150,8 @@ class SpeechClient:
     def synthesize(self, text: str, speed: float = 1.0) -> dict:
         """Returns {"audioPath", "durationMs", "sampleRate"}; raises SpeechUnavailable."""
         try:
-            payload = _post_json(f"{self.base_url}/synthesize", {"text": text, "speed": speed}, self.synth_timeout)
+            payload = _post_json(f"{self.base_url}/synthesize",
+                                 {"text": text, "speed": speed, "includeTakeTiming": True}, self.synth_timeout)
         except urllib.error.HTTPError as exc:
             self.invalidate_health()
             # Codex: warming/busy/crashed inference is recoverable; bad input
@@ -178,11 +180,20 @@ class SpeechClient:
             self.invalidate_health()
             raise SpeechUnavailable(str(payload.get("error", "TTS 合成失败"))[:200])
         try:
-            return {
+            audio = {
                 "audioPath": str(payload["audioPath"]),
                 "durationMs": int(payload["durationMs"]),
                 "sampleRate": int(payload["sampleRate"]),
             }
+            timing = payload.get("takeTiming")
+            if isinstance(timing, dict) and isinstance(timing.get("takes"), list):
+                fields = ("take", "synthStartMs", "synthEndMs", "checkStartMs", "checkEndMs")
+                audio["takeTiming"] = {
+                    **{k: timing[k] for k in ("selectedTake", "selectedAtMs") if type(timing.get(k)) is int},
+                    "takes": [{k: t[k] for k in fields if type(t.get(k)) is int}
+                              for t in timing["takes"][:16] if isinstance(t, dict)],
+                }
+            return audio
         except (KeyError, TypeError, ValueError) as exc:
             self.invalidate_health()
             raise SpeechUnavailable("TTS 服务响应缺少字段") from exc
@@ -222,6 +233,8 @@ class SpeechManager:
         retry_interval_seconds: float = 1.0,
         on_recovery=None,
         playback_attempts: int = 3,
+        lookahead: int = 1,
+        on_timing=None,
     ) -> None:
         self.client = client
         self.on_speak = on_speak  # async (utterance dict) -> None, broadcast to avatar
@@ -232,6 +245,9 @@ class SpeechManager:
         self.retry_interval_seconds = retry_interval_seconds
         self.on_recovery = on_recovery
         self.playback_attempts = playback_attempts
+        self.lookahead = min(2, max(1, lookahead))
+        self.on_timing = on_timing
+        self._model_slot = asyncio.Semaphore(1)
         self._current: Utterance | None = None
         self._lock = asyncio.Lock()
 
@@ -248,15 +264,20 @@ class SpeechManager:
 
     async def interrupt(self, reason: str) -> bool:
         async with self._lock:
-            utterance = self._current
-            if utterance is None or utterance.cancelled:
-                return False
-            utterance.cancelled = True
-            utterance.cancel_event.set()
+            return await self._interrupt_current_locked(reason)
+
+    async def _interrupt_current_locked(self, reason: str) -> bool:
+        utterance = self._current
+        if utterance is None or utterance.cancelled:
+            return False
+        utterance.cancelled = True
+        utterance.cancel_event.set()
+        try:
             if utterance.has_audio:
                 await self.on_interrupt(utterance.id, reason)
+        finally:
             await self._finish(utterance)
-            return True
+        return True
 
     async def speak(self, text: str, request_id: str = "", *, prepared_audio: dict | None = None) -> Utterance:
         """Synthesize and broadcast one utterance; resolves when playback is
@@ -268,43 +289,32 @@ class SpeechManager:
         synthesis instead of the full reply's. All parts share one
         utteranceId; an interrupt stops both playback and further parts.
         """
-        await self.interrupt("superseded")
         parts = [text] if prepared_audio is not None else (split_reply_into_parts(text) or [text])
         utterance = Utterance(id=self.new_utterance_id(), text=text, request_id=request_id)
         async with self._lock:
+            await self._interrupt_current_locked("superseded")
             self._current = utterance
+        pending = deque()
         try:
-            audio = prepared_audio or await self._synthesize_with_recovery(utterance, parts[0])
-            if audio is None:
-                return utterance
-            utterance.has_audio = True
-            index = 0
-            while True:
-                playback = asyncio.create_task(self._play_part(utterance, parts[index], audio, index, len(parts)))
-                next_audio = None
-                next_error = None
-                try:
-                    if index + 1 < len(parts):
-                        try:
-                            next_audio = await self._synthesize_with_recovery(utterance, parts[index + 1])
-                        except SpeechUnavailable as exc:
-                            # Keep ownership until the playing part settles.
-                            next_error = exc
-                    await playback
-                finally:
-                    if not playback.done():
-                        playback.cancel()
-                    await asyncio.gather(playback, return_exceptions=True)
+            audio = prepared_audio or await self._synthesize_with_recovery(utterance, parts[0], 0)
+            for index, part in enumerate(parts):
+                if index:
+                    audio = await pending.popleft()
+                if audio is None or utterance.cancelled or self._current is not utterance:
+                    return utterance
+                utterance.has_audio = True
+                # Only paths and metadata are retained here. Godot loads one WAV at a time.
+                while len(pending) < self.lookahead and index + len(pending) + 1 < len(parts):
+                    ahead = index + len(pending) + 1
+                    pending.append(asyncio.create_task(self._synthesize_with_recovery(utterance, parts[ahead], ahead)))
+                await self._play_part(utterance, part, audio, index, len(parts))
                 if utterance.cancelled:
-                    break
-                if next_error is not None:
-                    raise next_error
-                if next_audio is None:
-                    utterance.completed = True
-                    break
-                index += 1
-                audio = next_audio
+                    return utterance
+            utterance.completed = True
         finally:
+            for task in pending:
+                task.cancel()
+            await asyncio.gather(*pending, return_exceptions=True)
             await self._finish(utterance)
             async with self._lock:
                 if self._current is utterance:
@@ -321,6 +331,9 @@ class SpeechManager:
         for attempt in range(self.playback_attempts):
             if utterance.cancelled or self._current is not utterance:
                 return
+            self._timing(utterance, index, "dispatch", playbackId=utterance.playback_id,
+                         preparationId=audio.get("preparationId"),
+                         selectedTake=audio.get("takeTiming", {}).get("selectedTake"))
             await self.on_speak(self._part_payload(utterance, text, audio, index, count))
             try:
                 await asyncio.wait_for(utterance.done.wait(),
@@ -333,7 +346,7 @@ class SpeechManager:
             if not utterance.playback_error:
                 return
             if attempt + 1 < self.playback_attempts:
-                audio = await self._synthesize_with_recovery(utterance, text)
+                audio = await self._synthesize_with_recovery(utterance, text, index)
                 if audio is None:
                     return
                 utterance.playback_id = uuid.uuid4().hex
@@ -342,7 +355,31 @@ class SpeechManager:
         await self.on_interrupt(utterance.id, "playback-failed")
         raise SpeechUnavailable("语音播放未完成：播放器未确认或音频加载失败；请检查声音输出设备")
 
-    async def _synthesize_with_recovery(self, utterance: Utterance, text: str) -> dict | None:
+    def _timing(self, utterance, index, stage, **fields):
+        if self.on_timing:
+            try:
+                self.on_timing(dict(requestId=utterance.request_id, utteranceId=utterance.id, partIndex=index,
+                                    stage=stage, atMs=time.time_ns() // 1_000_000, **fields))
+            except Exception:
+                logger.warning("Speech timing sink unavailable")
+
+    async def _serial_synth(self, utterance, index, text, preparation_id):
+        await self._model_slot.acquire()
+        if utterance.cancelled or self._current is not utterance:
+            self._model_slot.release()
+            return None
+        # Cancelling an asyncio waiter cannot stop urllib in a worker thread.
+        # Hold the permit until the real worker exits, even across barge-in.
+        worker = asyncio.create_task(asyncio.to_thread(self.client.synthesize, text, self.speed))
+        def finished(task):
+            self._model_slot.release()
+            if not task.cancelled():
+                task.exception()
+        worker.add_done_callback(finished)
+        self._timing(utterance, index, "synth-request", preparationId=preparation_id)
+        return await asyncio.shield(worker)
+
+    async def _synthesize_with_recovery(self, utterance: Utterance, text: str, index: int) -> dict | None:
         """Codex: retry only unplayed audio, with a deadline and cancellation.
 
         An HTTP request may outlive its asyncio task; it may finish generating
@@ -355,7 +392,8 @@ class SpeechManager:
             remaining = deadline - time.monotonic()
             if remaining <= 0:
                 raise SpeechUnavailable("语音服务恢复超时，文字回复已保留，请稍后重试")
-            synthesis = asyncio.create_task(asyncio.to_thread(self.client.synthesize, text, self.speed))
+            preparation_id = uuid.uuid4().hex
+            synthesis = asyncio.create_task(self._serial_synth(utterance, index, text, preparation_id))
             cancellation = asyncio.create_task(utterance.cancel_event.wait())
             try:
                 done, _ = await asyncio.wait({synthesis, cancellation}, timeout=remaining,
@@ -364,11 +402,13 @@ class SpeechManager:
                     return None
                 if synthesis not in done:
                     raise SpeechUnavailable("语音服务恢复超时，文字回复已保留，请稍后重试")
-                audio = synthesis.result()
+                audio = dict(synthesis.result(), preparationId=preparation_id)
+                self._timing(utterance, index, "ready", preparationId=preparation_id, **audio.get("takeTiming", {}))
                 if notified:
                     logger.info("TTS recovered utterance=%s", utterance.id)
                 return audio
             except SpeechUnavailable as exc:
+                self._timing(utterance, index, "synth-failed", preparationId=preparation_id, retryable=exc.retryable)
                 if not exc.retryable:
                     raise
                 if not notified:

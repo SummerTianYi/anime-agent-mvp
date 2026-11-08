@@ -1,0 +1,30 @@
+{
+  "mvp/scripts/run-avatar-runtime.ps1": {
+    "sha256_bytes": "961af212cf631c4e29817dc5d24771e46c6701af20e88d452abd2fc4d2f21c44",
+    "lf_sha256": "961af212cf631c4e29817dc5d24771e46c6701af20e88d452abd2fc4d2f21c44"
+  },
+  "mvp/apps/avatar-runtime/runtime.gd": {
+    "sha256_bytes": "bd0bc23d458b580217a4f466d416c87e332e945d1acb9f0bf0860585e262a56f",
+    "lf_sha256": "bd0bc23d458b580217a4f466d416c87e332e945d1acb9f0bf0860585e262a56f"
+  },
+  "mvp/apps/avatar-runtime/speech_output.gd": {
+    "sha256_bytes": "2fdf1a4a283ef71ce45b75a3bb245d2f23f93c3d9f93b4a4030c95ac551e67da",
+    "lf_sha256": "2fdf1a4a283ef71ce45b75a3bb245d2f23f93c3d9f93b4a4030c95ac551e67da"
+  },
+  "mvp/services/agent-core/agent_core/main.py": {
+    "sha256_bytes": "24866f37c461520001af14d82ee9f745ab42d5ac6397804dd0d25f754f4c5e85",
+    "lf_sha256": "24866f37c461520001af14d82ee9f745ab42d5ac6397804dd0d25f754f4c5e85"
+  },
+  "mvp/services/agent-core/agent_core/speech.py": {
+    "sha256_bytes": "31b77cd18b09efb68db48a2725fc44dbe97f7c81d9679657c7b46817dd9d4fbc",
+    "lf_sha256": "31b77cd18b09efb68db48a2725fc44dbe97f7c81d9679657c7b46817dd9d4fbc"
+  },
+  "tts/scripts/tts_server.py": {
+    "sha256_bytes": "ef5e8a276d103ecc77dc04876fe483a755b0a5421e089ae2fcb41261ad62a135",
+    "lf_sha256": "796fe6db3ce7a79072216be91489d71b7ecf752eb834a438af6e74ae13a01a94"
+  },
+  "tts/scripts/voice_selfcheck.py": {
+    "sha256_bytes": "008f356017f484bea2e3982736a5f7168839ef71a86781d766fb31f2f52ac00d",
+    "lf_sha256": "db77d87b352e6ce535cd0bdfd8b2f1cd299ef74a24bc6fb06bfc8f6684ed96db"
+  }
+}

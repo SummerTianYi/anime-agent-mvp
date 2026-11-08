@@ -142,14 +142,16 @@ var emotion_preset = preload("res://emotion_presets.gd").new()
 var blink_timer := 3.8
 var expression_name := "自然"
 var agent_state := "idle"
-var speaking_mouth_elapsed := 0.0
-var speaking_mouth_index := -1
+var speech_pcm := PackedByteArray()
+var speech_open := 0.0
 
 # E-phase TTS playback state
 var speech_player: AudioStreamPlayer = null
 var current_utterance_id := ""
 var current_speech_payload: Dictionary = {}
 var speech_receipts: Dictionary = {}
+var retired_utterances: Dictionary = {}
+var speech_started_at_ms := 0
 var farewell_voice_cache: Array[Dictionary] = []
 var model_look_preview_enabled := false
 var model_look_version := "1.1"
@@ -250,6 +252,7 @@ func _process(delta: float) -> void:
 		# zcode: keep the bridge pumping during the goodbye so the farewell
 		# voice line from Core still arrives and plays over the wave
 		_process_core_bridge(delta)
+		_process_speaking_mouth(delta)
 		return
 	_process_core_bridge(delta)
 	current_yaw = lerp_angle(current_yaw, target_yaw, 1.0 - exp(-delta * 8.0))
@@ -281,8 +284,8 @@ func _process(delta: float) -> void:
 	_sync_deform_bone_mirrors()
 	_preserve_limb_readability()
 	_apply_pigtail_pose()
-	_process_speaking_mouth(delta)
 	_process_expressions(delta)
+	_process_speaking_mouth(delta)
 
 
 func _notification(what: int) -> void:
@@ -801,9 +804,6 @@ func _set_agent_state(next_state: String) -> void:
 	_clear_mouth_shapes()
 	_clear_emotions(true)
 	_apply_agent_state_face()
-	if agent_state == "speaking":
-		speaking_mouth_elapsed = 0.0
-		speaking_mouth_index = -1
 	if emotion_preset.active():
 		expression_name = emotion_preset.label
 	_update_hud()
@@ -833,15 +833,43 @@ func _clear_mouth_shapes() -> void:
 
 
 func _process_speaking_mouth(delta: float) -> void:
-	if agent_state != "speaking":
+	if face_mesh == null or not expression_ids.has("あ"):
 		return
-	speaking_mouth_elapsed += delta
-	var next_index := int(floor(speaking_mouth_elapsed * 8.0)) % SPEAKING_MOUTHS.size()
-	if next_index == speaking_mouth_index:
-		return
-	speaking_mouth_index = next_index
-	_clear_mouth_shapes()
-	_set_expression(SPEAKING_MOUTHS[speaking_mouth_index], 0.62)
+	var target := 0.0
+	if speech_player != null and speech_player.playing and not speech_player.stream_paused:
+		var wav := speech_player.stream as AudioStreamWAV
+		var audible := speech_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
+		if wav != null and audible >= 0 and audible < wav.get_length():
+			target = _mouth_energy(wav, audible)
+	speech_open = move_toward(speech_open,target,delta * (16.0 if target > speech_open else 12.0))
+	# Speech adds one jaw shape after the expression mixer. It never writes the
+	# blink, smile or manual expression targets.
+	face_mesh.set_blend_shape_value(expression_ids["あ"],maxf(expression_values.get("あ",0.0),speech_open))
+
+
+func _mouth_energy(wav: AudioStreamWAV, seconds: float) -> float:
+	var level := 0.0
+	if wav.format == AudioStreamWAV.FORMAT_16_BITS or wav.format == AudioStreamWAV.FORMAT_8_BITS:
+		var width := 2 if wav.format == AudioStreamWAV.FORMAT_16_BITS else 1
+		var stride := width * (2 if wav.stereo else 1)
+		var first := maxi(0,int((seconds-0.01)*wav.mix_rate))*stride
+		var end := mini(speech_pcm.size(),int((seconds+0.01)*wav.mix_rate)*stride)
+		var count := 0
+		# Bound per-frame work even for high sample rates.
+		for offset in range(first,end,maxi(1,wav.mix_rate/8000)*stride):
+			for channel in range(0,stride,width):
+				var i := offset+channel
+				if i+width > end:
+					break
+				var sample_value := speech_pcm.decode_s16(i)/32768.0 if width==2 else speech_pcm.decode_s8(i)/128.0
+				level += sample_value*sample_value
+				count += 1
+		level = sqrt(level/maxi(count,1))
+	else:
+		var bus := AudioServer.get_bus_index(speech_player.bus)
+		if bus >= 0:
+			level = db_to_linear(AudioServer.get_bus_peak_volume_left_db(bus,0))
+	return 0.72*smoothstep(-48.0,-18.0,linear_to_db(maxf(level,0.000001)))
 
 
 func _input(event: InputEvent) -> void:
@@ -2048,20 +2076,25 @@ func _handle_avatar_speak(payload: Dictionary) -> void:
 			return
 		if str(current_speech_payload.get("playbackId", "")) == playback_id:
 			return # Delivery retry while still playing: never restart the audio.
+	var utterance_id := str(payload.get("utteranceId", ""))
+	if retired_utterances.has(utterance_id):
+		return
 	if farewell_exit.closing and not farewell_exit.speech_gate.accept_part(payload):
 		return
 	if speech_player == null:
 		speech_player = AudioStreamPlayer.new()
-		speech_player.bus = "Master"
+		speech_player.bus = preload("res://speech_output.gd").configure_from_environment()
 		speech_player.finished.connect(_on_speech_finished)
 		add_child(speech_player)
 	var path := str(payload.get("audioPath", ""))
-	var utterance_id := str(payload.get("utteranceId", ""))
 	if not current_utterance_id.is_empty():
+		if current_utterance_id != utterance_id:
+			_retire_utterance(current_utterance_id)
 		speech_player.stop()
 		_report_speech_finished(true)
 	current_utterance_id = utterance_id
 	current_speech_payload = payload.duplicate()
+	speech_started_at_ms = 0
 	var wav: AudioStreamWAV = null
 	if payload.get("cachedFarewell", false) and farewell_exit.closing:
 		for entry in farewell_voice_cache:
@@ -2075,8 +2108,11 @@ func _handle_avatar_speak(payload: Dictionary) -> void:
 		return
 	current_utterance_id = utterance_id
 	speech_player.stream = wav
+	speech_pcm = wav.data if wav.format in [AudioStreamWAV.FORMAT_8_BITS,AudioStreamWAV.FORMAT_16_BITS] else PackedByteArray()
 	speech_player.play()
-	if not speech_player.playing:
+	if speech_player.playing:
+		speech_started_at_ms = roundi(Time.get_unix_time_from_system() * 1000.0)
+	else:
 		_finish_unplayable_farewell(utterance_id)
 
 
@@ -2098,8 +2134,16 @@ func _cache_farewell_voice(payload: Dictionary) -> void:
 	farewell_voice_cache.append({"text":text,"audioPath":path,"stream":wav})
 
 
+func _retire_utterance(id: String) -> void:
+	if not id.is_empty():
+		retired_utterances[id] = true
+		if retired_utterances.size() > 64:
+			retired_utterances.erase(retired_utterances.keys()[0])
+
+
 func _handle_speech_stop(payload: Dictionary) -> void:
 	var utterance_id := str(payload.get("utteranceId", ""))
+	_retire_utterance(utterance_id if not utterance_id.is_empty() else current_utterance_id)
 	if speech_player != null and speech_player.playing and (utterance_id == "" or utterance_id == current_utterance_id):
 		speech_player.stop()
 		_report_speech_finished(true)
@@ -2132,11 +2176,19 @@ func _finish_unplayable_farewell(utterance_id: String) -> void:
 func _report_speech_finished(interrupted: bool, error: String = "") -> void:
 	if current_utterance_id == "":
 		return
+	speech_pcm = PackedByteArray()
+	speech_open = 0.0
+	if face_mesh != null and expression_ids.has("あ"):
+		face_mesh.set_blend_shape_value(expression_ids["あ"],expression_values.get("あ",0.0))
 	var receipt := {"type": "speech.finished" if error.is_empty() else "speech.failed",
+		"startedAtMs": speech_started_at_ms, "endedAtMs": roundi(Time.get_unix_time_from_system() * 1000.0),
 		"utteranceId": current_utterance_id, "interrupted": interrupted,
 		"playbackId": str(current_speech_payload.get("playbackId", "")),
 		"partIndex": current_speech_payload.get("partIndex", 0), "error": error}
 	var playback_id: String = receipt.playbackId
+	if not interrupted and error.is_empty() and current_speech_payload.has("partCount"):
+		if int(receipt.partIndex) + 1 == int(current_speech_payload.partCount):
+			_retire_utterance(current_utterance_id)
 	if not playback_id.is_empty():
 		speech_receipts[playback_id] = receipt
 		if speech_receipts.size() > 64:

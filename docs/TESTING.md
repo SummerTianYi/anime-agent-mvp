@@ -1,5 +1,7 @@
 # Verification and acceptance
 
+2026-11-08 语音候选发现 678 个 Core 用例，受影响的语音与告别回归及可见 Godot 验证见[本轮记录](assessments/speech-lip-continuity/REPORT.md)。下方的 676 是 V1.2 冻结版本的全量成绩。
+
 Codex 2026-11-07 companion V1.2: 676/676 Core cases pass in546.875s; same-environment baseline669/669 passes in541.157s. New7 offline cases include8 synthetic scenes and11 serialized requests through actual handle_chat/Provider paths. TS build, isolated Godot input, model hash and docs guard pass; evidence is recorded in [REPORT](assessments/companion-v1.2/REPORT.md). No live-model persona claim, production restart or deployment. Real companionship quality awaits ChatGPT acceptance; A4 remains open.
 
 Reproduce prompt evidence without Core/config/database startup: `python -B scripts/companion_prompt_snapshot.py`. Isolated targeted checks: `python -B scripts/harness_v1/unit.py test_companion_persona.py`; full checks: `python -B scripts/harness_v1/unit.py`. The runner enforces Mock and disposable storage, disables TTS/wake/MCP. Handwritten examples, static checks and actual model samples must remain distinct.
