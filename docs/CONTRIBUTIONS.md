@@ -305,3 +305,5 @@ Codex 通过官模开放手掌平面推导肘部参考铰链，将肩部完整�
 - Codex，2026-11-08。独立候选的陪伴/Agent 分流、上下文装配、原桌面回执消费及实测证据。保留 zcode/既有 Agent 与人物贡献。正式桌面未更新。40 次真实官方 DeepSeek，详细归属、冻结人设及负例见[候选报告](assessments/companion-platform/REPORT.md)。
 
 - Codex，2026-11-09。main 单独同步已确认的 V1.2 提示词。独立候选增加陪伴历史使用策略，验证 28 次官方 DS、两条可见角色试听及五项边界，记录八千代六个指定模块的静态控制流。人设、Agent 执行和正式桌面沿用既有实现。[证据与剩余问题](assessments/companion-experience-p0/REPORT.md)
+
+- Codex，2026-11-09。在固定 P0 候选上完成文本根因审查、20 份离线对抗和 24 次交错官方 DS 对照。B、C 只在隔离评估进程启用，V1.2 与产品源码保留。全量 Core 561 项通过。旧目标延续、恢复求助反例和五项开放阻塞见[实验报告](assessments/companion-p0-ablation/REPORT.md)。
