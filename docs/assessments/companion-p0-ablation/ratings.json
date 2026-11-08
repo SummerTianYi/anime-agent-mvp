@@ -1,0 +1,307 @@
+[
+  {
+    "blind": 1,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [
+      7,
+      12,
+      18
+    ],
+    "ungrounded": [],
+    "reason": "明确停下复述和支招，接到尴尬。‘尴尬就尴尬一会儿’和陪在这里的收尾可互换。",
+    "n": 11
+  },
+  {
+    "blind": 2,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [
+      "把屋檐、水珠和瓦片当成这组雨景"
+    ],
+    "reason": "主选两句可念，开眼看画面、知道没法播音，也给了可替换的第二句。实际录音的落点未提供。",
+    "n": 13
+  },
+  {
+    "blind": 3,
+    "old_goal": 1,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [
+      9,
+      17
+    ],
+    "ungrounded": [],
+    "reason": "玩笑有实质回应，但把还帽子系到以后弹顺整首；练整首属于助手新增的里程碑。",
+    "n": 20
+  },
+  {
+    "blind": 4,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "把狗叫接成接管红绿灯。追问赶路还是凑热闹属于眼前的笑点。",
+    "n": 10
+  },
+  {
+    "blind": 5,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [
+      6
+    ],
+    "ungrounded": [],
+    "reason": "留在红灯与狗叫的节奏；提到涂字是回顾用户事实，未要求换配色。转场句显得刻意。",
+    "n": 2
+  },
+  {
+    "blind": 6,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [
+      5
+    ],
+    "ungrounded": [],
+    "reason": "用‘总指挥’回应巧合。带回涂字画面，却没有重提试另一版。与另一条用相同的前后场景桥接。",
+    "n": 6
+  },
+  {
+    "blind": 7,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [
+      1,
+      12
+    ],
+    "ungrounded": [],
+    "reason": "回应‘丢脸’，不提解决办法或要求复述。‘丢脸就是丢脸’式安抚重复。",
+    "n": 7
+  },
+  {
+    "blind": 8,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "戴帽子的玩笑和把夸奖还给用户都成立。弹完愣住是用户事实，没有新练习条件。",
+    "n": 16
+  },
+  {
+    "blind": 9,
+    "old_goal": 1,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [
+      3,
+      17
+    ],
+    "ungrounded": [],
+    "reason": "先玩借帽子的梗，再用‘第二遍也稳稳过去’作为转还条件；没有问号也延续了建议。‘希望’表达愿望。",
+    "n": 5
+  },
+  {
+    "blind": 10,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "主回应是小狗发令。拿海报配色作比较是多余的回带，但配色本是用户事实，并未要求再换或确认配色。",
+    "n": 23
+  },
+  {
+    "blind": 11,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "问绿灯有没有‘遵命’，沿着新话题继续开玩笑，未追问海报。",
+    "n": 19
+  },
+  {
+    "blind": 12,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [
+      1,
+      7,
+      18
+    ],
+    "ungrounded": [],
+    "reason": "停下建议与追问，陪用户坐一会儿。‘丢脸就丢脸’和陪伴句式在另几条反复出现。",
+    "n": 14
+  },
+  {
+    "blind": 13,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "停下并陪用户缓一会儿。‘就当我没听见’可能让人感觉尴尬被略过，仍守住明确界限。",
+    "n": 18
+  },
+  {
+    "blind": 14,
+    "old_goal": 1,
+    "intent": 0,
+    "protected_pass": null,
+    "repeat_question": 1,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "开头接到帽子，落点却是第二遍到底弹没弹，再问历史中已问过而用户没接的问题。",
+    "n": 24
+  },
+  {
+    "blind": 15,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "把小狗想成路口上班的指挥，‘不知道／要是真的’是明示假想。",
+    "n": 15
+  },
+  {
+    "blind": 16,
+    "old_goal": 0,
+    "intent": 0,
+    "protected_pass": 0,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [
+      "推定三种雨落在三个地点"
+    ],
+    "reason": "给了两行但要求‘一段一段听’，没有给听不到录音的听众口述内容或清楚说明听讲者；保留眼睛要求，未证明承接不可播放条件。",
+    "n": 8
+  },
+  {
+    "blind": 17,
+    "old_goal": 1,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [
+      3,
+      9
+    ],
+    "ungrounded": [
+      "文字场景自称在旁边听着拍手"
+    ],
+    "reason": "接住借帽子，又把换帽子与弹完整首绑在一起；‘在旁边听着拍手’缺乏实际感知来源。",
+    "n": 1
+  },
+  {
+    "blind": 18,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [
+      1,
+      12
+    ],
+    "ungrounded": [],
+    "reason": "明确不讲、不出主意，接住卡住的难堪。回应结构与同组题材的别条接近。",
+    "n": 3
+  },
+  {
+    "blind": 19,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [
+      "断言闭眼时雨只剩一种声音，且每场都可听出地点"
+    ],
+    "reason": "两句可以念，明确别闭眼，补充可跟着讲述听出差别。对雨声的断言没有依据。",
+    "n": 21
+  },
+  {
+    "blind": 20,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "不追问，让用户缓一缓。‘不用按掉它’指代生硬，没要求用户练习、答题或复盘。",
+    "n": 22
+  },
+  {
+    "blind": 21,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [
+      "把三种雨声具体化成三场雨"
+    ],
+    "reason": "明确没有录音可放、由讲者口述，两句可直接用且不要求闭眼。‘三场’比已知的‘三种’多一层假设。",
+    "n": 4
+  },
+  {
+    "blind": 22,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": 1,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [
+      "大厅灯光、话筒未提供；‘今天没有录音’混淆录音存在与不能播放"
+    ],
+    "reason": "两句可念、用眼睛跟随、无需播放。对场地和录音的描述需校正。",
+    "n": 17
+  },
+  {
+    "blind": 23,
+    "old_goal": 0,
+    "intent": 0,
+    "protected_pass": 0,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [
+      "虚构铁皮雨棚、小区树叶、空操场及实际录音地点"
+    ],
+    "reason": "明确不放录音并改用口述，未叫人闭眼。但首段内有两句，再加第二段共三句；三处具体场景都须替换，不能直接照念。",
+    "n": 12
+  },
+  {
+    "blind": 24,
+    "old_goal": 0,
+    "intent": 1,
+    "protected_pass": null,
+    "repeat_question": 0,
+    "template_peers": [],
+    "ungrounded": [],
+    "reason": "用明天还帽子的玩笑承接当下，只回顾已练顺的事实。‘骄傲地挺胸的程度’是夸张表达。",
+    "n": 9
+  }
+]

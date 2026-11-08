@@ -1,0 +1,323 @@
+{
+  "base": "8025c6bacca57461653090e646ac100ce36e7a27",
+  "main_persona": "cf62b484ca8f075d97c2d4c41496480c7c82501c",
+  "frozen": "f10069264f9a7eb27375a77dd2c7e009cce4b09a",
+  "fingerprints": {
+    "role": "7f57bf41e8f2764fe9bfbf6797c5323d253d7d1f1a73440873c65d067582207e",
+    "runtime": "e43c97d067285fe88688c63c53f97789e6aa306f1d11b8983d2f10a271dc7910",
+    "effective": "714ae650ce060f0a645f2fa1055878790438a5e93566ceda18a3ecbdc9d9c9f6",
+    "guidance": "9b43195d4297fe4e402c7b276b9b1f20bc8f8e3cfc4becbc2e0fe0369f78c28d"
+  },
+  "recomputed": {
+    "capture": {
+      "reservations": 24,
+      "post_count": 24,
+      "successful": 24,
+      "raw_parsed_bubble_agree": 24,
+      "parsed_bubble_differences": [],
+      "missing": [],
+      "stop": null
+    },
+    "arms": {
+      "A": {
+        "scored": 8,
+        "by_scene": {
+          "praise": {
+            "old_goal": [
+              1,
+              1
+            ],
+            "intent": [
+              1,
+              0
+            ],
+            "protected": [
+              null,
+              null
+            ]
+          },
+          "switch": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              null,
+              null
+            ]
+          },
+          "space": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              1,
+              1
+            ]
+          },
+          "return": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              1,
+              1
+            ]
+          }
+        },
+        "primary_old_goal": 2,
+        "intent": 7,
+        "repeat_question": 1,
+        "template_examples": 2,
+        "ungrounded_examples": 3,
+        "tokens": {
+          "prompt_tokens": 15804,
+          "completion_tokens": 596,
+          "total_tokens": 16400,
+          "prompt_cache_hit_tokens": 14070,
+          "prompt_cache_miss_tokens": 1734
+        },
+        "http_total_s": 17.86,
+        "http_median_s": 2.164,
+        "http_range_s": [
+          1.844,
+          2.641
+        ],
+        "turn_median_s": 2.1795,
+        "projection_median_us": 0.0,
+        "projection_range_us": [
+          0.0,
+          0.0
+        ]
+      },
+      "B": {
+        "scored": 8,
+        "by_scene": {
+          "praise": {
+            "old_goal": [
+              1,
+              1
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              null,
+              null
+            ]
+          },
+          "switch": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              null,
+              null
+            ]
+          },
+          "space": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              1,
+              1
+            ]
+          },
+          "return": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              0,
+              1
+            ],
+            "protected": [
+              0,
+              1
+            ]
+          }
+        },
+        "primary_old_goal": 2,
+        "intent": 7,
+        "repeat_question": 0,
+        "template_examples": 5,
+        "ungrounded_examples": 2,
+        "tokens": {
+          "prompt_tokens": 16216,
+          "completion_tokens": 660,
+          "total_tokens": 16876,
+          "prompt_cache_hit_tokens": 13952,
+          "prompt_cache_miss_tokens": 2264
+        },
+        "http_total_s": 16.233,
+        "http_median_s": 2.008,
+        "http_range_s": [
+          1.734,
+          2.593
+        ],
+        "turn_median_s": 2.008,
+        "projection_median_us": 62.85,
+        "projection_range_us": [
+          40.9,
+          157.3
+        ]
+      },
+      "C": {
+        "scored": 8,
+        "by_scene": {
+          "praise": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              null,
+              null
+            ]
+          },
+          "switch": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              null,
+              null
+            ]
+          },
+          "space": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              1,
+              1
+            ],
+            "protected": [
+              1,
+              1
+            ]
+          },
+          "return": {
+            "old_goal": [
+              0,
+              0
+            ],
+            "intent": [
+              0,
+              1
+            ],
+            "protected": [
+              0,
+              1
+            ]
+          }
+        },
+        "primary_old_goal": 0,
+        "intent": 7,
+        "repeat_question": 0,
+        "template_examples": 2,
+        "ungrounded_examples": 2,
+        "tokens": {
+          "prompt_tokens": 16460,
+          "completion_tokens": 683,
+          "total_tokens": 17143,
+          "prompt_cache_hit_tokens": 14080,
+          "prompt_cache_miss_tokens": 2380
+        },
+        "http_total_s": 17.735,
+        "http_median_s": 2.2035,
+        "http_range_s": [
+          1.672,
+          2.844
+        ],
+        "turn_median_s": 2.219,
+        "projection_median_us": 175.75,
+        "projection_range_us": [
+          88.2,
+          362.3
+        ]
+      }
+    },
+    "offline": {
+      "cases": 20,
+      "acceptance_exact": 18,
+      "act_exact": 16,
+      "both": 15,
+      "lossless": 20
+    }
+  },
+  "regression": {
+    "before_affected": {
+      "run": 44,
+      "seconds": 1.953,
+      "skipped": 0,
+      "failures": 0
+    },
+    "after_affected": {
+      "run": 44,
+      "seconds": 1.438,
+      "skipped": 0,
+      "failures": 0
+    },
+    "first_full": {
+      "run": 561,
+      "seconds": 41.062,
+      "skipped": 0,
+      "failures": [
+        "test_tools.ReadFileTests.test_allows_user_profile_descendant"
+      ],
+      "cause": "Empty synthetic profile lacked Desktop directory."
+    },
+    "full": {
+      "run": 561,
+      "seconds": 40.187,
+      "skipped": 0,
+      "failures": 0
+    },
+    "documentation": "DOCS_CONSISTENCY_OK",
+    "preflight": "24 isolated handle_chat payloads, two known A inputs equal archived wire bodies; zero HTTP; failure, repeat and cap refused.",
+    "previous_evidence": {
+      "turns": 28,
+      "raw_parsed_bubble_voice_entry": 28,
+      "fixed_pairs": 8,
+      "new_requests": 0
+    }
+  }
+}
