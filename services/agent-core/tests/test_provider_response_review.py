@@ -117,7 +117,10 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
                     self.core.provider = self.provider(dialect, [error, response(dialect, chat_text())])
                     await self.chat("请调用时间工具", "supported-fallback-" + dialect)
                     self.assertEqual(len(self.wire_requests), 2)
-                    self.assertEqual(self.latest_reply(), "正常对照：一起聊音乐。")
+                    self.assertIn("没有取得可核验的操作回执", self.latest_reply())
+                    # The compatible plain response is still obtained on the second wire
+                    # request. It cannot serve as a receipt for an explicit external task.
+                    self.assertNotIn("tools", self.wire_requests[-1])
                     self.assertEqual(self.book.records, {})
                     self.assertEqual(self.effects, [])
 

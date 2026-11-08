@@ -156,4 +156,13 @@ class ChannelTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("先前的答复。",[m["content"] for m in self.store.load_messages(10,self.sid)])
         self.assertEqual(self.store.recall_facts(self.sid),[])
 
+    async def test_operation_claim_without_a_ticket_is_not_a_receipt(self):
+        self.provider({"reply":"已把文件写好，也已经发送。"})
+        await core.handle_chat("帮我写入文件 absent.txt","unsupported-claim",self.sid)
+        items=self.delivered("unsupported-claim")
+        self.assertEqual([e["channel"] for e in items],["task"])
+        self.assertIn("没有取得可核验",items[0]["text"])
+        self.assertNotIn("已把文件写好",items[0]["text"])
+        self.assertFalse((self.root/"absent.txt").exists())
+
 del _Fixture

@@ -1950,7 +1950,13 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             delivery_recovery = True
             agent_reply = AgentReply(reply="这次答复格式无法解析，已记录的操作结果会保留。")
         delivery_recovery = delivery_recovery or agent_reply.parse_failed
-        delivered = status_reply if status_reply is not None else _receipt_delivery(session_id, task, direct_reply if direct_reply is not None else agent_reply.reply,
+        # An external task with no verified read, ticket, or host decision has
+        # no deliverable result. Do not publish unchecked model prose as a receipt.
+        fallback = direct_reply if direct_reply is not None else agent_reply.reply
+        if (direct_reply is None and status_query is None and not delivery_recovery
+                and not loop_result.steps and not loop_result.hit_step_limit):
+            fallback = "本轮没有取得可核验的操作回执。请补充要操作的对象或必要参数。"
+        delivered = status_reply if status_reply is not None else _receipt_delivery(session_id, task, fallback,
                                       recovery=delivery_recovery,
                                       action_ids=None if delivery_recovery else delivery_actions,
                                       request_id=request_id)
