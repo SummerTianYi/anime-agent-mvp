@@ -10,7 +10,7 @@ sys.path.insert(0, str(HERE.parent / "agent-query-delivery"))
 from checks import isolate, offline
 
 
-async def run(repo, state):
+async def run(repo, state, target):
     isolate(state)
     offline(state)
     sys.path[:0] = [str(repo/"services/agent-core"),str(repo/"services/agent-core/tests")]
@@ -46,11 +46,14 @@ async def run(repo, state):
         ambiguous=execute.await_count
         await core.handle_chat("确认第2项","numbered",sid)
         matches=[Path(c.args[1]["path"]).name for c in execute.await_args_list]
-    print("AUTH_PROBE",json.dumps({"ambiguous_dispatches":ambiguous,"dispatched_files":matches,
-                                   "states":[r["status"] for r in rows]},ensure_ascii=False))
+    actual={"ambiguous_dispatches":ambiguous,"dispatched_files":matches,"states":[r["status"] for r in rows]}
+    expected={"main":{"ambiguous_dispatches":1,"dispatched_files":["one.txt"],"states":["succeeded","awaiting_confirmation"]},
+              "candidate":{"ambiguous_dispatches":0,"dispatched_files":["two.txt"],"states":["awaiting_confirmation","succeeded"]}}
+    print("AUTH_PROBE",json.dumps(actual,ensure_ascii=False))
+    assert actual==expected[target], (target,actual)
     assert not (state/"one.txt").exists() and not (state/"two.txt").exists()
     print("SLICE_PROBE_OK 5 outcomes and speech fault separated from diagnostic record")
 
 
 if __name__=="__main__":
-    asyncio.run(run(Path(sys.argv[1]).resolve(),Path(sys.argv[2]).resolve()))
+    asyncio.run(run(Path(sys.argv[1]).resolve(),Path(sys.argv[2]).resolve(),sys.argv[3]))

@@ -1,6 +1,7 @@
 """Capture actual Core synthesis messages or replay final model content, entirely offline."""
 import argparse
 import asyncio
+from datetime import date
 import hashlib
 import json
 import os
@@ -13,12 +14,19 @@ sys.path.insert(0, str(HERE.parent / "agent-query-delivery"))
 from checks import isolate, offline
 
 
+class TrialDate(date):
+    @classmethod
+    def today(cls):
+        return cls(2026,11,10)
+
+
 async def capture(args):
     isolate(args.state)
     offline(args.state)
     sys.path.insert(0, str(args.repo / "services/agent-core"))
     from agent_core import main as core
     from agent_core.harness import ACTIVE_PROMPT_OVERRIDE
+    core.public_search.date = TrialDate
 
     assert core.provider.name == "mock" and core.memory.path.resolve().is_relative_to(args.state)
     assert hashlib.sha256(ACTIVE_PROMPT_OVERRIDE.encode()).hexdigest() == "714ae650ce060f0a645f2fa1055878790438a5e93566ceda18a3ecbdc9d9c9f6"

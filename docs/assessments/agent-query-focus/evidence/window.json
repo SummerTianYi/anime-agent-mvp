@@ -1,0 +1,52 @@
+[
+  {
+    "request": "after-normal-1",
+    "session": 2,
+    "visible_label": "4.8.3\n2026年10月27号\n查询于 2026-11-10。\n来源：\nhttps://example.org/releases",
+    "tts_input": "4.8.3\n2026年10月27号\n查询于 2026-11-10。\n来源是example.org。",
+    "channel": "task",
+    "emotion": "neutral",
+    "emotion_intensity": 0.3,
+    "gesture": "none"
+  },
+  {
+    "request": "after-award-1",
+    "session": 3,
+    "visible_label": "2025年F1车手积分榜第二名是周遥，累计368分。\n查询于 2026-11-10。\n来源：\nhttps://example.org/standings",
+    "tts_input": "2025年F1车手积分榜第二名是周遥，累计368分。\n查询于 2026-11-10。\n来源是example.org。",
+    "channel": "task",
+    "emotion": "neutral",
+    "emotion_intensity": 0.35,
+    "gesture": "none"
+  },
+  {
+    "request": "after-ask-1",
+    "session": 4,
+    "visible_label": "这项操作待确认。可以查询2025 年F1的积分榜吗？",
+    "tts_input": "这项操作待确认。可以查询2025 年F1的积分榜吗？",
+    "channel": "task",
+    "emotion": "neutral",
+    "emotion_intensity": 0.35,
+    "gesture": "none"
+  },
+  {
+    "request": "after-ask-2",
+    "session": 4,
+    "visible_label": "2025年F1车手积分榜第二名是周遥，累计368分。\n查询于 2026-11-10。\n来源：\nhttps://example.org/standings",
+    "tts_input": "2025年F1车手积分榜第二名是周遥，累计368分。\n查询于 2026-11-10。\n来源是example.org。",
+    "channel": "task",
+    "emotion": "neutral",
+    "emotion_intensity": 0.35,
+    "gesture": "none"
+  },
+  {
+    "request": "after-fault-1",
+    "session": 5,
+    "visible_label": "公开查询服务的密钥尚未配置或已失效，我现在查不到这项资料。",
+    "tts_input": "公开查询服务的密钥尚未配置或已失效，我现在查不到这项资料。",
+    "channel": "task",
+    "emotion": "neutral",
+    "emotion_intensity": 0.35,
+    "gesture": "none"
+  }
+]

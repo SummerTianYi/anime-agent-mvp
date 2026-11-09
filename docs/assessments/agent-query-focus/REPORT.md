@@ -1,6 +1,6 @@
 # 天依公开查询的范围、回答与表情
 
-2026-11-10，Windows 隔离候选 `codex/agent-query-focus-20261110`。起点 `5101fc064d35f11a0837d4e9bdcc8308528dcb0a`。模型实验冻结于 `4ccd4ed5d032b22e00059971819f3721b35edee4`，最终产品源码为 `c3cd4fbfb5cd6671537d767d26dacab6bed1cef2`。后续提交更新测试与验收资料。已在固定 main 副本上单独验证诊断补丁。完整查询、确认续办和角色交付在候选上验证，正式安装等待 ChatGPT 决定批准范围。
+2026-11-10，Windows 隔离候选 `codex/agent-query-focus-20261110`。起点 `5101fc064d35f11a0837d4e9bdcc8308528dcb0a`。模型实验冻结于 `4ccd4ed5d032b22e00059971819f3721b35edee4`，最终产品源码为 `c7f822a485a3a644b3411549bc335effea61f4c3`。后续提交更新测试与验收资料。已在固定 main 副本上单独验证诊断补丁。完整查询、确认续办和角色交付在候选上验证，正式安装等待 ChatGPT 决定批准范围。
 
 ## 修复与反例
 
@@ -10,6 +10,8 @@
 | 用户要求赛季、截止日、名次和回复格式，摘要模型只看见年份和宽泛字段 | 检索参数兼作答题指令。F1 曾把所有积分都检索为车手榜，旧赛季检索还会附上本月本日。 | 车队、车手和明确历史截止日进入经过权限校验的检索参数。原始问法与格式要求单独交给摘要模型，收件地址、邮件正文和历史聊天不进入查询摘要。批准时从对应票据恢复原问，同一读取的新表述可更新回答要求。 [摘要与交付路径](../../../services/agent-core/agent_core/main.py) · [实发消息的可重建记录](evidence/prompts.json) |
 | 两家模型都把只要两行的版本问题答成发布说明 | 旧摘要指令丢失原问，同时要求各类查询都回答两三段，并提示补充其他信息。 | 同一份资料下，两家修后都仅答“4.8.3”和“2026年10月27日”两行。缺少第六名赛季总分时，两家都明确说无法核实，未再列分站积分。查询日及来源另附；日期已写在特定尾注时只展示一次。[12 个原始答复和交付文本](evidence/pairs.json) |
 | 已生成的表情和动作在气泡事件里还原为默认值，语音开始时微笑消失 | 原路径只保留摘要正文，重新包装成仅含 reply 的对象。静音还会跳过动作广播。Godot 切换说话状态时清空了限时微笑。 | 只转交 Harness 校验过的表情、力度、动作，不接收网页摘要中的记忆候选。真实模型样本中，这三个字段与原文全部一致的轮数由 1/6 提升至 6/6。另用合成的 happy、0.73、nod 贯穿 Core 事件和 Godot 控件、动作及网格权重门禁，覆盖静音、进入说话和下一轮清除。[控件与网格门禁](../../../apps/avatar-runtime/verify_query_expression.gd) · [离线回归](../../../services/agent-core/tests/test_public_query_focus.py) |
+
+另有三项接手复核反例已补回归。“先别查 2024 年 F1 积分”曾误匹配 2025 年的票据。现按主题、榜单类型、年份和明确截止日匹配，对“别搜极光”这类其他对象也保留 F1 待办。“查一下 F1 积分，算了，改查英超积分榜”会清除已撤回部分并保留明确的新目标。这些用例均有修前失败与修后通过记录。[对应回归](../../../services/agent-core/tests/test_public_query_focus.py)
 
 ## 两家模型的同条件对照
 
@@ -35,9 +37,11 @@
 
 ## 回归与复现
 
-固定候选原回归 **576/576**。新写的首批 8 项在修前均失败（含 19 个失败子项）。最终受影响模块 **84/84**，隔离全量 **589/589**，跳过 0。TypeScript 与 Vite 离线构建通过，官模、Idle 和转圈三项资产指纹核实。7 项 Godot 门禁包括输入、会话、工具状态、档位、语音协议、表情预设与查询表情；导入另外计数。表情预设验证覆盖 4,207 帧、204,019 条断言。文档一致性检查通过。[检查结果及中间失败](evidence/checks.json)
+固定候选原回归 **576/576**。新写的首批 8 项在修前均失败（含 19 个失败子项）。最终受影响模块 **85/85**，隔离全量 **590/590**，跳过 0。TypeScript 与 Vite 离线构建通过，官模、Idle 和转圈三项资产指纹核实。7 项 Godot 门禁包括输入、会话、工具状态、档位、语音协议、表情预设与查询表情；导入另外计数。表情预设验证覆盖 4,207 帧、204,019 条断言。文档一致性检查通过。[检查结果及中间失败](evidence/checks.json)
 
 静音命令缺失与说话时丢失微笑均先复现再修复。另有既有表情测试仍访问早已删除的动画时钟，在 190 秒时超时；现用静音 PCM 播放器验证实际播放位置、下颌和表情权重，保留原有数值断言。Godot 在隔离副本使用 Dummy 音频。上述结果覆盖控件和渲染网格输入，正式窗口的现场听感、角色与语音同步仍待实装后验收。
+
+另开独立可见 Godot 测试窗口，用本轮采到的 DS、MiniMax 回复和固定资料做离线重放。正常查询两次、待确认、批准后续办、缺密钥共 5 轮，按 requestId 和会话逐条读取实际可见 Label，并核对 TTS 入口文本。声线合成与新模型请求均为 0。[逐轮控件与语音输入](evidence/window.json)
 
 以下命令在候选仓库根目录执行，使用具备 Core 依赖的 Python 3.12。每个隔离目录使用一个全新的短路径。
 
@@ -46,6 +50,7 @@ python -B -X utf8 docs/assessments/agent-query-focus/evidence.py
 python -B -X utf8 docs/assessments/agent-query-delivery/checks.py <新目录>
 python -B -X utf8 docs/assessments/agent-query-delivery/checks.py <另一新目录> docs
 python -B -X utf8 docs/assessments/agent-query-focus/avatar_checks.py <Godot程序> <合法assets目录> <新结果目录>
+python -B -X utf8 docs/assessments/agent-query-focus/window_replay.py <新结果目录> <Godot程序>
 python -B -X utf8 docs/assessments/agent-query-focus/verify_slice.py <Godot程序> <合法assets目录> <新结果目录>
 ```
 

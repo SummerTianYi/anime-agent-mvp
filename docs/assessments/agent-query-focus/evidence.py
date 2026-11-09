@@ -44,12 +44,23 @@ def main():
         if phase=="after" and key=="release":
             assert event["text"].splitlines()[:2] in (["4.8.3","2026年10月27号"],["4.8.3","2026年10月27日"])
     assert matched=={"before":1,"after":6}
+    visible={r["request"]:r for r in load("evidence/window.json")}
+    assert len(visible)==5
+    for rid,case,name in (("after-normal-1","release","DS"),("after-award-1","place","MiniMax"),("after-ask-2","place","MiniMax")):
+        sample=next(r["delivery"] for r in pairs if (r["phase"],r["case"],r["provider"])==("after",case,name))
+        assert visible[rid]["visible_label"]==sample["text"] and [visible[rid]["tts_input"]]==sample["tts"]
+        assert all(visible[rid][k]==sample[k] for k in ("emotion","emotion_intensity","gesture"))
+    assert "待确认" in visible["after-ask-1"]["visible_label"] and "密钥" in visible["after-fault-1"]["visible_label"]
     tests=load("evidence/checks.json")
-    assert tests["core"]["final"]==589 and tests["core"]["failures"]==0
+    assert tests["core"]["final"]==590 and tests["core"]["failures"]==0
     assert tests["main_slice"]["core"]["last"]=="tests 390 skipped 0 failed []"
+    for name,key in (("main_probe","main_plus_diagnostics"),("candidate_probe","candidate")):
+        assert tests["main_slice"][name]["authorization"]==tests["ambiguity"][key]
+    assert tests["ambiguity"]["main_plus_diagnostics"]["dispatched_files"]==["one.txt"]
+    assert tests["ambiguity"]["candidate"]=={"ambiguous_dispatches":0,"dispatched_files":["two.txt"],"states":["awaiting_confirmation","succeeded"]}
     for group in (tests["avatar"],tests["main_slice"]["godot"]):
         assert all(g["passed"] for g in group["gates"])
-    print("VERIFIED 6 different prompts, 12 paired HTTP outcomes, 12 Core deliveries",matched)
+    print("VERIFIED 6 different prompts, 12 paired HTTP outcomes, 12 Core deliveries, 5 actual window labels",matched)
     for provider in ("DS","MiniMax"):
         stats=[]
         for phase in ("before","after"):

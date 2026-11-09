@@ -1,7 +1,7 @@
 {
   "base_commit": "5101fc064d35f11a0837d4e9bdcc8308528dcb0a",
   "trial_freeze": "4ccd4ed5d032b22e00059971819f3721b35edee4",
-  "runtime_commit": "c3cd4fbfb5cd6671537d767d26dacab6bed1cef2",
+  "runtime_commit": "c7f822a485a3a644b3411549bc335effea61f4c3",
   "core": {
     "before": 576,
     "before_seconds": 47.771,
@@ -27,10 +27,10 @@
       "FAIL: test_negation_preserves_unrelated_pending_ticket",
       "FAIL: test_original_constraints_in_solver_but_not_search"
     ],
-    "targeted": 84,
-    "targeted_seconds": 2.234,
-    "final": 589,
-    "final_seconds": 44.77,
+    "targeted": 85,
+    "targeted_seconds": 2.983,
+    "final": 590,
+    "final_seconds": 51.086,
     "failures": 0,
     "skipped": 0
   },
@@ -105,9 +105,33 @@
       "exit": 0,
       "last": ""
     },
-    "diagnostic_probe": {
+    "main_probe": {
       "exit": 0,
-      "last": "SLICE_PROBE_OK 5 outcomes and speech fault separated from diagnostic record"
+      "last": "SLICE_PROBE_OK 5 outcomes and speech fault separated from diagnostic record",
+      "authorization": {
+        "ambiguous_dispatches": 1,
+        "dispatched_files": [
+          "one.txt"
+        ],
+        "states": [
+          "succeeded",
+          "awaiting_confirmation"
+        ]
+      }
+    },
+    "candidate_probe": {
+      "exit": 0,
+      "last": "SLICE_PROBE_OK 5 outcomes and speech fault separated from diagnostic record",
+      "authorization": {
+        "ambiguous_dispatches": 0,
+        "dispatched_files": [
+          "two.txt"
+        ],
+        "states": [
+          "awaiting_confirmation",
+          "succeeded"
+        ]
+      }
     },
     "core": {
       "exit": 0,
@@ -220,7 +244,7 @@
   },
   "docs": {
     "marker": "DOCS_CONSISTENCY_OK",
-    "tests": 589,
+    "tests": 590,
     "code_env_vars": 42,
     "template_entries": 46,
     "registered_tools": 9
@@ -239,6 +263,15 @@
     "muted avatar produced no expression commands",
     "Godot speaking transition discarded smile intensity",
     "legacy preset gate referenced removed speaking_mouth_elapsed, timed out at 190 seconds; updated test to use muted PCM and actual playback",
-    "pnpm command rejected --offline for a run script; used installed dependencies with npm_config_offline=true"
-  ]
+    "pnpm command rejected --offline for a run script; used installed dependencies with npm_config_offline=true",
+    "handoff: two scope tests failed before period matching / replacement query",
+    "unrelated named object was initially matched by an open public ticket; reproduced and fixed"
+  ],
+  "visible_replay": {
+    "turns": 5,
+    "network_model_requests": 0,
+    "search_requests": 0,
+    "synthesis": 0,
+    "reads": "is_visible_in_tree, Label.text, TTS input, session"
+  }
 }

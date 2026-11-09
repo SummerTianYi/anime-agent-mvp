@@ -39,7 +39,11 @@ def run(args):
         patch=HERE/"main-diagnostics.patch"
         for name,opts in (("clean_apply_check",["--check"]),("apply",[])):
             stats[name]=invoke(name,["git","apply","--unidiff-zero",*opts,str(patch)])
-        stats["diagnostic_probe"]=invoke("probe",[sys.executable,"-B","-X","utf8",str(HERE/"slice_probe.py"),str(repo),str(args.out/"probe-state")])
+        for name,tree in (("main",repo),("candidate",ROOT)):
+            stats[name+"_probe"]=invoke(name+"-probe",[sys.executable,"-B","-X","utf8",str(HERE/"slice_probe.py"),
+                                        str(tree),str(args.out/(name+"-state")),name])
+            log=(args.out/(name+"-probe.txt")).read_text("utf8").splitlines()
+            stats[name+"_probe"]["authorization"]=json.loads(next(line.removeprefix("AUTH_PROBE ") for line in log if line.startswith("AUTH_PROBE ")))
         # Keep the repository's historical suite unchanged in this disposable copy.
         checks=repo/"docs/assessments/agent-query-delivery/checks.py"
         checks.parent.mkdir(parents=True,exist_ok=True)
@@ -51,7 +55,7 @@ def run(args):
         stats["godot"]=json.loads((args.out/"godot/gates.json").read_text("utf8"))
         assert passed
         (args.out/"result.json").write_text(json.dumps(stats,ensure_ascii=False,indent=2),encoding="utf8")
-        print(stats["core"],stats["diagnostic_probe"])
+        print(stats["core"],stats["main_probe"],stats["candidate_probe"])
 
 
 if __name__ == "__main__":
