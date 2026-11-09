@@ -2,7 +2,7 @@
 
 ## 桌面 Harness V1 与语音
 
-- `permission.pending` 按 `conversationId` 发布有序 `actions`。`chat.message.confirmation` 绑定已展示的 `action_id`、`revision`、`args_hash`，授权在派发前复核。兼容客户端的文字确认绑定当时展示的票据。
+- `permission.pending` 按 `conversationId` 发布有序动作和 `taskId`。批准绑定已展示的动作、参数摘要和版本。单项可直接说“确认”，多项请指定“确认第2项”。新建页的 `session.new` 与 `session.switched` 回显同一 `requestId` 后才接纳会话消息。
 - 手动录音用 `captureId` 与 `conversationId` 关联 `voice.start`、`voice.stop`、`voice.cancel`、状态、识别与提示；切会话或取消使旧录音失效。成功转写回填输入框。常驻模式先播放唤醒应答，采集准备就绪才发 `wake.triggered`，有后续有效转写才进入聊天。
 - `read_tool_result` 在本任务内续取已获准的结果，`recall_memory` 检索当前可见事实。三个 `effort` 档沿用相同权限，步数预算为 3/6/9，工具调用预算为 6/12/18。
 - 普通播报和已缓存的告别均走 `TianyiSpeech` 总线。`ANIME_AGENT_SPEECH_GAIN_DB` 仅作用于角色声音。播放结果沿用既有 `speech.finished`、`speech.failed` 及 `playbackId`。
@@ -36,10 +36,10 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 `ANIME_AGENT_TOOLS` 开启时（默认开启），Core 在聊天回合内以工具调用循环驱动 Provider；每次只读工具执行完毕后向 `avatar` 与 `ui` 广播：
 
 ```json
-{"type":"agent.tool","tool":"get_time","ok":true,"summary":"{\"ok\": true}","request_id":"..."}
+{"type":"agent.tool","tool":"get_time","ok":true,"outcome":"succeeded","summary":"{\"ok\": true}","request_id":"..."}
 ```
 
-`ok=false` 表示工具执行失败，失败结果同样已回填给模型。Godot 将该事件显示在聊天状态行（“已使用工具：…”）。`ANIME_AGENT_TOOLS=0` 可整体停用；端点拒绝 tools 参数（HTTP 400/404/422）时 Core 自动降级为无工具直答并记录 `agent.tools.unsupported` 事件。
+`outcome` 表示待确认、执行中、成功、失败、取消、过期或结果未知。默认聊天和语音只交付答案。临时设置 `ANIME_AGENT_TOOL_DIAGNOSTICS=1` 可在测试窗口查看逐项活动，完整诊断保存在 Core 事件表。`ANIME_AGENT_TOOLS=0` 可停用工具。
 
 工具集包括只读六件套 `get_time`、`read_file`、`list_dir`、`screenshot`、`active_window`、`clipboard_read`，以及 `write_file`、`run_command`、`look_at_screen` 和 MCP 工具 `mcp__<server>__<tool>`。路径工具按 `ANIME_AGENT_TOOLS_ROOTS` 白名单校验。每项任务共享所选 `effort` 档位的轮数和调用预算，具体数值见本页开头。路径根目录以系统路径分隔符分隔。默认单工具超时 15 秒，命令 30 秒，屏幕视觉往返 90 秒。
 
@@ -47,7 +47,7 @@ Core 只向 `avatar` 和 `ui` 角色发送状态事件：
 
 所有工具调用经 `agent_core/permissions.py` 三档引擎裁决，每次决策落 `permission.decision` 审计事件（events 表，含 rule_id 归因）：
 
-- **allow**：只读六件套等预放行能力直接执行。
+- **allow**：既有只读工具和 Core 自带的 `public_web_search`。后者要求当前会话、任务与主动请求的公开范围完全匹配，只向固定 Tavily HTTPS 搜索接口发送公开主题、字段和日期。普通 MCP 仍按各自现行规则判定。
 - **ask**：`write_file`、`run_command`、`look_at_screen` 与全部 MCP 工具。Core 挂起执行，先以普通回复向用户说明将做什么，等用户在同一会话内用文字确认；确认后执行（写入为原子写）并以角色化口吻汇报结果；拒绝或超时（600 秒）即丢弃；一次性授权防止确认后重复执行。
 - **deny**：写白名单外路径、命令白名单外命令、path-safety 违规直接拒绝并回填原因。
 

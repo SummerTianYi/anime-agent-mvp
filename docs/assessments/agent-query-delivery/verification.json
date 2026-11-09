@@ -1,0 +1,157 @@
+{
+  "base": "8025c6bacca57461653090e646ac100ce36e7a27",
+  "compared_main": "cf62b484ca8f075d97c2d4c41496480c7c82501c",
+  "merge_base": "1de9a29d31837b173f91d8efcd4a13dd09c0d028",
+  "implementation": "4df20e75b0ae365abb0ac6e58c1c1fa4b3aaec12",
+  "public_implementation": "8f012d98a854eeb24c040342985929ec03171eeb",
+  "legacy_search_scope": "482b35bee4fe59c132d33b2044d7549bce66dee5",
+  "last_focused": {"passed":68,"failed":0,"skipped":0,"seconds":3.469},
+  "final_full": {"source":"4df20e75b0ae365abb0ac6e58c1c1fa4b3aaec12","passed":576,"failed":0,"skipped":0,"seconds":42.000},
+  "final_docs": {"discovered":576,"core_environment_variables":42,"example_entries":46,"registered_builtin_tools":9,"result":"DOCS_CONSISTENCY_OK"},
+  "intermediate_environment_failure": {"tests":576,"errors":2,"kind":"Win32 temporary path length","characters":264,"control_path_characters":248},
+  "deployed_checkout": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+  "installed_dirty_entries": 105,
+  "installed_core_file": "9d8636000f5c5dc91085886ca2562111548f6dd6e0a1540e6106a6eb104cfcfb",
+  "formal_processes_observed": [
+    {
+      "role": "Core",
+      "pid": 49240,
+      "startUtc": "2026-11-09T12:44:48.0036030Z"
+    },
+    {
+      "role": "Core",
+      "pid": 24024,
+      "startUtc": "2026-11-09T12:44:48.1663600Z"
+    },
+    {
+      "role": "Godot",
+      "pid": 5840,
+      "startUtc": "2026-11-09T12:45:33.6942740Z"
+    },
+    {
+      "role": "voice",
+      "pid": 31428,
+      "startUtc": "2026-11-09T12:45:47.6620720Z"
+    },
+    {
+      "role": "voice",
+      "pid": 5584,
+      "startUtc": "2026-11-09T12:45:47.8555860Z"
+    }
+  ],
+  "persona": {
+    "harness_candidate_and_installed": "331682df53bde9abfa6261a3856d90e98d8ed289131316b9856ca7dee5ebe820",
+    "harness_main": "fb8321fa6e308a5ad1ce58a7f2f0dd86b86949c700898554def7ae0849a68886",
+    "ROLE_PROMPT": "7f57bf41e8f2764fe9bfbf6797c5323d253d7d1f1a73440873c65d067582207e",
+    "RUNTIME_CONTRACT": "e43c97d067285fe88688c63c53f97789e6aa306f1d11b8983d2f10a271dc7910",
+    "ACTIVE_PROMPT_OVERRIDE": "714ae650ce060f0a645f2fa1055878790438a5e93566ceda18a3ecbdc9d9c9f6"
+  },
+  "runs": {
+    "base-full": {
+      "discovered": 561,
+      "seconds": 42.769,
+      "status": "OK",
+      "failing_cases": []
+    },
+    "before-red": {
+      "discovered": 8,
+      "seconds": 0.333,
+      "status": "FAILED (failures=9, errors=1)",
+      "failing_cases": [
+        "ERROR: test_decline_expiry_and_distinct_questions",
+        "FAIL: test_admission_and_private_boundaries",
+        "FAIL: test_admission_and_private_boundaries",
+        "FAIL: test_admission_and_private_boundaries",
+        "FAIL: test_ask_chat_approve_and_duplicate",
+        "FAIL: test_lookup_with_negative_clause_and_missing_recipient",
+        "FAIL: test_missing_key_is_not_consent",
+        "FAIL: test_normal_has_evidence_and_private_history_does_not_egress",
+        "FAIL: test_source_error_is_not_model_success",
+        "FAIL: test_two_actions_require_selection"
+      ]
+    },
+    "after-policy": {
+      "discovered": 20,
+      "seconds": 0.41,
+      "status": "OK",
+      "failing_cases": []
+    },
+    "after-full-1": {
+      "discovered": 570,
+      "seconds": 53.273,
+      "status": "FAILED (failures=13, errors=3)",
+      "failing_cases": [
+        "ERROR: test_two_actions_confirm_separately_with_real_artifacts",
+        "ERROR: test_control_explicit_ticket_double_click_then_fresh_ticket",
+        "ERROR: test_p1_unbound_duplicate_cannot_authorize_next_parameters",
+        "FAIL: test_invalid_result_reference_is_saved_and_delivered",
+        "FAIL: test_control_valid_mcp_success_receipt_is_preserved",
+        "FAIL: test_p1_permission_denial_without_action_receipt_cannot_claim_success",
+        "FAIL: test_typed_cancel_of_older_task_keeps_current_file_task",
+        "FAIL: test_confirmation_then_progress_and_duplicate_do_not_reexecute",
+        "FAIL: test_partial_completion_lists_each_action",
+        "FAIL: test_literal_filename_and_file_reference_revocation",
+        "FAIL: test_openai_bad_supplement_keeps_success_receipt",
+        "FAIL: test_anthropic_bad_supplement_keeps_success_receipt",
+        "FAIL: test_failed_operation_retains_failed_receipt_after_bad_supplement",
+        "FAIL: test_failed_operation_retains_failed_receipt_after_bad_supplement",
+        "FAIL: test_mixed_supplement_preserves_success_and_unknown_without_extra_operation",
+        "FAIL: test_mixed_supplement_preserves_success_and_unknown_without_extra_operation"
+      ]
+    },
+    "affected-2": {
+      "discovered": 139,
+      "seconds": 16.743,
+      "status": "FAILED (failures=1)",
+      "failing_cases": [
+        "FAIL: test_query_and_mail_preview_edits_and_one_dispatch"
+      ]
+    },
+    "full-release": {
+      "discovered": 575,
+      "seconds": 46.253,
+      "status": "OK",
+      "failing_cases": []
+    },
+    "before": {
+      "ds": 6,
+      "search": 0,
+      "seconds": 17.7,
+      "input_tokens": 18409,
+      "output_tokens": 508
+    },
+    "after": {
+      "ds": 3,
+      "search": 4,
+      "seconds": 8.06,
+      "input_tokens": 5356,
+      "output_tokens": 305
+    },
+    "final-normal": {
+      "ds": 1,
+      "search": 2,
+      "seconds": 6.44,
+      "input_tokens": 8625,
+      "output_tokens": 457
+    },
+    "final-other": {
+      "ds": 2,
+      "search": 2,
+      "seconds": 8.42,
+      "input_tokens": 7600,
+      "output_tokens": 472
+    }
+  },
+  "provider_http_retries": 0,
+  "search_http_retries": 0,
+  "completed_network_requests": {
+    "deepseek": 12,
+    "tavily": 8
+  },
+  "other": {
+    "documentation": "DOCS_CONSISTENCY_OK",
+    "typescript": "tsc --noEmit and Vite production build (29 modules, pnpm 11.19.0 offline, 0 packages downloaded)",
+    "assets": "PowerShell 7.6.9 verified accepted character, idle and pirouette hashes; first separate Windows PowerShell process lacked Get-FileHash",
+    "audio": "No listening; real UI plus captured speech entry and separate synthetic WAV gate."
+  }
+}

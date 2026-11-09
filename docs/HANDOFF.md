@@ -1,5 +1,7 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
+2026-11-09 查询交付是独立候选，起点为 `8025c6b`。本轮覆盖公开资料查询、参数绑定确认、查后发送、气泡与语音入口。桌面运行版本仍以本机进程与物料记录为准。正式使用前等待 ChatGPT 独立验收。[查询报告与复现入口](assessments/agent-query-delivery/REPORT.md)
+
 Codex 2026-10-04 非Agent配套评估：[综合报告与DS诊断](NON_AGENT_SYSTEM_ASSESSMENT_2026-10-04_CODEX.md)区分本次实测、历史验收与未验证范围。当前外观1.4/表情1.0、有限动作库、公共语音和双看护已实装；通用衣发防穿模、任意硬件零中断、跨机完整离线交付没有完成。本次31项启动/TTS逻辑、五版档案、官模/原动作和现用声线契约通过。DS四次独立请求及所有者原窗口短回复确认正常，但没有还原截图历史故障的底层原因，也没有改配置或实施运行修复。数据诊断发现Codex读到的AppData路径存在包LocalCache视图差异，未把旧事件冒充当前证据、未动任何数据库。
 
 Codex 2026-10-04 仓库盘点：产品主仓为 MVP，TTS 私仓是独立运行配套；其他三仓不是直接运行依赖。所有者已确认保留分仓、补齐现用声线、官模/动作暂留本地。当前角色、语音参数与服务不因本轮盘点改变；跨仓责任、e5/e20 缺口和恢复边界见 [REPOSITORY_MAP](REPOSITORY_MAP.md)。最新语音功能验收仍以下方 2026-10-03 记录为准。
@@ -148,7 +150,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 561 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 576 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -245,7 +247,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 561 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 576 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

@@ -1,0 +1,41 @@
+{
+  "model": "df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a",
+  "gates": [
+    {
+      "gate": "import",
+      "exit": 0,
+      "marker": null,
+      "passed": true
+    },
+    {
+      "gate": "verify_text_input",
+      "exit": 0,
+      "marker": "GODOT_CHAT_SHORTCUT_GUARD_OK",
+      "passed": true
+    },
+    {
+      "gate": "verify_session_ui",
+      "exit": 0,
+      "marker": "GODOT_SESSION_UI_OK",
+      "passed": true
+    },
+    {
+      "gate": "verify_tool_activity",
+      "exit": 0,
+      "marker": "GODOT_TOOL_ACTIVITY_OK",
+      "passed": true
+    },
+    {
+      "gate": "verify_effort_ui",
+      "exit": 0,
+      "marker": "GODOT_EFFORT_UI_OK",
+      "passed": true
+    },
+    {
+      "gate": "verify_speech_delivery",
+      "exit": 0,
+      "marker": "SPEECH_DELIVERY_REGRESSION",
+      "passed": true
+    }
+  ]
+}

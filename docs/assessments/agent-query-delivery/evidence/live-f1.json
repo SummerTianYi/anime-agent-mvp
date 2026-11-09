@@ -1,0 +1,167 @@
+{
+  "origin": {
+    "core_pid": 45716,
+    "godot_pid": 46272,
+    "port": 55869,
+    "window": true,
+    "lifespan": "off",
+    "speaker": "queue capture",
+    "provider": "deepseek",
+    "synthesis": false
+  },
+  "turns": [
+    {
+      "request": "after-normal-1",
+      "question": "你知道现在F1进行到哪一站了吗？积分情况如何",
+      "channel": "task",
+      "session": 2,
+      "task": "after-normal-1",
+      "bubble": "5509db612a86658ba8df5d9baaa720a80cb82fdf15926641f790804d72737efd",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 2,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "5509db612a86658ba8df5d9baaa720a80cb82fdf15926641f790804d72737efd",
+            "cadff6b512062a4b98984a383d4728da31ea5ff2e0ba3da5d5fe671eac29e60a"
+          ]
+        }
+      ],
+      "tts": [
+        "5509db612a86658ba8df5d9baaa720a80cb82fdf15926641f790804d72737efd"
+      ],
+      "dispatch": [
+        {
+          "request": "after-normal-1",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "F1",
+            "fields": [
+              "赛程",
+              "积分榜"
+            ],
+            "year": 2026
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-scoped-public-search"
+        },
+        {
+          "type": "tool.result",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "F1",
+            "fields": [
+              "赛程",
+              "积分榜"
+            ],
+            "year": 2026
+          },
+          "result_ref": "after-normal-1:read:1",
+          "task_id": "after-normal-1",
+          "result": {
+            "ok": true,
+            "as_of": "2026-11-09",
+            "failures": [],
+            "kind": "results",
+            "sources": [
+              {
+                "title": "F1 Schedule 2026 - Official Calendar of Grand Prix Races",
+                "url": "https://www.formula1.com/en/racing/2026",
+                "field": "赛程",
+                "text_sha256": "83f49b3fcdfbe81ac1e3f16bc44a222db1b72a17842ae796646478c0afcc90f0"
+              },
+              {
+                "title": "FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2026 - RACE RESULT",
+                "url": "https://www.formula1.com/en/results/2026/races/1298/mexico/race-result",
+                "field": "赛程",
+                "text_sha256": "2cfca0546a882952f5b131df3d85dabf8c550f3ee478a8aa83f58edb60fe0a50"
+              },
+              {
+                "title": "2026 United States Grand Prix race report and highlights: Kimi Antonelli surges to dominant victory ahead of Charles Leclerc and Max Verstappen",
+                "url": "https://www.formula1.com/en/latest/article/antonelli-surges-to-dominant-victory-in-united-states-grand-prix-ahead-of-leclerc-and-verstappen.6kmBQv9FNTW7LzkDj8S34j",
+                "field": "赛程",
+                "text_sha256": "69864412a3fab94eea7ab271f48a4806808b05e04b252f33d6b03b5fcd908a26"
+              },
+              {
+                "title": "2026 Formula 1 Sao Paulo Grand Prix report: Lando Norris beats Max Verstappen in wet Sao Paulo GP thriller as Mercedes win title",
+                "url": "https://www.formula1.com/en/latest/article/norris-beats-verstappen-in-wet-sao-paulo-gp-thriller-as-mercedes-win-constructors-championship.7JN7MXLZf5lk5l0C3gfKGI",
+                "field": "赛程",
+                "text_sha256": "8a4100421373b1cd4126464dc9cb60c5643c998ab46143bf65e1602844985073"
+              },
+              {
+                "title": "2026 Formula 1 Mexico City Grand Prix: Kimi Antonelli crowned youngest F1 champion as Max Verstappen wins eventful Mexico City Grand Prix",
+                "url": "https://www.formula1.com/en/latest/article/antonelli-crowned-youngest-ever-f1-champion-as-verstappen-wins-eventful-mexico-city-grand-prix.xpMMeef0KmRURs9IDs3LH",
+                "field": "赛程",
+                "text_sha256": "c4aaa3b7477d5608323f3b585a10c092e6fadcdab5cf2e96bcaec7060676bb30"
+              },
+              {
+                "title": "2026 Formula 1 Sao Paulo Grand Prix report: Lando Norris beats Max Verstappen in wet Sao Paulo GP thriller as Mercedes win title",
+                "url": "https://www.formula1.com/en/latest/article/norris-beats-verstappen-in-wet-sao-paulo-gp-thriller-as-mercedes-win-constructors-championship.7JN7MXLZf5lk5l0C3gfKGI",
+                "field": "积分榜",
+                "text_sha256": "3ebb50ce2025b28f1046e64a3e96f86a19b78241228d3d3ff92d040779a28f8d"
+              },
+              {
+                "title": "Formula 1 2026 Sao Paulo GP Results | Formula 1 Race Results",
+                "url": "https://www.motorsport.com/f1/results/2026/sao-paulo-gp-661696",
+                "field": "积分榜",
+                "text_sha256": "6dd741ae5fa2512e53015bdd59e0f383f9379bede427756ffe125d50fc0e8a87"
+              },
+              {
+                "title": "Formula 1 2026 Sao Paulo GP Results | Formula 1 Race Results",
+                "url": "https://www.motorsport.com/f1/results",
+                "field": "积分榜",
+                "text_sha256": "37b14fd1503f3fb79838288bc180ca75aa861cff577bb0642aafc1427db8c512"
+              },
+              {
+                "title": "'No idea what happened on that pit exit' – George Russell reflects on spin and Mercedes title win in 2026 Formula 1 Sao Paulo Grand Prix",
+                "url": "https://www.formula1.com/en/latest/article/no-idea-what-happened-on-that-pit-exit-russell-reflects-on-spin-and-mercedes-title-win-in-sao-paulo.1C1TWOL9x9TBOkYyNxid7F",
+                "field": "积分榜",
+                "text_sha256": "4fabed72f7ad1a3e2d8d32be55701218a275841a680678f631fc9de775d93f95"
+              },
+              {
+                "title": "F1 2026 POINTS PERMUTATIONS: When is the earliest Kimi Antonelli could win the World Championship?",
+                "url": "https://www.formula1.com/en/latest/article/points-permutations-when-is-the-earliest-antonelli-could-win-world-championship.24UKT2fsQl4GmC5DMrmYUy",
+                "field": "积分榜",
+                "text_sha256": "45b60f362d18a663549b66c5a50b82dcbf6dd75e0a3c5f68cc0fffec9dfeca05"
+              }
+            ]
+          }
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-normal-1",
+          "source": "reply",
+          "actions": []
+        }
+      ]
+    }
+  ],
+  "texts": {
+    "5509db612a86658ba8df5d9baaa720a80cb82fdf15926641f790804d72737efd": "截至2026年11月9号，2026赛季F1已赛完20站，巴西站（11月6—8号）是最近结束的一站；下一站是拉斯维加斯站，按赛历安排在11月19—21号（也有赛历写作11月20—22号，差异来自页面口径）。之后是卡塔尔站11月27—29号、阿布扎比站收官，第23站日期摘录中未完整给出。\n\n赛季进程：美国站在10月23—25号；墨西哥站10月30号—11月1号，安东内利在墨西哥站提前锁定车手世界冠军，成为F1史上最年轻世界冠军；巴西站诺里斯雨战夺冠，维斯塔潘第二、哈贾尔第三，梅赛德斯同时拿下年度车队冠军。\n\n积分方面，摘录没有带日期的完整车手总榜，不能用巴西站单场得分冒充赛季累计。可核实的是巴西站后：拉塞尔车手榜第3，落后维斯塔潘17分；维斯塔潘巴西站从第21位追到第2。美国站后安东内利领先拉塞尔123分、领先汉密尔顿124分，这是美国站节点，并非最新总积分。墨西哥站后安东内利已世界冠军，但具体总分摘录未给出。\n\n单站得分可供核对：墨西哥站维斯塔潘25、汉密尔顿18、安东内利15、勒克莱尔12、诺里斯10；巴西站诺里斯25、维斯塔潘18、哈贾尔15、拉塞尔12、安东内利10。\n\n需要说明：摘录中拉斯维加斯站日期有“19—21号”和“20—22号”两种写法，阿布扎比站具体日期缺失；最新完整车手积分总榜也未提供，因此只列可核实的名次与分差。\n查询于 2026-11-09。来源：\nhttps://www.formula1.com/en/racing/2026\nhttps://www.formula1.com/en/results/2026/races/1298/mexico/race-result\nhttps://www.formula1.com/en/latest/article/antonelli-surges-to-dominant-victory-in-united-states-grand-prix-ahead-of-leclerc-and-verstappen.6kmBQv9FNTW7LzkDj8S34j\nhttps://www.formula1.com/en/latest/article/norris-beats-verstappen-in-wet-sao-paulo-gp-thriller-as-mercedes-win-constructors-championship.7JN7MXLZf5lk5l0C3gfKGI\nhttps://www.formula1.com/en/latest/article/no-idea-what-happened-on-that-pit-exit-russell-reflects-on-spin-and-mercedes-title-win-in-sao-paulo.1C1TWOL9x9TBOkYyNxid7F\nhttps://www.formula1.com/en/latest/article/points-permutations-when-is-the-earliest-antonelli-could-win-world-championship.24UKT2fsQl4GmC5DMrmYUy",
+    "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab": "♪",
+    "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a": "操作回执",
+    "cadff6b512062a4b98984a383d4728da31ea5ff2e0ba3da5d5fe671eac29e60a": "22:53"
+  },
+  "other_speech_entry": [
+    {
+      "request": "proactive-avatar-connect",
+      "text": "嗨，我就在桌面上等你呢。有什么需要随时叫我哦～",
+      "narrating": false
+    },
+    {
+      "request": "after-normal-1-think",
+      "text": "等等我呀，思路马上就通…",
+      "narrating": true
+    }
+  ]
+}

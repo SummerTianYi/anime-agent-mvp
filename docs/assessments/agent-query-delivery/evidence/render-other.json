@@ -1,0 +1,333 @@
+{
+  "origin": {
+    "core_pid": 19704,
+    "godot_pid": 43576,
+    "port": 57799,
+    "window": true,
+    "lifespan": "off",
+    "speaker": "queue capture",
+    "provider": "recorded",
+    "synthesis": false
+  },
+  "turns": [
+    {
+      "request": "after-award-1",
+      "question": "请搜索网页查一下最近一届诺贝尔物理学奖的得主和获奖理由。",
+      "channel": "task",
+      "session": 2,
+      "task": "after-award-1",
+      "bubble": "1495695e00d8d8bd1243db5c96058654ea100d64e36050bd0132d7468ee421ee",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 2,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "1495695e00d8d8bd1243db5c96058654ea100d64e36050bd0132d7468ee421ee",
+            "959b12b5862744aae83225dc9cb576d2bef5005185148c6e36b44f100fe77256"
+          ]
+        }
+      ],
+      "tts": [
+        "4c18f346a4a44f0a05a5397168e2cfcaa21a19eed14e78907f6ba30ee5e76412"
+      ],
+      "dispatch": [
+        {
+          "request": "after-award-1",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-scoped-public-search"
+        },
+        {
+          "type": "tool.result",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          },
+          "result_ref": "after-award-1:read:1",
+          "task_id": "after-award-1",
+          "result": {
+            "ok": true,
+            "as_of": "2026-11-09",
+            "failures": [],
+            "kind": "results",
+            "sources": [
+              {
+                "title": "Official homepage of the Nobel Prize",
+                "url": "https://www.nobelprize.org",
+                "field": "获奖理由及得主",
+                "text_sha256": "cb20bd40377d0622ed42ccd91deb44633ef9f5f633dba222fe50a8800afdd4d1"
+              },
+              {
+                "title": "Nobel Prize in Physiology or Medicine 2026 - Popular information - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/popular-information",
+                "field": "获奖理由及得主",
+                "text_sha256": "cfac4b00309fb057b54aeba6cc9f7bef85741b4e0e522e8a9dc353c1ca293122"
+              },
+              {
+                "title": "Nobel Prize in Physics 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/physics/2026/summary",
+                "field": "获奖理由及得主",
+                "text_sha256": "db30ea33a991780783193b465cd804400ad3ccff618c6e0965e26d44df50449d"
+              },
+              {
+                "title": "All Nobel Prizes 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/all-nobel-prizes-2026",
+                "field": "获奖理由及得主",
+                "text_sha256": "79449cc5afe3625dcc180933bbc86944b2c3d440ce030d151887027b42882233"
+              },
+              {
+                "title": "Press release: Nobel Prize in Physiology or Medicine 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/press-release",
+                "field": "获奖理由及得主",
+                "text_sha256": "69e69c9399b1936046427bd0e43fa51e96372aaed1443af8f276dc9e27a8a359"
+              }
+            ]
+          }
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-award-1",
+          "source": "reply",
+          "actions": []
+        }
+      ]
+    },
+    {
+      "request": "after-ask-1",
+      "question": "请搜索网页查一下最近一届诺贝尔物理学奖的得主和获奖理由。",
+      "channel": "task",
+      "session": 3,
+      "task": "after-ask-1",
+      "bubble": "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 3,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "1495695e00d8d8bd1243db5c96058654ea100d64e36050bd0132d7468ee421ee",
+            "959b12b5862744aae83225dc9cb576d2bef5005185148c6e36b44f100fe77256",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55",
+            "959b12b5862744aae83225dc9cb576d2bef5005185148c6e36b44f100fe77256"
+          ]
+        }
+      ],
+      "tts": [
+        "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55"
+      ],
+      "dispatch": [],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "ask",
+          "allowed": false,
+          "rule_id": "assessment-ask"
+        },
+        {
+          "type": "permission.ask",
+          "action_id": "94934d0d35a14744ba0baa27784b305e",
+          "revision": 1,
+          "args_hash": "9bccc9aeb1cdf0b6dcea696323fb27cab281c0c716d99482bd8f575218867d48",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          },
+          "outcome": "awaiting_confirmation"
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-ask-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "94934d0d35a14744ba0baa27784b305e",
+              "revision": 1,
+              "args_hash": "9bccc9aeb1cdf0b6dcea696323fb27cab281c0c716d99482bd8f575218867d48"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": "after-ask-2",
+      "question": "确认",
+      "channel": "task",
+      "session": 3,
+      "task": "after-ask-1",
+      "bubble": "7383d905e9e985f7a5040ae9d5ea8cdaa3f510ffa2ea26c9c6c43b2d8226bb58",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 3,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55",
+            "959b12b5862744aae83225dc9cb576d2bef5005185148c6e36b44f100fe77256",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "7383d905e9e985f7a5040ae9d5ea8cdaa3f510ffa2ea26c9c6c43b2d8226bb58",
+            "959b12b5862744aae83225dc9cb576d2bef5005185148c6e36b44f100fe77256"
+          ]
+        }
+      ],
+      "tts": [
+        "623a1ab962309cc650d15f3b41a3f9595069c765434e2720592ab79eba365d60"
+      ],
+      "dispatch": [
+        {
+          "request": "after-ask-2",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.confirmed",
+          "tool": "public_web_search",
+          "result": {
+            "ok": true,
+            "as_of": "2026-11-09",
+            "failures": [],
+            "kind": "results",
+            "action_id": "94934d0d35a14744ba0baa27784b305e",
+            "outcome": "succeeded",
+            "sources": [
+              {
+                "title": "Official homepage of the Nobel Prize",
+                "url": "https://www.nobelprize.org",
+                "field": "获奖理由及得主",
+                "text_sha256": "cb20bd40377d0622ed42ccd91deb44633ef9f5f633dba222fe50a8800afdd4d1"
+              },
+              {
+                "title": "Nobel Prize in Physiology or Medicine 2026 - Popular information - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/popular-information",
+                "field": "获奖理由及得主",
+                "text_sha256": "cfac4b00309fb057b54aeba6cc9f7bef85741b4e0e522e8a9dc353c1ca293122"
+              },
+              {
+                "title": "Nobel Prize in Physics 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/physics/2026/summary",
+                "field": "获奖理由及得主",
+                "text_sha256": "db30ea33a991780783193b465cd804400ad3ccff618c6e0965e26d44df50449d"
+              },
+              {
+                "title": "All Nobel Prizes 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/all-nobel-prizes-2026",
+                "field": "获奖理由及得主",
+                "text_sha256": "79449cc5afe3625dcc180933bbc86944b2c3d440ce030d151887027b42882233"
+              },
+              {
+                "title": "Press release: Nobel Prize in Physiology or Medicine 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/press-release",
+                "field": "获奖理由及得主",
+                "text_sha256": "69e69c9399b1936046427bd0e43fa51e96372aaed1443af8f276dc9e27a8a359"
+              }
+            ]
+          }
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-ask-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "94934d0d35a14744ba0baa27784b305e",
+              "revision": 1,
+              "args_hash": "9bccc9aeb1cdf0b6dcea696323fb27cab281c0c716d99482bd8f575218867d48"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": "after-fault-1",
+      "question": "请搜索网页查一下今年戛纳电影节金棕榈奖得主。",
+      "channel": "task",
+      "session": 4,
+      "task": "after-fault-1",
+      "bubble": "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 4,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421",
+            "959b12b5862744aae83225dc9cb576d2bef5005185148c6e36b44f100fe77256"
+          ]
+        }
+      ],
+      "tts": [
+        "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421"
+      ],
+      "dispatch": [],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-scoped-public-search"
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-fault-1",
+          "source": "reply",
+          "actions": []
+        }
+      ]
+    }
+  ],
+  "texts": {
+    "1495695e00d8d8bd1243db5c96058654ea100d64e36050bd0132d7468ee421ee": "2026年诺贝尔物理学奖授予弗朗西斯·哈爾岑（Francis Halzen），奖额由他一人获得。官方获奖理由是：“for decisive contributions to the IceCube Neutrino Observatory and the discovery of high-energy neutrinos of astrophysical origin”，即表彰他对冰立方中微子天文台的决定性贡献，以及发现来自天体物理过程的高能中微子。\n\n资料介绍称，哈爾岑意识到南极洲的冰层可用于追踪中微子；他的构想与科研领导对冰立方天文台至关重要。该设施由一立方公里冰体组成，并装有光传感器，能捕获来自遥远宇宙中能量极高过程的中微子。\n\n这次所问只涉及物理学奖；摘录中其他 2026 年奖项（如生理学或医学奖的光遗传学研究）与物理学奖得主无关。上述获奖人及理由来自诺奖官网专页和 2026 年诺奖总览，未涉及该奖项的具体公布日期。\n查询于 2026-11-09。来源：\nhttps://www.nobelprize.org/prizes/physics/2026/summary\nhttps://www.nobelprize.org/all-nobel-prizes-2026\nhttps://www.nobelprize.org",
+    "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab": "♪",
+    "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a": "操作回执",
+    "959b12b5862744aae83225dc9cb576d2bef5005185148c6e36b44f100fe77256": "23:13",
+    "4c18f346a4a44f0a05a5397168e2cfcaa21a19eed14e78907f6ba30ee5e76412": "2026年诺贝尔物理学奖授予弗朗西斯·哈爾岑（Francis Halzen），奖额由他一人获得。官方获奖理由是：“for decisive contributions to the IceCube Neutrino Observatory and the discovery of high-energy neutrinos of astrophysical origin”，即表彰他对冰立方中微子天文台的决定性贡献，以及发现来自天体物理过程的高能中微子。\n\n资料介绍称，哈爾岑意识到南极洲的冰层可用于追踪中微子；他的构想与科研领导对冰立方天文台至关重要。该设施由一立方公里冰体组成，并装有光传感器，能捕获来自遥远宇宙中能量极高过程的中微子。\n\n这次所问只涉及物理学奖；摘录中其他 2026 年奖项（如生理学或医学奖的光遗传学研究）与物理学奖得主无关。上述获奖人及理由来自诺奖官网专页和 2026 年诺奖总览，未涉及该奖项的具体公布日期。\n查询于 2026-11-09。来源是诺贝尔奖官网。",
+    "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55": "这项操作待确认。可以查询2026 年诺贝尔物理学奖的获奖理由及得主吗？",
+    "7383d905e9e985f7a5040ae9d5ea8cdaa3f510ffa2ea26c9c6c43b2d8226bb58": "2026年诺贝尔物理学奖授予弗朗西斯·哈尔岑（Francis Halzen），官方获奖理由是“for decisive contributions to the IceCube Neutrino Observatory and the discovery of high-energy neutrinos of astrophysical origin”，即他对冰立方中微子天文台的决定性贡献，以及对发现来自天体物理过程的高能中微子的贡献。他的奖金份额为1/1，由他个人独享。\n\n诺贝尔奖官网的科普介绍补充说，哈尔岑意识到可以利用南极的冰追踪中微子，他的构想和科学领导对冰立方天文台至关重要；该天文台是在约一立方公里的南极冰层中布置光传感器，用来捕捉来自遥远宇宙高能过程的中微子。\n\n以上信息来自诺贝尔奖官网的2026年物理学奖页面及“All Nobel Prizes 2026”汇总页；资料没有给出具体颁奖日期等更多细节。\n查询于 2026-11-09。来源：\nhttps://www.nobelprize.org/prizes/physics/2026/summary\nhttps://www.nobelprize.org/all-nobel-prizes-2026\nhttps://www.nobelprize.org",
+    "623a1ab962309cc650d15f3b41a3f9595069c765434e2720592ab79eba365d60": "2026年诺贝尔物理学奖授予弗朗西斯·哈尔岑（Francis Halzen），官方获奖理由是“for decisive contributions to the IceCube Neutrino Observatory and the discovery of high-energy neutrinos of astrophysical origin”，即他对冰立方中微子天文台的决定性贡献，以及对发现来自天体物理过程的高能中微子的贡献。他的奖金份额为1/1，由他个人独享。\n\n诺贝尔奖官网的科普介绍补充说，哈尔岑意识到可以利用南极的冰追踪中微子，他的构想和科学领导对冰立方天文台至关重要；该天文台是在约一立方公里的南极冰层中布置光传感器，用来捕捉来自遥远宇宙高能过程的中微子。\n\n以上信息来自诺贝尔奖官网的2026年物理学奖页面及“All Nobel Prizes 2026”汇总页；资料没有给出具体颁奖日期等更多细节。\n查询于 2026-11-09。来源是诺贝尔奖官网。",
+    "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421": "公开查询服务的密钥尚未配置或已失效，我现在查不到这项资料。"
+  },
+  "other_speech_entry": []
+}

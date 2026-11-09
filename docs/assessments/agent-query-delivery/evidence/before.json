@@ -1,0 +1,558 @@
+{
+  "origin": {
+    "core_pid": 11044,
+    "godot_pid": 32264,
+    "port": 64065,
+    "window": true,
+    "lifespan": "off",
+    "speaker": "queue capture",
+    "provider": "deepseek",
+    "synthesis": false
+  },
+  "turns": [
+    {
+      "request": "before-normal-1",
+      "question": "你知道现在F1进行到哪一站了吗？积分情况如何",
+      "channel": "companion",
+      "session": 2,
+      "task": null,
+      "bubble": "4e5dae6bdfd7257906db768f94858184c27e55d280a41513c402d0698ce30268",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 2,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "4e5dae6bdfd7257906db768f94858184c27e55d280a41513c402d0698ce30268",
+            "0fa9127929b223f7989325b4de6c72306f05ed685db151e9a68745743a1cc5f3"
+          ]
+        }
+      ],
+      "tts": [
+        "4e5dae6bdfd7257906db768f94858184c27e55d280a41513c402d0698ce30268"
+      ],
+      "dispatch": [],
+      "events": [
+        {
+          "type": "chat.delivery",
+          "source": "companion"
+        }
+      ]
+    },
+    {
+      "request": "before-award-1",
+      "question": "请搜索网页查一下最近一届诺贝尔物理学奖的得主和获奖理由。",
+      "channel": "task",
+      "session": 3,
+      "task": "before-award-1",
+      "bubble": "30209d58100b20ce8a24c84feba40e202625199c20173203d7ca377efae592b3",
+      "window": [
+        {
+          "type": "agent.tool",
+          "status": "工具失败：mcp__search__tavily_search",
+          "session": 3,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "1e775e9bc6000ed24fda03cf2c4e770534df4542c6c37fdf55dbcfbc993c4240",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e"
+          ]
+        },
+        {
+          "type": "agent.tool",
+          "status": "已使用工具：get_time",
+          "session": 3,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "6b0d19cfa01e3fc65178ecf7c674f875ba6a5ac3a5e1d2337e4f52cfa3a639ff",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604"
+          ]
+        },
+        {
+          "type": "chat.response",
+          "status": "已使用工具：get_time",
+          "session": 3,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "6b0d19cfa01e3fc65178ecf7c674f875ba6a5ac3a5e1d2337e4f52cfa3a639ff",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "30209d58100b20ce8a24c84feba40e202625199c20173203d7ca377efae592b3",
+            "d98dae3e77cd05f0fa4896b773c0a7e6ef47f11f2bcec168f3d1981119d6292d"
+          ]
+        }
+      ],
+      "tts": [
+        "30209d58100b20ce8a24c84feba40e202625199c20173203d7ca377efae592b3"
+      ],
+      "dispatch": [
+        {
+          "request": "before-award-1",
+          "tool": "get_time",
+          "arguments": {}
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "mcp__search__tavily_search",
+          "kind": "ask",
+          "allowed": false,
+          "rule_id": "ask-mcp"
+        },
+        {
+          "type": "permission.ask",
+          "action_id": "403c6639e4d64f51a61da403761ff1c4",
+          "revision": 1,
+          "args_hash": "5464cf104f5027d25024790bc98d8d0ad9952a34238da2d5dd74ca1f1e7ec4c8",
+          "tool": "mcp__search__tavily_search",
+          "arguments": {
+            "query": "最近一届诺贝尔物理学奖 得主 获奖理由"
+          },
+          "outcome": "awaiting_confirmation"
+        },
+        {
+          "type": "permission.decision",
+          "tool": "get_time",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-readonly:get_time"
+        },
+        {
+          "type": "tool.result",
+          "tool": "get_time",
+          "arguments": {},
+          "result_ref": "before-award-1:read:1",
+          "task_id": "before-award-1",
+          "result": {
+            "ok": true,
+            "local_time": "2026-11-09 22:39:02",
+            "weekday": "一"
+          }
+        },
+        {
+          "type": "agent.tools"
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "before-award-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "403c6639e4d64f51a61da403761ff1c4",
+              "revision": 1,
+              "args_hash": "5464cf104f5027d25024790bc98d8d0ad9952a34238da2d5dd74ca1f1e7ec4c8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": "before-ask-1",
+      "question": "请搜索网页查一下最近一届诺贝尔物理学奖的得主和获奖理由。",
+      "channel": "task",
+      "session": 4,
+      "task": "before-ask-1",
+      "bubble": "c8b00e4dfb30bb9558fa55f1791c16c2b712ea42c5188ad79702b7e2af2c3428",
+      "window": [
+        {
+          "type": "agent.tool",
+          "status": "工具失败：mcp__search__tavily_search",
+          "session": 4,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "1e775e9bc6000ed24fda03cf2c4e770534df4542c6c37fdf55dbcfbc993c4240",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e"
+          ]
+        },
+        {
+          "type": "agent.tool",
+          "status": "已使用工具：get_time",
+          "session": 4,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "6b0d19cfa01e3fc65178ecf7c674f875ba6a5ac3a5e1d2337e4f52cfa3a639ff",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604"
+          ]
+        },
+        {
+          "type": "chat.response",
+          "status": "已使用工具：get_time",
+          "session": 4,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "6b0d19cfa01e3fc65178ecf7c674f875ba6a5ac3a5e1d2337e4f52cfa3a639ff",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c8b00e4dfb30bb9558fa55f1791c16c2b712ea42c5188ad79702b7e2af2c3428",
+            "d98dae3e77cd05f0fa4896b773c0a7e6ef47f11f2bcec168f3d1981119d6292d"
+          ]
+        }
+      ],
+      "tts": [
+        "c8b00e4dfb30bb9558fa55f1791c16c2b712ea42c5188ad79702b7e2af2c3428"
+      ],
+      "dispatch": [
+        {
+          "request": "before-ask-1",
+          "tool": "get_time",
+          "arguments": {}
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "mcp__search__tavily_search",
+          "kind": "ask",
+          "allowed": false,
+          "rule_id": "ask-mcp"
+        },
+        {
+          "type": "permission.ask",
+          "action_id": "363ba6e3c47f44fab3b099ec174cb3d5",
+          "revision": 1,
+          "args_hash": "0aa14673768353499d4e9f75bb960d70b324cbb6288911fec579f2a5ee328f0f",
+          "tool": "mcp__search__tavily_search",
+          "arguments": {
+            "query": "2025年诺贝尔物理学奖 得主 获奖理由"
+          },
+          "outcome": "awaiting_confirmation"
+        },
+        {
+          "type": "permission.decision",
+          "tool": "get_time",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-readonly:get_time"
+        },
+        {
+          "type": "tool.result",
+          "tool": "get_time",
+          "arguments": {},
+          "result_ref": "before-ask-1:read:1",
+          "task_id": "before-ask-1",
+          "result": {
+            "ok": true,
+            "local_time": "2026-11-09 22:39:07",
+            "weekday": "一"
+          }
+        },
+        {
+          "type": "agent.tools"
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "before-ask-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "363ba6e3c47f44fab3b099ec174cb3d5",
+              "revision": 1,
+              "args_hash": "0aa14673768353499d4e9f75bb960d70b324cbb6288911fec579f2a5ee328f0f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": "before-ask-2",
+      "question": "确认",
+      "channel": "task",
+      "session": 4,
+      "task": "before-ask-1",
+      "bubble": "c661e523721fc57894a0eab9bbcc02848ff399c67703527980e778877ed688c3",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "已使用工具：get_time",
+          "session": 4,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "6b0d19cfa01e3fc65178ecf7c674f875ba6a5ac3a5e1d2337e4f52cfa3a639ff",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c8b00e4dfb30bb9558fa55f1791c16c2b712ea42c5188ad79702b7e2af2c3428",
+            "d98dae3e77cd05f0fa4896b773c0a7e6ef47f11f2bcec168f3d1981119d6292d",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c661e523721fc57894a0eab9bbcc02848ff399c67703527980e778877ed688c3",
+            "d98dae3e77cd05f0fa4896b773c0a7e6ef47f11f2bcec168f3d1981119d6292d"
+          ]
+        }
+      ],
+      "tts": [
+        "c661e523721fc57894a0eab9bbcc02848ff399c67703527980e778877ed688c3"
+      ],
+      "dispatch": [
+        {
+          "request": "before-ask-2",
+          "tool": "mcp__search__tavily_search",
+          "arguments": {
+            "query": "2025年诺贝尔物理学奖 得主 获奖理由"
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.confirmed",
+          "tool": "mcp__search__tavily_search",
+          "action_id": "363ba6e3c47f44fab3b099ec174cb3d5",
+          "revision": 1,
+          "args_hash": "0aa14673768353499d4e9f75bb960d70b324cbb6288911fec579f2a5ee328f0f",
+          "result": {
+            "ok": false,
+            "error": "MCP server 不可用；尚未发送请求",
+            "action_id": "363ba6e3c47f44fab3b099ec174cb3d5",
+            "outcome": "failed"
+          }
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "before-ask-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "363ba6e3c47f44fab3b099ec174cb3d5",
+              "revision": 1,
+              "args_hash": "0aa14673768353499d4e9f75bb960d70b324cbb6288911fec579f2a5ee328f0f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": "before-fault-1",
+      "question": "请搜索网页查一下今年戛纳电影节金棕榈奖得主。",
+      "channel": "task",
+      "session": 5,
+      "task": "before-fault-1",
+      "bubble": "6c5d94a197cdffc33499298173eaf2328df6389419e7faa01aceb2cc2527a3eb",
+      "window": [
+        {
+          "type": "agent.tool",
+          "status": "已使用工具：get_time",
+          "session": 5,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "1e775e9bc6000ed24fda03cf2c4e770534df4542c6c37fdf55dbcfbc993c4240",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604"
+          ]
+        },
+        {
+          "type": "agent.tool",
+          "status": "工具失败：mcp__search__tavily_search",
+          "session": 5,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "6b0d19cfa01e3fc65178ecf7c674f875ba6a5ac3a5e1d2337e4f52cfa3a639ff",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e"
+          ]
+        },
+        {
+          "type": "agent.tool",
+          "status": "工具失败：mcp__search__tavily_search",
+          "session": 5,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "346f9f06bbae5c09421bbe4ddc807fa70925a7c94a60e10eaf7c94bfecea65a5",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e"
+          ]
+        },
+        {
+          "type": "chat.response",
+          "status": "工具失败：mcp__search__tavily_search",
+          "session": 5,
+          "labels": [
+            "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6",
+            "346f9f06bbae5c09421bbe4ddc807fa70925a7c94a60e10eaf7c94bfecea65a5",
+            "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777",
+            "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90",
+            "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d",
+            "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731",
+            "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "6c5d94a197cdffc33499298173eaf2328df6389419e7faa01aceb2cc2527a3eb",
+            "d98dae3e77cd05f0fa4896b773c0a7e6ef47f11f2bcec168f3d1981119d6292d"
+          ]
+        }
+      ],
+      "tts": [
+        "6c5d94a197cdffc33499298173eaf2328df6389419e7faa01aceb2cc2527a3eb"
+      ],
+      "dispatch": [
+        {
+          "request": "before-fault-1",
+          "tool": "get_time",
+          "arguments": {}
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "get_time",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-readonly:get_time"
+        },
+        {
+          "type": "tool.result",
+          "tool": "get_time",
+          "arguments": {},
+          "result_ref": "before-fault-1:read:1",
+          "task_id": "before-fault-1",
+          "result": {
+            "ok": true,
+            "local_time": "2026-11-09 22:39:11",
+            "weekday": "一"
+          }
+        },
+        {
+          "type": "permission.decision",
+          "tool": "mcp__search__tavily_search",
+          "kind": "ask",
+          "allowed": false,
+          "rule_id": "ask-mcp"
+        },
+        {
+          "type": "permission.ask",
+          "action_id": "a02ddecb6cfc4ed29d0521de310fda11",
+          "revision": 1,
+          "args_hash": "e6091fd456facc3cea25fe01b24166b46e4db3fc07d25557322f7cb0dc34d1c6",
+          "tool": "mcp__search__tavily_search",
+          "arguments": {
+            "query": "2026 戛纳电影节 金棕榈奖 得主"
+          },
+          "outcome": "awaiting_confirmation"
+        },
+        {
+          "type": "permission.decision",
+          "tool": "mcp__search__tavily_search",
+          "kind": "ask",
+          "allowed": false,
+          "rule_id": "ask-mcp"
+        },
+        {
+          "type": "permission.ask",
+          "action_id": "a00846d4b84c452c82d96b14b6b0bb9f",
+          "revision": 2,
+          "args_hash": "21927406cc900e6559f8f952bc28f0e314395d280e09a14c22a4743b7ff81af0",
+          "tool": "mcp__search__tavily_search",
+          "arguments": {
+            "query": "Cannes Film Festival 2026 Palme d'Or winner"
+          },
+          "outcome": "awaiting_confirmation"
+        },
+        {
+          "type": "agent.tools"
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "before-fault-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "a02ddecb6cfc4ed29d0521de310fda11",
+              "revision": 1,
+              "args_hash": "e6091fd456facc3cea25fe01b24166b46e4db3fc07d25557322f7cb0dc34d1c6"
+            },
+            {
+              "action_id": "a00846d4b84c452c82d96b14b6b0bb9f",
+              "revision": 2,
+              "args_hash": "21927406cc900e6559f8f952bc28f0e314395d280e09a14c22a4743b7ff81af0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "texts": {
+    "4e5dae6bdfd7257906db768f94858184c27e55d280a41513c402d0698ce30268": "这个我得先坦白：F1 现在进行到哪一站、最新积分榜怎样，属于会随时变化的信息，我这边拿不到能核实的赛程或积分资料，没法凭记忆告诉你——不然很容易报错站次和分数。\n\n如果你愿意，我可以按“最新一站、车手榜、车队榜”这个方向帮你查一下；或者你先告诉我你关注哪支车队、哪位车手，我陪你把这场聊细一点。",
+    "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab": "♪",
+    "0fa9127929b223f7989325b4de6c72306f05ed685db151e9a68745743a1cc5f3": "22:38",
+    "30209d58100b20ce8a24c84feba40e202625199c20173203d7ca377efae592b3": "我核对了实际执行记录：\nget_time：执行成功；{\"ok\": true, \"local_time\": \"2026-11-09 22:39:02\", \"weekday\": \"一\", \"utc_offset\": \"+0800\", \"result_ref\": \"before-award-1:read:1\"}\nmcp__search__tavily_search：待确认，尚未执行\n下一项待确认参数：{\"query\": \"最近一届诺贝尔物理学奖 得主 获奖理由\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+    "5b29c13507ac2070ede5a1c3b8f5cb264a9a7347eb7c08e5f27f796495a81cb6": "工具活动",
+    "1e775e9bc6000ed24fda03cf2c4e770534df4542c6c37fdf55dbcfbc993c4240": "1 次调用",
+    "44ce7ae909bbb28bbbe3cbbba8d617b71217869d62741b4c104dc123a6ef603d": "搜索",
+    "3f832b40dbb128292e55fd350769755c2f18667e90f6cd0005cc4d1d378c7731": "tavily_search",
+    "6a6932bb5404c8edbf98c70e2c8d4beea2fdc5c4e885379ef8ed69d23de70e1e": "✗",
+    "6b0d19cfa01e3fc65178ecf7c674f875ba6a5ac3a5e1d2337e4f52cfa3a639ff": "2 次调用",
+    "bf4ad761840fcd0af8f7f4df6e2084f907e3b23d35220a1c63b3ad9136a9b777": "本地",
+    "f6a81ec5f576d2735318f9e1c7dc4eb1b7d11ebfb08442db7ea1b5d29caa1c90": "get_time",
+    "1dabba21cdad44541f6b15796f8d22978fc7ea10c46aeceeeeb66c23b3ac7604": "✓",
+    "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a": "操作回执",
+    "d98dae3e77cd05f0fa4896b773c0a7e6ef47f11f2bcec168f3d1981119d6292d": "22:39",
+    "c8b00e4dfb30bb9558fa55f1791c16c2b712ea42c5188ad79702b7e2af2c3428": "我核对了实际执行记录：\nget_time：执行成功；{\"ok\": true, \"local_time\": \"2026-11-09 22:39:07\", \"weekday\": \"一\", \"utc_offset\": \"+0800\", \"result_ref\": \"before-ask-1:read:1\"}\nmcp__search__tavily_search：待确认，尚未执行\n下一项待确认参数：{\"query\": \"2025年诺贝尔物理学奖 得主 获奖理由\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+    "c661e523721fc57894a0eab9bbcc02848ff399c67703527980e778877ed688c3": "我核对了实际执行记录：\nmcp__search__tavily_search：执行失败；MCP server 不可用；尚未发送请求",
+    "6c5d94a197cdffc33499298173eaf2328df6389419e7faa01aceb2cc2527a3eb": "我核对了实际执行记录：\nget_time：执行成功；{\"ok\": true, \"local_time\": \"2026-11-09 22:39:11\", \"weekday\": \"一\", \"utc_offset\": \"+0800\", \"result_ref\": \"before-fault-1:read:1\"}\nmcp__search__tavily_search：待确认，尚未执行\nmcp__search__tavily_search：待确认，尚未执行\n下一项待确认参数：{\"query\": \"2026 戛纳电影节 金棕榈奖 得主\"}\n核对后回复“确认”执行这一项；“取消”取消本任务待办。改参需要重新确认。",
+    "346f9f06bbae5c09421bbe4ddc807fa70925a7c94a60e10eaf7c94bfecea65a5": "3 次调用"
+  },
+  "other_speech_entry": [
+    {
+      "request": "proactive-avatar-connect",
+      "text": "嗨，我就在桌面上等你呢。有什么需要随时叫我哦～",
+      "narrating": false
+    },
+    {
+      "request": "before-award-1-think",
+      "text": "嗯…稍等，我在理思路…",
+      "narrating": true
+    },
+    {
+      "request": "before-ask-1-think",
+      "text": "嗯…稍等，我在理思路…",
+      "narrating": true
+    }
+  ]
+}

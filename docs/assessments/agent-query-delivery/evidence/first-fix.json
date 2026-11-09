@@ -1,0 +1,483 @@
+{
+  "origin": {
+    "core_pid": 39952,
+    "godot_pid": 31104,
+    "port": 59330,
+    "window": true,
+    "lifespan": "off",
+    "speaker": "queue capture",
+    "provider": "deepseek",
+    "synthesis": false
+  },
+  "turns": [
+    {
+      "request": "after-normal-1",
+      "question": "你知道现在F1进行到哪一站了吗？积分情况如何",
+      "channel": "task",
+      "session": 2,
+      "task": "after-normal-1",
+      "bubble": "e634aff9f10665e77a9d1a9d7451aae50e557e5d740232a91c5a3c322b3d4824",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 2,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "e634aff9f10665e77a9d1a9d7451aae50e557e5d740232a91c5a3c322b3d4824",
+            "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83"
+          ]
+        }
+      ],
+      "tts": [
+        "e634aff9f10665e77a9d1a9d7451aae50e557e5d740232a91c5a3c322b3d4824"
+      ],
+      "dispatch": [
+        {
+          "request": "after-normal-1",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "F1",
+            "fields": [
+              "赛程",
+              "积分榜"
+            ],
+            "year": 2026
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-scoped-public-search"
+        },
+        {
+          "type": "tool.result",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "F1",
+            "fields": [
+              "赛程",
+              "积分榜"
+            ],
+            "year": 2026
+          },
+          "result_ref": "after-normal-1:read:1",
+          "task_id": "after-normal-1",
+          "result": {
+            "ok": true,
+            "as_of": "2026-11-09",
+            "failures": [],
+            "kind": "results",
+            "sources": [
+              {
+                "title": "F1 Schedule 2026 - Official Calendar of Grand Prix Races",
+                "url": "https://www.formula1.com/en/racing/2026?view=calendar",
+                "field": "赛程",
+                "text_sha256": "44e5fd59a63b22eabc982446b80b7abac85b90f2438c5271230f6ff932a09eb8"
+              },
+              {
+                "title": "F1 Schedule 2026 - Official Calendar of Grand Prix Races",
+                "url": "https://www.formula1.com/en/racing/2026",
+                "field": "赛程",
+                "text_sha256": "416501ea17a511ebd5e139fb1bbbd34772e9c7c27af3d3ea1234227f11259e6e"
+              },
+              {
+                "title": "F1 Schedule 2026 - Official Calendar of Grand Prix Races",
+                "url": "https://formula1.com/en/racing/2026",
+                "field": "赛程",
+                "text_sha256": "06826117f65a71737347e1faf3ab126f432a0c8dc32fd87e1376bd7aef75f206"
+              },
+              {
+                "title": "F1 Schedule 2026 - Official Calendar of Grand Prix Races",
+                "url": "https://www.formula1.com/en/racing/2026#maincontent",
+                "field": "赛程",
+                "text_sha256": "06826117f65a71737347e1faf3ab126f432a0c8dc32fd87e1376bd7aef75f206"
+              },
+              {
+                "title": "F1 Schedule 2026 - Official Calendar of Grand Prix Races",
+                "url": "http://formula1.com/en/racing/2026",
+                "field": "赛程",
+                "text_sha256": "06826117f65a71737347e1faf3ab126f432a0c8dc32fd87e1376bd7aef75f206"
+              },
+              {
+                "title": "2026 DRIVERS' STANDINGS",
+                "url": "https://www.formula1.com/en/results/2026/drivers",
+                "field": "积分榜",
+                "text_sha256": "1f0e1d26530932cf95eb585fc4cb8415696a86dc9f0c8d06442d0853a148dcf8"
+              },
+              {
+                "title": "2026 Formula 1 Sim Racing World Championship Standings",
+                "url": "https://www.formula1.com/en/latest/article/2026-formula-1-sim-racing-world-championship-standings.6ZVDdE7o7FhoMdEPLtg2Tz",
+                "field": "积分榜",
+                "text_sha256": "b66ac4cfef1144d948758ba1490fed5225de1d2a6b4b12984560a597bd7d197b"
+              },
+              {
+                "title": "2026 Formula 1 Sim Racing World Championship Standings",
+                "url": "https://www.formula1.com/en/latest/article/2026-formula-1-sim-racing-world-championship-standings.6ZVDdE7o7FhoMdEPLtg2Tz#maincontent",
+                "field": "积分榜",
+                "text_sha256": "b66ac4cfef1144d948758ba1490fed5225de1d2a6b4b12984560a597bd7d197b"
+              },
+              {
+                "title": "Every driver’s penalty points ahead of the 2026 Canadian Grand Prix",
+                "url": "https://www.formula1.com/en/latest/article/every-drivers-penalty-points-ahead-of-the-2026-canadian-grand-prix.485DxAzvF5Be079pd9iCe8",
+                "field": "积分榜",
+                "text_sha256": "47845d714abba8e6ab628000d05137ae8fc742015beeff1ff65631bf3f48cd36"
+              },
+              {
+                "title": "2026 Formula 1 Sim Racing World Championship Standings",
+                "url": "https://formula1.com/en/latest/article/2026-formula-1-sim-racing-world-championship-standings.6ZVDdE7o7FhoMdEPLtg2Tz",
+                "field": "积分榜",
+                "text_sha256": "a34cf6d97afd7ab1fb6f74cf01007c3acb17931dcc96985fc64a64ae120434b8"
+              }
+            ]
+          }
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-normal-1",
+          "source": "reply",
+          "actions": []
+        }
+      ]
+    },
+    {
+      "request": "after-award-1",
+      "question": "请搜索网页查一下最近一届诺贝尔物理学奖的得主和获奖理由。",
+      "channel": "task",
+      "session": 3,
+      "task": "after-award-1",
+      "bubble": "abe06c66b2a1ad2dedd8b5cbf787e7199a9f54c179ce71ff87bffc9a541fcbe3",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 3,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "abe06c66b2a1ad2dedd8b5cbf787e7199a9f54c179ce71ff87bffc9a541fcbe3",
+            "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83"
+          ]
+        }
+      ],
+      "tts": [
+        "abe06c66b2a1ad2dedd8b5cbf787e7199a9f54c179ce71ff87bffc9a541fcbe3"
+      ],
+      "dispatch": [
+        {
+          "request": "after-award-1",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-scoped-public-search"
+        },
+        {
+          "type": "tool.result",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          },
+          "result_ref": "after-award-1:read:1",
+          "task_id": "after-award-1",
+          "result": {
+            "ok": true,
+            "as_of": "2026-11-09",
+            "failures": [],
+            "kind": "results",
+            "sources": [
+              {
+                "title": "Official homepage of the Nobel Prize",
+                "url": "https://www.nobelprize.org",
+                "field": "获奖理由及得主",
+                "text_sha256": "cb20bd40377d0622ed42ccd91deb44633ef9f5f633dba222fe50a8800afdd4d1"
+              },
+              {
+                "title": "Nobel Prize in Physiology or Medicine 2026 - Popular information - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/popular-information",
+                "field": "获奖理由及得主",
+                "text_sha256": "cfac4b00309fb057b54aeba6cc9f7bef85741b4e0e522e8a9dc353c1ca293122"
+              },
+              {
+                "title": "Nobel Prize in Physics 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/physics/2026/summary",
+                "field": "获奖理由及得主",
+                "text_sha256": "db30ea33a991780783193b465cd804400ad3ccff618c6e0965e26d44df50449d"
+              },
+              {
+                "title": "All Nobel Prizes 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/all-nobel-prizes-2026",
+                "field": "获奖理由及得主",
+                "text_sha256": "79449cc5afe3625dcc180933bbc86944b2c3d440ce030d151887027b42882233"
+              },
+              {
+                "title": "Press release: Nobel Prize in Physiology or Medicine 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/press-release",
+                "field": "获奖理由及得主",
+                "text_sha256": "69e69c9399b1936046427bd0e43fa51e96372aaed1443af8f276dc9e27a8a359"
+              }
+            ]
+          }
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-award-1",
+          "source": "reply",
+          "actions": []
+        }
+      ]
+    },
+    {
+      "request": "after-ask-1",
+      "question": "请搜索网页查一下最近一届诺贝尔物理学奖的得主和获奖理由。",
+      "channel": "task",
+      "session": 4,
+      "task": "after-ask-1",
+      "bubble": "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 4,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "abe06c66b2a1ad2dedd8b5cbf787e7199a9f54c179ce71ff87bffc9a541fcbe3",
+            "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55",
+            "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83"
+          ]
+        }
+      ],
+      "tts": [
+        "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55"
+      ],
+      "dispatch": [],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "ask",
+          "allowed": false,
+          "rule_id": "assessment-ask"
+        },
+        {
+          "type": "permission.ask",
+          "action_id": "2a27b75a29714ff287d30d31dc0310e2",
+          "revision": 1,
+          "args_hash": "9bccc9aeb1cdf0b6dcea696323fb27cab281c0c716d99482bd8f575218867d48",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          },
+          "outcome": "awaiting_confirmation"
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-ask-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "2a27b75a29714ff287d30d31dc0310e2",
+              "revision": 1,
+              "args_hash": "9bccc9aeb1cdf0b6dcea696323fb27cab281c0c716d99482bd8f575218867d48"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": "after-ask-2",
+      "question": "确认",
+      "channel": "task",
+      "session": 4,
+      "task": "after-ask-1",
+      "bubble": "c99e8513f4e4082c0d9ac93b508875c3070d694dad534ef3c2d11ec0f50a96f4",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 4,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55",
+            "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83",
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "c99e8513f4e4082c0d9ac93b508875c3070d694dad534ef3c2d11ec0f50a96f4",
+            "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83"
+          ]
+        }
+      ],
+      "tts": [
+        "c99e8513f4e4082c0d9ac93b508875c3070d694dad534ef3c2d11ec0f50a96f4"
+      ],
+      "dispatch": [
+        {
+          "request": "after-ask-2",
+          "tool": "public_web_search",
+          "arguments": {
+            "subject": "诺贝尔物理学奖",
+            "fields": [
+              "获奖理由及得主"
+            ],
+            "year": 2026
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": "permission.confirmed",
+          "tool": "public_web_search",
+          "result": {
+            "ok": true,
+            "as_of": "2026-11-09",
+            "failures": [],
+            "kind": "results",
+            "action_id": "2a27b75a29714ff287d30d31dc0310e2",
+            "outcome": "succeeded",
+            "sources": [
+              {
+                "title": "Official homepage of the Nobel Prize",
+                "url": "https://www.nobelprize.org",
+                "field": "获奖理由及得主",
+                "text_sha256": "cb20bd40377d0622ed42ccd91deb44633ef9f5f633dba222fe50a8800afdd4d1"
+              },
+              {
+                "title": "Nobel Prize in Physiology or Medicine 2026 - Popular information - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/popular-information",
+                "field": "获奖理由及得主",
+                "text_sha256": "cfac4b00309fb057b54aeba6cc9f7bef85741b4e0e522e8a9dc353c1ca293122"
+              },
+              {
+                "title": "Nobel Prize in Physics 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/physics/2026/summary",
+                "field": "获奖理由及得主",
+                "text_sha256": "db30ea33a991780783193b465cd804400ad3ccff618c6e0965e26d44df50449d"
+              },
+              {
+                "title": "All Nobel Prizes 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/all-nobel-prizes-2026",
+                "field": "获奖理由及得主",
+                "text_sha256": "79449cc5afe3625dcc180933bbc86944b2c3d440ce030d151887027b42882233"
+              },
+              {
+                "title": "Press release: Nobel Prize in Physiology or Medicine 2026 - NobelPrize.org",
+                "url": "https://www.nobelprize.org/prizes/medicine/2026/press-release",
+                "field": "获奖理由及得主",
+                "text_sha256": "69e69c9399b1936046427bd0e43fa51e96372aaed1443af8f276dc9e27a8a359"
+              }
+            ]
+          }
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-ask-1",
+          "source": "reply",
+          "actions": [
+            {
+              "action_id": "2a27b75a29714ff287d30d31dc0310e2",
+              "revision": 1,
+              "args_hash": "9bccc9aeb1cdf0b6dcea696323fb27cab281c0c716d99482bd8f575218867d48"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "request": "after-fault-1",
+      "question": "请搜索网页查一下今年戛纳电影节金棕榈奖得主。",
+      "channel": "task",
+      "session": 5,
+      "task": "after-fault-1",
+      "bubble": "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421",
+      "window": [
+        {
+          "type": "chat.response",
+          "status": "按住「语音」说话，松开后转写回输入框",
+          "session": 5,
+          "labels": [
+            "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
+            "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
+            "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421",
+            "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83"
+          ]
+        }
+      ],
+      "tts": [
+        "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421"
+      ],
+      "dispatch": [],
+      "events": [
+        {
+          "type": "permission.decision",
+          "tool": "public_web_search",
+          "kind": "allow",
+          "allowed": true,
+          "rule_id": "allow-scoped-public-search"
+        },
+        {
+          "type": "chat.delivery",
+          "task_id": "after-fault-1",
+          "source": "reply",
+          "actions": []
+        }
+      ]
+    }
+  ],
+  "texts": {
+    "e634aff9f10665e77a9d1a9d7451aae50e557e5d740232a91c5a3c322b3d4824": "你问的是哪场比赛或赛事的积分、赛程和奖项呀？目前我这边没有拿到具体的来源摘录，只有一份本地核验过的歌曲资料——《霜雪千年》（COP 创作，洛天依、乐正绫演唱，2015 年），和体育赛事无关。\n\n所以现在没法给你有据可查的积分数值、最近已结束和下一站赛程，也没法写奖项得主和官方理由。你把赛事名称、赛季，或者相关的来源摘录发给我，我再按资料逐项回答；资料没覆盖的部分我会直接说明。\n查询于 2026-11-09。来源：\nhttps://www.formula1.com/en/results/2026/drivers\nhttps://www.formula1.com/en/racing/2026?view=calendar",
+    "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab": "♪",
+    "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a": "操作回执",
+    "215a5d0205c12dcfb6159322cc686273cfc905c68ec888d072c0323904b21c83": "22:49",
+    "abe06c66b2a1ad2dedd8b5cbf787e7199a9f54c179ce71ff87bffc9a541fcbe3": "我手上还没有收到具体的查询内容和来源摘录，所以没法给出对应答案。请把要查的问题和来源摘录（含序号）一起发来，我再按赛季、比赛日期、积分、赛程和奖项逐项说明，缺项或过时的地方也会具体标出。\n查询于 2026-11-09。来源：\nhttps://www.nobelprize.org",
+    "c7de5d9638d4f62e0824d973825750271058ad7b41cc67cdac2287e7042b7b55": "这项操作待确认。可以查询2026 年诺贝尔物理学奖的获奖理由及得主吗？",
+    "c99e8513f4e4082c0d9ac93b508875c3070d694dad534ef3c2d11ec0f50a96f4": "当前提供的资料里没有可用的具体摘录内容，所以我没法给出准确的赛季积分、最近完赛和下一站赛程或奖项信息。能补一份包含比赛日期、赛季和数值的资料吗？那样我就能按来源一条条核对后回答。\n查询于 2026-11-09。来源：\nhttps://www.nobelprize.org",
+    "623ae27b2b5473dd919698015164d053fd9330945700be68ade6da864dbd6421": "公开查询服务的密钥尚未配置或已失效，我现在查不到这项资料。"
+  },
+  "other_speech_entry": [
+    {
+      "request": "proactive-avatar-connect",
+      "text": "嗨，我就在桌面上等你呢。有什么需要随时叫我哦～",
+      "narrating": false
+    },
+    {
+      "request": "after-normal-1-think",
+      "text": "唔——让我想想哦…",
+      "narrating": true
+    },
+    {
+      "request": "after-award-1-think",
+      "text": "唔——让我想想哦…",
+      "narrating": true
+    }
+  ]
+}
