@@ -7,7 +7,7 @@ import sqlite3
 
 HERE=Path(__file__).resolve().parent
 RUNS={"before":"before","first-fix":"after","live-f1":"final-normal","live-other":"final-other",
-      "render-f1":"replay-f1-all","render-other":"replay-other"}
+      "render-f1":"visible-f1","render-other":"visible-other"}
 
 
 def lines(path):
@@ -44,7 +44,8 @@ def snapshot(d):
         assert actual["text"]==t["text"] and actual["conversationId"]==t["session"]
         row={k:v for k,v in t.items() if k!="text"}
         row["bubble"]=ref(actual["text"])
-        row["window"]=[{"type":x["type"],"status":x["status"],"session":x["session"],"labels":[ref(h) for h in x["labels"]]}
+        row["window"]=[{"type":x["type"],"status":x["status"],"session":x["session"],"labels":[ref(h) for h in x["labels"]],
+                        **({"answer_visible":x["answer_visible"]} if "answer_visible" in x else {})}
                         for x in windows if x.get("request")==rid]
         row["tts"]=[ref(s["text"]) for s in voices if s["request"]==rid and not s["narrating"]]
         row["dispatch"]=[a for a in dispatches if a["request"]==rid]
@@ -100,6 +101,7 @@ def verify(path):
                 for token in ("mcp__","result_ref","执行记录","args_hash","Traceback","get_time"):
                     assert token not in body and token not in voice
             if label.startswith("render"):
+                assert observed[-1]["answer_visible"]
                 assert "https://" not in voice
                 if "来源：\n" in body:
                     assert voice.startswith(body.partition("来源：\n")[0]) and "来源是" in voice

@@ -48,10 +48,13 @@ func _process(_delta: float) -> bool:
 			runtime._handle_core_event(packet)
 		if kind in ["agent.tool","chat.response","core.error"]:
 			var values: Array = []
+			var answer_visible := false
 			for label in ui.bubbles_box.find_children("*","Label",true,false):
 				values.append(label.text)
+				if label.text == packet.get("text","") and label.is_visible_in_tree():
+					answer_visible = true
 			log_file.store_line(JSON.stringify({"request":packet.get("request_id",""),"type":kind,
-				"labels":values,"status":ui.chat_status.text,"session":ui.current_conversation_id}))
+				"labels":values,"answer_visible":answer_visible,"status":ui.chat_status.text,"session":ui.current_conversation_id}))
 			log_file.flush()
 	return false
 

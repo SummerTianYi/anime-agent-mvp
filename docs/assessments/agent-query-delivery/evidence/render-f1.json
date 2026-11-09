@@ -1,8 +1,8 @@
 {
   "origin": {
-    "core_pid": 26816,
-    "godot_pid": 30684,
-    "port": 56099,
+    "core_pid": 32764,
+    "godot_pid": 16484,
+    "port": 60702,
     "window": true,
     "lifespan": "off",
     "speaker": "queue capture",
@@ -26,8 +26,9 @@
             "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab",
             "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a",
             "5509db612a86658ba8df5d9baaa720a80cb82fdf15926641f790804d72737efd",
-            "61e55b6da5395500e7ebc6f1d5fc0934093d2fae0e8f3e62f0a82d1f706cf4ce"
-          ]
+            "009763cd8fa7719909af3a2bbc0adb47d1d12db6d0fb57eb37cf79275d87ff3b"
+          ],
+          "answer_visible": true
         }
       ],
       "tts": [
@@ -150,7 +151,7 @@
     "5509db612a86658ba8df5d9baaa720a80cb82fdf15926641f790804d72737efd": "截至2026年11月9号，2026赛季F1已赛完20站，巴西站（11月6—8号）是最近结束的一站；下一站是拉斯维加斯站，按赛历安排在11月19—21号（也有赛历写作11月20—22号，差异来自页面口径）。之后是卡塔尔站11月27—29号、阿布扎比站收官，第23站日期摘录中未完整给出。\n\n赛季进程：美国站在10月23—25号；墨西哥站10月30号—11月1号，安东内利在墨西哥站提前锁定车手世界冠军，成为F1史上最年轻世界冠军；巴西站诺里斯雨战夺冠，维斯塔潘第二、哈贾尔第三，梅赛德斯同时拿下年度车队冠军。\n\n积分方面，摘录没有带日期的完整车手总榜，不能用巴西站单场得分冒充赛季累计。可核实的是巴西站后：拉塞尔车手榜第3，落后维斯塔潘17分；维斯塔潘巴西站从第21位追到第2。美国站后安东内利领先拉塞尔123分、领先汉密尔顿124分，这是美国站节点，并非最新总积分。墨西哥站后安东内利已世界冠军，但具体总分摘录未给出。\n\n单站得分可供核对：墨西哥站维斯塔潘25、汉密尔顿18、安东内利15、勒克莱尔12、诺里斯10；巴西站诺里斯25、维斯塔潘18、哈贾尔15、拉塞尔12、安东内利10。\n\n需要说明：摘录中拉斯维加斯站日期有“19—21号”和“20—22号”两种写法，阿布扎比站具体日期缺失；最新完整车手积分总榜也未提供，因此只列可核实的名次与分差。\n查询于 2026-11-09。来源：\nhttps://www.formula1.com/en/racing/2026\nhttps://www.formula1.com/en/results/2026/races/1298/mexico/race-result\nhttps://www.formula1.com/en/latest/article/antonelli-surges-to-dominant-victory-in-united-states-grand-prix-ahead-of-leclerc-and-verstappen.6kmBQv9FNTW7LzkDj8S34j\nhttps://www.formula1.com/en/latest/article/norris-beats-verstappen-in-wet-sao-paulo-gp-thriller-as-mercedes-win-constructors-championship.7JN7MXLZf5lk5l0C3gfKGI\nhttps://www.formula1.com/en/latest/article/no-idea-what-happened-on-that-pit-exit-russell-reflects-on-spin-and-mercedes-title-win-in-sao-paulo.1C1TWOL9x9TBOkYyNxid7F\nhttps://www.formula1.com/en/latest/article/points-permutations-when-is-the-earliest-antonelli-could-win-world-championship.24UKT2fsQl4GmC5DMrmYUy",
     "f7c6242a65d24806d0931a2a1d72cadc591809e8c4087165af9f2f4f26cfd3ab": "♪",
     "62ecca751abbb39e223c869dadc222f050d262f7a093dd925e09ac0dd4c9270a": "操作回执",
-    "61e55b6da5395500e7ebc6f1d5fc0934093d2fae0e8f3e62f0a82d1f706cf4ce": "23:26",
+    "009763cd8fa7719909af3a2bbc0adb47d1d12db6d0fb57eb37cf79275d87ff3b": "23:31",
     "ecbc57a3530237c749b73af80d7a920ec33fecce30c174e50afc93631765ca6f": "截至2026年11月9号，2026赛季F1已赛完20站，巴西站（11月6—8号）是最近结束的一站；下一站是拉斯维加斯站，按赛历安排在11月19—21号（也有赛历写作11月20—22号，差异来自页面口径）。之后是卡塔尔站11月27—29号、阿布扎比站收官，第23站日期摘录中未完整给出。\n\n赛季进程：美国站在10月23—25号；墨西哥站10月30号—11月1号，安东内利在墨西哥站提前锁定车手世界冠军，成为F1史上最年轻世界冠军；巴西站诺里斯雨战夺冠，维斯塔潘第二、哈贾尔第三，梅赛德斯同时拿下年度车队冠军。\n\n积分方面，摘录没有带日期的完整车手总榜，不能用巴西站单场得分冒充赛季累计。可核实的是巴西站后：拉塞尔车手榜第3，落后维斯塔潘17分；维斯塔潘巴西站从第21位追到第2。美国站后安东内利领先拉塞尔123分、领先汉密尔顿124分，这是美国站节点，并非最新总积分。墨西哥站后安东内利已世界冠军，但具体总分摘录未给出。\n\n单站得分可供核对：墨西哥站维斯塔潘25、汉密尔顿18、安东内利15、勒克莱尔12、诺里斯10；巴西站诺里斯25、维斯塔潘18、哈贾尔15、拉塞尔12、安东内利10。\n\n需要说明：摘录中拉斯维加斯站日期有“19—21号”和“20—22号”两种写法，阿布扎比站具体日期缺失；最新完整车手积分总榜也未提供，因此只列可核实的名次与分差。\n查询于 2026-11-09。来源是F1 官网。"
   },
   "other_speech_entry": []
