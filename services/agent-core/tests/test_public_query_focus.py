@@ -195,6 +195,10 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         await core.handle_chat("不用查2023年F1积分榜。","absent",self.sid)
         self.assertEqual(book.pending(self.sid),[rows[0],rows[2]])
         self.transport.assert_not_awaited()
+        scope=rows[0]["arguments"]
+        for other in ("先别搜极光。","先别查温布尔登网球公开赛的积分。","为什么不查F1积分呢？","不用搜‘极光’。"):
+            self.assertFalse(public_search.declines_pending(other,scope),other)
+        self.assertTrue(public_search.declines_pending("积分榜先别查了。",scope))
 
     async def test_summary_does_not_duplicate_its_date(self):
         self.rig()

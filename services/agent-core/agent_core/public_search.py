@@ -117,10 +117,21 @@ def declines_pending(text, args):
     """A direct search withdrawal only matches the corresponding public read."""
     clean = QUOTES.sub(" ",text).strip()
     if (not (QUERY_VETO.search(clean) or re.search(r"(?:取消|撤销).{0,8}(?:查询|搜索)",clean))
-            or re.search(r"^(?:如果|假如|引用|[他她]说|解释)|要不要|可不可以不|(?:什么意思|怎么说|吗)[？?。]?$", clean)):
+            or re.search(r"^(?:如果|假如|引用|[他她]说|解释)|为何|为什么|怎么不|要不要|可不可以不|(?:什么意思|怎么说|吗|呢)[？?。]?$", clean)):
         return False
     subjects = {key for key,pattern in SUBJECTS.items() if re.search(pattern,clean,re.I)}
     fields = set(matched_fields(clean))
+    if not subjects and args["subject"].casefold() not in text.casefold():
+        # An unnamed ticket can be withdrawn by field/date or a bare command.
+        # An unrecognised named object must never stand for "any public read".
+        if QUOTES.search(text):
+            return False
+        rest = SEASON.sub("",CUTOFF.sub("",QUERY_VETO.sub("",clean)))
+        for pattern in FIELDS.values():
+            rest = re.sub(pattern,"",rest)
+        if not re.fullmatch(r"(?:请|我|你|先|再|暂时|还是|去年|今年|那份|这项|刚才|之前|原来|这个|那个|"
+                            r"网页|资料|公开|查询|搜索|取消|撤销|的|榜|了|吧|[\s，,。！？!?；;])*",rest):
+            return False
     try:
         year, through = requested_period(clean)
     except ValueError:
