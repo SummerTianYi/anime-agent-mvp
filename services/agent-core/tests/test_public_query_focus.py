@@ -38,6 +38,7 @@ class AdmissionTests(unittest.TestCase):
             ("你知不知道F1现在的积分榜？","F1",("积分榜",)),
             ("别查F1积分，查一下英超积分榜。","英超",("积分榜",)),
             ("查一下F1车手积分，不要查车队积分。","F1",("积分榜",)),
+            ("查一下F1积分，算了，改查英超积分榜。","英超",("积分榜",)),
         ):
             with self.subTest(text=text):
                 lookup = public_search.plan(text)
@@ -180,6 +181,20 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         await core.handle_chat("确认","stale",self.sid,confirmation=book.ticket(pending))
         self.transport.assert_not_awaited()
         self.assertEqual(book.pending(self.sid),[other])
+
+    async def test_withdrawal_matches_year_and_cutoff_without_revoking_other_reads(self):
+        self.rig(ask=True)
+        for i,question in enumerate(("查一下2025年F1积分榜。","查一下2024年F1积分榜，截至6月18日。",
+                                     "查一下2024年F1积分榜，截至8月18日。")):
+            await core.handle_chat(question,"read-"+str(i),self.sid)
+        book=core._actions()
+        rows=book.pending(self.sid)
+        self.assertEqual(len(rows),3)
+        await core.handle_chat("先别查2024年F1积分榜，截至6月18日的那份。","stop-june",self.sid)
+        self.assertEqual([r["status"] for r in rows],["awaiting_confirmation","cancelled","awaiting_confirmation"])
+        await core.handle_chat("不用查2023年F1积分榜。","absent",self.sid)
+        self.assertEqual(book.pending(self.sid),[rows[0],rows[2]])
+        self.transport.assert_not_awaited()
 
     async def test_summary_does_not_duplicate_its_date(self):
         self.rig()

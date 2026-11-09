@@ -50,6 +50,24 @@ QUERY_VETO = re.compile(
 OMIT_DETAIL = re.compile(r"(?:不(?:要|用|必)?|别|无需)(?:再|另外|顺便)?(?:提(?:及)?|讲|列(?:出)?|介绍|展开|报|包括)|省略|略过")
 WITHDRAW = re.compile(r"^(?:(?:这次|那个|这事|那就|现在|先|还是|暂时)\s*)*(?:算了|作罢|不查了?|不用了|不需要了|取消查询)(?:吧|了)?$")
 ANSWER_LIMIT = re.compile(r"只|仅|(?:前|第)[一二三四五六七八九十\d]|不(?:要|用|必)|省略|不提|表格|[两三一\d][行句段]|格式|JSON|截至",re.I)
+SEASON = re.compile(r"(?<!\d)(20\d{2})\s*(?:年|赛季|届)")
+CUTOFF = re.compile(r"(?:截至到?|截止(?:到)?|到)\s*((?:20\d{2})年)?(\d{1,2})月(\d{1,2})[日号]")
+REVISED_QUERY = re.compile(r"^\s*(?:那就|还是|请)?(?:改为|改成|换成|转而|改|换)(?:查询?|搜(?:索)?|检索|看)")
+
+
+def requested_period(text):
+    season = SEASON.search(text)
+    year = int(season[1]) if season else None
+    if year is None:
+        if "去年" in text:
+            year = date.today().year - 1
+        elif "今年" in text:
+            year = date.today().year
+    cutoff = CUTOFF.search(text)
+    if not cutoff:
+        return year, ""
+    end_year = int(cutoff[1][:-1]) if cutoff[1] else year or date.today().year
+    return year, date(end_year,int(cutoff[2]),int(cutoff[3])).isoformat()
 
 
 def matched_fields(text):
@@ -64,10 +82,18 @@ def matched_fields(text):
 def lookup_scope(text):
     """Positive query clauses and explicitly excluded fields, for routing and egress."""
     accepted, exclusions = [], []
+    withdrawn = False
     for part in CLAUSES.split(QUOTES.sub(" ", text)):
-        veto = QUERY_VETO.search(part.replace("知不知道", "知道").replace("不知道能不能", "能不能"))
         if WITHDRAW.fullmatch(part.strip()):
-            return "", set()
+            accepted.clear()
+            exclusions.clear()
+            withdrawn = True
+            continue
+        if withdrawn:
+            if not REVISED_QUERY.match(part):
+                continue
+            withdrawn = False
+        veto = QUERY_VETO.search(part.replace("知不知道", "知道").replace("不知道能不能", "能不能"))
         if veto or OMIT_DETAIL.search(part):
             fields = set(matched_fields(part))
             subjects = {k for k, pattern in SUBJECTS.items() if re.search(pattern, part, re.I)}
@@ -95,7 +121,12 @@ def declines_pending(text, args):
         return False
     subjects = {key for key,pattern in SUBJECTS.items() if re.search(pattern,clean,re.I)}
     fields = set(matched_fields(clean))
-    return (not subjects or args["subject"] in subjects) and (not fields or bool(fields.intersection(args["fields"])))
+    try:
+        year, through = requested_period(clean)
+    except ValueError:
+        return False
+    return ((not subjects or args["subject"] in subjects) and (not fields or bool(fields.intersection(args["fields"])))
+            and (year is None or year == args["year"]) and (not through or through == args.get("through")))
 
 
 def answer_question(text):
@@ -195,18 +226,14 @@ def plan(text, prior_subject=""):
         if omitted or subject in {"Python","Godot","Ubuntu","国际空间站","美元兑人民币"} or not re.search(r"最近|目前|现在|最新|今年|这一届|本届",query):
             return None  # The user needs to specify the requested public field.
         fields = ("获奖理由及得主",) if "奖" in subject or "最佳影片" in subject else ("赛程","积分榜")
-    year_match = re.search(r"(?<!\d)(20\d{2})\s*(?:年|赛季|届)",query)
-    year = int(year_match[1]) if year_match else date.today().year - int("去年" in query)
+    try:
+        year, through = requested_period(query)
+    except ValueError:
+        return None
+    year = year or date.today().year
     mail_parts = MAIL.split(original,maxsplit=1)
     share = len(mail_parts)>1 and not NO_MAIL.search(original)
     emails = ADDRESS.findall(mail_parts[1]) if share else []
-    cutoff = re.search(r"(?:截至|截止(?:到)?|截至到|到)\s*((?:20\d{2})年)?(\d{1,2})月(\d{1,2})[日号]",query)
-    through = ""
-    if cutoff:
-        try:
-            through = date(int(cutoff[1][:-1]) if cutoff[1] else year,int(cutoff[2]),int(cutoff[3])).isoformat()
-        except ValueError:
-            return None
     return Lookup(subject,fields,year,share,emails[0] if len(emails)==1 else "",through)
 
 
