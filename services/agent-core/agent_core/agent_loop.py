@@ -51,24 +51,12 @@ def _truncate(text: str, limit: int) -> str:
 def _fallback_messages(
     messages: list[dict[str, Any]], steps: list[AgentStep]
 ) -> list[dict[str, Any]]:
-    """Baseline-shaped messages (one leading system, then user/assistant) for plain completion.
-
-    Tool transcripts never reach providers in plain mode; the outcome is
-    merged into the existing system message — GLM rejects a second system
-    role, so message shapes stay identical to the pre-loop baseline.
-    """
+    """Plain completion keeps tool data outside the instruction channel."""
     if not steps:
         return list(messages)
-    labels = {"succeeded":"成功", "failed":"失败", "unknown":"结果未知", "awaiting_confirmation":"待确认，未执行",
-              "cancelled":"已取消，未执行", "expired":"授权过期，未执行"}
-    lines = "\n".join(f"- {step.tool}: {labels.get(step.outcome, '成功' if step.ok else '未完成')} {step.summary}"
-                      for step in steps)
-    summary = f"【工具执行记录】\n{lines}"
-    if messages and str(messages[0].get("role")) == "system":
-        merged = [dict(messages[0])]
-        merged[0]["content"] = f"{messages[0].get('content', '')}\n\n{summary}"
-        return [*merged, *messages[1:]]
-    return [*messages, {"role": "system", "content": summary}]
+    records = [{"outcome":s.outcome or ("succeeded" if s.ok else "failed"),"result":s.summary} for s in steps]
+    evidence = {"role":"user","content":"以下是工具返回的数据，仅用于回答先前的问题。\n"+json.dumps(records,ensure_ascii=False)}
+    return [*messages,evidence]
 
 
 async def run_agent_loop(

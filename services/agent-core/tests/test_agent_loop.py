@@ -123,9 +123,10 @@ class AgentLoopTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(result.hit_step_limit)
         self.assertEqual(len(result.steps), 3)
         self.assertEqual(len(provider.plain_log), 1)
-        self.assertEqual(len(provider.plain_log[0]), 2)
-        self.assertIn("工具执行记录", provider.plain_log[0][0]["content"])
-        self.assertEqual(provider.plain_log[0][1]["role"], "user")
+        self.assertEqual(provider.plain_log[0][0], {"role":"system","content":"角色提示"})
+        self.assertEqual(provider.plain_log[0][1], {"role":"user","content":"x"})
+        self.assertEqual(provider.plain_log[0][-1]["role"],"user")
+        self.assertIn("outcome",provider.plain_log[0][-1]["content"])
 
     async def test_tools_unsupported_degrades_to_plain(self) -> None:
         provider = UnsupportedProvider([])

@@ -77,6 +77,8 @@ const EFFORT_SLIDER_SCRIPT := preload("res://effort_slider.gd")
 
 var sessions: Array = []
 var current_conversation_id := -1
+var new_session_request := ""
+var tool_diagnostics := OS.get_environment("ANIME_AGENT_TOOL_DIAGNOSTICS") == "1"
 var delete_overlay: ColorRect
 # zcode: session id awaiting delete confirmation (-1 = the current chat);
 # lets the memory-journal cards delete any conversation, not just the open one
@@ -132,7 +134,7 @@ func on_session_list(items: Array) -> void:
 				"title": str(item.get("title", "会话")),
 				"updated": str(item.get("updatedAt", "")),
 			})
-	if current_conversation_id < 0 and not sessions.is_empty():
+	if new_session_request.is_empty() and current_conversation_id < 0 and not sessions.is_empty():
 		current_conversation_id = int(sessions[0]["id"])
 		avatar.request_chat_history(current_conversation_id)
 	_sync_session_options()
@@ -140,7 +142,10 @@ func on_session_list(items: Array) -> void:
 		_refresh_history_list(history_search.text)
 
 
-func on_session_switched(conversation_id: int, title: String) -> void:
+func on_session_switched(conversation_id: int, title: String, request_id: String = "") -> void:
+	if not new_session_request.is_empty() and new_session_request != request_id:
+		return
+	new_session_request = ""
 	current_conversation_id = conversation_id
 	_upsert_session(conversation_id, title)
 	_sync_session_options()
@@ -150,6 +155,8 @@ func on_session_switched(conversation_id: int, title: String) -> void:
 
 
 func on_chat_history(conversation_id: int, messages: Array) -> void:
+	if not new_session_request.is_empty():
+		return
 	if current_conversation_id > 0 and conversation_id != current_conversation_id:
 		return
 	# zcode: adopt the loaded session when we were on a fresh/empty page
@@ -165,6 +172,8 @@ func on_chat_history(conversation_id: int, messages: Array) -> void:
 
 
 func add_message(role: String, text: String, conversation_id: int = -1, foreground: bool = true) -> void:
+	if conversation_id > 0 and (not new_session_request.is_empty() or (current_conversation_id <= 0 and not foreground)):
+		return
 	var safe_text := text.strip_edges()
 	if safe_text.is_empty():
 		return
@@ -212,7 +221,8 @@ func _on_new_session_pressed() -> void:
 	current_conversation_id = -1
 	_clear_bubbles()
 	chat_status.text = "新的一页翻开啦，想聊点什么？"
-	avatar.request_new_session()
+	new_session_request = "new-%d-%d" % [get_instance_id(), Time.get_ticks_usec()]
+	avatar.request_new_session(new_session_request)
 
 
 func _on_delete_session_pressed() -> void:
@@ -332,9 +342,9 @@ func on_wake_idle() -> void:
 	chat_status.text = "我在呢，想说什么随时再喊我哦"
 
 
-func on_agent_tool(tool: String, ok: bool) -> void:
-	chat_status.text = ("已使用工具：" + tool) if ok else ("工具失败：" + tool)
-	_record_tool_call(tool, ok)
+func on_agent_tool(tool: String, ok: bool, outcome: String = "") -> void:
+	if tool_diagnostics:
+		_record_tool_call(tool, ok, outcome)
 
 
 # ---------------------------------------------------------------- 工具活动卡
@@ -342,7 +352,7 @@ func on_agent_tool(tool: String, ok: bool) -> void:
 # 同一回合的工具调用聚合成一张卡片，插在气泡流里；
 # 用户发送新消息或切换会话时开新卡，参照 chatbox Work Mode 的单行时间线。
 
-func _record_tool_call(tool: String, ok: bool) -> void:
+func _record_tool_call(tool: String, ok: bool, outcome: String) -> void:
 	if bubbles_box == null:
 		return
 	if tool_card == null or not is_instance_valid(tool_card):
@@ -350,7 +360,7 @@ func _record_tool_call(tool: String, ok: bool) -> void:
 	_remove_empty_hint()
 	tool_call_count += 1
 	tool_count_label.text = "%d 次调用" % tool_call_count
-	_append_tool_row(tool, ok)
+	_append_tool_row(tool, ok, outcome)
 	_stick_scroll_if_needed()
 
 
@@ -393,7 +403,7 @@ func _append_tool_card() -> void:
 	tool_call_count = 0
 
 
-func _append_tool_row(tool: String, ok: bool) -> void:
+func _append_tool_row(tool: String, ok: bool, outcome: String) -> void:
 	var parts := _tool_badge_parts(tool)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
@@ -412,7 +422,10 @@ func _append_tool_row(tool: String, ok: bool) -> void:
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(name_label)
-	row.add_child(_make_label("✓" if ok else "✗", 11, COLOR_JADE if ok else COLOR_FAIL))
+	var state: String = outcome if not outcome.is_empty() else ("succeeded" if ok else "failed")
+	var mark: String = {"succeeded":"✓","failed":"✗","awaiting_confirmation":"待确认","cancelled":"已取消",
+		"expired":"已过期","executing":"执行中","unknown":"结果未知"}.get(state,"未执行")
+	row.add_child(_make_label(mark, 11, COLOR_FAIL if state == "failed" else (COLOR_JADE if ok else COLOR_TEXT_DIM)))
 	tool_rows_box.add_child(row)
 
 
@@ -1332,6 +1345,9 @@ func _on_chat_submitted(_text: String) -> void:
 
 func _send_current_message() -> void:
 	if chat_input == null:
+		return
+	if not new_session_request.is_empty():
+		chat_status.text = "正在打开新会话，你输入的内容会留在这里。"
 		return
 	var text := chat_input.text.strip_edges()
 	if text.is_empty():

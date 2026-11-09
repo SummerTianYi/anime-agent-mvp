@@ -1,5 +1,10 @@
 extends SceneTree
 
+class DelayedNewSession extends Node:
+	var requested := ""
+	func request_new_session(request_id: String) -> void:
+		requested = request_id
+
 
 func _init() -> void:
 	call_deferred("_run")
@@ -138,6 +143,37 @@ func _run() -> void:
 		_fail("history page did not close")
 		return
 
+	ui.current_conversation_id = 11
+	var delayed := DelayedNewSession.new()
+	ui.avatar = delayed
+	ui._on_new_session_pressed()
+	var old_request := delayed.requested
+	ui._on_new_session_pressed()
+	var new_request := delayed.requested
+	ui.avatar = runtime
+	delayed.free()
+	if old_request == new_request or new_request.is_empty():
+		_fail("new-session clicks must have distinct ownership")
+		return
+	runtime._handle_core_event({"type":"chat.response","channel":"task","text":"合成旧回执","conversationId":11,"foreground":false})
+	ui.on_chat_history(11,[{"role":"task_receipt","text":"合成旧历史"}])
+	ui.on_session_list([{"conversationId":11,"title":"旧会话"}])
+	ui.on_session_switched(11,"过时的切换",old_request)
+	if ui.current_conversation_id != -1:
+		_fail("fresh page adopted old session")
+		return
+	ui.on_session_switched(12,"新会话",new_request)
+	runtime._handle_core_event({"type":"chat.response","channel":"task","text":"合成新结果","conversationId":12,"foreground":true})
+	var found_current := false
+	for label in ui.bubbles_box.find_children("*","Label",true,false):
+		if label.text in ["合成旧回执","合成旧历史"]:
+			_fail("old message rendered")
+			return
+		if label.text == "合成新结果":
+			found_current = true
+	if not found_current:
+		_fail("new result missing")
+		return
 	print("GODOT_SESSION_UI_OK", {
 		"single_click_dialog": true,
 		"title_refresh": true,

@@ -184,7 +184,7 @@ class ProviderResponseBoundaryTests(fixture.IndependentReviewTests):
         await self.chat('确认', 'confirm-' + dialect, confirmation=self.book.ticket(pending[0]))
         self.assertEqual(len(self.effects), 1)
         self.assertEqual(pending[0]['status'], 'unknown' if unknown else 'succeeded')
-        self.assertIn('结果未知' if unknown else '连接器已接受发送', self.latest_reply())
+        self.assertIn('结果未知' if unknown else '邮件服务已接受发送', self.latest_reply())
         self.assertNotIn('尚未执行', self.latest_reply())
         self.assertEqual(len(self.wire_requests), 2)
         print('PROVIDER_BOUNDARY_OBSERVATION ' + json.dumps({'case': self._testMethodName,

@@ -3,11 +3,11 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
-import json
 from pathlib import PureWindowsPath
 import re
 
 from .actions import decision as confirmation_decision
+from .action_delivery import describe
 
 
 @dataclass(frozen=True)
@@ -94,17 +94,15 @@ def render_task_status(question: StatusQuestion, records, session_id):
     groups = {}
     for item in items:
         groups.setdefault(item["task_id"], []).append(item)
-    lines = ["我核对了当前会话的任务账本；以下只表示已登记操作的状态，本次询问没有授予执行权限。"]
-    if len(groups) > 1:
-        lines.append("对应多项任务，分别列出，不能把其中一项成功视为全部完成：")
-    for task_id, actions in groups.items():
+    lines = []
+    for index, actions in enumerate(groups.values(),1):
         counts = Counter(labels.get(a["status"], "状态待核验") for a in actions)
-        lines.append(f"任务 {task_id}（{len(actions)}项）：" + "；".join(f"{label} {count}项" for label, count in counts.items()))
+        if len(groups)>1 or len(actions)>1:
+            lines.append(f"第{index}组：" + "，".join(f"{label} {count}项" for label, count in counts.items()))
         for item in actions:
             args = item["arguments"]
-            target = args.get("path") or args.get("to") or args.get("title") or item["tool"]
             label = labels.get(item["status"], "状态待核验")
             if item["status"] == "succeeded" and item["tool"].endswith("send_email"):
-                label = "连接器已接受发送（不代表收件人已收到）"
-            lines.append(f"- {json.dumps(target, ensure_ascii=False)} [{item['tool']}，参数版本{item['revision']}]：{label}")
+                label = "邮件服务已接受发送"
+            lines.append(describe(item["tool"],args) + "：" + label)
     return "\n".join(lines), items

@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import re
 
 from .actions import decision
+from . import public_search
 
 _QUOTED = re.compile(
     r'~~~[\s\S]*?~~~|\x60{3}[\s\S]*?\x60{3}|\x60[^\x60]*\x60|“[^”]*”|「[^」]*」|『[^』]*』|‘[^’]*’|"(?:\\.|[^"\\])*"'
@@ -23,6 +24,7 @@ _NO_ACTION = re.compile(r"(?:别|不要|不用|无需|不必)(?:替我|帮我|�
 _SEP = re.compile(r"[。！？!?；;\n]+|[，,](?=(?:顺便|另外|同时|再帮我|也请|然后请|但|不过|帮我|请你))")
 _PREFIX = re.compile(r"^(?:顺便|另外|同时|也请|然后|还有)[，, ]*")
 _BODY = re.compile(r"(?:正文|内容|标题)(?:为|是|如下)?\s*[:：]")
+_NO_SEND = re.compile(r"^(?:(?:先|请|但|不过|也|然后|绝对|千万)[，, ]*)*(?:不(?:要|必|用|许|准)?|别|勿|禁止|无需)(?:再|把它|将它|替我|帮我)?(?:寄|发|转发|外传)")
 _CONTROL_TARGET = re.compile(r"操作|任务|待办|确认|执行|发送|写入|邮件|文件|参数|票据|旧的|旧版|收件人|正文|\b(?:send|write|execute|run|cancel)\b",re.I)
 _SHORT_STOP = re.compile(r"^(?:(?:请|先|就|还是|我)?(?:取消|撤销|算了|拒绝|不同意|不确认|别执行|停下|停止|放弃|不要了|不用了)|no|stop|cancel)[吧了。！! ]*$",re.I)
 _CONTINUE = re.compile(r"^(?:请)?(?:继续(?:吧|执行|刚才的.{0,16}任务)?|接着做|go on|continue)[!。！\s]*$",re.I)
@@ -57,6 +59,17 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
     choice = decision(control_text if control_text is not None else text)
     control = clean if control_text is None else control_text
     simple = re.sub(r"\s+", "", clean)
+    if not status and public_search.plan(text) is not None:
+        return Route(operation=text)
+    if re.search(r"(?:为什么|为何|如何理解|是什么原理|有什么区别|是什么意思|需要授权[吗？?]|会发生什么|会怎么样)",clean) and not re.search(r"然后请|并请|并帮我",clean):
+        return Route(chat=text)
+    if active and re.fullmatch(r"(?:请|先)?(?:取消|撤销)(?:全部|所有)(?:待办|操作|任务)[吧了。！! ]*",simple):
+        return Route(operation=text,control="decline")
+    if prohibits_sending(text):
+        clauses = _clauses(text)
+        if any(not _NO_SEND.match(part) and not _INFO.search(part)
+               and _OPERATION.match(part[_PREFIX_WORDS.match(part).end():]) for _,part in clauses):
+            return Route(operation=text)
     if status or (choice == "approve" and (pending or simple.rstrip("。！!") in {"确认","确认执行","同意执行","执行吧"})):
         return Route(operation=text, control=choice if not status else "other")
     if choice in {"decline", "edit"}:
@@ -67,11 +80,11 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
             words = part.strip()
             words = re.sub(r"^(?:天依|麻烦你?|请你?|先|还是|那就|那就先|就|顺便|现在)\s*", "", words)
             words = re.split(r"(?:再|然后|并)(?=(?:告诉我|查询|查看).{0,64}(?:状态|进度|结果))", words, maxsplit=1)[0]
-            verb = r"(?:取消|撤销|拒绝|不同意|不确认|不要执行|别执行|别发送|别发|不要发送|先不执行|先别执行|先别发|不要写入)"
+            verb = r"(?:取消|撤销|拒绝|不同意|不确认|作罢|不要执行|别执行|别发送|别发|别寄(?:出去)?|不要寄(?:出去)?|不要发送|先不执行|先别执行|先别发|不要写入)"
             obj = r"(?:(?:刚才|原来|之前|当前|这次|本次|上述|[这那](?:个|项|封|份)|旧)(?:的)?)?(?:操作|任务|待办|确认|授权|邮件|发送|文件|旧的|旧版|这件事)"
             slot = r"(?:原来|旧的|收件人|邮件|文件|路径|标题|内容|正文|参数)"
             direct = (re.fullmatch(rf"{verb}(?:{obj})?(?:了|吧)?",words) or
-                      re.fullmatch(rf"(?:把|将)?{obj}(?:先)?{verb}(?:了|吧)?",words) or
+                      re.fullmatch(rf"(?:把|将)?{obj}(?:先|就此)?{verb}(?:了|吧)?",words) or
                       re.fullmatch(r"(?:please )?(?:do not send|don't send|cancel|stop)(?: it| (?:the |this |that |previous )?(?:task|operation|email|send|write))?",words,re.I))
             edit = pending and (re.match(r"^(?:改为|改成|改发|换成|重新发送|改一下)", words)
                                 or re.match(rf"^(?:把|将)?{slot}.{{0,45}}(?:改为|改成|改发|换成|改一下)",words))
@@ -111,6 +124,11 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
     if not operations:
         return Route(chat=text)
     return Route("".join(chats).strip(), "".join(operations).strip())
+
+
+def prohibits_sending(text):
+    instructions = _BODY.split(_QUOTED.sub(" ",text),maxsplit=1)[0]
+    return any(_NO_SEND.match(part.strip()) for part in re.split(r"[，,。！!？?；;\n]",instructions))
 
 
 @dataclass

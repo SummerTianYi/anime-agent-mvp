@@ -39,7 +39,9 @@ class FollowupDeliveryTests(unittest.IsolatedAsyncioTestCase):
     async def test_invalid_result_reference_is_saved_and_delivered(self):
         task, answer = await self.run_failure("read_tool_result", {"ref": [], "offset": 0})
         self.assertEqual(task["tool_results"][0]["result"]["outcome"], "failed")
-        self.assertIn("ref", answer)
+        self.assertIn("ref",task["tool_results"][0]["result"]["error"])
+        self.assertNotIn("ref",answer)
+        self.assertIn("失败",answer)
 
     async def test_allowed_executor_exception_retains_unknown_without_success_prose(self):
         task, answer = await self.run_failure("get_time", {}, AsyncMock(side_effect=RuntimeError("synthetic")))

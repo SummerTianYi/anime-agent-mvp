@@ -15,7 +15,7 @@ METHOD_EFFECTS = {
     "mcp__github__pull_request_review_write": dict.fromkeys(("create", "submit_pending", "delete_pending", "resolve_thread", "unresolve_thread"), "write"),
 }
 READ_TOOLS = frozenset({
-    "get_time", "read_file", "list_dir", "screenshot", "active_window", "clipboard_read",
+    "get_time", "read_file", "list_dir", "screenshot", "active_window", "clipboard_read", "public_web_search",
     "look_at_screen", "recall_memory", "read_tool_result",
     "mcp__gmail__search_emails", "mcp__gmail__read_email", "mcp__gmail__list_email_labels",
     "mcp__gmail__list_filters", "mcp__gmail__get_filter", "mcp__drive__search",

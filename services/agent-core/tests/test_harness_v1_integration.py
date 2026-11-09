@@ -43,7 +43,9 @@ class MainActionTests(unittest.IsolatedAsyncioTestCase):
     async def test_two_actions_confirm_separately_with_real_artifacts(self):
         await self.proposal("one.txt","第一份")
         await self.proposal("two.txt","第二份")
-        await core.handle_chat("确认","confirm-1",self.sid)
+        await core.handle_chat("确认","ambiguous",self.sid)
+        self.assertFalse((self.root/"one.txt").exists())
+        await core.handle_chat("确认第1项","confirm-1",self.sid)
         self.assertEqual((self.root/"one.txt").read_text(encoding="utf-8"),"第一份")
         self.assertFalse((self.root/"two.txt").exists())
         await core.handle_chat("确认","confirm-2",self.sid)

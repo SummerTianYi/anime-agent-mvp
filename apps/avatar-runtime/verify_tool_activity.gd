@@ -17,7 +17,12 @@ func _run() -> void:
 		_fail("Interaction UI missing")
 		return
 
-	# 1) 本地工具事件 -> 活动卡出现，首行正确
+	var previous_status: String = ui.chat_status.text
+	ui.on_agent_tool("mcp__search__tavily_search", false, "awaiting_confirmation")
+	if ui.tool_card != null or ui.chat_status.text != previous_status:
+		_fail("default chat contains tool activity")
+		return
+	ui.tool_diagnostics = true
 	ui.on_agent_tool("get_time", true)
 	if ui.tool_card == null:
 		_fail("tool card not created on first agent.tool")
@@ -58,6 +63,12 @@ func _run() -> void:
 	if not str(ui.tool_count_label.text).contains("3"):
 		_fail("call count label not updated: " + str(ui.tool_count_label.text))
 		return
+	for state in {"awaiting_confirmation":"待确认","unknown":"结果未知","cancelled":"已取消"}:
+		ui.on_agent_tool("diagnostics", false, state)
+		var marker: Label = ui.tool_rows_box.get_child(-1).get_child(2)
+		if marker.text == "✗" or marker.text.is_empty():
+			_fail("nonfailure marked as failure: " + state)
+			return
 
 	# 5) 用户发新消息 -> 重置；下一个工具事件开新卡
 	ui.chat_input.text = "现在几点"

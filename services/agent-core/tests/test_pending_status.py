@@ -78,7 +78,7 @@ class PendingStatusTests(fixture.IndependentReviewTests):
         await self.create_pending()
         await self.request("确认", "confirm")
         self.assertEqual(len(self.effects), 1)
-        self.assertIn("执行成功", self.latest_reply())
+        self.assertIn("已写入", self.latest_reply())
         task = copy.deepcopy(self.core._task_state[self.sid])
         answer = await self.request("刚才任务完成了吗", "after")
         self.assertIn("执行成功", answer)
@@ -89,7 +89,7 @@ class PendingStatusTests(fixture.IndependentReviewTests):
 
     async def test_partial_completion_lists_each_action(self):
         await self.create_pending(("first.txt", "second.txt"))
-        await self.request("确认", "confirm-one")
+        await self.request("确认第1项", "confirm-one")
         answer = await self.request("这些任务都完成了吗", "partial")
         self.assertIn("first.txt", answer)
         self.assertIn("second.txt", answer)
@@ -116,8 +116,9 @@ class PendingStatusTests(fixture.IndependentReviewTests):
         other.update(status="succeeded", receipt={"ok":True})
         self.book.save(other)
         answer = await self.request("所有任务进度如何", "multiple")
-        self.assertIn("任务 first-task", answer)
-        self.assertIn("任务 second-task", answer)
+        self.assertIn("first.txt", answer)
+        self.assertIn("second file.txt", answer)
+        self.assertNotIn("first-task", answer)
         self.assertIn("待确认", answer)
         self.assertIn("执行成功", answer)
         answer = await self.request("second file.txt完成了吗", "specific")
@@ -145,7 +146,8 @@ class PendingStatusTests(fixture.IndependentReviewTests):
         current = copy.deepcopy(self.core._task_state[self.sid])
         answer = await self.request("刚才那件事现在怎么样", "after-chat")
         self.assertIn("执行成功", answer)
-        self.assertIn("任务 proposal", answer)
+        self.assertIn("first.txt", answer)
+        self.assertNotIn("proposal", answer)
         self.assertEqual(self.core._task_state[self.sid], current)
 
     async def test_quoted_status_explanation_and_chat_are_not_intercepted(self):
@@ -198,6 +200,8 @@ class PendingStatusTests(fixture.IndependentReviewTests):
             self.assertIn("待确认，尚未执行", answer)
         self.assertEqual(len(self.book.pending(self.sid)), 2)
         await self.request("先取消待办再告诉我cancel.txt的状态", "file-cancel")
+        self.assertEqual(len(self.book.pending(self.sid)),2)
+        await self.request("取消全部待办","all")
         self.assertFalse(self.book.pending(self.sid))
         self.assertEqual(self.effects, [])
 

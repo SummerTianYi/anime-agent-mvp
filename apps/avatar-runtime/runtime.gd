@@ -735,6 +735,9 @@ func _handle_core_event(payload: Dictionary) -> void:
 			_update_hud()
 		"client.ready":
 			print("GODOT_AVATAR_CORE_READY", payload)
+			if interaction_ui != null and not interaction_ui.new_session_request.is_empty():
+				request_new_session(interaction_ui.new_session_request)
+				return
 			request_session_list()
 			request_chat_history(-1)
 		"agent.state":
@@ -748,7 +751,7 @@ func _handle_core_event(payload: Dictionary) -> void:
 		"session.switched":
 			cancel_voice_recording()
 			if interaction_ui != null:
-				interaction_ui.on_session_switched(int(payload.get("conversationId", -1)), str(payload.get("title", "新对话")))
+				interaction_ui.on_session_switched(int(payload.get("conversationId", -1)), str(payload.get("title", "新对话")), str(payload.get("requestId", "")))
 		"session.list.response":
 			if interaction_ui != null and payload.get("sessions") is Array:
 				interaction_ui.on_session_list(payload.get("sessions", []))
@@ -776,7 +779,7 @@ func _handle_core_event(payload: Dictionary) -> void:
 				interaction_ui.on_wake_idle()
 		"agent.tool":
 			if interaction_ui != null:
-				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)))
+				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)), str(payload.get("outcome", "")))
 		"voice.transcript":
 			if voice_capture_id.is_empty() or str(payload.get("captureId", "")) != voice_capture_id:
 				return
@@ -794,6 +797,8 @@ func _handle_core_event(payload: Dictionary) -> void:
 				print("GODOT_AVATAR_COMMAND", command)
 				handle_agent_event(command, command_payload)
 		"core.error":
+			if bool(payload.get("diagnostic", false)):
+				return
 			_set_agent_state("error")
 			if interaction_ui != null:
 				interaction_ui.show_error(str(payload.get("message", "Core 发生错误")))
@@ -1108,7 +1113,7 @@ func send_chat_message(text: String, effort: String = "") -> void:
 	if conversation_id > 0:
 		chat_payload["conversationId"] = conversation_id
 		var pending: Array = pending_confirmations.get(conversation_id, [])
-		if not pending.is_empty():
+		if pending.size() == 1 and normalized_text.strip_edges().rstrip("。！!").to_lower() in ["确认","同意","可以","好的","执行吧","确认执行","同意执行","去吧","ok","yes"]:
 			var action: Dictionary = pending[0]
 			chat_payload["confirmation"] = {"action_id":action.action_id, "revision":action.revision, "args_hash":action.args_hash}
 	core_socket.send_text(JSON.stringify(chat_payload))
@@ -1134,13 +1139,14 @@ func request_chat_history(conversation_id: int) -> void:
 		core_socket.send_text(JSON.stringify({"type": "chat.history.request"}))
 
 
-func request_new_session() -> void:
+func request_new_session(request_id: String = "") -> void:
 	cancel_voice_recording()
 	if not _core_connected():
 		if interaction_ui != null:
-			interaction_ui.show_error("Core 尚未连接，无法新建会话。")
+			interaction_ui.new_session_request = ""
+			interaction_ui.show_error("还没有连上天依，暂时无法新建会话。")
 		return
-	core_socket.send_text(JSON.stringify({"type": "session.new"}))
+	core_socket.send_text(JSON.stringify({"type":"session.new","requestId":request_id}))
 
 
 func request_delete_session(conversation_id: int) -> void:

@@ -196,7 +196,7 @@ class IndependentReviewTests(unittest.IsolatedAsyncioTestCase):
             return {"ok": True, "output": "fixture accepted"}
 
         self.core._execute_authorized_tool = executor
-        first_chat = asyncio.create_task(self.chat("确认", "first-approval", confirmation=first["confirmation"]))
+        first_chat = asyncio.create_task(self.chat("确认第1项", "first-approval", confirmation=first["confirmation"]))
         duplicate = None
         try:
             await asyncio.wait_for(dispatched.wait(), timeout=3)
@@ -314,7 +314,8 @@ class IndependentReviewTests(unittest.IsolatedAsyncioTestCase):
         item = self.book.records[proposal["action_id"]]
         self.expect(item["status"] == "succeeded", "valid MCP result must remain a successful receipt")
         self.expect(item["receipt"].get("ok") is True, "valid MCP ok flag was lost")
-        self.expect("FIXTURE_ACCEPTED" in self.latest_reply(), "connector evidence was lost in final delivery")
+        self.expect("FIXTURE_ACCEPTED" in item["receipt"]["output"], "connector evidence was lost")
+        self.expect("FIXTURE_ACCEPTED" not in self.latest_reply() and "已接受发送" in self.latest_reply(), "mail receipt did not render correctly")
 
     async def test_p1_reused_unknown_receipt_blocks_resend_and_false_success(self):
         item = self.book.propose(self.sid, "old-task", "origin", "mcp__fixture__send_email", SEND_ARGS)

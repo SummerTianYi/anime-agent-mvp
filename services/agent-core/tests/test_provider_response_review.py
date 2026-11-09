@@ -303,7 +303,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
                 self.assertEqual(len(self.effects), 1)
                 self.assertEqual(len(self.wire_requests), 2)
                 self.assertIn("失败", self.latest_reply())
-                self.assertNotIn("连接器已接受发送", self.latest_reply())
+                self.assertNotIn("已接受发送", self.latest_reply())
 
     async def test_mixed_supplement_preserves_success_and_unknown_without_extra_operation(self) -> None:
         for dialect in ("openai", "anthropic"):
@@ -330,7 +330,7 @@ class ProviderResponseReviewTests(fixture.IndependentReviewTests):
                     self.assertEqual(len(self.effects), 1)
                     self.assertEqual(len(self.wire_requests), 2)
                     self.assertEqual(pending[0]["status"], "unknown" if unknown else "succeeded")
-                    self.assertIn("结果未知" if unknown else "连接器已接受发送", self.latest_reply())
+                    self.assertIn("结果未知" if unknown else "邮件服务已接受发送", self.latest_reply())
                     self.assertNotIn("尚未执行", self.latest_reply())
                     self.assertEqual(self.book.pending(self.sid), [])
 
