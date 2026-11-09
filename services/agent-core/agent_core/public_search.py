@@ -45,6 +45,28 @@ def safe_literal(value):
             and not PRIVATE.search(value) and not re.search(r"[A-Za-z0-9_-]{25,}",value))
 
 
+def manual_query_allowed(intent, args):
+    """Legacy search still needs consent. Only explicitly requested literal keywords may leave."""
+    query = args.get("query")
+    if not safe_literal(query):
+        return False
+    options = {"search_depth":{"basic","advanced","fast","ultra-fast"},"topic":{"general","news","finance"},
+               "time_range":{"day","week","month","year"}}
+    for key,value in args.items():
+        if key=="query" or key=="max_results" and type(value) is int and 1<=value<=10:
+            continue
+        if key not in options or not isinstance(value,str) or value not in options[key]:
+            return False
+    literal = LITERAL_LOOKUP.fullmatch(intent)
+    if literal:
+        return query.casefold()==literal[1].strip().casefold()
+    for clause in re.split(r"[，,。；;！？!?\n]",intent):
+        match = re.match(r"^\s*(?:天依|请你?|帮我|麻烦你?|在网上|去网上|上网|\s)*(?:搜索(?:网页)?|检索|搜一下|查一下|查询)\s*[：:]?\s*(.{2,100})$",clause)
+        if match and safe_literal(match[1].strip()) and query.casefold() in match[1].casefold():
+            return True
+    return False
+
+
 @dataclass(frozen=True)
 class Lookup:
     subject: str

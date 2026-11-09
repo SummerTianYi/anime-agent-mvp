@@ -81,6 +81,17 @@ class QueryTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn(SOURCE["content"],messages[-1]["content"])
         self.assertNotIn("合成巷",str(messages))
 
+    async def test_legacy_connector_cannot_export_private_context_or_extra_filters(self):
+        self.rig()
+        core._task_state[self.sid]["intent"]="请搜索极光预报。我的门牌号是私巷927号。"
+        for args in ({"query":"私巷927号"},{"query":"极光预报","include_domains":["private.example.org"]}):
+            result = await core.run_tool("mcp__search__tavily_search",args)
+            self.assertEqual(result["outcome"],"denied")
+        self.assertFalse(core._actions().pending(self.sid))
+        allowed=await core.run_tool("mcp__search__tavily_search",{"query":"极光预报"})
+        self.assertTrue(allowed["needs_confirmation"])
+        self.transport.assert_not_awaited()
+
     async def test_ask_chat_approve_and_duplicate(self):
         self.rig(ask=True)
         before=await self.say(AWARD,"request")

@@ -778,6 +778,8 @@ def _permission_still_valid(name, arguments, scope=None):
     session = _ACTIVE_CHAT_SESSION_ID[0]
     verdict = permission_engine.evaluate(ActionRequest(tool=name, arguments=arguments, origin="user" if scope else "agent",
                                                        session_id=session, public_scope=scope,task_id=_task_state.get(session,{}).get("id")))
+    if name=="mcp__search__tavily_search" and not public_search.manual_query_allowed(_task_state.get(session,{}).get("intent",""),arguments):
+        return False
     return verdict.allowed or verdict.kind == ASK
 
 
@@ -1280,6 +1282,11 @@ async def run_tool(name: str, arguments: dict, *, public_scope=None) -> dict:
         return {"ok":False,"outcome":"denied",**failure}
     memory.add_event("permission.decision", {"tool":name,"kind":decision.kind,"allowed":decision.allowed,
                      "rule_id":decision.rule_id,"reason":decision.reason,"request_id":REQUEST_ID.get()})
+    if name=="mcp__search__tavily_search" and not public_search.manual_query_allowed(task.get("intent",""),arguments):
+        failure = {"tool":name,"kind":"scope","request_id":REQUEST_ID.get(),"error":"缺少本轮明确提供的公开关键词"}
+        task.setdefault("tool_failures",[]).append(failure)
+        memory.add_event("permission.constraint",failure)
+        return {"ok":False,"outcome":"denied",**failure}
     if name == public_search.TOOL and decision.kind != "deny" and not os.getenv("TAVILY_API_KEY","").strip():
         memory.add_event("tool.unavailable", {"session_id":session,"request_id":REQUEST_ID.get(),"tool":name,"kind":"credentials"})
         return {"ok":False,"kind":"credentials"}
