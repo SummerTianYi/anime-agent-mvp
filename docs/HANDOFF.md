@@ -1,6 +1,8 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
-2026-11-09 查询交付是独立候选，起点为 `8025c6b`。本轮覆盖公开资料查询、参数绑定确认、查后发送、气泡与语音入口。桌面运行版本仍以本机进程与物料记录为准。正式使用前等待 ChatGPT 独立验收。[查询报告与复现入口](assessments/agent-query-delivery/REPORT.md)
+2026-11-10 公开查询候选从 `5101fc0` 继续，覆盖否定表达、原问约束、答题范围和表情交付。诊断日志另有对固定 main 验证的六文件补丁。等待 ChatGPT 对具体范围独立验收，正式运行版本见本机进程与物料记录。[当前报告与可合并清单](assessments/agent-query-focus/REPORT.md)
+
+2026-11-09 的前序查询候选从 `8025c6b` 开始，覆盖公开资料查询、参数绑定确认、查后发送、气泡与语音入口。[前序报告与复现入口](assessments/agent-query-delivery/REPORT.md)
 
 Codex 2026-10-04 非Agent配套评估：[综合报告与DS诊断](NON_AGENT_SYSTEM_ASSESSMENT_2026-10-04_CODEX.md)区分本次实测、历史验收与未验证范围。当前外观1.4/表情1.0、有限动作库、公共语音和双看护已实装；通用衣发防穿模、任意硬件零中断、跨机完整离线交付没有完成。本次31项启动/TTS逻辑、五版档案、官模/原动作和现用声线契约通过。DS四次独立请求及所有者原窗口短回复确认正常，但没有还原截图历史故障的底层原因，也没有改配置或实施运行修复。数据诊断发现Codex读到的AppData路径存在包LocalCache视图差异，未把旧事件冒充当前证据、未动任何数据库。
 
@@ -188,6 +190,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 
 | 日期与范围 | 结果 | 证据与局限 |
 |---|---|---|
+| 2026-11-10 查询范围与回答交付 | 两个独立零上下文实例各 8/8 | 干净检出 `671de2b` 与 `cffaa24`。首轮发现的年份、截止日及换目标反例已纳入回归；双方确认探针与跨年复现实验已补验。第二轮核对了模型和窗口记录，指出的 Idle、U0 及当前候选说明已校订。正式实装待 ChatGPT 决定批准范围。[本轮报告](assessments/agent-query-focus/REPORT.md) |
 | 2026-11-09 公开查询与交付候选 | 两个独立零上下文实例各 8/8 | 从干净检出 `1403aa6` 和 `a58b5c4` 接手。已据复核校订 main 的对照范围、回退方法、历史阻塞归属及来源网址的显示方式。产品候选待 ChatGPT 独立验收。[本轮报告](assessments/agent-query-delivery/REPORT.md) |
 | 2026-11-09 陪伴底座独立候选 | 两个独立零上下文实例各 8/8 | 干净候选核对历史与冻结区、权限探针、数据恢复、正式桌面及 UI 暂缓状态。指出原桥接文案、归属、实测轮次和复现顺序，已校订。[候选记录](assessments/companion-platform/REPORT.md) |
 | 2026-11-08，桌面四项集成 | 两个独立实例各 8/8 | 分别从干净检出 `56ec9b3` 还原产品、分工、冻结区和候选范围。交叉核对发现档位说明过期、旧闲置配置的关闭开关失效。修正后的配置反例、完整回归和隔离播放见[四项同步记录](assessments/desktop-four/REPORT.md)。 |
@@ -236,7 +239,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | `services/agent-core/agent_core/agent_loop.py` | 步数上限循环、权限闸门挂点 | 改循环行为 |
 | `services/agent-core/agent_core/memory_retrieval.py` / `storage.py` | 记忆检索 / facts 表与会话存储 | 改记忆 |
 | `services/agent-core/agent_core/mcp_host.py` | MCP stdio 客户端 | 接真实 server |
-| `services/agent-core/agent_core/proactive.py` | 免打扰+冷却纯逻辑 | Idle 触发（未开工） |
+| `services/agent-core/agent_core/proactive.py` | 免打扰、冷却与 IdlePolicy 纯逻辑 | 维护已上线的闲置触发策略 |
 | `services/agent-core/agent_core/voice.py` / `wake_word.py` / `speech.py` | 麦克风/STT、唤醒词、TTS 客户端 | STT 加固、语音链路 |
 | `scripts/test_mcp_server.py` | 最小 MCP 测试 server | MCP 联调 |
 | `scripts/model-pipeline/` | Blender/MMD 资产与动作管线 | 做新动作资产 |

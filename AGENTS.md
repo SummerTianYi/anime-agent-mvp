@@ -44,4 +44,4 @@ Run the Python unit tests (currently 590), TypeScript build/type check, Godot he
 
 ## Next recommended order
 
-Do not start from this file — claim your territory from `docs/HANDOFF.md` §1 (当值分派) and pick from §3 "未开工" list. Default priorities if the owner does not override: the frontend UI upgrade (U0 survey + form-factor decision, `docs/plans/UI_UPGRADE.md`), then prompt training item 2 (poison-content proactive warning) and the memory review UI (KI-016).
+Use the current assignment in `docs/HANDOFF.md` §1 (当值分派) and the open work in §3. The U0 UI survey is complete. The owner deferred the chat UI redesign and retains the form-factor decision. The subsequent backlog includes prompt training item 2 (poison-content proactive warning) and the memory review UI (KI-016).

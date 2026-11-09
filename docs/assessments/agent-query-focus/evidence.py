@@ -54,6 +54,10 @@ def main():
     tests=load("evidence/checks.json")
     assert tests["core"]["final"]==590 and tests["core"]["failures"]==0
     assert tests["main_slice"]["core"]["last"]=="tests 390 skipped 0 failed []"
+    assert tests["main_slice"]["rollback"] == {
+        "patch_sha256": hashlib.sha256((HERE / "main-diagnostics.patch").read_bytes()).hexdigest(),
+        "byte_identical_files": 6, "tracked_clean": True,
+    }
     for name,key in (("main_probe","main_plus_diagnostics"),("candidate_probe","candidate")):
         assert tests["main_slice"][name]["authorization"]==tests["ambiguity"][key]
     assert tests["ambiguity"]["main_plus_diagnostics"]["dispatched_files"]==["one.txt"]

@@ -1,12 +1,11 @@
-"""Extract pinned main without its local assets/config. Apply and exercise only the review patch."""
+"""Apply, test and reverse the diagnostics patch in a disposable checkout of pinned main."""
 import argparse
-import io
+import hashlib
 import json
 from pathlib import Path
 import shutil
 import subprocess
 import sys
-import tarfile
 import tempfile
 from types import SimpleNamespace
 
@@ -21,10 +20,9 @@ MAIN="cf62b484ca8f075d97c2d4c41496480c7c82501c"
 def run(args):
     args.out.mkdir(parents=True, exist_ok=False)
     with tempfile.TemporaryDirectory(prefix="ty-slice-") as scratch:
-        repo=Path(scratch)
-        raw=subprocess.check_output(["git","archive",MAIN],cwd=ROOT)
-        with tarfile.open(fileobj=io.BytesIO(raw)) as archive:
-            archive.extractall(repo, filter="data")
+        repo = Path(scratch) / "checkout"
+        subprocess.run(["git", "clone", "--quiet", "--shared", "--no-checkout", str(ROOT), str(repo)], check=True)
+        subprocess.run(["git", "checkout", "--quiet", "--detach", MAIN], cwd=repo, check=True)
         def invoke(key, command, *, ok=True, input_bytes=None):
             result=subprocess.run(command,cwd=repo,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,input=input_bytes)
             lines=result.stdout.decode("utf8","replace").splitlines()
@@ -37,6 +35,9 @@ def run(args):
         core_patch=subprocess.check_output(["git","diff","8025c6b","4df20e7","--","services/agent-core/agent_core"],cwd=ROOT)
         stats["full_candidate_on_main"]=invoke("core-check",["git","apply","--check","-"],ok=False,input_bytes=core_patch)
         patch=HERE/"main-diagnostics.patch"
+        paths = [line.split(" b/", 1)[1] for line in patch.read_text("utf8").splitlines() if line.startswith("diff --git ")]
+        original = {name: (repo / name).read_bytes() for name in paths}
+        assert len(original) == 6
         for name,opts in (("clean_apply_check",["--check"]),("apply",[])):
             stats[name]=invoke(name,["git","apply","--unidiff-zero",*opts,str(patch)])
         for name,tree in (("main",repo),("candidate",ROOT)):
@@ -54,6 +55,12 @@ def run(args):
         passed=godot_checks.run(SimpleNamespace(godot=args.godot,assets=args.assets,out=args.out/"godot"))
         stats["godot"]=json.loads((args.out/"godot/gates.json").read_text("utf8"))
         assert passed
+        for name, opts in (("reverse_check", ["--check"]), ("reverse_apply", [])):
+            invoke(name, ["git", "apply", "--unidiff-zero", "--reverse", *opts, str(patch)])
+        assert all((repo / name).read_bytes() == raw for name, raw in original.items())
+        invoke("tracked_clean", ["git", "diff", "--quiet", "HEAD", "--"])
+        stats["rollback"] = {"patch_sha256": hashlib.sha256(patch.read_bytes()).hexdigest(),
+                             "byte_identical_files": len(original), "tracked_clean": True}
         (args.out/"result.json").write_text(json.dumps(stats,ensure_ascii=False,indent=2),encoding="utf8")
         print(stats["core"],stats["main_probe"],stats["candidate_probe"])
 

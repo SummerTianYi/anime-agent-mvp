@@ -159,6 +159,11 @@
           "passed": true
         }
       ]
+    },
+    "rollback": {
+      "patch_sha256": "ce7f31fc0569e7ba6631b53b88eac29665daf67f15bf18b16146dfa21d388203",
+      "byte_identical_files": 6,
+      "tracked_clean": true
     }
   },
   "ambiguity": {
