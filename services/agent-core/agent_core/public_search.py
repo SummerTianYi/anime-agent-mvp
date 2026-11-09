@@ -26,13 +26,13 @@ SUBJECTS = {
     "国际空间站":r"国际空间站", "美元兑人民币":r"美元(?:兑|对|换)人民币",
 }
 FIELDS = {"赛程":r"哪一?站|下[一场站轮]|赛程|日程|进行到|上一站|最近一站",
-          "积分榜":r"积分|排名|排行榜|榜首|领跑", "射手榜":r"射手榜",
+          "积分榜":r"积分|排名|排行榜|榜首|领跑|车手榜|赛季总分", "射手榜":r"射手榜",
           "车队积分榜":r"车队(?:总)?(?:积分|排名|榜)", "获奖理由及得主":r"获奖|奖.{0,6}谁|得主|拿奖|花落谁家",
           "最新稳定版本":r"稳定版|最新版本|最新.{0,3}版|版本号","位置":r"(?:飞到|位于|位置|在哪)",
           "汇率":r"汇率|兑换价"}
 QUESTION = re.compile(r"(?:查|搜|看看|告诉我|想知道|你知(?:不知)?道|现在|目前|今年|本届|这[一届季]|最近|最新|谁|哪[位站一]|如何|多少|排第|怎么样|情况)")
 EXPLANATION = re.compile(r"^(?:[他她]说|引用|原文|假如|假设|如果|为什么|解释|举例|翻译)|(?:什么意思|是什么原理|怎么查|怎么搜索|如何查询|需要授权|不要查|别查|不用查|先别查|别联网|不要联网|不联网|别搜|不要搜|只.{0,3}(?:解释|讨论))")
-QUOTES = re.compile(r'~~~[\s\S]*?~~~|\x60{3}[\s\S]*?\x60{3}|\x60[^\x60]*\x60|“[^”]*”|「[^」]*」|『[^』]*』|‘[^’]*’|"[^"]*"')
+QUOTES = re.compile(r'~~~[\s\S]*?~~~|\x60{3}[\s\S]*?\x60{3}|\x60[^\x60]*\x60|“[^”]*”|「[^」]*」|『[^』]*』|‘[^’]*’|"(?:\\.|[^"\\])*"|(?<!\w)\x27[^\x27]*\x27(?!\w)')
 MAIL = re.compile(r"(?:发(?:送)?(?:一封)?邮件|邮件发给|(?:发|转发|寄|发送)给|电邮给)")
 NO_MAIL = re.compile(r"(?:别|不要|不用|无需|不必|先不|不准|禁止).{0,12}(?:发|寄|电邮)|(?:勿发|不发)")
 ADDRESS = re.compile(r"(?<![\w.+-])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?![A-Za-z0-9.-])",re.ASCII)
@@ -43,11 +43,22 @@ PRIVATE = re.compile(r"我家|我的|我们|同学|同事|朋友|老板|客户|�
 # Negation belongs to a clause and its object. Mask quoted speech before
 # admission. A bare network veto applies to the whole request.
 CLAUSES = re.compile(r"[，,。！？!?；;\n]+|(?:而是|但是|不过)(?=.{0,6}(?:查|搜|告诉))")
-LOOKUP_VERB = r"(?:查询?|搜(?:索)?|检索|联网|上网|上外网|浏览网页|看一下|了解|知道|核[实对])"
+LOOKUP_VERB = r"(?:查询?|搜(?:索)?|检索|联网|上网|上外网|浏览网页|看一下|了解|知道|告诉我|核[实对])"
 QUERY_VETO = re.compile(
-    r"(?:不用|不必|无需|无须|没必要|不需要|不允许|不想|不愿|不准|不要|禁止|不许|别|勿|不打算|不是(?:要|叫|让)|没(?:有)?(?:说要|叫|让)|先不|暂不|不)"
+    r"(?:不用|不必|无需|无须|没必要|不需要|不允许|不想|不愿|不准|不要|禁止|不许|别|勿|不打算|不是(?:要|想|叫|让)|没(?:有)?(?:说要|要|叫|让)|先不|暂不|不(?!知道|了解))"
     r"(?:再|真(?:的)?|先|去|现在|实际|主动|自己|你|你去|替我|帮我|给我|麻烦你|用工具|在网上|上网|联网|\s)*" + LOOKUP_VERB)
 OMIT_DETAIL = re.compile(r"(?:不(?:要|用|必)?|别|无需)(?:再|另外|顺便)?(?:提(?:及)?|讲|列(?:出)?|介绍|展开|报|包括)|省略|略过")
+WITHDRAW = re.compile(r"^(?:(?:这次|那个|这事|那就|现在|先|还是|暂时)\s*)*(?:算了|作罢|不查了?|不用了|不需要了|取消查询)(?:吧|了)?$")
+ANSWER_LIMIT = re.compile(r"只|仅|(?:前|第)[一二三四五六七八九十\d]|不(?:要|用|必)|省略|不提|表格|[两三一\d][行句段]|格式|JSON|截至",re.I)
+
+
+def matched_fields(text):
+    fields = [key for key,pattern in FIELDS.items() if re.search(pattern,text)]
+    if "车队积分榜" in fields and "积分榜" in fields and not re.search("车手|个人",text):
+        fields.remove("积分榜")
+    if "赛程" in fields and "位置" in fields:
+        fields.remove("位置")
+    return fields
 
 
 def lookup_scope(text):
@@ -55,8 +66,10 @@ def lookup_scope(text):
     accepted, exclusions = [], []
     for part in CLAUSES.split(QUOTES.sub(" ", text)):
         veto = QUERY_VETO.search(part.replace("知不知道", "知道").replace("不知道能不能", "能不能"))
+        if WITHDRAW.fullmatch(part.strip()):
+            return "", set()
         if veto or OMIT_DETAIL.search(part):
-            fields = {key for key, pattern in FIELDS.items() if re.search(pattern, part)}
+            fields = set(matched_fields(part))
             subjects = {k for k, pattern in SUBJECTS.items() if re.search(pattern, part, re.I)}
             if veto and not fields and not subjects:
                 return "", set()
@@ -74,15 +87,37 @@ def lookup_scope(text):
     return positive, omitted
 
 
+def declines_pending(text, args):
+    """A direct search withdrawal only matches the corresponding public read."""
+    clean = QUOTES.sub(" ",text).strip()
+    if (not (QUERY_VETO.search(clean) or re.search(r"(?:取消|撤销).{0,8}(?:查询|搜索)",clean))
+            or re.search(r"^(?:如果|假如|引用|[他她]说|解释)|要不要|可不可以不|(?:什么意思|怎么说|吗)[？?。]?$", clean)):
+        return False
+    subjects = {key for key,pattern in SUBJECTS.items() if re.search(pattern,clean,re.I)}
+    fields = set(matched_fields(clean))
+    return (not subjects or args["subject"] in subjects) and (not fields or bool(fields.intersection(args["fields"])))
+
+
 def answer_question(text):
     """Keep the user's wording for synthesis; sharing and unrelated private clauses stay local."""
-    mail = MAIL.search(QUOTES.sub(lambda m: " " * len(m.group()), text))
-    if mail:
-        text = re.sub(r"(?:查好后|并将结果|然后|顺便|并且|并|再)?\s*$", "", text[:mail.start()]).rstrip(" ，,。")
+    masked = QUOTES.sub(lambda m: " " * len(m.group()), text)
+    body = re.search(r"(?:邮件)?(?:正文|附件)(?:为|是|如下)?[：:]",masked)
+    if body and MAIL.search(masked):
+        text = text[:body.start()]
     # Keep ordinary formatting and factual questions verbatim, including
     # punctuation. Only a clause containing private material is withheld.
     chunks = re.findall(r"[^，,。！？!?；;\n]+[，,。！？!?；;\n]*", text)
-    return "".join(c for c in chunks if not ADDRESS.search(c) and not PRIVATE.search(c)).strip()
+    kept = []
+    for chunk in chunks:
+        mail = MAIL.search(QUOTES.sub(lambda m: " " * len(m.group()), chunk))
+        if mail:
+            chunk = re.sub(r"(?:查好后|并将结果|然后|顺便|并且|并|再)?\s*$", "", chunk[:mail.start()])
+        if re.search(r"(?:邮件)?(?:正文|附件)(?:为|是|如下)?[：:]",chunk):
+            break
+        private_probe = re.sub(r"我的(?:问题|要求|意思|重点|回答格式|关注点)", "", chunk)
+        if not ADDRESS.search(chunk) and not PRIVATE.search(private_probe):
+            kept.append(chunk)
+    return "".join(kept).strip()
 
 
 def safe_literal(value):
@@ -143,11 +178,7 @@ def plan(text, prior_subject=""):
     parts = MAIL.split(clean,maxsplit=1)
     query = parts[0]
     subjects = [term for term, pattern in SUBJECTS.items() if re.search(pattern,query,re.I)]
-    fields = tuple(term for term, pattern in FIELDS.items() if term not in omitted and re.search(pattern,query))
-    if "车队积分榜" in fields and not re.search("车手|个人",query):
-        fields = tuple(f for f in fields if f!="积分榜")
-    if "赛程" in fields:
-        fields = tuple(f for f in fields if f!="位置")
+    fields = tuple(term for term in matched_fields(query) if term not in omitted)
     if not subjects and fields:
         lead = re.sub(r"^(?:(?:你知道|我想知道|麻烦你|请|帮我|搜索网页|查一下|查查|今年|现在|最近|目前|的|最新)\s*)+","",query)
         event = PUBLIC_EVENT.match(lead)

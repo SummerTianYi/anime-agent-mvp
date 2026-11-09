@@ -1184,7 +1184,7 @@ async def _speak_reply(text: str, request_id: str, narrating: bool = False) -> b
         return False
     if request_id in _superseded_requests:
         return False
-    if not narrating:
+    if not narrating and _agent_state != "idle":
         # The reply is already available as text. Waiting for TTS is not LLM
         # thinking: leave the wake-word path open while inference recovers.
         await broadcast_state("idle", request_id)
@@ -1526,11 +1526,11 @@ async def _present(reply, session_id, request_id, channel, *, speak=True, spoken
         taskId=(chat_channels.current.get().task if channel == "task" and chat_channels.current.get() else None),
         text=reply.reply,emotion=reply.emotion,emotion_intensity=reply.emotion_intensity,gesture=reply.gesture))
     if speak and _voice_owner():
-        if TTS_ENABLED and hub.role_count("avatar") > 0:
+        await broadcast_state("idle",request_id)
+        if hub.role_count("avatar") > 0:
             await broadcast_behavior(reply)
-            _spawn(_speak_reply(spoken_text if spoken_text is not None else reply.reply,request_id))
-        else:
-            await broadcast_state("idle",request_id)
+            if TTS_ENABLED:
+                _spawn(_speak_reply(spoken_text if spoken_text is not None else reply.reply,request_id))
 
 
 async def _companion_turn(text, session_id, request_id, first, effort):
@@ -1650,7 +1650,8 @@ async def _public_lookup(session_id, task, lookup, receipt, original_question):
     # Keep every cited document, including a late result supporting the standings.
     urls = list(dict.fromkeys(s["url"] for s in selected))
     source_block = "来源：\n" + "\n".join(urls)
-    answer += "\n查询于 " + as_of + "。" + source_block
+    date_note = () if answer.rstrip("。").endswith(("查询日期："+as_of,"查询于 "+as_of)) else ("查询于 "+as_of+"。",)
+    answer += "\n" + "\n".join((*date_note,source_block))
     task["source_block"] = source_block
     task["spoken_sources"] = "来源是" + "、".join(dict.fromkeys(public_search.source_name(u) for u in urls)) + "。"
     task["public_answer"] = answer
@@ -1690,6 +1691,12 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     route = chat_channels.classify(text,pending=bool(pending_now),
         active=bool(pending_now or live_tasks or _task_state.get(session_probe)),control_text=control,
         status=status_question(text,book.records.values(),session_probe) is not None)
+    withdrawn_lookups = set()
+    if (not route.operation or route.control=="decline") and correction_plan is None:
+        withdrawn_lookups = {a["action_id"] for a in pending_now if a["tool"]==public_search.TOOL
+                             and public_search.declines_pending(text,a["arguments"])}
+        if withdrawn_lookups:
+            route = chat_channels.Route(operation=text,control="decline")
     if (_task_state.get(session_probe,{}).get("await_recipient") and public_search.ADDRESS.fullmatch(text.strip())):
         route = chat_channels.Route(operation=text)
     if any(a["tool"].endswith("send_email") for a in pending_now) and re.match(
@@ -1743,7 +1750,9 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
                         if memory_cancel else None)
             if not memory_cancel and pending_now:
                 matches = list(pending_now)
-                if re.search(r"发|寄|收件人|邮件|正文",control):
+                if withdrawn_lookups:
+                    matches = [a for a in matches if a["action_id"] in withdrawn_lookups]
+                elif re.search(r"发|寄|收件人|邮件|正文",control):
                     matches = [a for a in matches if a["tool"].endswith("send_email")]
                 elif re.search(r"写入|文件",control):
                     matches = [a for a in matches if a["tool"]=="write_file"]
@@ -1923,7 +1932,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             direct_reply = action_delivery.pending_text(pending)
             for pending_read in pending:
                 if (pending_read["tool"] == public_search.TOOL and pending_read["arguments"] == lookup.arguments()
-                        and public_search.plan(pending_read.get("intent",""),lookup.subject) == lookup):
+                        and public_search.plan(pending_read.get("intent",""),lookup.subject) == lookup
+                        and public_search.ANSWER_LIMIT.search(original_question)):
                     # Only presentation preferences change. The permission ticket,
                     # original share request, recipient and execution version stay bound.
                     pending_read["answer_question"] = original_question

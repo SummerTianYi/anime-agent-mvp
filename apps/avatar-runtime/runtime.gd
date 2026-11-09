@@ -815,11 +815,20 @@ func _set_agent_state(next_state: String) -> void:
 		if (not authored_motion_active and action_name == "idle") or authored_motion_name == default_idle_motion:
 			_play_authored_motion(&"think")
 	print("GODOT_AVATAR_AGENT_STATE", agent_state)
+	# Speaking and TTS-ready transitions can arrive in the same frame as a
+	# reply smile. Retain the remaining timed morph, without restarting it.
+	var smile_time := 0.0
+	if expression_name == "微笑" and next_state in ["idle", "speaking"]:
+		smile_time = float(expression_timers.get("笑い", 0.0))
+	var smile_weight := float(expression_targets.get("笑い", 0.0))
 	_clear_mouth_shapes()
 	_clear_emotions(true)
 	_apply_agent_state_face()
 	if emotion_preset.active():
 		expression_name = emotion_preset.label
+	elif smile_time > 0.0:
+		_set_expression("笑い", smile_weight, smile_time)
+		expression_name = "微笑"
 	_update_hud()
 
 

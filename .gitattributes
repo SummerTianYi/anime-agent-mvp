@@ -3,6 +3,7 @@
 *.json text eol=lf
 *.py text eol=lf
 *.gd text eol=lf
+docs/assessments/agent-query-focus/main-diagnostics.patch text eol=lf
 *.ts text eol=lf
 *.tsx text eol=lf
 *.toml text eol=lf

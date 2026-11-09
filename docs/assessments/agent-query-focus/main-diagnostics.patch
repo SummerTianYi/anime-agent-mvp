@@ -1,0 +1,77 @@
+diff --git a/apps/avatar-runtime/interaction_ui.gd b/apps/avatar-runtime/interaction_ui.gd
+--- a/apps/avatar-runtime/interaction_ui.gd
++++ b/apps/avatar-runtime/interaction_ui.gd
+@@ -79,0 +80 @@
++var tool_diagnostics := OS.get_environment("ANIME_AGENT_TOOL_DIAGNOSTICS") == "1"
+@@ -334,3 +335,3 @@
+-func on_agent_tool(tool: String, ok: bool) -> void:
+-	chat_status.text = ("已使用工具：" + tool) if ok else ("工具失败：" + tool)
+-	_record_tool_call(tool, ok)
++func on_agent_tool(tool: String, ok: bool, outcome: String = "") -> void:
++	if tool_diagnostics:
++		_record_tool_call(tool, ok, outcome)
+@@ -344 +345 @@
+-func _record_tool_call(tool: String, ok: bool) -> void:
++func _record_tool_call(tool: String, ok: bool, outcome: String) -> void:
+@@ -352 +353 @@
+-	_append_tool_row(tool, ok)
++	_append_tool_row(tool, ok, outcome)
+@@ -395 +396 @@
+-func _append_tool_row(tool: String, ok: bool) -> void:
++func _append_tool_row(tool: String, ok: bool, outcome: String) -> void:
+@@ -414 +415,4 @@
+-	row.add_child(_make_label("✓" if ok else "✗", 11, COLOR_JADE if ok else COLOR_FAIL))
++	var state: String = outcome if not outcome.is_empty() else ("succeeded" if ok else "failed")
++	var mark: String = {"succeeded":"✓","failed":"✗","awaiting_confirmation":"待确认","cancelled":"已取消",
++		"expired":"已过期","executing":"执行中","unknown":"结果未知"}.get(state,"未执行")
++	row.add_child(_make_label(mark, 11, COLOR_FAIL if state == "failed" else (COLOR_JADE if ok else COLOR_TEXT_DIM)))
+diff --git a/apps/avatar-runtime/runtime.gd b/apps/avatar-runtime/runtime.gd
+--- a/apps/avatar-runtime/runtime.gd
++++ b/apps/avatar-runtime/runtime.gd
+@@ -767 +767 @@
+-				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)))
++				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)), str(payload.get("outcome", "")))
+@@ -784,0 +785,2 @@
++			if bool(payload.get("diagnostic", false)):
++				return
+diff --git a/apps/avatar-runtime/verify_tool_activity.gd b/apps/avatar-runtime/verify_tool_activity.gd
+--- a/apps/avatar-runtime/verify_tool_activity.gd
++++ b/apps/avatar-runtime/verify_tool_activity.gd
+@@ -20 +20,6 @@
+-	# 1) 本地工具事件 -> 活动卡出现，首行正确
++	var previous_status: String = ui.chat_status.text
++	runtime._handle_core_event({"type":"agent.tool","tool":"mcp__search__tavily_search","ok":false,"outcome":"awaiting_confirmation"})
++	if ui.tool_card != null or ui.chat_status.text != previous_status:
++		_fail("default chat contains tool activity")
++		return
++	ui.tool_diagnostics = true
+@@ -60,0 +66,7 @@
++	var expected_marks := {"awaiting_confirmation":"待确认","unknown":"结果未知","cancelled":"已取消","expired":"已过期"}
++	for state in expected_marks:
++		runtime._handle_core_event({"type":"agent.tool","tool":"diagnostics","ok":false,"outcome":state})
++		var marker: Label = ui.tool_rows_box.get_child(-1).get_child(2)
++		if marker.text != expected_marks[state]:
++			_fail("wrong diagnostic status: " + state)
++			return
+diff --git a/services/agent-core/agent_core/agent_loop.py b/services/agent-core/agent_core/agent_loop.py
+--- a/services/agent-core/agent_core/agent_loop.py
++++ b/services/agent-core/agent_core/agent_loop.py
+@@ -31,0 +32 @@
++    outcome: str = ""
+@@ -149,0 +151 @@
++                    outcome=str(result.get("outcome") or ("succeeded" if result.get("ok") else "failed")),
+diff --git a/services/agent-core/agent_core/main.py b/services/agent-core/agent_core/main.py
+--- a/services/agent-core/agent_core/main.py
++++ b/services/agent-core/agent_core/main.py
+@@ -1275 +1275 @@
+-        await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc), request_id=request_id))
++        await hub.send_roles({"avatar", "ui"}, event("core.error", message="这次语音没有播出，文字回复可以查看。", request_id=request_id))
+@@ -1386,0 +1387 @@
++            outcome=step.outcome or ("succeeded" if step.ok else "failed"),
+diff --git a/.env.example b/.env.example
+--- a/.env.example
++++ b/.env.example
+@@ -108,0 +109,3 @@
++
++# Display individual tool results in the avatar diagnostic card.
++ANIME_AGENT_TOOL_DIAGNOSTICS=0

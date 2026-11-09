@@ -18,7 +18,7 @@ func _run() -> void:
 		return
 
 	var previous_status: String = ui.chat_status.text
-	ui.on_agent_tool("mcp__search__tavily_search", false, "awaiting_confirmation")
+	runtime._handle_core_event({"type":"agent.tool","tool":"mcp__search__tavily_search","ok":false,"outcome":"awaiting_confirmation"})
 	if ui.tool_card != null or ui.chat_status.text != previous_status:
 		_fail("default chat contains tool activity")
 		return
@@ -63,11 +63,12 @@ func _run() -> void:
 	if not str(ui.tool_count_label.text).contains("3"):
 		_fail("call count label not updated: " + str(ui.tool_count_label.text))
 		return
-	for state in {"awaiting_confirmation":"待确认","unknown":"结果未知","cancelled":"已取消"}:
-		ui.on_agent_tool("diagnostics", false, state)
+	var expected_marks := {"awaiting_confirmation":"待确认","unknown":"结果未知","cancelled":"已取消","expired":"已过期"}
+	for state in expected_marks:
+		runtime._handle_core_event({"type":"agent.tool","tool":"diagnostics","ok":false,"outcome":state})
 		var marker: Label = ui.tool_rows_box.get_child(-1).get_child(2)
-		if marker.text == "✗" or marker.text.is_empty():
-			_fail("nonfailure marked as failure: " + state)
+		if marker.text != expected_marks[state]:
+			_fail("wrong diagnostic status: " + state)
 			return
 
 	# 5) 用户发新消息 -> 重置；下一个工具事件开新卡

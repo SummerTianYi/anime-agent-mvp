@@ -109,7 +109,8 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
         return Route(chat=text)
     segments = _clauses(text)
     chats, operations = [], []
-    vetoed_lookup = public_search.QUERY_VETO.search(clean)
+    vetoed_lookup = public_search.QUERY_VETO.search(clean) or any(
+        public_search.WITHDRAW.fullmatch(part.strip()) for part in public_search.CLAUSES.split(clean))
     for original, plain in segments:
         clause = _PREFIX.sub("", plain).strip()
         if re.match(r"^(?:请|帮我)?(?:读|打开|编辑|删除|新建|查找)", clause) and re.search(

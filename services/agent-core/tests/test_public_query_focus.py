@@ -17,6 +17,9 @@ class AdmissionTests(unittest.TestCase):
             "查一下F1积分，算了，不必上网了。", "F1的积分先不用去查。", "别帮我搜网页，我只想聊聊F1积分。",
             "请解释“现在F1积分如何”这句话。", "Can you explain ‘search the web for F1 standings’?",
             "我不是让你查现在的F1赛程。", "我没叫你再查F1的积分榜。",
+            "请查F1积分，算了，不需要了。",
+            "消息里写着 '查F1积分'。", "我没有要你查询F1赛程。",
+            "请搜索网页查F1积分，算了。",
         )
         for text in samples:
             with self.subTest(text=text):
@@ -34,6 +37,7 @@ class AdmissionTests(unittest.TestCase):
             ("不用讲积分规则，告诉我现在F1下一站在哪？","F1",("赛程",)),
             ("你知不知道F1现在的积分榜？","F1",("积分榜",)),
             ("别查F1积分，查一下英超积分榜。","英超",("积分榜",)),
+            ("查一下F1车手积分，不要查车队积分。","F1",("积分榜",)),
         ):
             with self.subTest(text=text):
                 lookup = public_search.plan(text)
@@ -76,6 +80,10 @@ class AdmissionTests(unittest.TestCase):
         self.assertIn("只列前三名",q)
         self.assertNotIn("927",q)
         self.assertNotIn("example.org",q)
+        after_mail = public_search.answer_question("查F1积分并发给 x@example.org。回答只列前二。邮件正文：甲，乙。")
+        self.assertIn("回答只列前二",after_mail)
+        self.assertNotIn("乙",after_mail)
+        self.assertNotIn("example.org",after_mail)
 
 
 class DeliveryTests(unittest.IsolatedAsyncioTestCase):
@@ -137,6 +145,18 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual((event["emotion"],event["emotion_intensity"],event["gesture"]),("happy",0.73,"nod"))
         self.assertFalse(self.store.connection.execute("SELECT 1 FROM facts").fetchone())
 
+    async def test_muted_foreground_avatar_still_gets_expression_after_idle(self):
+        self.rig()
+        with (patch.object(core.hub,"role_count",return_value=1),
+              patch.object(core,"_speak_reply",new_callable=AsyncMock) as speaker):
+            await core.handle_chat("现在F1积分如何？","muted",self.sid)
+        speaker.assert_not_awaited()
+        events = [c.args[1] for c in core.hub.send_roles.await_args_list]
+        idle = next(i for i,e in enumerate(events) if e.get("state")=="idle")
+        commands = [e for e in events[idle+1:] if e["type"]=="avatar.command"]
+        self.assertEqual([e["event"] for e in commands],["avatar.smile","avatar.nod"])
+        self.assertEqual(commands[0]["payload"],{"intensity":0.73})
+
     async def test_negation_preserves_unrelated_pending_ticket(self):
         self.rig(ask=True)
         self.model.return_value = '{"reply":"好，我们聊聊。"}'
@@ -146,3 +166,23 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(core._actions().pending(self.sid),[row])
         self.transport.assert_not_awaited()
         self.assertEqual(self.last_event()["channel"],"companion")
+
+    async def test_explicit_withdrawal_only_revokes_matching_pending_read(self):
+        self.rig(ask=True)
+        await core.handle_chat("查一下F1积分榜。","lookup",self.sid)
+        book = core._actions()
+        pending = book.pending(self.sid)[0]
+        other = book.propose(self.sid,"mail","earlier","mcp__gmail__send_email",{"to":["test@example.org"]})
+        await core._publish_pending(self.sid)
+        await core.handle_chat("先别查F1的积分了。","withdrawn",self.sid)
+        self.assertEqual(pending["status"],"cancelled")
+        self.assertEqual(book.pending(self.sid),[other])
+        await core.handle_chat("确认","stale",self.sid,confirmation=book.ticket(pending))
+        self.transport.assert_not_awaited()
+        self.assertEqual(book.pending(self.sid),[other])
+
+    async def test_summary_does_not_duplicate_its_date(self):
+        self.rig()
+        self.model.return_value='{"reply":"周遥368分。查询日期：2025-04-12。","source_numbers":[1]}'
+        await core.handle_chat("查一下F1积分。","once",self.sid)
+        self.assertEqual(self.last_event()["text"].count("2025-04-12"),1)
