@@ -80,6 +80,9 @@ class QueryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(messages[-1]["role"],"user")
         self.assertIn(SOURCE["content"],messages[-1]["content"])
         self.assertNotIn("合成巷",str(messages))
+        self.transport.return_value={**RESULT,"sources":[{**SOURCE,"url":f"https://example.org/{i}"} for i in range(4)]}
+        self.model.return_value=json.dumps({"reply":"最后一份公报更新了积分。","source_numbers":[1,2,3,4]})
+        self.assertIn("https://example.org/3",await self.say(F1,"all-cited-sources"))
 
     async def test_legacy_connector_cannot_export_private_context_or_extra_filters(self):
         self.rig()

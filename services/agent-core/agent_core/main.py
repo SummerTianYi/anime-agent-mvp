@@ -1644,7 +1644,8 @@ async def _public_lookup(session_id, task, lookup, receipt):
     selected = [sources[n-1] for n in numbers if type(n) is int and 1<=n<=len(sources)] if isinstance(numbers,list) else []
     if not selected:
         selected = list({s.get("field",""):s for s in reversed(sources)}.values())
-    urls = list(dict.fromkeys(s["url"] for s in selected))[:3]
+    # Keep every cited document, including a late result supporting the standings.
+    urls = list(dict.fromkeys(s["url"] for s in selected))
     source_block = "来源：\n" + "\n".join(urls)
     answer += "\n查询于 " + as_of + "。" + source_block
     task["source_block"] = source_block
