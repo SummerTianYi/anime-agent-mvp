@@ -1196,7 +1196,7 @@ async def _speak_reply(text: str, request_id: str, narrating: bool = False) -> b
         # Codex: no fake speaking animation after a failed audio request.
         memory.add_event("speech.unavailable", {"request_id": request_id, "message": str(exc)})
         if _voice_owner():
-            await hub.send_roles({"avatar", "ui"}, event("core.error", message=str(exc), request_id=request_id, **_turn_tags()))
+            await hub.send_roles({"avatar", "ui"}, event("core.error", message="这次语音没有播出，文字回复可以查看。", request_id=request_id, **_turn_tags()))
         if speech_manager.current is None and request_id not in _superseded_requests:
             await broadcast_state("working" if narrating else "idle", request_id)
         return False
