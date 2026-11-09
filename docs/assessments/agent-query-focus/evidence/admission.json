@@ -1,0 +1,184 @@
+[
+  {
+    "input": "我没有让你搜索网页查F1积分榜。",
+    "before": {
+      "route": "task",
+      "search_scope": {
+        "subject": "F1",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    },
+    "after": {
+      "route": "companion",
+      "search_scope": null
+    }
+  },
+  {
+    "input": "请搜索网页查F1积分，算了。",
+    "before": {
+      "route": "task",
+      "search_scope": {
+        "subject": "F1",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    },
+    "after": {
+      "route": "companion",
+      "search_scope": null
+    }
+  },
+  {
+    "input": "你能不能帮我查一下F1积分？",
+    "before": {
+      "route": "task",
+      "search_scope": {
+        "subject": "F1",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    },
+    "after": {
+      "route": "task",
+      "search_scope": {
+        "subject": "F1",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    }
+  },
+  {
+    "input": "别查F1积分，查一下英超积分榜。",
+    "before": {
+      "route": "companion",
+      "search_scope": null
+    },
+    "after": {
+      "route": "task",
+      "search_scope": {
+        "subject": "英超",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    }
+  },
+  {
+    "input": "查一下F1车手积分，不要查车队积分。",
+    "before": {
+      "route": "companion",
+      "search_scope": null
+    },
+    "after": {
+      "route": "task",
+      "search_scope": {
+        "subject": "F1",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    }
+  },
+  {
+    "input": "我只想知道现在Godot的稳定版，不用讲升级过程。",
+    "before": {
+      "route": "task",
+      "search_scope": {
+        "subject": "Godot",
+        "fields": [
+          "最新稳定版本"
+        ],
+        "year": 2026
+      }
+    },
+    "after": {
+      "route": "task",
+      "search_scope": {
+        "subject": "Godot",
+        "fields": [
+          "最新稳定版本"
+        ],
+        "year": 2026
+      }
+    }
+  },
+  {
+    "input": "查一下2024年F1车队积分榜，截至2024年6月18日，只报前两名。",
+    "before": {
+      "route": "task",
+      "search_scope": {
+        "subject": "F1",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2024
+      }
+    },
+    "after": {
+      "route": "task",
+      "search_scope": {
+        "subject": "F1",
+        "fields": [
+          "车队积分榜"
+        ],
+        "year": 2024,
+        "through": "2024-06-18"
+      }
+    }
+  },
+  {
+    "input": "请同时比较F1和英超的最新积分榜。",
+    "before": {
+      "route": "companion",
+      "search_scope": null
+    },
+    "after": {
+      "route": "companion",
+      "search_scope": null
+    }
+  },
+  {
+    "input": "那第三位呢？",
+    "before": {
+      "route": "companion",
+      "search_scope": null
+    },
+    "after": {
+      "route": "companion",
+      "search_scope": null
+    }
+  },
+  {
+    "input": "我想查 F1 积分，但不要联网。",
+    "before": {
+      "route": "companion",
+      "search_scope": null
+    },
+    "after": {
+      "route": "companion",
+      "search_scope": null
+    }
+  },
+  {
+    "input": "他说‘查一下F1积分’，我想知道这句话什么意思。",
+    "before": {
+      "route": "companion",
+      "search_scope": null
+    },
+    "after": {
+      "route": "companion",
+      "search_scope": null
+    }
+  }
+]

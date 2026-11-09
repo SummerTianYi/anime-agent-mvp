@@ -1,0 +1,244 @@
+{
+  "base_commit": "5101fc064d35f11a0837d4e9bdcc8308528dcb0a",
+  "trial_freeze": "4ccd4ed5d032b22e00059971819f3721b35edee4",
+  "runtime_commit": "c3cd4fbfb5cd6671537d767d26dacab6bed1cef2",
+  "core": {
+    "before": 576,
+    "before_seconds": 47.771,
+    "red_cases": 8,
+    "red_detail": [
+      "FAIL: test_legacy_negative_tail_cannot_become_a_search",
+      "FAIL: test_negative_scope_keeps_separate_positive_requests",
+      "FAIL: test_negative_scope_keeps_separate_positive_requests",
+      "FAIL: test_negative_scope_keeps_separate_positive_requests",
+      "FAIL: test_negative_scope_keeps_separate_positive_requests",
+      "FAIL: test_negative_scope_keeps_separate_positive_requests",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_negatives_and_quotations_never_admit_a_lookup",
+      "FAIL: test_approval_recovers_constraints_and_excludes_recipient",
+      "FAIL: test_avatar_fields_survive_delivery_without_memory_side_effect",
+      "FAIL: test_matching_ticket_uses_latest_presentation_without_double_dispatch",
+      "FAIL: test_negation_preserves_unrelated_pending_ticket",
+      "FAIL: test_original_constraints_in_solver_but_not_search"
+    ],
+    "targeted": 84,
+    "targeted_seconds": 2.234,
+    "final": 589,
+    "final_seconds": 44.77,
+    "failures": 0,
+    "skipped": 0
+  },
+  "avatar": {
+    "model": "df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a",
+    "gates": [
+      {
+        "gate": "import",
+        "exit": 0,
+        "marker": null,
+        "passed": true
+      },
+      {
+        "gate": "verify_text_input",
+        "exit": 0,
+        "marker": "GODOT_CHAT_SHORTCUT_GUARD_OK",
+        "passed": true
+      },
+      {
+        "gate": "verify_session_ui",
+        "exit": 0,
+        "marker": "GODOT_SESSION_UI_OK",
+        "passed": true
+      },
+      {
+        "gate": "verify_tool_activity",
+        "exit": 0,
+        "marker": "GODOT_TOOL_ACTIVITY_OK",
+        "passed": true
+      },
+      {
+        "gate": "verify_effort_ui",
+        "exit": 0,
+        "marker": "GODOT_EFFORT_UI_OK",
+        "passed": true
+      },
+      {
+        "gate": "verify_speech_delivery",
+        "exit": 0,
+        "marker": "SPEECH_DELIVERY_REGRESSION",
+        "passed": true
+      },
+      {
+        "gate": "verify_emotion_presets",
+        "exit": 0,
+        "marker": "GODOT_EMOTION_PRESETS_PASS",
+        "passed": true
+      },
+      {
+        "gate": "verify_query_expression",
+        "exit": 0,
+        "marker": "QUERY_EXPRESSION_OK",
+        "passed": true
+      }
+    ]
+  },
+  "expression_presets": {
+    "assertions": 204019,
+    "frames": 4207,
+    "failures": 0
+  },
+  "main_slice": {
+    "full_candidate_on_main": {
+      "exit": 1,
+      "last": "error: services/agent-core/agent_core/tool_contracts.py: No such file or directory"
+    },
+    "clean_apply_check": {
+      "exit": 0,
+      "last": ""
+    },
+    "apply": {
+      "exit": 0,
+      "last": ""
+    },
+    "diagnostic_probe": {
+      "exit": 0,
+      "last": "SLICE_PROBE_OK 5 outcomes and speech fault separated from diagnostic record"
+    },
+    "core": {
+      "exit": 0,
+      "last": "tests 390 skipped 0 failed []"
+    },
+    "godot": {
+      "model": "df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a",
+      "gates": [
+        {
+          "gate": "import",
+          "exit": 0,
+          "marker": null,
+          "passed": true
+        },
+        {
+          "gate": "verify_text_input",
+          "exit": 0,
+          "marker": "GODOT_CHAT_SHORTCUT_GUARD_OK",
+          "passed": true
+        },
+        {
+          "gate": "verify_tool_activity",
+          "exit": 0,
+          "marker": "GODOT_TOOL_ACTIVITY_OK",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "ambiguity": {
+    "main_plus_diagnostics": {
+      "ambiguous_dispatches": 1,
+      "dispatched_files": [
+        "one.txt"
+      ],
+      "states": [
+        "succeeded",
+        "awaiting_confirmation"
+      ]
+    },
+    "candidate": {
+      "ambiguous_dispatches": 0,
+      "dispatched_files": [
+        "two.txt"
+      ],
+      "states": [
+        "awaiting_confirmation",
+        "succeeded"
+      ]
+    },
+    "real_writes": 0
+  },
+  "persona_sha256": {
+    "role": "7f57bf41e8f2764fe9bfbf6797c5323d253d7d1f1a73440873c65d067582207e",
+    "contract": "e43c97d067285fe88688c63c53f97789e6aa306f1d11b8983d2f10a271dc7910",
+    "effective": "714ae650ce060f0a645f2fa1055878790438a5e93566ceda18a3ecbdc9d9c9f6",
+    "same_in": [
+      "base",
+      "candidate",
+      "fixed_main",
+      "desktop_source"
+    ]
+  },
+  "production_checkout": {
+    "head": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+    "status_records": 105,
+    "status_porcelain_sha256": "2e6ee9919f7fda30d330a8b24311c70eb1a05c142cf7f00a652966e430f3f4ea",
+    "processes": [
+      {
+        "ProcessId": 49240,
+        "Name": "python.exe",
+        "StartedUtc": "2026-11-09T12:44:48.0036030Z"
+      },
+      {
+        "ProcessId": 24024,
+        "Name": "python.exe",
+        "StartedUtc": "2026-11-09T12:44:48.1663600Z"
+      },
+      {
+        "ProcessId": 5840,
+        "Name": "Godot_v4.7.2-stable_win64.exe",
+        "StartedUtc": "2026-11-09T12:45:33.6942740Z"
+      },
+      {
+        "ProcessId": 31428,
+        "Name": "python.exe",
+        "StartedUtc": "2026-11-09T12:45:47.6620720Z"
+      },
+      {
+        "ProcessId": 5584,
+        "Name": "python.exe",
+        "StartedUtc": "2026-11-09T12:45:47.8555860Z"
+      }
+    ],
+    "test_connections": 0,
+    "database_reads_from_test": 0
+  },
+  "desktop_build": {
+    "offline": true,
+    "vite": "7.3.6",
+    "transformed_modules": 29,
+    "succeeded": true
+  },
+  "local_assets": {
+    "sha256": [
+      "DF55806D343D149B41C20D0EF074373CAFCA2379212FD8691E998EA6CDDC6E4A",
+      "5CF15A1D3E657CF76E5F58E33C9D3593A14494B89817AD2A910D57CABF9D433A",
+      "1FEFBF0667711845E4FC6E0574D57D74C8982E15AA76A2A25BB9192BE1FAA284"
+    ]
+  },
+  "docs": {
+    "marker": "DOCS_CONSISTENCY_OK",
+    "tests": 589,
+    "code_env_vars": 42,
+    "template_entries": 46,
+    "registered_tools": 9
+  },
+  "providers": {
+    "DS": 6,
+    "MiniMax": 6,
+    "external_search": 0,
+    "retry": 0,
+    "failed_http": 0,
+    "real_synthesis": 0
+  },
+  "failed_probes": [
+    "initial 8 focus cases failed on base",
+    "early companion test fixture also proposed a memory; used an ordinary reply to test admission in isolation",
+    "muted avatar produced no expression commands",
+    "Godot speaking transition discarded smile intensity",
+    "legacy preset gate referenced removed speaking_mouth_elapsed, timed out at 190 seconds; updated test to use muted PCM and actual playback",
+    "pnpm command rejected --offline for a run script; used installed dependencies with npm_config_offline=true"
+  ]
+}

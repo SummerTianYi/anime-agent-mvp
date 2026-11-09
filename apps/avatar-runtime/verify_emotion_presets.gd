@@ -13,6 +13,21 @@ func _run() -> void:
 	runtime = load("res://main.tscn").instantiate()
 	runtime.set_script(OfflineRuntime)
 	root.add_child(runtime)
+	# The current avatar drives its jaw from PCM playback. A muted test player
+	# exercises that contract without a TTS server or audible output.
+	AudioServer.set_bus_mute(0, true)
+	var wav := AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = 16000
+	var pcm := PackedByteArray()
+	pcm.resize(wav.mix_rate * 4)
+	for index in range(pcm.size() / 2):
+		pcm.encode_s16(index * 2, roundi(14000.0 * sin(float(index) * 0.16)))
+	wav.data = pcm
+	runtime.speech_pcm = pcm
+	runtime.speech_player = AudioStreamPlayer.new()
+	runtime.add_child(runtime.speech_player)
+	runtime.speech_player.stream = wav
 	for event in EXPECTED:
 		_reset()
 		runtime.handle_agent_event("avatar." + event)
@@ -38,6 +53,8 @@ func _run() -> void:
 		_step(0.45)
 		_expect_mix(EXPECTED[event], "thinking keeps " + event)
 		runtime._set_agent_state("speaking")
+		runtime.speech_player.play(0.5)
+		await create_timer(0.1).timeout
 		_step(0.35)
 		_assert(_value("∧") < 0.002 and _value("口角下げ") < 0.002,"no speech jaw conflict " + event)
 		var open_mouth := 0.0
@@ -46,16 +63,22 @@ func _run() -> void:
 		_assert(open_mouth > 0.1,"speech mouth moves " + event)
 		_assert(_value("笑い") < 0.002,"no automatic happy face over " + event)
 		runtime._set_agent_state("idle")
+		runtime.speech_player.stop()
 		_step(0.45)
 		_expect_mix(EXPECTED[event],"speech return " + event)
 	# States already active before a preset must also return after its timeout.
 	for state in ["thinking","working","error","speaking"]:
 		_reset()
 		runtime._set_agent_state(state)
+		if state == "speaking":
+			runtime.speech_player.play(0.5)
+			await create_timer(0.1).timeout
 		_step(0.5)
-		var speech_clock: float = runtime.speaking_mouth_elapsed
+		var position: float = runtime.speech_player.get_playback_position()
+		var jaw: float = runtime.speech_open
 		runtime.handle_agent_event("avatar.tears")
-		_assert(runtime.speaking_mouth_elapsed == speech_clock,"emotion preserves speech clock")
+		_assert(runtime.speech_open == jaw and runtime.speech_player.playing == (state == "speaking")
+				and runtime.speech_player.get_playback_position() >= position,"emotion preserves playback and jaw")
 		_step(3.0)
 		var state_shape: String = {"thinking":"じと目","working":"じと目","error":"困る","speaking":"笑い"}[state]
 		var state_weight: float = {"thinking":0.28,"working":0.18,"error":0.72,"speaking":0.18}[state]
@@ -110,6 +133,8 @@ func _run() -> void:
 	quit(0 if failures.is_empty() else 1)
 
 func _reset() -> void:
+	runtime.speech_player.stop()
+	runtime.speech_open = 0.0
 	runtime.handle_agent_event("avatar.reset")
 	runtime._set_agent_state("idle")
 	runtime.blink_timer = 1000.0
@@ -120,8 +145,8 @@ func _reset() -> void:
 
 func _step(seconds: float) -> void:
 	for frame in range(roundi(seconds*60)):
-		runtime._process_speaking_mouth(1.0/60.0)
 		runtime._process_expressions(1.0/60.0)
+		runtime._process_speaking_mouth(1.0/60.0)
 		_check_finite()
 
 func _value(name: String) -> float:
