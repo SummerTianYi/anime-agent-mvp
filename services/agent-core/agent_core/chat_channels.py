@@ -109,6 +109,7 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
         return Route(chat=text)
     segments = _clauses(text)
     chats, operations = [], []
+    vetoed_lookup = public_search.QUERY_VETO.search(clean)
     for original, plain in segments:
         clause = _PREFIX.sub("", plain).strip()
         if re.match(r"^(?:请|帮我)?(?:读|打开|编辑|删除|新建|查找)", clause) and re.search(
@@ -117,7 +118,9 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
         instruction = clause[_PREFIX_WORDS.match(clause).end():]
         explicit = (_OPERATION.search(instruction) or _COMMAND_WITH_TARGET.search(instruction) or _ENGLISH.search(clause)
                     or re.match(r"^(?:请|帮我)?(?:截图|截个图|读屏|报时|现在几点(?:了|钟)?|今天(?:几号|星期几))[吧。！!？? ]*$", clause))
-        if explicit and not (_INFO.search(clause) or _NO_ACTION.search(clause)):
+        search_request = re.match(r"^(?:查|搜|检索|上网|联网|浏览网页)", instruction)
+        if explicit and not (_INFO.search(clause) or _NO_ACTION.search(clause)
+                             or (vetoed_lookup and search_request)):
             operations.append(original)
         elif original:
             chats.append(original)
