@@ -1,0 +1,459 @@
+[
+  {
+    "slot": 1,
+    "case": "consent",
+    "provider": "DS",
+    "model": "deepseek-flash",
+    "prompt_sha256": "8f07183129642428b838cebee72aa1080d30d052c56dd29f49f0741c78d265b4",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_cQmldvyUVQIsVLoAbmob7279",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\": \"withdraw\", \"ticket\": 1, \"reference\": \"F1 积分榜\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 2623,
+      "completion_tokens": 217,
+      "total_tokens": 2840,
+      "prompt_tokens_details": {
+        "cached_tokens": 1536
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 138
+      },
+      "prompt_cache_hit_tokens": 1536,
+      "prompt_cache_miss_tokens": 1087
+    },
+    "elapsed_seconds": 7.375
+  },
+  {
+    "slot": 2,
+    "case": "consent",
+    "provider": "MiniMax",
+    "model": "MiniMax-M3.1-Flash",
+    "prompt_sha256": "8f07183129642428b838cebee72aa1080d30d052c56dd29f49f0741c78d265b4",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_9dcafd1c35924abf8f2a5dd3",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\":\"withdraw\",\"ticket\":1,\"reference\":\"F1 积分榜\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "MiniMax-M3.1-Flash",
+    "usage": {
+      "total_tokens": 2865,
+      "total_characters": 0,
+      "prompt_tokens": 2665,
+      "completion_tokens": 200,
+      "completion_tokens_details": {
+        "reasoning_tokens": 147
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "elapsed_seconds": 9.562
+  },
+  {
+    "slot": 3,
+    "case": "pause",
+    "provider": "MiniMax",
+    "model": "MiniMax-M3.1-Flash",
+    "prompt_sha256": "e8f15f455815e4f9af69c94956e0b94a80ee868f74b557116cee5535cf4c85b5",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_01a1c3e50c7e7208a556bede",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\":\"withdraw\",\"ticket\":1,\"reference\":\"F1 积分榜\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "MiniMax-M3.1-Flash",
+    "usage": {
+      "total_tokens": 2860,
+      "total_characters": 0,
+      "prompt_tokens": 2664,
+      "completion_tokens": 196,
+      "completion_tokens_details": {
+        "reasoning_tokens": 143
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 186
+      }
+    },
+    "elapsed_seconds": 12.594
+  },
+  {
+    "slot": 4,
+    "case": "pause",
+    "provider": "DS",
+    "model": "deepseek-flash",
+    "prompt_sha256": "e8f15f455815e4f9af69c94956e0b94a80ee868f74b557116cee5535cf4c85b5",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_QcpsbPVeZ9JkcipTrhKL2614",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\": \"withdraw\", \"ticket\": 1, \"reference\": \"F1 积分榜\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 2622,
+      "completion_tokens": 117,
+      "total_tokens": 2739,
+      "prompt_tokens_details": {
+        "cached_tokens": 2432
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 38
+      },
+      "prompt_cache_hit_tokens": 2432,
+      "prompt_cache_miss_tokens": 190
+    },
+    "elapsed_seconds": 3.343
+  },
+  {
+    "slot": 5,
+    "case": "drivers",
+    "provider": "DS",
+    "model": "deepseek-flash",
+    "prompt_sha256": "412ef22bcdd8dd78e56a347eba73567fa4371ad129b750f6fea0bb220119c249",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_3j9GPNK1CJMjfAzmH5C39946",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\": \"lookup\", \"subject\": \"F1\", \"fields\": [\"积分榜\"], \"evidence\": \"查一下 F1 积分榜\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 2595,
+      "completion_tokens": 140,
+      "total_tokens": 2735,
+      "prompt_tokens_details": {
+        "cached_tokens": 1664
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 40
+      },
+      "prompt_cache_hit_tokens": 1664,
+      "prompt_cache_miss_tokens": 931
+    },
+    "elapsed_seconds": 3.297
+  },
+  {
+    "slot": 6,
+    "case": "drivers",
+    "provider": "MiniMax",
+    "model": "MiniMax-M3.1-Flash",
+    "prompt_sha256": "412ef22bcdd8dd78e56a347eba73567fa4371ad129b750f6fea0bb220119c249",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "chatcmpl-tool-9490fc5813e14833",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\":\"lookup\",\"evidence\":\"查一下 F1 积分榜，不要车队积分榜\",\"subject\":\"F1\",\"fields\":[\"积分榜\"]}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "MiniMax-M3.1-Flash",
+    "usage": {
+      "total_tokens": 2807,
+      "total_characters": 0,
+      "prompt_tokens": 2638,
+      "completion_tokens": 169,
+      "completion_tokens_details": {
+        "reasoning_tokens": 92
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "elapsed_seconds": 10.453
+  },
+  {
+    "slot": 7,
+    "case": "switch",
+    "provider": "MiniMax",
+    "model": "MiniMax-M3.1-Flash",
+    "prompt_sha256": "8caa8bcab208eac2466e9f514070071f344d6cb555a8a48b59571291167576b8",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_01a1c3e59f0d704c82765c1a",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\":\"replace\",\"ticket\":1,\"reference\":\"F1\",\"evidence\":\"改查英超\",\"subject\":\"英超\",\"fields\":[\"积分榜\"],\"year\":2026}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "MiniMax-M3.1-Flash",
+    "usage": {
+      "total_tokens": 3061,
+      "total_characters": 0,
+      "prompt_tokens": 2663,
+      "completion_tokens": 398,
+      "completion_tokens_details": {
+        "reasoning_tokens": 301
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      }
+    },
+    "elapsed_seconds": 16.984
+  },
+  {
+    "slot": 8,
+    "case": "switch",
+    "provider": "DS",
+    "model": "deepseek-flash",
+    "prompt_sha256": "8caa8bcab208eac2466e9f514070071f344d6cb555a8a48b59571291167576b8",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_pKkISuVpdRRR4EzM6bil9409",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\": \"replace\", \"ticket\": 1, \"reference\": \"F1\", \"evidence\": \"改查英超\", \"subject\": \"英超\", \"fields\": [\"积分榜\"]}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 2622,
+      "completion_tokens": 336,
+      "total_tokens": 2958,
+      "prompt_tokens_details": {
+        "cached_tokens": 2432
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 208
+      },
+      "prompt_cache_hit_tokens": 2432,
+      "prompt_cache_miss_tokens": 190
+    },
+    "elapsed_seconds": 5.016
+  },
+  {
+    "slot": 9,
+    "case": "version",
+    "provider": "DS",
+    "model": "deepseek-flash",
+    "prompt_sha256": "212316157d374755a6c63566fbc1d739f59a8f7af9587b8f7506ae7d5d21cb87",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_qEvYhTEvDIsfSiGKW0j87680",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\": \"lookup\", \"subject\": \"Godot\", \"fields\": [\"最新稳定版本\"], \"evidence\": \"Godot 目前的稳定版本号\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 2594,
+      "completion_tokens": 145,
+      "total_tokens": 2739,
+      "prompt_tokens_details": {
+        "cached_tokens": 2432
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 44
+      },
+      "prompt_cache_hit_tokens": 2432,
+      "prompt_cache_miss_tokens": 162
+    },
+    "elapsed_seconds": 4.484
+  },
+  {
+    "slot": 10,
+    "case": "version",
+    "provider": "MiniMax",
+    "model": "MiniMax-M3.1-Flash",
+    "prompt_sha256": "212316157d374755a6c63566fbc1d739f59a8f7af9587b8f7506ae7d5d21cb87",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_01a1c3e5dc4c71288d2ae425",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\":\"lookup\",\"subject\":\"Godot\",\"fields\":[\"最新稳定版本\"],\"evidence\":\"核实一下 Godot 目前的稳定版本号\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "MiniMax-M3.1-Flash",
+    "usage": {
+      "total_tokens": 2816,
+      "total_characters": 0,
+      "prompt_tokens": 2637,
+      "completion_tokens": 179,
+      "completion_tokens_details": {
+        "reasoning_tokens": 102
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      }
+    },
+    "elapsed_seconds": 6.188
+  },
+  {
+    "slot": 11,
+    "case": "quote",
+    "provider": "MiniMax",
+    "model": "MiniMax-M3.1-Flash",
+    "prompt_sha256": "8bcaa24d9ba0b90dda1170770c843a8a98fe0bcd5bd803544f0f17f556369cc8",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "call_f12d35379a65456599e92bc3",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\": \"keep\"}"
+          },
+          "index": 0
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "MiniMax-M3.1-Flash",
+    "usage": {
+      "total_tokens": 2822,
+      "total_characters": 0,
+      "prompt_tokens": 2678,
+      "completion_tokens": 144,
+      "completion_tokens_details": {
+        "reasoning_tokens": 115
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      }
+    },
+    "elapsed_seconds": 9.203
+  },
+  {
+    "slot": 12,
+    "case": "quote",
+    "provider": "DS",
+    "model": "deepseek-flash",
+    "prompt_sha256": "8bcaa24d9ba0b90dda1170770c843a8a98fe0bcd5bd803544f0f17f556369cc8",
+    "outcome": "received",
+    "message": {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_dPsLgbZMh9Ojgck6KHta8588",
+          "type": "function",
+          "function": {
+            "name": "propose_public_query",
+            "arguments": "{\"mode\": \"keep\"}"
+          }
+        }
+      ]
+    },
+    "finish_reason": "tool_calls",
+    "served_model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 2637,
+      "completion_tokens": 107,
+      "total_tokens": 2744,
+      "prompt_tokens_details": {
+        "cached_tokens": 2432
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 66
+      },
+      "prompt_cache_hit_tokens": 2432,
+      "prompt_cache_miss_tokens": 205
+    },
+    "elapsed_seconds": 3.437
+  }
+]

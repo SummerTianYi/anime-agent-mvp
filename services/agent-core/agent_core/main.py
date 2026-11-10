@@ -1867,19 +1867,25 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 if not cancelled:
                     mode, lookup = "stale", None
                 else:
+                    if owner:
+                        owner.task = matched["task_id"]
                     cancelled_query = "已取消" + public_search.describe(matched["arguments"]) + "的待办，旧确认已失效。"
                     pending = _sync_pending(session_id)
                     if task and task["id"]==matched["task_id"] and not any(a["task_id"]==task["id"] for a in pending):
                         task["blocked"] = True
                     memory.add_event("permission.revoked", {"session_id":session_id, "request_id":request_id,
                                      "actions":[proposal.ticket]})
-                    await _publish_pending(session_id)
+                    if lookup is None:
+                        await _publish_pending(session_id)
             if lookup is None:
-                if mode == "chat":
+                has_public_ticket = any(a["tool"]==public_search.TOOL for a in pending)
+                if mode == "chat" and not has_public_ticket:
                     await _companion_turn(text, session_id, request_id, is_first_exchange, effort)
                     return
+                if mode == "chat":
+                    mode = "keep"
                 message = cancelled_query or {
-                    "keep":"这次没有发起查询。" + ("原来的查询仍在等你确认。" if any(a["tool"]==public_search.TOOL for a in pending) else ""),
+                    "keep":"这次没有发起查询。" + ("原来的查询仍在等你确认。" if has_public_ticket else ""),
                     "stale":"刚才的查询待办已变更。请重新指定要处理的查询。",
                     "clarify":"你想处理哪项赛事或哪个公开对象的查询？请说明要查的资料或要撤回的待办。"
                 }[mode]

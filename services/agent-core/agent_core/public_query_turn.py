@@ -78,6 +78,18 @@ def resolve_ticket(args, text, tickets):
         raise ValueError("missing public ticket")
     if ref not in search.QUOTES.sub(" ",text):
         raise ValueError("ungrounded withdrawal")
+    # A shared word such as “积分榜” cannot identify F1 when the actual
+    # withdrawal names another competition. Ignore the separate new request.
+    target = search.QUOTES.sub(" ",text)
+    new_request = args.get("evidence")
+    if args["mode"]=="replace" and isinstance(new_request,str) and ref not in new_request:
+        target = target.replace(new_request," ",1)
+    target_topics = topics(target)
+    explicit = {r["arguments"]["subject"] for r in tickets if r["arguments"]["subject"] in target}
+    subject = tickets[number-1]["arguments"]["subject"]
+    if ((target_topics and subject not in target_topics|explicit)
+            or (search.PUBLIC_EVENT.search(target) and not target_topics and subject not in explicit)):
+        raise ValueError("different public target")
     subjects = topics(ref)
     year, through = search.requested_period(text)
     # A year in the replacement phrase describes its new target.
@@ -106,6 +118,8 @@ def resolve_lookup(args, text, context):
     subject = args.get("subject")
     scope = {k:args[k] for k in ("subject","fields","year","through") if k in args}
     public_text = search.answer_question(text)
+    if context and args["mode"]!="replace" and subject!=context.get("subject"):
+        context = None
     year, through = search.requested_period(evidence if args["mode"]=="replace" and isinstance(evidence,str) else public_text)
     scope.setdefault("year", year or (context or {}).get("year") or search.date.today().year)
     if not search.valid(scope) or not isinstance(evidence,str) or not evidence.strip():
@@ -124,6 +138,9 @@ def resolve_lookup(args, text, context):
                 raise ValueError("unknown subject")
         if "公开资料" in scope["fields"]:
             raise ValueError("literal required")
+        inherited_fields = set((context or {}).get("fields", ()))
+        if not set(scope["fields"]) <= inherited_fields and not any(re.search(p,clean) for p in search.FIELDS.values()):
+            raise ValueError("no field in this request or its public context")
     years = {year} if year else {search.date.today().year,(context or {}).get("year")}
     if scope["year"] not in years or scope.get("through","") not in ({through} if through else {"",(context or {}).get("through")}):
         raise ValueError("unsupported period")

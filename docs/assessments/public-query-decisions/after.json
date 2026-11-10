@@ -1,0 +1,366 @@
+[
+  {
+    "case": "consent",
+    "actual": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "已取消2026 年F1的积分榜的待办，旧确认已失效。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "old_confirmation_inert": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "old_confirmation_dispatches": [],
+    "passed": true,
+    "provider": "DS",
+    "model_response": "received",
+    "proposal_input": "8f07183129642428b838cebee72aa1080d30d052c56dd29f49f0741c78d265b4"
+  },
+  {
+    "case": "consent",
+    "actual": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "已取消2026 年F1的积分榜的待办，旧确认已失效。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "old_confirmation_inert": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "old_confirmation_dispatches": [],
+    "passed": true,
+    "provider": "MiniMax",
+    "model_response": "received",
+    "proposal_input": "8f07183129642428b838cebee72aa1080d30d052c56dd29f49f0741c78d265b4"
+  },
+  {
+    "case": "pause",
+    "actual": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "已取消2026 年F1的积分榜的待办，旧确认已失效。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "old_confirmation_inert": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "old_confirmation_dispatches": [],
+    "passed": true,
+    "provider": "MiniMax",
+    "model_response": "received",
+    "proposal_input": "e8f15f455815e4f9af69c94956e0b94a80ee868f74b557116cee5535cf4c85b5"
+  },
+  {
+    "case": "pause",
+    "actual": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "已取消2026 年F1的积分榜的待办，旧确认已失效。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "old_confirmation_inert": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "old_confirmation_dispatches": [],
+    "passed": true,
+    "provider": "DS",
+    "model_response": "received",
+    "proposal_input": "e8f15f455815e4f9af69c94956e0b94a80ee868f74b557116cee5535cf4c85b5"
+  },
+  {
+    "case": "drivers",
+    "actual": {
+      "old": null,
+      "dispatched": [
+        {
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ],
+          "year": 2026
+        }
+      ],
+      "new_pending": []
+    },
+    "http": [
+      {
+        "query": "2026 F1 drivers championship standings points as of 2026-11-10",
+        "search_depth": "advanced",
+        "max_results": 5,
+        "include_answer": false,
+        "include_domains": [
+          "fia.com",
+          "formula1.com",
+          "autosport.com",
+          "motorsport.com"
+        ],
+        "start_date": "2026-10-25",
+        "end_date": "2026-11-10"
+      }
+    ],
+    "reply": "我没有查到能核实这项问题的公开资料。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "passed": true,
+    "provider": "DS",
+    "model_response": "received",
+    "proposal_input": "412ef22bcdd8dd78e56a347eba73567fa4371ad129b750f6fea0bb220119c249"
+  },
+  {
+    "case": "drivers",
+    "actual": {
+      "old": null,
+      "dispatched": [
+        {
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ],
+          "year": 2026
+        }
+      ],
+      "new_pending": []
+    },
+    "http": [
+      {
+        "query": "2026 F1 drivers championship standings points as of 2026-11-10",
+        "search_depth": "advanced",
+        "max_results": 5,
+        "include_answer": false,
+        "include_domains": [
+          "fia.com",
+          "formula1.com",
+          "autosport.com",
+          "motorsport.com"
+        ],
+        "start_date": "2026-10-25",
+        "end_date": "2026-11-10"
+      }
+    ],
+    "reply": "我没有查到能核实这项问题的公开资料。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "passed": true,
+    "provider": "MiniMax",
+    "model_response": "received",
+    "proposal_input": "412ef22bcdd8dd78e56a347eba73567fa4371ad129b750f6fea0bb220119c249"
+  },
+  {
+    "case": "switch",
+    "actual": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": [
+        {
+          "subject": "英超",
+          "fields": [
+            "积分榜"
+          ],
+          "year": 2026
+        }
+      ]
+    },
+    "http": [],
+    "reply": "已取消2026 年F1的积分榜的待办，旧确认已失效。\n这项操作待确认。可以查询2026 年英超的积分榜吗？",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "old_confirmation_inert": true,
+      "new_once": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "old_confirmation_dispatches": [],
+    "after_new_confirmation": [
+      {
+        "subject": "英超",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    ],
+    "passed": true,
+    "provider": "MiniMax",
+    "model_response": "received",
+    "proposal_input": "8caa8bcab208eac2466e9f514070071f344d6cb555a8a48b59571291167576b8"
+  },
+  {
+    "case": "switch",
+    "actual": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": [
+        {
+          "subject": "英超",
+          "fields": [
+            "积分榜"
+          ],
+          "year": 2026
+        }
+      ]
+    },
+    "http": [],
+    "reply": "已取消2026 年F1的积分榜的待办，旧确认已失效。\n这项操作待确认。可以查询2026 年英超的积分榜吗？",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "old_confirmation_inert": true,
+      "new_once": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "old_confirmation_dispatches": [],
+    "after_new_confirmation": [
+      {
+        "subject": "英超",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    ],
+    "passed": true,
+    "provider": "DS",
+    "model_response": "received",
+    "proposal_input": "8caa8bcab208eac2466e9f514070071f344d6cb555a8a48b59571291167576b8"
+  },
+  {
+    "case": "version",
+    "actual": {
+      "old": null,
+      "dispatched": [
+        {
+          "subject": "Godot",
+          "fields": [
+            "最新稳定版本"
+          ],
+          "year": 2026
+        }
+      ],
+      "new_pending": []
+    },
+    "http": [
+      {
+        "query": "2026 Godot 最新稳定版本 as of 2026-11-10",
+        "search_depth": "advanced",
+        "max_results": 5,
+        "include_answer": false
+      }
+    ],
+    "reply": "我没有查到能核实这项问题的公开资料。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "passed": true,
+    "provider": "DS",
+    "model_response": "received",
+    "proposal_input": "212316157d374755a6c63566fbc1d739f59a8f7af9587b8f7506ae7d5d21cb87"
+  },
+  {
+    "case": "version",
+    "actual": {
+      "old": null,
+      "dispatched": [
+        {
+          "subject": "Godot",
+          "fields": [
+            "最新稳定版本"
+          ],
+          "year": 2026
+        }
+      ],
+      "new_pending": []
+    },
+    "http": [
+      {
+        "query": "2026 Godot 最新稳定版本 as of 2026-11-10",
+        "search_depth": "advanced",
+        "max_results": 5,
+        "include_answer": false
+      }
+    ],
+    "reply": "我没有查到能核实这项问题的公开资料。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "passed": true,
+    "provider": "MiniMax",
+    "model_response": "received",
+    "proposal_input": "212316157d374755a6c63566fbc1d739f59a8f7af9587b8f7506ae7d5d21cb87"
+  },
+  {
+    "case": "quote",
+    "actual": {
+      "old": "awaiting_confirmation",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "这次没有发起查询。原来的查询仍在等你确认。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "passed": true,
+    "provider": "MiniMax",
+    "model_response": "received",
+    "proposal_input": "8bcaa24d9ba0b90dda1170770c843a8a98fe0bcd5bd803544f0f17f556369cc8"
+  },
+  {
+    "case": "quote",
+    "actual": {
+      "old": "awaiting_confirmation",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "这次没有发起查询。原来的查询仍在等你确认。",
+    "checks": {
+      "target": true,
+      "other_ticket": true,
+      "native_mode": true,
+      "valid_proposal": true
+    },
+    "passed": true,
+    "provider": "DS",
+    "model_response": "received",
+    "proposal_input": "8bcaa24d9ba0b90dda1170770c843a8a98fe0bcd5bd803544f0f17f556369cc8"
+  }
+]

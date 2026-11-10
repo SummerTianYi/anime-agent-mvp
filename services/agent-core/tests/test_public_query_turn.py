@@ -90,6 +90,11 @@ class PublicTurnTests(unittest.IsolatedAsyncioTestCase):
             await core.handle_chat(text,"bad"+str(i),self.sid)
             self.assertEqual(self.book.pending(self.sid),[self.original])
             self.assertNotIn("已取消",self.store.load_messages(1,self.sid)[-1]["content"])
+        # Quoting only a shared field is insufficient when the user named another event.
+        self.propose.return_value=native({"mode":"withdraw","ticket":1,"reference":"积分榜"})
+        for i,other in enumerate(("先停一下英超的积分榜","温布尔登网球公开赛的积分榜先别查")):
+            await core.handle_chat(other,"other-event"+str(i),self.sid)
+            self.assertEqual(self.book.pending(self.sid),[self.original])
         self.propose.side_effect=core.ProviderError("offline")
         await core.handle_chat(text,"offline",self.sid)
         self.assertEqual(self.book.pending(self.sid),[self.original])
@@ -111,6 +116,23 @@ class PublicTurnTests(unittest.IsolatedAsyncioTestCase):
         await asyncio.wait_for(asyncio.gather(first,second),2)
         self.assertEqual(self.original["status"],"cancelled")
         self.dispatch.assert_not_awaited()
+
+    async def test_plain_chat_proposal_cannot_claim_to_cancel_a_live_ticket(self):
+        await self.rig()
+        self.propose.return_value=native({"mode":"chat"})
+        core.provider.complete.return_value='{"reply":"已经替你取消查询了。"}'
+        await core.handle_chat("我没有同意你去查 F1 积分榜","untrusted-chat",self.sid)
+        self.assertEqual(self.book.pending(self.sid),[self.original])
+        self.assertNotIn("替你取消", self.store.load_messages(1,self.sid)[0]["content"])
+        self.dispatch.assert_not_awaited()
+
+    def test_new_target_needs_a_field_and_does_not_inherit_an_unrelated_season(self):
+        previous={"subject":"F1","fields":["积分榜"],"year":2024}
+        with self.assertRaises(ValueError):
+            query.resolve(native(lookup("英超",evidence="改查英超")),"改查英超",None,[])
+        text="查一下 Godot 的稳定版号"
+        actual=query.resolve(native(lookup("Godot",["最新稳定版本"],evidence=text)),text,previous,[])
+        self.assertEqual(actual.lookup.year,public_search.date.today().year)
 
 
 del _Fixture
