@@ -1,0 +1,363 @@
+{
+  "accepted": "07463b262cfbe97de51bfd961a80af755cf9da6b",
+  "main_parent": "cf62b484ca8f075d97c2d4c41496480c7c82501c",
+  "checks": {
+    "main_baseline": 390,
+    "main_passed": 433,
+    "main_skipped": 0,
+    "formal_source_targeted_passed": 94,
+    "archived_rows": 12,
+    "fresh_model_requests_offline": 0,
+    "ts_vite": true,
+    "docs_consistency": true,
+    "godot": {
+      "model": "df55806d343d149b41c20d0ef074373cafca2379212fd8691e998ea6cddc6e4a",
+      "gates": [
+        {
+          "gate": "import",
+          "exit": 0,
+          "marker": null,
+          "passed": true
+        },
+        {
+          "gate": "verify_text_input",
+          "exit": 0,
+          "marker": "GODOT_CHAT_SHORTCUT_GUARD_OK",
+          "passed": true
+        },
+        {
+          "gate": "verify_session_ui",
+          "exit": 0,
+          "marker": "GODOT_SESSION_UI_OK",
+          "passed": true
+        },
+        {
+          "gate": "verify_tool_activity",
+          "exit": 0,
+          "marker": "GODOT_TOOL_ACTIVITY_OK",
+          "passed": true
+        },
+        {
+          "gate": "verify_effort_ui",
+          "exit": 0,
+          "marker": "GODOT_EFFORT_UI_OK",
+          "passed": true
+        },
+        {
+          "gate": "verify_query_expression",
+          "exit": 0,
+          "marker": "QUERY_EXPRESSION_OK",
+          "passed": true
+        },
+        {
+          "gate": "verify_speech_delivery",
+          "exit": 0,
+          "marker": "SPEECH_DELIVERY_REGRESSION",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "replay": [
+    {
+      "case": "consent",
+      "provider": "DS",
+      "actual": {
+        "old": "cancelled",
+        "dispatched": [],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "old_confirmation_inert": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true,
+      "old_confirmation_dispatches": []
+    },
+    {
+      "case": "consent",
+      "provider": "MiniMax",
+      "actual": {
+        "old": "cancelled",
+        "dispatched": [],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "old_confirmation_inert": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true,
+      "old_confirmation_dispatches": []
+    },
+    {
+      "case": "pause",
+      "provider": "MiniMax",
+      "actual": {
+        "old": "cancelled",
+        "dispatched": [],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "old_confirmation_inert": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true,
+      "old_confirmation_dispatches": []
+    },
+    {
+      "case": "pause",
+      "provider": "DS",
+      "actual": {
+        "old": "cancelled",
+        "dispatched": [],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "old_confirmation_inert": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true,
+      "old_confirmation_dispatches": []
+    },
+    {
+      "case": "drivers",
+      "provider": "DS",
+      "actual": {
+        "old": null,
+        "dispatched": [
+          {
+            "subject": "F1",
+            "fields": [
+              "积分榜"
+            ],
+            "year": 2026
+          }
+        ],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true
+    },
+    {
+      "case": "drivers",
+      "provider": "MiniMax",
+      "actual": {
+        "old": null,
+        "dispatched": [
+          {
+            "subject": "F1",
+            "fields": [
+              "积分榜"
+            ],
+            "year": 2026
+          }
+        ],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true
+    },
+    {
+      "case": "switch",
+      "provider": "MiniMax",
+      "actual": {
+        "old": "cancelled",
+        "dispatched": [],
+        "new_pending": [
+          {
+            "subject": "英超",
+            "fields": [
+              "积分榜"
+            ],
+            "year": 2026
+          }
+        ]
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "old_confirmation_inert": true,
+        "new_once": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true,
+      "old_confirmation_dispatches": [],
+      "after_new_confirmation": [
+        {
+          "subject": "英超",
+          "fields": [
+            "积分榜"
+          ],
+          "year": 2026
+        }
+      ]
+    },
+    {
+      "case": "switch",
+      "provider": "DS",
+      "actual": {
+        "old": "cancelled",
+        "dispatched": [],
+        "new_pending": [
+          {
+            "subject": "英超",
+            "fields": [
+              "积分榜"
+            ],
+            "year": 2026
+          }
+        ]
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "old_confirmation_inert": true,
+        "new_once": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true,
+      "old_confirmation_dispatches": [],
+      "after_new_confirmation": [
+        {
+          "subject": "英超",
+          "fields": [
+            "积分榜"
+          ],
+          "year": 2026
+        }
+      ]
+    },
+    {
+      "case": "version",
+      "provider": "DS",
+      "actual": {
+        "old": null,
+        "dispatched": [
+          {
+            "subject": "Godot",
+            "fields": [
+              "最新稳定版本"
+            ],
+            "year": 2026
+          }
+        ],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true
+    },
+    {
+      "case": "version",
+      "provider": "MiniMax",
+      "actual": {
+        "old": null,
+        "dispatched": [
+          {
+            "subject": "Godot",
+            "fields": [
+              "最新稳定版本"
+            ],
+            "year": 2026
+          }
+        ],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true
+    },
+    {
+      "case": "quote",
+      "provider": "MiniMax",
+      "actual": {
+        "old": "awaiting_confirmation",
+        "dispatched": [],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true
+    },
+    {
+      "case": "quote",
+      "provider": "DS",
+      "actual": {
+        "old": "awaiting_confirmation",
+        "dispatched": [],
+        "new_pending": []
+      },
+      "checks": {
+        "target": true,
+        "other_ticket": true,
+        "native_mode": true,
+        "valid_proposal": true
+      },
+      "passed": true
+    }
+  ],
+  "staged_runtime_sha256_lf": {
+    "services/agent-core/agent_core/main.py": "eb3109c8f4d5a7a1b40ae3c8c6935927ac1c9eb6042c897a5430d593ebe16795",
+    "services/agent-core/agent_core/permissions.py": "93a16ef3741975366f516cc6d8e0fc9499ac078f757bf5e7708f7ebbad2beca4",
+    "services/agent-core/agent_core/actions.py": "fb486defe5c40f2156691d0280c1c472708f796930ecfe259bcb4523d5662b24",
+    "services/agent-core/agent_core/public_search.py": "cc952e870300bb515414dc7ee9367dad64cf3af1dbacf7bca967cdbb962a2da9",
+    "services/agent-core/agent_core/public_query_turn.py": "f76d5977a9cbd12d8e8e62ee9372b0cf166d9c654a00bacf902f8f406634b37f",
+    "services/agent-core/agent_core/chat_channels.py": "0f67b45a3989f465da06d782200d8a57031d68079e53da21c9a054a5079e2f2a",
+    "services/agent-core/agent_core/action_delivery.py": "ed33f61552fb4faa97673c23fd5556c0039a2a978f0b13f75eafa4701d769882",
+    "services/agent-core/agent_core/task_status.py": "50fc826a940e8232d5f987300d90037d5e2922c02c2039c82106cdefbcd8fc17",
+    "services/agent-core/agent_core/tool_contracts.py": "1b700d34a70aae32821c1270f7aafb85d82bd1ec8f3c47090620db1fb87356df",
+    "services/agent-core/agent_core/voice_text.py": "453a65fa3bbc0482b65195fec7d50ca9a01b37421a66f2c3606dcc429631251d",
+    "apps/avatar-runtime/interaction_ui.gd": "4b3ac06dba2ab5b734f9a92a5c8cb4029bc2dae4429b6fecb52c52cae41d55b5",
+    "apps/avatar-runtime/runtime.gd": "9fee11d9de493a57977596e4e38d1cc9ce5bb12324f03b59a77276874776f8a8"
+  },
+  "main_runtime_sha256_lf": {
+    "services/agent-core/agent_core/main.py": "fb7b119bd93a4ce8952045bb5c960e75d82caea7991de2d16a980de39b53db10",
+    "services/agent-core/agent_core/permissions.py": "93a16ef3741975366f516cc6d8e0fc9499ac078f757bf5e7708f7ebbad2beca4",
+    "services/agent-core/agent_core/actions.py": "fb486defe5c40f2156691d0280c1c472708f796930ecfe259bcb4523d5662b24",
+    "services/agent-core/agent_core/public_search.py": "cc952e870300bb515414dc7ee9367dad64cf3af1dbacf7bca967cdbb962a2da9",
+    "services/agent-core/agent_core/public_query_turn.py": "f76d5977a9cbd12d8e8e62ee9372b0cf166d9c654a00bacf902f8f406634b37f",
+    "services/agent-core/agent_core/chat_channels.py": "0f67b45a3989f465da06d782200d8a57031d68079e53da21c9a054a5079e2f2a",
+    "services/agent-core/agent_core/action_delivery.py": "ed33f61552fb4faa97673c23fd5556c0039a2a978f0b13f75eafa4701d769882",
+    "services/agent-core/agent_core/task_status.py": "42ff8350313b8f1c4da2ad1466c2178e642b3212be8d21b1fdd3831c8f1f1aa1",
+    "services/agent-core/agent_core/tool_contracts.py": "1b700d34a70aae32821c1270f7aafb85d82bd1ec8f3c47090620db1fb87356df",
+    "services/agent-core/agent_core/voice_text.py": "453a65fa3bbc0482b65195fec7d50ca9a01b37421a66f2c3606dcc429631251d",
+    "apps/avatar-runtime/interaction_ui.gd": "4b3ac06dba2ab5b734f9a92a5c8cb4029bc2dae4429b6fecb52c52cae41d55b5",
+    "apps/avatar-runtime/runtime.gd": "00f5ec7b74e142573914525d3973755d3a144d7410f6157c917ddcd11d83a30c"
+  }
+}

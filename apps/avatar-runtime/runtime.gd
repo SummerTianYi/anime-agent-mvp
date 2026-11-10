@@ -714,6 +714,12 @@ func _handle_core_event(payload: Dictionary) -> void:
 					farewell_exit.try_finish()
 		return
 	var event_type := str(payload.get("type", ""))
+	var foreground := bool(payload.get("foreground", true))
+	var sid := int(payload.get("conversationId", -1)) if payload.get("conversationId") != null else -1
+	if interaction_ui != null and sid > 0 and interaction_ui.current_conversation_id > 0:
+		foreground = foreground and sid == interaction_ui.current_conversation_id
+	if not foreground and event_type in ["agent.state","agent.tool","core.error","avatar.command","avatar.speak"]:
+		return
 	match event_type:
 		"avatar.farewell.cache":
 			_cache_farewell_voice(payload)
@@ -726,17 +732,23 @@ func _handle_core_event(payload: Dictionary) -> void:
 			_update_hud()
 		"client.ready":
 			print("GODOT_AVATAR_CORE_READY", payload)
+			if interaction_ui != null and not interaction_ui.new_session_request.is_empty():
+				request_new_session(interaction_ui.new_session_request)
+				return
 			request_session_list()
 			request_chat_history(-1)
 		"agent.state":
 			_set_agent_state(str(payload.get("state", "idle")))
 		"chat.response":
+			if not foreground and str(payload.get("channel","")) == "companion":
+				return # Saved to its original history. The active turn owns live chat and speech.
 			if interaction_ui != null:
-				interaction_ui.add_message("洛天依", str(payload.get("text", "")), int(payload.get("conversationId", -1)))
+				var role: String = {"task":"操作回执", "memory":"记忆回执"}.get(str(payload.get("channel", "")), "洛天依")
+				interaction_ui.add_message(role, str(payload.get("text", "")), sid, foreground)
 		"session.switched":
 			cancel_voice_recording()
 			if interaction_ui != null:
-				interaction_ui.on_session_switched(int(payload.get("conversationId", -1)), str(payload.get("title", "新对话")))
+				interaction_ui.on_session_switched(int(payload.get("conversationId", -1)), str(payload.get("title", "新对话")), str(payload.get("requestId", "")))
 		"session.list.response":
 			if interaction_ui != null and payload.get("sessions") is Array:
 				interaction_ui.on_session_list(payload.get("sessions", []))
@@ -764,7 +776,7 @@ func _handle_core_event(payload: Dictionary) -> void:
 				interaction_ui.on_wake_idle()
 		"agent.tool":
 			if interaction_ui != null:
-				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)))
+				interaction_ui.on_agent_tool(str(payload.get("tool", "")), bool(payload.get("ok", true)), str(payload.get("outcome", "")))
 		"voice.transcript":
 			if voice_capture_id.is_empty() or str(payload.get("captureId", "")) != voice_capture_id:
 				return
@@ -782,6 +794,8 @@ func _handle_core_event(payload: Dictionary) -> void:
 				print("GODOT_AVATAR_COMMAND", command)
 				handle_agent_event(command, command_payload)
 		"core.error":
+			if bool(payload.get("diagnostic", false)):
+				return
 			_set_agent_state("error")
 			if interaction_ui != null:
 				interaction_ui.show_error(str(payload.get("message", "Core 发生错误")))
@@ -798,6 +812,12 @@ func _set_agent_state(next_state: String) -> void:
 		if (not authored_motion_active and action_name == "idle") or authored_motion_name == default_idle_motion:
 			_play_authored_motion(&"think")
 	print("GODOT_AVATAR_AGENT_STATE", agent_state)
+	# Speaking and TTS-ready transitions can arrive in the same frame as a
+	# reply smile. Retain the remaining timed morph, without restarting it.
+	var smile_time := 0.0
+	if expression_name == "微笑" and next_state in ["idle", "speaking"]:
+		smile_time = float(expression_timers.get("笑い", 0.0))
+	var smile_weight := float(expression_targets.get("笑い", 0.0))
 	_clear_mouth_shapes()
 	_clear_emotions(true)
 	_apply_agent_state_face()
@@ -806,6 +826,9 @@ func _set_agent_state(next_state: String) -> void:
 		speaking_mouth_index = -1
 	if emotion_preset.active():
 		expression_name = emotion_preset.label
+	elif smile_time > 0.0:
+		_set_expression("笑い", smile_weight, smile_time)
+		expression_name = "微笑"
 	_update_hud()
 
 
@@ -1071,7 +1094,7 @@ func send_chat_message(text: String, effort: String = "") -> void:
 	if conversation_id > 0:
 		chat_payload["conversationId"] = conversation_id
 		var pending: Array = pending_confirmations.get(conversation_id, [])
-		if not pending.is_empty():
+		if pending.size() == 1 and normalized_text.strip_edges().rstrip("。！!").to_lower() in ["确认","同意","可以","好的","执行吧","确认执行","同意执行","去吧","ok","yes"]:
 			var action: Dictionary = pending[0]
 			chat_payload["confirmation"] = {"action_id":action.action_id, "revision":action.revision, "args_hash":action.args_hash}
 	core_socket.send_text(JSON.stringify(chat_payload))
@@ -1097,13 +1120,14 @@ func request_chat_history(conversation_id: int) -> void:
 		core_socket.send_text(JSON.stringify({"type": "chat.history.request"}))
 
 
-func request_new_session() -> void:
+func request_new_session(request_id: String = "") -> void:
 	cancel_voice_recording()
 	if not _core_connected():
 		if interaction_ui != null:
-			interaction_ui.show_error("Core 尚未连接，无法新建会话。")
+			interaction_ui.new_session_request = ""
+			interaction_ui.show_error("还没有连上天依，暂时无法新建会话。")
 		return
-	core_socket.send_text(JSON.stringify({"type": "session.new"}))
+	core_socket.send_text(JSON.stringify({"type":"session.new","requestId":request_id}))
 
 
 func request_delete_session(conversation_id: int) -> void:

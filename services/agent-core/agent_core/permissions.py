@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from . import public_search
 
 READ_ONLY_TOOLS = ("get_time", "read_file", "list_dir", "screenshot", "active_window", "clipboard_read", "read_tool_result", "recall_memory")
 WRITE_TOOLS = ("write_file",)
@@ -36,6 +37,9 @@ class ActionRequest:
     arguments: dict
     origin: str  # "user" | "agent" | "schedule"
     session_id: int | None
+    # Set only by the host from the admitted turn or its stored, versioned ticket.
+    public_scope: dict | None = None
+    task_id: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -108,6 +112,7 @@ def default_rules() -> list[PolicyRule]:
         )
         for tool in READ_ONLY_TOOLS
     ]
+    rules.append(PolicyRule("allow-scoped-public-search", public_search.TOOL, "user", ALLOW))
     rules += [
         PolicyRule(
             rule_id=f"ask-write:{tool}",
@@ -160,6 +165,10 @@ class PermissionEngine:
     def evaluate(self, request: ActionRequest) -> PolicyDecision:
         if not isinstance(request.arguments, dict):
             return PolicyDecision(DENY, "malformed-request", "arguments must be a dict")
+        if request.tool == public_search.TOOL and not (
+                request.session_id is not None and request.task_id and request.origin == "user" and public_search.valid(request.arguments)
+                and request.arguments == request.public_scope):
+            return PolicyDecision(DENY, "public-scope", "查询未绑定当前用户请求的公开范围")
         for key_path, value, is_path_key in _iter_strings(request.arguments):
             if _path_traversal(value):
                 return PolicyDecision(

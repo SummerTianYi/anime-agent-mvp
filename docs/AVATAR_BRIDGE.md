@@ -2,6 +2,8 @@
 
 ## 桌面 Harness V1 与语音
 
+公开查询的 `chat.response` 包含 `conversationId`、`turnId`、`foreground`、`channel` 及角色表情和动作。后台回复只归入所属会话。Godot 对单项文字批准附上已展示的票据，多项待办需指定序号。`session.new` 可携带 `requestId`，`session.switched` 回送同一标识。`agent.tool.outcome` 区分待授权、取消、失败及结果未知，活动卡由诊断开关控制。
+
 - `permission.pending` 按 `conversationId` 发布有序 `actions`。`chat.message.confirmation` 绑定已展示的 `action_id`、`revision`、`args_hash`，授权在派发前复核。兼容客户端的文字确认绑定当时展示的票据。
 - 手动录音用 `captureId` 与 `conversationId` 关联 `voice.start`、`voice.stop`、`voice.cancel`、状态、识别与提示；切会话或取消使旧录音失效。成功转写回填输入框。常驻模式先播放唤醒应答，采集准备就绪才发 `wake.triggered`，有后续有效转写才进入聊天。
 - `read_tool_result` 在本任务内续取已获准的结果，`recall_memory` 检索当前可见事实。三个 `effort` 档沿用相同权限，步数预算为 3/6/9，工具调用预算为 6/12/18。

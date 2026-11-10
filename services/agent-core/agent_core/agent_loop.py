@@ -29,6 +29,7 @@ class AgentStep:
     arguments: dict[str, Any]
     ok: bool
     summary: str
+    outcome: str = ""
 
 
 @dataclass(slots=True)
@@ -147,6 +148,7 @@ async def run_agent_loop(
                     tool=name,
                     arguments=arguments,
                     ok=bool(result.get("ok")),
+                    outcome=str(result.get("outcome") or ("succeeded" if result.get("ok") else "failed")),
                     summary=_truncate(
                         json.dumps(result, ensure_ascii=False, default=str),
                         TOOL_RESULT_CHAR_LIMIT,

@@ -20,8 +20,10 @@ _REPLACEMENTS = [
 ]
 
 
-def normalize_voice_text(text: str) -> str:
+def normalize_voice_text(text: str, request: str = "") -> str:
     """Rewrite latin units and date-day spellings into their spoken forms."""
+    if "\x60\x60\x60" in text or re.search(r"代码|JSON\b|脚本原文|原样输出|逐字|正则表达式",request,re.I):
+        return text
     for pattern, replacement in _REPLACEMENTS:
         text = pattern.sub(replacement, text)
     return text

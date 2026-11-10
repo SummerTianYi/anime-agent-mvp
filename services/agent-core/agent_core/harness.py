@@ -141,6 +141,7 @@ class AgentReply:
     gesture: str = "none"
     memory_candidate: str | None = None
     session_title: str | None = None
+    parse_failed: bool = False
 
 
 def sanitize_session_title(value: object) -> str:
@@ -234,7 +235,10 @@ class CharacterHarness:
         if not isinstance(payload, dict):
             return CharacterHarness._safe_fallback(raw)
 
-        reply = str(payload.get("reply", "")).strip()
+        reply = payload.get("reply", "")
+        if not isinstance(reply, str):
+            return CharacterHarness._safe_fallback(raw)
+        reply = reply.strip()
         if not reply:
             return CharacterHarness._safe_fallback(raw)
 
@@ -277,8 +281,10 @@ class CharacterHarness:
 
     @staticmethod
     def _safe_fallback(raw: str) -> AgentReply:
-        if re.search(r'["\x27](?:reply|emotion|gesture|memory_candidate)["\x27]\s*:', raw):
-            return AgentReply(reply="这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。")
+        if (raw.strip().startswith(('{', '[')) or
+                re.search(r'["\x27](?:reply|emotion|gesture|memory_candidate)["\x27]\s*:', raw)):
+            return AgentReply(reply="这次回复格式出了问题，我没有取得可可靠展示的答复；也不能据此认定任务已完成。",
+                              parse_failed=True)
         return AgentReply(reply=raw.strip())
 
     @staticmethod

@@ -38,14 +38,21 @@ def decision(text):
     if payload and (payload.group(1) in {"写成","写入","保存为","改成","改为"}
                     or re.search(r"发送|发(?:一封)?邮件|写|保存|记录|草拟|新建|追加", control[:payload.start()])):
         control = control[:payload.end()-1]
+    # Negating cancellation preserves the ticket; it never approves execution.
+    # An explicit hold may also say "不执行也不取消". Mask only that hold's
+    # execution pause; any remaining refusal (e.g. "不要发送") still revokes.
+    control = re.sub(
+        r"(保留[^。！？；;\n]*待办[^。！？；;\n]*?)(?:暂时|暂|先)?不执行(?:也|，也|、也)(?:不|不要|别)取消",
+        r"\1暂缓", control)
+    control = re.sub(r"(?<!不得)(?<!不能)(?<!不是)(?<!不可能)(?:不要|别|不)取消", "保留", control)
     normalized = re.sub(r"[\s。！!，,；;]", "", control).lower()
-    if (re.search(r"不同意|不确认|不要|(?<!分)别(?:执行|写|发)|先不|拒绝|取消|算了|放弃|不执行|不发送|不允许", normalized)
+    if (re.search(r"不同意|不确认|不要|(?<!分)别(?:执行|写|发|寄)|先不|拒绝|取消|算了|作罢|放弃|不执行|不发送|不允许", normalized)
             or re.search(r"\b(?:no|cancel|stop)\b|\b(?:don't|don’t|do\s+not)\s+(?:send|write|execute|run)\b", control.lower())):
         return "edit" if re.search(r"改成|改为|改发|换成|重新|改一下", normalized) else "decline"
     if re.search(r"改成|改为|改发|换成|改一下", normalized):
         return "edit"
     affirmative = re.sub(r"[\s。！!，,；;]", "", text).lower()
-    if re.fullmatch(r"(?:确认|同意|可以|执行吧|好的|去吧|ok|yes|确认执行|同意执行)", affirmative):
+    if re.fullmatch(r"(?:确认|同意|可以|执行吧|好的|去吧|ok|yes|确认执行|同意执行)(?:第[1-9一二三四五六七八九][项个])?", affirmative):
         return "approve"
     return "other"
 
@@ -101,17 +108,19 @@ class ActionLedger:
     def ticket(self, item):
         return {k: item[k] for k in ("action_id", "revision", "args_hash")}
 
-    def cancel(self, session):
+    def cancel(self, session, *, action_ids=None):
         cancelled = []
         for item in self.pending(session):
+            if action_ids is not None and item["action_id"] not in action_ids:
+                continue
             item["status"] = "cancelled"
             self.save(item)
             cancelled.append(item)
         return cancelled
 
-    async def execute(self, session, ticket, request_id, permitted, executor):
+    async def execute(self, session, ticket, request_id, permitted, executor, *, task_id=None):
         item = self.records.get(str(ticket.get("action_id", "")))
-        if (not item or item["session_id"] != session or self.ticket(item) != ticket
+        if (not item or item["session_id"] != session or (task_id is not None and item["task_id"]!=task_id) or self.ticket(item) != ticket
                 or item["status"] != "awaiting_confirmation" or time.time() > item["expires"]
                 or args_hash(item["tool"], item["arguments"]) != item["args_hash"]):
             return {"ok":False,"outcome":"rejected","error":"确认已失效或参数版本不一致；未执行"}
@@ -138,6 +147,9 @@ class ActionLedger:
 
     def result(self, item):
         result = copy.deepcopy(item["receipt"] or {"ok":False})
+        # Keep the original MCP envelope durably in receipt; the model consumes
+        # its normalized output, not duplicate text/blob copies from the wire.
+        result.pop("raw_result", None)
         result.update(action_id=item["action_id"], revision=item["revision"], args_hash=item["args_hash"],
                       outcome=item["status"], execution_id=item.get("execution_id"),
                       confirmation_request_id=item.get("confirmation_request_id"))

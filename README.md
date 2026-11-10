@@ -10,6 +10,8 @@ Codex 2026-10-04：新增[Agent能力全景评测](docs/AGENT_CAPABILITY_ASSESSM
 
 ## 当前结论
 
+2026-11-10 的公开查询按用户原话限定范围，可撤销指定的待确认查询，回答附资料来源。版本、回归与正式窗口验收见[发布记录](docs/assessments/public-query-release/REPORT.md)。
+
 Codex 2026-10-04：五仓分工及实装依赖已核对，**本仓是产品主仓，私有 TTS 仓是直接运行配套**；Workbench 已验收能力已并入本仓，Roadmap 是历史规划证据，Cloth Physics 是未实装实验。按所有者选择保留分仓，补齐现用声线备份；官模/动作继续只留本地。完整责任表、发现的 e5/e20 备份缺口与恢复范围见 [仓库与运行依赖地图](docs/REPOSITORY_MAP.md)。本轮不改变正在运行的天依。
 
 Codex 2026-10-03：公共语音链路新增分片播放回执、去重补送、坏音频重合成及成功后提醒冷却；告别音频脱离临时spool，并提前加载到Godot内存。Core273项、Godot播放/退出回归、合成音频与真实CUDA声线的四场景闭环及组合进程故障通过；已由原CMD重启激活，所有者确认“倾听和语音回复都正常”并授权GitHub发布。主仓与配套 [anime-agent-tts](https://github.com/SummerTianYi/anime-agent-tts) 均以Codex标记提交，实际同步以远端提交记录为准。状态及边界见[TTS记录](docs/TTS_REPAIR_STATUS.md)。未来场景沿用公共播报入口，不各自重建TTS看护；下方较早日期的未发布/待人声验收描述保留为历史。
