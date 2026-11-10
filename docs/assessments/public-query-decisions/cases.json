@@ -1,0 +1,95 @@
+[
+  {
+    "id": "consent",
+    "text": "我没有同意你去查 F1 积分榜",
+    "seed": true,
+    "mail": false,
+    "policy": "ask",
+    "expected": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "expected_mode": "withdraw"
+  },
+  {
+    "id": "pause",
+    "text": "请暂停查询 F1 积分榜",
+    "seed": true,
+    "mail": true,
+    "policy": "ask",
+    "expected": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "expected_mode": "withdraw"
+  },
+  {
+    "id": "drivers",
+    "text": "查一下 F1 积分榜，不要车队积分榜",
+    "seed": false,
+    "mail": false,
+    "policy": "allow",
+    "expected": {
+      "old": null,
+      "dispatched": [
+        [
+          "F1",
+          "积分榜"
+        ]
+      ],
+      "new_pending": []
+    },
+    "expected_mode": "lookup"
+  },
+  {
+    "id": "switch",
+    "text": "别查 F1，改查英超",
+    "seed": true,
+    "mail": false,
+    "policy": "ask",
+    "expected": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": [
+        [
+          "英超",
+          "积分榜"
+        ]
+      ]
+    },
+    "expected_mode": "replace"
+  },
+  {
+    "id": "version",
+    "text": "帮我核实一下 Godot 目前的稳定版本号。",
+    "seed": false,
+    "mail": false,
+    "policy": "allow",
+    "expected": {
+      "old": null,
+      "dispatched": [
+        [
+          "Godot",
+          "最新稳定版本"
+        ]
+      ],
+      "new_pending": []
+    },
+    "expected_mode": "lookup"
+  },
+  {
+    "id": "quote",
+    "text": "室友刚才说“先别看 F1 积分了”，我只是转述，那项待办给我留着。",
+    "seed": true,
+    "mail": false,
+    "policy": "ask",
+    "expected": {
+      "old": "awaiting_confirmation",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "expected_mode": "keep"
+  }
+]

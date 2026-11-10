@@ -9,6 +9,8 @@ from agent_core.chat_channels import classify
 from agent_core.permissions import ASK, ActionRequest, PermissionEngine, PolicyRule
 from agent_core.mcp_host import McpServer
 import test_harness_v1_integration as fixtures
+from public_query_fixture import lookup, native, script
+from agent_core import public_query_turn
 
 F1 = "你知道现在F1进行到哪一站了吗？积分情况如何"
 AWARD = "这一届诺贝尔物理学奖是谁拿的？"
@@ -19,7 +21,8 @@ RESULT = {"ok":True,"sources":[SOURCE],"as_of":"2026-11-09"}
 class QueryTests(unittest.IsolatedAsyncioTestCase):
     setUp = fixtures.MainActionTests.setUp
 
-    def rig(self, ask=False, result=None):
+    def rig(self, ask=False, result=None, proposals=()):
+        script(self,*proposals)
         self.transport = AsyncMock(return_value=result or RESULT)
         self.model = AsyncMock(return_value=json.dumps({"reply":"蓝队以37分领先。"},ensure_ascii=False))
         rules = PermissionEngine().rules
@@ -37,23 +40,27 @@ class QueryTests(unittest.IsolatedAsyncioTestCase):
     def test_admission_and_private_boundaries(self):
         for text in (F1,AWARD,"现在英超的射手榜谁排第一？","查一下积分榜，先别发邮件"):
             with self.subTest(text=text):
-                self.assertEqual(classify(text,pending=False,active=False).operation,text)
+                self.assertTrue(public_query_turn.offered(text,None,[]))
         for text in ("你现在开心吗？","他说“查一下积分榜”。","为什么读取文件需要授权？","今天排练取消了"):
             self.assertEqual(classify(text,pending=True,active=True).chat,text)
         for tool in ("public_web_search","mcp__search__tavily_search","mcp__gmail__read_email",
                      "mcp__drive__search","look_at_screen","mcp__x__read"):
             self.assertFalse(PermissionEngine().evaluate(ActionRequest(tool,{"query":"我的地址"},"agent",self.sid)).allowed)
         from agent_core import public_search as search
-        for text,subject in (("你知道现在温布尔登网球公开赛的赛程吗？","温布尔登网球公开赛"),
-                             ("请在公开网页搜索《火星探测任务最新进展》","火星探测任务最新进展"),
-                             ("你知道现在Python最新版本号吗？","Python")):
-            self.assertEqual(search.plan(text).subject,subject)
-        self.assertIsNone(search.plan("请在公开网页搜索《同学的内部账号》"))
-        self.assertNotIn("同事",str(search.plan("同事张明去了网球公开赛，查一下赛程")))
+        for text,subject,field in (("你知道现在温布尔登网球公开赛的赛程吗？","温布尔登网球公开赛","赛程"),
+                             ("请在公开网页搜索《火星探测任务最新进展》","火星探测任务最新进展","公开资料"),
+                             ("你知道现在Python最新版本号吗？","Python","最新稳定版本")):
+            args=lookup(subject,[field],evidence=text)
+            self.assertEqual(public_query_turn.resolve(native(args),text,None,[]).lookup.subject,subject)
+        for text,subject in (("请在公开网页搜索《同学的内部账号》","同学的内部账号"),
+                             ("同事张明去了网球公开赛，查一下赛程","同事张明去了网球公开赛")):
+            with self.assertRaises(ValueError):
+                public_query_turn.resolve(native(lookup(subject,["公开资料"],evidence=text)),text,None,[])
 
     def test_fixed_transport_scope_is_required_before_any_allow(self):
         from agent_core import public_search as search
-        safe = search.plan("现在F1的积分如何？我的门牌号是927，别发给 a@example.org").arguments()
+        question="现在F1的积分如何？我的门牌号是927，别发给 a@example.org"
+        safe = public_query_turn.resolve(native(lookup(evidence="现在F1的积分如何")),question,None,[]).lookup.arguments()
         self.assertNotIn("927",str(safe))
         self.assertNotIn("@",str(safe))
         gate = PermissionEngine()
@@ -96,7 +103,7 @@ class QueryTests(unittest.IsolatedAsyncioTestCase):
         self.transport.assert_not_awaited()
 
     async def test_ask_chat_approve_and_duplicate(self):
-        self.rig(ask=True)
+        self.rig(ask=True,proposals=[lookup("诺贝尔物理学奖",["获奖理由及得主"])])
         before=await self.say(AWARD,"request")
         self.assertIn("诺贝尔",before)
         self.assertNotIn('{"',before)
@@ -113,7 +120,7 @@ class QueryTests(unittest.IsolatedAsyncioTestCase):
         self.transport.assert_awaited_once()
 
     async def test_decline_expiry_and_distinct_questions(self):
-        self.rig(ask=True)
+        self.rig(ask=True,proposals=[lookup("诺贝尔物理学奖",["获奖理由及得主"]),lookup("F1",["赛程","积分榜"])])
         await self.say(AWARD,"first")
         await self.say("不同意","no")
         self.assertFalse(core._actions().pending(self.sid))
@@ -126,7 +133,7 @@ class QueryTests(unittest.IsolatedAsyncioTestCase):
         self.transport.assert_not_awaited()
 
     async def test_lookup_with_negative_clause_and_missing_recipient(self):
-        self.rig()
+        self.rig(proposals=[{"mode":"clarify"},lookup("F1",["赛程","积分榜"]),lookup(),lookup()])
         self.assertIn("哪项赛事",await self.say("查一下积分榜","which"))
         await self.say(F1,"establish-sport")
         answer=await self.say("查一下积分榜，先别发邮件","lookup")
@@ -159,7 +166,8 @@ class QueryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(book.pending(self.sid),[a])
 
     async def test_pending_lookup_duplicates_share_scope_but_different_facts_survive(self):
-        self.rig(ask=True)
+        award=lookup("诺贝尔物理学奖",["获奖理由及得主"])
+        self.rig(ask=True,proposals=[award,award,lookup("F1",["赛程","积分榜"])])
         await self.say(AWARD,"one")
         first=core._actions().pending(self.sid)[0]
         await self.say("请查最近一届诺贝尔物理学奖得主","same")

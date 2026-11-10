@@ -3,14 +3,17 @@ import os
 import unittest
 from unittest.mock import AsyncMock, patch
 
-from agent_core import main as core, public_search
+from agent_core import main as core, public_query_turn as query_turn, public_search
 from agent_core.chat_channels import classify
 from agent_core.permissions import ASK, PermissionEngine, PolicyRule
 import test_harness_v1_integration as fixtures
+from public_query_fixture import lookup as propose_lookup, native, script
 
 
-class AdmissionTests(unittest.TestCase):
-    def test_negatives_and_quotations_never_admit_a_lookup(self):
+class AdmissionTests(unittest.IsolatedAsyncioTestCase):
+    setUp = fixtures.MainActionTests.setUp
+
+    async def test_negatives_and_quotations_never_admit_a_lookup(self):
         samples = (
             "我不想知道现在F1积分如何。", "不用你替我上网查F1的积分。", "先不查英超赛程了。",
             "我没有让你搜索网页查F1积分榜。", "没必要查今年诺贝尔物理学奖得主。",
@@ -21,10 +24,16 @@ class AdmissionTests(unittest.TestCase):
             "消息里写着 '查F1积分'。", "我没有要你查询F1赛程。",
             "请搜索网页查F1积分，算了。",
         )
-        for text in samples:
+        script(self, *({"mode":"keep"} for _ in samples))
+        dispatch = AsyncMock()
+        guard = patch.object(core,"_execute_authorized_tool",dispatch)
+        guard.start()
+        self.addCleanup(guard.stop)
+        for index,text in enumerate(samples):
             with self.subTest(text=text):
-                self.assertIsNone(public_search.plan(text))
-                self.assertEqual(classify(text, pending=True, active=True).chat, text)
+                await core.handle_chat(text,"negative-"+str(index),self.sid)
+                self.assertFalse(core._actions().pending(self.sid))
+                dispatch.assert_not_awaited()
                 self.assertFalse(public_search.manual_query_allowed(text, {"query":"F1积分"}))
 
     def test_negative_scope_keeps_separate_positive_requests(self):
@@ -41,10 +50,10 @@ class AdmissionTests(unittest.TestCase):
             ("查一下F1积分，算了，改查英超积分榜。","英超",("积分榜",)),
         ):
             with self.subTest(text=text):
-                lookup = public_search.plan(text)
+                self.assertTrue(query_turn.offered(text,None,[]))
+                lookup = query_turn.resolve(native(propose_lookup(subject,fields,evidence=text)),text,None,[]).lookup
                 self.assertIsNotNone(lookup)
                 self.assertEqual((lookup.subject,lookup.fields),(subject,fields))
-                self.assertEqual(classify(text,pending=False,active=False).operation,text)
         self.assertEqual(classify("别帮我查网页。请读取文件 note.txt",pending=False,active=False).operation,
                          "请读取文件 note.txt")
 
@@ -55,11 +64,13 @@ class AdmissionTests(unittest.TestCase):
     def test_historical_series_category_and_cutoff_reach_fixed_transport(self):
         from unittest.mock import MagicMock
         query = "查一下2024年F1车队积分榜，截至2024年6月18日，只报前两名。"
-        scope = public_search.plan(query).arguments()
+        args = propose_lookup("F1",["车队积分榜"],evidence=query,year=2024,through="2024-06-18")
+        scope = query_turn.resolve(native(args),query,None,[]).lookup.arguments()
         self.assertEqual(scope,{"subject":"F1","fields":["车队积分榜"],"year":2024,"through":"2024-06-18"})
         self.assertTrue(public_search.valid(scope))
         self.assertFalse(public_search.valid({**scope,"through":"2024-13-98"}))
-        self.assertIsNone(public_search.plan(query.replace("6月18","13月98")))
+        with self.assertRaises(ValueError):
+            query_turn.resolve(native(args),query.replace("6月18","13月98"),None,[])
         with (patch.dict(os.environ,{"TAVILY_API_KEY":"synthetic"}),
               patch("urllib.request.build_opener") as opener):
             response=MagicMock()
@@ -70,7 +81,7 @@ class AdmissionTests(unittest.TestCase):
             body=json.loads(opened.call_args.args[0].data)
             self.assertIn("constructors",body["query"])
             self.assertEqual(body["end_date"],"2024-06-18")
-            public_search.search(public_search.plan("请查2024年F1车手积分榜。").arguments())
+            public_search.search({"subject":"F1","fields":["积分榜"],"year":2024})
             historical=json.loads(opened.call_args.args[0].data)
             self.assertIn("2024 F1 drivers",historical["query"])
             self.assertNotIn("as of",historical["query"])
@@ -90,7 +101,8 @@ class AdmissionTests(unittest.TestCase):
 class DeliveryTests(unittest.IsolatedAsyncioTestCase):
     setUp = fixtures.MainActionTests.setUp
 
-    def rig(self, ask=False):
+    def rig(self, ask=False, proposals=()):
+        script(self,*proposals)
         self.transport = AsyncMock(return_value={"ok":True,"as_of":"2025-04-12","sources":[
             {"title":"合成计分表","field":"积分榜","url":"https://example.org/score","content":"周遥368分。"}]})
         self.model = AsyncMock(return_value=json.dumps({"reply":"周遥，368分。","source_numbers":[1],
@@ -159,7 +171,7 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(commands[0]["payload"],{"intensity":0.73})
 
     async def test_negation_preserves_unrelated_pending_ticket(self):
-        self.rig(ask=True)
+        self.rig(ask=True,proposals=[{"mode":"keep"}])
         self.model.return_value = '{"reply":"好，我们聊聊。"}'
         row = core._actions().propose(self.sid,"separate","original","mcp__gmail__send_email",{"to":["holder@example.org"]})
         await core._publish_pending(self.sid)
@@ -169,7 +181,7 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.last_event()["channel"],"companion")
 
     async def test_explicit_withdrawal_only_revokes_matching_pending_read(self):
-        self.rig(ask=True)
+        self.rig(ask=True,proposals=[propose_lookup(),{"mode":"withdraw","ticket":1,"reference":"F1"}])
         await core.handle_chat("查一下F1积分榜。","lookup",self.sid)
         book = core._actions()
         pending = book.pending(self.sid)[0]
@@ -183,7 +195,10 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(book.pending(self.sid),[other])
 
     async def test_withdrawal_matches_year_and_cutoff_without_revoking_other_reads(self):
-        self.rig(ask=True)
+        self.rig(ask=True,proposals=[
+            propose_lookup(year=2025), propose_lookup(year=2024,through="2024-06-18"),
+            propose_lookup(year=2024,through="2024-08-18"),
+            {"mode":"withdraw","ticket":2,"reference":"2024年F1积分榜"},{"mode":"keep"}])
         for i,question in enumerate(("查一下2025年F1积分榜。","查一下2024年F1积分榜，截至6月18日。",
                                      "查一下2024年F1积分榜，截至8月18日。")):
             await core.handle_chat(question,"read-"+str(i),self.sid)
@@ -195,10 +210,13 @@ class DeliveryTests(unittest.IsolatedAsyncioTestCase):
         await core.handle_chat("不用查2023年F1积分榜。","absent",self.sid)
         self.assertEqual(book.pending(self.sid),[rows[0],rows[2]])
         self.transport.assert_not_awaited()
-        scope=rows[0]["arguments"]
-        for other in ("先别搜极光。","先别查温布尔登网球公开赛的积分。","为什么不查F1积分呢？","不用搜‘极光’。"):
-            self.assertFalse(public_search.declines_pending(other,scope),other)
-        self.assertTrue(public_search.declines_pending("积分榜先别查了。",scope))
+        tickets=[{"arguments":rows[0]["arguments"],"ticket":book.ticket(rows[0])}]
+        for other,reference in (("先别搜极光。","极光"),("先别查温布尔登网球公开赛的积分。","温布尔登网球公开赛"),("不用搜‘极光’。","极光")):
+            with self.assertRaises(ValueError):
+                query_turn.resolve(native({"mode":"withdraw","ticket":1,"reference":reference}),other,None,tickets)
+        self.assertEqual(query_turn.resolve(native({"mode":"keep"}),"为什么不查F1积分呢？",None,tickets).mode,"keep")
+        result=query_turn.resolve(native({"mode":"withdraw","ticket":1,"reference":"积分榜"}),"积分榜先别查了。",None,tickets)
+        self.assertEqual(result.ticket,book.ticket(rows[0]))
 
     async def test_summary_does_not_duplicate_its_date(self):
         self.rig()

@@ -1,0 +1,116 @@
+import asyncio
+import os
+import unittest
+from unittest.mock import AsyncMock, patch
+
+from agent_core import main as core, public_search, public_query_turn as query
+from agent_core.actions import ActionLedger
+from agent_core.permissions import ASK, DENY, PermissionEngine, PolicyRule
+from public_query_fixture import lookup, native
+from test_harness_v1_integration import MainActionTests as _Fixture
+
+
+class PublicTurnTests(unittest.IsolatedAsyncioTestCase):
+    setUp = _Fixture.setUp
+
+    async def rig(self, *, rule=ASK, extra_mail=False, prior_subject="F1"):
+        self.dispatch=AsyncMock(return_value={"ok":False,"kind":"empty"})
+        self.propose=AsyncMock()
+        rules=PermissionEngine().rules
+        rules.insert(0,PolicyRule("isolated",public_search.TOOL,"user",rule))
+        for handle in (patch.dict(os.environ,{"TAVILY_API_KEY":"synthetic"}), patch.object(core,"permission_engine",PermissionEngine(rules)),
+                       patch.object(core,"_execute_authorized_tool",self.dispatch),
+                       patch.object(core.provider,"complete_with_tools",self.propose,create=True)):
+            handle.start()
+            self.addCleanup(handle.stop)
+        self.book=core._actions()
+        self.original=None
+        if prior_subject:
+            scope={"subject":prior_subject,"fields":["积分榜"],"year":public_search.date.today().year}
+            self.original=self.book.propose(self.sid,"old","first",public_search.TOOL,scope)
+            self.original.update(intent=f"请查{prior_subject}积分榜",public_scope=scope)
+            self.book.save(self.original)
+        if extra_mail:
+            self.mail=self.book.propose(self.sid,"mail","other","mcp__gmail__send_email",{"body":"消息正文不得进入提案"})
+        await core._publish_pending(self.sid)
+
+    async def test_pause_and_denial_invalidate_the_exact_ticket(self):
+        await self.rig(extra_mail=True)
+        for i,text in enumerate(("我没有同意你去查 F1 积分榜","请暂停查询 F1 积分榜","一级方程式的排名，先搁一下")):
+            if i:
+                scope=self.original["arguments"]
+                self.original=self.book.propose(self.sid,str(i),"new",public_search.TOOL,scope)
+                await core._publish_pending(self.sid)
+            ticket=self.book.ticket(self.original)
+            self.propose.return_value=native({"mode":"withdraw","ticket":1,"reference":"一级方程式" if i==2 else "F1"})
+            await core.handle_chat(text,"stop"+str(i),self.sid)
+            messages, schemas=self.propose.await_args.args
+            self.assertEqual(messages[-1]["content"],text)
+            self.assertNotIn("消息正文不得进入提案",str(messages))
+            self.assertEqual(len(schemas),1)
+            self.assertEqual(ActionLedger(self.store.connection).records[ticket["action_id"]]["status"],"cancelled")
+            await core.handle_chat("确认","repeat"+str(i),self.sid,confirmation=ticket)
+        self.assertEqual(self.book.pending(self.sid),[self.mail])
+        self.dispatch.assert_not_awaited()
+
+    async def test_replace_and_reconfirm_only_the_new_public_subject(self):
+        await self.rig()
+        text="别查 F1，改查英超"
+        self.propose.return_value=native(lookup("英超", mode="replace",ticket=1,reference="F1",evidence="改查英超"))
+        await core.handle_chat(text,"switch",self.sid)
+        new,=self.book.pending(self.sid)
+        self.assertEqual(new["arguments"],{"subject":"英超","fields":["积分榜"],"year":public_search.date.today().year})
+        self.assertEqual(self.original["status"],"cancelled")
+        await core.handle_chat("确认","stale",self.sid,confirmation=self.book.ticket(self.original))
+        self.dispatch.assert_not_awaited()
+        for rid in ("yes","again"):
+            await core.handle_chat("确认",rid,self.sid,confirmation=self.book.ticket(new))
+        self.dispatch.assert_awaited_once_with(public_search.TOOL,new["arguments"])
+        self.propose.assert_awaited_once()
+
+    async def test_replacement_is_subject_to_fresh_permission(self):
+        await self.rig(rule=DENY)
+        self.propose.return_value=native(lookup("英超",mode="replace",ticket=1,reference="F1",evidence="只看英超"))
+        await core.handle_chat("F1那项撤回，只看英超的积分。","denied",self.sid)
+        self.assertEqual(self.original["status"],"cancelled")
+        self.assertFalse(self.book.pending(self.sid))
+        self.dispatch.assert_not_awaited()
+
+    async def test_unresolved_or_malformed_proposals_have_no_effect(self):
+        await self.rig()
+        text="别查 F1，改查英超"
+        valid=lookup("英超",mode="replace",ticket=1,reference="F1",evidence="改查英超")
+        for i,output in enumerate((
+            {"content":"已取消。","tool_calls":[]},native({"mode":"clarify"}),
+            native({**valid,"ticket":2}),native({**valid,"subject":"用户家里的网盘"}),
+            native({**valid,"fields":["私人邮件"]}), native({**valid,"subject":"NBA"}),
+            {"tool_calls":native(valid)["tool_calls"]*2},
+            {"tool_calls":[{"name":"mcp__gmail__send_email","arguments":{}}]})):
+            self.propose.return_value=output
+            await core.handle_chat(text,"bad"+str(i),self.sid)
+            self.assertEqual(self.book.pending(self.sid),[self.original])
+            self.assertNotIn("已取消",self.store.load_messages(1,self.sid)[-1]["content"])
+        self.propose.side_effect=core.ProviderError("offline")
+        await core.handle_chat(text,"offline",self.sid)
+        self.assertEqual(self.book.pending(self.sid),[self.original])
+        self.dispatch.assert_not_awaited()
+
+    async def test_confirmation_arriving_while_withdrawal_is_parsed_is_stale(self):
+        await self.rig()
+        started,release=asyncio.Event(),asyncio.Event()
+        async def delayed(*_args):
+            started.set()
+            await release.wait()
+            return native({"mode":"withdraw","ticket":1,"reference":"F1"})
+        self.propose.side_effect=delayed
+        first=asyncio.create_task(core.handle_chat("请暂停查询 F1 积分榜","stop",self.sid))
+        await asyncio.wait_for(started.wait(),2)
+        second=asyncio.create_task(core.handle_chat("确认","late",self.sid,confirmation=self.book.ticket(self.original)))
+        await asyncio.sleep(0)
+        release.set()
+        await asyncio.wait_for(asyncio.gather(first,second),2)
+        self.assertEqual(self.original["status"],"cancelled")
+        self.dispatch.assert_not_awaited()
+
+
+del _Fixture

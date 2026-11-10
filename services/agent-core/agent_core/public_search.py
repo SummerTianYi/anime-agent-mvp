@@ -30,8 +30,6 @@ FIELDS = {"赛程":r"哪一?站|下[一场站轮]|赛程|日程|进行到|上一
           "车队积分榜":r"车队(?:总)?(?:积分|排名|榜)", "获奖理由及得主":r"获奖|奖.{0,6}谁|得主|拿奖|花落谁家",
           "最新稳定版本":r"稳定版|最新版本|最新.{0,3}版|版本号","位置":r"(?:飞到|位于|位置|在哪)",
           "汇率":r"汇率|兑换价"}
-QUESTION = re.compile(r"(?:查|搜|看看|告诉我|想知道|你知(?:不知)?道|现在|目前|今年|本届|这[一届季]|最近|最新|谁|哪[位站一]|如何|多少|排第|怎么样|情况)")
-EXPLANATION = re.compile(r"^(?:[他她]说|引用|原文|假如|假设|如果|为什么|解释|举例|翻译)|(?:什么意思|是什么原理|怎么查|怎么搜索|如何查询|需要授权|不要查|别查|不用查|先别查|别联网|不要联网|不联网|别搜|不要搜|只.{0,3}(?:解释|讨论))")
 QUOTES = re.compile(r'~~~[\s\S]*?~~~|\x60{3}[\s\S]*?\x60{3}|\x60[^\x60]*\x60|“[^”]*”|「[^」]*」|『[^』]*』|‘[^’]*’|"(?:\\.|[^"\\])*"|(?<!\w)\x27[^\x27]*\x27(?!\w)')
 MAIL = re.compile(r"(?:发(?:送)?(?:一封)?邮件|邮件发给|(?:发|转发|寄|发送)给|电邮给)")
 NO_MAIL = re.compile(r"(?:别|不要|不用|无需|不必|先不|不准|禁止).{0,12}(?:发|寄|电邮)|(?:勿发|不发)")
@@ -40,19 +38,9 @@ LITERAL_LOOKUP = re.compile(r"^\s*(?:请|帮我|请帮我|麻烦你)?(?:在|从)
 PUBLIC_EVENT = re.compile(r"(?P<subject>[A-Za-z0-9\u4e00-\u9fff· -]{2,28}(?:联赛|公开赛|锦标赛|大奖赛|电影节|运动会|世界杯))")
 PRIVATE = re.compile(r"我家|我的|我们|同学|同事|朋友|老板|客户|私人|内部|账号|帐号|密码|令牌|密钥|通讯录|住址|地址|电话|手机号|网盘|邮件|身份证|病历|secret|token|password|api.?key|\d{7,}",re.I)
 
-# Negation belongs to a clause and its object. Mask quoted speech before
-# admission. A bare network veto applies to the whole request.
-CLAUSES = re.compile(r"[，,。！？!?；;\n]+|(?:而是|但是|不过)(?=.{0,6}(?:查|搜|告诉))")
-LOOKUP_VERB = r"(?:查询?|搜(?:索)?|检索|联网|上网|上外网|浏览网页|看一下|了解|知道|告诉我|核[实对])"
-QUERY_VETO = re.compile(
-    r"(?:不用|不必|无需|无须|没必要|不需要|不允许|不想|不愿|不准|不要|禁止|不许|别|勿|不打算|不是(?:要|想|叫|让)|没(?:有)?(?:说要|要|叫|让)|先不|暂不|不(?!知道|了解))"
-    r"(?:再|真(?:的)?|先|去|现在|实际|主动|自己|你|你去|替我|帮我|给我|麻烦你|用工具|在网上|上网|联网|\s)*" + LOOKUP_VERB)
-OMIT_DETAIL = re.compile(r"(?:不(?:要|用|必)?|别|无需)(?:再|另外|顺便)?(?:提(?:及)?|讲|列(?:出)?|介绍|展开|报|包括)|省略|略过")
-WITHDRAW = re.compile(r"^(?:(?:这次|那个|这事|那就|现在|先|还是|暂时)\s*)*(?:算了|作罢|不查了?|不用了|不需要了|取消查询)(?:吧|了)?$")
 ANSWER_LIMIT = re.compile(r"只|仅|(?:前|第)[一二三四五六七八九十\d]|不(?:要|用|必)|省略|不提|表格|[两三一\d][行句段]|格式|JSON|截至",re.I)
 SEASON = re.compile(r"(?<!\d)(20\d{2})\s*(?:年|赛季|届)")
 CUTOFF = re.compile(r"(?:截至到?|截止(?:到)?|到)\s*((?:20\d{2})年)?(\d{1,2})月(\d{1,2})[日号]")
-REVISED_QUERY = re.compile(r"^\s*(?:那就|还是|请)?(?:改为|改成|换成|转而|改|换)(?:查询?|搜(?:索)?|检索|看)")
 
 
 def requested_period(text):
@@ -68,76 +56,6 @@ def requested_period(text):
         return year, ""
     end_year = int(cutoff[1][:-1]) if cutoff[1] else year or date.today().year
     return year, date(end_year,int(cutoff[2]),int(cutoff[3])).isoformat()
-
-
-def matched_fields(text):
-    fields = [key for key,pattern in FIELDS.items() if re.search(pattern,text)]
-    if "车队积分榜" in fields and "积分榜" in fields and not re.search("车手|个人",text):
-        fields.remove("积分榜")
-    if "赛程" in fields and "位置" in fields:
-        fields.remove("位置")
-    return fields
-
-
-def lookup_scope(text):
-    """Positive query clauses and explicitly excluded fields, for routing and egress."""
-    accepted, exclusions = [], []
-    withdrawn = False
-    for part in CLAUSES.split(QUOTES.sub(" ", text)):
-        if WITHDRAW.fullmatch(part.strip()):
-            accepted.clear()
-            exclusions.clear()
-            withdrawn = True
-            continue
-        if withdrawn:
-            if not REVISED_QUERY.match(part):
-                continue
-            withdrawn = False
-        veto = QUERY_VETO.search(part.replace("知不知道", "知道").replace("不知道能不能", "能不能"))
-        if veto or OMIT_DETAIL.search(part):
-            fields = set(matched_fields(part))
-            subjects = {k for k, pattern in SUBJECTS.items() if re.search(pattern, part, re.I)}
-            if veto and not fields and not subjects:
-                return "", set()
-            exclusions.append((subjects, fields))
-        elif part.strip():
-            accepted.append(part)
-    positive = "，".join(accepted)
-    active_subjects = {k for k, pattern in SUBJECTS.items() if re.search(pattern, positive, re.I)}
-    omitted = set()
-    for subjects, fields in exclusions:
-        if not subjects or not active_subjects or subjects & active_subjects:
-            if not fields and subjects & active_subjects:
-                return "", set()
-            omitted.update(fields)
-    return positive, omitted
-
-
-def declines_pending(text, args):
-    """A direct search withdrawal only matches the corresponding public read."""
-    clean = QUOTES.sub(" ",text).strip()
-    if (not (QUERY_VETO.search(clean) or re.search(r"(?:取消|撤销).{0,8}(?:查询|搜索)",clean))
-            or re.search(r"^(?:如果|假如|引用|[他她]说|解释)|为何|为什么|怎么不|要不要|可不可以不|(?:什么意思|怎么说|吗|呢)[？?。]?$", clean)):
-        return False
-    subjects = {key for key,pattern in SUBJECTS.items() if re.search(pattern,clean,re.I)}
-    fields = set(matched_fields(clean))
-    if not subjects and args["subject"].casefold() not in text.casefold():
-        # An unnamed ticket can be withdrawn by field/date or a bare command.
-        # An unrecognised named object must never stand for "any public read".
-        if QUOTES.search(text):
-            return False
-        rest = SEASON.sub("",CUTOFF.sub("",QUERY_VETO.sub("",clean)))
-        for pattern in FIELDS.values():
-            rest = re.sub(pattern,"",rest)
-        if not re.fullmatch(r"(?:请|我|你|先|再|暂时|还是|去年|今年|那份|这项|刚才|之前|原来|这个|那个|"
-                            r"网页|资料|公开|查询|搜索|取消|撤销|的|榜|了|吧|[\s，,。！？!?；;])*",rest):
-            return False
-    try:
-        year, through = requested_period(clean)
-    except ValueError:
-        return False
-    return ((not subjects or args["subject"] in subjects) and (not fields or bool(fields.intersection(args["fields"])))
-            and (year is None or year == args["year"]) and (not through or through == args.get("through")))
 
 
 def answer_question(text):
@@ -182,14 +100,11 @@ def manual_query_allowed(intent, args):
     literal = LITERAL_LOOKUP.fullmatch(intent)
     if literal:
         return query.casefold()==literal[1].strip().casefold()
-    positive, omitted = lookup_scope(intent)
-    if any(re.search(FIELDS[field], query) for field in omitted):
-        return False
-    for clause in CLAUSES.split(positive):
-        match = re.match(r"^\s*(?:天依|请你?|帮我|麻烦你?|在网上|去网上|上网|\s)*(?:搜索(?:网页)?|检索|搜一下|查一下|查询)\s*[：:]?\s*(.{2,100})$",clause)
-        if match and safe_literal(match[1].strip()) and query.casefold() in match[1].casefold():
-            return True
-    return False
+    # This legacy MCP route always asks. Allow only an exact standalone request;
+    # unrelated private clauses may be withheld, never append them to keywords.
+    words = answer_question(intent).strip().rstrip("。！？!?，,；; ").strip()
+    match = re.fullmatch(r"(?:天依|请你?|帮我|麻烦你?|在网上|去网上|上网|\s)*(?:搜索(?:网页)?|检索|搜一下|查一下|查询)\s*[：:]?\s*(.+)", words)
+    return bool(match and match[1].strip().casefold() == query.casefold() and safe_literal(match[1].strip()))
 
 
 @dataclass(frozen=True)
@@ -206,46 +121,6 @@ class Lookup:
         if self.through:
             args["through"] = self.through
         return args
-
-
-def plan(text, prior_subject=""):
-    literal = LITERAL_LOOKUP.fullmatch(text)
-    if literal and safe_literal(literal[1]):
-        return Lookup(literal[1],("公开资料",),date.today().year)
-    original = QUOTES.sub(" ",text).strip()
-    clean, omitted = lookup_scope(text)
-    if not QUESTION.search(clean) or EXPLANATION.search(clean):
-        return None
-    # Treat a send's recipient/body as data, even when it names another sport.
-    parts = MAIL.split(clean,maxsplit=1)
-    query = parts[0]
-    subjects = [term for term, pattern in SUBJECTS.items() if re.search(pattern,query,re.I)]
-    fields = tuple(term for term in matched_fields(query) if term not in omitted)
-    if not subjects and fields:
-        lead = re.sub(r"^(?:(?:你知道|我想知道|麻烦你|请|帮我|搜索网页|查一下|查查|今年|现在|最近|目前|的|最新)\s*)+","",query)
-        event = PUBLIC_EVENT.match(lead)
-        if event and safe_literal(event["subject"]) and not re.search(r"[我你他她]|参加|去了|住在|带上|告诉",event["subject"]):
-            subjects = [event["subject"]]
-    if not fields and not re.search(r"查|搜|想知道|你知道|告诉我|情况如何|怎么样",query):
-        return None
-    if len(subjects) > 1 or not (subjects or fields and re.search(r"查|搜|积分榜|赛程",query)):
-        return None
-    subject = subjects[0] if subjects else prior_subject if prior_subject in SUBJECTS or PUBLIC_EVENT.fullmatch(prior_subject) else ""
-    if not subject and not fields:
-        return None
-    if not fields:
-        if omitted or subject in {"Python","Godot","Ubuntu","国际空间站","美元兑人民币"} or not re.search(r"最近|目前|现在|最新|今年|这一届|本届",query):
-            return None  # The user needs to specify the requested public field.
-        fields = ("获奖理由及得主",) if "奖" in subject or "最佳影片" in subject else ("赛程","积分榜")
-    try:
-        year, through = requested_period(query)
-    except ValueError:
-        return None
-    year = year or date.today().year
-    mail_parts = MAIL.split(original,maxsplit=1)
-    share = len(mail_parts)>1 and not NO_MAIL.search(original)
-    emails = ADDRESS.findall(mail_parts[1]) if share else []
-    return Lookup(subject,fields,year,share,emails[0] if len(emails)==1 else "",through)
 
 
 def valid(args):

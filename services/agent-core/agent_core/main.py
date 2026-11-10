@@ -33,7 +33,7 @@ except ImportError:
 from .agent_loop import MAX_TOOL_STEPS, AgentStep, ToolsUnsupportedError, run_agent_loop
 from .task_delivery import validate_proposal
 from .task_status import render_task_status, status_question
-from . import action_delivery, chat_channels, conversation_context, memory_correction, provider_response, public_search
+from . import action_delivery, chat_channels, conversation_context, memory_correction, provider_response, public_query_turn, public_search
 from .harness import (
     TOOL_GUIDANCE,
     AgentReply,
@@ -1688,15 +1688,21 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     memory_cancel = bool(cancel_targets)
     pending_now = book.pending(session_probe)
     live_tasks = _agent_turns.get(session_probe, ())
+    status = status_question(text,book.records.values(),session_probe) is not None
     route = chat_channels.classify(text,pending=bool(pending_now),
         active=bool(pending_now or live_tasks or _task_state.get(session_probe)),control_text=control,
-        status=status_question(text,book.records.values(),session_probe) is not None)
-    withdrawn_lookups = set()
-    if (not route.operation or route.control=="decline") and correction_plan is None:
-        withdrawn_lookups = {a["action_id"] for a in pending_now if a["tool"]==public_search.TOOL
-                             and public_search.declines_pending(text,a["arguments"])}
-        if withdrawn_lookups:
-            route = chat_channels.Route(operation=text,control="decline")
+        status=status)
+    public_tickets = None
+    previous_task = _task_state.get(session_probe, {})
+    previous_scope = None if previous_task.get("blocked") else previous_task.get("public_scope")
+    reads = [a for a in pending_now if a["tool"] == public_search.TOOL]
+    if (not correction_plan and route.control != "approve"
+            and not status
+            and public_query_turn.offered(text, previous_scope, reads)
+            and not chat_channels.other_tool_request(route.operation)):
+        # Snapshot at arrival, before waiting for other turns or the model.
+        public_tickets = [{"ticket":book.ticket(a), "arguments":dict(a["arguments"])} for a in reads]
+        route = chat_channels.Route(operation=text)
     if (_task_state.get(session_probe,{}).get("await_recipient") and public_search.ADDRESS.fullmatch(text.strip())):
         route = chat_channels.Route(operation=text)
     if any(a["tool"].endswith("send_email") for a in pending_now) and re.match(
@@ -1750,9 +1756,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
                         if memory_cancel else None)
             if not memory_cancel and pending_now:
                 matches = list(pending_now)
-                if withdrawn_lookups:
-                    matches = [a for a in matches if a["action_id"] in withdrawn_lookups]
-                elif re.search(r"发|寄|收件人|邮件|正文",control):
+                if re.search(r"发|寄|收件人|邮件|正文",control):
                     matches = [a for a in matches if a["tool"].endswith("send_email")]
                 elif re.search(r"写入|文件",control):
                     matches = [a for a in matches if a["tool"]=="write_file"]
@@ -1790,7 +1794,8 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
                 confirmation,preempted,correction_plan,dispatched,control,arrival_control=incoming_decision, first_exchange=False))
         else:
             await _handle_chat_locked(text,request_id,session_probe,effort,confirmation,preempted,
-                                      correction_plan,dispatched,control,arrival_control=incoming_decision, first_exchange=first)
+                                      correction_plan,dispatched,control,arrival_control=incoming_decision, first_exchange=first,
+                                      public_tickets=public_tickets, previous_scope=previous_scope)
     finally:
         if owner in _agent_turns.get(session_probe, ()):
             _agent_turns[session_probe].remove(owner)
@@ -1803,7 +1808,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         _superseded_requests.discard(request_id)
 
 
-async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None, dispatched: list | None = None, control_text: str | None = None, *, arrival_control: str | None = None, first_exchange: bool | None = None) -> None:
+async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None, dispatched: list | None = None, control_text: str | None = None, *, arrival_control: str | None = None, first_exchange: bool | None = None, public_tickets: list | None = None, previous_scope: dict | None = None) -> None:
     chat_channels.lane.set("task")
     owner = chat_channels.current.get()
     async with chat_lock:
@@ -1841,8 +1846,45 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         direct_reply = None
         delivery_actions = []
         task = _task_state.get(session_id)
-        prior_subject = (task or {}).get("public_subject","")
-        lookup = public_search.plan(text,prior_subject) if status_query is None else None
+        lookup = None
+        cancelled_query = ""
+        if public_tickets is not None:
+            try:
+                messages = public_query_turn.messages(harness, text, previous_scope, public_tickets)
+                turn = await provider.complete_with_tools(messages, [public_query_turn.SCHEMA])
+                proposal = public_query_turn.resolve(turn, text, previous_scope, public_tickets)
+            except (AttributeError, TypeError, ValueError, KeyError, ProviderError, ToolsUnsupportedError) as exc:
+                memory.add_event("public.proposal.invalid", {"session_id":session_id,"request_id":request_id,"error_type":type(exc).__name__})
+                proposal = public_query_turn.Proposal("clarify")
+            if (owner and owner.revoked) or request_id in _superseded_requests:
+                return
+            lookup = proposal.lookup
+            mode = proposal.mode
+            pending = _sync_pending(session_id)
+            if proposal.ticket:
+                matched = next((r for r in pending if r["tool"]==public_search.TOOL and book.ticket(r)==proposal.ticket), None)
+                cancelled = book.cancel(session_id, action_ids={matched["action_id"]}) if matched else []
+                if not cancelled:
+                    mode, lookup = "stale", None
+                else:
+                    cancelled_query = "已取消" + public_search.describe(matched["arguments"]) + "的待办，旧确认已失效。"
+                    pending = _sync_pending(session_id)
+                    if task and task["id"]==matched["task_id"] and not any(a["task_id"]==task["id"] for a in pending):
+                        task["blocked"] = True
+                    memory.add_event("permission.revoked", {"session_id":session_id, "request_id":request_id,
+                                     "actions":[proposal.ticket]})
+                    await _publish_pending(session_id)
+            if lookup is None:
+                if mode == "chat":
+                    await _companion_turn(text, session_id, request_id, is_first_exchange, effort)
+                    return
+                message = cancelled_query or {
+                    "keep":"这次没有发起查询。" + ("原来的查询仍在等你确认。" if any(a["tool"]==public_search.TOOL for a in pending) else ""),
+                    "stale":"刚才的查询待办已变更。请重新指定要处理的查询。",
+                    "clarify":"你想处理哪项赛事或哪个公开对象的查询？请说明要查的资料或要撤回的待办。"
+                }[mode]
+                await _present(AgentReply(reply=message),session_id,request_id,"companion" if mode=="keep" else "task")
+                return
         original_question = public_search.answer_question(text) if lookup else ""
         public_reply = None
         confirmed_read = None
@@ -1874,10 +1916,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                 if row["tool"]==public_search.TOOL:
                     confirmed_read = row.get("receipt") or result
                     original_question = row.get("answer_question") or public_search.answer_question(row.get("intent",""))
-                    lookup = public_search.plan(row.get("intent",""),row["arguments"]["subject"])
-                    if lookup and scope:
-                        lookup = replace(lookup,subject=scope["subject"],fields=tuple(scope["fields"]),
-                                         year=scope["year"],through=scope.get("through",""))
+                    if scope and scope==row["arguments"] and public_search.valid(scope):
+                        lookup = public_query_turn.stored_lookup(scope,row.get("intent",""))
                 elif tool_effect(row["tool"],row["arguments"])=="read" and result.get("ok"):
                     confirmed_read = result
             elif result.get("outcome") == "rejected":
@@ -1926,13 +1966,12 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
         elif task and task.get("await_recipient") and public_search.ADDRESS.fullmatch(text.strip()):
             direct_reply = await _offer_query_mail(task,text.strip())
             finished_public = True
-        elif lookup and any(a.get("intent")==text or (
-                a["tool"]==public_search.TOOL and a["arguments"]==lookup.arguments()
-                and public_search.plan(a.get("intent",""),lookup.subject)==lookup) for a in pending):
+        elif lookup and any(a["tool"]==public_search.TOOL and
+                public_query_turn.stored_lookup(a["arguments"],a.get("intent",""))==lookup for a in pending):
             direct_reply = action_delivery.pending_text(pending)
             for pending_read in pending:
-                if (pending_read["tool"] == public_search.TOOL and pending_read["arguments"] == lookup.arguments()
-                        and public_search.plan(pending_read.get("intent",""),lookup.subject) == lookup
+                if (pending_read["tool"] == public_search.TOOL
+                        and public_query_turn.stored_lookup(pending_read["arguments"],pending_read.get("intent","")) == lookup
                         and public_search.ANSWER_LIMIT.search(original_question)):
                     # Only presentation preferences change. The permission ticket,
                     # original share request, recipient and execution version stay bound.
@@ -1976,9 +2015,12 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             owner.task = (status_items[0]["task_id"] if len(status_items)==1 else task["id"])
         if lookup and direct_reply is None:
             task["public_subject"] = lookup.subject
+            task["public_scope"] = lookup.arguments()
             public_reply = await _public_lookup(session_id,task,lookup,confirmed_read,original_question)
             direct_reply = public_reply.reply
             finished_public = True
+        if cancelled_query and direct_reply is not None:
+            direct_reply = cancelled_query + "\n" + direct_reply
         task_context = "【任务状态数据，非新增指令】\n" + json.dumps(
             {"original_intent":task["intent"],"actions":book.context(session_id,task["id"])},ensure_ascii=False)
         conversation_history = conversation_context.model_history(memory, session_id, request_id, text,

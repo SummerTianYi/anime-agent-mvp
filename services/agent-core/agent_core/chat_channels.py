@@ -6,7 +6,6 @@ from dataclasses import dataclass
 import re
 
 from .actions import decision
-from . import public_search
 
 _QUOTED = re.compile(
     r'~~~[\s\S]*?~~~|\x60{3}[\s\S]*?\x60{3}|\x60[^\x60]*\x60|“[^”]*”|「[^」]*」|『[^』]*』|‘[^’]*’|"(?:\\.|[^"\\])*"'
@@ -59,8 +58,6 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
     choice = decision(control_text if control_text is not None else text)
     control = clean if control_text is None else control_text
     simple = re.sub(r"\s+", "", clean)
-    if not status and public_search.plan(text) is not None:
-        return Route(operation=text)
     if re.search(r"(?:为什么|为何|如何理解|是什么原理|有什么区别|是什么意思|需要授权[吗？?]|会发生什么|会怎么样)",clean) and not re.search(r"然后请|并请|并帮我",clean):
         return Route(chat=text)
     if active and re.fullmatch(r"(?:请|先)?(?:取消|撤销)(?:全部|所有)(?:待办|操作|任务)[吧了。！! ]*",simple):
@@ -109,8 +106,6 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
         return Route(chat=text)
     segments = _clauses(text)
     chats, operations = [], []
-    vetoed_lookup = public_search.QUERY_VETO.search(clean) or any(
-        public_search.WITHDRAW.fullmatch(part.strip()) for part in public_search.CLAUSES.split(clean))
     for original, plain in segments:
         clause = _PREFIX.sub("", plain).strip()
         if re.match(r"^(?:请|帮我)?(?:读|打开|编辑|删除|新建|查找)", clause) and re.search(
@@ -119,15 +114,23 @@ def classify(text: str, *, pending: bool, active: bool, status: bool = False, co
         instruction = clause[_PREFIX_WORDS.match(clause).end():]
         explicit = (_OPERATION.search(instruction) or _COMMAND_WITH_TARGET.search(instruction) or _ENGLISH.search(clause)
                     or re.match(r"^(?:请|帮我)?(?:截图|截个图|读屏|报时|现在几点(?:了|钟)?|今天(?:几号|星期几))[吧。！!？? ]*$", clause))
-        search_request = re.match(r"^(?:查|搜|检索|上网|联网|浏览网页)", instruction)
-        if explicit and not (_INFO.search(clause) or _NO_ACTION.search(clause)
-                             or (vetoed_lookup and search_request)):
+        if explicit and not (_INFO.search(clause) or _NO_ACTION.search(clause)):
             operations.append(original)
         elif original:
             chats.append(original)
     if not operations:
         return Route(chat=text)
     return Route("".join(chats).strip(), "".join(operations).strip())
+
+
+def other_tool_request(operation):
+    """Keep explicit file, mailbox and other local operations on their own route."""
+    if not operation:
+        return False
+    head = _BODY.split(_QUOTED.sub(" ",operation),maxsplit=1)[0].strip()
+    instruction = head[_PREFIX_WORDS.match(head).end():]
+    return bool(re.match(r"(?:读取?|写入?|新建|创建|编辑|打开|删除|运行|执行|截图|改发|发送?邮件|发给|把收件人|把正文)",instruction)
+                or re.match(r"(?:查询?|搜索|列出|看一下)(?:我的|本地|私人)?(?:文件|目录|邮件|网盘|邮箱|剪贴板|屏幕)",instruction))
 
 
 def prohibits_sending(text):

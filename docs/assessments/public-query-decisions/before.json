@@ -1,0 +1,146 @@
+[
+  {
+    "case": "consent",
+    "actual": {
+      "old": "awaiting_confirmation",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "这项操作待确认。可以查询2026 年F1的积分榜吗？",
+    "checks": {
+      "target": false,
+      "other_ticket": true,
+      "old_confirmation_inert": false
+    },
+    "old_confirmation_dispatches": [
+      {
+        "subject": "F1",
+        "fields": [
+          "积分榜"
+        ],
+        "year": 2026
+      }
+    ],
+    "passed": false
+  },
+  {
+    "case": "pause",
+    "actual": {
+      "old": "awaiting_confirmation",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "有多项操作待确认，请告诉我要办理第几项。\n1. 查询2026 年F1的积分榜\n2. 发送邮件（收件人为sample@example.org，正文为独立模拟待办）",
+    "checks": {
+      "target": false,
+      "other_ticket": true,
+      "old_confirmation_inert": true
+    },
+    "old_confirmation_dispatches": [],
+    "passed": false
+  },
+  {
+    "case": "drivers",
+    "actual": {
+      "old": null,
+      "dispatched": [
+        {
+          "subject": "F1",
+          "fields": [
+            "车队积分榜"
+          ],
+          "year": 2026
+        }
+      ],
+      "new_pending": []
+    },
+    "http": [
+      {
+        "query": "2026 F1 constructors championship standings points as of 2026-11-10",
+        "search_depth": "advanced",
+        "max_results": 5,
+        "include_answer": false,
+        "include_domains": [
+          "fia.com",
+          "formula1.com",
+          "autosport.com",
+          "motorsport.com"
+        ],
+        "start_date": "2026-10-25",
+        "end_date": "2026-11-10"
+      }
+    ],
+    "reply": "我没有查到能核实这项问题的公开资料。",
+    "checks": {
+      "target": false,
+      "other_ticket": true
+    },
+    "passed": false
+  },
+  {
+    "case": "switch",
+    "actual": {
+      "old": "cancelled",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "当前会话的1项待确认操作已取消，未执行；旧确认票据已失效。",
+    "checks": {
+      "target": false,
+      "other_ticket": true,
+      "old_confirmation_inert": true,
+      "new_once": false
+    },
+    "old_confirmation_dispatches": [],
+    "after_new_confirmation": [],
+    "passed": false
+  },
+  {
+    "case": "version",
+    "actual": {
+      "old": null,
+      "dispatched": [
+        {
+          "subject": "Godot",
+          "fields": [
+            "最新稳定版本"
+          ],
+          "year": 2026
+        }
+      ],
+      "new_pending": []
+    },
+    "http": [
+      {
+        "query": "2026 Godot 最新稳定版本 as of 2026-11-10",
+        "search_depth": "advanced",
+        "max_results": 5,
+        "include_answer": false
+      }
+    ],
+    "reply": "我没有查到能核实这项问题的公开资料。",
+    "checks": {
+      "target": true,
+      "other_ticket": true
+    },
+    "passed": true
+  },
+  {
+    "case": "quote",
+    "actual": {
+      "old": "awaiting_confirmation",
+      "dispatched": [],
+      "new_pending": []
+    },
+    "http": [],
+    "reply": "隔离测试回复。",
+    "checks": {
+      "target": true,
+      "other_ticket": true
+    },
+    "passed": true
+  }
+]
