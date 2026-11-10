@@ -1,0 +1,338 @@
+{
+  "baseline_sha": "83f5db125edbb6e7179c20aad24ab7faa3ac2da8",
+  "code_sha": "0367b1c4ab2dd3025056bc90fd2688e19cb0a0e0",
+  "baseline": [
+    {
+      "test": "test_queued_f1_approval_then_pause_never_dispatches_search",
+      "passed": false,
+      "failure": [
+        "AssertionError: 1 != 0 : queued F1 approval reached the search worker"
+      ],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "old",
+          "execution_id_present": true
+        },
+        {
+          "subject": null,
+          "tool": "mcp__gmail__send_email",
+          "status": "awaiting_confirmation",
+          "confirmation_request": null,
+          "execution_id_present": false
+        },
+        {
+          "subject": "英超",
+          "tool": "public_web_search",
+          "status": "awaiting_confirmation",
+          "confirmation_request": null,
+          "execution_id_present": false
+        }
+      ]
+    },
+    {
+      "test": "test_pause_received_after_lock_grant_before_dispatch",
+      "passed": false,
+      "failure": [
+        "AssertionError: Expected mock to not have been awaited. Awaited 1 times."
+      ],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "old",
+          "execution_id_present": true
+        }
+      ]
+    },
+    {
+      "test": "test_unclear_overlapping_turn_holds_only_the_queued_confirmation",
+      "passed": false,
+      "failure": [
+        "AssertionError: Expected mock to not have been awaited. Awaited 1 times."
+      ],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "old",
+          "execution_id_present": true
+        }
+      ]
+    },
+    {
+      "test": "test_queued_unrelated_confirmation_runs_once_when_f1_is_paused",
+      "passed": true,
+      "failure": [],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "英超",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "cancelled",
+          "confirmation_request": null,
+          "execution_id_present": false
+        },
+        {
+          "subject": null,
+          "tool": "mcp__gmail__send_email",
+          "status": "awaiting_confirmation",
+          "confirmation_request": null,
+          "execution_id_present": false
+        },
+        {
+          "subject": "英超",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "league-first",
+          "execution_id_present": true
+        }
+      ]
+    },
+    {
+      "test": "test_pause_after_dispatch_preserves_original_receipt",
+      "passed": true,
+      "failure": [],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "sent",
+          "execution_id_present": true
+        }
+      ]
+    }
+  ],
+  "candidate": [
+    {
+      "test": "test_queued_f1_approval_then_pause_never_dispatches_search",
+      "passed": true,
+      "failure": [],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "英超",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "cancelled",
+          "confirmation_request": null,
+          "execution_id_present": false
+        },
+        {
+          "subject": null,
+          "tool": "mcp__gmail__send_email",
+          "status": "awaiting_confirmation",
+          "confirmation_request": null,
+          "execution_id_present": false
+        },
+        {
+          "subject": "英超",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "new",
+          "execution_id_present": true
+        }
+      ]
+    },
+    {
+      "test": "test_pause_received_after_lock_grant_before_dispatch",
+      "passed": true,
+      "failure": [],
+      "dispatches": [],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "cancelled",
+          "confirmation_request": null,
+          "execution_id_present": false
+        }
+      ]
+    },
+    {
+      "test": "test_unclear_overlapping_turn_holds_only_the_queued_confirmation",
+      "passed": true,
+      "failure": [],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "fresh",
+          "execution_id_present": true
+        }
+      ]
+    },
+    {
+      "test": "test_queued_unrelated_confirmation_runs_once_when_f1_is_paused",
+      "passed": true,
+      "failure": [],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "英超",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "cancelled",
+          "confirmation_request": null,
+          "execution_id_present": false
+        },
+        {
+          "subject": null,
+          "tool": "mcp__gmail__send_email",
+          "status": "awaiting_confirmation",
+          "confirmation_request": null,
+          "execution_id_present": false
+        },
+        {
+          "subject": "英超",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "league-first",
+          "execution_id_present": true
+        }
+      ]
+    },
+    {
+      "test": "test_pause_after_dispatch_preserves_original_receipt",
+      "passed": true,
+      "failure": [],
+      "dispatches": [
+        {
+          "tool": "public_web_search",
+          "subject": "F1",
+          "fields": [
+            "积分榜"
+          ]
+        }
+      ],
+      "ledger": [
+        {
+          "subject": "F1",
+          "tool": "public_web_search",
+          "status": "failed",
+          "confirmation_request": "sent",
+          "execution_id_present": true
+        }
+      ]
+    }
+  ],
+  "previous_affected": {
+    "ran": 80,
+    "passed": 80,
+    "skipped": 0,
+    "errors": 0,
+    "seconds": 1.611,
+    "modules": {
+      "test_agent_loop": 7,
+      "test_companion_channels": 14,
+      "test_harness_v1_actions": 11,
+      "test_permissions": 11,
+      "test_public_query_focus": 14,
+      "test_public_query_turn": 8,
+      "test_query_delivery": 15
+    }
+  },
+  "affected": {
+    "ran": 121,
+    "passed": 121,
+    "skipped": 0,
+    "errors": 0,
+    "seconds": 7.019,
+    "modules": {
+      "test_agent_loop": 7,
+      "test_channel_exclusivity": 12,
+      "test_companion_channels": 14,
+      "test_harness_v1_actions": 11,
+      "test_harness_v1_integration": 24,
+      "test_permissions": 11,
+      "test_public_query_focus": 14,
+      "test_public_query_turn": 13,
+      "test_query_delivery": 15
+    }
+  },
+  "archived_proposal_replay": {
+    "DS": {
+      "passed": 6,
+      "cases": 6
+    },
+    "MiniMax": {
+      "passed": 6,
+      "cases": 6
+    }
+  },
+  "live_model_calls": 0,
+  "external_search_calls": 0
+}

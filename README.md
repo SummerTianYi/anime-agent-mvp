@@ -45,7 +45,7 @@ Codex 正式表情1.0：惊讶、生气及所有者认可的折中版哭泣已�
 | 陪伴体验 P0（候选） | 尚有追问旧话题和试听衔接负例 | 同历史对照及两组六轮共 28 次官方 DS；五项合并阻塞开放。[实测报告](docs/assessments/companion-experience-p0/REPORT.md) |
 | 公开查询与确认续办（独立候选） | 五个已记录的 Agent／会话反例有修复和回归，待 ChatGPT 独立验收 | F1 赛程和部分积分、诺奖查询及授权续办均有实际控件记录。Core 576/576，Godot 五项门禁通过。[查询与交付报告](docs/assessments/agent-query-delivery/REPORT.md) |
 | 查询约束和表情（后续候选） | 修正否定句的查询范围，确认后保留原问题，回答表情可送达角色 | DS 与 MiniMax 各 6 次同条件测试。已在固定 main 的副本上单独验证诊断日志补丁。正式桌面等待独立批准。[对照结果与可合并清单](docs/assessments/agent-query-focus/REPORT.md) |
-| 公开查询撤回、排除和改查（独立候选） | 待 ChatGPT 独立验收 | 基准六个场景通过两项，改后 DS 与 MiniMax 各通过六项。依据包括真实模型工具参数、隔离搜索出口和落库票据。正式版另行验收。[前后对照与复现](docs/assessments/public-query-decisions/REPORT.md) |
+| 公开查询撤回、排除和改查（独立候选） | 待 ChatGPT 独立验收 | 基准六个场景通过两项，改后 DS 与 MiniMax 各通过六项。依据包括真实模型工具参数、隔离搜索出口和落库票据。后续已修复旧确认先排队时的误派发，相关回归 121/121。[顺序修复](docs/assessments/public-query-decisions/QUEUE_ORDER.md)。正式版另行验收。[前后对照与复现](docs/assessments/public-query-decisions/REPORT.md) |
 | 陪伴通道（候选） | 聊天和操作回执分开，人设冻结 | 真实 DS 40 次，正式桌面尚未加载；UI 复刻已暂缓。[候选报告](docs/assessments/companion-platform/REPORT.md) |
 | Agent 能力层 | 桌面 Harness V1 已同步 | 同一会话可保留多张操作票据，按已展示版本确认，执行前复查权限。通用任务交付与专项候选另行验收。见[四项同步记录](docs/assessments/desktop-four/REPORT.md)。 |
 | 一键启动 | 已修复；真实启动/退出及最终两轮对抗通过 | 根目录 `start-anime-agent.cmd`，Core 隐藏运行；关Godot自动清理对应会话，重复调用不多开；[证据与边界](docs/STARTUP_REPAIR_STATUS.md) |

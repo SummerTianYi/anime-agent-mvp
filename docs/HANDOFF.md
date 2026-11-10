@@ -1,6 +1,8 @@
 # 接手总纲（Zero-Context Handoff Master Brief）
 
-2026-11-10 本轮从 `06ce159` 修复公开查询撤回、排除和改查。当前交付为隔离候选，等待 ChatGPT 独立验收。[六项前后对照、发布依赖与复验](assessments/public-query-decisions/REPORT.md)
+2026-11-10 从 `83f5db1` 修复公开查询确认先排队、暂停后到的误派发。候选等待 ChatGPT 验收。[顺序及派发证据](assessments/public-query-decisions/QUEUE_ORDER.md)
+
+2026-11-10 前一轮从 `06ce159` 修复公开查询撤回、排除和改查。当前交付为隔离候选，等待 ChatGPT 独立验收。[六项前后对照、发布依赖与复验](assessments/public-query-decisions/REPORT.md)
 
 2026-11-10 公开查询候选从 `5101fc0` 继续，覆盖否定表达、原问约束、答题范围和表情交付。诊断日志另有对固定 main 验证的六文件补丁。等待 ChatGPT 对具体范围独立验收，正式运行版本见本机进程与物料记录。[当前报告与可合并清单](assessments/agent-query-focus/REPORT.md)
 
@@ -40,8 +42,8 @@ Codex 2026-10-03 语音线交付：当期Core回归基线273。分片回执/去�
 | 项目 | 内容 |
 |---|---|
 | 当前当值 Agent | Codex 完成公开查询决策候选，下一步由 ChatGPT 独立验收。 |
-| 本次领地 | 本轮限公开查询和对应待办。后续新领地等待所有者指派。 |
-| 授权边界 | 本轮两模型各六次已结束。查询候选获批后合 main、同步到正在用的天依、核实加载并在真实窗口验收查询、文字、可听语音和表情。前序诊断补丁保留原发布条件。 |
+| 本次领地 | 本轮限公开查询待办的取消与确认顺序。后续新领地等待所有者指派。 |
+| 授权边界 | 复用前轮两模型各六条提案，本次新增真实调用为零。查询候选获批后合 main、同步到正在用的天依、核实加载并在真实窗口验收查询、文字、可听语音和表情。前序诊断补丁保留原发布条件。 |
 | 交接日期 | 2026-11-10（本轮候选交独立验收） |
 
 领地内的事是你的；**领地外的一切默认只读**——可以读、可以提建议，未经所有者同意不改别人建好的东西。
@@ -58,6 +60,8 @@ Codex 2026-10-03 语音线交付：当期Core回归基线273。分片回执/去�
 三次交接：① Codex 建基础 → Claude 接交互层（2026-08-31）；② Claude 蓝图 B/C/D 期规划完毕未执行，经所有者授权整体移交 zcode 执行（2026-09-05；harness 人设训练部分先拆至 anime-agent-workbench 沙箱训练再并回）；③ zcode 交接整理 + 白纸测试门禁建立（2026-09-07，本次）。归属细则见 [CONTRIBUTIONS.md](CONTRIBUTIONS.md)。
 
 ## 3. 当前真实状态（= 冻结区清单）
+
+2026-11-10 查询确认与暂停完成隔离回归。派发前收到有效暂停，F1 旧票派发 0 次。独立英超任务重复确认仍只派发 1 次。九个受影响模块 121/121；验证沿用已归档模型提案。[顺序修复报告](assessments/public-query-decisions/QUEUE_ORDER.md)
 
 2026-11-10 本轮以原生工具调用提出操作。目标、字段或票据无法核实时保持待办。真实模型的 12 条提案在隔离账本重放通过，正式窗口尚待批准后验证。[查询决策候选](assessments/public-query-decisions/REPORT.md)
 
@@ -158,7 +162,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 步 | 动作 | 通过标准 |
 |---|---|---|
 | 1 | 通读本总纲 §0-§4 + [CONTRIBUTIONS.md](CONTRIBUTIONS.md) | 能复述北极星、分工、冻结区、自己的领地 |
-| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 598 项全绿 |
+| 2 | 跑 §9 快速恢复流程第 6 步的单测基线 | 603 项全绿 |
 | 3 | `start-anime-agent.cmd` + 三件套健康检查（Core /health ok、sidecar /health ok:true、Core tts.available:true） | 三件齐 |
 | 4 | 读 §1 当值分派认领地；领地为空则向所有者要 | 领地明确 |
 | 5 | 第一个任务开工：新能力走考试放权制（铁律 2），bug 修复走 [VERIFICATION_SPEC.md](VERIFICATION_SPEC.md) | — |
@@ -258,7 +262,7 @@ Windows 登录自启（所有者暂缓；已有 Godot 会话级 Core 守护，�
 | 3 | 确认 `.env` 存在（缺则复制 `.env.example` 填 GLM Key） | GLM 默认；Key 不外泄不打印 |
 | 4 | PowerShell 调用根 `start-anime-agent.cmd`；日常和真机启动验收均用此入口（见 VERIFICATION_SPEC） | Core 隐藏启动，唯一 Avatar/桥接/守护就绪；关闭 Godot 后清理此会话 |
 | 5 | `curl.exe --noproxy "*" http://127.0.0.1:8765/health/live`；语音另查详细 `/health` 与 sidecar | 启动存活不依赖 TTS/LLM，不能把启动通过等同语音通过 |
-| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 598 项全绿；不触碰生产库或真实外部服务 |
+| 6 | 显式 Mock、禁 TTS/wake/MCP、隔离数据目录后，在 `services/agent-core` 运行 `.venv\Scripts\python.exe -m unittest discover -s tests -v`（具体环境见 TESTING） | 603 项全绿；不触碰生产库或真实外部服务 |
 
 ## 10. 灾备与回滚
 

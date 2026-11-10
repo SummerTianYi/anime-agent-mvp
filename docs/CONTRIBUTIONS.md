@@ -311,3 +311,5 @@ Codex 通过官模开放手掌平面推导肘部参考铰链，将肩部完整�
 - Codex，2026-11-10。优化公开查询的否定与时间范围、原问题续办、基于来源的短答和表情交付，沿用既有 Harness、角色与协议。在隔离 main 副本验证可单独接纳的诊断日志改动，完成 DS 与 MiniMax 的固定资料对照。正式桌面等待独立批准。[报告](assessments/agent-query-focus/REPORT.md)
 
 - Codex，2026-11-10。将公开查询的查、停、改查交给既有原生工具调用提案，由 Core 核对公开范围和当前会话票据，沿用权限引擎、动作账本、正文交付与 V1.2。提交固定基准复现、两家模型各六条实际提案与断网重放入口。[候选报告](assessments/public-query-decisions/REPORT.md)
+
+- Codex，2026-11-10。修复公开查询确认先排队、暂停后到仍派发旧搜索的竞态，验证同票重复确认顺序、无关待办与已派发回执。修后相关回归 121/121，未部署。[顺序对照与计数](assessments/public-query-decisions/QUEUE_ORDER.md)
