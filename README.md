@@ -10,7 +10,7 @@ Codex 2026-10-04：新增[Agent能力全景评测](docs/AGENT_CAPABILITY_ASSESSM
 
 ## 当前结论
 
-2026-11-10 的公开查询按用户原话限定范围，可撤销指定的待确认查询，回答附资料来源。版本、回归与正式窗口验收见[发布记录](docs/assessments/public-query-release/REPORT.md)。
+2026-11-10 的公开查询按用户原话限定范围，可撤销指定的待确认查询，回答附资料来源。正式数据库的事件表未通过完整性校验，安装停在备份阶段。版本、回归与正式窗口验收见[发布记录](docs/assessments/public-query-release/REPORT.md)。
 
 Codex 2026-10-04：五仓分工及实装依赖已核对，**本仓是产品主仓，私有 TTS 仓是直接运行配套**；Workbench 已验收能力已并入本仓，Roadmap 是历史规划证据，Cloth Physics 是未实装实验。按所有者选择保留分仓，补齐现用声线备份；官模/动作继续只留本地。完整责任表、发现的 e5/e20 备份缺口与恢复范围见 [仓库与运行依赖地图](docs/REPOSITORY_MAP.md)。本轮不改变正在运行的天依。
 

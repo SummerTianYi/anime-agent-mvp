@@ -53,7 +53,7 @@ Codex 2026-10-03 语音线交付：当期Core回归基线273。分片回执/去�
 
 ## 3. 当前真实状态（= 冻结区清单）
 
-2026-11-10 的公开查询主线整合覆盖限域检索、撤票、改查和来源交付。主线、正式目录与窗口核验分别登记在[发布记录](assessments/public-query-release/REPORT.md)。
+2026-11-10 的公开查询主线整合覆盖限域检索、撤票、改查和来源交付。正式数据库的事件表未通过完整性校验，安装停在备份阶段。主线、正式目录与窗口核验分别登记在[发布记录](assessments/public-query-release/REPORT.md)。
 
 2026-11-08 主仓收录桌面在用的四项：Harness V1 执行与确认、官方 DeepSeek Flash 接入、常驻唤醒恢复，以及天依语音专用增益与限幅。组合验证使用隔离 Core 和 Godot。后续专项与部署分别验收。详见[四项范围、回归和回退](assessments/desktop-four/REPORT.md)。
 

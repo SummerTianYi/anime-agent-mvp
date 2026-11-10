@@ -1,0 +1,50 @@
+{
+  "candidate": "07463b262cfbe97de51bfd961a80af755cf9da6b",
+  "integrated_code": "8730d9e40495fbb72c4196ebe73ecae0b8bdaac5",
+  "remote_main_read_back_before_activation": "0479a5d0bef08e4692aa5627ff37914c17ff75b1",
+  "formal_checkout_head": "d3ed6d68f2509ad51bea15cf8224c5f3a165d957",
+  "formal_source_reference": "723500d6b3605efd79051076af223c1ee8e72217",
+  "release_status": "main integrated; stopped before installation",
+  "runtime_files_replaced": 0,
+  "backed_up_original_runtime_files": 8,
+  "recorded_absences": 4,
+  "configuration_modified": false,
+  "formal_sessions_created": 0,
+  "formal_sessions_deleted": 0,
+  "cold_copies": {
+    "durable_files_hash_checked_before_and_after": true,
+    "canonical_db": {
+      "online_backup_integrity": "Tree 4 page 4 cell 14: Rowid 672 out of order",
+      "cold_checkpoint_only": "same error",
+      "cold_checkpoint_plus_wal_rebuilt_shm": "same error",
+      "table": "events",
+      "extra_rows_beyond_unique_ids_in_full_scan": 24
+    },
+    "packaged_cache_view": {
+      "cold_checkpoint_only": "database disk image is malformed",
+      "cold_checkpoint_plus_wal": "database disk image is malformed"
+    }
+  },
+  "before_install": {
+    "canonical_runtime_processes": 0,
+    "listeners_on_core_or_voice_ports": 0
+  },
+  "actual_loaded_version": null,
+  "live_checks": {
+    "normal_chat": "not run",
+    "public_query": "not run",
+    "cancel_pending": "not run",
+    "audible_voice": "not run",
+    "expression": "not run",
+    "actual_model_calls": 0,
+    "actual_searches": 0
+  },
+  "handover": {
+    "source_commit": "8730d9e40495fbb72c4196ebe73ecae0b8bdaac5",
+    "independent_reviews": [
+      8,
+      8
+    ],
+    "possible": 8
+  }
+}
