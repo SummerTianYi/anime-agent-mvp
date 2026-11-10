@@ -734,7 +734,7 @@ _shown_confirmations: dict[int, list[dict]] = {}
 # In-flight native decisions only. Each snapshot contains the ledger tickets
 # actually visible in its session at admission (action id, revision, args hash).
 _public_reviews: dict[asyncio.Future, tuple[int, list[dict]]] = {}
-_public_confirmations: dict[object, tuple[int, dict, set[asyncio.Future]]] = {}
+_public_confirmations: dict[asyncio.Future, tuple[int, dict, set[asyncio.Future]]] = {}
 
 
 def _register_public_review(session, entries):
@@ -752,7 +752,11 @@ async def _public_confirmation_lock(session, ticket, request_id):
     reviews = {r for r, (s, tickets) in _public_reviews.items() if s == session and ticket in tickets and not r.done()}
     # Keep every overlapping decision through admission, even one that finishes
     # while this confirmation is yielding to a different reviewing turn.
-    reservation = object()
+    # A second confirmation of the same version must not overtake the first
+    # while the first is waiting for a review concerning a different query.
+    predecessors = {done for done, (s, earlier, _) in _public_confirmations.items()
+                    if s == session and earlier == ticket}
+    reservation = asyncio.get_running_loop().create_future()
     _public_confirmations[reservation] = (session, ticket, reviews)
     thinking_sent = False
     try:
@@ -765,7 +769,7 @@ async def _public_confirmation_lock(session, ticket, request_id):
                 if not thinking_sent:
                     await broadcast_state("thinking", request_id)
                     thinking_sent = True
-                outstanding = {review for review in reviews if not review.done()}
+                outstanding = {entry for entry in reviews | predecessors if not entry.done()}
                 if not outstanding:
                     # No suspension between admission and the ledger's own
                     # version/permission check, executing claim and dispatch.
@@ -775,6 +779,7 @@ async def _public_confirmation_lock(session, ticket, request_id):
             await asyncio.wait(outstanding)
     finally:
         del _public_confirmations[reservation]
+        reservation.set_result(None)
 
 
 def _actions():

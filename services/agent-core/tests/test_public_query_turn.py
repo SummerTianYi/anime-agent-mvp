@@ -211,6 +211,7 @@ class PublicTurnTests(unittest.IsolatedAsyncioTestCase):
         await self.submit_while_locked(("确认第3项", "league-first", ticket), ("请暂停查询 F1 积分榜", "stop", None),
                                        ("确认第3项", "league-repeat", ticket))
         self.dispatch.assert_awaited_once_with(public_search.TOOL, other["arguments"])
+        self.assertEqual(other["confirmation_request_id"], "league-first")
         self.assertEqual(self.original["status"], "cancelled")
         self.assertEqual(self.book.pending(self.sid), [self.mail])
 
