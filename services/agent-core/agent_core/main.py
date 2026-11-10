@@ -12,6 +12,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from contextlib import asynccontextmanager
 from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -730,6 +731,50 @@ _action_ledger = None
 _task_state: dict[int, dict] = {}
 _result_pages: dict[int, ResultPages] = {}
 _shown_confirmations: dict[int, list[dict]] = {}
+# In-flight native decisions only. Each snapshot contains the ledger tickets
+# actually visible in its session at admission (action id, revision, args hash).
+_public_reviews: dict[asyncio.Future, tuple[int, list[dict]]] = {}
+_public_confirmations: dict[object, tuple[int, dict, set[asyncio.Future]]] = {}
+
+
+def _register_public_review(session, entries):
+    review = asyncio.get_running_loop().create_future()
+    tickets = [entry["ticket"] for entry in entries]
+    _public_reviews[review] = (session, tickets)
+    for owner_session, ticket, reviews in _public_confirmations.values():
+        if owner_session == session and ticket in tickets:
+            reviews.add(review)
+    return review
+
+
+@asynccontextmanager
+async def _public_confirmation_lock(session, ticket, request_id):
+    reviews = {r for r, (s, tickets) in _public_reviews.items() if s == session and ticket in tickets and not r.done()}
+    # Keep every overlapping decision through admission, even one that finishes
+    # while this confirmation is yielding to a different reviewing turn.
+    reservation = object()
+    _public_confirmations[reservation] = (session, ticket, reviews)
+    thinking_sent = False
+    try:
+        while True:
+            async with chat_lock:
+                owner = chat_channels.current.get()
+                if (owner and owner.revoked) or request_id in _superseded_requests:
+                    yield False
+                    return
+                if not thinking_sent:
+                    await broadcast_state("thinking", request_id)
+                    thinking_sent = True
+                outstanding = {review for review in reviews if not review.done()}
+                if not outstanding:
+                    # No suspension between admission and the ledger's own
+                    # version/permission check, executing claim and dispatch.
+                    yield all(review.result() for review in reviews)
+                    return
+            # The reviewing turn needs this same lock to commit a withdrawal.
+            await asyncio.wait(outstanding)
+    finally:
+        del _public_confirmations[reservation]
 
 
 def _actions():
@@ -1779,7 +1824,11 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
             _sync_pending(session_probe)
             memory.add_event("permission.revoked", {"session_id":session_probe,"request_id":request_id,
                 "actions":[book.ticket(a) for a in preempted],"before_turn_lock":True})
+    public_approval = incoming_decision == "approve" and any(book.ticket(row) == confirmation for row in reads)
+    public_review = None
     try:
+        if public_tickets:
+            public_review = _register_public_review(session_probe, public_tickets)
         if route.operation:
             _agent_turns.setdefault(session_probe,[]).append(owner)
         first = not memory.load_messages(1,session_probe)
@@ -1795,8 +1844,13 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         else:
             await _handle_chat_locked(text,request_id,session_probe,effort,confirmation,preempted,
                                       correction_plan,dispatched,control,arrival_control=incoming_decision, first_exchange=first,
-                                      public_tickets=public_tickets, previous_scope=previous_scope)
+                                      public_tickets=public_tickets, previous_scope=previous_scope,
+                                      public_review=public_review, public_approval=public_approval)
     finally:
+        if public_review is not None:
+            _public_reviews.pop(public_review)
+            if not public_review.done():
+                public_review.set_result(False)
         if owner in _agent_turns.get(session_probe, ()):
             _agent_turns[session_probe].remove(owner)
             if not _agent_turns[session_probe]:
@@ -1808,10 +1862,11 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
         _superseded_requests.discard(request_id)
 
 
-async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None, dispatched: list | None = None, control_text: str | None = None, *, arrival_control: str | None = None, first_exchange: bool | None = None, public_tickets: list | None = None, previous_scope: dict | None = None) -> None:
+async def _handle_chat_locked(text: str, request_id: str, conversation_id: int | None = None, effort: Any = None, confirmation: dict | None = None, preempted: list | None = None, correction_plan: dict | None = None, dispatched: list | None = None, control_text: str | None = None, *, arrival_control: str | None = None, first_exchange: bool | None = None, public_tickets: list | None = None, previous_scope: dict | None = None, public_review: asyncio.Future | None = None, public_approval: bool = False) -> None:
     chat_channels.lane.set("task")
     owner = chat_channels.current.get()
-    async with chat_lock:
+    dispatch_lock = _public_confirmation_lock(conversation_id, confirmation, request_id) if public_approval else chat_lock
+    async with dispatch_lock as review_clear:
         if owner and owner.revoked:
             return
         if request_id in _superseded_requests:
@@ -1820,7 +1875,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             memory.delete_message(request_id)
             await _withdraw_session_if_empty(conversation_id)
             return
-        await broadcast_state("thinking", request_id)
+        if not public_approval:
+            await broadcast_state("thinking", request_id)
         _spawn(_maybe_speak_think_filler(request_id, effort))
         probe = conversation_id if conversation_id is not None else memory.latest_session_id()
         is_first_exchange = first_exchange if first_exchange is not None else probe is None or not memory.load_messages(1,probe)
@@ -1877,6 +1933,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                                      "actions":[proposal.ticket]})
                     if lookup is None:
                         await _publish_pending(session_id)
+            if public_review is not None:
+                public_review.set_result(mode != "clarify")
             if lookup is None:
                 has_public_ticket = any(a["tool"]==public_search.TOOL for a in pending)
                 if mode == "chat" and (not has_public_ticket or not public_query_turn.offered(text,previous_scope,public_tickets)):
@@ -1907,6 +1965,8 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
             task = task or {"id":request_id,"intent":text,"blocked":False}
         elif pending and (intent == "ambiguous" or (intent == "approve" and not confirmation and len(pending)>1)):
             direct_reply = action_delivery.pending_text(pending)
+        elif review_clear is False and any(book.ticket(row) == confirmation for row in pending):
+            direct_reply = "我还没弄清你对这项查询的新要求，待办已保留。如果仍要查询，请重新确认。"
         elif pending and intent == "approve":
             selected = confirmation if confirmation is not None else {}
             row = book.records.get(str(selected.get("action_id",""))) if isinstance(selected,dict) else None

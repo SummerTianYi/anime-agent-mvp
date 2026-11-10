@@ -117,6 +117,124 @@ class PublicTurnTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.original["status"],"cancelled")
         self.dispatch.assert_not_awaited()
 
+    async def submit_while_locked(self, *turns):
+        queued = []
+        async with core.chat_lock:
+            for text, request, ticket in turns:
+                queued.append(asyncio.create_task(core.handle_chat(text, request, self.sid, confirmation=ticket)))
+                await asyncio.sleep(0)  # Let this input reach the lock before admitting the next one.
+                arrived = self.store.connection.execute(
+                    "SELECT request_id FROM messages WHERE conversation_id=? ORDER BY id DESC LIMIT 1", (self.sid,)
+                ).fetchone()
+                self.assertEqual(arrived[0], request)
+        await asyncio.wait_for(asyncio.gather(*queued), 3)
+
+    async def add_league_ticket(self):
+        scope = {**self.original["arguments"], "subject":"英超"}
+        other = self.book.propose(self.sid, "league", "seed", public_search.TOOL, scope)
+        other.update(public_scope=scope, intent="查英超积分榜")
+        self.book.save(other)
+        await core._publish_pending(self.sid)
+        return other
+
+    async def test_queued_f1_approval_then_pause_never_dispatches_search(self):
+        execute = core._execute_authorized_tool
+        await self.rig(extra_mail=True)
+        other = await self.add_league_ticket()
+        self.dispatch.side_effect = execute
+        self.propose.return_value = native({"mode":"withdraw","ticket":1,"reference":"F1"})
+        with patch.object(public_search, "search", return_value={"ok":False, "kind":"empty"}) as search:
+            old = self.book.ticket(self.original)
+            await self.submit_while_locked(("确认第1项", "old", old), ("请暂停查询 F1 积分榜", "pause", None))
+            self.assertEqual(search.call_count, 0, "queued F1 approval reached the search worker")
+            self.assertNotIn("execution_id", self.original)
+            self.assertEqual(ActionLedger(self.store.connection).records[old["action_id"]]["status"], "cancelled")
+            self.assertEqual(self.book.pending(self.sid), [self.mail, other])
+            await core.handle_chat("确认", "old-repeat", self.sid, confirmation=old)
+            fresh = self.book.ticket(other)
+            await self.submit_while_locked(("确认第2项", "new", fresh), ("确认第2项", "repeat", fresh))
+            search.assert_called_once_with(other["arguments"])
+            self.assertEqual(self.book.pending(self.sid), [self.mail])
+
+    async def test_pause_received_after_lock_grant_before_dispatch(self):
+        await self.rig()
+        entered, release = asyncio.Event(), asyncio.Event()
+        async def broadcast(state, request):
+            if (state, request) == ("thinking", "old"):
+                entered.set()
+                await release.wait()
+        self.propose.return_value = native({"mode":"withdraw","ticket":1,"reference":"F1"})
+        with patch.object(core, "broadcast_state", side_effect=broadcast):
+            first = asyncio.create_task(core.handle_chat("确认", "old", self.sid, confirmation=self.book.ticket(self.original)))
+            await asyncio.wait_for(entered.wait(), 2)
+            later = asyncio.create_task(core.handle_chat("请暂停查询 F1 积分榜", "pause", self.sid))
+            await asyncio.sleep(0)
+            self.assertFalse(self.dispatch.called)
+            release.set()
+            await asyncio.wait_for(asyncio.gather(first, later), 3)
+        self.dispatch.assert_not_awaited()
+        self.assertEqual(self.original["status"], "cancelled")
+
+    async def test_unclear_overlapping_turn_holds_only_the_queued_confirmation(self):
+        await self.rig()
+        old = self.book.ticket(self.original)
+        parsing, release = asyncio.Event(), asyncio.Event()
+        async def reviews(messages, _tools):
+            if messages[-1]["content"].startswith("室友"):
+                parsing.set()
+                await release.wait()
+                return native({"mode":"keep"})
+            raise core.ProviderError("fixture")
+        self.propose.side_effect = reviews
+        async with core.chat_lock:
+            approval = asyncio.create_task(core.handle_chat("确认", "old", self.sid, confirmation=old))
+            await asyncio.sleep(0)
+            quote = asyncio.create_task(core.handle_chat("室友说“别查 F1”，我只是转述。", "quote1", self.sid))
+            await asyncio.sleep(0)
+        await asyncio.wait_for(parsing.wait(), 2)
+        pause = asyncio.create_task(core.handle_chat("请暂停查询 F1 积分榜", "unclear", self.sid))
+        await asyncio.sleep(0)
+        release.set()
+        await asyncio.wait_for(asyncio.gather(approval, quote, pause), 3)
+        self.dispatch.assert_not_awaited()
+        self.assertEqual(self.book.pending(self.sid), [self.original])
+        self.propose.side_effect = None
+        self.propose.return_value = native({"mode":"keep"})
+        await self.submit_while_locked(("确认", "fresh", old), ("室友说“别查 F1”，我只是转述。", "quote", None))
+        self.dispatch.assert_awaited_once_with(public_search.TOOL, self.original["arguments"])
+
+    async def test_queued_unrelated_confirmation_runs_once_when_f1_is_paused(self):
+        await self.rig(extra_mail=True)
+        other = await self.add_league_ticket()
+        ticket = self.book.ticket(other)
+        self.propose.return_value = native({"mode":"withdraw", "ticket":1, "reference":"F1"})
+        await self.submit_while_locked(("确认第3项", "league-first", ticket), ("请暂停查询 F1 积分榜", "stop", None),
+                                       ("确认第3项", "league-repeat", ticket))
+        self.dispatch.assert_awaited_once_with(public_search.TOOL, other["arguments"])
+        self.assertEqual(self.original["status"], "cancelled")
+        self.assertEqual(self.book.pending(self.sid), [self.mail])
+
+    async def test_pause_after_dispatch_preserves_original_receipt(self):
+        await self.rig()
+        started, finish = asyncio.Event(), asyncio.Event()
+        async def search(_name, _args):
+            started.set()
+            await finish.wait()
+            return {"ok":False, "kind":"empty"}
+        self.dispatch.side_effect = search
+        self.propose.return_value = native({"mode":"keep"})
+        ticket = self.book.ticket(self.original)
+        approval = asyncio.create_task(core.handle_chat("确认", "sent", self.sid, confirmation=ticket))
+        await asyncio.wait_for(started.wait(), 2)
+        self.assertEqual(self.original["status"], "executing")
+        pause = asyncio.create_task(core.handle_chat("请暂停查询 F1 积分榜", "pause", self.sid))
+        await asyncio.sleep(0)
+        finish.set()
+        await asyncio.wait_for(asyncio.gather(approval, pause), 3)
+        self.dispatch.assert_awaited_once_with(public_search.TOOL, self.original["arguments"])
+        self.assertEqual(self.original["status"], "failed")
+        self.assertEqual(self.original["receipt"]["kind"], "empty")
+
     async def test_plain_chat_proposal_cannot_claim_to_cancel_a_live_ticket(self):
         await self.rig()
         self.propose.return_value=native({"mode":"chat"})
