@@ -56,6 +56,22 @@
           "passed": true
         }
       ]
+    },
+    "installed_source_baseline": {
+      "total": 545,
+      "failures_or_errors": [
+        "test_tool_arguments_survive_bad_json (test_anthropic_provider.TranslateMessagesTest.test_tool_arguments_survive_bad_json)",
+        "test_complete_snapshots_and_protected_baseline_contracts (test_companion_persona.PersonaStaticTests.test_complete_snapshots_and_protected_baseline_contracts)",
+        "test_confirmed_contradiction_supersedes_old (test_storage.FactSupersessionTests.test_confirmed_contradiction_supersedes_old)"
+      ]
+    },
+    "installed_source_staged": {
+      "total": 588,
+      "failures_or_errors": [
+        "test_tool_arguments_survive_bad_json (test_anthropic_provider.TranslateMessagesTest.test_tool_arguments_survive_bad_json)",
+        "test_complete_snapshots_and_protected_baseline_contracts (test_companion_persona.PersonaStaticTests.test_complete_snapshots_and_protected_baseline_contracts)",
+        "test_confirmed_contradiction_supersedes_old (test_storage.FactSupersessionTests.test_confirmed_contradiction_supersedes_old)"
+      ]
     }
   },
   "replay": [

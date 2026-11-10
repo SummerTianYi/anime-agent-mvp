@@ -24,6 +24,8 @@
 
 Godot 在复制的角色资源上完成导入及六个场景门禁，覆盖输入、会话、工具活动、思考强度、查询表情和语音交付。角色、Idle 与 Pirouette 资源的长度与散列均通过仓库资产检查。设置壳通过 TypeScript 与 Vite 构建。Core 回归可运行 `python docs/assessments/agent-query-delivery/checks.py <全新的隔离目录>`。Godot 门禁可运行 `python docs/assessments/agent-query-delivery/godot_checks.py <Godot控制台路径> <本机资产目录> <新输出目录>`。
 
+正式安装源码的完整对照还包括既有套件。安装前 542/545，排演后 585/588。三项相同，分别涉及旧 Anthropic 测试对畸形参数的期望、历史人设快照缺少 PROTECTED_CONTRACTS.json，以及既有记忆事实替代测试。查询定向回归全部通过，两边完整用例名见核验记录。
+
 ## 发布与回退
 
 正式安装沿用根目录的 `start-anime-agent.cmd`。按部署前的逐文件原始字节和文件存在性恢复运行文件。SQLite 备份仅作灾难恢复，不能用旧快照覆盖运行中产生的新会话。主线回退使用普通 revert，不改写历史。
