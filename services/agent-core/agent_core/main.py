@@ -1698,7 +1698,7 @@ async def handle_chat(text: str, request_id: str, conversation_id: int | None = 
     reads = [a for a in pending_now if a["tool"] == public_search.TOOL]
     if (not correction_plan and route.control != "approve"
             and not status
-            and public_query_turn.offered(text, previous_scope, reads)
+            and (public_query_turn.offered(text, previous_scope, reads) or (reads and not route.operation))
             and not chat_channels.other_tool_request(route.operation)):
         # Snapshot at arrival, before waiting for other turns or the model.
         public_tickets = [{"ticket":book.ticket(a), "arguments":dict(a["arguments"])} for a in reads]
@@ -1879,7 +1879,7 @@ async def _handle_chat_locked(text: str, request_id: str, conversation_id: int |
                         await _publish_pending(session_id)
             if lookup is None:
                 has_public_ticket = any(a["tool"]==public_search.TOOL for a in pending)
-                if mode == "chat" and not has_public_ticket:
+                if mode == "chat" and (not has_public_ticket or not public_query_turn.offered(text,previous_scope,public_tickets)):
                     await _companion_turn(text, session_id, request_id, is_first_exchange, effort)
                     return
                 if mode == "chat":

@@ -87,7 +87,7 @@ def resolve_ticket(args, text, tickets):
     target_topics = topics(target)
     explicit = {r["arguments"]["subject"] for r in tickets if r["arguments"]["subject"] in target}
     subject = tickets[number-1]["arguments"]["subject"]
-    if ((target_topics and subject not in target_topics|explicit)
+    if ((target_topics and subject not in (target_topics | explicit))
             or (search.PUBLIC_EVENT.search(target) and not target_topics and subject not in explicit)):
         raise ValueError("different public target")
     subjects = topics(ref)

@@ -126,6 +126,21 @@ class PublicTurnTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("替你取消", self.store.load_messages(1,self.sid)[0]["content"])
         self.dispatch.assert_not_awaited()
 
+    async def test_topic_change_and_implicit_withdrawal_while_a_public_ticket_is_open(self):
+        await self.rig()
+        self.propose.return_value=native({"mode":"chat"})
+        core.provider.complete.return_value='{"reply":"排练辛苦啦。"}'
+        await core.handle_chat("我今天排练到很晚。","chat",self.sid)
+        self.assertEqual(self.store.load_messages(1,self.sid)[0]["content"],"排练辛苦啦。")
+        self.assertEqual(self.book.pending(self.sid),[self.original])
+        self.propose.return_value=native({"mode":"withdraw","ticket":1,"reference":"刚才的"})
+        await core.handle_chat("先把刚才的搁下吧。","implicit",self.sid)
+        self.assertEqual(self.original["status"],"cancelled")
+        self.propose.return_value=native({"mode":"keep"})
+        await core.handle_chat("我可没答应查 F1 积分榜。","no-ticket",self.sid)
+        self.assertFalse(self.book.pending(self.sid))
+        self.dispatch.assert_not_awaited()
+
     def test_new_target_needs_a_field_and_does_not_inherit_an_unrelated_season(self):
         previous={"subject":"F1","fields":["积分榜"],"year":2024}
         with self.assertRaises(ValueError):
