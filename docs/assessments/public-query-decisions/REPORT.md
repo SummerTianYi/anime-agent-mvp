@@ -53,6 +53,8 @@ python -B -X utf8 docs/assessments/public-query-decisions/verify.py ./query-repl
 python -B -X utf8 docs/assessments/agent-query-delivery/checks.py ./query-tests-temp test_public_query_focus test_query_delivery test_companion_channels test_harness_v1_actions test_permissions test_agent_loop test_public_query_turn
 ```
 
+两个独立接手者依次从干净检出 `cca8c4882722d8a96f4e445c17d756f516398ddb` 完成八道交接题，各 8/8。他们逐项核对了六个样本、真实模型调用与隔离搜索的边界，以及正式发布条件。记录见[交接总纲 §7](../../HANDOFF.md#接管模拟记录)。
+
 ## 发布范围、依赖与回退
 
 可提交验收的单元为四个 Core 文件及对应回归。它依赖 `06ce159` 所含的公开搜索适配器、聊天分流、带版本的会话票据、权限确认及按原问生成答案的路径。直接把四个文件拷入对照 main 缺少这些前置改动。前序诊断补丁仍按原条件独立处理，已在固定 main 副本验证的仅为六文件诊断范围。[前序可合并清单](../agent-query-focus/REPORT.md#可合并清单) · [诊断补丁](../agent-query-focus/main-diagnostics.patch)
